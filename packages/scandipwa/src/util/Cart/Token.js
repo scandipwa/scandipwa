@@ -12,78 +12,63 @@
 // import ConfigQuery from 'Query/Config.query';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import getStore from 'Util/Store';
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
-export const WEBSITE_CODE = 'Token.website_code';
 export const WEBSITE_QUOTE_TOKENS = 'Token.website_quote_tokens';
 
-/** @namespace Util/Cart/Token */
-export class TokenController {
-    website_code = null;
+/** @namespace Util/Cart/Token/getWebsiteCodeFromStore */
+export function getWebsiteCodeFromStore() {
+    const state = getStore().getState();
+    const {
+        website_code
+    } = state.ConfigReducer;
 
-    __construct() {
-        // console.log('TOKEN CONTORLLER INITIALIZED');
-    }
+    return website_code;
+}
 
-    setWebsiteCode(code) {
-        this.website_code = code;
-        // console.log('WEBSITE_CODE', code);
-        BrowserDatabase.setItem(code, WEBSITE_CODE);
-    }
+/** @namespace Util/Cart/Token/setGuestQuoteId */
+export const setGuestQuoteId = (token) => {
+    const website_code = getWebsiteCodeFromStore();
 
-    getQuoteIdForCurrentWebsite() {
-        const tokens = BrowserDatabase.getItem(WEBSITE_QUOTE_TOKENS);
+    const tokens = BrowserDatabase.getItem(WEBSITE_QUOTE_TOKENS) || {};
+    tokens[website_code] = {
+        token,
+        isCustomerToken: isSignedIn()
+    };
+    BrowserDatabase.setItem(tokens, WEBSITE_QUOTE_TOKENS);
+};
 
-        if (tokens) {
-            const token = tokens[this.website_code];
+/** @namespace Util/Cart/Token/getGuestQuoteId */
+export const getGuestQuoteId = () => {
+    const website_code = getWebsiteCodeFromStore();
 
-            if (token) {
-                if (token.isCustomerToken && !isSignedIn()) {
-                    return null;
-                }
+    console.log('WEBSITE_CODE_FROM_STORE', website_code);
 
-                return token.token;
+    const tokens = BrowserDatabase.getItem(WEBSITE_QUOTE_TOKENS);
+
+    if (tokens) {
+        const token = tokens[website_code];
+
+        if (token) {
+            if (token.isCustomerToken && !isSignedIn()) {
+                return null;
             }
 
-            return null;
+            return token.token;
         }
 
         return null;
     }
 
-    setQuoteIdForCurrentWebsite(token) {
-        const tokens = BrowserDatabase.getItem(WEBSITE_QUOTE_TOKENS) || {};
-        tokens[this.website_code] = {
-            token,
-            isCustomerToken: isSignedIn()
-        };
-        BrowserDatabase.setItem(tokens, WEBSITE_QUOTE_TOKENS);
-    }
-}
-
-export const TokenControllerInstance = new TokenController();
-
-/** @namespace Util/Cart/Token/setGuestQuoteId */
-export const setGuestQuoteId = (token) => {
-    BrowserDatabase.setItem({
-        token,
-        isCustomerToken: isSignedIn()
-    }, GUEST_QUOTE_ID);
-};
-
-/** @namespace Util/Cart/Token/getGuestQuoteId */
-export const getGuestQuoteId = () => {
-    const {
-        token,
-        isCustomerToken
-    } = BrowserDatabase.getItem(GUEST_QUOTE_ID) || {};
-
-    if (isCustomerToken && !isSignedIn()) {
-        return null;
-    }
-
-    return token;
+    return null;
 };
 
 /** @namespace Util/Cart/Token/deleteGuestQuoteId */
-export const deleteGuestQuoteId = () => BrowserDatabase.deleteItem(GUEST_QUOTE_ID);
+export const deleteGuestQuoteId = () => {
+    const website_code = getWebsiteCodeFromStore();
+
+    const tokens = BrowserDatabase.getItem(WEBSITE_QUOTE_TOKENS);
+    tokens[website_code] = undefined;
+    BrowserDatabase.setItem(tokens, WEBSITE_QUOTE_TOKENS);
+};

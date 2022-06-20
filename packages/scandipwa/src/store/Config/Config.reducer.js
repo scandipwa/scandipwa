@@ -14,7 +14,8 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import {
     UPDATE_CONFIG,
     UPDATE_CONFIG_DEVICE,
-    UPDATE_CURRENT_CURRENCY
+    UPDATE_CURRENT_CURRENCY,
+    UPDATE_WEBSITE_CODE
 } from './Config.action';
 
 export const MAX_WIDTH = 150;
@@ -98,7 +99,8 @@ export const ConfigReducer = (
             storeConfig = {},
             cartDisplayConfig = {}
         } = {},
-        device
+        device,
+        website_code
     } = action;
 
     const { currentCurrency = '' } = action;
@@ -140,6 +142,12 @@ export const ConfigReducer = (
                 ...prevCurrencyData,
                 current_currency_code: currentCurrency
             }
+        };
+
+    case UPDATE_WEBSITE_CODE:
+        return {
+            ...state,
+            website_code
         };
 
     default:

@@ -13,11 +13,15 @@ import CartQuery from 'Query/Cart.query';
 import ConfigQuery from 'Query/Config.query';
 import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
 import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
+import { updateWebsiteCode } from 'Store/Config/Config.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { getRegionIdOfRegionName } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
-import { TokenControllerInstance } from 'Util/Cart';
-import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
+import { prepareQuery } from 'Util/Query';
+import {
+    executeGet, fetchMutation, fetchQuery, getErrorMessage
+} from 'Util/Request';
 
 export const CURRENT_WEBSITE = 'base';
 
@@ -41,11 +45,7 @@ export class CartDispatcher {
                 dispatch(updateIsLoadingCart(true));
             }
 
-            // TokenController
-
-            const website_code = await this._getWebsiteCode();
-
-            TokenControllerInstance.setWebsiteCode(website_code);
+            // await this.executeWebsiteCodeQuery(dispatch);
 
             // ! Get quote token first (local or from the backend) just to make sure it exists
             const quoteId = await this._getGuestQuoteId(dispatch);
@@ -129,14 +129,15 @@ export class CartDispatcher {
         try {
             dispatch(updateIsLoadingCart(true));
 
-            const {
-                createEmptyCart: quoteId = ''
-            } = await fetchMutation(CartQuery.getCreateEmptyCartMutation());
+            // const {
+            //     createEmptyCart: quoteId = ''
+            // } = await fetchMutation(CartQuery.getCreateEmptyCartMutation());
+
+            const quoteId = await this._getQuoteId(dispatch);
 
             console.log('CREATE GUEST EMPTY CART', quoteId);
 
-            // setGuestQuoteId(quoteId);
-            TokenControllerInstance.setQuoteIdForCurrentWebsite(quoteId);
+            setGuestQuoteId(quoteId);
 
             dispatch(updateIsLoadingCart(false));
 
@@ -177,7 +178,7 @@ export class CartDispatcher {
 
         // const cartId = !originalCartId ? getGuestQuoteId() : originalCartId;
 
-        const cartId = !originalCartId ? TokenControllerInstance.getQuoteIdForCurrentWebsite() : originalCartId;
+        const cartId = !originalCartId ? getGuestQuoteId() : originalCartId;
 
         try {
             if (!cartId) {
@@ -208,7 +209,7 @@ export class CartDispatcher {
         const { products = [], cartId: userCartId } = options;
 
         // const cartId = userCartId || getGuestQuoteId();
-        const cartId = userCartId || TokenControllerInstance.getQuoteIdForCurrentWebsite();
+        const cartId = userCartId || getGuestQuoteId();
 
         if (!Array.isArray(products) || products.length === 0) {
             dispatch(showNotification('error', __('No product data!')));
@@ -250,7 +251,7 @@ export class CartDispatcher {
     async removeProductFromCart(dispatch, item_id) {
         try {
             const isCustomerSignedIn = isSignedIn();
-            const guestQuoteId = !isCustomerSignedIn && TokenControllerInstance.getQuoteIdForCurrentWebsite();
+            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
 
             if (!isCustomerSignedIn && !guestQuoteId) {
                 return null;
@@ -273,7 +274,7 @@ export class CartDispatcher {
     async applyCouponToCart(dispatch, couponCode) {
         try {
             const isCustomerSignedIn = isSignedIn();
-            const guestQuoteId = !isCustomerSignedIn && TokenControllerInstance.getQuoteIdForCurrentWebsite();
+            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
 
             if (!isCustomerSignedIn && !guestQuoteId) {
                 return false;
@@ -297,7 +298,7 @@ export class CartDispatcher {
     async removeCouponFromCart(dispatch) {
         try {
             const isCustomerSignedIn = isSignedIn();
-            const guestQuoteId = !isCustomerSignedIn && TokenControllerInstance.getQuoteIdForCurrentWebsite();
+            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
 
             if (!isCustomerSignedIn && !guestQuoteId) {
                 return;
@@ -390,8 +391,7 @@ export class CartDispatcher {
      * @return string quote id
      */
     _getGuestQuoteId(dispatch) {
-        // const guestQuoteId = getGuestQuoteId();
-        const guestQuoteId = TokenControllerInstance.getQuoteIdForCurrentWebsite();
+        const guestQuoteId = getGuestQuoteId();
 
         console.log('GUEST QUOTE ID RESOLVED', guestQuoteId);
 
@@ -402,15 +402,24 @@ export class CartDispatcher {
         return this.createGuestEmptyCart(dispatch);
     }
 
-    async _getWebsiteCode() {
-        try {
-            const website_code = await fetchQuery([ConfigQuery.getWebsiteCode()]);
-            return website_code.storeConfig.website_code;
-        } catch (error) {
-            console.error(error);
-        }
+    async _getQuoteId(dispatch) {
+        const [
+            { createEmptyCart: quoteId = '' }
+        ] = await Promise.all([
+            fetchMutation(CartQuery.getCreateEmptyCartMutation()),
+            this.executeWebsiteCodeQuery(dispatch)
+        ]);
 
-        return null;
+        return quoteId;
+    }
+
+    async executeWebsiteCodeQuery(dispatch) {
+        const websiteCodeQuery = ConfigQuery.getWebsiteCode();
+        const { storeConfig: { website_code = '' } = {} } = await executeGet(
+            prepareQuery(websiteCodeQuery), 'websiteCodeQuery'
+        );
+
+        dispatch(updateWebsiteCode(website_code));
     }
 }
 

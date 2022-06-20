@@ -117,6 +117,7 @@ export class ConfigQuery {
     _getStoreConfigFields() {
         return [
             'code',
+            'website_code',
             'is_active',
             'cms_home_page',
             'cms_no_route',
