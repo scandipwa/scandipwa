@@ -183,13 +183,15 @@ export class ProductCompare extends Component {
         const { handleBlockScroll, productCompare, productCompareRow } = this.props;
 
         return (
+            <>
+            { this.renderScroll() }
+
             <div
               id="productCompare"
               block="ProductCompare"
               onScroll={ handleBlockScroll }
               ref={ productCompare }
             >
-                { this.renderScroll() }
                 <div
                   id="productCompareRow"
                   block="ProductCompare"
@@ -212,9 +214,10 @@ export class ProductCompare extends Component {
                             { this.renderProductPrices() }
                         </div>
                     </div>
-                    { this.renderAttributes() }
+                      { this.renderAttributes() }
                 </div>
             </div>
+            </>
         );
     }
 
