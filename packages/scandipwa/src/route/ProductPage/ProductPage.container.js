@@ -193,6 +193,21 @@ export class ProductPageContainer extends PureComponent {
     }
 
     componentDidMount() {
+        const {
+            productSKU,
+            product: {
+                sku
+            }
+        } = this.props;
+
+        /**
+         * If the currently loaded category ID does not match the ID of
+         * category ID from URL rewrite, request category.
+         */
+        if (productSKU !== sku) {
+            this.requestProduct();
+        }
+
         /**
          * Always make sure the navigation switches into the MENU tab
          * */
@@ -250,14 +265,6 @@ export class ProductPageContainer extends PureComponent {
             && stateSKU === productSKU
         ) {
             this.updateHeaderState();
-        }
-
-        /**
-         * If the currently loaded category ID does not match the ID of
-         * category ID from URL rewrite, request category.
-         */
-        if (productSKU !== sku) {
-            this.requestProduct();
         }
 
         /**

@@ -15,12 +15,15 @@ import { connect } from 'react-redux';
 
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import StoreInPickUpQuery from 'Query/StoreInPickUp.query';
+import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { Addresstype } from 'Type/Account.type';
 import { ShippingMethodsType, StoreType } from 'Type/Checkout.type';
 import { CountriesType } from 'Type/Config.type';
+import { NavigationStateHistoryType } from 'Type/Router.type';
 import { checkIfStoreIncluded } from 'Util/Address';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 import transformCountriesToOptions from 'Util/Store/Transform';
@@ -32,11 +35,13 @@ import { STORES_SEARCH_TIMEOUT } from './StoreInPickUpPopup.config';
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    clearPickUpStore: () => dispatch(clearPickUpStore())
+    clearPickUpStore: () => dispatch(clearPickUpStore()),
+    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
+    navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     countries: transformCountriesToOptions(state.ConfigReducer.countries),
     defaultCountry: state.ConfigReducer.default_country,
     selectedStore: state.StoreInPickUpReducer.store
@@ -57,7 +62,9 @@ export class StoreInPickUpContainer extends PureComponent {
         defaultCountry: PropTypes.string.isRequired,
         cartItemsSku: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
         clearPickUpStore: PropTypes.func.isRequired,
-        selectedStore: StoreType
+        selectedStore: StoreType,
+        goToPreviousNavigationState: PropTypes.func.isRequired,
+        navigationState: NavigationStateHistoryType.isRequired
     };
 
     static defaultProps = {
@@ -133,11 +140,25 @@ export class StoreInPickUpContainer extends PureComponent {
         this.setState({ stores: [] });
     }
 
+    closeOverlay() {
+        const {
+            hideActiveOverlay,
+            goToPreviousNavigationState,
+            navigationState: { onCloseClick } = {}
+        } = this.props;
+
+        if (onCloseClick) {
+            onCloseClick();
+        }
+
+        hideActiveOverlay();
+        goToPreviousNavigationState();
+    }
+
     selectStore(store) {
         const {
             onStoreSelect,
             onShippingMethodSelect,
-            hideActiveOverlay,
             setSelectedStore,
             countryId
         } = this.props;
@@ -148,7 +169,7 @@ export class StoreInPickUpContainer extends PureComponent {
         onStoreSelect(updateStore);
         setSelectedStore(store);
         onShippingMethodSelect(method);
-        hideActiveOverlay();
+        this.closeOverlay();
     }
 
     getShippingMethod() {

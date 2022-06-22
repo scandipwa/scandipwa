@@ -77,7 +77,6 @@ export class MyAccountOrderInformation extends PureComponent {
                 <MyAccountAddressTable
                     address={ billing_address }
                     mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
-                    showAdditionalFields
                 />
             </div>
         );
@@ -151,7 +150,6 @@ export class MyAccountOrderInformation extends PureComponent {
                 <MyAccountAddressTable
                     address={ shipping_address }
                     mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
-                    showAdditionalFields
                 />
             </div>
         );

@@ -24,6 +24,10 @@ $select-arrow-width: 14px !default;
         #storeSwitcher,
         #CurrencySwitcherList {
             line-height: 20px;
+
+            @include mobile {
+                border-bottom: 1px solid var(--primary-divider-color);
+            }
         }
     }
 

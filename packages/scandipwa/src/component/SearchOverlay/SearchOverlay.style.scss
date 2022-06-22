@@ -31,6 +31,10 @@
         z-index: 110;
         width: 100%;
 
+        .NoResults {
+            padding-inline-start: 20px;
+        }
+
         @include desktop {
             padding-block-start: 20px;
             padding-block-end: 10px;

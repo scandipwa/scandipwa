@@ -13,6 +13,8 @@
     .Popup {
         &-Content {
             @include desktop {
+                display: flex;
+                flex-direction: column;
                 max-height: 60vh;
                 min-height: 40vh;
                 width: 70vh;

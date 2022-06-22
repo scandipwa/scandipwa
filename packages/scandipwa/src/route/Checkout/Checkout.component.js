@@ -467,9 +467,9 @@ export class Checkout extends PureComponent {
     }
 
     render() {
-        const { isCartLoading } = this.props;
+        const { totals, checkoutStep } = this.props;
 
-        if (isCartLoading) {
+        if (totals.items.length < 1 && checkoutStep !== DETAILS_STEP) {
             return this.renderFullPageLoader();
         }
 

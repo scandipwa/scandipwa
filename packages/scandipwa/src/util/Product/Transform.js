@@ -49,8 +49,8 @@ export const getBundleOptions = (buyRequest) => {
     return Object.entries(bundle_option).reduce((prev, [option, variant]) => {
         const qty = bundle_option_qty[option] || 1;
 
-        if (typeof variant === 'string') {
-            return [...prev, btoa(`bundle/${option}/${variant}/${qty}`)];
+        if (Array.isArray(variant) && variant.every((val) => typeof (val) === 'string')) {
+            return [...prev, ...variant.map((val) => btoa(`bundle/${option}/${val}/${qty}`))];
         }
 
         return [...prev, ...Object.keys(variant).map((id) => btoa(`bundle/${option}/${id}/${qty}`))];

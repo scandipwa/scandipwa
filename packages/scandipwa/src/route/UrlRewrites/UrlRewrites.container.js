@@ -78,11 +78,11 @@ export class UrlRewritesContainer extends PureComponent {
 
     __construct(props) {
         super.__construct(props);
-
-        this.requestUrlRewrite();
     }
 
     componentDidMount() {
+        this.requestUrlRewrite();
+
         this.initialUrl = location.pathname;
     }
 
