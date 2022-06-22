@@ -185,13 +185,13 @@ export class ProductCompare extends Component {
         return (
             <>
             { this.renderScroll() }
-
             <div
               id="productCompare"
               block="ProductCompare"
               onScroll={ handleBlockScroll }
               ref={ productCompare }
             >
+
                 <div
                   id="productCompareRow"
                   block="ProductCompare"
