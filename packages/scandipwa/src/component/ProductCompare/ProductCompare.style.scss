@@ -62,8 +62,7 @@
     }
 
     &-Item {
-        content-visibility: auto;
-        contain-intrinsic-size: 0 var(--product-compare-column-width);
+     
         flex: 1;
         width: var(--product-compare-column-width);
         max-width: var(--product-compare-column-width);
