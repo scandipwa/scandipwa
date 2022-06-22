@@ -415,7 +415,6 @@ export class Router extends PureComponent {
 
         return (
             <>
-                { this.renderSectionOfType(BEFORE_ITEMS_TYPE) }
                 <div block="Router" elem="MainItems">
                     { this.renderMainItems() }
                 </div>
@@ -438,11 +437,12 @@ export class Router extends PureComponent {
         return (
             <>
                 <Meta />
-                <Suspense fallback={ this.renderFallbackPage() }>
-                    <ReactRouter history={ history }>
+                <ReactRouter history={ history }>
+                    { this.renderSectionOfType(BEFORE_ITEMS_TYPE) }
+                    <Suspense fallback={ this.renderFallbackPage() }>
                         { this.renderRouterContent() }
-                    </ReactRouter>
-                </Suspense>
+                    </Suspense>
+                </ReactRouter>
             </>
         );
     }
