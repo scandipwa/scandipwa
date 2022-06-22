@@ -23,6 +23,7 @@ import {
 import { Router as ReactRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
+import ErrorHandler from 'Component/ErrorHandler';
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 import {
@@ -116,7 +117,8 @@ export const withStoreRegex = (path) => window.storeRegexText.concat(path);
 export class Router extends PureComponent {
     static propTypes = {
         isBigOffline: PropTypes.bool,
-        isOnlyMainItems: PropTypes.bool.isRequired
+        isOnlyMainItems: PropTypes.bool.isRequired,
+        setBigOfflineNotice: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -408,18 +410,19 @@ export class Router extends PureComponent {
 
     renderDefaultRouterContent() {
         const { isOnlyMainItems } = this.props;
+        const { setBigOfflineNotice } = this.props;
 
         if (isOnlyMainItems) {
             return this.renderMainItems();
         }
 
         return (
-            <>
-                <div block="Router" elem="MainItems">
-                    { this.renderMainItems() }
-                </div>
-                { this.renderSectionOfType(AFTER_ITEMS_TYPE) }
-            </>
+            <ErrorHandler setBigOfflineNotice={ setBigOfflineNotice }>
+                    <div block="Router" elem="MainItems">
+                        { this.renderMainItems() }
+                    </div>
+                    { this.renderSectionOfType(AFTER_ITEMS_TYPE) }
+            </ErrorHandler>
         );
     }
 

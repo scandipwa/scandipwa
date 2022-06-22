@@ -11,7 +11,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { lazy, PureComponent, Suspense } from 'react';
+import { lazy, PureComponent } from 'react';
 
 import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 
@@ -158,9 +158,7 @@ export class UrlRewrites extends PureComponent {
 
     render() {
         return (
-            <Suspense fallback={ this.renderDefaultPage() }>
-                { this.renderContent() }
-            </Suspense>
+            this.renderContent()
         );
     }
 }

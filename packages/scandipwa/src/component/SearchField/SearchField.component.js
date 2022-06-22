@@ -13,15 +13,14 @@
 import PropTypes from 'prop-types';
 import {
     createRef,
-    lazy,
-    PureComponent,
-    Suspense
+    PureComponent
 } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
 import CloseIcon from 'Component/CloseIcon';
 import Loader from 'Component/Loader';
 import SearchIcon from 'Component/SearchIcon';
+import SearchOverlay from 'Component/SearchOverlay';
 import { DeviceType } from 'Type/Device.type';
 import { scrollToTop } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
@@ -29,13 +28,6 @@ import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import './SearchField.style';
-
-export const SearchOverlay = lazy(
-    () => import(
-        /* webpackMode: "lazy", webpackChunkName: "overlay" */
-        'Component/SearchOverlay'
-    )
-);
 
 /** @namespace Component/SearchField/Component */
 export class SearchField extends PureComponent {
@@ -164,13 +156,11 @@ export class SearchField extends PureComponent {
                   aria-label={ __('Search') }
                 />
                 { this.renderSearchIcon() }
-                <Suspense fallback={ this.renderOverlayFallback() }>
-                    <SearchOverlay
-                      isHideOverlay={ !device.isMobile }
-                      clearSearch={ this.clearSearch }
-                      searchCriteria={ searchCriteria }
-                    />
-                </Suspense>
+                <SearchOverlay
+                  isHideOverlay={ !device.isMobile }
+                  clearSearch={ this.clearSearch }
+                  searchCriteria={ searchCriteria }
+                />
             </div>
         );
     }
