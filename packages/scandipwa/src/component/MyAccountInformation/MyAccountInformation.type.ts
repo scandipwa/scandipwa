@@ -34,15 +34,25 @@ export interface MyAccountInformationContainerMapDispatchProps {
     updateIsLocked: (isLocked: boolean) => void;
 }
 
+export interface MyAccountInformationContainerFunctions {
+    onCustomerSave: (fields:
+    ChangeCustomerPasswordOptions
+    & SignInOptions
+    & GQLCustomerUpdateInput
+    ) => Promise<void>;
+    handleChangeEmailCheckbox: () => void;
+    handleChangePasswordCheckbox: () => void;
+}
+
 export type MyAccountInformationContainerProps = MyAccountInformationContainerMapStateProps
 & MyAccountInformationContainerMapDispatchProps
 & RouteComponentProps<Record<string, never>, Record<string, never>, { editPassword?: boolean }>;
 
-export type MyAccountInformationContainerState = {
+export interface MyAccountInformationContainerState {
     showEmailChangeField: boolean;
     showPasswordChangeField: boolean;
     isErrorShow: boolean;
-};
+}
 
 export interface MyAccountInformationComponentProps {
     onCustomerSave: (fields:
@@ -58,8 +68,7 @@ export interface MyAccountInformationComponentProps {
     handleChangePasswordCheckbox: () => void;
 }
 
-export type MyAccountInformationContainerPropsKeys =
-       | 'customer'
-       | 'isLoading'
-       | 'showEmailChangeField'
-       | 'showPasswordChangeField';
+export type MyAccountInformationContainerPropsKeys = 'customer'
+| 'isLoading'
+| 'showEmailChangeField'
+| 'showPasswordChangeField';

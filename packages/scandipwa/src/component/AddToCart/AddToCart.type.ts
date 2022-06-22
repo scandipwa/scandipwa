@@ -27,6 +27,10 @@ export interface AddToCartContainerMapDispatchProps {
     fallbackAddToCart: (options: AddProductToCartOptions) => Promise<void>;
 }
 
+export interface AddToCartContainerFunctions {
+    addProductToCart: (options?: AddProductToCartOptions) => Promise<void>;
+}
+
 export interface AddToCartContainerBaseProps {
     product: IndexedProduct;
     quantity: ProductQuantity;

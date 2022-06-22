@@ -21,6 +21,7 @@ import MyAccountTabList from './MyAccountTabList.component';
 import {
     MyAccountTabListComponentProps,
     MyAccountTabListContainerDispatchProps,
+    MyAccountTabListContainerFunctions,
     MyAccountTabListContainerMapStateProps,
     MyAccountTabListContainerProps,
     MyAccountTabListContainerState
@@ -54,7 +55,7 @@ MyAccountTabListContainerState
         isContentExpanded: false
     };
 
-    containerFunctions = {
+    containerFunctions: MyAccountTabListContainerFunctions = {
         handleLogout: this.handleLogout.bind(this),
         onTabClick: this.onTabClick.bind(this),
         toggleExpandableContent: this.toggleExpandableContent.bind(this)

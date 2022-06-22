@@ -11,6 +11,10 @@
 
 import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 
+export interface MyAccountOrderTabContainerFunctions {
+    handleClickOnTab: () => void;
+}
+
 export interface MyAccountOrderTabContainerProps {
     onTabClick: (tab: OrderTabs) => void;
     title: string;

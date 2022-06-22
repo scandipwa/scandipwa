@@ -26,6 +26,7 @@ import {
     StoreInPickUpComponentProps,
     StoreInPickUpComponentPropsKeys,
     StoreInPickUpContainerDispatchProps,
+    StoreInPickUpContainerFunctions,
     StoreInPickUpContainerMapStateProps,
     StoreInPickUpContainerProps
 } from './StoreInPickUp.type';
@@ -49,7 +50,7 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
         selectedStore: null
     };
 
-    containerFunctions = {
+    containerFunctions: StoreInPickUpContainerFunctions = {
         handleOpenPopup: this.handleOpenPopup.bind(this),
         setSelectedStore: this.setSelectedStore.bind(this)
     };

@@ -24,9 +24,18 @@ import {
 import { DateFieldAttr } from 'Component/DateSelect/DateSelect.config';
 import { Mix, ReactElement } from 'Type/Common.type';
 import { FieldOptions, Option } from 'Type/Field.type';
-import { FieldValidationOutput, ValidationDOMOutput, ValidationRule } from 'Util/Validator/Validator.type';
+import {
+    FieldValidationOutput,
+    ValidationDOMOutput,
+    ValidationOutput,
+    ValidationRule
+} from 'Util/Validator/Validator.type';
 
 import { FieldType } from './Field.config';
+
+export interface FieldContainerFunctions {
+    validate: (data?: (Event | SyntheticEvent) & ValidationOutput) => boolean | FieldValidationOutput;
+}
 
 export interface FieldContainerProps {
     type: FieldType;

@@ -10,6 +10,7 @@
  */
 
 import { CurrencyConfig } from 'Query/Config.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 
 export interface CurrencySwitcherMapStateProps {
     currencyData: CurrencyConfig;
@@ -17,6 +18,10 @@ export interface CurrencySwitcherMapStateProps {
 
 export interface CurrencySwitcherMapDispatchProps {
     updateCurrency: (options: { currencyCode: GQLCurrencyEnum }) => Promise<void>;
+}
+
+export interface CurrencySwitcherContainerFunctions {
+    handleCurrencySelect: (currencyCode: GQLCurrencyEnum) => void;
 }
 
 export type CurrencySwitcherContainerProps = CurrencySwitcherMapStateProps & CurrencySwitcherMapDispatchProps;

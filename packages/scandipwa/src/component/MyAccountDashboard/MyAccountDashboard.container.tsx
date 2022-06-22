@@ -19,6 +19,7 @@ import { RootState } from 'Util/Store/Store.type';
 import MyAccountDashboard from './MyAccountDashboard.component';
 import {
     MyAccountDashboardComponentProps,
+    MyAccountDashboardContainerFunctions,
     MyAccountDashboardContainerMapDispatchProps,
     MyAccountDashboardContainerMapStateProps,
     MyAccountDashboardContainerProps
@@ -34,7 +35,7 @@ export const mapDispatchToProps = (): MyAccountDashboardContainerMapDispatchProp
 
 /** @namespace Component/MyAccountDashboard/Container */
 export class MyAccountDashboardContainer extends PureComponent<MyAccountDashboardContainerProps> {
-    containerFunctions = {
+    containerFunctions: MyAccountDashboardContainerFunctions = {
         getDefaultAddress: this.getDefaultAddress.bind(this)
     };
 

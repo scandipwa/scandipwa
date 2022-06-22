@@ -32,6 +32,7 @@ import {
     StoreInPickUpPopupComponentProps,
     StoreInPickUpPopupComponentPropsKeys,
     StoreInPickUpPopupContainerDispatchProps,
+    StoreInPickUpPopupContainerFunctions,
     StoreInPickUpPopupContainerMapStateProps,
     StoreInPickUpPopupContainerProps,
     StoreInPickUpPopupContainerState,
@@ -70,7 +71,7 @@ StoreInPickUpPopupContainerState
         selectedCountryId: ''
     };
 
-    containerFunctions = {
+    containerFunctions: StoreInPickUpPopupContainerFunctions = {
         handleStoresSearch: this.handleStoresSearch.bind(this),
         selectStore: this.selectStore.bind(this),
         setStoreSearchCriteria: this.setStoreSearchCriteria.bind(this),

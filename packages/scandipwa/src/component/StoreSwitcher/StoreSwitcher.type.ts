@@ -20,6 +20,12 @@ export interface StoreSwitcherContainerMapDispatchProps {
     showErrorNotification: (message: string) => void;
 }
 
+export interface StoreSwitcherContainerFunctions {
+    handleStoreSelect: (storeCode: string) => void;
+    onStoreSwitcherClick: () => void;
+    onStoreSwitcherOutsideClick: () => void;
+}
+
 export type StoreSwitcherContainerProps = StoreSwitcherContainerMapStateProps
 & StoreSwitcherContainerMapDispatchProps
 & {

@@ -31,6 +31,13 @@ export interface ProductGalleryContainerBaseProps {
     isWithEmptySwitcher: boolean;
 }
 
+export interface ProductGalleryContainerFunctions {
+    onActiveImageChange: (activeImage: number) => void;
+    handleZoomChange: (args: { scale: number }) => void;
+    disableZoom: () => void;
+    handleImageZoomPopupActiveChange: (isImageZoomPopupActive: boolean) => void;
+}
+
 export type ProductGalleryContainerProps = ProductGalleryContainerMapStateProps
 & ProductGalleryContainerMapDispatchProps
 & ProductGalleryContainerBaseProps;
@@ -42,7 +49,8 @@ export interface ProductGalleryContainerState {
     isImageZoomPopupActive: boolean;
 }
 
-export interface ProductGalleryComponentProps {
+export interface ProductGalleryComponentProps
+    extends ProductGalleryContainerFunctions {
     gallery: MediaGalleryEntry[];
     productName: string;
     activeImage: number;
@@ -53,10 +61,6 @@ export interface ProductGalleryComponentProps {
     sliderRef: RefObject<SliderWithDraggableRef>;
     isWithEmptySwitcher: boolean;
     showLoader: boolean;
-    onActiveImageChange: (activeImage: number) => void;
-    handleZoomChange: (args: { scale: number }) => void;
-    disableZoom: () => void;
-    handleImageZoomPopupActiveChange: (isImageZoomPopupActive: boolean) => void;
     registerSharedElementDestination: (element: RefObject<HTMLElement>) => void;
     location?: Location;
 }

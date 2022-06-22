@@ -11,12 +11,16 @@
 
 import { FormattedStore } from 'Component/StoreSwitcher/StoreSwitcher.type';
 
+export interface StoreItemContainerFunctions {
+    getStoreCode: () => void;
+}
+
 export interface StoreItemContainerProps {
     item: FormattedStore;
     handleStoreSelect: (storeCode: string) => void;
 }
 
-export interface StoreItemComponentProps {
+export interface StoreItemComponentProps
+    extends StoreItemContainerFunctions {
     item: FormattedStore;
-    getStoreCode: () => void;
 }

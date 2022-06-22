@@ -33,6 +33,14 @@ export interface MyAccountAddressFormContainerBaseProps {
     onSave: (address: GQLCustomerAddressInput) => Promise<void>;
 }
 
+export interface MyAccountAddressFormContainerFunctions {
+    onCountryChange: (field: string, e?: EventFieldData) => void;
+    onZipcodeChange: (event: ChangeEvent<HTMLInputElement>, field?: EventFieldData) => void;
+    onCityChange: (field: ChangeEvent<HTMLInputElement>) => void;
+    onRegionChange: (field: ChangeEvent<HTMLInputElement>) => void;
+    onRegionIdChange: (field: string) => void;
+}
+
 export type MyAccountAddressFormContainerProps = MyAccountAddressFormContainerMapStateProps
 & MyAccountAddressFormContainerMapDispatchProps
 & MyAccountAddressFormContainerBaseProps;

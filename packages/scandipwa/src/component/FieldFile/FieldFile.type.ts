@@ -13,6 +13,10 @@ import { InputHTMLAttributes } from 'react';
 
 import { FieldEvents, FieldInputCustomEvents } from 'Component/Field/Field.type';
 
+export interface FieldFileContainerFunctions {
+    setRef: (elem: HTMLInputElement | null) => void;
+}
+
 export interface FieldFileContainerProps {
     attr: InputHTMLAttributes<HTMLElement>;
     events: Omit<FieldEvents, 'onChange'> & FieldInputCustomEvents;

@@ -32,6 +32,14 @@ export interface ProductCompareItemContainerBaseProps {
     isInStock: (product: Partial<StockCheckProduct>, parentProduct?: Partial<StockCheckProduct> | undefined) => boolean;
 }
 
+export interface ProductCompareItemContainerFunctions {
+    removeComparedProduct: () => Promise<void>;
+    getGroupedProductQuantity: () => Record<number, number>;
+    getProductOptionsData: () => { requiredOptions: number[] };
+    overriddenAddToCartBtnHandler: () => void;
+    addItemToCart: () => Promise<void>;
+}
+
 export type ProductCompareItemContainerProps = ProductCompareItemContainerMapStateProps
 & ProductCompareItemContainerMapDispatchProps
 & ProductCompareItemContainerBaseProps;
@@ -41,7 +49,7 @@ export interface ProductCompareItemContainerState {
     currentQty: number | Record<number, number>;
 }
 
-export interface ProductCompareItemComponentProps {
+export interface ProductCompareItemComponentProps extends ProductCompareItemContainerFunctions {
     product: ComparableProduct;
     isLoading: boolean;
     imgUrl: string;
@@ -49,11 +57,6 @@ export interface ProductCompareItemComponentProps {
     linkTo: Url;
     isInStock: (product: Partial<StockCheckProduct>, parentProduct?: Partial<StockCheckProduct>) => boolean;
     isWishlistEnabled: boolean;
-    removeComparedProduct: () => Promise<void>;
-    getGroupedProductQuantity: () => Record<number, number>;
-    getProductOptionsData: () => { requiredOptions: number[] };
-    overriddenAddToCartBtnHandler: () => void;
-    addItemToCart: () => Promise<void>;
 }
 
 export type ProductCompareItemComponentContainerPropKeys =

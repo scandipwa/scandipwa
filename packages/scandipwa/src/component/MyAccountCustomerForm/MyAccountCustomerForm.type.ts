@@ -23,6 +23,11 @@ export interface MyAccountCustomerFormContainerMapStateProps {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MyAccountCustomerFormContainerMapDispatchProps {}
 
+export interface MyAccountCustomerFormContainerFunctions {
+    handleEmailInput: (emailInput: ChangeEvent<HTMLInputElement>) => void;
+    handlePasswordInput: (currentPasswordInput: ChangeEvent<HTMLInputElement>) => void;
+}
+
 export interface MyAccountCustomerFormContainerBaseProps {
     customer: Partial<Customer>;
     onSave: (fields:

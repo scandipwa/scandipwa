@@ -15,6 +15,11 @@ export type MyAccountCustomerTableContainerProps = {
     title?: string;
 };
 
+export interface MyAccountCustomerTableContainerFunctions {
+    handleOnEditInformation: () => void;
+    handleOnEditPassword: () => void;
+}
+
 export type MyAccountCustomerTableComponentProps = {
     handleOnEditInformation: () => void;
     handleOnEditPassword: () => void;

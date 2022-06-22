@@ -32,6 +32,7 @@ import NavigationTabs from './NavigationTabs.component';
 import { NavigationTabsMap } from './NavigationTabs.config';
 import {
     NavigationTabsComponentProps,
+    NavigationTabsContainerFunctions,
     NavigationTabsContainerMapDispatchProps,
     NavigationTabsContainerMapStateProps,
     NavigationTabsContainerProps,
@@ -85,7 +86,7 @@ NavigationAbstractContainerState
         '': { name: NavigationTabsMap.HOME_TAB }
     };
 
-    containerFunctions = {
+    containerFunctions: NavigationTabsContainerFunctions = {
         onMenuButtonClick: this.onMenuButtonClick.bind(this),
         onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
         onMinicartButtonClick: this.onMinicartButtonClick.bind(this),

@@ -28,6 +28,7 @@ import { KEY_PRICE } from './CategoryFilterOverlay.config';
 import {
     CategoryFilterComponentContainerPropsKey,
     CategoryFilterOverlayComponentProps,
+    CategoryFilterOverlayContainerFunctions,
     CategoryFilterOverlayContainerMapDispatchProps,
     CategoryFilterOverlayContainerMapStateProps,
     CategoryFilterOverlayContainerProps
@@ -56,7 +57,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
         isMatchingInfoFilter: false
     };
 
-    containerFunctions = {
+    containerFunctions: CategoryFilterOverlayContainerFunctions = {
         onSeeResultsClick: this.onSeeResultsClick.bind(this),
         toggleCustomFilter: this.toggleCustomFilter.bind(this),
         getFilterUrl: this.getCustomFilterUrl.bind(this),

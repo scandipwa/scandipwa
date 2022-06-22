@@ -45,6 +45,7 @@ import CategoryPage from './CategoryPage.component';
 import { LOADING_TIME } from './CategoryPage.config';
 import {
     CategoryPageComponentProps,
+    CategoryPageContainerFunctions,
     CategoryPageContainerMapDispatchProps,
     CategoryPageContainerMapStateProps,
     CategoryPageContainerProps,
@@ -151,7 +152,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState
         sortDirection: SortDirections.ASC
     };
 
-    containerFunctions = {
+    containerFunctions: CategoryPageContainerFunctions = {
         onSortChange: this.onSortChange.bind(this),
         onGridButtonClick: this.onGridButtonClick.bind(this),
         onListButtonClick: this.onListButtonClick.bind(this)

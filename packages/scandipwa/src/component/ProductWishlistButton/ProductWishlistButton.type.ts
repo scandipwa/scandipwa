@@ -31,6 +31,11 @@ export interface ProductWishlistButtonContainerBaseProps {
     mix: Mix;
 }
 
+export interface ProductWishlistButtonContainerFunctions {
+    addToWishlist: () => Promise<void>;
+    removeFromWishlist: () => Promise<void>;
+}
+
 export type ProductWishlistButtonContainerProps = ProductWishlistButtonContainerMapStateProps
 & ProductWishlistButtonContainerMapDispatchProps
 & ProductWishlistButtonContainerBaseProps;
@@ -40,7 +45,7 @@ export interface ProductWishlistButtonContainerState {
     isWishListToggle: boolean;
 }
 
-export interface ProductWishlistButtonComponentProps {
+export interface ProductWishlistButtonComponentProps extends ProductWishlistButtonContainerFunctions {
     mix: Mix;
     magentoProduct: ProductTransformData[];
     isDisabled: boolean;
@@ -48,8 +53,6 @@ export interface ProductWishlistButtonComponentProps {
     isSignedIn: boolean;
     // !FIXME: isLoading is never set
     isLoading: boolean;
-    addToWishlist: () => Promise<void>;
-    removeFromWishlist: () => Promise<void>;
 }
 
 export type ProductWishlistButtonComponentContainerPropKeys =

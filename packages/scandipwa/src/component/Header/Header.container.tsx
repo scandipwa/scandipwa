@@ -37,6 +37,7 @@ import Header from './Header.component';
 import { Page } from './Header.config';
 import {
     HeaderComponentProps,
+    HeaderContainerFunctions,
     HeaderContainerMapStateProps,
     HeaderContainerProps,
     HeaderContainerPropsKeys,
@@ -101,7 +102,7 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
         '/': { name: DEFAULT_STATE_NAME, isHiddenOnMobile: true }
     };
 
-    containerFunctions = {
+    containerFunctions: HeaderContainerFunctions = {
         onBackButtonClick: this.onBackButtonClick.bind(this),
         onCloseButtonClick: this.onCloseButtonClick.bind(this),
         onSearchBarFocus: this.onSearchBarFocus.bind(this),

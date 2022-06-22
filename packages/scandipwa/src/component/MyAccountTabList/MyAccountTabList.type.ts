@@ -11,10 +11,17 @@
 
 import { MyAccountTab } from 'Route/MyAccount/MyAccount.type';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MyAccountTabListContainerMapStateProps {}
 
 export interface MyAccountTabListContainerDispatchProps {
     logout: () => void;
+}
+
+export interface MyAccountTabListContainerFunctions {
+    handleLogout: () => void;
+    onTabClick: (key: string) => void;
+    toggleExpandableContent: () => void;
 }
 
 export type MyAccountTabListContainerProps =

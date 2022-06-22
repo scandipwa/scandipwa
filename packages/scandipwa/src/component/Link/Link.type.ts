@@ -27,6 +27,10 @@ export interface LinkContainerDispatchProps {
     updateNoMatch: (noMatch: boolean) => void;
 }
 
+export interface LinkContainerFunctions {
+    onClick: (e: MouseEvent) => void;
+}
+
 export type LinkContainerProps =
     LinkContainerMapStateProps & LinkContainerDispatchProps & {
         onClick: (e: MouseEvent) => void;

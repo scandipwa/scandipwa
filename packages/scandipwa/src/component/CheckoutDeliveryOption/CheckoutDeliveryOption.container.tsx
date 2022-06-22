@@ -19,6 +19,7 @@ import { RootState } from 'Util/Store/Store.type';
 import CheckoutDeliveryOption from './CheckoutDeliveryOption.component';
 import {
     CheckoutDeliveryOptionComponentProps,
+    CheckoutDeliveryOptionContainerFunctions,
     CheckoutDeliveryOptionContainerMapDispatchProps,
     CheckoutDeliveryOptionContainerMapStateProps,
     CheckoutDeliveryOptionContainerProps,
@@ -38,7 +39,7 @@ export const mapDispatchToProps = (): CheckoutDeliveryOptionContainerMapDispatch
 
 /** @namespace Component/CheckoutDeliveryOption/Container */
 export class CheckoutDeliveryOptionContainer extends PureComponent<CheckoutDeliveryOptionContainerProps> {
-    containerFunctions = {
+    containerFunctions: CheckoutDeliveryOptionContainerFunctions = {
         onOptionClick: this.onOptionClick.bind(this)
     };
 

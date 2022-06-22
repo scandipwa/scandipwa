@@ -38,6 +38,7 @@ import { RootState } from 'Util/Store/Store.type';
 import CheckoutBilling from './CheckoutBilling.component';
 import {
     CheckoutBillingComponentProps,
+    CheckoutBillingContainerFunctions,
     CheckoutBillingContainerMapDispatchProps,
     CheckoutBillingContainerMapStateProps,
     CheckoutBillingContainerProps,
@@ -93,7 +94,7 @@ CheckoutBillingContainerState
         return null;
     }
 
-    containerFunctions = {
+    containerFunctions: CheckoutBillingContainerFunctions = {
         onBillingSuccess: this.onBillingSuccess.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
         onSameAsShippingChange: this.onSameAsShippingChange.bind(this),

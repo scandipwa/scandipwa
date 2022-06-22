@@ -33,20 +33,24 @@ export interface ProductCustomizableOptionContainerBaseProps {
     updateSelectedValues: (data?: Partial<ProductOption>) => void;
 }
 
+export interface ProductCustomizableOptionContainerFunctions {
+    updateSelectedValues: () => void;
+    getDropdownOptions: () => IndexedCustomOptionValue[] | null;
+}
+
 export type ProductCustomizableOptionContainerProps = ProductCustomizableOptionContainerMapStateProps
 & ProductCustomizableOptionContainerMapDispatchProps
 & ProductCustomizableOptionContainerBaseProps;
 
-export interface ProductCustomizableOptionComponentProps {
+export interface ProductCustomizableOptionComponentProps
+    extends ProductCustomizableOptionContainerFunctions {
     uid: string;
     title: string;
     isRequired: boolean;
     type: ConfigFieldType;
     options: Partial<IndexedCustomOptionValue> | Partial<IndexedCustomOptionValue>[];
-    updateSelectedValues: () => void;
     currencyCode: GQLCurrencyEnum;
     fieldType: FieldType;
-    getDropdownOptions: () => IndexedCustomOptionValue[] | null;
 }
 
 export type ProductCustomizableOptionComponentContainerPropKeys =

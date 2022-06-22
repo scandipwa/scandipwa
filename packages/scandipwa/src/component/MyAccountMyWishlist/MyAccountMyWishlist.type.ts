@@ -31,6 +31,14 @@ export interface MyAccountMyWishlistContainerBaseProps {
     isEditingActive: boolean;
 }
 
+export interface MyAccountMyWishlistContainerFunctions {
+    removeAll: () => Promise<void>;
+    addAllToCart: () => Promise<void>;
+    shareWishlist: () => void;
+    removeSelectedFromWishlist: (options: string[]) => void;
+    setIsQtyUpdateInProgress: (status: boolean) => void;
+}
+
 export interface MyAccountMyWishlistContainerProps extends MyAccountMyWishlistContainerMapStateProps,
     MyAccountMyWishlistContainerMapDispatchProps,
     MyAccountMyWishlistContainerBaseProps {}

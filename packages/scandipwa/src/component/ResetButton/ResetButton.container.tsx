@@ -19,6 +19,7 @@ import ResetButton from './ResetButton.component';
 import {
     ResetButtonComponentContainerPropKeys,
     ResetButtonComponentProps,
+    ResetButtonContainerFunctions,
     ResetButtonContainerProps
 } from './ResetButton.type';
 
@@ -28,7 +29,7 @@ export class ResetButtonContainer extends PureComponent<ResetButtonContainerProp
         mix: {}
     };
 
-    containerFunctions = {
+    containerFunctions: ResetButtonContainerFunctions = {
         resetFilters: this.resetFilters.bind(this)
     };
 

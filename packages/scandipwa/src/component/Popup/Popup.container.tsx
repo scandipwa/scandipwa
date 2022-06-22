@@ -23,7 +23,12 @@ import { RootState } from 'Util/Store/Store.type';
 
 import Popup from './Popup.component';
 import {
-    PopupComponentProps, PopupContainerMapDispatchProps, PopupContainerMapStateProps, PopupContainerProps
+    PopupComponentProps,
+    PopupContainerFunctions,
+    PopupContainerMapDispatchProps,
+    PopupContainerMapStateProps,
+    PopupContainerProps,
+    PopupContainerPropsKeys
 } from './Popup.type';
 
 /** @namespace Component/Popup/Container/mapStateToProps */
@@ -58,7 +63,7 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
         clickOutside: false
     };
 
-    containerFunctions = {
+    containerFunctions: PopupContainerFunctions = {
         onVisible: this.onVisible.bind(this)
     };
 
@@ -78,23 +83,7 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
 
     containerProps(): Pick<
     PopupComponentProps,
-    'activeOverlay'
-    | 'areOtherOverlaysOpen'
-    | 'changeHeaderState'
-    | 'children'
-    | 'id'
-    | 'isMobile'
-    | 'isStatic'
-    | 'mix'
-    | 'contentMix'
-    | 'onClose'
-    | 'onHide'
-    | 'onVisible'
-    | 'shouldPopupClose'
-    | 'hideActiveOverlay'
-    | 'resetHideActivePopup'
-    | 'goToPreviousNavigationState'
-    | 'title'
+    PopupContainerPropsKeys
     > {
         const {
             activeOverlay,

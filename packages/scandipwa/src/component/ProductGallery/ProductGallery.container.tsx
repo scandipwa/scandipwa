@@ -31,6 +31,7 @@ import {
 import {
     ProductGalleryComponentContainerPropKeys,
     ProductGalleryComponentProps,
+    ProductGalleryContainerFunctions,
     ProductGalleryContainerMapDispatchProps,
     ProductGalleryContainerMapStateProps,
     ProductGalleryContainerProps,
@@ -58,7 +59,7 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
 
     sliderRef = createRef<SliderWithDraggableRef>();
 
-    containerFunctions = {
+    containerFunctions: ProductGalleryContainerFunctions = {
         onActiveImageChange: this.onActiveImageChange.bind(this),
         handleZoomChange: this.handleZoomChange.bind(this),
         disableZoom: this.disableZoom.bind(this),

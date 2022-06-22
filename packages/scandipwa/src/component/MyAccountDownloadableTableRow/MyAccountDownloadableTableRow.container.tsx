@@ -21,6 +21,7 @@ import { appendWithStoreCode } from 'Util/Url';
 import MyAccountDownloadableTableRow from './MyAccountDownloadableTableRow.component';
 import {
     MyAccountDownloadableTableRowComponentProps,
+    MyAccountDownloadableTableRowContainerFunctions,
     MyAccountDownloadableTableRowContainerMapStateProps,
     MyAccountDownloadableTableRowContainerProps
 } from './MyAccountDownloadableTableRow.type';
@@ -36,7 +37,7 @@ export const mapDispatchToProps = (): unknown => ({});
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container */
 export class MyAccountDownloadableTableRowContainer extends PureComponent<MyAccountDownloadableTableRowContainerProps> {
-    containerFunctions = {
+    containerFunctions: MyAccountDownloadableTableRowContainerFunctions = {
         onOrderIdClick: this.onOrderIdClick.bind(this)
     };
 

@@ -30,6 +30,13 @@ export interface WishlistItemContainerMapDispatchProps {
     changeHeaderState: (state: NavigationState) => void;
 }
 
+export interface WishlistItemContainerFunctions {
+    addToCart: () => Promise<void>;
+    removeItem: () => Promise<void>;
+    redirectToProductPage: () => void;
+    setQuantity: (quantity: number) => void;
+}
+
 export interface WishlistItemContainerBaseProps {
     product: IndexedWishlistProduct;
     handleSelectIdChange: (id: string, isRemoveOnly?: boolean) => void;
@@ -49,7 +56,7 @@ export interface WishlistItemContainerState {
     currentQty: number;
 }
 
-export interface WishlistItemComponentProps {
+export interface WishlistItemComponentProps extends WishlistItemContainerFunctions {
     inStock: boolean;
     changeQuantity: (quantity: number) => void;
     changeDescription: (value: string) => void;
@@ -62,10 +69,6 @@ export interface WishlistItemComponentProps {
     isMobile: boolean;
     isRemoving: boolean;
     product: IndexedWishlistProduct;
-    addToCart: () => Promise<void>;
-    removeItem: () => Promise<void>;
-    redirectToProductPage: () => void;
-    setQuantity: (quantity: number) => void;
 }
 
 export type WishlistItemComponentContainerPropKeys =

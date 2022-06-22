@@ -57,6 +57,7 @@ import {
     CheckoutAddress,
     CheckoutComponentProps,
     CheckoutContainerDispatchProps,
+    CheckoutContainerFunctions,
     CheckoutContainerMapStateProps,
     CheckoutContainerProps,
     CheckoutContainerPropsKeys,
@@ -130,7 +131,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         cartTotalSubPrice: null
     };
 
-    containerFunctions = {
+    containerFunctions: CheckoutContainerFunctions = {
         setLoading: this.setLoading.bind(this),
         setDetailsStep: this.setDetailsStep.bind(this),
         savePaymentInformation: this.savePaymentInformation.bind(this),

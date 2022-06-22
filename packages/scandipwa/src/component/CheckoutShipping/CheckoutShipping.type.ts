@@ -31,6 +31,20 @@ export interface CheckoutShippingContainerMapDispatchProps {
     updateShippingFields: (fields: Record<string, unknown>) => void;
 }
 
+export interface CheckoutShippingContainerFunctions {
+    onShippingSuccess: (
+        form: HTMLFormElement,
+        fields: FieldData[]
+    ) => void;
+    onShippingError: (
+        form: HTMLFormElement,
+        fields: FormFields | null,
+        validation: boolean | ValidationDOMOutput
+    ) => void;
+    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
+    onAddressSelect: (id: number) => void;
+}
+
 export interface CheckoutShippingContainerBaseProps {
     saveAddressInformation: (addressInformation: AddressInformation) => Promise<void>;
     shippingMethods: ShippingMethod[];

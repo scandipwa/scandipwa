@@ -22,7 +22,11 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import Link from './Link.component';
 import {
-    LinkComponentProps, LinkContainerDispatchProps, LinkContainerMapStateProps, LinkContainerProps
+    LinkComponentProps,
+    LinkContainerDispatchProps,
+    LinkContainerFunctions,
+    LinkContainerMapStateProps,
+    LinkContainerProps
 } from './Link.type';
 
 export const NoMatchDispatcher = import(
@@ -48,7 +52,7 @@ export class LinkContainer extends PureComponent<LinkContainerProps> {
         onClick: noopFn
     };
 
-    containerFunctions = {
+    containerFunctions: LinkContainerFunctions = {
         onClick: this.onClick.bind(this)
     };
 

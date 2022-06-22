@@ -26,6 +26,10 @@ export interface MyAccountForgotPasswordContainerMapDispatchProps {
     showNotification: (type: NotificationType, message: string) => void;
 }
 
+export interface MyAccountForgotPasswordContainerFunctions {
+    onForgotPasswordSuccess: (form: HTMLFormElement, fields: FieldData[]) => Promise<void>;
+}
+
 export type MyAccountForgotPasswordContainerProps = MyAccountForgotPasswordContainerMapStateProps
 & MyAccountForgotPasswordContainerMapDispatchProps
 & {
@@ -47,3 +51,9 @@ export type MyAccountForgotPasswordComponentProps = {
     handleCreateAccount: (e: MouseEvent) => void;
     isCheckout: boolean;
 };
+
+export type MyAccountForgotPasswordContainerPropsKeys = 'state'
+| 'onFormError'
+| 'handleSignIn'
+| 'handleCreateAccount'
+| 'isCheckout';

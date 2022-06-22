@@ -31,18 +31,21 @@ export interface StoreInPickUpContainerBaseProps {
     cartItemsSku: { sku: string }[];
 }
 
+export interface StoreInPickUpContainerFunctions {
+    handleOpenPopup: () => void;
+    setSelectedStore: (store: Store) => void;
+}
+
 export type StoreInPickUpContainerProps =
      StoreInPickUpContainerMapStateProps
      & StoreInPickUpContainerDispatchProps
      & StoreInPickUpContainerBaseProps;
 
-export interface StoreInPickUpComponentProps {
-    handleOpenPopup: () => void;
+export interface StoreInPickUpComponentProps extends StoreInPickUpContainerFunctions {
     countryId: string;
     shippingMethods: ShippingMethod[];
     onStoreSelect: (address: StoreWithCountryId) => void;
     onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
-    setSelectedStore: (store: Store) => void;
     cartItemsSku: { sku: string }[];
     selectedStore: Store | null;
     selectStore: (store: Store) => void;

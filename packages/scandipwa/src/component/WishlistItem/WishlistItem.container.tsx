@@ -36,6 +36,7 @@ import { UPDATE_WISHLIST_FREQUENCY } from './WishlistItem.config';
 import {
     WishlistItemComponentContainerPropKeys,
     WishlistItemComponentProps,
+    WishlistItemContainerFunctions,
     WishlistItemContainerMapDispatchProps,
     WishlistItemContainerMapStateProps,
     WishlistItemContainerProps,
@@ -83,7 +84,7 @@ S extends WishlistItemContainerState = WishlistItemContainerState
         wishlistId: '0'
     };
 
-    containerFunctions = {
+    containerFunctions: WishlistItemContainerFunctions = {
         addToCart: this.addItemToCart.bind(this),
         removeItem: this.removeItem.bind(this, false, true),
         redirectToProductPage: this.redirectToProductPage.bind(this),

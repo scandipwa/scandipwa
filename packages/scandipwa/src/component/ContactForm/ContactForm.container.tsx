@@ -22,6 +22,7 @@ import ContactForm from './ContactForm.component';
 import {
     ContactFormComponentContainerPropKeys,
     ContactFormComponentProps,
+    ContactFormContainerFunctions,
     ContactFormContainerMapDispatchProps,
     ContactFormContainerMapStateProps,
     ContactFormContainerProps
@@ -46,7 +47,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): ContactFormContainerMapD
 
 /** @namespace Component/ContactForm/Container */
 export class ContactFormContainer extends PureComponent<ContactFormContainerProps> {
-    containerFunctions = {
+    containerFunctions: ContactFormContainerFunctions = {
         onFormSubmit: this.onFormSubmit.bind(this)
     };
 

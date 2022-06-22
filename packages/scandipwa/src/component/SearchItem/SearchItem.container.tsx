@@ -21,6 +21,7 @@ import SearchItem from './SearchItem.component';
 import {
     SearchItemComponentContainerPropKeys,
     SearchItemComponentProps,
+    SearchItemContainerFunctions,
     SearchItemContainerMapDispatchProps,
     SearchItemContainerMapStateProps,
     SearchItemContainerProps
@@ -41,7 +42,7 @@ export const mapStateToProps = (): SearchItemContainerMapStateProps => ({});
 
 /** @namespace Component/SearchItem/Container */
 export class SearchItemContainer extends PureComponent<SearchItemContainerProps> {
-    containerFunctions = {
+    containerFunctions: SearchItemContainerFunctions = {
         onClick: this.handleItemClick.bind(this)
     };
 

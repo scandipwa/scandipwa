@@ -28,6 +28,7 @@ import { DEFAULT_SORT_FIELD } from './ProductBundleOption.config';
 import {
     ProductBundleOptionComponentContainerPropKeys,
     ProductBundleOptionComponentProps,
+    ProductBundleOptionContainerFunctions,
     ProductBundleOptionContainerMapDispatchProps,
     ProductBundleOptionContainerMapStateProps,
     ProductBundleOptionContainerProps,
@@ -57,7 +58,7 @@ ProductBundleOptionContainerState
         quantity: {}
     };
 
-    containerFunctions = {
+    containerFunctions: ProductBundleOptionContainerFunctions = {
         setQuantity: this.setQuantity.bind(this),
         setActiveSelectUid: this.setActiveSelectUid.bind(this),
         getUidWithQuantity: this.getUidWithQuantity.bind(this),

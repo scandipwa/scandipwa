@@ -17,6 +17,10 @@ export interface MyAccountDownloadableTableRowContainerMapStateProps {
     isOpenInNewTab: boolean;
 }
 
+export interface MyAccountDownloadableTableRowContainerFunctions {
+    onOrderIdClick: () => void;
+}
+
 export type MyAccountDownloadableTableRowContainerProps = MyAccountDownloadableTableRowContainerMapStateProps & {
     order: Partial<CustomerDownloadableProductExtended>;
 };

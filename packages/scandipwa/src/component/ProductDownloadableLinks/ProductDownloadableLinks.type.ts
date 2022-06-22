@@ -27,6 +27,11 @@ export interface ProductDownloadableLinksContainerBaseProps {
     setLinkedDownloadables: (links: string[]) => void;
 }
 
+export interface ProductDownloadableLinksContainerFunctions {
+    setSelectedCheckboxValues: () => void;
+    setRef: (elem: HTMLElement | null) => void;
+}
+
 export type ProductDownloadableLinksContainerProps = ProductDownloadableLinksContainerMapStateProps
 & ProductDownloadableLinksContainerMapDispatchProps
 & ProductDownloadableLinksContainerBaseProps;
@@ -36,7 +41,8 @@ export interface ProductDownloadableLinksContainerState {
     selectedLinks: string[];
 }
 
-export interface ProductDownloadableLinksComponentProps {
+export interface ProductDownloadableLinksComponentProps
+    extends ProductDownloadableLinksContainerFunctions {
     isOpenInNewTab: boolean;
     isRequired: boolean;
     links: DownloadableProductLinks[];
@@ -44,8 +50,6 @@ export interface ProductDownloadableLinksComponentProps {
     isLoading: boolean;
     selectedLinks: string[];
     currencyCode: GQLCurrencyEnum;
-    setSelectedCheckboxValues: () => void;
-    setRef: (elem: HTMLElement | null) => void;
 }
 
 export type ProductDownloadableLinksComponentContainerPropKeys =

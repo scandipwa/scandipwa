@@ -24,6 +24,7 @@ import ProductWishlistButton from './ProductWishlistButton.component';
 import {
     ProductWishlistButtonComponentContainerPropKeys,
     ProductWishlistButtonComponentProps,
+    ProductWishlistButtonContainerFunctions,
     ProductWishlistButtonContainerMapDispatchProps,
     ProductWishlistButtonContainerMapStateProps,
     ProductWishlistButtonContainerProps,
@@ -69,7 +70,7 @@ ProductWishlistButtonContainerState
         isWishListToggle: false
     };
 
-    containerFunctions = {
+    containerFunctions: ProductWishlistButtonContainerFunctions = {
         addToWishlist: this.toggleProductInWishlist.bind(this, true),
         removeFromWishlist: this.toggleProductInWishlist.bind(this, false)
     };

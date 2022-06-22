@@ -29,6 +29,7 @@ import MyAccountOrder from './MyAccountOrder.component';
 import { OrderTabs } from './MyAccountOrder.config';
 import {
     MyAccountOrderComponentProps,
+    MyAccountOrderContainerFunctions,
     MyAccountOrderContainerMapDispatchProps,
     MyAccountOrderContainerMapStateProps,
     MyAccountOrderContainerProps,
@@ -73,7 +74,7 @@ export class MyAccountOrderContainer extends PureComponent<MyAccountOrderContain
         activeTab: OrderTabs.ORDER_ITEMS
     };
 
-    containerFunctions = {
+    containerFunctions: MyAccountOrderContainerFunctions = {
         handleReorder: this.handleReorder.bind(this),
         handleChangeActiveTab: this.handleChangeActiveTab.bind(this)
     };

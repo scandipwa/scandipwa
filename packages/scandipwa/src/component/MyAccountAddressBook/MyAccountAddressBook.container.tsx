@@ -21,6 +21,7 @@ import { RootState } from 'Util/Store/Store.type';
 import MyAccountAddressBook from './MyAccountAddressBook.component';
 import {
     MyAccountAddressBookComponentProps,
+    MyAccountAddressBookContainerFunctions,
     MyAccountAddressBookContainerMapDispatchProps,
     MyAccountAddressBookContainerMapStateProps,
     MyAccountAddressBookContainerProps
@@ -38,7 +39,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressBookCont
 
 /** @namespace Component/MyAccountAddressBook/Container */
 export class MyAccountAddressBookContainer extends PureComponent<MyAccountAddressBookContainerProps> {
-    containerFunctions = {
+    containerFunctions: MyAccountAddressBookContainerFunctions = {
         showCreateNewPopup: this.showCreateNewPopup.bind(this)
     };
 

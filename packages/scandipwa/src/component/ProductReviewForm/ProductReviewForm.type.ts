@@ -30,7 +30,12 @@ export interface ProductReviewFormContainerMapDispatchProps {
 
 export interface ProductReviewFormContainerBaseProps {
     product: Partial<IndexedProduct>;
+}
 
+export interface ProductReviewFormContainerFunctions {
+    onReviewSubmitSuccess: (form: HTMLFormElement, fields: FormFields) => Promise<void>;
+    onStarRatingClick: (rating_id: number, option_id: string) => void;
+    onReviewError: (_: HTMLFormElement, invalidFields: FormFields | null) => void;
 }
 
 export type ProductReviewFormContainerProps = ProductReviewFormContainerMapStateProps

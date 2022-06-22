@@ -14,12 +14,14 @@ import { Dispatch } from 'redux';
 
 import { ConfigDispatcher } from 'Store/Config/Config.dispatcher';
 import { ReactElement } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import DataContainer from 'Util/Request/DataContainer';
 import { RootState } from 'Util/Store/Store.type';
 
 import CurrencySwitcher from './CurrencySwitcher.component';
 import {
     CurrencySwitcherComponentProps,
+    CurrencySwitcherContainerFunctions,
     CurrencySwitcherContainerProps,
     CurrencySwitcherMapDispatchProps,
     CurrencySwitcherMapStateProps
@@ -37,7 +39,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CurrencySwitcherMapDispa
 
 /** @namespace Component/CurrencySwitcher/Container */
 export class CurrencySwitcherContainer extends DataContainer<CurrencySwitcherContainerProps> {
-    containerFunctions = {
+    containerFunctions: CurrencySwitcherContainerFunctions = {
         handleCurrencySelect: this._handleCurrencySelect.bind(this)
     };
 

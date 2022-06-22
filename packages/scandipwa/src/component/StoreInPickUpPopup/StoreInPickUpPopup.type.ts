@@ -30,6 +30,13 @@ export interface StoreInPickUpPopupContainerDispatchProps {
     clearPickUpStore: () => void;
 }
 
+export interface StoreInPickUpPopupContainerFunctions {
+    handleStoresSearch: () => Promise<void>;
+    selectStore: (store: Store) => void;
+    setStoreSearchCriteria: (searchCriteria: ChangeEvent<HTMLInputElement>) => void;
+    handleChangeCountry: (countryId: string) => void;
+}
+
 export interface StoreInPickUpPopupContainerBaseProps {
     countryId: string;
     onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
@@ -51,7 +58,8 @@ export interface StoreInPickUpPopupContainerState {
     selectedCountryId: string;
 }
 
-export interface StoreInPickUpPopupComponentProps {
+export interface StoreInPickUpPopupComponentProps
+    extends StoreInPickUpPopupContainerFunctions {
     countries: CountryOption[];
     selectedCountryId: string;
     handleChangeCountry: (countryId: string) => void;

@@ -22,6 +22,12 @@ export interface ProductListWidgetContainerMapDispatchProps {
     showNotification: (type: NotificationType, text: string, debug?: unknown) => void;
 }
 
+export interface ProductListWidgetContainerFunctions {
+    requestProductList: (options: Partial<ProductListOptions>) => void;
+    updateLoadStatus: (isLoading: boolean) => void;
+    getIsNewCategory: () => boolean;
+}
+
 export type ProductListWidgetContainerProps = ProductListWidgetContainerMapDispatchProps
 & {
     showPager: number;
@@ -39,16 +45,14 @@ export interface ProductListWidgetContainerState {
     isLoading: boolean;
 }
 
-export interface ProductListWidgetComponentProps extends ProductListWidgetAdaptProps {
+export interface ProductListWidgetComponentProps
+    extends ProductListWidgetAdaptProps, ProductListWidgetContainerFunctions {
     selectedFilters;
     title: string;
     pages: Record<number, IndexedProduct[]>;
     totalItems: number;
     totalPages: number;
     isLoading: boolean;
-    requestProductList: (options: Partial<ProductListOptions>) => void;
-    updateLoadStatus: (isLoading: boolean) => void;
-    getIsNewCategory: () => boolean;
     isInfiniteLoaderEnabled: boolean;
     numberOfPlaceholders: number;
     mix: Mix;

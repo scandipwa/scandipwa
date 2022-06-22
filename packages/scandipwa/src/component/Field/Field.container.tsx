@@ -21,6 +21,7 @@ import Field from './Field.component';
 import { FieldType } from './Field.config';
 import {
     FieldComponentProps,
+    FieldContainerFunctions,
     FieldContainerProps,
     FieldContainerPropsKeys,
     FieldContainerState,
@@ -56,7 +57,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
         showLengthError: false
     };
 
-    containerFunctions = {
+    containerFunctions: FieldContainerFunctions = {
         validate: this.validate.bind(this)
     };
 

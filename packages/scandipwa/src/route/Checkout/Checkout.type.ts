@@ -39,84 +39,87 @@ export interface CheckoutContainerMapStateProps {
 }
 
 export interface CheckoutContainerDispatchProps {
-    updateMeta: (meta: Partial<PageMeta>) => void;
+    checkEmailAvailability: (email: string) => void;
+    createAccount: (options: CreateAccountOptions) => Promise<boolean | 'confirmation_required'>;
     resetCart: () => void;
     resetGuestCart: () => void;
-    toggleBreadcrumbs: (state: boolean) => void;
+    setHeaderState: (stateName: NavigationState) => void;
+    setNavigationState: (stateName: NavigationState) => void;
     showErrorNotification: (message: string) => void;
     showInfoNotification: (message: string) => void;
     showSuccessNotification: (message: string) => void;
-    setHeaderState: (stateName: NavigationState) => void;
-    setNavigationState: (stateName: NavigationState) => void;
-    createAccount: (options: CreateAccountOptions) => Promise<boolean | 'confirmation_required'>;
-    updateShippingFields: (fields: Record<string, unknown>) => void;
+    toggleBreadcrumbs: (state: boolean) => void;
     updateEmail: (email: string) => void;
-    checkEmailAvailability: (email: string) => void;
+    updateMeta: (meta: Partial<PageMeta>) => void;
+    updateShippingFields: (fields: Record<string, unknown>) => void;
     updateShippingPrice: (data: TotalsObject) => void;
+}
+
+export interface CheckoutContainerFunctions {
+    goBack: () => void;
+    handleSelectDeliveryMethod: () => void;
+    onCreateUserChange: () => void;
+    onEmailChange: (email: string) => void;
+    onPasswordChange: (password: string) => void ;
+    onShippingEstimationFieldsChange: (address: EstimateAddress) => void;
+    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
+    onStoreSelect: (address: StoreWithCountryId) => void;
+    saveAddressInformation: (addressInformation: AddressInformation) => Promise<void>;
+    savePaymentInformation: (paymentInformation: PaymentInformation) => Promise<void>;
+    setDetailsStep: (orderID: string) => void;
+    setLoading: (isLoading: boolean) => void;
 }
 
 export type CheckoutContainerProps = RouteComponentProps<{ step: string }>
 & CheckoutContainerMapStateProps
 & CheckoutContainerDispatchProps;
 export interface CheckoutContainerState {
-    isLoading: boolean;
-    isDeliveryOptionsLoading: boolean;
-    requestsSent: number;
-    paymentMethods: PaymentMethod[];
-    shippingMethods: ShippingMethod[];
-    shippingAddress: Partial<CheckoutAddress> | undefined;
     billingAddress: CheckoutAddress | undefined;
-    selectedShippingMethod: string;
     checkoutStep: CheckoutSteps;
-    orderID: string;
-    paymentTotals: TotalsObject | undefined;
     email: string;
-    isGuestEmailSaved: boolean;
-    isCreateUser: boolean;
     estimateAddress?: GQLEstimateShippingCostsAddress;
+    isCreateUser: boolean;
+    isDeliveryOptionsLoading: boolean;
+    isGuestEmailSaved: boolean;
+    isLoading: boolean;
     isPickInStoreMethodSelected: boolean;
-    selectedStoreAddress: StoreWithCountryId | undefined;
+    orderID: string;
     password: string;
+    paymentMethods: PaymentMethod[];
+    paymentTotals: TotalsObject | undefined;
+    requestsSent: number;
+    selectedShippingMethod: string;
+    selectedStoreAddress: StoreWithCountryId | undefined;
+    shippingAddress: Partial<CheckoutAddress> | undefined;
+    shippingMethods: ShippingMethod[];
 }
 
-export interface CheckoutComponentProps {
-    setLoading: (isLoading: boolean) => void;
-    setDetailsStep: (orderID: string) => void;
-    shippingMethods: ShippingMethod[];
-    onShippingEstimationFieldsChange: (address: EstimateAddress) => void;
-    setHeaderState: (stateName: NavigationState) => void;
-    paymentMethods: PaymentMethod[];
-    saveAddressInformation: (addressInformation: AddressInformation) => Promise<void>;
-    savePaymentInformation: (paymentInformation: PaymentInformation) => Promise<void>;
-    isLoading: boolean;
-    isDeliveryOptionsLoading: boolean;
-    shippingAddress: Partial<CheckoutAddress> | undefined;
+export interface CheckoutComponentProps extends CheckoutContainerFunctions {
     billingAddress: CheckoutAddress | undefined;
-    estimateAddress: GQLEstimateShippingCostsAddress | undefined;
-    checkoutTotals: CartTotals;
-    orderID: string;
-    email: string;
-    isEmailAvailable: boolean;
-    selectedShippingMethod: string;
-    history: History;
-    onEmailChange: (email: string) => void;
-    paymentTotals: TotalsObject | undefined;
+    cartTotalSubPrice: number | null;
     checkoutStep: CheckoutSteps;
+    checkoutTotals: CartTotals;
+    email: string;
+    estimateAddress: GQLEstimateShippingCostsAddress | undefined;
+    history: History;
     isCreateUser: boolean;
-    onCreateUserChange: () => void;
-    onPasswordChange: (password: string) => void ;
+    isDeliveryOptionsLoading: boolean;
+    isEmailAvailable: boolean;
     isGuestEmailSaved: boolean;
-    goBack: () => void;
-    totals: CartTotals;
+    isInStoreActivated: boolean;
+    isLoading: boolean;
     isMobile: boolean;
     isPickInStoreMethodSelected: boolean;
-    handleSelectDeliveryMethod: () => void;
-    isInStoreActivated: boolean;
-    cartTotalSubPrice: number | null;
-    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
-    onStoreSelect: (address: StoreWithCountryId) => void;
-    selectedStoreAddress: StoreWithCountryId | undefined;
     isSignedIn: boolean;
+    orderID: string;
+    paymentMethods: PaymentMethod[];
+    paymentTotals: TotalsObject | undefined;
+    selectedShippingMethod: string;
+    selectedStoreAddress: StoreWithCountryId | undefined;
+    setHeaderState: (stateName: NavigationState) => void;
+    shippingAddress: Partial<CheckoutAddress> | undefined;
+    shippingMethods: ShippingMethod[];
+    totals: CartTotals;
 }
 
 export type CheckoutContainerPropsKeys =

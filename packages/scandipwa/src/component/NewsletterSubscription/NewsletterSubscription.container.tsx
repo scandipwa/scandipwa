@@ -21,6 +21,7 @@ import { RootState } from 'Util/Store/Store.type';
 
 import NewsletterSubscription from './NewsletterSubscription.component';
 import {
+    NewsletterSubscriptionContainerFunctions,
     NewsletterSubscriptionContainerProps,
     NewsletterSubscriptionContainerState,
     NewsletterSubscriptionMapDispatchProps,
@@ -51,7 +52,7 @@ export class NewsletterSubscriptionContainer extends PureComponent<
 NewsletterSubscriptionContainerProps,
 NewsletterSubscriptionContainerState
 > {
-    containerFunctions = {
+    containerFunctions: NewsletterSubscriptionContainerFunctions = {
         onFormSubmit: this.onFormSubmit.bind(this)
     };
 

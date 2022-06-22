@@ -24,6 +24,7 @@ import DataContainer from 'Util/Request/DataContainer';
 import {
     ProductListWidgetAdaptProps,
     ProductListWidgetComponentContainerPropKeys,
+    ProductListWidgetContainerFunctions,
     ProductListWidgetContainerMapDispatchProps,
     ProductListWidgetContainerMapStateProps,
     ProductListWidgetContainerProps,
@@ -61,7 +62,7 @@ ProductListWidgetContainerState
         isLoading: true
     };
 
-    containerFunctions = {
+    containerFunctions: ProductListWidgetContainerFunctions = {
         requestProductList: this.requestProductList.bind(this),
         updateLoadStatus: this.updateLoadStatus.bind(this),
         getIsNewCategory: this.getIsNewCategory.bind(this)

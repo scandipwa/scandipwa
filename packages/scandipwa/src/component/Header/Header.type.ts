@@ -45,6 +45,26 @@ export interface HeaderMapDispatchToProps {
     goToPreviousNavigationState: () => void;
 }
 
+export interface HeaderContainerFunctions {
+    onEditButtonClick: (e: MouseEvent) => void;
+    onMinicartButtonClick: () => void;
+    onOkButtonClick: (e: MouseEvent) => void;
+    onCancelButtonClick: () => void;
+    onSearchOutsideClick: () => void;
+    onMyAccountOutsideClick: () => void;
+    onMinicartOutsideClick: () => void;
+    onBackButtonClick: (e: MouseEvent) => void;
+    onCloseButtonClick: (e: MouseEvent) => void;
+    onSearchBarFocus: () => void;
+    onClearSearchButtonClick: () => void;
+    onMyAccountButtonClick: () => void;
+    onSearchBarChange: (e: ChangeEvent<HTMLInputElement> | { target: { value: string } }) => void;
+    shareWishlist: () => void;
+    onSignIn: () => void;
+    hideActiveOverlay: () => void;
+
+}
+
 export interface HeaderContainerProps extends
     HeaderContainerMapStateProps,
     HeaderMapDispatchToProps,

@@ -13,6 +13,10 @@ import { RefObject } from 'react';
 
 import { Children } from 'Type/Common.type';
 
+export interface CarouselScrollItemContainerFunctions {
+    onClick: () => void;
+}
+
 export interface CarouselScrollItemContainerProps {
     isActive: boolean;
     itemRef: RefObject<HTMLDivElement>;

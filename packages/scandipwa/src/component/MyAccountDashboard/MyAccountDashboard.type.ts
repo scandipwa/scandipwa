@@ -14,7 +14,12 @@ export interface MyAccountDashboardContainerMapStateProps {
     customer: Partial<Customer>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MyAccountDashboardContainerMapDispatchProps {}
+
+export interface MyAccountDashboardContainerFunctions {
+    getDefaultAddress: (isBilling: boolean) => CustomerAddress | undefined;
+}
 
 export type MyAccountDashboardContainerProps = MyAccountDashboardContainerMapStateProps
 & MyAccountDashboardContainerMapDispatchProps;

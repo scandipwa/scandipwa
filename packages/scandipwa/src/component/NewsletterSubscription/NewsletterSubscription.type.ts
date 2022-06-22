@@ -23,6 +23,10 @@ export interface NewsletterSubscriptionMapDispatchProps {
     showErrorNotification: (message: string) => void;
 }
 
+export interface NewsletterSubscriptionContainerFunctions {
+    onFormSubmit: (form: HTMLFormElement, fields) => void;
+}
+
 export type NewsletterSubscriptionContainerProps = NewsletterSubscriptionMapStateProps
 & NewsletterSubscriptionMapDispatchProps
 & RouteComponentProps;

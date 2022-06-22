@@ -23,7 +23,11 @@ import { RootState } from 'Util/Store/Store.type';
 import MenuItem from './MenuItem.component';
 import { HOVER_TIMEOUT } from './MenuItem.config';
 import {
-    MenuItemComponentProps, MenuItemContainerProps, MenuItemMapDispatchProps, MenuItemMapStateProps
+    MenuItemComponentProps,
+    MenuItemContainerFunctions,
+    MenuItemContainerProps,
+    MenuItemMapDispatchProps,
+    MenuItemMapStateProps
 } from './MenuItem.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -53,7 +57,7 @@ export class MenuItemContainer extends PureComponent<MenuItemContainerProps> {
         isExpandable: false
     };
 
-    containerFunctions = {
+    containerFunctions: MenuItemContainerFunctions = {
         handleCategoryHover: this.handleCategoryHover.bind(this),
         handleLinkLeave: this.handleLinkLeave.bind(this),
         onItemClick: this.onItemClick.bind(this)

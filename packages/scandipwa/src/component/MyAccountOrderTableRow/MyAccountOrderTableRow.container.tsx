@@ -21,6 +21,7 @@ import { appendWithStoreCode } from 'Util/Url';
 import MyAccountOrderTableRow from './MyAccountOrderTableRow.component';
 import {
     MyAccountOrderTableRowComponentProps,
+    MyAccountOrderTableRowContainerFunctions,
     MyAccountOrderTableRowContainerMapDispatchProps,
     MyAccountOrderTableRowContainerMapStateProps,
     MyAccountOrderTableRowContainerProps,
@@ -38,7 +39,7 @@ export const mapStateToProps = (state: RootState): MyAccountOrderTableRowContain
 
 /** @namespace Component/MyAccountOrderTableRow/Container */
 export class MyAccountOrderTableRowContainer extends PureComponent<MyAccountOrderTableRowContainerProps> {
-    containerFunctions = {
+    containerFunctions: MyAccountOrderTableRowContainerFunctions = {
         onViewClick: this.onViewClick.bind(this)
     };
 

@@ -42,6 +42,11 @@ export interface CartPageContainerMapDispatchProps {
     updateCrossSellProducts: (items: IndexedCartItem[]) => void;
 }
 
+export interface CartPageContainerFunctions {
+    onCheckoutButtonClick: (e: MouseEvent) => void;
+    onCartItemLoading: (isCartItemLoading: boolean) => void;
+}
+
 export interface CartPageContainerBaseProps {
     history: History;
 }

@@ -19,6 +19,10 @@ export interface SearchItemContainerMapDispatchProps {
     hideActiveOverlay: () => void;
 }
 
+export interface SearchItemContainerFunctions {
+    onClick: () => void;
+}
+
 export interface SearchItemContainerBaseProps {
     product: Partial<IndexedProduct>;
 }
@@ -32,7 +36,6 @@ export interface SearchItemComponentProps {
     linkTo: Url;
     imgSrc: string;
     customAttribute: IndexedAttributeWithValue | null;
-    onClick: () => void;
 }
 
 export type SearchItemComponentContainerPropKeys =

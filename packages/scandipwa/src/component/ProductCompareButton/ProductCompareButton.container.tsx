@@ -20,6 +20,7 @@ import ProductCompareButton from './ProductCompareButton.component';
 import {
     ProductCompareButtonComponentContainerPropKeys,
     ProductCompareButtonComponentProps,
+    ProductCompareButtonContainerFunctions,
     ProductCompareButtonContainerMapDispatchProps,
     ProductCompareButtonContainerMapStateProps,
     ProductCompareButtonContainerProps,
@@ -60,7 +61,7 @@ ProductCompareButtonContainerState
         isLoading: false
     };
 
-    containerFunctions = {
+    containerFunctions: ProductCompareButtonContainerFunctions = {
         handleClick: this.handleClick.bind(this)
     };
 

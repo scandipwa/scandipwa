@@ -20,6 +20,7 @@ import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 import Form from './Form.component';
 import {
     FormComponentProps,
+    FormContainerFunctions,
     FormContainerProps,
     FormContainerPropsKeys,
     FormContainerState,
@@ -51,7 +52,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         validationResponse: null
     };
 
-    containerFunctions = {
+    containerFunctions: FormContainerFunctions = {
         validate: this.validate.bind(this),
         setRef: this.setRef.bind(this),
         onSubmit: this.onSubmit.bind(this)

@@ -18,7 +18,12 @@ export interface FooterContainerMapStateProps {
     newsletterActive: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface FooterContainerMapDispatchProps {}
+
+export interface FooterContainerFunctions {
+    onItemClick: () => void;
+}
 
 export type FooterContainerProps = FooterContainerMapStateProps
 & FooterContainerMapDispatchProps

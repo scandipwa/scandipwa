@@ -11,7 +11,7 @@
 
 import { ComparableAttribute, ComparableItem, ComparableProduct } from 'Query/ProductCompare.type';
 import { Device } from 'Type/Device.type';
-import { IndexedProduct, StockCheckProduct } from 'Util/Product/Product.type';
+import { StockCheckProduct } from 'Util/Product/Product.type';
 
 export interface ProductCompareContainerMapStateProps {
     products: ComparableProduct[];
@@ -24,6 +24,14 @@ export interface ProductCompareContainerMapStateProps {
 export interface ProductCompareContainerMapDispatchProps {
     fetchCompareList: () => void;
     clearCompareList: () => void;
+}
+
+export interface ProductCompareContainerFunctions {
+    getAttributes: () => ProductCompareAttributeShape[];
+    clearCompareList: () => void;
+    isInStock: (product: Partial<StockCheckProduct>, parentProduct?: Partial<StockCheckProduct> | undefined) => boolean;
+    handleScroll: () => void;
+    handleBlockScroll: () => void;
 }
 
 export type ProductCompareContainerProps = ProductCompareContainerMapStateProps

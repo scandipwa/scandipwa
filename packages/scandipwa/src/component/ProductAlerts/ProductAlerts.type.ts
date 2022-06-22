@@ -23,6 +23,11 @@ export interface ProductAlertsContainerMapDispatchProps {
     showErrorNotification: (message: string) => void;
 }
 
+export interface ProductAlertsContainerFunctions {
+    handlePriceDropSubscribeAlertPriceDrop: () => Promise<void>;
+    handlePriceDropSubscribeAlertInStock: () => Promise<void>;
+}
+
 export interface ProductAlertsContainerBaseProps {
     productId: number;
     stockStatus: GQLProductStockStatus | null;

@@ -11,6 +11,10 @@
 
 import { Mods } from 'Type/Common.type';
 
+export interface CarouselScrollArrowContainerFunctions {
+    onClick: () => void;
+}
+
 export interface CarouselScrollArrowContainerProps {
     isNextArrow: boolean;
     onClick: (isNextArrow: boolean) => void;

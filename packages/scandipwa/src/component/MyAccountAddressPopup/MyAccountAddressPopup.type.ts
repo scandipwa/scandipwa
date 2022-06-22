@@ -26,6 +26,11 @@ export interface MyAccountAddressPopupContainerMapDispatchProps {
     goToPreviousHeaderState: () => void;
 }
 
+export interface MyAccountAddressPopupContainerFunctions {
+    handleAddress: (address: GQLCustomerAddressInput) => Promise<void>;
+    handleDeleteAddress: () => Promise<void>;
+}
+
 export type MyAccountAddressPopupContainerProps = MyAccountAddressPopupContainerMapStateProps
 & MyAccountAddressPopupContainerMapDispatchProps;
 

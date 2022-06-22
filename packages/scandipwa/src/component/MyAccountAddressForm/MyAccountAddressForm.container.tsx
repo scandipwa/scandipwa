@@ -30,6 +30,7 @@ import { UPDATE_ZIPCODE_FREQUENCY } from './MyAccountAddressForm.config';
 import {
     InitialDataAddress,
     MyAccountAddressFormComponentProps,
+    MyAccountAddressFormContainerFunctions,
     MyAccountAddressFormContainerMapDispatchProps,
     MyAccountAddressFormContainerMapStateProps,
     MyAccountAddressFormContainerProps,
@@ -68,7 +69,7 @@ export class MyAccountAddressFormContainer <
         currentRegionId: this.getCurrentAddress().regionId
     };
 
-    containerFunctions = {
+    containerFunctions: MyAccountAddressFormContainerFunctions = {
         onCountryChange: this.onCountryChange.bind(this),
         onZipcodeChange: this.onZipcodeChange.bind(this),
         onCityChange: this.onCityChange.bind(this),

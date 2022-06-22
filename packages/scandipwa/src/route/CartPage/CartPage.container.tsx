@@ -47,6 +47,7 @@ import CartPage from './CartPage.component';
 import {
     CartPageComponentContainerPropKeys,
     CartPageComponentProps,
+    CartPageContainerFunctions,
     CartPageContainerMapDispatchProps,
     CartPageContainerMapStateProps,
     CartPageContainerProps,
@@ -93,7 +94,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDisp
 
 /** @namespace Route/CartPage/Container */
 export class CartPageContainer extends PureComponent<CartPageContainerProps, CartPageContainerState> {
-    containerFunctions = {
+    containerFunctions: CartPageContainerFunctions = {
         onCheckoutButtonClick: this.onCheckoutButtonClick.bind(this),
         onCartItemLoading: this.onCartItemLoading.bind(this)
     };

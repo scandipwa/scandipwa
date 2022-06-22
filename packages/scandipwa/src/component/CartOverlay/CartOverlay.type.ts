@@ -36,6 +36,13 @@ export interface CartOverlayContainerMapDispatchProps {
     hideActiveOverlay: () => void;
 }
 
+export interface CartOverlayContainerFunctions {
+    changeHeaderState: () => void;
+    handleCheckoutClick: (e: MouseEvent) => void;
+    onCartItemLoading: (isCartItemLoading: boolean) => void;
+    scrollToTop: () => void;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CartOverlayContainerBaseProps {}
 

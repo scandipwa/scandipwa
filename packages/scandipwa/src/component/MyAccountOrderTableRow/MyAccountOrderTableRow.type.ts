@@ -16,7 +16,12 @@ export interface MyAccountOrderTableRowContainerMapStateProps {
     device: Device;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MyAccountOrderTableRowContainerMapDispatchProps {}
+
+export interface MyAccountOrderTableRowContainerFunctions {
+    onViewClick: () => void;
+}
 
 export interface MyAccountOrderTableRowContainerBaseProps {
     order: OrderRow;

@@ -28,6 +28,7 @@ import MyAccountCreateAccount from './MyAccountCreateAccount.component';
 import { CONFIRMATION_REQUIRED, SHOW_VAT_NUMBER_REQUIRED } from './MyAccountCreateAccount.config';
 import {
     MyAccountCreateAccountComponentProps,
+    MyAccountCreateAccountContainerFunctions,
     MyAccountCreateAccountContainerMapDispatchProps,
     MyAccountCreateAccountContainerMapStateProps,
     MyAccountCreateAccountContainerProps,
@@ -64,7 +65,7 @@ export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCrea
         onSignIn: noopFn
     };
 
-    containerFunctions = {
+    containerFunctions: MyAccountCreateAccountContainerFunctions = {
         onSuccess: this.onSuccess.bind(this),
         onError: this.onError.bind(this)
     };

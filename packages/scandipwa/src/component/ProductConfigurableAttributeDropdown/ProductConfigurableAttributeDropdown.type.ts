@@ -18,6 +18,10 @@ import { AggregationOption } from 'Query/ProductList.type';
 import { Merge } from 'Type/Common.type';
 import { IndexedAttributeWithValueOption } from 'Util/Product/Product.type';
 
+export interface ProductConfigurableAttributeDropdownContainerFunctions {
+    onChange: (value: string) => void;
+}
+
 export interface ProductConfigurableAttributeDropdownContainerProps {
     option: Partial<ProductConfigurableAttribute>;
     updateConfigurableVariant?: (key: string, value: string | number | boolean, isEmpty?: boolean) => void;
@@ -27,14 +31,14 @@ export interface ProductConfigurableAttributeDropdownContainerProps {
     handleShakeAnimationEnd: (e: AnimationEvent<HTMLElement>) => void;
 }
 
-export interface ProductConfigurableAttributeDropdownComponentProps {
+export interface ProductConfigurableAttributeDropdownComponentProps
+    extends ProductConfigurableAttributeDropdownContainerFunctions {
     selectValue: string;
     selectOptions: Partial<ProductConfigurableAttributeDropdownOption>[];
     selectName: string;
     selectLabel: string;
     isUnselected: boolean;
     handleShakeAnimationEnd: (e: AnimationEvent<HTMLElement>) => void;
-    onChange: (value: string) => void;
 }
 
 export type ProductConfigurableAttributeDropdownComponentContainerProps =

@@ -9,13 +9,25 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { DOMAttributes, FormHTMLAttributes, MutableRefObject } from 'react';
+import {
+    DOMAttributes,
+    FormEvent,
+    FormHTMLAttributes,
+    MutableRefObject,
+    SyntheticEvent
+} from 'react';
 
 import { Children, Mix } from 'Type/Common.type';
 import { DateObject, FieldData } from 'Util/Form/Form.type';
 import { ValidationDOMOutput, ValidationRule } from 'Util/Validator/Validator.type';
 
 export type FormFields = (DateObject | FieldData)[] | Record<string, DateObject | FieldData>;
+
+export interface FormContainerFunctions {
+    validate: (data?: (Event | SyntheticEvent) & FormValidationOutput) => boolean | ValidationDOMOutput | null;
+    setRef: (elem: HTMLFormElement | null) => void;
+    onSubmit: (e: FormEvent) => Promise<void>;
+}
 
 export interface FormContainerProps {
     children: Children;

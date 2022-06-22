@@ -29,6 +29,7 @@ import { RootState } from 'Util/Store/Store.type';
 import MyAccountNewsletterSubscription from './MyAccountNewsletterSubscription.component';
 import {
     MyAccountNewsletterSubscriptionComponentProps,
+    MyAccountNewsletterSubscriptionContainerFunctions,
     MyAccountNewsletterSubscriptionContainerMapDispatchProps,
     MyAccountNewsletterSubscriptionContainerMapStateProps,
     MyAccountNewsletterSubscriptionContainerProps,
@@ -54,7 +55,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent<
 MyAccountNewsletterSubscriptionContainerProps,
 MyAccountNewsletterSubscriptionContainerState
 > {
-    containerFunctions = {
+    containerFunctions: MyAccountNewsletterSubscriptionContainerFunctions = {
         onError: this.onError,
         setSubscriptionStatus: this.setSubscriptionStatus.bind(this),
         onCustomerSave: this.onCustomerSave.bind(this)

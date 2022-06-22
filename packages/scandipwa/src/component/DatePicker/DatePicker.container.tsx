@@ -25,6 +25,7 @@ import { RootState } from 'Util/Store/Store.type';
 import {
     DatePickerComponentContainerPropKeys,
     DatePickerComponentProps,
+    DatePickerContainerFunctions,
     DatePickerContainerMapDispatchProps,
     DatePickerContainerMapStateProps,
     DatePickerContainerProps,
@@ -47,7 +48,7 @@ export class DatePickerContainer extends PureComponent<DatePickerContainerProps,
         isRequired: false
     };
 
-    containerFunctions = {
+    containerFunctions: DatePickerContainerFunctions = {
         onSetDate: this.onSetDate.bind(this)
     };
 

@@ -29,6 +29,10 @@ export interface PopupContainerMapDispatchProps {
     goToPreviousNavigationState: () => void;
 }
 
+export interface PopupContainerFunctions {
+    onVisible: () => void;
+}
+
 export type PopupContainerProps = PopupContainerMapStateProps
 & PopupContainerMapDispatchProps
 & OverlayComponentProps
@@ -54,3 +58,21 @@ export type PopupComponentProps = OverlayComponentProps & {
     hideActiveOverlay: () => void;
     shouldPopupClose: boolean;
 };
+
+export type PopupContainerPropsKeys = 'activeOverlay'
+| 'areOtherOverlaysOpen'
+| 'changeHeaderState'
+| 'children'
+| 'id'
+| 'isMobile'
+| 'isStatic'
+| 'mix'
+| 'contentMix'
+| 'onClose'
+| 'onHide'
+| 'onVisible'
+| 'shouldPopupClose'
+| 'hideActiveOverlay'
+| 'resetHideActivePopup'
+| 'goToPreviousNavigationState'
+| 'title';

@@ -25,6 +25,7 @@ import { RootState } from 'Util/Store/Store.type';
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 import {
     MyAccountMyWishlistComponentProps,
+    MyAccountMyWishlistContainerFunctions,
     MyAccountMyWishlistContainerMapDispatchProps,
     MyAccountMyWishlistContainerMapStateProps,
     MyAccountMyWishlistContainerProps,
@@ -75,7 +76,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
         isQtyUpdateInProgress: false
     };
 
-    containerFunctions = {
+    containerFunctions: MyAccountMyWishlistContainerFunctions = {
         removeAll: this.removeAll.bind(this),
         addAllToCart: this.addAllToCart.bind(this),
         shareWishlist: this.shareWishlist.bind(this),

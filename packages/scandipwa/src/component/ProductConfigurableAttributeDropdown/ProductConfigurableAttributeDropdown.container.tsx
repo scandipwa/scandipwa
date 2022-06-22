@@ -17,6 +17,7 @@ import ProductConfigurableAttributeDropdown from './ProductConfigurableAttribute
 import {
     ProductConfigurableAttributeDropdownComponentContainerProps,
     ProductConfigurableAttributeDropdownComponentProps,
+    ProductConfigurableAttributeDropdownContainerFunctions,
     ProductConfigurableAttributeDropdownContainerProps,
     ProductConfigurableAttributeDropdownOption
 } from './ProductConfigurableAttributeDropdown.type';
@@ -29,7 +30,7 @@ ProductConfigurableAttributeDropdownContainerProps
         isUnselected: false
     };
 
-    containerFunctions = {
+    containerFunctions: ProductConfigurableAttributeDropdownContainerFunctions = {
         onChange: this.onChange.bind(this)
     };
 

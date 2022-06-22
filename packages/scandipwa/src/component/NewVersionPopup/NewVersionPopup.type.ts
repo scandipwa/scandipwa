@@ -21,6 +21,11 @@ export interface NewVersionPopupContainerMapDispatchProps {
     hideActiveOverlay: () => void;
 }
 
+export interface NewVersionPopupContainerFunctions {
+    toggleNewVersion: () => void;
+    handleDismiss: () => void;
+}
+
 export type NewVersionPopupContainerProps = NewVersionPopupContainerMapStateProps
 & NewVersionPopupContainerMapDispatchProps;
 

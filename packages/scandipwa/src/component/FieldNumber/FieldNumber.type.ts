@@ -13,6 +13,11 @@ import { InputHTMLAttributes } from 'react';
 
 import { FieldEvents, FieldNumberCustomEvents } from 'Component/Field/Field.type';
 
+export interface FieldNumberContainerFunctions {
+    setRef: (elem: HTMLInputElement | null) => void;
+    handleValueChange: (value: number) => void;
+}
+
 export interface FieldNumberContainerProps {
     attr: InputHTMLAttributes<HTMLInputElement>;
     events: Omit<FieldEvents, 'onChange' | 'onLoad'> & FieldNumberCustomEvents;

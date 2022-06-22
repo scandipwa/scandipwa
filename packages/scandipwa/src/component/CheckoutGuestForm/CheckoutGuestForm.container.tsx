@@ -30,6 +30,7 @@ import { RootState } from 'Util/Store/Store.type';
 import CheckoutGuestForm from './CheckoutGuestForm.component';
 import {
     CheckoutGuestFormComponentProps,
+    CheckoutGuestFormContainerFunctions,
     CheckoutGuestFormContainerMapDispatchProps,
     CheckoutGuestFormContainerMapStateProps,
     CheckoutGuestFormContainerProps,
@@ -85,7 +86,7 @@ CheckoutGuestFormContainerState
         signInState: ''
     };
 
-    containerFunctions = {
+    containerFunctions: CheckoutGuestFormContainerFunctions = {
         handleEmailInput: this.handleEmailInput.bind(this),
         handleCreateUser: this.handleCreateUser.bind(this),
         handlePasswordInput: this.handlePasswordInput.bind(this),

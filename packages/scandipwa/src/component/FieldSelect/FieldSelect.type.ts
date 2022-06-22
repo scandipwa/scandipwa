@@ -14,6 +14,16 @@ import { KeyboardEvent, SelectHTMLAttributes } from 'react';
 import { FieldEvents, FieldSelectCustomEvents } from 'Component/Field/Field.type';
 import { Option } from 'Type/Field.type';
 
+export interface FieldSelectContainerFunctions {
+    handleSelectListOptionClick: (option: Option) => void;
+    handleSelectListKeyPress: (event: KeyboardEvent) => void;
+    handleSelectExpandedExpand: () => void;
+    handleSelectExpand: () => void;
+    setRef: (elem: HTMLSelectElement | null) => void;
+    handleDropdownOpenDirection: () => void;
+    handleIsScrollableList: () => void;
+}
+
 export interface FieldSelectContainerProps {
     attr: SelectHTMLAttributes<HTMLSelectElement> & {
         isExpanded?: boolean;

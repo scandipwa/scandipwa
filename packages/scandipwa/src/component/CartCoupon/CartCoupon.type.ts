@@ -19,6 +19,11 @@ export interface CartCouponContainerMapDispatchProps {
     removeCouponFromCart: () => Promise<void>;
 }
 
+export interface CartCouponContainerFunctions {
+    handleApplyCouponToCart: (coupon: string) => void;
+    handleRemoveCouponFromCart: () => void;
+}
+
 export interface CartCouponContainerBaseProps {
     couponCode: string;
     mix: Mix;

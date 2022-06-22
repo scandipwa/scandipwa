@@ -23,9 +23,11 @@ import { FieldData } from 'Util/Form/Form.type';
 import MyAccountForgotPassword from './MyAccountForgotPassword.component';
 import {
     MyAccountForgotPasswordComponentProps,
+    MyAccountForgotPasswordContainerFunctions,
     MyAccountForgotPasswordContainerMapDispatchProps,
     MyAccountForgotPasswordContainerMapStateProps,
-    MyAccountForgotPasswordContainerProps
+    MyAccountForgotPasswordContainerProps,
+    MyAccountForgotPasswordContainerPropsKeys
 } from './MyAccountForgotPassword.type';
 
 export const MyAccountDispatcher = import(
@@ -48,17 +50,13 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountForgotPasswordC
 
 /** @namespace Component/MyAccountForgotPassword/Container */
 export class MyAccountForgotPasswordContainer extends PureComponent<MyAccountForgotPasswordContainerProps> {
-    containerFunctions = {
+    containerFunctions: MyAccountForgotPasswordContainerFunctions = {
         onForgotPasswordSuccess: this.onForgotPasswordSuccess.bind(this)
     };
 
     containerProps(): Pick<
     MyAccountForgotPasswordComponentProps,
-    'state'
-    | 'onFormError'
-    | 'handleSignIn'
-    | 'handleCreateAccount'
-    | 'isCheckout'
+    MyAccountForgotPasswordContainerPropsKeys
     > {
         const {
             state,

@@ -30,6 +30,14 @@ export interface CategoryFilterOverlayContainerMapDispatchProps {
     changeNavigationState: (state: NavigationState) => void;
 }
 
+export interface CategoryFilterOverlayContainerFunctions {
+    onSeeResultsClick: () => void;
+    onVisible: () => void;
+    onHide: () => void;
+    toggleCustomFilter: (requestVar: string, value: string | number | boolean) => void;
+    getFilterUrl: (filterKey: string, value: string) => string;
+}
+
 export interface CategoryFilterOverlayContainerBaseProps {
     history: History<HistoryState>;
     renderPlaceholder: (block: string) => ReactElement;

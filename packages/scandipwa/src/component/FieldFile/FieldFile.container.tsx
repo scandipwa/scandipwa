@@ -17,6 +17,7 @@ import FieldFile from './FieldFile.component';
 import {
     FieldContainerPropsKeys,
     FieldFileComponentProps,
+    FieldFileContainerFunctions,
     FieldFileContainerProps,
     FieldFileContainerState
 } from './FieldFile.type';
@@ -26,7 +27,7 @@ import {
  * @class FieldFileContainer
  * @namespace Component/FieldFile/Container */
 export class FieldFileContainer extends PureComponent<FieldFileContainerProps, FieldFileContainerState> {
-    containerFunctions = {
+    containerFunctions: FieldFileContainerFunctions = {
         setRef: this.setRef.bind(this)
     };
 

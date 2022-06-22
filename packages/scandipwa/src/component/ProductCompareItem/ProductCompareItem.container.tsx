@@ -29,6 +29,7 @@ import ProductCompareItem from './ProductCompareItem.component';
 import {
     ProductCompareItemComponentContainerPropKeys,
     ProductCompareItemComponentProps,
+    ProductCompareItemContainerFunctions,
     ProductCompareItemContainerMapDispatchProps,
     ProductCompareItemContainerMapStateProps,
     ProductCompareItemContainerProps,
@@ -71,7 +72,7 @@ ProductCompareItemContainerState
         currentQty: 0
     };
 
-    containerFunctions = {
+    containerFunctions: ProductCompareItemContainerFunctions = {
         removeComparedProduct: this.removeComparedProduct.bind(this),
         getGroupedProductQuantity: this.getGroupedProductQuantity.bind(this),
         getProductOptionsData: this.getProductOptionsData.bind(this),

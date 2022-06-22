@@ -23,6 +23,10 @@ export interface PaginationContainerMapStateProps {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface PaginationContainerMapDispatchProps {}
 
+export interface PaginationContainerFunctions {
+    getSearchQuery: (pageNumber: number) => string;
+}
+
 export interface PaginationContainerBaseProps {
     isLoading: boolean;
     totalPages: number;

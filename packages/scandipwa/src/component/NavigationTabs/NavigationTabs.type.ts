@@ -34,6 +34,13 @@ export interface NavigationTabsContainerMapDispatchProps {
     goToPreviousNavigationState: () => void;
 }
 
+export interface NavigationTabsContainerFunctions {
+    onMenuButtonClick: () => void;
+    onMyAccountButtonClick: () => void;
+    onMinicartButtonClick: () => void;
+    onHomeButtonClick: () => void;
+}
+
 export interface NavigationTabsContainerProps extends
     NavigationTabsContainerMapStateProps,
     NavigationTabsContainerMapDispatchProps,

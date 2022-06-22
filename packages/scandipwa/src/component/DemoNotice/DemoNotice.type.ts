@@ -16,6 +16,7 @@ export interface DemoNoticeContainerMapStateProps {
     device: Device;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface DemoNoticeContainerMapDispatchProps {}
 
 export type DemoNoticeComponentProps = {

@@ -22,6 +22,10 @@ export interface DatePickerContainerMapStateProps {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface DatePickerContainerMapDispatchProps {}
 
+export interface DatePickerContainerFunctions {
+    onSetDate: (date: Date) => void;
+}
+
 export interface DatePickerContainerBaseProps {
     type: FieldDateType;
     uid: string;

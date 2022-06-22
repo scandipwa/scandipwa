@@ -27,6 +27,7 @@ import {
     PageBounds,
     ProductListComponentContainerPropKeys,
     ProductListComponentProps,
+    ProductListContainerFunctions,
     ProductListContainerMapDispatchProps,
     ProductListContainerMapStateProps,
     ProductListContainerProps,
@@ -68,7 +69,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
         pagesCount: 1
     };
 
-    containerFunctions = {
+    containerFunctions: ProductListContainerFunctions = {
         loadPrevPage: this.loadPage.bind(this, false),
         loadPage: this.loadPage.bind(this),
         updatePage: this.updatePage.bind(this)

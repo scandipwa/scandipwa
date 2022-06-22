@@ -18,6 +18,10 @@ export interface MyAccountAddressBookContainerMapDispatchProps {
     showPopup: <T>(payload: T) => void;
 }
 
+export interface MyAccountAddressBookContainerFunctions {
+    showCreateNewPopup: () => void;
+}
+
 export type MyAccountAddressBookContainerProps = MyAccountAddressBookContainerMapStateProps
 & MyAccountAddressBookContainerMapDispatchProps;
 

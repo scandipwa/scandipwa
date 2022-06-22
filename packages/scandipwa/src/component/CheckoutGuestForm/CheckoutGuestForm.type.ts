@@ -35,6 +35,18 @@ export interface CheckoutGuestFormContainerMapDispatchProps {
     updateEmail: (email: string) => void;
 }
 
+export interface CheckoutGuestFormContainerFunctions {
+    handleCreateAccount: (e: MouseEvent) => void;
+    handleCreateUser: () => void;
+    handleEmailInput: (event: ChangeEvent<HTMLInputElement>, field?: EventFieldData) => void;
+    handleForgotPassword: (e: MouseEvent) => void;
+    handlePasswordInput: (password: string) => void;
+    handleSignIn: (e: MouseEvent) => void;
+    onFormError: () => void;
+    setLoadingState: (isLoading: boolean) => void;
+    setSignInState: (signInState: MyAccountPageState | '') => void;
+}
+
 export interface CheckoutGuestFormContainerBaseProps {
     isCreateUser: boolean;
     isGuestEmailSaved: boolean;

@@ -50,6 +50,12 @@ export interface ProductListContainerBaseProps {
     totalPages: number;
 }
 
+export interface ProductListContainerFunctions {
+    loadPrevPage: () => void;
+    loadPage: (next?: boolean) => void;
+    updatePage: (pageNumber: number) => void;
+}
+
 export type ProductListContainerProps = ProductListContainerMapStateProps
 & ProductListContainerMapDispatchProps
 & ProductListContainerBaseProps;

@@ -21,6 +21,10 @@ export interface CheckoutPaymentsContainerMapDispatchProps {
     showError: (message: string) => void;
 }
 
+export interface CheckoutPaymentsContainerFunctions {
+    selectPaymentMethod: (paymentMethod: PaymentMethod) => void;
+}
+
 export interface CheckoutPaymentsContainerBaseProps {
     onPaymentMethodSelect: (code: string) => void;
     setOrderButtonEnableStatus: (isOrderButtonEnabled: boolean) => void;

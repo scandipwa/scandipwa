@@ -17,6 +17,7 @@ import { noopFn } from 'Util/Common';
 import StoreInPickUpStoreComponent from './StoreInPickUpStore.component';
 import {
     StoreInPickUpStoreComponentProps,
+    StoreInPickUpStoreContainerFunctions,
     StoreInPickUpStoreContainerProps,
     StoreInPickUpStoreContainerPropsKeys
 } from './StoreInPickUpStore.type';
@@ -29,7 +30,7 @@ export class StoreInPickUpStoreContainer extends PureComponent<StoreInPickUpStor
         store: null
     };
 
-    containerFunctions = {
+    containerFunctions: StoreInPickUpStoreContainerFunctions = {
         handleSelectStore: this.handleSelectStore.bind(this)
     };
 

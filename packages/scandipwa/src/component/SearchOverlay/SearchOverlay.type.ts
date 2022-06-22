@@ -27,6 +27,10 @@ export interface SearchOverlayContainerBaseProps {
     isHideOverlay: boolean;
 }
 
+export interface SearchOverlayContainerFunctions {
+    makeSearchRequest: () => void;
+}
+
 export type SearchOverlayContainerProps = SearchOverlayContainerMapStateProps
 & SearchOverlayContainerMapDispatchProps
 & SearchOverlayContainerBaseProps;
@@ -37,7 +41,6 @@ export interface SearchOverlayComponentProps {
     isLoading: boolean;
     searchCriteria: string;
     searchResults: IndexedProduct[];
-    makeSearchRequest: () => void;
 }
 
 export type SearchOverlayComponentContainerPropKeys =

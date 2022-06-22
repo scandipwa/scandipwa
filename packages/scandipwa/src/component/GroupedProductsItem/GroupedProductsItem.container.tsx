@@ -17,12 +17,13 @@ import GroupedProductsItem from './GroupedProductsItem.component';
 import {
     GroupedProductsItemComponentContainerPropKeys,
     GroupedProductsItemComponentProps,
+    GroupedProductsItemContainerFunctions,
     GroupedProductsItemContainerProps
 } from './GroupedProductsItem.type';
 
 /** @namespace Component/GroupedProductsItem/Container */
 export class GroupedProductsItemContainer extends PureComponent<GroupedProductsItemContainerProps> {
-    containerFunctions = {
+    containerFunctions: GroupedProductsItemContainerFunctions = {
         setQuantity: this.setQuantity.bind(this)
     };
 

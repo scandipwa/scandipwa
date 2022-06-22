@@ -18,7 +18,11 @@ import { Option } from 'Type/Field.type';
 import FieldSelect from './FieldSelect.component';
 import { DROPDOWN_MIN_HEIGHT, DROPDOWN_SCROLL_MIN_ITEMS } from './FieldSelect.config';
 import {
-    FieldSelectComponentProps, FieldSelectContainerProps, FieldSelectContainerPropsKeys, FieldSelectContainerState
+    FieldSelectComponentProps,
+    FieldSelectContainerFunctions,
+    FieldSelectContainerProps,
+    FieldSelectContainerPropsKeys,
+    FieldSelectContainerState
 } from './FieldSelect.type';
 
 /**
@@ -42,7 +46,7 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
         isSelectedOptionAvailable: true
     };
 
-    containerFunctions = {
+    containerFunctions: FieldSelectContainerFunctions = {
         handleSelectExpand: this.handleSelectExpand.bind(this),
         handleSelectExpandedExpand: this.handleSelectExpandedExpand.bind(this),
         handleSelectListOptionClick: this.handleSelectListOptionClick.bind(this),

@@ -38,6 +38,16 @@ export interface MyAccountOverlayContainerMapDispatchProps {
     updateCustomerLoadingStatus: (status: boolean) => void;
 }
 
+export interface MyAccountOverlayContainerFunctions {
+    onFormError: () => void;
+    handleForgotPassword: (e: MouseEvent) => void;
+    handleSignIn: (e: MouseEvent) => void;
+    handleCreateAccount: (e: MouseEvent) => void;
+    onVisible: () => void;
+    setSignInState: (state: MyAccountPageState) => void;
+    setLoadingState: (isLoading: boolean) => void;
+}
+
 export type MyAccountOverlayContainerProps = MyAccountOverlayContainerMapStateProps
 & MyAccountOverlayContainerMapDispatchProps
 & {

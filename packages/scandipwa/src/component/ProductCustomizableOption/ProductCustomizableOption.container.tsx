@@ -26,6 +26,7 @@ import {
     CustomFieldValue,
     ProductCustomizableOptionComponentContainerPropKeys,
     ProductCustomizableOptionComponentProps,
+    ProductCustomizableOptionContainerFunctions,
     ProductCustomizableOptionContainerMapDispatchProps,
     ProductCustomizableOptionContainerMapStateProps,
     ProductCustomizableOptionContainerProps
@@ -49,7 +50,7 @@ export class ProductCustomizableOptionContainer extends PureComponent<ProductCus
         options: []
     };
 
-    containerFunctions = {
+    containerFunctions: ProductCustomizableOptionContainerFunctions = {
         getDropdownOptions: this.getDropdownOptions.bind(this),
         updateSelectedValues: this.updateSelectedValues.bind(this)
     };

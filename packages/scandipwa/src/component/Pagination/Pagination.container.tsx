@@ -21,6 +21,7 @@ import { generateQuery, getQueryParam } from 'Util/Url';
 import Pagination from './Pagination.component';
 import {
     PaginationComponentProps,
+    PaginationContainerFunctions,
     PaginationContainerMapDispatchProps,
     PaginationContainerMapStateProps,
     PaginationContainerProps,
@@ -46,7 +47,7 @@ export class PaginationContainer extends PureComponent<PaginationContainerProps>
         mix: {}
     };
 
-    containerFunctions = {
+    containerFunctions: PaginationContainerFunctions = {
         getSearchQuery: this.getSearchQuery.bind(this)
     };
 

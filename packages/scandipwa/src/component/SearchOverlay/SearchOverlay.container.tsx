@@ -22,6 +22,7 @@ import SearchOverlay from './SearchOverlay.component';
 import {
     SearchOverlayComponentContainerPropKeys,
     SearchOverlayComponentProps,
+    SearchOverlayContainerFunctions,
     SearchOverlayContainerMapDispatchProps,
     SearchOverlayContainerMapStateProps,
     SearchOverlayContainerProps
@@ -54,7 +55,7 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
         isHideOverlay: false
     };
 
-    containerFunctions = {
+    containerFunctions: SearchOverlayContainerFunctions = {
         makeSearchRequest: this.makeSearchRequest.bind(this)
     };
 

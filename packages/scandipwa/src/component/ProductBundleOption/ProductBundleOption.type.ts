@@ -20,6 +20,14 @@ export interface ProductBundleOptionContainerMapStateProps {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ProductBundleOptionContainerMapDispatchProps {}
 
+export interface ProductBundleOptionContainerFunctions {
+    setQuantity: (uid: string, value: number) => void;
+    setActiveSelectUid: (uid: string) => void;
+    getUidWithQuantity: (uid: string, defaultQuantity: number) => string;
+    getDropdownOptions: () => TransformedBundleOption[];
+    setDefaultOption: () => void;
+}
+
 export interface ProductBundleOptionContainerBaseProps {
     uid: string;
     title: string;

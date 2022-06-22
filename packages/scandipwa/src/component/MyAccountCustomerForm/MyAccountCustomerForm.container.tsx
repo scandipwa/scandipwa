@@ -22,6 +22,7 @@ import { RootState } from 'Util/Store/Store.type';
 import MyAccountCustomerForm from './MyAccountCustomerForm.component';
 import {
     MyAccountCustomerFormComponentProps,
+    MyAccountCustomerFormContainerFunctions,
     MyAccountCustomerFormContainerMapDispatchProps,
     MyAccountCustomerFormContainerMapStateProps,
     MyAccountCustomerFormContainerProps,
@@ -44,7 +45,7 @@ export class MyAccountCustomerFormContainer extends PureComponent<
 MyAccountCustomerFormContainerProps,
 MyAccountCustomerFormContainerState
 > {
-    containerFunctions = {
+    containerFunctions: MyAccountCustomerFormContainerFunctions = {
         handleEmailInput: this.handleEmailInput.bind(this),
         handlePasswordInput: this.handlePasswordInput.bind(this)
     };

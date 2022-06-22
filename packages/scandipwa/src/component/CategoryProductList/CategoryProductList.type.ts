@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ProductAttributeFilterOptions, ProductItem, ProductListOptions } from 'Query/ProductList.type';
+import { ProductAttributeFilterOptions, ProductListOptions } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { CategorySortOptions } from 'Route/CategoryPage/CategoryPage.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
@@ -26,6 +26,10 @@ export interface CategoryProductListContainerMapStateProps {
 export interface CategoryProductListContainerMapDispatchProps {
     requestProductList: (options: Partial<ProductListOptions>) => void;
     updateLoadStatus: (isLoading: boolean) => void;
+}
+
+export interface CategoryProductListContainerFunctions {
+    requestProductList: (options: Partial<ProductListOptions>) => void;
 }
 
 export interface CategoryProductListContainerBaseProps {

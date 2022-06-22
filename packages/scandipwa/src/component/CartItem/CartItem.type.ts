@@ -40,6 +40,13 @@ export interface CartItemContainerBaseProps {
     showLoader: boolean;
 }
 
+export interface CartItemContainerFunctions {
+    handleChangeQuantity: (quantity: number) => void;
+    handleRemoveItem: (e: MouseEvent) => void;
+    getCurrentProduct: () => IndexedVariant | IndexedProduct | undefined;
+    getProductVariant: () => IndexedVariant;
+}
+
 export type CartItemContainerProps = CartItemContainerMapStateProps
 & CartItemContainerMapDispatchProps
 & CartItemContainerBaseProps;

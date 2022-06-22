@@ -18,6 +18,7 @@ import { RootState } from 'Util/Store/Store.type';
 import MyAccountOrderItemsTable from './MyAccountOrderItemsTable.component';
 import {
     MyAccountOrderItemsTableComponentProps,
+    MyAccountOrderItemsTableComponentPropsKeys,
     MyAccountOrderItemsTableContainerMapDispatchProps,
     MyAccountOrderItemsTableContainerMapStateProps,
     MyAccountOrderItemsTableContainerProps
@@ -35,11 +36,7 @@ export const mapDispatchToProps = (): MyAccountOrderItemsTableContainerMapDispat
 export class MyAccountOrderItemsTableContainer extends PureComponent<MyAccountOrderItemsTableContainerProps> {
     containerProps(): Pick<
     MyAccountOrderItemsTableComponentProps,
-    | 'isMobile'
-    | 'items'
-    | 'activeTab'
-    | 'total'
-    | 'allOrderItems'
+    MyAccountOrderItemsTableComponentPropsKeys
     > {
         const {
             isMobile,

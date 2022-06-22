@@ -25,6 +25,7 @@ import { RootState } from 'Util/Store/Store.type';
 import NewVersionPopup from './NewVersionPopup.component';
 import { NEW_VERSION_POPUP_ID } from './NewVersionPopup.config';
 import {
+    NewVersionPopupContainerFunctions,
     NewVersionPopupContainerMapDispatchProps,
     NewVersionPopupContainerMapStateProps,
     NewVersionPopupContainerProps
@@ -44,7 +45,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): NewVersionPopupContainer
 
 /** @namespace Component/NewVersionPopup/Container */
 export class NewVersionPopupContainer extends PureComponent<NewVersionPopupContainerProps> {
-    containerFunctions = {
+    containerFunctions: NewVersionPopupContainerFunctions = {
         toggleNewVersion: this.toggleNewVersion.bind(this),
         handleDismiss: this.handleDismiss.bind(this)
     };

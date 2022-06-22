@@ -25,6 +25,7 @@ import { ProductAlert } from './ProductAlerts.config';
 import {
     ProductAlertsComponentContainerPropKeys,
     ProductAlertsComponentProps,
+    ProductAlertsContainerFunctions,
     ProductAlertsContainerMapDispatchProps,
     ProductAlertsContainerMapStateProps,
     ProductAlertsContainerProps
@@ -51,7 +52,7 @@ export class ProductAlertsContainer extends PureComponent<ProductAlertsContainer
         stockStatus: null
     };
 
-    containerFunctions = {
+    containerFunctions: ProductAlertsContainerFunctions = {
         handlePriceDropSubscribeAlertPriceDrop: this.handlePriceDropSubscribe.bind(this, ProductAlert.PRICE_DROP),
         handlePriceDropSubscribeAlertInStock: this.handlePriceDropSubscribe.bind(this, ProductAlert.IN_STOCK)
     };

@@ -31,6 +31,7 @@ import MyAccountSignIn from './MyAccountSignIn.component';
 import {
     MyAccountContainerPropsKeys,
     MyAccountSignInComponentProps,
+    MyAccountSignInContainerFunctions,
     MyAccountSignInContainerMapDispatchProps,
     MyAccountSignInContainerMapStateProps,
     MyAccountSignInContainerProps,
@@ -74,7 +75,7 @@ MyAccountSignInContainerState
         isSignIn: false
     };
 
-    containerFunctions = {
+    containerFunctions: MyAccountSignInContainerFunctions = {
         onSignInSuccess: this.onSignInSuccess.bind(this)
     };
 

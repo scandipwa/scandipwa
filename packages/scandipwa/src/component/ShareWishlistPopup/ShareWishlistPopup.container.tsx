@@ -27,6 +27,7 @@ import { fetchMutation, getErrorMessage } from 'Util/Request';
 import ShareWishlistPopup from './ShareWishlistPopup.component';
 import {
     ShareWishlistPopupComponentProps,
+    ShareWishlistPopupContainerFunctions,
     ShareWishlistPopupContainerMapDispatchProps,
     ShareWishlistPopupContainerMapStateProps,
     ShareWishlistPopupContainerProps,
@@ -54,7 +55,7 @@ ShareWishlistPopupContainerState
         isLoading: false
     };
 
-    containerFunctions = {
+    containerFunctions: ShareWishlistPopupContainerFunctions = {
         handleFormData: this.handleFormData.bind(this)
     };
 

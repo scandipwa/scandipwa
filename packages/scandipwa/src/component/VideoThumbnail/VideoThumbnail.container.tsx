@@ -20,6 +20,7 @@ import { ReactElement } from 'Type/Common.type';
 
 import VideoThumbnail from './VideoThumbnail.component';
 import {
+    VideoThumbnailContainerFunctions,
     VideoThumbnailContainerMapDispatchProps,
     VideoThumbnailContainerMapStateProps,
     VideoThumbnailContainerProps
@@ -39,7 +40,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): VideoThumbnailContainerM
  * @class VideoThumbnailContainer
  * @namespace Component/VideoThumbnail/Container */
 export class VideoThumbnailContainer extends PureComponent<VideoThumbnailContainerProps> {
-    containerFunctions = {
+    containerFunctions: VideoThumbnailContainerFunctions = {
         onPlayClick: this.onPlayClick.bind(this)
     };
 

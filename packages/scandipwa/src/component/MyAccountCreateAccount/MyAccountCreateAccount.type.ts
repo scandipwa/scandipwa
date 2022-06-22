@@ -31,6 +31,11 @@ export interface MyAccountCreateAccountContainerMapDispatchProps {
     showNotification: (type: NotificationType, message: string) => void;
 }
 
+export interface MyAccountCreateAccountContainerFunctions {
+    onError: () => void;
+    onSuccess: (form: HTMLFormElement, fields: FieldData[]) => Promise<void>;
+}
+
 export type MyAccountCreateAccountContainerProps = MyAccountCreateAccountContainerMapStateProps
 & MyAccountCreateAccountContainerMapDispatchProps & {
     onSignIn: () => void;

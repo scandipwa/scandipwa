@@ -21,6 +21,12 @@ export interface MenuItemMapDispatchProps {
     updateBreadcrumbs: () => void;
 }
 
+export interface MenuItemContainerFunctions {
+    handleCategoryHover: () => void;
+    handleLinkLeave: () => void;
+    onItemClick: () => void;
+}
+
 export type MenuItemContainerProps = MenuItemMapStateProps & MenuItemMapDispatchProps & {
     closeMenu: () => void;
     onCategoryHover: (item: FormattedMenuItem) => void;

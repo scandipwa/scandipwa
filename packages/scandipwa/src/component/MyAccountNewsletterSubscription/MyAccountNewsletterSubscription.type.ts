@@ -22,6 +22,12 @@ export interface MyAccountNewsletterSubscriptionContainerMapDispatchProps {
     showSuccessNotification: (message: string) => void;
 }
 
+export interface MyAccountNewsletterSubscriptionContainerFunctions {
+    setSubscriptionStatus: () => void;
+    onError: () => void;
+    onCustomerSave: (form, fields) => void;
+}
+
 export type MyAccountNewsletterSubscriptionContainerProps = MyAccountNewsletterSubscriptionContainerMapStateProps
 & MyAccountNewsletterSubscriptionContainerMapDispatchProps;
 

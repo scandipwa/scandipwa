@@ -28,6 +28,10 @@ export interface MyAccountSignInContainerMapDispatchProps {
     showNotification: (type: NotificationType, message: string) => void;
 }
 
+export interface MyAccountSignInContainerFunctions {
+    onSignInSuccess: (form: HTMLFormElement, fields: FieldData[]) => Promise<void>;
+}
+
 export interface MyAccountSignInContainerBaseProps {
     state: MyAccountPageState | '';
     onFormError: () => void;
@@ -51,7 +55,7 @@ export interface MyAccountSignInContainerState {
 }
 
 export interface MyAccountSignInComponentProps {
-    onSignInSuccess: (form: HTMLFormElement, fields: FieldData[]) => Promise<void> ;
+    onSignInSuccess: (form: HTMLFormElement, fields: FieldData[]) => Promise<void>;
     onFormError: () => void;
     handleForgotPassword: (e: MouseEvent) => void;
     handleCreateAccount: (e: MouseEvent) => void;

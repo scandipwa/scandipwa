@@ -17,6 +17,10 @@ export interface StoreInPickUpStoreContainerProps {
     store: Store | null;
 }
 
+export interface StoreInPickUpStoreContainerFunctions {
+    handleSelectStore: () => void;
+}
+
 export interface StoreInPickUpStoreComponentProps {
     store: Store | null;
     handleSelectStore: () => void;

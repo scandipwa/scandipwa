@@ -15,12 +15,18 @@ import {
     FormHTMLAttributes,
     MutableRefObject,
     ReactEventHandler,
-    RefObject
+    RefObject,
+    SyntheticEvent
 } from 'react';
 
 import { FieldRef } from 'Component/Field/Field.type';
+import { FormValidationOutput } from 'Component/Form/Form.type';
 import { Children, Mods } from 'Type/Common.type';
 import { ValidationDOMOutput, ValidationRule } from 'Util/Validator/Validator.type';
+
+export interface FieldGroupContainerFunctions {
+    validate: (data?: (Event | SyntheticEvent) & FormValidationOutput) => boolean | ValidationDOMOutput | null;
+}
 
 export interface FieldGroupContainerProps {
     children: Children;

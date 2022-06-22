@@ -23,6 +23,7 @@ import { RootState } from 'Util/Store/Store.type';
 import MyAccountAddressTable from './MyAccountAddressTable.component';
 import {
     MyAccountAddressTableComponentProps,
+    MyAccountAddressTableContainerFunctions,
     MyAccountAddressTableContainerMapDispatchProps,
     MyAccountAddressTableContainerMapStateProps,
     MyAccountAddressTableContainerProps,
@@ -50,7 +51,7 @@ export class MyAccountAddressTableContainer<
         title: ''
     };
 
-    containerFunctions = {
+    containerFunctions: MyAccountAddressTableContainerFunctions = {
         onEditClick: this.onEditClick.bind(this),
         onDeleteClick: this.onDeleteClick.bind(this)
     };

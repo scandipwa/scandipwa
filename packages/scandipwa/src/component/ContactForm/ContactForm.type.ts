@@ -20,6 +20,10 @@ export interface ContactFormContainerMapDispatchProps {
     sendMessage: (data: ContactFormDispatcherOptions) => void;
 }
 
+export interface ContactFormContainerFunctions {
+    onFormSubmit: (form: HTMLFormElement, fields: FormFields) => void;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ContactFormContainerBaseProps {}
 

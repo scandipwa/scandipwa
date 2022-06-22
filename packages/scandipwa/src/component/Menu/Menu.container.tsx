@@ -24,6 +24,7 @@ import { RootState } from 'Util/Store/Store.type';
 import Menu from './Menu.component';
 import {
     MenuComponentProps,
+    MenuContainerFunctions,
     MenuContainerMapDispatchProps, MenuContainerMapStateProps, MenuContainerProps, MenuContainerState
 } from './Menu.type';
 
@@ -38,7 +39,7 @@ export const mapDispatchToProps = (): MenuContainerMapDispatchProps => ({});
 
 /** @namespace Component/Menu/Container */
 export class MenuContainer extends DataContainer<MenuContainerProps, MenuContainerState> {
-    containerFunctions = {
+    containerFunctions: MenuContainerFunctions = {
         handleSubcategoryClick: this.handleSubcategoryClick.bind(this),
         closeMenu: this.closeMenu.bind(this),
         onCategoryHover: this.onCategoryHover.bind(this)

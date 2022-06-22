@@ -20,6 +20,11 @@ export interface MyAccountAddressTableContainerMapDispatchProps {
     showEditPopup: <T>(payload: T) => void;
 }
 
+export interface MyAccountAddressTableContainerFunctions {
+    onEditClick: () => void;
+    onDeleteClick: () => void;
+}
+
 export type MyAccountAddressTableContainerProps = MyAccountAddressTableContainerMapStateProps
 & MyAccountAddressTableContainerMapDispatchProps & {
     mix: Mix;

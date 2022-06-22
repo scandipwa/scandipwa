@@ -14,11 +14,15 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 
 import StoreItem from './StoreItem.component';
-import { StoreItemComponentProps, StoreItemContainerProps } from './StoreItem.type';
+import {
+    StoreItemComponentProps,
+    StoreItemContainerFunctions,
+    StoreItemContainerProps
+} from './StoreItem.type';
 
 /** @namespace Component/StoreItem/Container */
 export class StoreItemContainer extends PureComponent<StoreItemContainerProps> {
-    containerFunctions = {
+    containerFunctions: StoreItemContainerFunctions = {
         getStoreCode: this.getStoreCode.bind(this)
     };
 

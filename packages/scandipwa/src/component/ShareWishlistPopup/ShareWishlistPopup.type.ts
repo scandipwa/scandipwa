@@ -21,6 +21,10 @@ export interface ShareWishlistPopupContainerMapDispatchProps {
     goToPreviousNavigationState: () => void;
 }
 
+export interface ShareWishlistPopupContainerFunctions {
+    handleFormData: (fields: GQLShareWishlistInput) => void;
+}
+
 export type ShareWishlistPopupContainerProps = ShareWishlistPopupContainerMapStateProps
 & ShareWishlistPopupContainerMapDispatchProps;
 
@@ -28,7 +32,7 @@ export interface ShareWishlistPopupContainerState {
     isLoading: boolean;
 }
 
-export interface ShareWishlistPopupComponentProps {
+export interface ShareWishlistPopupComponentProps extends ShareWishlistPopupContainerFunctions {
     handleFormData: (fields: GQLShareWishlistInput) => void;
     isFormLoading: boolean;
 }

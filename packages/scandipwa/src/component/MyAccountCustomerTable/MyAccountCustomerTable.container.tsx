@@ -19,6 +19,7 @@ import { appendWithStoreCode } from 'Util/Url';
 import MyAccountCustomerTable from './MyAccountCustomerTable.component';
 import {
     MyAccountCustomerTableComponentProps,
+    MyAccountCustomerTableContainerFunctions,
     MyAccountCustomerTableContainerProps
 } from './MyAccountCustomerTable.type';
 
@@ -28,7 +29,7 @@ export class MyAccountCustomerTableContainer extends PureComponent<MyAccountCust
         title: ''
     };
 
-    containerFunctions = {
+    containerFunctions: MyAccountCustomerTableContainerFunctions = {
         handleOnEditPassword: this.handleOnEditPassword.bind(this),
         handleOnEditInformation: this.handleOnEditInformation.bind(this)
     };

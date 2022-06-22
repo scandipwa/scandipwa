@@ -27,6 +27,10 @@ export interface ProductCompareButtonContainerBaseProps {
     productId: number | null;
 }
 
+export interface ProductCompareButtonContainerFunctions {
+    handleClick: (e: MouseEvent) => Promise<void>;
+}
+
 export type ProductCompareButtonContainerProps = ProductCompareButtonContainerMapStateProps
 & ProductCompareButtonContainerMapDispatchProps
 & ProductCompareButtonContainerBaseProps;

@@ -26,6 +26,7 @@ import { STORE_CONFIG_KEY } from './StoreSwitcher.config';
 import {
     FormattedStore,
     StoreSwitcherComponentProps,
+    StoreSwitcherContainerFunctions,
     StoreSwitcherContainerMapDispatchProps,
     StoreSwitcherContainerMapStateProps,
     StoreSwitcherContainerProps,
@@ -55,7 +56,7 @@ export class StoreSwitcherContainer extends DataContainer<StoreSwitcherContainer
         storeLabel: ''
     };
 
-    containerFunctions = {
+    containerFunctions: StoreSwitcherContainerFunctions = {
         handleStoreSelect: this.handleStoreSelect.bind(this),
         onStoreSwitcherClick: this.onStoreSwitcherClick.bind(this),
         onStoreSwitcherOutsideClick: this.onStoreSwitcherOutsideClick.bind(this)

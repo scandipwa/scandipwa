@@ -19,6 +19,7 @@ import ProductDownloadableLinks from './ProductDownloadableLinks.component';
 import {
     ProductDownloadableLinksComponentContainerPropKeys,
     ProductDownloadableLinksComponentProps,
+    ProductDownloadableLinksContainerFunctions,
     ProductDownloadableLinksContainerMapDispatchProps,
     ProductDownloadableLinksContainerMapStateProps,
     ProductDownloadableLinksContainerProps,
@@ -50,7 +51,7 @@ ProductDownloadableLinksContainerState
         selectedLinks: []
     };
 
-    containerFunctions = {
+    containerFunctions: ProductDownloadableLinksContainerFunctions = {
         setSelectedCheckboxValues: this.setSelectedCheckboxValues.bind(this),
         setRef: this.setRef.bind(this)
     };

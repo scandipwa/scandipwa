@@ -29,6 +29,7 @@ import ProductReviewForm from './ProductReviewForm.component';
 import {
     ProductReviewFormComponentContainerPropKeys,
     ProductReviewFormComponentProps,
+    ProductReviewFormContainerFunctions,
     ProductReviewFormContainerMapDispatchProps,
     ProductReviewFormContainerMapStateProps,
     ProductReviewFormContainerProps,
@@ -61,7 +62,7 @@ export class ProductReviewFormContainer extends PureComponent<
 ProductReviewFormContainerProps,
 ProductReviewFormContainerState
 > {
-    containerFunctions = ({
+    containerFunctions: ProductReviewFormContainerFunctions = ({
         onReviewSubmitSuccess: this._onReviewSubmitSuccess.bind(this),
         onStarRatingClick: this._onStarRatingClick.bind(this),
         onReviewError: this._onReviewError.bind(this)

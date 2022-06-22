@@ -23,6 +23,10 @@ export interface CheckoutDeliveryOptionContainerMapStateProps {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CheckoutDeliveryOptionContainerMapDispatchProps {}
 
+export interface CheckoutDeliveryOptionContainerFunctions {
+    onOptionClick: () => void;
+}
+
 export interface CheckoutDeliveryOptionContainerBaseProps {
     onClick: (shippingMethod: ShippingMethod) => void;
     isSelected: boolean;

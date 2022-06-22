@@ -22,6 +22,7 @@ import { RootState } from 'Util/Store/Store.type';
 import {
     DateSelectComponentContainerPropKeys,
     DateSelectComponentProps,
+    DateSelectContainerFunctions,
     DateSelectContainerMapDispatchProps,
     DateSelectContainerMapStateProps,
     DateSelectContainerProps,
@@ -47,7 +48,7 @@ DateSelectContainerState
         isRequired: false
     };
 
-    containerFunctions = {
+    containerFunctions: DateSelectContainerFunctions = {
         onSetYear: this.onSetYear.bind(this),
         onSetMonth: this.onSetMonth.bind(this),
         onSetDay: this.onSetDay.bind(this),

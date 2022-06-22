@@ -17,6 +17,7 @@ import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Product.type';
 import FieldNumber from './FieldNumber.component';
 import {
     FieldNumberComponentProps,
+    FieldNumberContainerFunctions,
     FieldNumberContainerProps,
     FieldNumberContainerPropsKeys,
     FieldNumberContainerState
@@ -31,7 +32,7 @@ export class FieldNumberContainer extends PureComponent<FieldNumberContainerProp
         value: 0
     };
 
-    containerFunctions = {
+    containerFunctions: FieldNumberContainerFunctions = {
         handleValueChange: this.handleValueChange.bind(this),
         setRef: this.setRef.bind(this)
     };

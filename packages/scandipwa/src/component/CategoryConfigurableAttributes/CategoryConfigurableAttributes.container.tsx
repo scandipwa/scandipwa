@@ -11,8 +11,8 @@
 
 import { connect } from 'react-redux';
 
-// eslint-disable-next-line max-len
-import ProductConfigurableAttributesContainer from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
+import ProductConfigurableAttributesContainer
+    from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
 import {
     ProductConfigurableAttribute
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';

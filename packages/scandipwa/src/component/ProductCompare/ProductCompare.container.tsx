@@ -26,6 +26,7 @@ import {
     ProductCompareAttributeShape,
     ProductCompareComponentContainerPropKeys,
     ProductCompareComponentProps,
+    ProductCompareContainerFunctions,
     ProductCompareContainerMapDispatchProps,
     ProductCompareContainerMapStateProps,
     ProductCompareContainerProps
@@ -64,7 +65,7 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         attributes: []
     };
 
-    containerFunctions = {
+    containerFunctions: ProductCompareContainerFunctions = {
         getAttributes: this.getAttributes.bind(this),
         clearCompareList: this.clearCompareList.bind(this),
         isInStock: getProductInStock.bind(this),

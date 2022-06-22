@@ -29,6 +29,7 @@ import MyAccountAddressPopup from './MyAccountAddressPopup.component';
 import { MyAccountAddressPopupAction } from './MyAccountAddressPopup.config';
 import {
     MyAccountAddressPopupComponentProps,
+    MyAccountAddressPopupContainerFunctions,
     MyAccountAddressPopupContainerMapDispatchProps,
     MyAccountAddressPopupContainerMapStateProps,
     MyAccountAddressPopupContainerProps,
@@ -65,7 +66,7 @@ MyAccountAddressPopupContainerState
         isLoading: false
     };
 
-    containerFunctions = {
+    containerFunctions: MyAccountAddressPopupContainerFunctions = {
         handleAddress: this.handleAddress.bind(this),
         handleDeleteAddress: this.handleDeleteAddress.bind(this)
     };

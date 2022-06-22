@@ -22,6 +22,7 @@ import { RootState } from 'Util/Store/Store.type';
 import CheckoutPayments from './CheckoutPayments.component';
 import {
     CheckoutPaymentsComponentProps,
+    CheckoutPaymentsContainerFunctions,
     CheckoutPaymentsContainerMapDispatchProps,
     CheckoutPaymentsContainerMapStateProps,
     CheckoutPaymentsContainerProps,
@@ -45,7 +46,7 @@ export class CheckoutPaymentsContainer extends PureComponent<
 CheckoutPaymentsContainerProps,
 CheckoutPaymentsContainerState
 > {
-    containerFunctions = {
+    containerFunctions: CheckoutPaymentsContainerFunctions = {
         selectPaymentMethod: this.selectPaymentMethod.bind(this)
     };
 

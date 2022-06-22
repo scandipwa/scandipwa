@@ -22,6 +22,15 @@ export interface DateSelectContainerMapStateProps {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface DateSelectContainerMapDispatchProps {}
 
+export interface DateSelectContainerFunctions {
+    onSetYear: (year: number) => void;
+    onSetMonth: (month: number) => void;
+    onSetDay: (day: number) => void;
+    onSetHours: (hours: string) => void;
+    onSetMinutes: (minutes: string) => void;
+    onSetAMPM: (ampm: string) => void;
+}
+
 export interface DateSelectContainerBaseProps {
     type: FieldDateType;
     uid: string;

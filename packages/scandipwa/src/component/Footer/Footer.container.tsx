@@ -19,6 +19,7 @@ import { RootState } from 'Util/Store/Store.type';
 import Footer from './Footer.component';
 import {
     FooterComponentProps,
+    FooterContainerFunctions,
     FooterContainerMapDispatchProps,
     FooterContainerMapStateProps,
     FooterContainerProps,
@@ -42,7 +43,7 @@ export class FooterContainer extends PureComponent<FooterContainerProps> {
         isVisibleOnMobile: false
     };
 
-    containerFunctions = {
+    containerFunctions: FooterContainerFunctions = {
         onItemClick: this.onItemClick.bind(this)
     };
 

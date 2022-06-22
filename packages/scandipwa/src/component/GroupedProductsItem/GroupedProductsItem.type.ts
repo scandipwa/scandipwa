@@ -12,6 +12,10 @@
 import { ProductQuantity } from 'Component/Product/Product.type';
 import { ProductItem } from 'Query/ProductList.type';
 
+export interface GroupedProductsItemContainerFunctions {
+    setQuantity: (quantity: number) => void;
+}
+
 export interface GroupedProductsItemContainerProps {
     product: ProductItem;
     quantity: ProductQuantity;

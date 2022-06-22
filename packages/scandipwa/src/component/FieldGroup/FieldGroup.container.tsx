@@ -21,6 +21,7 @@ import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 import FieldGroup from './FieldGroup.component';
 import {
     FieldGroupComponentProps,
+    FieldGroupContainerFunctions,
     FieldGroupContainerProps,
     FieldGroupContainerPropsKeys,
     FieldGroupContainerState
@@ -49,7 +50,7 @@ export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps,
         validationResponse: null
     };
 
-    containerFunctions = {
+    containerFunctions: FieldGroupContainerFunctions = {
         validate: this.validate.bind(this)
     };
 

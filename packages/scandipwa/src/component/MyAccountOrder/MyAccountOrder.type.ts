@@ -35,6 +35,11 @@ export interface MyAccountOrderContainerMapDispatchProps {
     goToPreviousNavigationState: () => void;
 }
 
+export interface MyAccountOrderContainerFunctions {
+    handleReorder: () => void;
+    handleChangeActiveTab: (tab: OrderTabs) => void;
+}
+
 export type MyAccountOrderContainerProps = MyAccountOrderContainerMapStateProps
 & MyAccountOrderContainerMapDispatchProps
 & {

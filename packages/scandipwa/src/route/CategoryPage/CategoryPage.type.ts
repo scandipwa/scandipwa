@@ -56,6 +56,12 @@ export interface CategoryPageContainerMapDispatchProps {
     clearCategory: () => void;
 }
 
+export interface CategoryPageContainerFunctions {
+    onSortChange: (sortDirection: SortDirections, sortKey: string[]) => void;
+    onGridButtonClick: () => void;
+    onListButtonClick: () => void;
+}
+
 export interface CategoryPageContainerBaseProps {
     history: History<HistoryState>;
     location: Location<HistoryState>;
@@ -77,7 +83,7 @@ export interface CategoryPageContainerState {
     plpTypes: CategoryPageLayout[];
 }
 
-export interface CategoryPageComponentProps {
+export interface CategoryPageComponentProps extends CategoryPageContainerFunctions {
     appliedFiltersCount: number;
     category: Partial<Category>;
     defaultPlpType: CategoryPageLayout;
@@ -99,9 +105,6 @@ export interface CategoryPageComponentProps {
     totalItems: number;
     selectedLayoutType?: CategoryPageLayout;
     activeLayoutType?: CategoryPageLayout;
-    onSortChange: (sortDirection: SortDirections, sortKey: string[]) => void;
-    onGridButtonClick: () => void;
-    onListButtonClick: () => void;
 }
 
 export interface CategoryPageComponentState {

@@ -40,7 +40,8 @@ import {
     CheckoutShippingContainerMapStateProps,
     CheckoutShippingContainerProps,
     CheckoutShippingContainerPropsKeys,
-    CheckoutShippingContainerState
+    CheckoutShippingContainerState,
+    CheckoutShippingContainerFunctions
 } from './CheckoutShipping.type';
 
 /** @namespace Component/CheckoutShipping/Container/mapStateToProps */
@@ -68,7 +69,7 @@ CheckoutShippingContainerState
         cartTotalSubPrice: null
     };
 
-    containerFunctions = {
+    containerFunctions: CheckoutShippingContainerFunctions = {
         onShippingSuccess: this.onShippingSuccess.bind(this),
         onShippingError: this.onShippingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),

@@ -38,6 +38,7 @@ import {
 } from './MyAccountOverlay.config';
 import {
     MyAccountOverlayComponentProps,
+    MyAccountOverlayContainerFunctions,
     MyAccountOverlayContainerMapDispatchProps,
     MyAccountOverlayContainerMapStateProps,
     MyAccountOverlayContainerProps,
@@ -78,7 +79,7 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
         goToPreviousHeaderState: noopFn
     };
 
-    containerFunctions = {
+    containerFunctions: MyAccountOverlayContainerFunctions = {
         onFormError: this.onFormError.bind(this),
         handleForgotPassword: this.handleForgotPassword.bind(this),
         handleSignIn: this.handleSignIn.bind(this),

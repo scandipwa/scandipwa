@@ -44,6 +44,14 @@ export interface CheckoutBillingContainerBaseProps {
     setLoading: (isLoading: boolean) => void;
 }
 
+export interface CheckoutBillingContainerFunctions {
+    onSameAsShippingChange: () => void;
+    onPaymentMethodSelect: (code: string) => void;
+    onBillingSuccess: (form: HTMLFormElement, fields: FieldData[]) => void ;
+    onAddressSelect: (id: number) => void ;
+    showPopup: () => void;
+}
+
 export type CheckoutBillingContainerProps = CheckoutBillingContainerMapStateProps
 & CheckoutBillingContainerMapDispatchProps
 & CheckoutBillingContainerBaseProps;

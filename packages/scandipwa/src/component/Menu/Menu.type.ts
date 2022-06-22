@@ -21,6 +21,12 @@ export interface MenuContainerMapStateProps {
 
 export type MenuContainerMapDispatchProps = Record<string, unknown>;
 
+export interface MenuContainerFunctions {
+    handleSubcategoryClick: (e: MouseEvent, item: FormattedMenuItem) => void;
+    closeMenu: () => void;
+    onCategoryHover: (activeSubcategory: FormattedMenuItem) => void;
+}
+
 export type MenuContainerProps = MenuContainerMapStateProps & MenuContainerMapDispatchProps;
 
 export interface MenuContainerState {

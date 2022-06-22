@@ -21,6 +21,10 @@ export interface VideoThumbnailContainerMapDispatchProps {
     hideActivePopup: () => void;
 }
 
+export interface VideoThumbnailContainerFunctions {
+    onPlayClick: (event: MouseEvent) => void;
+}
+
 export interface VideoThumbnailContainerBaseProps {
     media: MediaGalleryEntry;
     isVideoZoomed: boolean;
@@ -31,9 +35,8 @@ export type VideoThumbnailContainerProps = VideoThumbnailContainerMapStateProps
 & VideoThumbnailContainerMapDispatchProps
 & VideoThumbnailContainerBaseProps;
 
-export interface VideoThumbnailComponent {
+export interface VideoThumbnailComponent extends VideoThumbnailContainerFunctions {
     media: MediaGalleryEntry;
-    onPlayClick: (event: MouseEvent) => void;
 }
 
 export interface PopupPayload {

@@ -19,6 +19,7 @@ import { RootState } from 'Util/Store/Store.type';
 import InstallPrompt from './InstallPrompt.component';
 import {
     InstallPromptComponentProps,
+    InstallPromptContainerFunctions,
     InstallPromptContainerMapDispatchProps,
     InstallPromptContainerMapStateProps,
     InstallPromptContainerProps,
@@ -40,7 +41,7 @@ export class InstallPromptContainer extends PureComponent<InstallPromptContainer
         hasInstallPromptEvent: false
     };
 
-    containerFunctions = {
+    containerFunctions: InstallPromptContainerFunctions = {
         handleAppInstall: this.handleAppInstall.bind(this),
         handleBannerClose: this.handleBannerClose.bind(this)
     };

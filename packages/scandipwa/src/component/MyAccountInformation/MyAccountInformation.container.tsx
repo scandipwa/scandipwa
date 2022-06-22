@@ -34,6 +34,7 @@ import { appendWithStoreCode, replace } from 'Util/Url';
 import MyAccountInformation from './MyAccountInformation.component';
 import {
     MyAccountInformationComponentProps,
+    MyAccountInformationContainerFunctions,
     MyAccountInformationContainerMapDispatchProps,
     MyAccountInformationContainerMapStateProps,
     MyAccountInformationContainerProps,
@@ -75,7 +76,7 @@ export class MyAccountInformationContainer extends PureComponent<
 MyAccountInformationContainerProps,
 MyAccountInformationContainerState
 > {
-    containerFunctions = {
+    containerFunctions: MyAccountInformationContainerFunctions = {
         onCustomerSave: this.onCustomerSave.bind(this),
         handleChangeEmailCheckbox: this.handleChangeEmailCheckbox.bind(this),
         handleChangePasswordCheckbox: this.handleChangePasswordCheckbox.bind(this)
