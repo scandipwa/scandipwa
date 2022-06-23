@@ -35,6 +35,8 @@ export class AddToCart extends PureComponent {
         layout: LayoutType.isRequired
     };
 
+    handleButtonClick = this.handleButtonClick.bind(this);
+
     renderCartIcon() {
         const { isIconEnabled } = this.props;
 
@@ -45,10 +47,18 @@ export class AddToCart extends PureComponent {
         return <CartIcon />;
     }
 
+    handleButtonClick(e) {
+        // Prevent container Link from triggering redirect
+        e.stopPropagation();
+        e.preventDefault();
+
+        const { addProductToCart } = this.props;
+        addProductToCart();
+    }
+
     render() {
         const {
             mix,
-            addProductToCart,
             layout,
             isDisabled,
             isAdding
@@ -56,7 +66,7 @@ export class AddToCart extends PureComponent {
 
         return (
             <button
-              onClick={ addProductToCart }
+              onClick={ this.handleButtonClick }
               block="Button AddToCart"
               mix={ mix }
               mods={ { layout } }

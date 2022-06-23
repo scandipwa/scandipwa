@@ -391,6 +391,11 @@ export class ProductContainer extends PureComponent {
         }
     }
 
+    addToCartWithoutRedirect(e) {
+        e.stopPropagation();
+        this.addToCart();
+    }
+
     /**
      * Event that validates and invokes product adding into cart
      * @returns {*}

@@ -82,9 +82,9 @@ export class ProductCard extends Product {
 
     className = 'ProductCard';
 
-    registerSharedElement = this.registerSharedElement.bind(this);
+    handleLinkClick = this.handleLinkClick.bind(this);
 
-    registerSharedElement() {
+    handleLinkClick() {
         const { registerSharedElement, isPlp } = this.props;
 
         if (!isPlp) {
@@ -232,7 +232,7 @@ export class ProductCard extends Product {
               block="ProductCard"
               elem="Link"
               to={ linkTo }
-              onClick={ this.registerSharedElement }
+              onClick={ this.handleLinkClick }
               mix={ mix }
             >
               { children }
@@ -268,29 +268,31 @@ export class ProductCard extends Product {
             inStock
         } = this.props;
 
-        if (inStock && this.requiresConfiguration()) {
-            return (
-                <button
-                  block="Button AddToCart"
-                  mods={ { layout } }
-                  onClick={ showSelectOptionsNotification }
-                >
-                    { __('Add to cart') }
-                </button>
-            );
+        const requiresConfiguration = this.requiresConfiguration();
+
+        if (inStock) {
+            if (requiresConfiguration) {
+                return (
+                    <button
+                      block="Button AddToCart"
+                      mods={ { layout } }
+                      onClick={ showSelectOptionsNotification }
+                    >
+                        { __('Add to cart') }
+                    </button>
+                );
+            }
+
+            return this.renderAddToCartButton(layout);
         }
 
-        if (!inStock) {
-            return (
+        return (
                 <div block="ProductCard" elem="OutOfStock">
                     <p>
                         { __('Out of stock') }
                     </p>
                 </div>
-            );
-        }
-
-        return this.renderAddToCartButton(layout);
+        );
     }
 
     getConfigurableAttributes() {
