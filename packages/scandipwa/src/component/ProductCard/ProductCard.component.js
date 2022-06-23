@@ -249,16 +249,18 @@ export class ProductCard extends Product {
             }
         } = this.props;
 
-        const configureBundleAndGrouped = type === PRODUCT_TYPE.bundle || type === PRODUCT_TYPE.grouped;
+        const configureBundle = type === PRODUCT_TYPE.bundle;
+
         const configureConfig = (type === PRODUCT_TYPE.configurable
             && Object.keys(super.getConfigurableAttributes())
                 .length !== Object.keys(this.getConfigurableAttributes()).length)
             || (type === PRODUCT_TYPE.configurable
                && Object.values(this.getConfigurableAttributes()).some((value) => value.attribute_values.length === 0));
         const configureCustomize = options.some(({ required = false }) => required);
+
         const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
 
-        return configureBundleAndGrouped || configureConfig || configureCustomize || configureDownloadableLinks;
+        return configureBundle || configureConfig || configureCustomize || configureDownloadableLinks;
     }
 
     renderAddToCart() {
@@ -270,9 +272,8 @@ export class ProductCard extends Product {
 
         const requiresConfiguration = this.requiresConfiguration();
 
-        if (inStock) {
-            if (requiresConfiguration) {
-                return (
+        if (inStock && requiresConfiguration) {
+            return (
                     <button
                       block="Button AddToCart"
                       mods={ { layout } }
@@ -280,19 +281,20 @@ export class ProductCard extends Product {
                     >
                         { __('Add to cart') }
                     </button>
-                );
-            }
-
-            return this.renderAddToCartButton(layout);
+            );
         }
 
-        return (
+        if (!inStock) {
+            return (
                 <div block="ProductCard" elem="OutOfStock">
                     <p>
                         { __('Out of stock') }
                     </p>
                 </div>
-        );
+            );
+        }
+
+        return this.renderAddToCartButton(layout);
     }
 
     getConfigurableAttributes() {
