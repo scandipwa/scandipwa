@@ -139,7 +139,7 @@ export class MyAccountMyWishlist extends PureComponent {
             JSON.parse(wishlist.buy_request).bundle_option_qty
         );
 
-        // assig wihlist.options to a new list
+        // assign wishlist.options to a new list
         // remove the first part of the value string that indicated quantity
         // append with a value from buy_request instead
         // get the value using index
