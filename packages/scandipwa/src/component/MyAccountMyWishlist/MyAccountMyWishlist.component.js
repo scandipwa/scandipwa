@@ -129,6 +129,27 @@ export class MyAccountMyWishlist extends PureComponent {
 
     renderProduct([id, product]) {
         const { isEditingActive, loadingItemsMap, setIsQtyUpdateInProgress } = this.props;
+        const {
+            wishlist
+        } = product;
+
+        // the order of items in wishlist.options always corresponds with the order of items
+        // in buy_request. turn buy_request object into an array
+        const quantities = Object.values(
+            JSON.parse(wishlist.buy_request).bundle_option_qty
+        );
+
+        // assig wihlist.options to a new list
+        // remove the first part of the value string that indicated quantity
+        // append with a value from buy_request instead
+        // get the value using index
+        if (wishlist.options) {
+            wishlist.options = wishlist.options.reduce(
+                (p, { label, value }, i) => [...p,
+                    { label, value: `${quantities[i][0]} ${value.substring(value.indexOf('x'))}` }],
+                []
+            );
+        }
 
         return (
             <WishlistItem
