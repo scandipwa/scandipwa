@@ -249,8 +249,7 @@ export class ProductCard extends Product {
             }
         } = this.props;
 
-        const configureBundle = type === PRODUCT_TYPE.bundle;
-
+        const configureBundleAndGrouped = type === PRODUCT_TYPE.bundle || type === PRODUCT_TYPE.grouped;
         const configureConfig = (type === PRODUCT_TYPE.configurable
             && Object.keys(super.getConfigurableAttributes())
                 .length !== Object.keys(this.getConfigurableAttributes()).length)
@@ -260,7 +259,7 @@ export class ProductCard extends Product {
 
         const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
 
-        return configureBundle || configureConfig || configureCustomize || configureDownloadableLinks;
+        return configureBundleAndGrouped || configureConfig || configureCustomize || configureDownloadableLinks;
     }
 
     renderAddToCart() {
