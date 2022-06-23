@@ -96,7 +96,7 @@ export class AddToCartContainer extends PureComponent {
         [PRODUCT_TYPE.grouped]: this.validateGroup.bind(this)
     };
 
-    async addProductToCart(e) {
+    async addProductToCart() {
         const { product, addToCart, updateSelectedValues } = this.props;
         await updateSelectedValues();
 
@@ -104,8 +104,6 @@ export class AddToCartContainer extends PureComponent {
             return;
         }
 
-        e.preventDefault();
-        e.stopPropagation();
         this.setState({ isAdding: true });
 
         if (!this.validate()) {

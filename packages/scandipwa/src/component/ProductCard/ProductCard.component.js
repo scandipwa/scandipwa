@@ -82,9 +82,9 @@ export class ProductCard extends Product {
 
     className = 'ProductCard';
 
-    registerSharedElement = this.registerSharedElement.bind(this);
+    handleLinkClick = this.handleLinkClick.bind(this);
 
-    registerSharedElement() {
+    handleLinkClick() {
         const { registerSharedElement, isPlp } = this.props;
 
         if (!isPlp) {
@@ -232,7 +232,7 @@ export class ProductCard extends Product {
               block="ProductCard"
               elem="Link"
               to={ linkTo }
-              onClick={ this.registerSharedElement }
+              onClick={ this.handleLinkClick }
               mix={ mix }
             >
               { children }
@@ -256,6 +256,7 @@ export class ProductCard extends Product {
             || (type === PRODUCT_TYPE.configurable
                && Object.values(this.getConfigurableAttributes()).some((value) => value.attribute_values.length === 0));
         const configureCustomize = options.some(({ required = false }) => required);
+
         const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
 
         return configureBundleAndGrouped || configureConfig || configureCustomize || configureDownloadableLinks;
@@ -268,15 +269,17 @@ export class ProductCard extends Product {
             inStock
         } = this.props;
 
-        if (inStock && this.requiresConfiguration()) {
+        const requiresConfiguration = this.requiresConfiguration();
+
+        if (inStock && requiresConfiguration) {
             return (
-                <button
-                  block="Button AddToCart"
-                  mods={ { layout } }
-                  onClick={ showSelectOptionsNotification }
-                >
-                    { __('Add to cart') }
-                </button>
+                    <button
+                      block="Button AddToCart"
+                      mods={ { layout } }
+                      onClick={ showSelectOptionsNotification }
+                    >
+                        { __('Add to cart') }
+                    </button>
             );
         }
 
