@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable radix */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -130,7 +132,9 @@ export class MyAccountMyWishlist extends PureComponent {
     renderProduct([id, product]) {
         const { isEditingActive, loadingItemsMap, setIsQtyUpdateInProgress } = this.props;
         const {
-            wishlist = {}
+            wishlist = {},
+            price_range,
+            bundle_options
         } = product;
 
         // assign wishlist.options to a new list
@@ -140,15 +144,14 @@ export class MyAccountMyWishlist extends PureComponent {
         if (wishlist.options.length >= 1) {
             // the order of items in wishlist.options always corresponds with the order of items
             // in buy_request. turn buy_request object into an array
-            const quantities = Object.values(
-                JSON.parse(wishlist.buy_request).bundle_option_qty
-            );
+            const { buy_request } = wishlist;
+            const foo = buy_request.match(/bundle_option(.*)bundle/g)[0].match(/\d+/g);
 
-            wishlist.options = wishlist.options.reduce(
-                (p, { label, value }, i) => [...p,
-                    { label, value: `${quantities[i][0]} ${value.substring(value.indexOf('x'))}` }],
-                []
-            );
+            // wishlist.options = wishlist.options.reduce(
+            //     (p, { label, value }, i) => [...p,
+            //         { label, value: `${quantities[i][0]} ${value.substring(value.indexOf('x'))}` }],
+            //     []
+            // );
         }
 
         return (
