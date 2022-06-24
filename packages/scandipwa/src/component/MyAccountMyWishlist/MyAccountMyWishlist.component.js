@@ -147,9 +147,9 @@ export class MyAccountMyWishlist extends PureComponent {
             const parsedSelections = [];
             selections.map((e, i) => {
                 if ((i + 1) % 2 === 0) {
-                    parsedSelections.push({
-                        [selections[i - 1]]: e
-                    });
+                    parsedSelections.push([
+                        selections[i - 1], e
+                    ]);
                 }
 
                 return '';
