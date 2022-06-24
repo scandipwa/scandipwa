@@ -16,7 +16,7 @@ import { removeUid } from 'Util/Compare';
 import { debounce } from 'Util/Request';
 import getStore from 'Util/Store';
 
-export const AUTH_TOKENS = 'Token.auth_tokens';
+export const AUTH_TOKENS = 'auth_token';
 
 export const ONE_HOUR_IN_SECONDS = 3600;
 export const ONE_HOUR = 1;
@@ -50,16 +50,12 @@ export const deleteAuthorizationToken = () => {
 /** @namespace Util/Auth/Token/getAuthorizationToken */
 export const getAuthorizationToken = () => {
     const { website_code } = window;
-    const tokens = BrowserDatabase.getItem(AUTH_TOKENS);
+    const tokens = BrowserDatabase.getItem(AUTH_TOKENS) || {};
 
-    if (tokens) {
-        const token = tokens[website_code];
+    const token = tokens[website_code];
 
-        if (token) {
-            return token;
-        }
-
-        return null;
+    if (token) {
+        return token;
     }
 
     return null;
