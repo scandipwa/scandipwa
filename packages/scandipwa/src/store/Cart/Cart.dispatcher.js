@@ -16,9 +16,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { getRegionIdOfRegionName } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
-import {
-    fetchMutation, fetchQuery, getErrorMessage
-} from 'Util/Request';
+import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 
 export const CURRENT_WEBSITE = 'base';
 
@@ -371,7 +369,7 @@ export class CartDispatcher {
      * @param Dispatch dispatch
      * @return string quote id
      */
-    async _getGuestQuoteId(dispatch) {
+    _getGuestQuoteId(dispatch) {
         const guestQuoteId = getGuestQuoteId();
 
         if (guestQuoteId) {
