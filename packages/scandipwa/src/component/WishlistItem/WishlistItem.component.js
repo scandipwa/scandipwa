@@ -227,8 +227,13 @@ export class WishlistItem extends PureComponent {
         const { label, value } = option;
 
         return (
-            <span block="WishlistItemOption" key={ `${ label }-${ value }` }>
-                { `${ value} x ${label }` }
+            <span block="WishlistItem" elem="Option" key={ `${ label }-${ value }` }>
+                <div block="WishlistItem" elem="GroupedProductTitle">
+                    <strong>{ `${label}:` }</strong>
+                </div>
+                <div block="WishlistItem" elem="GroupedProductValue">
+                    { `${value}` }
+                </div>
             </span>
         );
     }
@@ -237,9 +242,14 @@ export class WishlistItem extends PureComponent {
         const { label, value } = option;
 
         return (
-            <span block="WishlistItemOption" key={ `${ label }-${ value }` }>
-                { `${label }: ${ value}` }
-            </span>
+            <div block="WishlistItem" elem="Option" key={ `${ label }-${ value }` }>
+                <div block="WishlistItem" elem="BundleGroupTitle">
+                    <strong>{ `${label}:` }</strong>
+                </div>
+                <div block="WishlistItem" elem="BundleGroupValue">
+                    { `${value}` }
+                </div>
+            </div>
         );
     }
 
@@ -250,14 +260,14 @@ export class WishlistItem extends PureComponent {
 
         if (renderMethod) {
             return (
-                <div block="WishlistItemOptions" elem="List">
+                <div block="WishlistItem" elem="OptionsList">
                     { options.map(renderMethod) }
                 </div>
             );
         }
 
         return (
-            <div block="WishlistItemOptions" elem="List">
+            <div block="WishlistItem" elem="OptionsList">
                 { options.map(({ value }) => value).join(', ') }
             </div>
         );
@@ -267,7 +277,7 @@ export class WishlistItem extends PureComponent {
         const { product: { rating_summary, review_count } } = this.props;
 
         if (review_count < 1) {
-            return <div block="WishlistItem" elem="RatingPlaceholder" />;
+            return '';
         }
 
         return <ProductReviewRating summary={ rating_summary } count={ review_count } />;
@@ -279,6 +289,10 @@ export class WishlistItem extends PureComponent {
                 attributes: { brand: { attribute_value: brand } = {} } = {}
             }
         } = this.props;
+
+        if (!brand) {
+            return '';
+        }
 
         return (
             <div block="WishlistItem" elem="Brand">{ brand }</div>

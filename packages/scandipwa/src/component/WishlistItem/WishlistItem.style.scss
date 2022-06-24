@@ -35,18 +35,18 @@
         justify-content: space-between;
     }
 
-    &Options-List,
-    &Option {
-        font-weight: 400;
+    &-OptionsList,
+    &-Option,
+    &-Option * {
         font-size: 12px;
         color: var(--secondary-dark-color);
     }
 
-    &Option {
+    &-Option {
         padding-inline-end: 5px;
     }
 
-    &Options-List {
+    &-OptionsList {
         min-height: 30px;
 
         @include desktop {
