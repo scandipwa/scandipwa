@@ -137,7 +137,7 @@ export class MyAccountMyWishlist extends PureComponent {
         // remove the first part of the value string that indicated quantity
         // append with a value from buy_request instead
         // get the value using index
-        if (wishlist.options && wishlist.buy_request.bundle_option_qty) {
+        if (wishlist.options.length >= 1) {
             // the order of items in wishlist.options always corresponds with the order of items
             // in buy_request. turn buy_request object into an array
             const quantities = Object.values(
