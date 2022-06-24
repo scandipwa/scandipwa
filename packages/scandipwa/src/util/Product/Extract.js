@@ -212,7 +212,8 @@ export const getPrice = (
     dynamicPrice = false,
     adjustedPrice = {},
     type = PRODUCT_TYPE.simple,
-    options = []
+    options = [],
+    storeCurrency = 'USD'
 ) => {
     const priceAcc = type === PRODUCT_TYPE.bundle
         ? 'default_final_price'
@@ -226,7 +227,7 @@ export const getPrice = (
 
     const {
         [accessRange]: {
-            [priceAcc]: { currency = 'USD', value: basePrice = 0 } = {},
+            [priceAcc]: { currency = storeCurrency, value: basePrice = 0 } = {},
             [priceExcTaxAcc]: { value: basePriceExclTax = 0 } = {},
             discount: {
                 percent_off: percentOffRef = 0,

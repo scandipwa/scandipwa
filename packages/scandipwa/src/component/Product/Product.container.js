@@ -49,6 +49,7 @@ export const mapDispatchToProps = (dispatch) => ({
 
 /** @namespace Component/Product/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
+    currencyData: state.ConfigReducer.currencyData,
     cartId: state.CartReducer.id,
     device: state.ConfigReducer.device,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active
@@ -62,6 +63,7 @@ export const mapStateToProps = (state) => ({
 */
 export class ProductContainer extends PureComponent {
     static propTypes = {
+        currencyData: PropTypes.string.isRequired,
         product: ProductType.isRequired,
         addProductToCart: PropTypes.func.isRequired,
         showError: PropTypes.func.isRequired,
@@ -236,7 +238,8 @@ export class ProductContainer extends PureComponent {
             product: { options = [] } = {},
             configFormRef,
             device,
-            isWishlistEnabled
+            isWishlistEnabled,
+            currencyData: { current_currency_code }
         } = this.props;
 
         const activeProduct = this.getActiveProduct();
@@ -252,7 +255,8 @@ export class ProductContainer extends PureComponent {
             maxQuantity: getMaxQuantity(activeProduct),
             minQuantity: getMinQuantity(activeProduct),
             productName: getName(product),
-            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type, options])
+            productPrice: fromCache(getPrice,
+                [priceRange, dynamicPrice, adjustedPrice, type, options, current_currency_code])
         };
 
         return {
