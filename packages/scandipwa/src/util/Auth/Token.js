@@ -16,7 +16,7 @@ import { removeUid } from 'Util/Compare';
 import { debounce } from 'Util/Request';
 import getStore from 'Util/Store';
 
-export const AUTH_TOKENS = 'auth_token';
+export const AUTH_TOKEN = 'auth_token';
 
 export const ONE_HOUR_IN_SECONDS = 3600;
 export const ONE_HOUR = 1;
@@ -32,9 +32,9 @@ export const setAuthorizationToken = (token) => {
             access_token_lifetime = ONE_HOUR
         } = state.ConfigReducer;
 
-        const tokens = BrowserDatabase.getItem(AUTH_TOKENS) || {};
+        const tokens = BrowserDatabase.getItem(AUTH_TOKEN) || {};
         tokens[website_code] = token;
-        BrowserDatabase.setItem(tokens, AUTH_TOKENS, access_token_lifetime * ONE_HOUR_IN_SECONDS);
+        BrowserDatabase.setItem(tokens, AUTH_TOKEN, access_token_lifetime * ONE_HOUR_IN_SECONDS);
     }
 };
 
@@ -42,15 +42,15 @@ export const setAuthorizationToken = (token) => {
 export const deleteAuthorizationToken = () => {
     const { website_code } = window;
 
-    const tokens = BrowserDatabase.getItem(AUTH_TOKENS);
+    const tokens = BrowserDatabase.getItem(AUTH_TOKEN);
     tokens[website_code] = undefined;
-    BrowserDatabase.setItem(tokens, AUTH_TOKENS);
+    BrowserDatabase.setItem(tokens, AUTH_TOKEN);
 };
 
 /** @namespace Util/Auth/Token/getAuthorizationToken */
 export const getAuthorizationToken = () => {
     const { website_code } = window;
-    const tokens = BrowserDatabase.getItem(AUTH_TOKENS) || {};
+    const tokens = BrowserDatabase.getItem(AUTH_TOKEN) || {};
 
     const token = tokens[website_code];
 
