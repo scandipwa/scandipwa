@@ -1,7 +1,3 @@
-/* eslint-disable consistent-return */
-/* eslint-disable array-callback-return */
-/* eslint-disable no-unused-vars */
-/* eslint-disable radix */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -134,9 +130,7 @@ export class MyAccountMyWishlist extends PureComponent {
     renderProduct([id, product]) {
         const { isEditingActive, loadingItemsMap, setIsQtyUpdateInProgress } = this.props;
         const {
-            wishlist = {},
-            price_range,
-            bundle_options
+            wishlist = {}
         } = product;
 
         // assign wishlist.options to a new list
@@ -157,6 +151,8 @@ export class MyAccountMyWishlist extends PureComponent {
                         [selections[i - 1]]: e
                     });
                 }
+
+                return '';
             });
             const quantities = buy_request.match(/bundle_option_qty(.*)/g)[0].match(/\d+/g);
             const parsedQuantities = [];
@@ -166,6 +162,8 @@ export class MyAccountMyWishlist extends PureComponent {
                         selections[i - 1], e
                     ]);
                 }
+
+                return '';
             });
 
             wishlist.options = wishlist.options.reduce(
