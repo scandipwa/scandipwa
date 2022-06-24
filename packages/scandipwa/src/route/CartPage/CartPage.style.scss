@@ -63,7 +63,15 @@
                     position: fixed;
                     inset-block-start: auto;
                     inset-block-end: 50%;
-                    transform: translate(50%, 50%);
+                    // transform: translate(-50%, 50%);
+
+                    &:dir(rtl) {
+                        transform: translate(50%, 50%);
+                    }
+
+                    &:dir(ltr) {
+                        transform: translate(-50%, 50%);
+                    }
                 }
             }
         }
