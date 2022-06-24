@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unused-vars */
 /* eslint-disable radix */
 /**
@@ -137,21 +139,42 @@ export class MyAccountMyWishlist extends PureComponent {
             bundle_options
         } = product;
 
+        console.log(product);
+
         // assign wishlist.options to a new list
         // remove the first part of the value string that indicated quantity
         // append with a value from buy_request instead
         // get the value using index
         if (wishlist.options.length >= 1) {
             // the order of items in wishlist.options always corresponds with the order of items
-            // in buy_request. turn buy_request object into an array
+            // in buy_request.
+            // we're using regex instead of JSON parse bc we need to preserve the order of the data
+            // objects are inherently unordered
             const { buy_request } = wishlist;
-            const foo = buy_request.match(/bundle_option(.*)bundle/g)[0].match(/\d+/g);
+            const selections = buy_request.match(/bundle_option(.*)bundle/g)[0].match(/\d+/g);
+            const parsedSelections = [];
+            selections.map((e, i) => {
+                if ((i + 1) % 2 === 0) {
+                    parsedSelections.push({
+                        [selections[i - 1]]: e
+                    });
+                }
+            });
+            const quantities = buy_request.match(/bundle_option_qty(.*)/g)[0].match(/\d+/g);
+            const parsedQuantities = [];
+            quantities.map((e, i) => {
+                if ((i + 1) % 2 === 0) {
+                    parsedQuantities.push([
+                        selections[i - 1], e
+                    ]);
+                }
+            });
 
-            // wishlist.options = wishlist.options.reduce(
-            //     (p, { label, value }, i) => [...p,
-            //         { label, value: `${quantities[i][0]} ${value.substring(value.indexOf('x'))}` }],
-            //     []
-            // );
+            wishlist.options = wishlist.options.reduce(
+                (p, { label, value }, i) => [...p,
+                    { label, value: `${parsedQuantities[i][1]} ${value.substring(value.indexOf('x'))}` }],
+                []
+            );
         }
 
         return (
