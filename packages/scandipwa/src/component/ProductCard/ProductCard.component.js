@@ -246,6 +246,7 @@ export class ProductCard extends Product {
             product: {
                 type_id: type,
                 options = [],
+                items = [],
                 links_purchased_separately
             }
         } = this.props;
@@ -270,11 +271,18 @@ export class ProductCard extends Product {
             || (Object.keys(allAttrs).length > 0 && Object.keys(parameters).length === 0)
         );
 
+        const configureGrouped = type === PRODUCT_TYPE.grouped
+            && !items.some(({ qty }) => qty !== 0);
+
         const configureCustomize = options.some(({ required = false }) => required);
 
         const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
 
-        return configureBundle || configureConfig || configureCustomize || configureDownloadableLinks;
+        return configureGrouped
+            || configureBundle
+            || configureConfig
+            || configureCustomize
+            || configureDownloadableLinks;
     }
 
     renderAddToCart() {
