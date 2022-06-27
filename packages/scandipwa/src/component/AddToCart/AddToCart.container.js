@@ -98,7 +98,10 @@ export class AddToCartContainer extends PureComponent {
 
     async addProductToCart() {
         const { product, addToCart, updateSelectedValues } = this.props;
-        await updateSelectedValues();
+
+        if (updateSelectedValues !== null) {
+            await updateSelectedValues();
+        }
 
         if ((!product || Object.keys(product).length === 0) && !addToCart) {
             return;
