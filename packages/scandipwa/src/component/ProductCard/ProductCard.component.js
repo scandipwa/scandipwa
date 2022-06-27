@@ -242,6 +242,7 @@ export class ProductCard extends Product {
 
     requiresConfiguration() {
         const {
+            parameters,
             product: {
                 type_id: type,
                 options = [],
@@ -249,17 +250,31 @@ export class ProductCard extends Product {
             }
         } = this.props;
 
-        const configureBundleAndGrouped = type === PRODUCT_TYPE.bundle;
-        const configureConfig = (type === PRODUCT_TYPE.configurable
-            && Object.keys(super.getConfigurableAttributes())
-                .length !== Object.keys(this.getConfigurableAttributes()).length)
-            || (type === PRODUCT_TYPE.configurable
-               && Object.values(this.getConfigurableAttributes()).some((value) => value.attribute_values.length === 0));
+        const configureBundle = type === PRODUCT_TYPE.bundle;
+
+        const allAttrs = super.getConfigurableAttributes();
+        const plpConfigurableAttrs = this.getConfigurableAttributes();
+
+        const isConfigurable = type === PRODUCT_TYPE.configurable;
+
+        const configureConfig = isConfigurable && (
+            (
+                Object.keys(allAttrs).length
+                !== Object.keys(plpConfigurableAttrs).length
+            )
+            || (
+                Object.values(plpConfigurableAttrs).some(
+                    (value) => value.attribute_values.length === 0
+                )
+            )
+            || (Object.keys(allAttrs).length > 0 && Object.keys(parameters).length === 0)
+        );
+
         const configureCustomize = options.some(({ required = false }) => required);
 
         const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
 
-        return configureBundleAndGrouped || configureConfig || configureCustomize || configureDownloadableLinks;
+        return configureBundle || configureConfig || configureCustomize || configureDownloadableLinks;
     }
 
     renderAddToCart() {
