@@ -68,7 +68,7 @@ export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateInitialCartData: async () => {
+    updateInitialCartData: () => {
         CartDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
         );
