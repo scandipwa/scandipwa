@@ -149,7 +149,7 @@ export class RouterContainer extends PureComponent {
     componentDidMount() {
         window.addEventListener('resize', this.handleResize);
 
-        history.listen(this.updateCartOnRouteChange);
+        history.listen(this.handleRouteChange);
     }
 
     componentDidUpdate(prevProps) {
@@ -193,12 +193,16 @@ export class RouterContainer extends PureComponent {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    updateCartOnRouteChange(history) {
+    handleRouteChange(history) {
         if (this.previousRoute !== history.pathname) {
-            const { updateInitialCartData } = this.props;
-            updateInitialCartData();
+            this.updateCartOnRouteChange();
             this.previousRoute = history.pathname;
         }
+    }
+
+    updateCartOnRouteChange() {
+        const { updateInitialCartData } = this.props;
+        updateInitialCartData();
     }
 
     async handleResize() {
