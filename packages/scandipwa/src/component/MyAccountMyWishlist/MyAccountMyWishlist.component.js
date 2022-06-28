@@ -135,8 +135,6 @@ export class MyAccountMyWishlist extends PureComponent {
             bundle_options
         } = product;
 
-        console.log(product);
-
         // assign wishlist.options to a new list
         // remove the first part of the value string that indicated quantity
         // append with a value from buy_request instead
