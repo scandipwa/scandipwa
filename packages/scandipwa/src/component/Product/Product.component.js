@@ -48,7 +48,6 @@ export class Product extends PureComponent {
         productPrice: PriceType.isRequired,
         inStock: PropTypes.bool.isRequired,
         magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired,
 
         quantity: QuantityType.isRequired,
         maxQuantity: PropTypes.number.isRequired,
@@ -402,7 +401,7 @@ export class Product extends PureComponent {
 
     renderPrice(isPreview = false) {
         const {
-            getActiveProduct, productPrice, inStock, areDetailsLoaded
+            getActiveProduct, productPrice
         } = this.props;
         const product = getActiveProduct();
 
@@ -411,7 +410,7 @@ export class Product extends PureComponent {
             price_tiers: priceTiers
         } = product;
 
-        if (!productPrice || (!isPreview && !areDetailsLoaded)) {
+        if (!productPrice) {
             return null;
         }
 
@@ -426,7 +425,6 @@ export class Product extends PureComponent {
                   priceType={ type }
                   tierPrices={ priceTiers }
                   isPreview={ isPreview }
-                  inStock={ inStock }
                   mix={ { block: this.className, elem: 'Price' } }
                 />
             </div>
