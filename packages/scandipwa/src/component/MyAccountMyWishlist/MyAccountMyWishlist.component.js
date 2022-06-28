@@ -186,7 +186,7 @@ export class MyAccountMyWishlist extends PureComponent {
                 p[1] + (bundle_options.filter(({ option_id }) => option_id === parseInt(c[0], 10))[0]
                     .selection_details.filter(
                         ({ selection_id }) => selection_id
-                === parseInt(parsedSelections[i][1], 10)
+                === parseInt(c[1], 10)
                     )[0]?.final_option_price_excl_tax * parsedQuantities[i][1])
             ]),
             [0, 0]);
