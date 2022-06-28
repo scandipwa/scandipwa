@@ -91,6 +91,10 @@ export class ProductCompareContainer extends PureComponent {
         handleBlockScroll: this.handleBlockScroll.bind(this)
     };
 
+    scrollerTriggered = false;
+
+    blockScrollTriggered = false;
+
     componentDidMount() {
         this.fetchCompareList();
         scrollToTop({ behavior: 'smooth' });
@@ -129,17 +133,49 @@ export class ProductCompareContainer extends PureComponent {
     }
 
     handleScroll() {
-        const { device } = this.props;
+        /*
+            This needs a little explaining:
 
-        if (device.isMobile) {
-            return;
+            Setting element.scrollLeft actually causes browser scroll-handler events
+            to fire.
+
+            Without checking whether the scrollLeft was changed through function or
+            through user-interaction, both functions will set each-other
+            until element's scrollLeft delta is not 0 (new-scroll-left - old-scroll-left).
+
+            Example:
+            scroll-event -> handleScroll -> scrollLeft -> handleBlockScroll -> scrollLeft.
+
+            Also keep in mind that event handlers are Async. Thats why we can only
+            unset variables to `false` inside the handlers, otherwise it'd be hard to catch
+            the moment to unset it.
+
+        */
+        const _blockScrollTriggered = this.blockScrollTriggered;
+        this.blockScrollTriggered = false;
+
+        if (!_blockScrollTriggered) {
+            const { device } = this.props;
+
+            if (device.isMobile) {
+                return;
+            }
+
+            this.scrollerTriggered = true;
+
+            this.productCompare.current.scrollLeft = this.scrollerScroll.current.scrollLeft;
         }
-
-        this.productCompare.current.scrollLeft = this.scrollerScroll.current.scrollLeft;
     }
 
     handleBlockScroll() {
-        this.scrollerScroll.current.scrollLeft = this.productCompare.current.scrollLeft;
+        const _scrollerTriggered = this.scrollerTriggered;
+        this.scrollerTriggered = false;
+
+        if (!_scrollerTriggered) {
+            this.blockScrollTriggered = true;
+
+            this.scrollerScroll.current.scrollLeft = this.productCompare.current.scrollLeft;
+        }
     }
 
     fetchCompareList() {
