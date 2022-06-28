@@ -22,6 +22,8 @@ import WishlistItem from 'Component/WishlistItem';
 import { ProductType } from 'Type/ProductList.type';
 import CSS from 'Util/CSS';
 
+import { BUNDLE_PRODUCT_TYPE_ID } from './MyAccountMyWishlist.config';
+
 import './MyAccountMyWishlist.style';
 
 /** @namespace Component/MyAccountMyWishlist/Component */
@@ -140,7 +142,7 @@ export class MyAccountMyWishlist extends PureComponent {
         // remove the first part of the value string that indicated quantity
         // append with a value from buy_request instead
         // get the value using index
-        if (wishlist.options.length >= 1) {
+        if (wishlist.options.length >= 1 && product.type_id === BUNDLE_PRODUCT_TYPE_ID) {
             // the order of items in wishlist.options always corresponds with the order of items
             // in buy_request.
             // we're using regex instead of JSON parse bc we need to preserve the order of the data
