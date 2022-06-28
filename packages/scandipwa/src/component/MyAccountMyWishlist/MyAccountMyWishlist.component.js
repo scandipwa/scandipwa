@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -174,16 +175,19 @@ export class MyAccountMyWishlist extends PureComponent {
                 []
             );
 
-            const [final_price, final_price_excl_tax] = bundle_options.reduce((p, c, i) => [
-                p[0] + (c.selection_details.filter(
-                    ({ selection_id }) => selection_id
+            const [final_price, final_price_excl_tax] = parsedSelections.reduce((p, c, i) => ([
+                p[0] + (bundle_options.filter(({ option_id }) => option_id === parseInt(c[0], 10))[0]
+                    .selection_details.filter(
+                        ({ selection_id }) => selection_id
+                === parseInt(c[1], 10)
+                    )[0]?.final_option_price * parsedQuantities[i][1]),
+                p[1] + (bundle_options.filter(({ option_id }) => option_id === parseInt(c[0], 10))[0]
+                    .selection_details.filter(
+                        ({ selection_id }) => selection_id
                 === parseInt(parsedSelections[i][1], 10)
-                )[0]?.final_option_price * parsedQuantities[i][1]),
-                p[1] + (c.selection_details.filter(
-                    ({ selection_id }) => selection_id
-                === parseInt(parsedSelections[i][1], 10)
-                )[0]?.final_option_price_excl_tax * parsedQuantities[i][1])
-            ], [0, 0]);
+                    )[0]?.final_option_price_excl_tax * parsedQuantities[i][1])
+            ]),
+            [0, 0]);
 
             const finalPrices = {
                 maximum_price: {
