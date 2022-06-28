@@ -193,20 +193,12 @@ export class ProductPageContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const {
-            productSKU,
-            product: {
-                sku
-            }
-        } = this.props;
-
         /**
-         * If the currently loaded category ID does not match the ID of
-         * category ID from URL rewrite, request category.
+         * Always request product information. In this case we will have updated data.
+         * Service worker will return previous information and updated new information
+         * through broadcast.
          */
-        if (productSKU !== sku) {
-            this.requestProduct();
-        }
+        this.requestProduct();
 
         /**
          * Always make sure the navigation switches into the MENU tab
