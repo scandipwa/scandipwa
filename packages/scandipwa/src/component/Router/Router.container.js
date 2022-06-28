@@ -68,7 +68,7 @@ export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateInitialCartData: () => {
+    updateCartData: () => {
         CartDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
         );
@@ -110,7 +110,7 @@ export class RouterContainer extends PureComponent {
         isBigOffline: PropTypes.bool,
         meta_title: MetaTitleType,
         status_code: PropTypes.string,
-        updateInitialCartData: PropTypes.func.isRequired
+        updateCartData: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -205,8 +205,8 @@ export class RouterContainer extends PureComponent {
     }
 
     updateCartOnRouteChange() {
-        const { updateInitialCartData } = this.props;
-        updateInitialCartData();
+        const { updateCartData } = this.props;
+        updateCartData();
     }
 
     async handleResize() {
