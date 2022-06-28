@@ -272,7 +272,7 @@ export class ProductCard extends Product {
         );
 
         const configureGrouped = type === PRODUCT_TYPE.grouped
-            && !items.some(({ qty }) => qty !== 0);
+            && items.every(({ qty }) => qty === 0);
 
         const configureCustomize = options.some(({ required = false }) => required);
 
