@@ -17,6 +17,7 @@ import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { MetaTitleType } from 'Type/Common.type';
+import history from 'Util/History';
 import {
     isMobile,
     isMobileClientHints,
@@ -67,6 +68,11 @@ export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateInitialCartData: async () => {
+        CartDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+        );
+    },
     init: async () => {
         ConfigDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch)
@@ -103,7 +109,8 @@ export class RouterContainer extends PureComponent {
         isLoading: PropTypes.bool,
         isBigOffline: PropTypes.bool,
         meta_title: MetaTitleType,
-        status_code: PropTypes.string
+        status_code: PropTypes.string,
+        updateInitialCartData: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -121,6 +128,10 @@ export class RouterContainer extends PureComponent {
 
     handleResize = this.handleResize.bind(this);
 
+    updateCartOnRouteChange = this.updateCartOnRouteChange.bind(this);
+
+    previousRoute = null;
+
     __construct(props) {
         super.__construct(props);
 
@@ -137,6 +148,8 @@ export class RouterContainer extends PureComponent {
 
     componentDidMount() {
         window.addEventListener('resize', this.handleResize);
+
+        history.listen(this.updateCartOnRouteChange);
     }
 
     componentDidUpdate(prevProps) {
@@ -178,6 +191,14 @@ export class RouterContainer extends PureComponent {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
+    }
+
+    updateCartOnRouteChange(history) {
+        if (this.previousRoute !== history.pathname) {
+            const { updateInitialCartData } = this.props;
+            updateInitialCartData();
+            this.previousRoute = history.pathname;
+        }
     }
 
     async handleResize() {
