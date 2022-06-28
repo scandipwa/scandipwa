@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
