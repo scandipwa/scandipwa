@@ -130,8 +130,12 @@ export class MyAccountMyWishlist extends PureComponent {
     renderProduct([id, product]) {
         const { isEditingActive, loadingItemsMap, setIsQtyUpdateInProgress } = this.props;
         const {
-            wishlist = {}
+            wishlist = {},
+            price_range,
+            bundle_options
         } = product;
+
+        console.log(product);
 
         // assign wishlist.options to a new list
         // remove the first part of the value string that indicated quantity
@@ -143,7 +147,7 @@ export class MyAccountMyWishlist extends PureComponent {
             // we're using regex instead of JSON parse bc we need to preserve the order of the data
             // objects are inherently unordered
             const { buy_request } = wishlist;
-            const selections = buy_request.match(/bundle_option(.*)bundle/g)[0].match(/\d+/g);
+            const selections = buy_request.match(/bundle_option(.*)bundle/g)[0].match(/\d+/g) || [];
             const parsedSelections = [];
             selections.map((e, i) => {
                 if ((i + 1) % 2 === 0) {
@@ -154,7 +158,7 @@ export class MyAccountMyWishlist extends PureComponent {
 
                 return '';
             });
-            const quantities = buy_request.match(/bundle_option_qty(.*)/g)[0].match(/\d+/g);
+            const quantities = buy_request.match(/bundle_option_qty(.*)/g)[0].match(/\d+/g) || [];
             const parsedQuantities = [];
             quantities.map((e, i) => {
                 if ((i + 1) % 2 === 0) {
@@ -171,6 +175,31 @@ export class MyAccountMyWishlist extends PureComponent {
                     { label, value: `${parsedQuantities[i][1]} ${value.substring(value.indexOf('x'))}` }],
                 []
             );
+
+            const [final_price, final_price_excl_tax] = bundle_options.reduce((p, c, i) => [
+                p[0] + (c.selection_details.filter(
+                    ({ selection_id }) => selection_id
+                === parseInt(parsedSelections[i][1], 10)
+                )[0]?.final_option_price * parsedQuantities[i][1]),
+                p[1] + (c.selection_details.filter(
+                    ({ selection_id }) => selection_id
+                === parseInt(parsedSelections[i][1], 10)
+                )[0]?.final_option_price_excl_tax * parsedQuantities[i][1])
+            ], [0, 0]);
+
+            const finalPrices = {
+                maximum_price: {
+                    final_price: { value: final_price, currency: '' },
+                    final_price_excl_tax: { value: final_price_excl_tax, currency: '' }
+                },
+                minimum_price: {
+                    final_price: { value: final_price, currency: '' },
+                    final_price_excl_tax: { value: final_price_excl_tax, currency: '' }
+                }
+            };
+
+            price_range.maximum_price = finalPrices.maximum_price;
+            price_range.minimum_price = finalPrices.minimum_price;
         }
 
         return (
