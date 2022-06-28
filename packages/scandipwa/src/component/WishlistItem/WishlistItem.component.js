@@ -232,7 +232,7 @@ export class WishlistItem extends PureComponent {
                     <strong>{ `${label}:` }</strong>
                 </div>
                 <div block="WishlistItem" elem="GroupedProductValue">
-                    { `${value}` }
+                    { value }
                 </div>
             </span>
         );
@@ -247,7 +247,7 @@ export class WishlistItem extends PureComponent {
                     <strong>{ `${label}:` }</strong>
                 </div>
                 <div block="WishlistItem" elem="BundleGroupValue">
-                    { `${value}` }
+                    { value }
                 </div>
             </div>
         );
