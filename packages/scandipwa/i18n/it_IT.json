@@ -613,5 +613,6 @@
     "Send Confirmation Action": null,
     "This email does not require confirmation.": null,
     "Remove file": null,
-    "Region": null
+    "Region": null,
+    "Error fetching Menu!": null
 }

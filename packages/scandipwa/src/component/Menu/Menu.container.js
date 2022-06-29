@@ -8,14 +8,12 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import MenuQuery from 'Query/Menu.query';
 import { DeviceType } from 'Type/Device.type';
 import history from 'Util/History';
-import MenuHelper from 'Util/Menu';
-import DataContainer from 'Util/Request/DataContainer';
 
 import Menu from './Menu.component';
 
@@ -23,16 +21,38 @@ import Menu from './Menu.component';
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device,
     compareTotals: state.ProductCompareReducer.count,
-    redux_menu: state.MenuReducer.menu
+    menu: state.MenuReducer.menu
 });
 
 /** @namespace Component/Menu/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
 
+export const itemShape = {
+    icon: PropTypes.any,
+    is_active: PropTypes.bool,
+    item_class: PropTypes.string,
+    item_id: PropTypes.any,
+    parent_id: PropTypes.any,
+    position: PropTypes.number,
+    title: PropTypes.string,
+    url: PropTypes.shape({
+        pathname: PropTypes.string,
+        search: PropTypes.string,
+        // eslint-disable-next-line react/forbid-prop-types
+        state: PropTypes.any
+    })
+};
+// Items are recursive
+itemShape.children = PropTypes.objectOf(PropTypes.shape(itemShape));
+
+export const itemShapeType = PropTypes.shape(itemShape);
+
 /** @namespace Component/Menu/Container */
-export class MenuContainer extends DataContainer {
+export class MenuContainer extends PureComponent {
     static propTypes = {
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        menu: PropTypes.objectOf(itemShapeType).isRequired,
+        compareTotals: PropTypes.number.isRequired
     };
 
     containerFunctions = {
@@ -49,26 +69,15 @@ export class MenuContainer extends DataContainer {
         } = history.location.state || {};
 
         this.state = {
-            activeMenuItemsStack,
-            menu: {}
+            activeMenuItemsStack
         };
     }
 
     componentDidMount() {
         const { device: { isMobile } } = this.props;
 
-        this._getMenu();
-
         if (isMobile) {
             window.addEventListener('popstate', this.historyBackHook);
-        }
-    }
-
-    historyBackHook() {
-        const { activeMenuItemsStack } = this.state;
-
-        if (activeMenuItemsStack.length) {
-            this.setState({ activeMenuItemsStack: activeMenuItemsStack.slice(1) });
         }
     }
 
@@ -81,7 +90,10 @@ export class MenuContainer extends DataContainer {
             device,
             compareTotals
         } = this.props;
-        const { activeMenuItemsStack, menu } = this.state;
+
+        const { activeMenuItemsStack } = this.state;
+
+        const { menu } = this.props;
 
         return {
             activeMenuItemsStack,
@@ -91,21 +103,20 @@ export class MenuContainer extends DataContainer {
         };
     }
 
+    historyBackHook() {
+        const { activeMenuItemsStack } = this.state;
+
+        if (activeMenuItemsStack.length) {
+            this.setState({ activeMenuItemsStack: activeMenuItemsStack.slice(1) });
+        }
+    }
+
     _getMenuOptions() {
         const { header_content: { header_menu } = {} } = window.contentConfiguration;
 
         return {
             identifier: header_menu || 'new-main-menu'
         };
-    }
-
-    _getMenu() {
-        this.fetchData(
-            [MenuQuery.getQuery(this._getMenuOptions())],
-            ({ menu }) => this.setState({
-                menu: MenuHelper.reduce(menu)
-            })
-        );
     }
 
     getNewActiveMenuItemsStack(activeMenuItemsStack, item_id) {
