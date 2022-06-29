@@ -40,3 +40,13 @@
         }
     }
 }
+
+#root {
+    div[class^='LocalizationWrapper'] {
+        > .Loader {
+            .Loader-Scale {
+                position: fixed;
+            }
+        }
+    }
+}
