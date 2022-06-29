@@ -47,6 +47,10 @@ export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
 );
+export const MenuDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Menu/Menu.dispatcher'
+);
 
 /** @namespace Component/Router/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -73,6 +77,11 @@ export const mapDispatchToProps = (dispatch) => ({
             ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
         );
     },
+    updateMenuData: () => {
+        MenuDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateMenuData(dispatch)
+        );
+    },
     init: async () => {
         ConfigDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch)
@@ -84,11 +93,14 @@ export const mapDispatchToProps = (dispatch) => ({
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
+        ProductCompareDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
+        );
         CartDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
         );
-        ProductCompareDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
+        MenuDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateMenuData(dispatch)
         );
     }
 });
@@ -110,7 +122,8 @@ export class RouterContainer extends PureComponent {
         isBigOffline: PropTypes.bool,
         meta_title: MetaTitleType,
         status_code: PropTypes.string,
-        updateCartData: PropTypes.func.isRequired
+        updateCartData: PropTypes.func.isRequired,
+        updateMenuData: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -129,6 +142,8 @@ export class RouterContainer extends PureComponent {
     handleResize = this.handleResize.bind(this);
 
     updateCartOnRouteChange = this.updateCartOnRouteChange.bind(this);
+
+    updateMenuOnRouteChange = this.updateMenuOnRouteChange.bind(this);
 
     previousRoute = null;
 
@@ -150,7 +165,8 @@ export class RouterContainer extends PureComponent {
         window.addEventListener('resize', this.handleResize);
 
         history.listen(this.handleRouteChange([
-            this.updateCartOnRouteChange
+            this.updateCartOnRouteChange,
+            this.updateMenuOnRouteChange
         ]));
     }
 
@@ -207,6 +223,11 @@ export class RouterContainer extends PureComponent {
     updateCartOnRouteChange() {
         const { updateCartData } = this.props;
         updateCartData();
+    }
+
+    updateMenuOnRouteChange() {
+        const { updateMenuData } = this.props;
+        updateMenuData();
     }
 
     async handleResize() {

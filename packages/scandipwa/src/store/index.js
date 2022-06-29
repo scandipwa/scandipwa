@@ -12,6 +12,7 @@ import CartReducer from 'Store/Cart/Cart.reducer';
 import CheckoutReducer from 'Store/Checkout/Checkout.reducer';
 import ConfigReducer from 'Store/Config/Config.reducer';
 import ContactFormReducer from 'Store/ContactForm/ContactForm.reducer';
+import MenuReducer from 'Store/Menu/Menu.reducer';
 import MetaReducer from 'Store/Meta/Meta.reducer';
 import MyAccountReducer from 'Store/MyAccount/MyAccount.reducer';
 import NavigationReducer from 'Store/Navigation/Navigation.reducer';
@@ -44,7 +45,8 @@ export const getStaticReducers = () => ({
     CheckoutReducer,
     ContactFormReducer,
     ProductCompareReducer,
-    StoreInPickUpReducer
+    StoreInPickUpReducer,
+    MenuReducer
 });
 
 export default function injectStaticReducers(store) {
