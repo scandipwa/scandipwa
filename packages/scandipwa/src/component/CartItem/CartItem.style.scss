@@ -246,7 +246,8 @@
         color: inherit;
         margin-inline-start: 4px;
         cursor: pointer;
-        margin-block-start: 2px;
+        font-family: sans-serif;
+        line-height: 1;
 
         &_isMobileLayout {
             display: none;
