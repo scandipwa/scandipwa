@@ -369,7 +369,7 @@ export class Router extends PureComponent {
 
     renderSectionOfType(type) {
         return (
-            <Suspense fallback={ <Loader isLoading /> }>
+            <Suspense>
                 { this.renderComponentsOfType(type) }
             </Suspense>
         );
