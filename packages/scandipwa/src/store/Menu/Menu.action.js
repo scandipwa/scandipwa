@@ -15,8 +15,8 @@ export const UPDATE_MENU_ITEMS = 'UPDATE_MENU_ITEMS';
  * Set navigation menu items
  * @param  {Object} menu Object with all menu items
  * @return {void}
- * @namespace Store/Menu/Action/updateMenuitems */
-export const updateMenuitems = (menu) => ({
+ * @namespace Store/Menu/Action/updateMenuItems */
+export const updateMenuItems = (menu) => ({
     type: UPDATE_MENU_ITEMS,
     menu
 });

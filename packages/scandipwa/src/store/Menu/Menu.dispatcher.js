@@ -16,7 +16,7 @@ import {
     executeGet
 } from 'Util/Request';
 
-import { updateMenuitems } from './Menu.action';
+import { updateMenuItems } from './Menu.action';
 
 export const ONE_MONTH_IN_SECONDS = 2592000;
 
@@ -27,8 +27,7 @@ export class MenuDispatcher {
 
         try {
             const { menu } = await executeGet(prepareQuery(query), 'Menu', ONE_MONTH_IN_SECONDS);
-
-            dispatch(updateMenuitems(menu));
+            dispatch(updateMenuItems(menu));
         } catch (error) {
             showNotification('error', __('Error fetching Menu!'), error);
         }
