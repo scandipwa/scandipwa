@@ -348,7 +348,7 @@ export class CartItem extends PureComponent {
 
         return (
             <CartItemPrice
-              row_total={ row_total }
+              row_total={ Number(row_total || 0).toFixed(2) }
               row_total_incl_tax={ row_total_incl_tax }
               currency_code={ currency_code }
               mix={ {

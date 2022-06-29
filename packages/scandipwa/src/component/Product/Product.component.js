@@ -266,7 +266,8 @@ export class Product extends PureComponent {
             addToCart,
             inStock,
             quantity,
-            getActiveProduct
+            getActiveProduct,
+            updateSelectedValues
         } = this.props;
 
         return (
@@ -276,6 +277,7 @@ export class Product extends PureComponent {
               isDisabled={ !inStock }
               isIconEnabled={ false }
               layout={ layout }
+              updateSelectedValues={ updateSelectedValues }
               quantity={ quantity }
               product={ getActiveProduct() }
             />

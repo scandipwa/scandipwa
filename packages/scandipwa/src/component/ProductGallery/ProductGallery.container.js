@@ -175,7 +175,13 @@ export class ProductGalleryContainer extends PureComponent {
             return acc;
         }, []).sort((a, b) => a - b);
 
-        return positionsArray.findIndex((value) => value === position);
+        const returnValue = positionsArray.findIndex((value) => value === position);
+
+        if (returnValue === -1) {
+            return 0;
+        }
+
+        return returnValue;
     }
 
     getGalleryPictures() {

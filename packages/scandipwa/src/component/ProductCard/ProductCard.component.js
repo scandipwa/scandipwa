@@ -82,9 +82,9 @@ export class ProductCard extends Product {
 
     className = 'ProductCard';
 
-    registerSharedElement = this.registerSharedElement.bind(this);
+    handleLinkClick = this.handleLinkClick.bind(this);
 
-    registerSharedElement() {
+    handleLinkClick() {
         const { registerSharedElement, isPlp } = this.props;
 
         if (!isPlp) {
@@ -232,7 +232,7 @@ export class ProductCard extends Product {
               block="ProductCard"
               elem="Link"
               to={ linkTo }
-              onClick={ this.registerSharedElement }
+              onClick={ this.handleLinkClick }
               mix={ mix }
             >
               { children }
@@ -251,11 +251,12 @@ export class ProductCard extends Product {
 
         const configureBundleAndGrouped = type === PRODUCT_TYPE.bundle || type === PRODUCT_TYPE.grouped;
         const configureConfig = (type === PRODUCT_TYPE.configurable
-            // eslint-disable-next-line max-len
-            && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length)
-            // eslint-disable-next-line max-len
-            || (type === PRODUCT_TYPE.configurable && Object.values(this.getConfigurableAttributes()).some((value) => value.attribute_values.length === 0));
+            && Object.keys(super.getConfigurableAttributes())
+                .length !== Object.keys(this.getConfigurableAttributes()).length)
+            || (type === PRODUCT_TYPE.configurable
+               && Object.values(this.getConfigurableAttributes()).some((value) => value.attribute_values.length === 0));
         const configureCustomize = options.some(({ required = false }) => required);
+
         const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
 
         return configureBundleAndGrouped || configureConfig || configureCustomize || configureDownloadableLinks;
@@ -268,15 +269,17 @@ export class ProductCard extends Product {
             inStock
         } = this.props;
 
-        if (inStock && this.requiresConfiguration()) {
+        const requiresConfiguration = this.requiresConfiguration();
+
+        if (inStock && requiresConfiguration) {
             return (
-                <button
-                  block="Button AddToCart"
-                  mods={ { layout } }
-                  onClick={ showSelectOptionsNotification }
-                >
-                    { __('Add to cart') }
-                </button>
+                    <button
+                      block="Button AddToCart"
+                      mods={ { layout } }
+                      onClick={ showSelectOptionsNotification }
+                    >
+                        { __('Add to cart') }
+                    </button>
             );
         }
 
@@ -322,7 +325,7 @@ export class ProductCard extends Product {
     }
 
     renderCardContent() {
-        const { renderContent } = this.props;
+        const { renderContent, product: { name } } = this.props;
 
         if (renderContent) {
             return renderContent(this.contentObject);
@@ -330,7 +333,7 @@ export class ProductCard extends Product {
 
         return (
             this.renderCardLinkWrapper((
-                <div block="ProductCard" elem="LinkInnerWrapper">
+                <div block="ProductCard" elem="LinkInnerWrapper" mods={ { loaded: !!name } }>
                     <div block="ProductCard" elem="FigureReview">
                         <figure block="ProductCard" elem="Figure">
                             { this.renderPicture() }
@@ -352,7 +355,7 @@ export class ProductCard extends Product {
 
     renderCardListContent() {
         const {
-            children, layout, renderContent
+            children, layout, renderContent, product: { name }
         } = this.props;
 
         if (renderContent) {
@@ -376,7 +379,7 @@ export class ProductCard extends Product {
                         { this.renderPrice() }
                         { this.renderConfigurableOptions() }
                     </div>
-                    <div block="ProductCard" elem="ActionWrapper">
+                    <div block="ProductCard" elem="ActionWrapper" mods={ { loaded: !!name } }>
                         { this.renderAddToCart() }
                         { this.renderProductActions() }
                     </div>

@@ -23,6 +23,7 @@ import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { Addresstype } from 'Type/Account.type';
 import { CheckoutStepType, ShippingMethodsType, ShippingMethodType } from 'Type/Checkout.type';
 import { TotalsType } from 'Type/MiniCart.type';
+import { isSignedIn } from 'Util/Auth';
 import { getAllCartItemsSku } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
 
@@ -52,8 +53,7 @@ export class CheckoutShipping extends PureComponent {
         onEmailChange: PropTypes.func.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired,
-        isGuestEmailSaved: PropTypes.bool.isRequired,
-        isSignedIn: PropTypes.bool.isRequired
+        isGuestEmailSaved: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -199,12 +199,11 @@ export class CheckoutShipping extends PureComponent {
             onEmailChange,
             onCreateUserChange,
             onPasswordChange,
-            isGuestEmailSaved,
-            isSignedIn
+            isGuestEmailSaved
         } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
 
-        if (isSignedIn) {
+        if (isSignedIn()) {
             return null;
         }
 

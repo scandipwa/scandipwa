@@ -11,7 +11,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { lazy, PureComponent, Suspense } from 'react';
+import { lazy, PureComponent } from 'react';
 
 import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
 
@@ -52,27 +52,21 @@ export class UrlRewrites extends PureComponent {
         type: ''
     };
 
-    renderDefaultPage() {
-        return (
-            <main />
-        );
-    }
-
-    renderContent() {
-        const { props, type } = this.props;
+    renderProductPage() {
+        const { props } = this.props;
         const {
-            id,
             history,
             location,
             match,
             productSKU,
-            categoryIds,
-            pageIds
+            id
         } = props;
 
-        switch (type) {
-        case TYPE_PRODUCT:
-            return (
+        if (!productSKU) {
+            return this.renderDefaultPage();
+        }
+
+        return (
                 <ProductPage
                   history={ history }
                   location={ location }
@@ -81,33 +75,82 @@ export class UrlRewrites extends PureComponent {
                   productID={ id }
                   key={ id }
                 />
-            );
+        );
+    }
+
+    renderCmsPage() {
+        const { props } = this.props;
+        const {
+            history,
+            location,
+            match,
+            pageIds
+        } = props;
+
+        return (
+            <CmsPage
+              history={ history }
+              location={ location }
+              match={ match }
+              pageIds={ pageIds }
+            />
+        );
+    }
+
+    renderCategoryPage() {
+        const { props } = this.props;
+        const {
+            history,
+            location,
+            match,
+            categoryIds
+        } = props;
+
+        return (
+            <CategoryPage
+              history={ history }
+              location={ location }
+              match={ match }
+              categoryIds={ categoryIds }
+            />
+        );
+    }
+
+    renderNoMatch() {
+        const { props } = this.props;
+        const {
+            history,
+            location,
+            match
+        } = props;
+
+        return (
+        <NoMatch
+          history={ history }
+          location={ location }
+          match={ match }
+        />
+        );
+    }
+
+    renderDefaultPage() {
+        return (
+            <main />
+        );
+    }
+
+    renderContent() {
+        const { type } = this.props;
+
+        switch (type) {
+        case TYPE_PRODUCT:
+            return this.renderProductPage();
         case TYPE_CMS_PAGE:
-            return (
-                <CmsPage
-                  history={ history }
-                  location={ location }
-                  match={ match }
-                  pageIds={ pageIds }
-                />
-            );
+            return this.renderCmsPage();
         case TYPE_CATEGORY:
-            return (
-                <CategoryPage
-                  history={ history }
-                  location={ location }
-                  match={ match }
-                  categoryIds={ categoryIds }
-                />
-            );
+            return this.renderCategoryPage();
         case TYPE_NOTFOUND:
-            return (
-                <NoMatch
-                  history={ history }
-                  location={ location }
-                  match={ match }
-                />
-            );
+            return this.renderNoMatch();
         default:
             return this.renderDefaultPage();
         }
@@ -115,9 +158,7 @@ export class UrlRewrites extends PureComponent {
 
     render() {
         return (
-            <Suspense fallback={ this.renderDefaultPage() }>
-                { this.renderContent() }
-            </Suspense>
+            this.renderContent()
         );
     }
 }
