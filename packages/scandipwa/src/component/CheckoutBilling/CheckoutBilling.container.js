@@ -136,12 +136,16 @@ export class CheckoutBillingContainer extends PureComponent {
         const { prevIsSameAsShipping } = prevState;
         const isSameAsShipping = this.isSameShippingAddress({ default_billing, default_shipping });
 
+        // default billing & shipping are undefined on initial mount
+        // wait until they become assigned to real values
+        // then check for isSameAsShipping condition
         if (!isMounted && default_billing) {
             this.setState({ isSameAsShipping, isMounted: true });
         }
 
         if (prevIsSameAsShipping !== currIsSameAsShipping && currIsSameAsShipping) {
             this.onAddressSelect(
+                // if the user selected a shipping address different from default
                 newShippingId > 0 ? newShippingId : default_shipping
             );
         }
@@ -206,12 +210,14 @@ export class CheckoutBillingContainer extends PureComponent {
             return false;
         }
 
+        // if the user selected a shipping address different from default
         if (newShippingId > 0) {
             return (
                 newShippingId === parseInt(default_billing, 10)
             );
         }
 
+        // otherwise use the default values
         return default_shipping === default_billing;
     }
 
