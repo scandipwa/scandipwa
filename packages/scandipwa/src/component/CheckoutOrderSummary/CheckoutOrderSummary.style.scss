@@ -17,12 +17,6 @@
 .CheckoutOrderSummary {
     $divider-border: 1px solid var(--input-border-color);
 
-    @include mobile {
-        > .Loader {
-            display: none;
-        }
-    }
-
     @include desktop {
         border: 1px solid var(--secondary-base-color);
         border-radius: 2px;
