@@ -134,7 +134,7 @@ export class CartItem extends PureComponent {
                         { this.renderDeleteButton() }
                     </div>
                     <div block="CartItem" elem="ProductActions" mods={ { isMobileLayout } }>
-                        { this.renderQuantityChangeField() }
+                        { this.renderQuantity() }
                         { this.renderProductPrice() }
                     </div>
                 </div>
