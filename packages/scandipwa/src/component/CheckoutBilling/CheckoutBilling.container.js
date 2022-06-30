@@ -130,13 +130,20 @@ export class CheckoutBillingContainer extends PureComponent {
         };
     }
 
-    componentDidUpdate() {
-        const { customer: { default_billing, default_shipping } } = this.props;
-        const { isMounted } = this.state;
+    componentDidUpdate(prevState) {
+        const { customer: { default_billing, default_shipping }, newShippingId } = this.props;
+        const { isMounted, isSameAsShipping: currIsSameAsShipping } = this.state;
+        const { prevIsSameAsShipping } = prevState;
         const isSameAsShipping = this.isSameShippingAddress({ default_billing, default_shipping });
 
         if (!isMounted && default_billing) {
             this.setState({ isSameAsShipping, isMounted: true });
+        }
+
+        if (prevIsSameAsShipping !== currIsSameAsShipping && currIsSameAsShipping) {
+            this.onAddressSelect(
+                newShippingId > 0 ? newShippingId : default_shipping
+            );
         }
     }
 
