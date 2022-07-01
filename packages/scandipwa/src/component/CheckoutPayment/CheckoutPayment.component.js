@@ -23,11 +23,13 @@ export class CheckoutPayment extends PureComponent {
     static propTypes = {
         method: PaymentMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
-        isSelected: PropTypes.bool
+        isSelected: PropTypes.bool,
+        noCheckbox: PropTypes.bool
     };
 
     static defaultProps = {
-        isSelected: false
+        isSelected: false,
+        noCheckbox: false
     };
 
     onClick = this.onClick.bind(this);
@@ -44,6 +46,7 @@ export class CheckoutPayment extends PureComponent {
     render() {
         const {
             isSelected,
+            noCheckbox,
             method: { title }
         } = this.props;
 
@@ -52,7 +55,7 @@ export class CheckoutPayment extends PureComponent {
             <li block="CheckoutPayment">
                 <button
                   block="CheckoutPayment"
-                  mods={ { isSelected } }
+                  mods={ { isSelected, noCheckbox } }
                   elem="Button"
                   type="button"
                   onClick={ this.onClick }
@@ -65,7 +68,7 @@ export class CheckoutPayment extends PureComponent {
                           checked: isSelected
                       } }
                       label={ title }
-                      isDisabled={ false }
+                      isDisabled={ noCheckbox }
                     />
                 </button>
             </li>
