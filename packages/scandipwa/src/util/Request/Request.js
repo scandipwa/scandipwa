@@ -92,9 +92,10 @@ export const formatURI = (query, variables, url) => {
  * @returns {Promise<Response>}
  * @namespace Util/Request/getFetch
  */
-export const getFetch = (uri, name) => fetch(uri,
+export const getFetch = (uri, name, signal) => fetch(uri,
     {
         method: 'GET',
+        signal,
         headers: appendTokenToHeaders({
             'Content-Type': 'application/json',
             'Application-Model': `${ name }_${ getWindowId() }`,
@@ -196,7 +197,7 @@ export const HTTP_201_CREATED = 201;
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/executeGet
  */
-export const executeGet = (queryObject, name, cacheTTL) => {
+export const executeGet = (queryObject, name, cacheTTL, signal) => {
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, getGraphqlEndpoint());
 
@@ -206,7 +207,7 @@ export const executeGet = (queryObject, name, cacheTTL) => {
     }
 
     return parseResponse(new Promise((resolve, reject) => {
-        getFetch(uri, name).then(
+        getFetch(uri, name, signal).then(
             /** @namespace Util/Request/executeGet/parseResponse/getFetch/then */
             (res) => {
                 if (res.status === HTTP_410_GONE) {
@@ -214,7 +215,7 @@ export const executeGet = (queryObject, name, cacheTTL) => {
                         /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/putPersistedQuery/then */
                         (putResponse) => {
                             if (putResponse.status === HTTP_201_CREATED) {
-                                getFetch(uri, name).then(
+                                getFetch(uri, name, signal).then(
                                     /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/putPersistedQuery/then/getFetch/then/resolve */
                                     (res) => resolve(res)
                                 );

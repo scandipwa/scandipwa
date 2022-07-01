@@ -35,6 +35,7 @@ export class QueryDispatcher {
         this.name = name;
         this.cacheTTL = cacheTTL;
         this.promise = null;
+        this.controller = null;
     }
 
     /**
@@ -55,12 +56,14 @@ export class QueryDispatcher {
         const queries = rawQueries instanceof Field ? [rawQueries] : rawQueries;
 
         if (this.promise) {
-            this.promise.cancel();
+            this.controller.abort();
         }
 
         this.promise = makeCancelable(
             new Promise((resolve, reject) => {
-                executeGet(prepareQuery(queries), name, cacheTTL)
+                this.controller = new AbortController();
+                const { signal } = this.controller;
+                executeGet(prepareQuery(queries), name, cacheTTL, signal)
                     .then(
                         /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/makeCancelable/executeGet/then/resolve */
                         (data) => resolve(data),
