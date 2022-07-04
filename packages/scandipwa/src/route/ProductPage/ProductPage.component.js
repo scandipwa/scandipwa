@@ -60,7 +60,8 @@ export class ProductPage extends PureComponent {
         isAttributesTabEmpty: PropTypes.bool.isRequired,
         setActiveProduct: PropTypes.func.isRequired,
         useEmptyGallerySwitcher: PropTypes.bool.isRequired,
-        isVariant: PropTypes.bool.isRequired
+        isVariant: PropTypes.bool.isRequired,
+        areReviewsEnabled: PropTypes.bool.isRequired
     };
 
     tabMap = {
@@ -85,7 +86,11 @@ export class ProductPage extends PureComponent {
         [PRODUCT_REVIEWS]: {
             name: __('Reviews'),
             // Return true since we always show 'Add review' button
-            shouldTabRender: () => true,
+            shouldTabRender: () => {
+                const { areReviewsEnabled } = this.props;
+
+                return areReviewsEnabled;
+            },
             render: (key) => this.renderProductReviewsTab(key)
         }
     };

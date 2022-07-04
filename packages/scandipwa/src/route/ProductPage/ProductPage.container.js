@@ -58,7 +58,8 @@ export const mapStateToProps = (state) => ({
     product: state.ProductReducer.product,
     metaTitle: state.MetaReducer.title,
     isMobile: state.ConfigReducer.device.isMobile,
-    store: state.ConfigReducer.code
+    store: state.ConfigReducer.code,
+    areReviewsEnabled: state.ConfigReducer.reviews_are_enabled
 });
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */
@@ -102,7 +103,8 @@ export class ProductPageContainer extends PureComponent {
         metaTitle: PropTypes.string,
         addRecentlyViewedProduct: PropTypes.func.isRequired,
         store: PropTypes.string.isRequired,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        areReviewsEnabled: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -356,7 +358,7 @@ export class ProductPageContainer extends PureComponent {
     }
 
     containerProps() {
-        const { isMobile, location } = this.props;
+        const { isMobile, location, areReviewsEnabled } = this.props;
         const { parameters } = this.state;
 
         return {
@@ -369,7 +371,8 @@ export class ProductPageContainer extends PureComponent {
             isVariant: this.getIsVariant(),
             isMobile,
             parameters,
-            location
+            location,
+            areReviewsEnabled
         };
     }
 
