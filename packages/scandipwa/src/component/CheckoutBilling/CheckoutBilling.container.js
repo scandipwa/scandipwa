@@ -212,9 +212,7 @@ export class CheckoutBillingContainer extends PureComponent {
 
         // if the user selected a shipping address different from default
         if (newShippingId > 0) {
-            return (
-                newShippingId === parseInt(default_billing, 10)
-            );
+            return newShippingId === parseInt(default_billing, 10);
         }
 
         // otherwise use the default values
