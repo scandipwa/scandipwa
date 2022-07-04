@@ -50,205 +50,210 @@ export const ProductAttributes = lazy(() => import(
 
 /** @namespace Route/ProductPage/Component */
 export class ProductPage extends PureComponent {
-    static propTypes = {
-        getLink: PropTypes.func.isRequired,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        dataSource: ProductType.isRequired,
-        activeProduct: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired,
-        isInformationTabEmpty: PropTypes.bool.isRequired,
-        isAttributesTabEmpty: PropTypes.bool.isRequired,
-        setActiveProduct: PropTypes.func.isRequired,
-        useEmptyGallerySwitcher: PropTypes.bool.isRequired,
-        isVariant: PropTypes.bool.isRequired
-    };
+     static propTypes = {
+         getLink: PropTypes.func.isRequired,
+         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
+         dataSource: ProductType.isRequired,
+         activeProduct: ProductType.isRequired,
+         areDetailsLoaded: PropTypes.bool.isRequired,
+         isInformationTabEmpty: PropTypes.bool.isRequired,
+         isAttributesTabEmpty: PropTypes.bool.isRequired,
+         setActiveProduct: PropTypes.func.isRequired,
+         useEmptyGallerySwitcher: PropTypes.bool.isRequired,
+         isVariant: PropTypes.bool.isRequired,
+         areReviewsEnabled: PropTypes.bool.isRequired
+     };
 
-    tabMap = {
-        [PRODUCT_INFORMATION]: {
-            name: __('About'),
-            shouldTabRender: () => {
-                const { isInformationTabEmpty } = this.props;
+     tabMap = {
+         [PRODUCT_INFORMATION]: {
+             name: __('About'),
+             shouldTabRender: () => {
+                 const { isInformationTabEmpty } = this.props;
 
-                return !isInformationTabEmpty;
-            },
-            render: (key) => this.renderProductInformationTab(key)
-        },
-        [PRODUCT_ATTRIBUTES]: {
-            name: __('Details'),
-            shouldTabRender: () => {
-                const { isAttributesTabEmpty } = this.props;
+                 return !isInformationTabEmpty;
+             },
+             render: (key) => this.renderProductInformationTab(key)
+         },
+         [PRODUCT_ATTRIBUTES]: {
+             name: __('Details'),
+             shouldTabRender: () => {
+                 const { isAttributesTabEmpty } = this.props;
 
-                return !isAttributesTabEmpty;
-            },
-            render: (key) => this.renderProductAttributesTab(key)
-        },
-        [PRODUCT_REVIEWS]: {
-            name: __('Reviews'),
-            // Return true since we always show 'Add review' button
-            shouldTabRender: () => true,
-            render: (key) => this.renderProductReviewsTab(key)
-        }
-    };
+                 return !isAttributesTabEmpty;
+             },
+             render: (key) => this.renderProductAttributesTab(key)
+         },
+         [PRODUCT_REVIEWS]: {
+             name: __('Reviews'),
+             // Return true since we always show 'Add review' button
+             shouldTabRender: () => {
+                 const { areReviewsEnabled } = this.props;
 
-    renderProductPageContent() {
-        const {
-            getLink,
-            dataSource,
-            areDetailsLoaded,
-            activeProduct,
-            setActiveProduct,
-            useEmptyGallerySwitcher,
-            parameters,
-            isVariant
-        } = this.props;
+                 return areReviewsEnabled;
+             },
+             render: (key) => this.renderProductReviewsTab(key)
+         }
+     };
 
-        return (
-            <>
-                <Suspense fallback={ <Loader /> }>
-                    <ProductGallery
-                      product={ activeProduct }
-                      areDetailsLoaded={ areDetailsLoaded }
-                      isWithEmptySwitcher={ useEmptyGallerySwitcher }
-                      showLoader={ isVariant }
-                    />
-                </Suspense>
-                <ProductActions
-                  getLink={ getLink }
-                  product={ dataSource }
-                  parameters={ parameters }
-                  areDetailsLoaded={ areDetailsLoaded }
-                  setActiveProduct={ setActiveProduct }
-                />
-            </>
-        );
-    }
+     renderProductPageContent() {
+         const {
+             getLink,
+             dataSource,
+             areDetailsLoaded,
+             activeProduct,
+             setActiveProduct,
+             useEmptyGallerySwitcher,
+             parameters,
+             isVariant
+         } = this.props;
 
-    renderProductInformationTab(key) {
-        const {
-            dataSource,
-            parameters,
-            areDetailsLoaded
-        } = this.props;
+         return (
+             <>
+                 <Suspense fallback={ <Loader /> }>
+                     <ProductGallery
+                       product={ activeProduct }
+                       areDetailsLoaded={ areDetailsLoaded }
+                       isWithEmptySwitcher={ useEmptyGallerySwitcher }
+                       showLoader={ isVariant }
+                     />
+                 </Suspense>
+                 <ProductActions
+                   getLink={ getLink }
+                   product={ dataSource }
+                   parameters={ parameters }
+                   areDetailsLoaded={ areDetailsLoaded }
+                   setActiveProduct={ setActiveProduct }
+                 />
+             </>
+         );
+     }
 
-        return (
-            <Suspense fallback={ <Loader /> } key={ key }>
-                <ProductInformation
-                  product={ { ...dataSource, parameters } }
-                  areDetailsLoaded={ areDetailsLoaded }
-                  key={ key }
-                />
-            </Suspense>
-        );
-    }
+     renderProductInformationTab(key) {
+         const {
+             dataSource,
+             parameters,
+             areDetailsLoaded
+         } = this.props;
 
-    renderProductAttributesTab(key) {
-        const {
-            activeProduct,
-            areDetailsLoaded
-        } = this.props;
+         return (
+             <Suspense fallback={ <Loader /> } key={ key }>
+                 <ProductInformation
+                   product={ { ...dataSource, parameters } }
+                   areDetailsLoaded={ areDetailsLoaded }
+                   key={ key }
+                 />
+             </Suspense>
+         );
+     }
 
-        return (
-            <Suspense fallback={ <Loader /> } key={ key }>
-                <ProductAttributes
-                  product={ activeProduct }
-                  areDetailsLoaded={ areDetailsLoaded }
-                  key={ key }
-                />
-            </Suspense>
-        );
-    }
+     renderProductAttributesTab(key) {
+         const {
+             activeProduct,
+             areDetailsLoaded
+         } = this.props;
 
-    renderProductReviewsTab(key) {
-        const {
-            dataSource,
-            areDetailsLoaded
-        } = this.props;
+         return (
+             <Suspense fallback={ <Loader /> } key={ key }>
+                 <ProductAttributes
+                   product={ activeProduct }
+                   areDetailsLoaded={ areDetailsLoaded }
+                   key={ key }
+                 />
+             </Suspense>
+         );
+     }
 
-        return (
-            <Suspense fallback={ <Loader /> } key={ key }>
-                <ProductReviews
-                  product={ dataSource }
-                  areDetailsLoaded={ areDetailsLoaded }
-                  key={ key }
-                />
-            </Suspense>
-        );
-    }
+     renderProductReviewsTab(key) {
+         const {
+             dataSource,
+             areDetailsLoaded
+         } = this.props;
 
-    shouldTabsRender() {
-        return Object.entries(this.tabMap)
-            .map(([id, values]) => ({ id, ...values }))
-            .filter(({ shouldTabRender }) => shouldTabRender());
-    }
+         return (
+             <Suspense fallback={ <Loader /> } key={ key }>
+                 <ProductReviews
+                   product={ dataSource }
+                   areDetailsLoaded={ areDetailsLoaded }
+                   key={ key }
+                 />
+             </Suspense>
+         );
+     }
 
-    renderProductTabs() {
-        const tabs = this.shouldTabsRender();
+     shouldTabsRender() {
+         return Object.entries(this.tabMap)
+             .map(([id, values]) => ({ id, ...values }))
+             .filter(({ shouldTabRender }) => shouldTabRender());
+     }
 
-        if (!tabs) {
-            return null;
-        }
+     renderProductTabs() {
+         const tabs = this.shouldTabsRender();
 
-        return (
-            <ProductTabs tabs={ tabs } />
-        );
-    }
+         if (!tabs) {
+             return null;
+         }
 
-    renderAdditionalSections() {
-        const {
-            areDetailsLoaded
-        } = this.props;
+         return (
+             <ProductTabs tabs={ tabs } />
+         );
+     }
 
-        return (
-            <>
-                { this.renderProductTabs() }
-                <ProductLinks
-                  linkType={ RELATED }
-                  title={ __('Recommended for you') }
-                  areDetailsLoaded={ areDetailsLoaded }
-                />
-                <ProductLinks
-                  linkType={ UPSELL }
-                  title={ __('You might also like') }
-                  areDetailsLoaded={ areDetailsLoaded }
-                />
-            </>
-        );
-    }
+     renderAdditionalSections() {
+         const {
+             areDetailsLoaded
+         } = this.props;
 
-    renderReviewPopup() {
-        const { dataSource } = this.props;
+         return (
+             <>
+                 { this.renderProductTabs() }
+                 <ProductLinks
+                   linkType={ RELATED }
+                   title={ __('Recommended for you') }
+                   areDetailsLoaded={ areDetailsLoaded }
+                 />
+                 <ProductLinks
+                   linkType={ UPSELL }
+                   title={ __('You might also like') }
+                   areDetailsLoaded={ areDetailsLoaded }
+                 />
+             </>
+         );
+     }
 
-        return (
-            <Popup
-              id={ REVIEW_POPUP_ID }
-              mix={ { block: 'ProductReviews', elem: 'Popup' } }
-            >
-                <ProductReviewForm product={ dataSource } />
-            </Popup>
-        );
-    }
+     renderReviewPopup() {
+         const { dataSource } = this.props;
 
-    render() {
-        return (
-            <NoMatchHandler>
-                <main
-                  block="ProductPage"
-                  aria-label="Product page"
-                  itemScope
-                  itemType="http://schema.org/Product"
-                >
-                    <ContentWrapper
-                      wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
-                      label={ __('Main product details') }
-                    >
-                        { this.renderProductPageContent() }
-                    </ContentWrapper>
-                    { this.renderAdditionalSections() }
-                    { this.renderReviewPopup() }
-                </main>
-            </NoMatchHandler>
-        );
-    }
+         return (
+             <Popup
+               id={ REVIEW_POPUP_ID }
+               mix={ { block: 'ProductReviews', elem: 'Popup' } }
+             >
+                 <ProductReviewForm product={ dataSource } />
+             </Popup>
+         );
+     }
+
+     render() {
+         return (
+             <NoMatchHandler>
+                 <main
+                   block="ProductPage"
+                   aria-label="Product page"
+                   itemScope
+                   itemType="http://schema.org/Product"
+                 >
+                     <ContentWrapper
+                       wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
+                       label={ __('Main product details') }
+                     >
+                         { this.renderProductPageContent() }
+                     </ContentWrapper>
+                     { this.renderAdditionalSections() }
+                     { this.renderReviewPopup() }
+                 </main>
+             </NoMatchHandler>
+         );
+     }
 }
 
 export default ProductPage;
