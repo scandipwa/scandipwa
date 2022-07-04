@@ -77,7 +77,11 @@ export class QueryDispatcher {
             /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/then */
             (data) => this.onSuccess(data, dispatch, options),
             /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/then/catch */
-            (error) => this.onError(error, dispatch, options),
+            (error) => {
+                if (!this.controller.signal.aborted) {
+                    this.onError(error, dispatch, options);
+                }
+            },
         );
 
         listenForBroadCast(name).then(
