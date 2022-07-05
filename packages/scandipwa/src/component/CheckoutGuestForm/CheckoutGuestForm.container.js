@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -27,6 +27,7 @@ import { updateEmail, updateEmailAvailable } from 'Store/Checkout/Checkout.actio
 import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
+import scrollToError from 'Util/Form/Form';
 import { debounce, getErrorMessage } from 'Util/Request';
 
 import CheckoutGuestForm from './CheckoutGuestForm.component';
@@ -81,7 +82,8 @@ export class CheckoutGuestFormContainer extends PureComponent {
         checkEmailAvailability: PropTypes.func.isRequired,
         updateEmail: PropTypes.func.isRequired,
         minimunPasswordLength: PropTypes.number.isRequired,
-        minimunPasswordCharacter: PropTypes.string.isRequired
+        minimunPasswordCharacter: PropTypes.string.isRequired,
+        isVisibleEmailRequired: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -106,6 +108,8 @@ export class CheckoutGuestFormContainer extends PureComponent {
         setSignInState: this.setSignInState.bind(this),
         setLoadingState: this.setLoadingState.bind(this)
     };
+
+    formRef = createRef();
 
     checkEmailAvailability = debounce((email) => {
         const { checkEmailAvailability } = this.props;
@@ -132,6 +136,15 @@ export class CheckoutGuestFormContainer extends PureComponent {
         );
     }
 
+    componentDidUpdate(prevProps) {
+        const { isVisibleEmailRequired } = this.props;
+        const { isVisibleEmailRequired: prevIsVisibleEmailRequired } = prevProps;
+
+        if (isVisibleEmailRequired && isVisibleEmailRequired !== prevIsVisibleEmailRequired) {
+            this.formRef.current.requestSubmit();
+        }
+    }
+
     containerProps() {
         const {
             emailValue,
@@ -152,12 +165,14 @@ export class CheckoutGuestFormContainer extends PureComponent {
             signInState,
             onSignIn,
             range,
-            minimunPasswordCharacter
+            minimunPasswordCharacter,
+            formRef: this.formRef
         });
     }
 
-    onFormError() {
+    onFormError(_, fields, validation) {
         this.setState({ isLoading: false });
+        scrollToError(fields, validation);
     }
 
     handleForgotPassword(e) {

@@ -83,7 +83,7 @@ export class MyAccountSignIn extends PureComponent {
                       placeholder: __('Enter your password'),
                       autocomplete: 'current-password'
                   } }
-                  validateOn={ ['onChange'] }
+                  validateOn={ isCheckout ? ['onSubmit'] : ['onChange'] }
                   validationRule={ {
                       isRequired: true,
                       inputType: VALIDATION_INPUT_TYPE.password

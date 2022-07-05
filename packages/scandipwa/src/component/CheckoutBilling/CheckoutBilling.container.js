@@ -76,12 +76,7 @@ export class CheckoutBillingContainer extends PureComponent {
         termsAreEnabled: PropTypes.bool,
         newShippingId: PropTypes.number,
         newShippingStreet: PropTypes.arrayOf(PropTypes.string).isRequired,
-        isCreateUser: PropTypes.bool.isRequired,
-        onEmailChange: PropTypes.func.isRequired,
-        onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired,
-        isGuestEmailSaved: PropTypes.bool.isRequired,
-        onShippingEstimationFieldsChange: PropTypes.func.isRequired
+        onChangeEmailRequired: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -139,13 +134,7 @@ export class CheckoutBillingContainer extends PureComponent {
             shippingAddress,
             termsAndConditions,
             termsAreEnabled,
-            totals,
-            onShippingEstimationFieldsChange,
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved
+            totals
         } = this.props;
         const { isSameAsShipping, paymentMethod } = this.state;
 
@@ -160,12 +149,6 @@ export class CheckoutBillingContainer extends PureComponent {
             termsAndConditions,
             termsAreEnabled,
             totals,
-            onShippingEstimationFieldsChange,
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved,
             paymentMethod
         };
     }
@@ -202,23 +185,27 @@ export class CheckoutBillingContainer extends PureComponent {
         this.setState({ paymentMethod: code });
     }
 
+    onBillingError(_, fields, validation) {
+        const { onChangeEmailRequired } = this.props;
+
+        onChangeEmailRequired();
+        scrollToError(fields, validation);
+    }
+
     onBillingSuccess(form, fields, asyncData) {
-        const { savePaymentInformation } = this.props;
+        const { savePaymentInformation, onChangeEmailRequired } = this.props;
         const { isSameAsShipping } = this.state;
 
         const extractedFields = transformToNameValuePair(fields);
         const address = this._getAddress(extractedFields);
         const paymentMethod = this._getPaymentData(extractedFields, asyncData);
+        onChangeEmailRequired();
 
         savePaymentInformation({
             billing_address: address,
             paymentMethod,
             same_as_shipping: isSameAsShipping
         });
-    }
-
-    onBillingError(_, fields, validation) {
-        scrollToError(fields, validation);
     }
 
     showPopup() {
