@@ -206,7 +206,7 @@ export class CheckoutOrderSummary extends PureComponent {
                   price={ cartSubtotal.toFixed(2) }
                   currency={ quote_currency_code }
                   title={ title }
-                  subPrice={ cartSubtotalSubPrice.toFixed(2) }
+                  subPrice={ cartSubtotalSubPrice?.toFixed(2) ?? null }
                 />
         );
     }
