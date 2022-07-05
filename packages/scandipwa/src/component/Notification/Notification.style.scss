@@ -120,15 +120,7 @@
         }
     }
 
-    &_is {
-        &_opening {
-            animation: fadeInStart var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
-        }
-
-        &_closing {
-            animation: fadeOutStart var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
-        }
-    }
+    
 
     &_type {
         &_error {
