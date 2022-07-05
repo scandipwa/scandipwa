@@ -66,7 +66,8 @@ export class ProductListContainer extends PureComponent {
         device: DeviceType.isRequired,
         mix: MixType,
         title: PropTypes.string,
-        totalPages: PropTypes.number
+        totalPages: PropTypes.number,
+        isPlp: PropTypes.bool
     };
 
     static defaultProps = {
@@ -84,7 +85,8 @@ export class ProductListContainer extends PureComponent {
         noVariants: false,
         isWidget: false,
         title: '',
-        totalPages: 1
+        totalPages: 1,
+        isPlp: false
     };
 
     state = {
@@ -236,7 +238,8 @@ export class ProductListContainer extends PureComponent {
             pages,
             selectedFilters,
             title,
-            totalPages
+            totalPages,
+            isPlp
         } = this.props;
 
         return {
@@ -252,6 +255,7 @@ export class ProductListContainer extends PureComponent {
             currentPage: this._getPageFromUrl(),
             isShowLoading: this._isShowLoading(),
             isVisible: this._isVisible(),
+            isPlp,
             requestPage: this.requestPage,
             // disable this property to enable infinite scroll on desktop
             isInfiniteLoaderEnabled: this._getIsInfiniteLoaderEnabled()

@@ -15,8 +15,9 @@ import currencyMap, { HUNDRED_PERCENT } from './Price.config';
 export const formatCurrency = (currency = 'USD') => currencyMap[currency];
 
 /** @namespace Util/Price/formatPrice */
-export const formatPrice = (price, currency = 'USD') => {
+export const formatPrice = (price, currentCurrency) => {
     const language = navigator.languages ? navigator.languages[0] : navigator.language;
+    const currency = currentCurrency || 'USD';
 
     return new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
 };

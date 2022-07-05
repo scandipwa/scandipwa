@@ -55,6 +55,8 @@ export class AddToCartContainer extends PureComponent {
         addToCart: PropTypes.func,
         fallbackAddToCart: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool,
+        updateSelectedValues: PropTypes.func,
+        withLink: PropTypes.bool,
 
         isIconEnabled: PropTypes.bool,
         mix: MixType,
@@ -69,11 +71,14 @@ export class AddToCartContainer extends PureComponent {
         isIconEnabled: true,
         isDisabled: false,
         addToCart: null,
+        updateSelectedValues: null,
+        withLink: false,
         product: {}
     };
 
     containerFunctions = {
-        addProductToCart: this.addProductToCart.bind(this)
+        addProductToCart: this.addProductToCart.bind(this),
+        handleButtonClick: this.handleButtonClick.bind(this)
     };
 
     state = {
@@ -94,15 +99,29 @@ export class AddToCartContainer extends PureComponent {
         [PRODUCT_TYPE.grouped]: this.validateGroup.bind(this)
     };
 
-    async addProductToCart(e) {
-        const { product, addToCart } = this.props;
+    handleButtonClick(e) {
+        const { withLink } = this.props;
+
+        // Prevent container Link from triggering redirect
+        if (!withLink) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+
+        this.addProductToCart();
+    }
+
+    async addProductToCart() {
+        const { product, addToCart, updateSelectedValues } = this.props;
+
+        if (updateSelectedValues) {
+            await updateSelectedValues();
+        }
 
         if ((!product || Object.keys(product).length === 0) && !addToCart) {
             return;
         }
 
-        e.preventDefault();
-        e.stopPropagation();
         this.setState({ isAdding: true });
 
         if (!this.validate()) {

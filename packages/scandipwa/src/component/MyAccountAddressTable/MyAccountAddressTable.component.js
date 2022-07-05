@@ -26,7 +26,6 @@ export class MyAccountAddressTable extends KeyValueTable {
         mix: MixType.isRequired,
         address: Addresstype.isRequired,
         showActions: PropTypes.bool.isRequired,
-        showAdditionalFields: PropTypes.bool.isRequired,
         onEditClick: PropTypes.func.isRequired,
         onDeleteClick: PropTypes.func.isRequired,
         countries: PropTypes.arrayOf(

@@ -18,4 +18,4 @@ export const VIDEO_POPUP_ID = 'VIDEO_POPUP_ID';
  * @type {RegExp}
  */
 export const VIMEO_FORMAT = new RegExp('(?:https?//)?vimeo.com[\\w/]*/(\\d+)$');
-export const YOUTUBE_FORMAT = new RegExp('(?:https?//)?www.youtube.com/watch\\?v=(\\w+)');
+export const YOUTUBE_FORMAT = new RegExp('(?:https?//)?www.youtube.com/watch\\?v=([\\w\\-]+)');

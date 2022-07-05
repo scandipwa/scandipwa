@@ -41,7 +41,8 @@ export class CategorySort extends PureComponent {
             disabled: PropTypes.bool,
             label: PropTypes.string
         })).isRequired,
-        isMatchingInfoFilter: PropTypes.bool.isRequired
+        isMatchingInfoFilter: PropTypes.bool.isRequired,
+        isCurrentCategoryLoaded: PropTypes.bool.isRequired
     };
 
     onChange = this.onChange.bind(this);
@@ -66,10 +67,11 @@ export class CategorySort extends PureComponent {
             sortKey,
             sortDirection,
             selectOptions,
-            isMatchingInfoFilter
+            isMatchingInfoFilter,
+            isCurrentCategoryLoaded
         } = this.props;
 
-        if (!isMatchingInfoFilter) {
+        if (!isMatchingInfoFilter || !isCurrentCategoryLoaded) {
             return this.renderPlaceholder();
         }
 
@@ -79,7 +81,7 @@ export class CategorySort extends PureComponent {
               attr={ {
                   id: 'category-sort',
                   name: 'category-sort',
-                  defaultValue: `${sortDirection} ${sortKey}`,
+                  value: `${sortDirection} ${sortKey}`,
                   noPlaceholder: true
               } }
               events={ {

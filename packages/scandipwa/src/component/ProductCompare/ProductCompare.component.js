@@ -183,38 +183,41 @@ export class ProductCompare extends Component {
         const { handleBlockScroll, productCompare, productCompareRow } = this.props;
 
         return (
-            <div
-              id="productCompare"
-              block="ProductCompare"
-              onScroll={ handleBlockScroll }
-              ref={ productCompare }
-            >
+            <>
                 { this.renderScroll() }
                 <div
-                  id="productCompareRow"
+                  id="productCompare"
                   block="ProductCompare"
-                  elem="Row"
-                  mix={ { block: 'ProductCardRow' } }
-                  ref={ productCompareRow }
+                  onScroll={ handleBlockScroll }
+                  ref={ productCompare }
                 >
-                    { this.renderClearButton() }
-                    { this.renderProductCards() }
-                </div>
-                <div
-                  block="ProductCompare"
-                  elem="AttributeTable"
-                >
+
                     <div
-                      block="ProductCompareAttributeRow"
+                      id="productCompareRow"
+                      block="ProductCompare"
+                      elem="Row"
+                      mix={ { block: 'ProductCardRow' } }
+                      ref={ productCompareRow }
                     >
-                        { this.renderPriceLabel() }
-                        <div block="ProductCompareAttributeRow" elem="Values">
-                            { this.renderProductPrices() }
-                        </div>
+                        { this.renderClearButton() }
+                        { this.renderProductCards() }
                     </div>
-                    { this.renderAttributes() }
+                    <div
+                      block="ProductCompare"
+                      elem="AttributeTable"
+                    >
+                        <div
+                          block="ProductCompareAttributeRow"
+                        >
+                            { this.renderPriceLabel() }
+                            <div block="ProductCompareAttributeRow" elem="Values">
+                                { this.renderProductPrices() }
+                            </div>
+                        </div>
+                        { this.renderAttributes() }
+                    </div>
                 </div>
-            </div>
+            </>
         );
     }
 

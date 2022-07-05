@@ -174,6 +174,7 @@ export class ProductCustomizableOption extends PureComponent {
                       name: uid,
                       accept: fileExtensions
                   } }
+                  updateSelectedValues={ updateSelectedValues }
                   events={ {
                       onChange: updateSelectedValues
                   } }

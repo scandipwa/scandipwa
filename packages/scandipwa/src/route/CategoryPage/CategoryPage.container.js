@@ -235,11 +235,6 @@ export class CategoryPageContainer extends PureComponent {
         scrollToTop();
 
         /**
-         * Ensure transition PLP => homepage => PLP always having proper meta
-         */
-        this.updateMeta();
-
-        /**
          * Always make sure the navigation show / hide mode (on scroll)
          * is activated when entering the category page.
          * */
@@ -257,6 +252,7 @@ export class CategoryPageContainer extends PureComponent {
         if (categoryIds === id) {
             this.updateBreadcrumbs();
             this.updateHeaderState();
+            this.updateMeta();
         } else {
             /**
              * Still update header and breadcrumbs, but ignore

@@ -160,7 +160,8 @@ export class CartQuery {
             ...checkoutData,
             'is_in_store_pickup_available',
             this._getCartItemsField(),
-            this._getAppliedTaxesField()
+            this._getAppliedTaxesField(),
+            this._getMinimumOrderAmount()
         ];
     }
 
@@ -299,6 +300,18 @@ export class CartQuery {
         return [
             'percent',
             'title'
+        ];
+    }
+
+    _getMinimumOrderAmount() {
+        return new Field('minimum_order_amount')
+            .addFieldList(this._getMinimumOrderAmountFields());
+    }
+
+    _getMinimumOrderAmountFields() {
+        return [
+            'minimum_order_amount_reached',
+            'minimum_order_description'
         ];
     }
 }

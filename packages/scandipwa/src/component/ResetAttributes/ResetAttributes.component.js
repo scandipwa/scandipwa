@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CloseIcon from 'Component/CloseIcon';
+import Html from 'Component/Html';
 import { getFiltersCount } from 'Util/Category';
 
 import './ResetAttributes.style';
@@ -27,6 +28,14 @@ export class ResetAttributes extends PureComponent {
             attribute_code: PropTypes.string.isRequired
         }))).isRequired
     };
+
+    renderSelectedOptionLabel(label) {
+        if (typeof label !== 'string') {
+            return label;
+        }
+
+        return <Html content={ label } />;
+    }
 
     renderSelectedOption(selectedOption) {
         const { toggleCustomFilter } = this.props;
@@ -48,7 +57,9 @@ export class ResetAttributes extends PureComponent {
                 </div>
                 <div block="ResetAttributes" elem="AttributeText">
                     <span block="ResetAttributes" elem="AttributeLabel">{ `${attribute_label}: ` }</span>
-                    <span block="ResetAttributes" elem="AttributeOption">{ `${selectedOption.label}` }</span>
+                    <span block="ResetAttributes" elem="AttributeOption">
+                        { this.renderSelectedOptionLabel(selectedOption.label) }
+                    </span>
                 </div>
             </div>
         );

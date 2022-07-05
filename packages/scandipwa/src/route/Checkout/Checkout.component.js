@@ -216,7 +216,7 @@ export class Checkout extends PureComponent {
                     <div block="Checkout" elem="Step">
                         <span block="Checkout" elem="SelectedStep">{ number }</span>
                         <span block="Checkout" elem="StepsBorder">/</span>
-                        <span block="Checkout" elem="TotalSteps">{ Object.keys(this.stepMap).length }</span>
+                        <span block="Checkout" elem="TotalSteps">{ Object.keys(this.stepMap).length - 1 }</span>
                     </div>
                 </div>
                 <div block="Checkout" elem="StepBarTotal" />
@@ -501,9 +501,9 @@ export class Checkout extends PureComponent {
     }
 
     render() {
-        const { isCartLoading } = this.props;
+        const { totals, checkoutStep } = this.props;
 
-        if (isCartLoading) {
+        if (totals.items.length < 1 && checkoutStep !== DETAILS_STEP) {
             return this.renderFullPageLoader();
         }
 

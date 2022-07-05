@@ -39,6 +39,7 @@
         min-height: var(--option-size);
         width: var(--option-size);
         margin-inline-end: 12px;
+        cursor: pointer;
     }
 
     &-String {
@@ -60,6 +61,7 @@
     &-Image-Overlay {
         --option-check-mark-background: var(--color-white);
 
+        cursor: pointer;
         inset-block-start: 0;
         inset-inline-start: 0;
         margin: 0;
@@ -182,6 +184,17 @@
                     }
                 }
             }
+
+            img {
+                height: 32px;
+                object-fit: cover;
+                vertical-align: middle;
+                width: 32px;
+
+                @include mobile {
+                    margin: 5px 0px;
+                }
+            }
         }
 
         &:hover,
@@ -238,6 +251,8 @@
 
             &-Color,
             &-Image-Overlay {
+                cursor: default;
+
                 &:hover {
                     @include desktop {
                         &::before,
@@ -246,6 +261,12 @@
                         }
                     }
                 }
+            }
+
+            &-String,
+            &-Image,
+            &-Text {
+                cursor: default;
             }
         }
     }

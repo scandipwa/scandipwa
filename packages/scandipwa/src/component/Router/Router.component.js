@@ -23,6 +23,7 @@ import {
 import { Router as ReactRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
+import ErrorHandler from 'Component/ErrorHandler';
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 import {
@@ -90,6 +91,7 @@ export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkNa
 export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/MyAccount'));
 export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/PasswordChangePage'));
 export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "search" */ 'Route/SearchPage'));
+export const SendConfirmationPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/SendConfirmationPage'));
 export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/ConfirmAccountPage'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/MenuPage'));
 export const Footer = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "footer" */ 'Component/Footer'));
@@ -115,7 +117,8 @@ export const withStoreRegex = (path) => window.storeRegexText.concat(path);
 export class Router extends PureComponent {
     static propTypes = {
         isBigOffline: PropTypes.bool,
-        isOnlyMainItems: PropTypes.bool.isRequired
+        isOnlyMainItems: PropTypes.bool.isRequired,
+        setBigOfflineNotice: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -200,6 +203,11 @@ export class Router extends PureComponent {
             component: <Route path={ withStoreRegex('/customer/account/forgotpassword/') } render={ (props) => <ForgotPasswordPage { ...props } /> } />,
             position: 63,
             name: ACCOUNT_FORGOT_PASSWORD
+        },
+        {
+            component: <Route path={ withStoreRegex('/customer/account/confirmation') } render={ (props) => <SendConfirmationPage { ...props } /> } />,
+            position: 64,
+            name: CONFIRM_ACCOUNT
         },
         {
             component: <Route path={ withStoreRegex('/customer/account/confirm') } render={ (props) => <ConfirmAccountPage { ...props } /> } />,
@@ -402,19 +410,19 @@ export class Router extends PureComponent {
 
     renderDefaultRouterContent() {
         const { isOnlyMainItems } = this.props;
+        const { setBigOfflineNotice } = this.props;
 
         if (isOnlyMainItems) {
             return this.renderMainItems();
         }
 
         return (
-            <>
-                { this.renderSectionOfType(BEFORE_ITEMS_TYPE) }
-                <div block="Router" elem="MainItems">
-                    { this.renderMainItems() }
-                </div>
-                { this.renderSectionOfType(AFTER_ITEMS_TYPE) }
-            </>
+            <ErrorHandler setBigOfflineNotice={ setBigOfflineNotice }>
+                    <div block="Router" elem="MainItems">
+                        { this.renderMainItems() }
+                    </div>
+                    { this.renderSectionOfType(AFTER_ITEMS_TYPE) }
+            </ErrorHandler>
         );
     }
 
@@ -432,11 +440,12 @@ export class Router extends PureComponent {
         return (
             <>
                 <Meta />
-                <Suspense fallback={ this.renderFallbackPage() }>
-                    <ReactRouter history={ history }>
+                <ReactRouter history={ history }>
+                    { this.renderSectionOfType(BEFORE_ITEMS_TYPE) }
+                    <Suspense fallback={ this.renderFallbackPage() }>
                         { this.renderRouterContent() }
-                    </ReactRouter>
-                </Suspense>
+                    </Suspense>
+                </ReactRouter>
             </>
         );
     }

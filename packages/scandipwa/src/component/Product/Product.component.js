@@ -266,7 +266,8 @@ export class Product extends PureComponent {
             addToCart,
             inStock,
             quantity,
-            getActiveProduct
+            getActiveProduct,
+            updateSelectedValues
         } = this.props;
 
         return (
@@ -276,6 +277,7 @@ export class Product extends PureComponent {
               isDisabled={ !inStock }
               isIconEnabled={ false }
               layout={ layout }
+              updateSelectedValues={ updateSelectedValues }
               quantity={ quantity }
               product={ getActiveProduct() }
             />
@@ -400,7 +402,9 @@ export class Product extends PureComponent {
     }
 
     renderPrice(isPreview = false) {
-        const { getActiveProduct, productPrice } = this.props;
+        const {
+            getActiveProduct, productPrice
+        } = this.props;
         const product = getActiveProduct();
 
         const {
@@ -430,12 +434,6 @@ export class Product extends PureComponent {
     }
 
     renderStock() {
-        // const { displayProductStockStatus } = this.props;
-        //
-        // if (!displayProductStockStatus) {
-        //     return null;
-        // }
-
         const { inStock } = this.props;
 
         const stockStatusLabel = inStock ? __('In stock') : __('Out of stock');
