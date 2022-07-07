@@ -52,10 +52,9 @@ export class QueryDispatcher {
         const abort = this.promise && this.controller.abort();
 
         this.controller = new AbortController();
-        const { signal } = this.controller;
 
         try {
-            this.promise = await executeGet(prepareQuery(queries), name, cacheTTL, signal);
+            this.promise = await executeGet(prepareQuery(queries), name, cacheTTL, this.controller.signal);
             this.onSuccess(this.promise, dispatch, options);
         } catch (err) {
             this.onError(err, dispatch, options);

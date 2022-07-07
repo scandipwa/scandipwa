@@ -227,6 +227,13 @@ export const executeGet = (queryObject, name, cacheTTL, signal) => {
                 } else {
                     resolve(res);
                 }
+            }, /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/catch */
+            (err) => {
+                if (!signal.aborted) {
+                    return err;
+                }
+
+                return '';
             }
         );
     }));
