@@ -68,7 +68,7 @@ export class FieldFile extends PureComponent {
             <label htmlFor={ id }>
                 <UploadIcon />
                 <p>{ dropLabel }</p>
-                <span>{ selectLabel }</span>
+                <span block="Field" elem="SelectFileBtn">{ selectLabel }</span>
             </label>
         );
     }

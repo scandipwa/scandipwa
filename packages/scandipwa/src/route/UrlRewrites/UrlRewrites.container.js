@@ -76,10 +76,6 @@ export class UrlRewritesContainer extends PureComponent {
         page: TYPE_CMS_PAGE
     };
 
-    __construct(props) {
-        super.__construct(props);
-    }
-
     componentDidMount() {
         this.requestUrlRewrite();
 
