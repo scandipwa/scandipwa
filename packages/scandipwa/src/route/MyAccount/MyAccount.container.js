@@ -180,7 +180,7 @@ export class MyAccountContainer extends PureComponent {
             return { activeTab: selectedTab };
         }
 
-        // redirect to Dashboard, if user visited non-existent or disabled page
+        // redirect to Dashboard, if user visited non-existent or  page
         const newActiveTab = this.tabMap[historyActiveTab] && MyAccountContainer.isTabEnabled(props, historyActiveTab)
             ? historyActiveTab
             : MY_ACCOUNT;

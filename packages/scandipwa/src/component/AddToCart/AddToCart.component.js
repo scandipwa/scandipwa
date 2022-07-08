@@ -25,7 +25,7 @@ import './AddToCart.style';
  */
 export class AddToCart extends PureComponent {
     static propTypes = {
-        isDisabled: PropTypes.bool.isRequired,
+        is: PropTypes.bool.isRequired,
         isAdding: PropTypes.bool.isRequired,
         handleButtonClick: PropTypes.func.isRequired,
 
@@ -49,7 +49,7 @@ export class AddToCart extends PureComponent {
         const {
             mix,
             layout,
-            isDisabled,
+            is,
             isAdding,
             handleButtonClick
         } = this.props;
@@ -60,7 +60,7 @@ export class AddToCart extends PureComponent {
               block="Button AddToCart"
               mix={ mix }
               mods={ { layout } }
-              disabled={ isDisabled || isAdding }
+              disabled={ is || isAdding }
             >
                 { this.renderCartIcon() }
                 <span>{ isAdding ? __('Adding...') : __('Add to cart') }</span>

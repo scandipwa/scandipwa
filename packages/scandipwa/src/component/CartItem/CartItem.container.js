@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -5,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -165,15 +166,15 @@ export class CartItemContainer extends PureComponent {
      */
     handleChangeQuantity(quantity) {
         this.setState({ isLoading: true }, () => {
-            const { changeItemQty, item: { item_id, qty = 1 }, cartId } = this.props;
+            const { changeItemQty, item: { id, quantity: itemQuantity = 1 }, cartId } = this.props;
 
-            if (quantity === qty) {
+            if (quantity === itemQuantity) {
                 this.setState({ isLoading: false });
                 return;
             }
 
             this.hideLoaderAfterPromise(changeItemQty({
-                uid: btoa(item_id),
+                uid: btoa(id),
                 quantity,
                 cartId
             }));
@@ -212,10 +213,10 @@ export class CartItemContainer extends PureComponent {
             removeProduct,
             updateCrossSellProducts,
             updateCrossSellsOnRemove,
-            item: { item_id }
+            item: { id }
         } = this.props;
 
-        const result = await removeProduct(item_id);
+        const result = await removeProduct(id);
 
         if (result && updateCrossSellsOnRemove) {
             await updateCrossSellProducts(result.items);
@@ -328,54 +329,21 @@ export class CartItemContainer extends PureComponent {
         return thumbnail || '';
     }
 
-    getConfigurationOptionLabel([key, attribute]) {
-        const {
-            item: {
-                product: {
-                    configurable_options = {}
-                }
-            }
-        } = this.props;
-
-        const { attribute_code, attribute_value } = attribute;
-
-        if (!Object.keys(configurable_options).includes(key) || attribute_value === null) {
-            return null;
-        }
-
-        const {
-            [attribute_code]: { // configurable option attribute
-                attribute_options: {
-                    [attribute_value]: { // attribute option value label
-                        label
-                    }
-                }
-            }
-        } = configurable_options;
-
-        return label;
-    }
-
     getConfigurableOptionsLabels() {
         const {
             item: {
+                configurable_options = [],
                 product: {
-                    configurable_options,
                     variants
-                }
-            }
+                } = {}
+            } = {}
         } = this.props;
 
         if (!variants || !configurable_options) {
             return [];
         }
 
-        const { attributes = [] } = this.getCurrentProduct() || {};
-
-        return Object.entries(attributes)
-            .filter(([attrKey]) => Object.keys(configurable_options).includes(attrKey))
-            .map(this.getConfigurationOptionLabel.bind(this))
-            .filter((label) => label);
+        return configurable_options.map(({ value_label }) => value_label);
     }
 
     notifyAboutLoadingStateChange(isLoading) {

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -155,7 +155,7 @@ export class CheckoutBilling extends PureComponent {
     renderOrderTotalExlTax() {
         const {
             cartTotalSubPrice,
-            totals: { quote_currency_code }
+            totals: { prices: { quote_currency_code = null } = {} }
         } = this.props;
 
         if (!cartTotalSubPrice) {
@@ -172,7 +172,16 @@ export class CheckoutBilling extends PureComponent {
     }
 
     renderOrderTotal() {
-        const { totals: { grand_total, quote_currency_code } } = this.props;
+        const {
+            totals: {
+                prices: {
+                    grand_total: {
+                        value: grand_total = 0
+                    } = {},
+                    quote_currency_code = null
+                } = {}
+            }
+        } = this.props;
 
         const orderTotal = formatPrice(grand_total, quote_currency_code);
 
@@ -205,7 +214,7 @@ export class CheckoutBilling extends PureComponent {
         }
 
         // if terms and conditions are enabled, validate for acceptance
-        const isDisabled = termsAreEnabled
+        const is = termsAreEnabled
             ? !isOrderButtonEnabled || !isTACAccepted || !paymentMethod
             : !isOrderButtonEnabled;
 
@@ -215,7 +224,7 @@ export class CheckoutBilling extends PureComponent {
                 <button
                   type="submit"
                   block="Button"
-                  disabled={ isDisabled }
+                  disabled={ is }
                   mix={ { block: 'CheckoutBilling', elem: 'Button' } }
                 >
                     { __('Complete order') }
@@ -271,7 +280,7 @@ export class CheckoutBilling extends PureComponent {
               mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
               label={ __('My billing and shipping are the same') }
               onChange={ onSameAsShippingChange }
-              isDisabled={ selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE }
+              is={ selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE }
             />
         );
     }

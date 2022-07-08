@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -339,8 +339,14 @@ export class CartItem extends PureComponent {
         const {
             currency_code,
             item: {
-                row_total,
-                row_total_incl_tax
+                prices: {
+                    row_total: {
+                        value: row_total = 0
+                    } = {},
+                    row_total_including_tax: {
+                        value: row_total_incl_tax = 0
+                    } = {}
+                } = {}
             },
             isCartOverlay,
             isMobileLayout
@@ -382,7 +388,7 @@ export class CartItem extends PureComponent {
         const {
             item: {
                 sku,
-                qty,
+                quantity,
                 product: {
                     stock_item: {
                         qty_increments: qtyIncrement = 1
@@ -416,12 +422,12 @@ export class CartItem extends PureComponent {
                   attr={ {
                       id: `${sku}_item_qty`,
                       name: `${sku}_item_qty`,
-                      defaultValue: qty,
+                      defaultValue: quantity,
                       min: minSaleQuantity,
                       max: maxSaleQuantity,
                       step: qtyIncrement
                   } }
-                  value={ qty }
+                  value={ quantity }
                   events={ {
                       onChange: handleChangeQuantity
                   } }
@@ -509,14 +515,14 @@ export class CartItem extends PureComponent {
     }
 
     renderQuantity() {
-        const { item: { qty } } = this.props;
+        const { item: { quantity } } = this.props;
 
         return (
             <p
               block="CartItem"
               elem="Quantity"
             >
-                { __('Quantity: %s', qty) }
+                { __('Quantity: %s', quantity) }
             </p>
         );
     }

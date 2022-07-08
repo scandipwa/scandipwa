@@ -7,8 +7,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -555,9 +555,9 @@ export class Header extends NavigationAbstract {
     }
 
     renderMinicartItemsQty() {
-        const { cartTotals: { items_qty } } = this.props;
+        const { cartTotals: { total_quantity } } = this.props;
 
-        if (!items_qty) {
+        if (!total_quantity) {
             return null;
         }
 
@@ -567,7 +567,7 @@ export class Header extends NavigationAbstract {
               block="Header"
               elem="MinicartItemCount"
             >
-                { items_qty }
+                { total_quantity }
             </span>
         );
     }

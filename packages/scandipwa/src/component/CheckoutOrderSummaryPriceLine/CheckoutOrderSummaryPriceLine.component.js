@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -65,10 +65,10 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         const { title } = this.props;
 
         return (
-        <p block="CheckoutOrderSummary" elem="Text">
-            { title }
-            { this.renderCoupon() }
-        </p>
+            <p block="CheckoutOrderSummary" elem="Text">
+                { title }
+                { this.renderCoupon() }
+            </p>
         );
     }
 
@@ -80,9 +80,9 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         }
 
         return (
-        <b>
-            { ` ${ coupon_code.toUpperCase() }:` }
-        </b>
+            <b>
+                { ` ${ coupon_code.toUpperCase() }:` }
+            </b>
         );
     }
 

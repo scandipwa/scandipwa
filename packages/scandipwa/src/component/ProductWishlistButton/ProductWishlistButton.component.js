@@ -26,7 +26,7 @@ export class ProductWishlistButton extends PureComponent {
         magentoProduct: PropTypes.arrayOf(MagentoProductType).isRequired,
 
         isLoading: PropTypes.bool,
-        isDisabled: PropTypes.bool,
+        is: PropTypes.bool,
         isInWishlist: PropTypes.bool,
         isSignedIn: PropTypes.bool.isRequired,
 
@@ -39,7 +39,7 @@ export class ProductWishlistButton extends PureComponent {
     static defaultProps = {
         mix: {},
         isLoading: false,
-        isDisabled: false,
+        is: false,
         isInWishlist: false
     };
 
@@ -78,13 +78,13 @@ export class ProductWishlistButton extends PureComponent {
     }
 
     renderButton() {
-        const { isInWishlist, isDisabled, mix } = this.props;
+        const { isInWishlist, is, mix } = this.props;
 
         return (
             <button
               block="ProductWishlistButton"
               elem="Button"
-              mods={ { isInWishlist, isDisabled } }
+              mods={ { isInWishlist, is } }
               mix={ { block: 'Button', mix } }
               title={ this.getTitle() }
               onClick={ this.onClick }

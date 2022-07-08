@@ -81,7 +81,7 @@ export class WishlistItem extends PureComponent {
                   onChange: ({ target: { value } = {} }) => changeDescription(value)
               } }
               mix={ { block: 'WishlistItem', elem: 'CommentField' } }
-              isDisabled={ !inStock }
+              is={ !inStock }
             />
         );
     }
@@ -113,7 +113,7 @@ export class WishlistItem extends PureComponent {
                   }
               } }
               mix={ { block: 'WishlistItem', elem: 'QuantityInput' } }
-              isDisabled={ !inStock }
+              is={ !inStock }
             />
         );
     }

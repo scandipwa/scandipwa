@@ -33,7 +33,7 @@ export class MyAccountMyWishlist extends PureComponent {
         shareWishlist: PropTypes.func.isRequired,
         isWishlistEmpty: PropTypes.bool.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-        isActionsDisabled: PropTypes.bool.isRequired,
+        isActions: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
         removeSelectedFromWishlist: PropTypes.func.isRequired,
@@ -159,7 +159,7 @@ export class MyAccountMyWishlist extends PureComponent {
     renderClearWishlist() {
         const {
             removeAll,
-            isActionsDisabled,
+            isActions,
             isLoading
         } = this.props;
 
@@ -169,7 +169,7 @@ export class MyAccountMyWishlist extends PureComponent {
               mods={ { isHollow: true, isWithoutBorder: true } }
               mix={ { block: 'MyAccountMyWishlist', elem: 'ClearWishlistButton' } }
               onClick={ removeAll }
-              disabled={ isActionsDisabled || isLoading }
+              disabled={ isActions || isLoading }
             >
                 { __('Clear All') }
             </button>
@@ -179,21 +179,21 @@ export class MyAccountMyWishlist extends PureComponent {
     renderAddAllToCart() {
         const {
             addAllToCart,
-            isActionsDisabled,
+            isActions,
             isEditingActive,
             isMobile,
             isLoading,
             isQtyUpdateInProgress
         } = this.props;
 
-        const isDisabled = (isMobile && isEditingActive) || isActionsDisabled || isLoading || isQtyUpdateInProgress;
+        const is = (isMobile && isEditingActive) || isActions || isLoading || isQtyUpdateInProgress;
 
         return (
             <button
               block="Button"
               mix={ { block: 'MyAccountMyWishlist', elem: 'Button' } }
               onClick={ addAllToCart }
-              disabled={ isDisabled }
+              disabled={ is }
             >
                 <CartIcon />
                 { __('Add All to Cart') }
@@ -225,10 +225,10 @@ export class MyAccountMyWishlist extends PureComponent {
     }
 
     renderRemoveItemsButton() {
-        const { isActionsDisabled, isMobile, isQtyUpdateInProgress } = this.props;
+        const { isActions, isMobile, isQtyUpdateInProgress } = this.props;
         const { selectedIdMap } = this.state;
 
-        const isDisabled = isActionsDisabled || (isMobile && !selectedIdMap.length) || isQtyUpdateInProgress;
+        const is = isActions || (isMobile && !selectedIdMap.length) || isQtyUpdateInProgress;
 
         return (
             <button
@@ -236,7 +236,7 @@ export class MyAccountMyWishlist extends PureComponent {
               mods={ { likeLink: true } }
               mix={ { block: 'MyAccountMyWishlist', elem: 'ClearRemoveItemsButton' } }
               onClick={ this.handleRemoveButtonClick }
-              disabled={ isDisabled }
+              disabled={ is }
             >
                 { selectedIdMap.length === 1
                     ? __('Remove item (%s)', 1)

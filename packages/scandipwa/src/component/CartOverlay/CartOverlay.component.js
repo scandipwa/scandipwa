@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -69,7 +69,9 @@ export class CartOverlay extends PureComponent {
         const {
             totals: {
                 items = [],
-                quote_currency_code
+                prices: {
+                    quote_currency_code = null
+                } = {}
             },
             onCartItemLoading
         } = this.props;
@@ -82,7 +84,7 @@ export class CartOverlay extends PureComponent {
             <div block="CartOverlay" elem="Items" aria-label="List of items in cart">
                 { items.map((item) => (
                     <CartItem
-                      key={ item.item_id }
+                      key={ item.id }
                       item={ item }
                       currency_code={ quote_currency_code }
                       onCartItemLoading={ onCartItemLoading }
@@ -117,7 +119,15 @@ export class CartOverlay extends PureComponent {
     }
 
     renderTotals() {
-        const { totals: { grand_total = 0 } } = this.props;
+        const {
+            totals: {
+                prices: {
+                    grand_total: {
+                        value: grand_total = 0
+                    } = {}
+                } = {}
+            }
+        } = this.props;
 
         return (
             <dl
@@ -136,14 +146,16 @@ export class CartOverlay extends PureComponent {
     renderTax() {
         const {
             totals: {
-                tax_amount = 0
-            } = {},
+                prices: {
+                    applied_taxes = []
+                } = {}
+            },
             cartDisplaySettings: {
                 display_zero_tax_subtotal
             } = {}
         } = this.props;
 
-        if (!tax_amount && !display_zero_tax_subtotal) {
+        if (!applied_taxes[0]?.amount?.value && !display_zero_tax_subtotal) {
             return null;
         }
 
@@ -153,7 +165,7 @@ export class CartOverlay extends PureComponent {
               elem="Tax"
             >
                 <dt>{ __('Tax total:') }</dt>
-                <dd>{ this.renderPriceLine(tax_amount) }</dd>
+                <dd>{ this.renderPriceLine(applied_taxes[0]?.amount?.value) }</dd>
             </dl>
         );
     }
@@ -169,9 +181,15 @@ export class CartOverlay extends PureComponent {
     renderDiscount() {
         const {
             totals: {
-                applied_rule_ids,
-                discount_amount,
-                coupon_code
+                prices: {
+                    applied_rule_ids,
+                    coupon_code,
+                    discount: {
+                        amount: {
+                            value: discount_amount = 0
+                        } = {}
+                    } = {}
+                } = {}
             }
         } = this.props;
 

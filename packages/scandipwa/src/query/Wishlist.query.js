@@ -6,13 +6,13 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import ProductListQuery from 'Query/ProductList.query';
 import { isSignedIn } from 'Util/Auth';
-import { getGuestQuoteId } from 'Util/Cart';
+import { getCartId } from 'Util/Cart';
 import { Field } from 'Util/Query';
 
 /** @namespace Query/Wishlist/Query */
@@ -78,8 +78,8 @@ export class WishlistQuery {
             field.addArgument('sharingCode', 'ID', sharingCode);
 
             if (!isSignedIn()) {
-                const guestQuoteId = getGuestQuoteId();
-                field.addArgument('guestCartId', 'ID', guestQuoteId);
+                const cartId = getCartId();
+                field.addArgument('guestCartId', 'ID', cartId);
             }
         }
 

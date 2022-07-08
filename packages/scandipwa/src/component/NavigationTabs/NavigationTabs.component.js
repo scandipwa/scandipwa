@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import CartIcon from 'Component/CartIcon';
@@ -58,13 +58,13 @@ export class NavigationTabs extends NavigationAbstract {
     shouldComponentUpdate(nextProps) {
         const {
             navigationState: { name: prevName },
-            cartTotals: { items_qty: prevQty },
+            cartTotals: { total_quantity: prevQty },
             device: prevDevice
         } = this.props;
 
         const {
             navigationState: { name: nextName },
-            cartTotals: { items_qty: nextQty },
+            cartTotals: { total_quantity: nextQty },
             device: nextDevice
         } = nextProps;
 

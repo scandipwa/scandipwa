@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -56,7 +56,7 @@ export class CheckoutShipping extends PureComponent {
     renderOrderTotalExclTax() {
         const {
             cartTotalSubPrice,
-            totals: { quote_currency_code }
+            totals: { prices: { quote_currency_code = null } = {} }
         } = this.props;
 
         if (!cartTotalSubPrice) {
@@ -73,7 +73,7 @@ export class CheckoutShipping extends PureComponent {
     }
 
     renderPriceLine(price) {
-        const { totals: { quote_currency_code } } = this.props;
+        const { totals: { prices: { quote_currency_code = null } = {} } } = this.props;
 
         return formatPrice(price, quote_currency_code);
     }
@@ -81,8 +81,12 @@ export class CheckoutShipping extends PureComponent {
     renderOrderTotal() {
         const {
             totals: {
-                grand_total,
-                quote_currency_code
+                prices: {
+                    grand_total: {
+                        value: grand_total = 0
+                    } = {},
+                    quote_currency_code = null
+                } = {}
             }
         } = this.props;
 
@@ -104,7 +108,7 @@ export class CheckoutShipping extends PureComponent {
     renderActions() {
         const { selectedShippingMethod } = this.props;
 
-        const isDisabled = !selectedShippingMethod?.carrier_code;
+        const is = !selectedShippingMethod?.carrier_code;
 
         return (
             <div block="Checkout" elem="StickyButtonWrapper">
@@ -112,7 +116,7 @@ export class CheckoutShipping extends PureComponent {
                 <button
                   type="submit"
                   block="Button"
-                  disabled={ isDisabled }
+                  disabled={ is }
                   mix={ { block: 'CheckoutShipping', elem: 'Button' } }
                 >
                     <LockIcon />

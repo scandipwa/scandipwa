@@ -63,7 +63,7 @@ export class CategoryQuery {
     _getCmsBlockFields() {
         return [
             'content',
-            'disabled',
+            '',
             'title',
             'identifier'
         ];

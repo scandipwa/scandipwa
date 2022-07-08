@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -44,7 +44,7 @@ export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     isMobile: state.ConfigReducer.device.isMobile,
     guest_checkout: state.ConfigReducer.guest_checkout,
-    currencyCode: state.CartReducer.cartTotals.quote_currency_code,
+    currencyCode: state.CartReducer.cartTotals?.prices?.quote_currency_code,
     activeOverlay: state.OverlayReducer.activeOverlay,
     cartTotalSubPrice: getCartTotalSubPrice(state),
     cartShippingPrice: getCartShippingPrice(state),
@@ -189,9 +189,9 @@ export class CartOverlayContainer extends PureComponent {
     changeHeaderState() {
         const {
             changeHeaderState,
-            totals: { count = 0 }
+            totals: { total_quantity = 0 }
         } = this.props;
-        const title = __('%s Items', count || 0);
+        const title = __('%s Items', total_quantity || 0);
 
         changeHeaderState({
             name: CART_OVERLAY,

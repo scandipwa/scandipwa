@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import {
@@ -42,10 +42,16 @@ export const getCartSubtotal = (state) => {
         } = {},
         CartReducer: {
             cartTotals: {
-                subtotal = 0,
-                subtotal_incl_tax = 0
+                prices: {
+                    subtotal_excluding_tax: {
+                        value: subtotal = 0
+                    } = {},
+                    subtotal_including_tax: {
+                        value: subtotal_incl_tax = 0
+                    } = {}
+                } = {}
             } = {}
-        } = {}
+        }
     } = state;
 
     if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL.EXCL_TAX) {
@@ -65,9 +71,13 @@ export const getCartSubtotalSubPrice = (state) => {
         } = {},
         CartReducer: {
             cartTotals: {
-                subtotal = 0
+                prices: {
+                    subtotal_excluding_tax: {
+                        value: subtotal = 0
+                    } = {}
+                } = {}
             } = {}
-        } = {}
+        }
     } = state;
 
     if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL.BOTH) {
@@ -125,15 +135,21 @@ export const getCartShippingPrice = (state) => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
-                display_tax_in_shipping_amount
+                display_tax_in_shipping_amount = ''
             } = {}
         } = {},
         CartReducer: {
             cartTotals: {
-                shipping_amount = 0,
-                shipping_incl_tax = 0
+                shipping_addresses: {
+                    selected_shipping_method: {
+                        amount: {
+                            value: shipping_amount = 0
+                        } = {},
+                        amount_incl_tax: shipping_incl_tax = 0
+                    } = {}
+                } = []
             } = {}
-        } = {}
+        }
     } = state;
 
     if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING.EXCL_TAX) {
@@ -153,9 +169,15 @@ export const getCartShippingSubPrice = (state) => {
         } = {},
         CartReducer: {
             cartTotals: {
-                shipping_amount = 0
+                shipping_addresses: {
+                    selected_shipping_method: {
+                        amount: {
+                            value: shipping_amount = 0
+                        } = {}
+                    } = {}
+                } = []
             } = {}
-        } = {}
+        }
     } = state;
 
     if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING.BOTH) {
@@ -218,14 +240,18 @@ export const getCartTotalSubPrice = (state) => {
         } = {},
         CartReducer: {
             cartTotals: {
-                grand_total = 0,
-                tax_amount = 0
+                prices: {
+                    grand_total: {
+                        value: grand_total = 0
+                    } = {},
+                    applied_taxes = []
+                } = {}
             } = {}
-        } = {}
+        }
     } = state;
 
     if (include_tax_in_order_total) {
-        return grand_total - tax_amount;
+        return applied_taxes.reduce((acc, { amount: { value: tax_amount = 0 } = {} }) => acc - tax_amount, grand_total);
     }
 
     return null;

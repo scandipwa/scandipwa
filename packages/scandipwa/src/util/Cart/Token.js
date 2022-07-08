@@ -5,29 +5,29 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-export const GUEST_QUOTE_ID = 'guest_quote_id';
+export const CART_ID = 'cart_id';
 
-/** @namespace Util/Cart/Token/setGuestQuoteId */
-export const setGuestQuoteId = (token) => {
+/** @namespace Util/Cart/Token/setCartId */
+export const setCartId = (token) => {
     BrowserDatabase.setItem({
         token,
         isCustomerToken: isSignedIn()
-    }, GUEST_QUOTE_ID);
+    }, CART_ID);
 };
 
-/** @namespace Util/Cart/Token/getGuestQuoteId */
-export const getGuestQuoteId = () => {
+/** @namespace Util/Cart/Token/getCartId */
+export const getCartId = () => {
     const {
         token,
         isCustomerToken
-    } = BrowserDatabase.getItem(GUEST_QUOTE_ID) || {};
+    } = BrowserDatabase.getItem(CART_ID) || {};
 
     if (isCustomerToken && !isSignedIn()) {
         return null;
@@ -36,5 +36,5 @@ export const getGuestQuoteId = () => {
     return token;
 };
 
-/** @namespace Util/Cart/Token/deleteGuestQuoteId */
-export const deleteGuestQuoteId = () => BrowserDatabase.deleteItem(GUEST_QUOTE_ID);
+/** @namespace Util/Cart/Token/deleteCartId */
+export const deleteCartId = () => BrowserDatabase.deleteItem(CART_ID);

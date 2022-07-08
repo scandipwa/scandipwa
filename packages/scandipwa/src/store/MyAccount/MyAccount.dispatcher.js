@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { CHECKOUT, MY_ACCOUNT } from 'Component/Header/Header.config';
@@ -40,7 +40,7 @@ import {
     setAuthorizationToken
 } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { deleteGuestQuoteId, getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
+import { deleteCartId, getCartId, setCartId } from 'Util/Cart';
 import { removeUid } from 'Util/Compare';
 import history from 'Util/History';
 import { prepareQuery } from 'Util/Query';
@@ -120,7 +120,7 @@ export class MyAccountDispatcher {
             }
         }
 
-        deleteGuestQuoteId();
+        deleteCartId();
         BrowserDatabase.deleteItem(CUSTOMER);
         removeUid();
 
@@ -285,7 +285,7 @@ export class MyAccountDispatcher {
         );
 
         const cartDispatcher = (await CartDispatcher).default;
-        const guestCartToken = getGuestQuoteId();
+        const guestCartToken = getCartId();
         // if customer is authorized, `createEmptyCart` mutation returns customer cart token
         const customerCartToken = await cartDispatcher.createGuestEmptyCart(dispatch);
 
@@ -294,7 +294,7 @@ export class MyAccountDispatcher {
             await cartDispatcher.mergeCarts(guestCartToken, customerCartToken, dispatch);
         }
 
-        setGuestQuoteId(customerCartToken);
+        setCartId(customerCartToken);
         cartDispatcher.updateInitialCartData(dispatch, true);
 
         WishlistDispatcher.then(

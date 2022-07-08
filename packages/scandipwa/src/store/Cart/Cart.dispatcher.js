@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import CartQuery from 'Query/Cart.query';
@@ -15,7 +15,7 @@ import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.actio
 import { showNotification } from 'Store/Notification/Notification.action';
 import { getRegionIdOfRegionName } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
-import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
+import { getCartId, setCartId } from 'Util/Cart';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 
 export const LinkedProductsDispatcher = import(
@@ -39,17 +39,21 @@ export class CartDispatcher {
             }
 
             // ! Get quote token first (local or from the backend) just to make sure it exists
-            const quoteId = await this._getGuestQuoteId(dispatch);
+            const quoteId = await this._getCartId(dispatch);
             const {
                 cartData = {},
                 cartData: {
                     is_virtual = false,
-                    shipping_address,
                     shipping_address: {
-                        street = null,
-                        email = ''
-                    } = {},
-                    shipping_method
+                        selected_shipping_method: {
+                            address,
+                            address: {
+                                street = null,
+                                email = ''
+                            } = {}
+                        } = {},
+                        method_code
+                    } = {}
                 } = {}
             } = await fetchQuery(
                 CartQuery.getCartQuery(
@@ -57,12 +61,12 @@ export class CartDispatcher {
                 )
             );
 
-            if (shipping_address && street) {
+            if (address && street) {
                 if (!is_virtual) {
                     await dispatch(
                         updateShippingFields({
-                            ...this.prepareCheckoutAddressFormat(shipping_address),
-                            shipping_method
+                            ...this.prepareCheckoutAddressFormat(address),
+                            method_code
                         })
                     );
                 }
@@ -122,7 +126,7 @@ export class CartDispatcher {
                 createEmptyCart: quoteId = ''
             } = await fetchMutation(CartQuery.getCreateEmptyCartMutation());
 
-            setGuestQuoteId(quoteId);
+            setCartId(quoteId);
 
             return quoteId;
         } catch (error) {
@@ -157,7 +161,7 @@ export class CartDispatcher {
     async changeItemQty(dispatch, options) {
         const { uid, quantity = 1, cartId: originalCartId } = options;
 
-        const cartId = !originalCartId ? getGuestQuoteId() : originalCartId;
+        const cartId = !originalCartId ? getCartId() : originalCartId;
 
         try {
             if (!cartId) {
@@ -187,7 +191,7 @@ export class CartDispatcher {
     async addProductToCart(dispatch, options = {}) {
         const { products = [], cartId: userCartId } = options;
 
-        const cartId = userCartId || getGuestQuoteId();
+        const cartId = userCartId || getCartId();
 
         if (!Array.isArray(products) || products.length === 0) {
             dispatch(showNotification('error', __('No product data!')));
@@ -229,14 +233,14 @@ export class CartDispatcher {
     async removeProductFromCart(dispatch, item_id) {
         try {
             const isCustomerSignedIn = isSignedIn();
-            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
+            const cartId = getCartId();
 
-            if (!isCustomerSignedIn && !guestQuoteId) {
+            if (!isCustomerSignedIn && !cartId) {
                 return null;
             }
 
             const { removeCartItem: { cartData = {} } = {} } = await fetchMutation(
-                CartQuery.getRemoveCartItemMutation(item_id, guestQuoteId)
+                CartQuery.getRemoveCartItemMutation(item_id, cartId)
             );
 
             this._updateCartData(cartData, dispatch);
@@ -252,14 +256,14 @@ export class CartDispatcher {
     async applyCouponToCart(dispatch, couponCode) {
         try {
             const isCustomerSignedIn = isSignedIn();
-            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
+            const cartId = !isCustomerSignedIn && getCartId();
 
-            if (!isCustomerSignedIn && !guestQuoteId) {
+            if (!isCustomerSignedIn && !cartId) {
                 return false;
             }
 
             const { applyCoupon: { cartData = {} } = {} } = await fetchMutation(
-                CartQuery.getApplyCouponMutation(couponCode, guestQuoteId)
+                CartQuery.getApplyCouponMutation(couponCode, cartId)
             );
 
             this._updateCartData(cartData, dispatch);
@@ -276,14 +280,14 @@ export class CartDispatcher {
     async removeCouponFromCart(dispatch) {
         try {
             const isCustomerSignedIn = isSignedIn();
-            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
+            const cartId = !isCustomerSignedIn && getCartId();
 
-            if (!isCustomerSignedIn && !guestQuoteId) {
+            if (!isCustomerSignedIn && !cartId) {
                 return;
             }
 
             const { removeCoupon: { cartData = {} } = {} } = await fetchMutation(
-                CartQuery.getRemoveCouponMutation(guestQuoteId)
+                CartQuery.getRemoveCouponMutation(cartId)
             );
 
             this._updateCartData(cartData, dispatch);
@@ -368,11 +372,11 @@ export class CartDispatcher {
      * @param Dispatch dispatch
      * @return string quote id
      */
-    _getGuestQuoteId(dispatch) {
-        const guestQuoteId = getGuestQuoteId();
+    _getCartId(dispatch) {
+        const cartId = getCartId();
 
-        if (guestQuoteId) {
-            return guestQuoteId;
+        if (cartId) {
+            return cartId;
         }
 
         return this.createGuestEmptyCart(dispatch);

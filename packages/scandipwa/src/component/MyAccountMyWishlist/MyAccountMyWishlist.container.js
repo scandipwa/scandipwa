@@ -105,7 +105,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
             isWishlistLoading,
             isWishlistEmpty,
             isLoading,
-            isActionsDisabled: isWishlistLoading || isWishlistEmpty,
+            isActions: isWishlistLoading || isWishlistEmpty,
             loadingItemsMap,
             creatorsName,
             wishlistItems,

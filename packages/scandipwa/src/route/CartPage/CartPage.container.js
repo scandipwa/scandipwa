@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -130,14 +130,14 @@ export class CartPageContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const {
             changeHeaderState,
-            totals: { items_qty = 0 },
+            totals: { total_quantity = 0 },
             headerState,
             headerState: { name },
             isLoading
         } = this.props;
 
         const {
-            totals: { items_qty: prevItemsQty = 0 },
+            totals: { total_quantity: prevItemsQty = 0 },
             headerState: { name: prevName }
         } = prevProps;
 
@@ -149,15 +149,15 @@ export class CartPageContainer extends PureComponent {
             }
         }
 
-        if (items_qty !== prevItemsQty && prevItemsQty !== undefined) {
-            const title = getItemsCountLabel(items_qty);
+        if (total_quantity !== prevItemsQty && prevItemsQty !== undefined) {
+            const title = getItemsCountLabel(total_quantity);
             changeHeaderState({
                 ...headerState,
                 title
             });
         }
 
-        if (items_qty !== prevItemsQty) {
+        if (total_quantity !== prevItemsQty) {
             this._updateCrossSellProducts();
         }
 
@@ -262,8 +262,8 @@ export class CartPageContainer extends PureComponent {
     }
 
     _changeHeaderState() {
-        const { changeHeaderState, totals: { items_qty } } = this.props;
-        const title = getItemsCountLabel(items_qty);
+        const { changeHeaderState, totals: { total_quantity } } = this.props;
+        const title = getItemsCountLabel(total_quantity);
 
         changeHeaderState({
             name: CART,

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -33,7 +33,7 @@ import { HistoryType } from 'Type/Router.type';
 import { removeEmptyStreets } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { deleteGuestQuoteId, getCartTotalSubPrice, getGuestQuoteId } from 'Util/Cart';
+import { deleteCartId, getCartId, getCartTotalSubPrice } from 'Util/Cart';
 import history from 'Util/History';
 import {
     debounce,
@@ -252,7 +252,7 @@ export class CheckoutContainer extends PureComponent {
         this.handleRedirectIfNoItemsInCart();
         this.handleRedirectIfLessThanMinAmountInCart();
 
-        // if guest checkout is disabled and user is not logged in => throw him to homepage
+        // if guest checkout is  and user is not logged in => throw him to homepage
         if (!guest_checkout && !isSignedIn()) {
             history.push(appendWithStoreCode('/'));
         }
@@ -419,9 +419,9 @@ export class CheckoutContainer extends PureComponent {
 
     onShippingEstimationFieldsChange(address) {
         const { requestsSent } = this.state;
-        const guestQuoteId = getGuestQuoteId();
+        const cartId = getCartId();
 
-        if (!guestQuoteId) {
+        if (!cartId) {
             return;
         }
 
@@ -433,7 +433,7 @@ export class CheckoutContainer extends PureComponent {
 
         fetchMutation(CheckoutQuery.getEstimateShippingCosts(
             address,
-            guestQuoteId
+            cartId
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/onShippingEstimationFieldsChange/fetchMutation/then */
             ({ estimateShippingCosts: shippingMethods }) => {
@@ -562,7 +562,7 @@ export class CheckoutContainer extends PureComponent {
     setDetailsStep(orderID) {
         const { resetCart, resetGuestCart, setNavigationState } = this.props;
 
-        deleteGuestQuoteId();
+        deleteCartId();
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
         if (isSignedIn()) {
@@ -689,7 +689,7 @@ export class CheckoutContainer extends PureComponent {
 
     _getPaymentMethods() {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
-            getGuestQuoteId()
+            getCartId()
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/_getPaymentMethods/fetchQuery/then */
             ({ getPaymentMethods: paymentMethods }) => {
@@ -711,7 +711,7 @@ export class CheckoutContainer extends PureComponent {
     saveGuestEmail() {
         const { email } = this.state;
         const { updateEmail } = this.props;
-        const guestCartId = getGuestQuoteId();
+        const guestCartId = getCartId();
 
         if (!email) {
             this.setState({ isVisibleEmailRequired: false }, this.onChangeEmailRequired);
@@ -828,7 +828,7 @@ export class CheckoutContainer extends PureComponent {
 
         fetchMutation(CheckoutQuery.getSaveAddressInformation(
             this.prepareAddressInformation(addressInformation),
-            getGuestQuoteId()
+            getCartId()
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/saveAddressInformation/fetchMutation/then */
             ({ saveAddressInformation: data }) => {
@@ -947,9 +947,9 @@ export class CheckoutContainer extends PureComponent {
 
     async saveBillingAddress(paymentInformation) {
         const isCustomerSignedIn = isSignedIn();
-        const guest_cart_id = !isCustomerSignedIn ? getGuestQuoteId() : '';
+        const guest_cart_id = !isCustomerSignedIn ? getCartId() : '';
 
-        if (!isCustomerSignedIn && !getGuestQuoteId) {
+        if (!isCustomerSignedIn && !getCartId) {
             return;
         }
 
@@ -977,7 +977,7 @@ export class CheckoutContainer extends PureComponent {
     async savePaymentMethodAndPlaceOrder(paymentInformation) {
         const { paymentMethod: { code, additional_data, purchase_order_number } } = paymentInformation;
         const isCustomerSignedIn = isSignedIn();
-        const guest_cart_id = !isCustomerSignedIn ? getGuestQuoteId() : '';
+        const guest_cart_id = !isCustomerSignedIn ? getCartId() : '';
 
         if (!isCustomerSignedIn && !guest_cart_id) {
             return;

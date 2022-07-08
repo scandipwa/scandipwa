@@ -13,7 +13,7 @@
 import ProductListQuery from 'Query/ProductList.query';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { isSignedIn } from 'Util/Auth';
-import { Field } from 'Util/Query';
+import { Field, Fragment } from 'Util/Query';
 
 /** @namespace Query/Cart/Query */
 export class CartQuery {
@@ -37,9 +37,9 @@ export class CartQuery {
     //#endregion
 
     //#region QUERIES
-    getCartQuery(quoteId) {
+    getCartQuery2(quoteId) {
         const query = new Field('getCartForCustomer')
-            .addFieldList(this._getCartTotalsFields())
+            .addFieldList(this._getCartTotalsFields2())
             .setAlias('cartData');
 
         if (!isSignedIn()) {
@@ -129,11 +129,11 @@ export class CartQuery {
         ];
     }
 
-    _getCartTotalsFields() {
+    _getCartTotalsFields2() {
         const { pathname = '' } = location;
         const checkoutData = (
             pathname.includes(CHECKOUT_URL)
-                ? [this._getOrderShippingAddressField()]
+                ? [this._getOrderShippingAddressField2()]
                 : []
         );
 
@@ -159,18 +159,18 @@ export class CartQuery {
             'shipping_method',
             ...checkoutData,
             'is_in_store_pickup_available',
-            this._getCartItemsField(),
-            this._getAppliedTaxesField(),
+            this._getCartItemsField2(),
+            this._getAppliedTaxesField2(),
             this._getMinimumOrderAmount()
         ];
     }
 
-    _getOrderShippingAddressField() {
+    _getOrderShippingAddressField2() {
         return new Field('shipping_address')
-            .addFieldList(this._getOrderAddressFields());
+            .addFieldList(this._getOrderAddressFields2());
     }
 
-    _getOrderAddressFields() {
+    _getOrderAddressFields2() {
         return [
             'city',
             'country_id',
@@ -185,7 +185,7 @@ export class CartQuery {
         ];
     }
 
-    _getBundleOptionValuesFields() {
+    _getBundleOptionValuesFields2() {
         return [
             'id',
             'label',
@@ -194,25 +194,25 @@ export class CartQuery {
         ];
     }
 
-    _getBundleOptionValuesField() {
+    _getBundleOptionValuesField2() {
         return new Field('values')
-            .addFieldList(this._getBundleOptionValuesFields());
+            .addFieldList(this._getBundleOptionValuesFields2());
     }
 
-    _getBundleOptionsFields() {
+    _getBundleOptionsFields2() {
         return [
             'id',
             'label',
-            this._getBundleOptionValuesField()
+            this._getBundleOptionValuesField2()
         ];
     }
 
-    _getBundleOptionsField() {
+    _getBundleOptionsField2() {
         return new Field('bundle_options')
-            .addFieldList(this._getBundleOptionsFields());
+            .addFieldList(this._getBundleOptionsFields2());
     }
 
-    _getCustomizableOptionValueFields() {
+    _getCustomizableOptionValueFields2() {
         return [
             'id',
             'label',
@@ -220,17 +220,17 @@ export class CartQuery {
         ];
     }
 
-    _getCustomizableOptionValueField() {
+    _getCustomizableOptionValueField2() {
         return new Field('values')
-            .addFieldList(this._getCustomizableOptionValueFields());
+            .addFieldList(this._getCustomizableOptionValueFields2());
     }
 
-    _getCustomizableOptionsFields() {
+    _getCustomizableOptionsFields2() {
         return new Field('customizable_options')
             .addFieldList([
                 'id',
                 'label',
-                this._getCustomizableOptionValueField()
+                this._getCustomizableOptionValueField2()
             ]);
     }
 
@@ -258,9 +258,9 @@ export class CartQuery {
             'tax_percent',
             'discount_amount',
             'discount_percent',
-            this._getCustomizableOptionsFields(),
+            this._getCustomizableOptionsFields2(),
             this._getDownloadableLinksField(),
-            this._getBundleOptionsField(),
+            this._getBundleOptionsField2(),
             this._getProductField()
         ];
     }
@@ -270,7 +270,7 @@ export class CartQuery {
             .addFieldList(ProductListQuery._getCartProductInterfaceFields());
     }
 
-    _getCartItemsField() {
+    _getCartItemsField2() {
         return new Field('items')
             .addFieldList(this._getCartItemFields());
     }
@@ -286,7 +286,7 @@ export class CartQuery {
         ];
     }
 
-    _getAppliedTaxesField() {
+    _getAppliedTaxesField2() {
         return new Field('applied_taxes')
             .addField(this._getAppliedTaxesRatesField());
     }
@@ -312,6 +312,391 @@ export class CartQuery {
         return [
             'minimum_order_amount_reached',
             'minimum_order_description'
+        ];
+    }
+
+    /*
+    * Data for new cart
+    */
+
+    getCartQuery(cartId) {
+        return new Field('cart')
+            .setAlias('cartData')
+            .addArgument('cart_id', 'String!', cartId)
+            .addFieldList(this._getCartTotalsFields());
+    }
+
+    _getCartTotalsFields() {
+        return [
+            'id',
+            'email',
+            this._getPricesField(),
+            this._getShippingAddressesField(),
+            this._getMinimumOrderAmount(),
+            this._getCartItemsField(),
+            'total_quantity',
+            'is_virtual',
+            'is_in_store_pickup_available'
+        ];
+    }
+
+    _getPriceField() {
+        return [
+            'value',
+            'currency'
+        ];
+    }
+
+    _getAmountField() {
+        return new Field('amount')
+            .addFieldList(this._getPriceField());
+    }
+
+    _getBaseAmountField() {
+        return new Field('base_amount')
+            .addFieldList(this._getPriceField());
+    }
+
+    _getCartItemsField() {
+        return new Field('items')
+            .addFieldList(this._getCartItemsFields());
+    }
+
+    _getCartItemsFields() {
+        return [
+            'id',
+            'uid',
+            'sku',
+            'quantity',
+            this._getCartItemProduct(),
+            this._getCartItemPricesField(),
+            this._getCartDownloadableProductLinkField(),
+            this._getCartBundleProductFragment(),
+            this._getCartConfigurableProductFragment()
+        ];
+    }
+
+    _getCartItemProduct() {
+        return new Field('product')
+            .addFieldList(ProductListQuery._getCartProductInterfaceFields());
+    }
+
+    _getCartDownloadableProductLinkField() {
+        return new Fragment('DownloadableCartItem')
+            .addFieldList([
+                this._getDownloadableLinkField(),
+                this._getDownloadableSamplesField()
+            ]);
+    }
+
+    _getDownloadableLinkField() {
+        return new Field('links')
+            .addFieldList(this._getDownloadableLinkFields());
+    }
+
+    _getDownloadableLinkFields() {
+        return [
+            'id',
+            'title',
+            'sort_order',
+            'price'
+        ];
+    }
+
+    _getDownloadableSamplesField() {
+        return new Field('samples')
+            .addFieldList(this._getDownloadableSamplesFields());
+    }
+
+    _getDownloadableSamplesFields() {
+        return [
+            'id',
+            'title'
+        ];
+    }
+
+    _getCartBundleProductFragment() {
+        return new Fragment('BundleCartItem')
+            .addFieldList([
+                this._getBundleOptionsField(),
+                this._getCustomizableOptionsField()
+            ]);
+    }
+
+    _getBundleOptionsField() {
+        return new Field('bundle_options')
+            .addFieldList(this._getBundleOptionsFields());
+    }
+
+    _getBundleOptionsFields() {
+        return [
+            'id',
+            'label',
+            'type',
+            this._getBundleOptionValuesField()
+        ];
+    }
+
+    _getBundleOptionValuesField() {
+        return new Field('values')
+            .addFieldList(this._getBundleOptionValuesFields());
+    }
+
+    _getBundleOptionValuesFields() {
+        return [
+            'id',
+            'label',
+            'quantity',
+            'price'
+        ];
+    }
+
+    _getCartConfigurableProductFragment() {
+        return new Fragment('ConfigurableCartItem')
+            .addFieldList([
+                this._getConfigurableOptionsField()
+            ]);
+    }
+
+    _getConfigurableOptionsField() {
+        return new Field('configurable_options')
+            .addFieldList(this._getConfigurableOptionsFields());
+    }
+
+    _getConfigurableOptionsFields() {
+        return [
+            'id',
+            'option_label',
+            'value_label'
+        ];
+    }
+
+    _getCustomizableOptionsField() {
+        return new Field('customizable_options')
+            .addFieldList(this._getCustomizableOptionsFields());
+    }
+
+    _getCustomizableOptionsFields() {
+        return [
+            'id',
+            'label',
+            'label',
+            'type',
+            'sort_order',
+            'is_required',
+            this._getCustomizableOptionValueField()
+        ];
+    }
+
+    _getCustomizableOptionValueField() {
+        return new Field('values')
+            .addFieldList(this._getCustomizableOptionValueFields());
+    }
+
+    _getCustomizableOptionValueFields() {
+        return [
+            'id',
+            'label',
+            'value'
+        ];
+    }
+
+    _getCartItemPricesField() {
+        return new Field('prices')
+            .addFieldList(this._getCartItemPricesFields());
+    }
+
+    _getCartItemPricesFields() {
+        return [
+            this._getCartItemPriceField(),
+            this._getCartItemRowTotalField(),
+            this._getCartItemRowTotalInclTaxField(),
+            this._getCartItemTotalDiscountField()
+        ];
+    }
+
+    _getCartItemPriceField() {
+        return new Field('price')
+            .addFieldList(this._getPriceField());
+    }
+
+    _getCartItemRowTotalField() {
+        return new Field('row_total')
+            .addFieldList(this._getPriceField());
+    }
+
+    _getCartItemRowTotalInclTaxField() {
+        return new Field('row_total_including_tax')
+            .addFieldList(this._getPriceField());
+    }
+
+    _getCartItemDiscountsField() {
+        return new Field('discounts')
+            .addFieldList(this._getPriceField());
+    }
+
+    _getCartItemTotalDiscountField() {
+        return new Field('total_item_discount')
+            .addFieldList(this._getPriceField());
+    }
+
+    _getPricesField() {
+        return new Field('prices')
+            .addFieldList(this._getPricesFields());
+    }
+
+    _getPricesFields() {
+        return [
+            'applied_rule_ids',
+            'coupon_code',
+            'quote_currency_code',
+            this._getGrandTotalField(),
+            this._getSubtotalInclTaxField(),
+            this._getSubtotalExclTaxField(),
+            this._getSubtotalWithDiscountExclTaxField(),
+            this._getDiscountField(),
+            this._getAppliedTaxesField()
+        ];
+    }
+
+    _getGrandTotalField() {
+        return new Field('grand_total')
+            .addFieldList(this._getPriceField());
+    }
+
+    _getSubtotalInclTaxField() {
+        return new Field('subtotal_including_tax')
+            .addFieldList(this._getPriceField());
+    }
+
+    _getSubtotalExclTaxField() {
+        return new Field('subtotal_excluding_tax')
+            .addFieldList(this._getPriceField());
+    }
+
+    _getSubtotalWithDiscountExclTaxField() {
+        return new Field('subtotal_with_discount_excluding_tax')
+            .addFieldList(this._getPriceField());
+    }
+
+    _getDiscountField() {
+        return new Field('discount')
+            .addFieldList(this._getDiscountFields());
+    }
+
+    _getDiscountFields() {
+        return [
+            'label',
+            this._getAmountField()
+        ];
+    }
+
+    _getAppliedTaxesField() {
+        return new Field('applied_taxes')
+            .addFieldList(this._getAppliedTaxesFields());
+    }
+
+    _getAppliedTaxesFields() {
+        return [
+            'label',
+            'percent',
+            this._getAmountField()
+        ];
+    }
+
+    _getShippingAddressesField() {
+        return new Field('shipping_addresses')
+            .addFieldList(this._getShippingAddressesFields());
+    }
+
+    _getShippingAddressesFields() {
+        return [
+            this._getAvailableShippingMethodField(),
+            this._getSelectedShippingMethodField(),
+            'customer_notes'
+        ];
+    }
+
+    _getAvailableShippingMethodField() {
+        return new Field('available_shipping_methods')
+            .addFieldList(this._getAvailableShippingMethodFields());
+    }
+
+    _getAvailableShippingMethodFields() {
+        return [
+            'available',
+            'method_code',
+            'carrier_code',
+            'carrier_title',
+            'error_message'
+        ];
+    }
+
+    _getSelectedShippingMethodField() {
+        return new Field('selected_shipping_method')
+            .addFieldList(this._getSelectedShippingMethodFields());
+    }
+
+    _getSelectedShippingMethodFields() {
+        const { pathname = '' } = location;
+        const checkoutData = (
+            pathname.includes(CHECKOUT_URL)
+                ? [this._getOrderShippingAddressField()]
+                : []
+        );
+
+        return [
+            'amount_incl_tax',
+            'carrier_code',
+            'carrier_title',
+            'method_code',
+            'method_title',
+            'tax_amount',
+            this._getAmountField(),
+            ...checkoutData
+        ];
+    }
+
+    _getOrderShippingAddressField() {
+        return new Field('address')
+            .addFieldList(this._getOrderAddressFields());
+    }
+
+    _getOrderAddressFields() {
+        return [
+            'city',
+            this._getCountryField(),
+            'firstname',
+            'lastname',
+            'postcode',
+            this._getRegionField(),
+            'telephone',
+            'vat_id',
+            'email',
+            'street'
+        ];
+    }
+
+    _getCountryField() {
+        return new Field('country')
+            .addFieldList(this._getCountryFields());
+    }
+
+    _getCountryFields() {
+        return [
+            'code'
+        ];
+    }
+
+    _getRegionField() {
+        return new Field('region')
+            .addFieldList(this._getRegionFields());
+    }
+
+    _getRegionFields() {
+        return [
+            'label',
+            'region_id'
         ];
     }
 }

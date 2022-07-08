@@ -157,7 +157,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         const parameterPairs = Object.entries(parameters);
 
         const selectedAttributes = isAttributeSelected
-            // Need to exclude itself, otherwise different attribute_values of the same attribute_code will always be disabled
+            // Need to exclude itself, otherwise different attribute_values of the same attribute_code will always be 
             ? parameterPairs.filter(([key]) => key !== attribute_code)
             : parameterPairs;
 

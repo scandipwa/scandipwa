@@ -163,7 +163,7 @@ export class ProductBundleOption extends PureComponent {
                       match: this.getError.bind(this, quantity, stock, min, max)
                   } }
                   validateOn={ ['onChange'] }
-                  isDisabled={ !stock }
+                  is={ !stock }
                 />
                 { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>
@@ -223,7 +223,7 @@ export class ProductBundleOption extends PureComponent {
                       match: this.getError.bind(this, quantity, stock)
                   } }
                   validateOn={ ['onChange'] }
-                  isDisabled={ !stock }
+                  is={ !stock }
                 />
                 { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>

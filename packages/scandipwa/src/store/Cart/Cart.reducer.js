@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -18,11 +18,12 @@ export const CART_TOTALS = 'cart_totals';
 
 /** @namespace Store/Cart/Reducer/updateCartTotals */
 export const updateCartTotals = (action) => {
-    const { cartData: { items = [], ...rest } = {} } = action;
+    const { cartData: { items = [], shipping_addresses = {}, ...rest } = {} } = action;
 
     const cartTotals = {
         ...rest,
-        items: []
+        items: [],
+        shipping_addresses: {}
     };
 
     if (items.length) {
@@ -35,6 +36,8 @@ export const updateCartTotals = (action) => {
 
         cartTotals.items = normalizedItemsProduct;
     }
+
+    cartTotals.shipping_addresses = shipping_addresses[0] || {};
 
     BrowserDatabase.setItem(
         cartTotals,

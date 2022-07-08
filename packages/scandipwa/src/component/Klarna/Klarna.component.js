@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -16,7 +16,7 @@ import { PureComponent } from 'react';
 import Loader from 'Component/Loader';
 import KlarnaQuery from 'Query/Klarna.query';
 import { isSignedIn } from 'Util/Auth';
-import { getGuestQuoteId } from 'Util/Cart';
+import { getCartId } from 'Util/Cart';
 import { fetchMutation } from 'Util/Request';
 
 import {
@@ -59,14 +59,14 @@ export class Klarna extends PureComponent {
 
     async initiateKlarna() {
         const { showError, setOrderButtonEnableStatus } = this.props;
-        const guest_cart_id = getGuestQuoteId();
+        const cart_id = getCartId();
 
         try {
             setOrderButtonEnableStatus(false);
 
             const { klarnaToken: client_token } = await fetchMutation(
                 KlarnaQuery.getCreateKlarnaTokenMutation(
-                    !isSignedIn() ? { guest_cart_id } : {}
+                    !isSignedIn() ? { cart_id } : {}
                 )
             );
 

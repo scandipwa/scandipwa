@@ -656,7 +656,7 @@ export class ProductListQuery {
             'file',
             'label',
             'position',
-            'disabled',
+            '',
             'media_type',
             'types',
             this._getVideoContentField(),
