@@ -252,6 +252,7 @@ export class CategoryPageContainer extends PureComponent {
         if (categoryIds === id) {
             this.updateBreadcrumbs();
             this.updateHeaderState();
+            this.updateMeta();
         } else {
             /**
              * Still update header and breadcrumbs, but ignore
