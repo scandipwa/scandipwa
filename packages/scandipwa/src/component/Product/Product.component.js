@@ -274,7 +274,7 @@ export class Product extends PureComponent {
             <AddToCart
               mix={ { block: this.className, elem: 'AddToCart' } }
               addToCart={ addToCart }
-              is={ !inStock }
+              isDisabled={ !inStock }
               isIconEnabled={ false }
               layout={ layout }
               updateSelectedValues={ updateSelectedValues }
@@ -353,7 +353,7 @@ export class Product extends PureComponent {
                       max: maxQuantity
                   }
               } }
-              is={ !inStock }
+              isDisabled={ !inStock }
               mix={ { block: this.className, elem: 'Qty' } }
               events={ { onChange: setQuantity } }
               validateOn={ ['onChange'] }

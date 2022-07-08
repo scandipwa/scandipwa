@@ -140,7 +140,7 @@ export class CheckoutDeliveryOption extends PureComponent {
               block="CheckoutDeliveryOption"
               elem="Row"
             >
-                <div block="CheckoutDeliveryOption" elem="Span" mods={ { is: !available } }>
+                <div block="CheckoutDeliveryOption" elem="Span" mods={ { isDisabled: !available } }>
                     { __('Carrier method: ') }
                     <strong>{ carrier_title }</strong>
                 </div>
@@ -165,14 +165,14 @@ export class CheckoutDeliveryOption extends PureComponent {
             <li
               block="CheckoutDeliveryOption"
               mods={ {
-                  is: !available,
+                  isDisabled: !available,
                   isActive: isSelected,
                   isHoverExcluded: !available || isSelected
               } }
             >
                 <button
                   block="CheckoutDeliveryOption"
-                  mods={ { is: !available } }
+                  mods={ { isDisabled: !available } }
                   elem="Button"
                   type="button"
                   onClick={ onOptionClick }

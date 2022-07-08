@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { DeviceType } from 'Type/Device.type';
 import { NavigationStateHistoryType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
-import { isScroll, toggleScroll } from 'Util/Browser';
+import { isScrollDisabled, toggleScroll } from 'Util/Browser';
 import history from 'Util/History';
 import { isHomePageUrl } from 'Util/Url';
 
@@ -137,7 +137,7 @@ export class NavigationAbstractContainer extends PureComponent {
     }
 
     handlePageScroll() {
-        if (isScroll()) {
+        if (isScrollDisabled()) {
             toggleScroll(true);
         }
     }

@@ -54,7 +54,7 @@ export class AddToCartContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         addToCart: PropTypes.func,
         fallbackAddToCart: PropTypes.func.isRequired,
-        is: PropTypes.bool,
+        isDisabled: PropTypes.bool,
         updateSelectedValues: PropTypes.func,
         withLink: PropTypes.bool,
 
@@ -69,7 +69,7 @@ export class AddToCartContainer extends PureComponent {
         mix: {},
         layout: GRID_LAYOUT,
         isIconEnabled: true,
-        is: false,
+        isDisabled: false,
         addToCart: null,
         updateSelectedValues: null,
         withLink: false,
@@ -238,7 +238,7 @@ export class AddToCartContainer extends PureComponent {
 
     containerProps() {
         const {
-            is,
+            isDisabled,
             isIconEnabled,
             mix,
             layout
@@ -249,7 +249,7 @@ export class AddToCartContainer extends PureComponent {
         } = this.state;
 
         return {
-            is,
+            isDisabled,
             isIconEnabled,
             mix,
             layout,

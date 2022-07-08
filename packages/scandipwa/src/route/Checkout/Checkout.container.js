@@ -252,7 +252,7 @@ export class CheckoutContainer extends PureComponent {
         this.handleRedirectIfNoItemsInCart();
         this.handleRedirectIfLessThanMinAmountInCart();
 
-        // if guest checkout is  and user is not logged in => throw him to homepage
+        // if guest checkout is disabled and user is not logged in => throw him to homepage
         if (!guest_checkout && !isSignedIn()) {
             history.push(appendWithStoreCode('/'));
         }

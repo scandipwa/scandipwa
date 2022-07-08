@@ -214,7 +214,7 @@ export class CheckoutBilling extends PureComponent {
         }
 
         // if terms and conditions are enabled, validate for acceptance
-        const is = termsAreEnabled
+        const isDisabled = termsAreEnabled
             ? !isOrderButtonEnabled || !isTACAccepted || !paymentMethod
             : !isOrderButtonEnabled;
 
@@ -224,7 +224,7 @@ export class CheckoutBilling extends PureComponent {
                 <button
                   type="submit"
                   block="Button"
-                  disabled={ is }
+                  disabled={ isDisabled }
                   mix={ { block: 'CheckoutBilling', elem: 'Button' } }
                 >
                     { __('Complete order') }
@@ -280,7 +280,7 @@ export class CheckoutBilling extends PureComponent {
               mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
               label={ __('My billing and shipping are the same') }
               onChange={ onSameAsShippingChange }
-              is={ selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE }
+              isDisabled={ selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE }
             />
         );
     }

@@ -89,7 +89,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         return {
             mix,
             magentoProduct,
-            is: this.is(),
+            isDisabled: this.isDisabled(),
             isInWishlist: this.isInWishlist(),
             isSignedIn: isSignedIn()
         };
@@ -155,7 +155,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         return removeProductFromWishlist({ item_id: itemId });
     }
 
-    is() {
+    isDisabled() {
         const { isAddingWishlistItem } = this.props;
         return isAddingWishlistItem || !isSignedIn();
     };

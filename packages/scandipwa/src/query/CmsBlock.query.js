@@ -38,7 +38,7 @@ export class CmsBlockQuery {
             'title',
             'content',
             'identifier',
-            ''
+            'disabled'
         ];
     }
 
