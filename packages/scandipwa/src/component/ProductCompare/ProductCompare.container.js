@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -152,6 +152,7 @@ export class ProductCompareContainer extends PureComponent {
 
         */
         const _blockScrollTriggered = this.blockScrollTriggered;
+
         this.blockScrollTriggered = false;
 
         if (!_blockScrollTriggered) {
@@ -169,6 +170,7 @@ export class ProductCompareContainer extends PureComponent {
 
     handleBlockScroll() {
         const _scrollerTriggered = this.scrollerTriggered;
+
         this.scrollerTriggered = false;
 
         if (!_scrollerTriggered) {

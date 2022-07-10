@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -99,12 +99,14 @@ export class MyAccountAddressPopupContainer extends PureComponent {
 
     handleError(error) {
         const { showErrorNotification } = this.props;
+
         showErrorNotification(error);
         this.setState({ isLoading: false });
     }
 
     handleAddress(address) {
         const { payload: { address: { id } } } = this.props;
+
         this.setState({ isLoading: true });
 
         if (id) {
@@ -117,6 +119,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
     showAddressNotification(status, operation) {
         const { showSuccessNotification, showErrorNotification } = this.props;
         const message = __('You %s the address', operation).toString();
+
         switch (status) {
         case 'success':
             showSuccessNotification(message);

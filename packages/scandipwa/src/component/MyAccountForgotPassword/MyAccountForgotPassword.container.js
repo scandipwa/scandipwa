@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
@@ -81,6 +81,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
             forgotPassword, setSignInState, setLoadingState, forgotPasswordEmail, isOverlayVisible
         } = this.props;
         const submittedEmail = form[0].value;
+
         setLoadingState(true);
 
         try {
@@ -100,6 +101,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
 
     showSuccesNotification(submittedEmail) {
         const { showNotification } = this.props;
+
         showNotification(
             'success',
             // eslint-disable-next-line max-len

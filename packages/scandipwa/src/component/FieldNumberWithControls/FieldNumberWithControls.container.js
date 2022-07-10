@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -44,6 +44,7 @@ export class FieldNumberWithControlsContainer extends PureComponent {
 
     componentDidMount() {
         const { attr: { defaultValue = 0 } } = this.props;
+
         this.handleInitialLoad(defaultValue);
     }
 
@@ -63,6 +64,7 @@ export class FieldNumberWithControlsContainer extends PureComponent {
 
     setRef(elem) {
         const { setRef } = this.props;
+
         setRef(elem);
 
         if (elem && this.fieldRef !== elem) {

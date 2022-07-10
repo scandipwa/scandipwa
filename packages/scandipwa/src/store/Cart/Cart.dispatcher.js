@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import CartQuery from 'Query/Cart.query';
@@ -72,6 +72,7 @@ export class CartDispatcher {
 
             if (isForCustomer && !getAuthorizationToken()) {
                 dispatch(updateIsLoadingCart(false));
+
                 return null;
             }
 
@@ -102,6 +103,7 @@ export class CartDispatcher {
         const street = addressStreet.split('\n');
 
         const street_index = {};
+
         street.forEach((item, index) => {
             street_index[`street_${index}`] = item;
         });
@@ -191,6 +193,7 @@ export class CartDispatcher {
 
         if (!Array.isArray(products) || products.length === 0) {
             dispatch(showNotification('error', __('No product data!')));
+
             return Promise.reject();
         }
 
@@ -216,10 +219,12 @@ export class CartDispatcher {
         } catch (error) {
             if (!navigator.onLine) {
                 dispatch(showNotification('error', __('Not possible to fetch while offline')));
+
                 return Promise.reject();
             }
 
             dispatch(showNotification('error', getErrorMessage(error)));
+
             return Promise.reject();
         }
 

@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -97,6 +97,7 @@ export class Klarna extends PureComponent {
         }
 
         const klarnaScript = document.createElement('script');
+
         klarnaScript.setAttribute('id', KLARNA_SCRIPT_ID);
         klarnaScript.setAttribute('src', 'https://x.klarnacdn.net/kp/lib/v1/api.js');
         klarnaScript.async = true;

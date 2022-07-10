@@ -438,25 +438,8 @@
                 },
                 {
                     "blankLine": "always",
-                    "prev": [
-                        "block",
-                        "block-like",
-                        "multiline-block-like",
-                        "multiline-expression",
-                        "multiline-const",
-                        "multiline-let",
-                        "multiline-var"
-                    ],
+                    "prev": "*",
                     "next": "return"
-                },
-                {
-                    "blankLine": "any",
-                    "prev": [
-                        "singleline-const",
-                        "singleline-let",
-                        "singleline-var"
-                    ],
-                    "next": "*"
                 },
                 {
                     "blankLine": "always",

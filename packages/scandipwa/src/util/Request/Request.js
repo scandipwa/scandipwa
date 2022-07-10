@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { getAuthorizationToken, isSignedIn, refreshAuthorizationToken } from 'Util/Auth';
@@ -26,6 +26,7 @@ export const getWindowId = () => {
 
     if (!result) {
         const id = Date.now();
+
         sessionStorage.setItem(WINDOW_ID, id);
 
         return id;
@@ -174,12 +175,14 @@ export const parseResponse = (promise) => new Promise((resolve, reject) => {
             /** @namespace Util/Request/parseResponse/Promise/promise/then/json/then/catch */
             () => {
                 handleConnectionError('Can not transform JSON!');
+
                 return reject();
             }
         ),
         /** @namespace Util/Request/parseResponse/Promise/promise/then/catch */
         (err) => {
             handleConnectionError('Can not establish connection!');
+
             return reject(err);
         }
     );
@@ -268,8 +271,10 @@ export const listenForBroadCast = (name) => new Promise((resolve) => {
 
     if (BroadcastChannel) {
         const bc = new BroadcastChannel(`${ name }_${ windowId }`);
+
         bc.onmessage = (update) => {
             const { data: { payload: body } } = update;
+
             resolve(checkForErrors(body));
         };
     }
@@ -282,6 +287,7 @@ export const debounce = (callback, delay) => {
 
     return (...args) => {
         const context = this;
+
         clearTimeout(timeout);
         timeout = setTimeout(() => callback.apply(context, args), delay);
     };
@@ -295,6 +301,7 @@ export class Debouncer {
 
     startDebounce = (callback, delay) => (...args) => {
         const context = this;
+
         clearTimeout(this.timeout);
         this.handler = () => callback.apply(context, args);
         this.timeout = setTimeout(this.handler, delay);

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -158,6 +158,7 @@ export class AddToCartContainer extends PureComponent {
     validate() {
         // eslint-disable-next-line fp/no-let
         let isValid = true;
+
         this.globalValidationMap.forEach((step) => {
             if (!step()) {
                 isValid = false;
@@ -173,6 +174,7 @@ export class AddToCartContainer extends PureComponent {
 
         if (!inStock) {
             const name = getName(product);
+
             showNotification('info', __('Sorry! The product %s is out of stock!', name));
         }
 
