@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { isSignedIn } from 'Util/Auth';
+import { getGuestQuoteId } from 'Util/Cart';
 import { Field } from 'Util/Query';
 
 /** @namespace Query/Config/Query */
@@ -71,11 +73,19 @@ export class ConfigQuery {
     }
 
     getSaveSelectedCurrencyMutation(newCurrency) {
-        return new Field('saveSelectedCurrency')
+        const query = new Field('saveSelectedCurrency')
             .addArgument('currency', 'String', newCurrency)
             .addFieldList([
                 this.getCurrencyData()
             ]);
+
+        if (!isSignedIn()) {
+            const guestQuoteId = getGuestQuoteId();
+
+            query.addArgument('guestCartId', 'String', guestQuoteId);
+        }
+
+        return query;
     }
 
     _getCheckoutAgreementFields() {

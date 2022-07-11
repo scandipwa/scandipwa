@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
-import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import CheckoutPayments from 'Component/CheckoutPayments';
 import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
 import Field from 'Component/Field';
@@ -22,7 +21,7 @@ import Form from 'Component/Form';
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { Addresstype } from 'Type/Account.type';
-import { CheckoutStepType, PaymentMethodsType } from 'Type/Checkout.type';
+import { PaymentMethodsType } from 'Type/Checkout.type';
 import { TotalsType } from 'Type/MiniCart.type';
 import { formatPrice } from 'Util/Price';
 
@@ -50,13 +49,6 @@ export class CheckoutBilling extends PureComponent {
         paymentMethods: PaymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
         cartTotalSubPrice: PropTypes.number,
-        checkoutStep: CheckoutStepType.isRequired,
-        isCreateUser: PropTypes.bool.isRequired,
-        onEmailChange: PropTypes.func.isRequired,
-        onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired,
-        isGuestEmailSaved: PropTypes.bool.isRequired,
-        isSignedIn: PropTypes.bool.isRequired,
         shippingAddress: Addresstype.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string
@@ -102,34 +94,6 @@ export class CheckoutBilling extends PureComponent {
         const { showPopup } = this.props;
         e.preventDefault();
         showPopup();
-    }
-
-    renderGuestForm() {
-        const {
-            checkoutStep,
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved,
-            isSignedIn
-        } = this.props;
-        const isBilling = checkoutStep === BILLING_STEP;
-
-        if (isSignedIn) {
-            return null;
-        }
-
-        return (
-            <CheckoutGuestForm
-              isBilling={ isBilling }
-              isCreateUser={ isCreateUser }
-              onEmailChange={ onEmailChange }
-              onCreateUserChange={ onCreateUserChange }
-              onPasswordChange={ onPasswordChange }
-              isGuestEmailSaved={ isGuestEmailSaved }
-            />
-        );
     }
 
     renderTAC() {
@@ -292,6 +256,10 @@ export class CheckoutBilling extends PureComponent {
             return null;
         }
 
+        if (selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE) {
+            return null;
+        }
+
         return (
             <Field
               type={ FIELD_TYPE.checkbox }
@@ -299,7 +267,7 @@ export class CheckoutBilling extends PureComponent {
                   id: 'sameAsShippingAddress',
                   name: 'sameAsShippingAddress',
                   value: 'sameAsShippingAddress',
-                  checked: isSameAsShipping && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE
+                  checked: isSameAsShipping
               } }
               events={ {
                   onChange: onSameAsShippingChange
@@ -307,7 +275,6 @@ export class CheckoutBilling extends PureComponent {
               mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
               label={ __('My billing and shipping are the same') }
               onChange={ onSameAsShippingChange }
-              isDisabled={ selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE }
             />
         );
     }
@@ -361,8 +328,8 @@ export class CheckoutBilling extends PureComponent {
     }
 
     render() {
-        const { onBillingSuccess, onBillingError, totals } = this.props;
-        const { is_virtual } = totals;
+        const { onBillingSuccess, onBillingError } = this.props;
+
         return (
             <Form
               attr={ {
@@ -372,7 +339,6 @@ export class CheckoutBilling extends PureComponent {
               onSubmit={ onBillingSuccess }
               onError={ onBillingError }
             >
-                { is_virtual && this.renderGuestForm() }
                 { this.renderAddresses() }
                 { this.renderPayments() }
                 { this.renderTAC() }

@@ -25,9 +25,9 @@ import './AddToCart.style';
  */
 export class AddToCart extends PureComponent {
     static propTypes = {
-        addProductToCart: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired,
         isAdding: PropTypes.bool.isRequired,
+        handleButtonClick: PropTypes.func.isRequired,
 
         // Customization
         isIconEnabled: PropTypes.bool.isRequired,
@@ -48,15 +48,15 @@ export class AddToCart extends PureComponent {
     render() {
         const {
             mix,
-            addProductToCart,
             layout,
             isDisabled,
-            isAdding
+            isAdding,
+            handleButtonClick
         } = this.props;
 
         return (
             <button
-              onClick={ addProductToCart }
+              onClick={ handleButtonClick }
               block="Button AddToCart"
               mix={ mix }
               mods={ { layout } }

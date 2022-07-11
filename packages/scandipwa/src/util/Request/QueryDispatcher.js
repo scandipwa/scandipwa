@@ -35,15 +35,10 @@ export class QueryDispatcher {
         this.name = name;
         this.cacheTTL = cacheTTL;
         this.promise = null;
+        this.controller = null;
     }
 
-    /**
-     * Is responsible for request routing and manages `onError`, `onSuccess`, `onUpdate` functions triggers.
-     * @param  {Function} dispatch Store changing function from Redux (dispatches actions)
-     * @param  {any} options Any options received from Container
-     * @return {void}@memberof QueryDispatcher
-     */
-    handleData(dispatch, options) {
+    async handleData(dispatch, options) {
         const { name, cacheTTL } = this;
 
         const rawQueries = this.prepareRequest(options, dispatch);
@@ -54,33 +49,18 @@ export class QueryDispatcher {
 
         const queries = rawQueries instanceof Field ? [rawQueries] : rawQueries;
 
-        if (this.promise) {
-            this.promise.cancel();
+        const abort = this.promise && this.controller.abort();
+
+        this.controller = new AbortController();
+
+        try {
+            this.promise = await executeGet(prepareQuery(queries), name, cacheTTL, this.controller.signal);
+            this.onSuccess(this.promise, dispatch, options);
+        } catch (err) {
+            this.onError(err, dispatch, options);
         }
-
-        this.promise = makeCancelable(
-            new Promise((resolve, reject) => {
-                executeGet(prepareQuery(queries), name, cacheTTL)
-                    .then(
-                        /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/makeCancelable/executeGet/then/resolve */
-                        (data) => resolve(data),
-                        /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/makeCancelable/executeGet/then/reject/catch */
-                        (error) => reject(error)
-                    );
-            })
-        );
-
-        this.promise.promise.then(
-            /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/then */
-            (data) => this.onSuccess(data, dispatch, options),
-            /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/then/catch */
-            (error) => this.onError(error, dispatch, options),
-        );
-
-        listenForBroadCast(name).then(
-            /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/listenForBroadCast/then */
-            (data) => this.onUpdate(data, dispatch, options),
-        );
+        const broadcast = await listenForBroadCast(name);
+        this.onUpdate(broadcast, dispatch, options);
     }
 
     /**

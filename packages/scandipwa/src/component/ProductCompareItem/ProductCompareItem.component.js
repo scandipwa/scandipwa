@@ -136,6 +136,7 @@ export class ProductCompareItem extends PureComponent {
                   groupedProductQuantity={ {} }
                   productOptionsData={ {} }
                   mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
+                  withLink
                   disableHandler
                 />
             </Link>

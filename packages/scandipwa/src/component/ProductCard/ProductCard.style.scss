@@ -34,33 +34,6 @@
     display: flex;
     align-items: stretch;
 
-    &:hover {
-        @include desktop {
-            box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .1),
-                0 6px 16px rgba(0, 0, 0, .1),
-                0 9px 28px 8px rgba(0, 0, 0, .1);
-            z-index: 4;
-
-            .ProductCard-VisibleOnHover {
-                background: var(--product-card-background);
-                width: inherit;
-                opacity: 1;
-                box-shadow: 0 3px 6px rgba(0, 0, 0, .1),
-                    0 6px 16px rgba(0, 0, 0, .1),
-                    0 9px 28px 8px rgba(0, 0, 0, .1);
-                z-index: -1;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-end;
-                flex-grow: 1;
-                padding-block-start: 0;
-                padding-block-end: 10px;
-                padding-inline: 15px;
-                position: absolute;
-                inset-block-start: 100%;
-            }
-        }
-    }
 
     &::before {
         content: none;
@@ -110,6 +83,11 @@
                 &-ActionWrapper {
                     align-items: center;
                     display: flex;
+                    visibility: hidden;
+
+                    &_loaded {
+                        visibility: visible;
+                    }
 
                     button {
                         margin-inline-end: 10px;
@@ -207,6 +185,38 @@
     &-LinkInnerWrapper {
         width: 100%;
         height: 100%;
+
+        &:hover {
+            @include desktop {
+                box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .1),
+                    0 6px 16px rgba(0, 0, 0, .1),
+                    0 9px 28px 8px rgba(0, 0, 0, .1);
+                z-index: 4;
+            }
+        }
+
+        &_loaded:hover {
+            @include desktop {
+                .ProductCard-VisibleOnHover {
+                    background: var(--product-card-background);
+                    width: inherit;
+                    opacity: 1;
+                    box-shadow: 0 3px 6px rgba(0, 0, 0, .1),
+                        0 6px 16px rgba(0, 0, 0, .1),
+                        0 9px 28px 8px rgba(0, 0, 0, .1);
+                    z-index: -1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    flex-grow: 1;
+                    padding-block-start: 0;
+                    padding-block-end: 10px;
+                    padding-inline: 15px;
+                    position: absolute;
+                    inset-block-start: 100%;
+                }
+            }
+        }
     }
 
     &-FigureReview {

@@ -76,16 +76,11 @@ export class CheckoutBillingContainer extends PureComponent {
         termsAreEnabled: PropTypes.bool,
         newShippingId: PropTypes.number,
         newShippingStreet: PropTypes.arrayOf(PropTypes.string).isRequired,
-        isCreateUser: PropTypes.bool.isRequired,
-        onEmailChange: PropTypes.func.isRequired,
-        onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired,
-        isGuestEmailSaved: PropTypes.bool.isRequired,
-        onShippingEstimationFieldsChange: PropTypes.func.isRequired
+        onChangeEmailRequired: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        newShippingId: 1,
+        newShippingId: 0,
         termsAreEnabled: false,
         cartTotalSubPrice: null
     };
@@ -119,14 +114,36 @@ export class CheckoutBillingContainer extends PureComponent {
     __construct(props) {
         super.__construct(props);
 
-        const { paymentMethods, customer } = props;
+        const { paymentMethods } = props;
 
         this.state = {
-            isSameAsShipping: this.isSameShippingAddress(customer),
+            isSameAsShipping: false,
+            isMounted: false,
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
             paymentMethod: ''
         };
+    }
+
+    componentDidUpdate(prevState) {
+        const { customer: { default_billing, default_shipping }, newShippingId } = this.props;
+        const { isMounted, isSameAsShipping: currIsSameAsShipping } = this.state;
+        const { prevIsSameAsShipping } = prevState;
+        const isSameAsShipping = this.isSameShippingAddress({ default_billing, default_shipping });
+
+        // default billing & shipping are undefined on initial mount
+        // wait until they become assigned to real values
+        // then check for isSameAsShipping condition
+        if (!isMounted && default_billing) {
+            this.setState({ isSameAsShipping, isMounted: true });
+        }
+
+        if (prevIsSameAsShipping !== currIsSameAsShipping && currIsSameAsShipping) {
+            this.onAddressSelect(
+                // if the user selected a shipping address different from default
+                newShippingId > 0 ? newShippingId : default_shipping
+            );
+        }
     }
 
     containerProps() {
@@ -139,13 +156,7 @@ export class CheckoutBillingContainer extends PureComponent {
             shippingAddress,
             termsAndConditions,
             termsAreEnabled,
-            totals,
-            onShippingEstimationFieldsChange,
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved
+            totals
         } = this.props;
         const { isSameAsShipping, paymentMethod } = this.state;
 
@@ -160,34 +171,35 @@ export class CheckoutBillingContainer extends PureComponent {
             termsAndConditions,
             termsAreEnabled,
             totals,
-            onShippingEstimationFieldsChange,
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved,
             paymentMethod
         };
     }
 
-    isSameShippingAddress({ default_billing, default_shipping }) {
+    isSameShippingAddress({
+        default_shipping,
+        default_billing
+    }) {
         const {
             totals: { is_virtual },
             selectedShippingMethod,
-            newShippingId,
-            newShippingStreet
+            newShippingId
         } = this.props;
 
         if (is_virtual) {
             return false;
         }
 
-        return (
-            (!newShippingId && !newShippingStreet.length && default_billing === default_shipping)
-            || (default_billing && parseInt(default_billing, 10) === newShippingId)
-            || (!default_billing)
-        )
-        && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE;
+        if (selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE) {
+            return false;
+        }
+
+        // if the user selected a shipping address different from default
+        if (newShippingId > 0) {
+            return newShippingId === parseInt(default_billing, 10);
+        }
+
+        // otherwise use the default values
+        return default_shipping === default_billing;
     }
 
     onAddressSelect(id) {
@@ -202,23 +214,27 @@ export class CheckoutBillingContainer extends PureComponent {
         this.setState({ paymentMethod: code });
     }
 
+    onBillingError(_, fields, validation) {
+        const { onChangeEmailRequired } = this.props;
+
+        onChangeEmailRequired();
+        scrollToError(fields, validation);
+    }
+
     onBillingSuccess(form, fields, asyncData) {
-        const { savePaymentInformation } = this.props;
+        const { savePaymentInformation, onChangeEmailRequired } = this.props;
         const { isSameAsShipping } = this.state;
 
         const extractedFields = transformToNameValuePair(fields);
         const address = this._getAddress(extractedFields);
         const paymentMethod = this._getPaymentData(extractedFields, asyncData);
+        onChangeEmailRequired();
 
         savePaymentInformation({
             billing_address: address,
             paymentMethod,
             same_as_shipping: isSameAsShipping
         });
-    }
-
-    onBillingError(_, fields, validation) {
-        scrollToError(fields, validation);
     }
 
     showPopup() {

@@ -116,6 +116,7 @@ export class GroupedProductsItem extends PureComponent {
                   min: 0,
                   max
               } }
+              value={ itemCount }
               validationRule={ {
                   inputType: VALIDATION_INPUT_TYPE_NUMBER.numeric,
                   isRequired: true,

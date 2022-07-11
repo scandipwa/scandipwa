@@ -10,6 +10,9 @@
  */
 
 .ProductReviewForm {
+    display: flex;
+    flex-direction: column;
+
     &-Wrapper {
         @include desktop {
             display: grid;
@@ -46,16 +49,19 @@
     }
 
     &-Content {
-        display: flex;
-        flex-direction: column;
         row-gap: 24px;
 
+
         .Field {
-            margin-block-start: 12px;
+            margin-block-start: 14px;
 
             &-ErrorMessages {
                 padding-block-start: 6px;
             }
+        }
+
+        &:first-child {
+            grid-column: 1 / 3;
         }
 
         input,
@@ -119,7 +125,8 @@
     }
 
     & &-Button {
-        margin-block-start: 12px;
+        margin-block-start: 14px;
+        width: 160px;
 
         @include mobile {
             margin-block-start: 28px;
@@ -135,9 +142,5 @@
     input,
     textarea {
         width: 100%;
-    }
-
-    textarea {
-        margin-block-end: -3px;
     }
 }
