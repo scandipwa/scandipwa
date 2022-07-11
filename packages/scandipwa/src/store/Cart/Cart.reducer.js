@@ -51,15 +51,57 @@ export const updateCartTotals = (action) => {
 export const updateShippingPrice = (action, state) => {
     const {
         data: {
-            items,
-            ...rest
+            grand_total,
+            shipping_amount,
+            shipping_incl_tax,
+            shipping_tax_amount,
+            subtotal,
+            subtotal_incl_tax,
+            subtotal_with_discount,
+            tax_amount
         } = {}
     } = action;
+
+    const shipping = {
+        prices: {
+            ...state.cartTotals.prices,
+            applied_taxes: [
+                {
+                    ...state.cartTotals.prices?.applied_taxes[0],
+                    amount: {
+                        value: tax_amount
+                    }
+                }
+            ],
+            grand_total: {
+                value: grand_total
+            },
+            subtotal_excluding_tax: {
+                value: subtotal
+            },
+            subtotal_including_tax: {
+                value: subtotal_incl_tax
+            },
+            subtotal_with_discount_excluding_tax: {
+                value: subtotal_with_discount
+            }
+        },
+        shipping_addresses: {
+            ...state.cartTotals.shipping_addresses,
+            selected_shipping_method: {
+                amount: {
+                    value: shipping_amount
+                },
+                amount_incl_tax: shipping_incl_tax,
+                tax_amount: shipping_tax_amount
+            }
+        }
+    };
 
     return {
         cartTotals: {
             ...state.cartTotals,
-            ...rest
+            ...shipping
         }
     };
 };

@@ -239,7 +239,7 @@ export class CartDispatcher {
                 return null;
             }
 
-            const { removeCartItem: { cartData = {} } = {} } = await fetchMutation(
+            const { removeItemFromCart: { cartData = {} } = {} } = await fetchMutation(
                 CartQuery.getRemoveCartItemMutation(item_id, cartId)
             );
 
@@ -262,7 +262,7 @@ export class CartDispatcher {
                 return false;
             }
 
-            const { applyCoupon: { cartData = {} } = {} } = await fetchMutation(
+            const { applyCouponToCart: { cartData = {} } = {} } = await fetchMutation(
                 CartQuery.getApplyCouponMutation(couponCode, cartId)
             );
 
@@ -286,7 +286,7 @@ export class CartDispatcher {
                 return;
             }
 
-            const { removeCoupon: { cartData = {} } = {} } = await fetchMutation(
+            const { removeCouponFromCart: { cartData = {} } = {} } = await fetchMutation(
                 CartQuery.getRemoveCouponMutation(cartId)
             );
 

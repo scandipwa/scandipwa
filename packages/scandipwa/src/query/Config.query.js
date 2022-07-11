@@ -10,7 +10,7 @@
  */
 
 import { isSignedIn } from 'Util/Auth';
-import { getGuestQuoteId } from 'Util/Cart';
+import { getCartId } from 'Util/Cart';
 import { Field } from 'Util/Query';
 
 /** @namespace Query/Config/Query */
@@ -80,7 +80,7 @@ export class ConfigQuery {
             ]);
 
         if (!isSignedIn()) {
-            const guestQuoteId = getGuestQuoteId();
+            const guestQuoteId = getCartId();
 
             query.addArgument('guestCartId', 'String', guestQuoteId);
         }
