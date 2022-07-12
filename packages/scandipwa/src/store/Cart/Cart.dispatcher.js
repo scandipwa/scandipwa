@@ -256,7 +256,7 @@ export class CartDispatcher {
     async applyCouponToCart(dispatch, couponCode) {
         try {
             const isCustomerSignedIn = isSignedIn();
-            const cartId = !isCustomerSignedIn && getCartId();
+            const cartId = getCartId();
 
             if (!isCustomerSignedIn && !cartId) {
                 return false;
@@ -280,7 +280,7 @@ export class CartDispatcher {
     async removeCouponFromCart(dispatch) {
         try {
             const isCustomerSignedIn = isSignedIn();
-            const cartId = !isCustomerSignedIn && getCartId();
+            const cartId = getCartId();
 
             if (!isCustomerSignedIn && !cartId) {
                 return;

@@ -53,27 +53,25 @@ export class CheckoutQuery {
     }
 
     getSetBillingAddressOnCart(input) {
-        return new Field('s_setBillingAddressOnCart')
-            .addArgument('input', 'S_SetBillingAddressOnCartInput!', input)
+        /* return new Field('s_setBillingAddressOnCart')
+            .addArgument('input', 'S_SetBillingAddressOnCartInput!', input) */
+        return new Field('setBillingAddressOnCart')
+            .addArgument('input', 'SetBillingAddressOnCartInput', input)
             .addField(this._getCartField())
             .setAlias('billingAddress');
     }
 
     getSetPaymentMethodOnCartMutation(input) {
-        return new Field('s_setPaymentMethodOnCart')
-            .addArgument('input', 'S_SetPaymentMethodOnCartInput!', input)
+        return new Field('setPaymentMethodOnCart')
+            .addArgument('input', 'SetPaymentMethodOnCartInput', input)
             .addField(this._getCartField())
             .setAlias('paymentMethod');
     }
 
-    getPlaceOrderMutation(guestCartId) {
-        const mutation = new Field('s_placeOrder')
-            .setAlias('placeOrder')
+    getPlaceOrderMutation(cartId) {
+        const mutation = new Field('placeOrder')
+            .addArgument('input', 'PlaceOrderInput', { cart_id: cartId })
             .addField(this._getOrderField());
-
-        if (!isSignedIn()) {
-            mutation.addArgument('guestCartId', 'String', guestCartId);
-        }
 
         return mutation;
     }

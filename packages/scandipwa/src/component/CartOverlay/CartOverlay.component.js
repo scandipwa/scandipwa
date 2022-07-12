@@ -184,14 +184,12 @@ export class CartOverlay extends PureComponent {
                 prices: {
                     applied_rule_ids,
                     coupon_code,
-                    discount: {
-                        amount: {
-                            value: discount_amount = 0
-                        } = {}
-                    } = {}
+                    discount
                 } = {}
             }
         } = this.props;
+
+        const { amount: { value: discount_amount = 0 } = {} } = discount || {};
 
         if (!applied_rule_ids || !discount_amount) {
             return null;

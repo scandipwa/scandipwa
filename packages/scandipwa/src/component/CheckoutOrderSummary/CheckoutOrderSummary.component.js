@@ -112,11 +112,7 @@ export class CheckoutOrderSummary extends PureComponent {
                 prices: {
                     applied_rule_ids,
                     coupon_code,
-                    discount: {
-                        amount: {
-                            value: discount_amount = 0
-                        } = {}
-                    } = {}
+                    discount
                 } = {}
             }
         } = this.props;
@@ -125,11 +121,13 @@ export class CheckoutOrderSummary extends PureComponent {
             return null;
         }
 
+        const { amount: { value: discount_amount = 0 } = {} } = discount || {};
         const label = coupon_code ? __('Coupon code discount') : __('Discount');
-        const discount = -Math.abs(discount_amount);
+        const discountAmount = -Math.abs(discount_amount);
+
         return (
             <CheckoutOrderSummaryPriceLine
-              price={ discount }
+              price={ discountAmount }
               title={ label }
               coupon_code={ coupon_code }
             />

@@ -947,7 +947,7 @@ export class CheckoutContainer extends PureComponent {
 
     async saveBillingAddress(paymentInformation) {
         const isCustomerSignedIn = isSignedIn();
-        const guest_cart_id = !isCustomerSignedIn ? getCartId() : '';
+        const guest_cart_id = getCartId(); // !isCustomerSignedIn ? getCartId() : '';
 
         if (!isCustomerSignedIn && !getCartId) {
             return;
@@ -968,8 +968,8 @@ export class CheckoutContainer extends PureComponent {
         }
 
         await fetchMutation(CheckoutQuery.getSetBillingAddressOnCart({
-            guest_cart_id,
-            same_as_shipping,
+            cart_id: guest_cart_id,
+            // same_as_shipping,
             billing_address: billingAddress
         }));
     }
@@ -977,7 +977,7 @@ export class CheckoutContainer extends PureComponent {
     async savePaymentMethodAndPlaceOrder(paymentInformation) {
         const { paymentMethod: { code, additional_data, purchase_order_number } } = paymentInformation;
         const isCustomerSignedIn = isSignedIn();
-        const guest_cart_id = !isCustomerSignedIn ? getCartId() : '';
+        const guest_cart_id = getCartId();// !isCustomerSignedIn ? getCartId() : '';
 
         if (!isCustomerSignedIn && !guest_cart_id) {
             return;
@@ -985,7 +985,7 @@ export class CheckoutContainer extends PureComponent {
 
         try {
             await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
-                guest_cart_id,
+                cart_id: guest_cart_id,
                 payment_method: {
                     code,
                     [code]: additional_data,
