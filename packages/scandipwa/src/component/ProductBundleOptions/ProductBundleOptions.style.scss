@@ -50,6 +50,12 @@
                     &_select, &_checkbox, &_radio {
                         flex: 1 1;
                     }
+
+                    &_numberWithControls {
+                        @include mobile {
+                            display: flex;
+                        }
+                    }
                 }
             }
         }
