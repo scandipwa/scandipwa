@@ -186,14 +186,14 @@ export class MyAccountMyWishlist extends PureComponent {
             isQtyUpdateInProgress
         } = this.props;
 
-        const is = (isMobile && isEditingActive) || isActionsDisabled || isLoading || isQtyUpdateInProgress;
+        const isDisabled = (isMobile && isEditingActive) || isActionsDisabled || isLoading || isQtyUpdateInProgress;
 
         return (
             <button
               block="Button"
               mix={ { block: 'MyAccountMyWishlist', elem: 'Button' } }
               onClick={ addAllToCart }
-              disabled={ is }
+              disabled={ isDisabled }
             >
                 <CartIcon />
                 { __('Add All to Cart') }

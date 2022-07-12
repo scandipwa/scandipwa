@@ -53,8 +53,6 @@ export class CheckoutQuery {
     }
 
     getSetBillingAddressOnCart(input) {
-        /* return new Field('s_setBillingAddressOnCart')
-            .addArgument('input', 'S_SetBillingAddressOnCartInput!', input) */
         return new Field('setBillingAddressOnCart')
             .addArgument('input', 'SetBillingAddressOnCartInput', input)
             .addField(this._getCartField())

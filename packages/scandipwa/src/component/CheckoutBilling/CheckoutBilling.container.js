@@ -194,7 +194,6 @@ export class CheckoutBillingContainer extends PureComponent {
 
     onBillingSuccess(form, fields, asyncData) {
         const { savePaymentInformation, onChangeEmailRequired } = this.props;
-        // const { isSameAsShipping } = this.state;
 
         const extractedFields = transformToNameValuePair(fields);
         const address = this._getAddress(extractedFields);
@@ -204,7 +203,6 @@ export class CheckoutBillingContainer extends PureComponent {
         savePaymentInformation({
             billing_address: address,
             paymentMethod
-            // same_as_shipping: isSameAsShipping
         });
     }
 

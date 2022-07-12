@@ -51,7 +51,7 @@ export const getCartSubtotal = (state) => {
                     } = {}
                 } = {}
             } = {}
-        }
+        } = {}
     } = state;
 
     if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL.EXCL_TAX) {
@@ -77,7 +77,7 @@ export const getCartSubtotalSubPrice = (state) => {
                     } = {}
                 } = {}
             } = {}
-        }
+        } = {}
     } = state;
 
     if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL.BOTH) {
@@ -144,7 +144,7 @@ export const getCartShippingPrice = (state) => {
                     selected_shipping_method = {}
                 } = []
             } = {}
-        }
+        } = {}
     } = state;
 
     const {
@@ -175,7 +175,7 @@ export const getCartShippingSubPrice = (state) => {
                     selected_shipping_method = {}
                 } = []
             } = {}
-        }
+        } = {}
     } = state;
 
     const {
@@ -251,7 +251,7 @@ export const getCartTotalSubPrice = (state) => {
                     applied_taxes = []
                 } = {}
             } = {}
-        }
+        } = {}
     } = state;
 
     if (include_tax_in_order_total) {
