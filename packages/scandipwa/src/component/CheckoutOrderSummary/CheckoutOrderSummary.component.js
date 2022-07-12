@@ -234,10 +234,10 @@ export class CheckoutOrderSummary extends PureComponent {
 
         return (
                 <CheckoutOrderSummaryPriceLine
-                  price={ cartSubtotal.toFixed(2) }
+                  price={ cartSubtotal?.toFixed(2) ?? 0 }
                   currency={ quote_currency_code }
                   title={ title }
-                  subPrice={ cartSubtotalSubPrice?.toFixed(2) ?? null }
+                  subPrice={ cartSubtotalSubPrice?.toFixed(2) ?? 0 }
                 />
         );
     }

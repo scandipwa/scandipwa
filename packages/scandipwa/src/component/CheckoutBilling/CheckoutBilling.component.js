@@ -265,6 +265,10 @@ export class CheckoutBilling extends PureComponent {
             return null;
         }
 
+        if (selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE) {
+            return null;
+        }
+
         return (
             <Field
               type={ FIELD_TYPE.checkbox }
@@ -272,7 +276,7 @@ export class CheckoutBilling extends PureComponent {
                   id: 'sameAsShippingAddress',
                   name: 'sameAsShippingAddress',
                   value: 'sameAsShippingAddress',
-                  checked: isSameAsShipping && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE
+                  checked: isSameAsShipping
               } }
               events={ {
                   onChange: onSameAsShippingChange
@@ -280,7 +284,6 @@ export class CheckoutBilling extends PureComponent {
               mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
               label={ __('My billing and shipping are the same') }
               onChange={ onSameAsShippingChange }
-              isDisabled={ selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE }
             />
         );
     }

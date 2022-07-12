@@ -18,6 +18,8 @@ import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { getCartId, setCartId } from 'Util/Cart';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 
+export const CURRENT_WEBSITE = 'base';
+
 export const LinkedProductsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/LinkedProducts/LinkedProducts.dispatcher'
@@ -37,7 +39,6 @@ export class CartDispatcher {
             if (!disableLoader) {
                 dispatch(updateIsLoadingCart(true));
             }
-
             // ! Get quote token first (local or from the backend) just to make sure it exists
             const quoteId = await this._getCartId(dispatch);
             const {
@@ -122,9 +123,9 @@ export class CartDispatcher {
 
     async createGuestEmptyCart(dispatch) {
         try {
-            const {
-                createEmptyCart: quoteId = ''
-            } = await fetchMutation(CartQuery.getCreateEmptyCartMutation());
+            dispatch(updateIsLoadingCart(true));
+
+            const quoteId = await this._getNewQuoteId(dispatch);
 
             setCartId(quoteId);
 
@@ -380,6 +381,14 @@ export class CartDispatcher {
         }
 
         return this.createGuestEmptyCart(dispatch);
+    }
+
+    async _getNewQuoteId() {
+        const { createEmptyCart: quoteId = '' } = await fetchMutation(
+            CartQuery.getCreateEmptyCartMutation()
+        );
+
+        return quoteId;
     }
 }
 

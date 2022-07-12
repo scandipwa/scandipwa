@@ -24,23 +24,42 @@ export const TOKEN_REFRESH_DELAY = 2000;
 
 /** @namespace Util/Auth/Token/setAuthorizationToken */
 export const setAuthorizationToken = (token) => {
-    if (!token) {
-        return;
+    if (token) {
+        const { website_code } = window;
+
+        const state = getStore().getState();
+        const {
+            access_token_lifetime = ONE_HOUR
+        } = state.ConfigReducer;
+
+        const tokens = BrowserDatabase.getItem(AUTH_TOKEN) || {};
+        tokens[website_code] = token;
+        BrowserDatabase.setItem(tokens, AUTH_TOKEN, access_token_lifetime * ONE_HOUR_IN_SECONDS);
     }
-
-    const state = getStore().getState();
-    const {
-        access_token_lifetime = ONE_HOUR
-    } = state.ConfigReducer;
-
-    BrowserDatabase.setItem(token, AUTH_TOKEN, access_token_lifetime * ONE_HOUR_IN_SECONDS);
 };
 
 /** @namespace Util/Auth/Token/deleteAuthorizationToken */
-export const deleteAuthorizationToken = () => BrowserDatabase.deleteItem(AUTH_TOKEN);
+export const deleteAuthorizationToken = () => {
+    const { website_code } = window;
+
+    const tokens = BrowserDatabase.getItem(AUTH_TOKEN);
+    tokens[website_code] = undefined;
+    BrowserDatabase.setItem(tokens, AUTH_TOKEN);
+};
 
 /** @namespace Util/Auth/Token/getAuthorizationToken */
-export const getAuthorizationToken = () => BrowserDatabase.getItem(AUTH_TOKEN);
+export const getAuthorizationToken = () => {
+    const { website_code } = window;
+    const tokens = BrowserDatabase.getItem(AUTH_TOKEN) || {};
+
+    const token = tokens[website_code];
+
+    if (token) {
+        return token;
+    }
+
+    return null;
+};
 
 /** @namespace Util/Auth/Token/refreshAuthorizationToken */
 export const refreshAuthorizationToken = debounce(

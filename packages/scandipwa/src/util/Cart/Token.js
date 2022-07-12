@@ -16,25 +16,40 @@ export const CART_ID = 'cart_id';
 
 /** @namespace Util/Cart/Token/setCartId */
 export const setCartId = (token) => {
-    BrowserDatabase.setItem({
+    const { website_code } = window;
+
+    const tokens = BrowserDatabase.getItem(CART_ID) || {};
+    tokens[website_code] = {
         token,
         isCustomerToken: isSignedIn()
-    }, CART_ID);
+    };
+    BrowserDatabase.setItem(tokens, CART_ID);
 };
 
 /** @namespace Util/Cart/Token/getCartId */
 export const getCartId = () => {
-    const {
-        token,
-        isCustomerToken
-    } = BrowserDatabase.getItem(CART_ID) || {};
+    const { website_code } = window;
 
-    if (isCustomerToken && !isSignedIn()) {
-        return null;
+    const tokens = BrowserDatabase.getItem(CART_ID) || {};
+
+    const token = tokens[website_code];
+
+    if (token) {
+        if (token.isCustomerToken && !isSignedIn()) {
+            return null;
+        }
+
+        return token.token;
     }
 
-    return token;
+    return null;
 };
 
 /** @namespace Util/Cart/Token/deleteCartId */
-export const deleteCartId = () => BrowserDatabase.deleteItem(CART_ID);
+export const deleteCartId = () => {
+    const { website_code } = window;
+
+    const tokens = BrowserDatabase.getItem(CART_ID);
+    tokens[website_code] = undefined;
+    BrowserDatabase.setItem(tokens, CART_ID);
+};

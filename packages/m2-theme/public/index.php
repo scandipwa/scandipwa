@@ -8,7 +8,7 @@ $layoutDirection = $this->getThemeConfiguration('layout_direction_configuration/
 $icons = $this->getAppIconData();
 ?>
 <!DOCTYPE html>
-<html lang="<?= $this->getLanguageCode() ?>" dir="<?= $layoutDirection?>">
+<html lang="<?= $this->getLanguageCode() ?>" dir="<?= $layoutDirection ?>">
 
 <head>
     <meta charset="utf-8" />
@@ -44,6 +44,7 @@ $icons = $this->getAppIconData();
         // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
         window.storeList = JSON.parse(`<?= $this->getStoreListJson() ?>`).sort().reverse();
         window.storeRegexText = `/(${window.storeList.join('|')})?`;
+        window.website_code = '<?= $this->getWebsiteCode() ?>';
     </script>
 
     <!-- Preload i18n chunk for the store -->
