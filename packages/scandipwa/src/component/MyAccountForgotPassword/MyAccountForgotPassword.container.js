@@ -90,7 +90,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
 
             // if on route /forgotpassword
             if (!isOverlayVisible) {
-                this.showSuccesNotification(submittedEmail);
+                this.showSuccessNotification(submittedEmail);
             }
             setLoadingState(false);
         } catch {
@@ -98,13 +98,11 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
         }
     }
 
-    showSuccesNotification(submittedEmail) {
+    showSuccessNotification(submittedEmail) {
         const { showNotification } = this.props;
-        showNotification(
-            'success',
-            // eslint-disable-next-line max-len
-            __('If there is an account associated with %s you will receive an email with a link to reset your password', submittedEmail)
-        );
+        // eslint-disable-next-line max-len
+        const message = __('If there is an account associated with %s you will receive an email with a link to reset your password', submittedEmail).toString();
+        showNotification('success', message);
     }
 
     render() {
