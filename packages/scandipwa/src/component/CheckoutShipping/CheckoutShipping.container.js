@@ -67,11 +67,7 @@ export class CheckoutShippingContainer extends PureComponent {
         setSelectedShippingMethodCode: PropTypes.func,
         totals: TotalsType.isRequired,
         selectedStoreAddress: StoreType,
-        isCreateUser: PropTypes.bool.isRequired,
-        onEmailChange: PropTypes.func.isRequired,
-        onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired,
-        isGuestEmailSaved: PropTypes.bool.isRequired
+        onChangeEmailRequired: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -145,12 +141,7 @@ export class CheckoutShippingContainer extends PureComponent {
             shippingMethods,
             totals,
             onStoreSelect,
-            onShippingEstimationFieldsChange,
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved
+            onShippingEstimationFieldsChange
         } = this.props;
         const { selectedShippingMethod } = this.state;
 
@@ -166,12 +157,7 @@ export class CheckoutShippingContainer extends PureComponent {
             totals,
             selectedShippingMethod,
             onStoreSelect,
-            onShippingEstimationFieldsChange,
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved
+            onShippingEstimationFieldsChange
         };
     }
 
@@ -239,6 +225,9 @@ export class CheckoutShippingContainer extends PureComponent {
     onShippingError(_, fields, validation) {
         // TODO: implement notification if some data in Form can not display error
         const { isSubmitted } = this.state;
+        const { onChangeEmailRequired } = this.props;
+
+        onChangeEmailRequired();
         this.setState({ isSubmitted: !isSubmitted });
         scrollToError(fields, validation);
     }

@@ -200,11 +200,8 @@
     "First name": "Etunimi",
     "Last name": "Sukunimi",
     "Edit details": "Muokkaa tietoja",
-    "County": "Lääni",
-    "State/Province": "Valtion/Maakunta",
     "City": "Kaupunki",
     "Street": "Katu",
-    "Postal code": "Postinumero",
     "Can not delete - address is set as default.": "Ei voi poistaa - osoite on asetettu oletukseksi.",
     "There are no shipping methods available, try different address.": "Toimitustapoja ei ole käytettävissä. Kokeile toista osoitetta.",
     "Buy %s for %s each and ": "Osta %s %s kappaleelta ja ",
@@ -613,5 +610,6 @@
     "Send Confirmation Page": null,
     "Send Confirmation Action": null,
     "This email does not require confirmation.": null,
-    "Remove file": null
+    "Remove file": null,
+    "Region": null
 }

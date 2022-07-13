@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
+import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
@@ -113,7 +114,10 @@ export class Checkout extends PureComponent {
         onStoreSelect: PropTypes.func.isRequired,
         selectedStoreAddress: StoreType,
         onCouponCodeUpdate: PropTypes.func,
-        isCartLoading: PropTypes.bool.isRequired
+        isSignedIn: PropTypes.bool.isRequired,
+        isCartLoading: PropTypes.bool.isRequired,
+        isVisibleEmailRequired: PropTypes.bool.isRequired,
+        onChangeEmailRequired: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -212,12 +216,42 @@ export class Checkout extends PureComponent {
                     <div block="Checkout" elem="Step">
                         <span block="Checkout" elem="SelectedStep">{ number }</span>
                         <span block="Checkout" elem="StepsBorder">/</span>
-                        <span block="Checkout" elem="TotalSteps">{ Object.keys(this.stepMap).length }</span>
+                        <span block="Checkout" elem="TotalSteps">{ Object.keys(this.stepMap).length - 1 }</span>
                     </div>
                 </div>
                 <div block="Checkout" elem="StepBarTotal" />
                 <div block="Checkout" elem="StepBarActive" mods={ { isSecond: number === 2 } } />
             </div>
+        );
+    }
+
+    renderGuestForm() {
+        const {
+            checkoutStep,
+            isCreateUser,
+            onEmailChange,
+            onCreateUserChange,
+            onPasswordChange,
+            isGuestEmailSaved,
+            isSignedIn,
+            isVisibleEmailRequired
+        } = this.props;
+        const isBilling = checkoutStep === BILLING_STEP;
+
+        if ((checkoutStep !== SHIPPING_STEP && !isBilling) || isSignedIn) {
+            return null;
+        }
+
+        return (
+            <CheckoutGuestForm
+              isBilling={ isBilling }
+              isCreateUser={ isCreateUser }
+              onEmailChange={ onEmailChange }
+              onCreateUserChange={ onCreateUserChange }
+              onPasswordChange={ onPasswordChange }
+              isGuestEmailSaved={ isGuestEmailSaved }
+              isVisibleEmailRequired={ isVisibleEmailRequired }
+            />
         );
     }
 
@@ -238,7 +272,7 @@ export class Checkout extends PureComponent {
             onShippingMethodSelect,
             onStoreSelect,
             selectedStoreAddress,
-            isGuestEmailSaved
+            onChangeEmailRequired
         } = this.props;
 
         return (
@@ -259,7 +293,7 @@ export class Checkout extends PureComponent {
                   isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
                   onStoreSelect={ onStoreSelect }
                   selectedStoreAddress={ selectedStoreAddress }
-                  isGuestEmailSaved={ isGuestEmailSaved }
+                  onChangeEmailRequired={ onChangeEmailRequired }
                 />
             </Suspense>
         );
@@ -270,10 +304,10 @@ export class Checkout extends PureComponent {
             setLoading,
             setDetailsStep,
             shippingAddress,
-            onEmailChange,
             paymentMethods = [],
             savePaymentInformation,
-            selectedShippingMethod
+            selectedShippingMethod,
+            onChangeEmailRequired
         } = this.props;
 
         return (
@@ -282,10 +316,10 @@ export class Checkout extends PureComponent {
                   setLoading={ setLoading }
                   paymentMethods={ paymentMethods }
                   setDetailsStep={ setDetailsStep }
-                  onEmailChange={ onEmailChange }
                   shippingAddress={ shippingAddress }
                   savePaymentInformation={ savePaymentInformation }
                   selectedShippingMethod={ selectedShippingMethod }
+                  onChangeEmailRequired={ onChangeEmailRequired }
                 />
             </Suspense>
         );
@@ -467,9 +501,9 @@ export class Checkout extends PureComponent {
     }
 
     render() {
-        const { isCartLoading } = this.props;
+        const { totals, checkoutStep } = this.props;
 
-        if (isCartLoading) {
+        if (totals.items.length < 1 && checkoutStep !== DETAILS_STEP) {
             return this.renderFullPageLoader();
         }
 
@@ -484,6 +518,7 @@ export class Checkout extends PureComponent {
                         <div block="Checkout" elem="Step">
                             { this.renderTitle() }
                             { this.renderStoreInPickUpMethod() }
+                            { this.renderGuestForm() }
                             { this.renderStep() }
                             { this.renderLoader() }
                         </div>

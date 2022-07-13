@@ -39,6 +39,7 @@
     &-LabelContainer {
         display: flex;
         align-items: center;
+        line-height: 1;
 
         .ChevronIcon {
             width: 23px;
@@ -236,6 +237,10 @@
             }
         }
 
+        &_textarea {
+            line-height: 0;
+        }
+
         &_text,
         &_tel,
         &_textarea,
@@ -283,7 +288,7 @@
                     }
                 }
 
-                button {
+                button, .Field-SelectFileBtn {
                     cursor: pointer;
                     z-index: 2;
 

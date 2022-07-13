@@ -50,7 +50,6 @@
     "Confirmation request has been sent.": null,
     "Continue shopping": null,
     "Country": null,
-    "County": null,
     "Coupon was applied!": null,
     "Coupon was removed!": null,
     "Create Password": null,
@@ -143,7 +142,6 @@
     "Please sign in first!": null,
     "Please sign-in to complete checkout!": null,
     "Please, try removing selected filters and try again!": null,
-    "Postal code": null,
     "Previous page": null,
     "Price": "Precio",
     "Proceed to billing": null,
@@ -180,7 +178,6 @@
     "Something went wrong!": null,
     "Something went wrong! Please, try again!": null,
     "Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.": null,
-    "State/Province": null,
     "Status": null,
     "Street": null,
     "Street address": null,
@@ -613,5 +610,6 @@
     "Send Confirmation Page": null,
     "Send Confirmation Action": null,
     "This email does not require confirmation.": null,
-    "Remove file": null
+    "Remove file": null,
+    "Region": null
 }

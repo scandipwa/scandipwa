@@ -35,6 +35,9 @@ export const ONE_DAY = 86400;
  * @namespace Util/Compare/setUid
  */
 export const setUid = (uid) => {
+    const { website_code } = window;
+    const tokens = BrowserDatabase.getItem(COMPARE_UID) || {};
+
     const state = getStore().getState();
     const {
         access_token_lifetime = ONE_HOUR
@@ -42,7 +45,9 @@ export const setUid = (uid) => {
 
     const uidExpirationTimeInStorage = isSignedIn() ? access_token_lifetime * ONE_HOUR_IN_SECONDS : ONE_DAY;
 
-    BrowserDatabase.setItem(uid, COMPARE_UID, uidExpirationTimeInStorage);
+    tokens[website_code] = uid;
+
+    BrowserDatabase.setItem(tokens, COMPARE_UID, uidExpirationTimeInStorage);
 };
 
 /**
@@ -51,7 +56,10 @@ export const setUid = (uid) => {
  * @namespace Util/Compare/getUid
  */
 export const getUid = () => {
-    const uid = BrowserDatabase.getItem(COMPARE_UID);
+    const { website_code } = window;
+
+    const tokens = BrowserDatabase.getItem(COMPARE_UID) || {};
+    const uid = tokens[website_code];
 
     return (typeof uid === 'string') ? uid : false;
 };
@@ -61,7 +69,11 @@ export const getUid = () => {
  * @namespace Util/Compare/removeUid
  */
 export const removeUid = () => {
-    BrowserDatabase.deleteItem(COMPARE_UID);
+    const { website_code } = window;
+    const uids = BrowserDatabase.getItem(COMPARE_UID) || {};
+    uids[website_code] = undefined;
+
+    BrowserDatabase.setItem(uids, COMPARE_UID);
 };
 
 /** @namespace Util/Compare/refreshUid */

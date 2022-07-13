@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
+import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { MetaTitleType } from 'Type/Common.type';
 import {
     isMobile,
@@ -65,6 +66,7 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     init: async () => {
         ConfigDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch)
@@ -91,6 +93,7 @@ export class RouterContainer extends PureComponent {
         init: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         updateConfigDevice: PropTypes.func.isRequired,
+        setBigOfflineNotice: PropTypes.func.isRequired,
         base_link_url: PropTypes.string,
         default_description: PropTypes.string,
         default_keywords: PropTypes.string,
@@ -223,10 +226,10 @@ export class RouterContainer extends PureComponent {
     }
 
     containerProps() {
-        const { isBigOffline } = this.props;
+        const { isBigOffline, setBigOfflineNotice } = this.props;
         const { isOnlyMainItems } = this.state;
 
-        return { isBigOffline, isOnlyMainItems };
+        return { isBigOffline, setBigOfflineNotice, isOnlyMainItems };
     }
 
     initializeApplication() {

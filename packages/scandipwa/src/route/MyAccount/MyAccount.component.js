@@ -18,6 +18,7 @@ import MyAccountInformation from 'Component/MyAccountInformation';
 import MyAccountOrder from 'Component/MyAccountOrder';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 import MyAccountTabList from 'Component/MyAccountTabList';
+import NoMatch from 'Route/NoMatch';
 import {
     ACCOUNT_INFORMATION,
     ActiveTabType,
@@ -76,7 +77,8 @@ export class MyAccount extends Component {
         match: MatchType.isRequired,
         changeTabName: PropTypes.func.isRequired,
         tabName: PropTypes.string,
-        setTabSubheading: PropTypes.func.isRequired
+        setTabSubheading: PropTypes.func.isRequired,
+        isTabEnabled: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -159,11 +161,16 @@ export class MyAccount extends Component {
             match,
             changeTabName,
             tabName,
-            setTabSubheading
+            setTabSubheading,
+            isTabEnabled
         } = this.props;
 
         if (!isSignedIn()) {
             return this.renderLoginOverlay();
+        }
+
+        if (!isTabEnabled(activeTab)) {
+            return <NoMatch />;
         }
 
         const TabContent = this.getTabContent();

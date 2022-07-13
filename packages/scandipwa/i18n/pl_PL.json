@@ -50,7 +50,6 @@
     "Confirmation request has been sent.": "Prośba o potwierdzenie została wysłana.",
     "Continue shopping": "Kontynuuj zakupy",
     "Country": "Kraj",
-    "County": "Powiat",
     "Coupon was applied!": "Kupon został zastosowany!",
     "Coupon was removed!": "Kupon został usunięty!",
     "Create Password": "Utwórz hasło",
@@ -141,7 +140,6 @@
     "Please sign in first!": "Proszę się zalogować w pierwszej kolejności!",
     "Please sign-in to complete checkout!": null,
     "Please, try removing selected filters and try again!": "Proszę spróbować usunąć wybrane filtry i spróbować ponownie!",
-    "Postal code": "Kod pocztowy",
     "Previous page": "Poprzednia strona",
     "Price": "Cena",
     "Proceed to billing": "Przejdź do fakturowania",
@@ -178,7 +176,6 @@
     "Something went wrong!": "Coś poszło nie tak!",
     "Something went wrong! Please, try again!": "Coś poszło nie tak! Proszę spróbuj ponownie!",
     "Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.": "Przepraszamy, nie możemy znaleźć strony, której szukasz! Naciśnij przycisk poniżej, aby wrócić do strony głównej.",
-    "State/Province": "Województwo",
     "Status": "Status",
     "Street": "Ulica",
     "Street address": "Ulica",
@@ -613,5 +610,6 @@
     "Send Confirmation Page": null,
     "Send Confirmation Action": null,
     "This email does not require confirmation.": null,
-    "Remove file": null
+    "Remove file": null,
+    "Region": null
 }

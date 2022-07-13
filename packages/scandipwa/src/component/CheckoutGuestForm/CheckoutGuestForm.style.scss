@@ -35,6 +35,12 @@
                     }
                 }
             }
+
+            &_password {
+                .Field-Label_isRequired {
+                    display: none;
+                }
+            }
         }
     }
 }

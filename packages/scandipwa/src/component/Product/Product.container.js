@@ -294,14 +294,21 @@ export class ProductContainer extends PureComponent {
 
         const values = getFieldsData(current, true, [FIELD_TYPE.numberWithControls]);
 
-        values.forEach(({ name, value, type }) => {
+        values.forEach(({
+            field, name, value, type
+        }) => {
             if (type === FIELD_TYPE.select) {
                 selectedOptions.push(value);
             } else if (type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio) {
                 if (value !== FIELD_RADIO_NONE) {
                     selectedOptions.push(value);
                 }
-            } else if (type !== FIELD_TYPE.numberWithControls) {
+            } else if (type !== FIELD_TYPE.numberWithControls && type !== FIELD_TYPE.file) {
+                enteredOptions.push({
+                    uid: name,
+                    value
+                });
+            } else if (type === FIELD_TYPE.file && field.value) {
                 enteredOptions.push({
                     uid: name,
                     value

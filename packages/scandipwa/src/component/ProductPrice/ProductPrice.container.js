@@ -43,7 +43,6 @@ export class ProductPriceContainer extends PureComponent {
         price: ProductPriceType,
         isPreview: PropTypes.bool,
         priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
-
         isSchemaRequired: PropTypes.bool,
         mix: MixType,
         displayTaxInPrice: PropTypes.string,
