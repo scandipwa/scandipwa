@@ -24,6 +24,7 @@ import { Router as ReactRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
 import ErrorHandler from 'Component/ErrorHandler';
+import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 import {
     PRINT_ALL_INVOICES,
@@ -399,9 +400,11 @@ export class Router extends PureComponent {
         );
     }
 
-    renderFallbackPage() {
+    renderFallbackPage(showLoader = false) {
         return (
-            <main block="Router" />
+            <main block="Router" elem="Loader">
+                { showLoader && <Loader isLoading /> }
+            </main>
         );
     }
 
@@ -439,7 +442,7 @@ export class Router extends PureComponent {
                 <Meta />
                 <ReactRouter history={ history }>
                     { this.renderSectionOfType(BEFORE_ITEMS_TYPE) }
-                    <Suspense fallback={ this.renderFallbackPage() }>
+                    <Suspense fallback={ this.renderFallbackPage(true) }>
                         { this.renderRouterContent() }
                     </Suspense>
                 </ReactRouter>
