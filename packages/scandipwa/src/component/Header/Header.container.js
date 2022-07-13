@@ -108,7 +108,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
         '/category': { name: CATEGORY },
         '/checkout/success': { name: CHECKOUT_SUCCESS },
         '/checkout': { name: CHECKOUT, onBackClick: () => history.push(appendWithStoreCode(CART_URL)) },
-        '/customer/account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push(appendWithStoreCode('/')) },
+        '/customer/account': {
+            name: CUSTOMER_ACCOUNT_PAGE,
+            title: __('My account'),
+            onBackClick: () => history.push(appendWithStoreCode('/'))
+        },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
         '/menu': { name: MENU },
