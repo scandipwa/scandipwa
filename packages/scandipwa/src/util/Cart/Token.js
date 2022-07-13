@@ -16,25 +16,40 @@ export const GUEST_QUOTE_ID = 'guest_quote_id';
 
 /** @namespace Util/Cart/Token/setGuestQuoteId */
 export const setGuestQuoteId = (token) => {
-    BrowserDatabase.setItem({
+    const { website_code } = window;
+
+    const tokens = BrowserDatabase.getItem(GUEST_QUOTE_ID) || {};
+    tokens[website_code] = {
         token,
         isCustomerToken: isSignedIn()
-    }, GUEST_QUOTE_ID);
+    };
+    BrowserDatabase.setItem(tokens, GUEST_QUOTE_ID);
 };
 
 /** @namespace Util/Cart/Token/getGuestQuoteId */
 export const getGuestQuoteId = () => {
-    const {
-        token,
-        isCustomerToken
-    } = BrowserDatabase.getItem(GUEST_QUOTE_ID) || {};
+    const { website_code } = window;
 
-    if (isCustomerToken && !isSignedIn()) {
-        return null;
+    const tokens = BrowserDatabase.getItem(GUEST_QUOTE_ID) || {};
+
+    const token = tokens[website_code];
+
+    if (token) {
+        if (token.isCustomerToken && !isSignedIn()) {
+            return null;
+        }
+
+        return token.token;
     }
 
-    return token;
+    return null;
 };
 
 /** @namespace Util/Cart/Token/deleteGuestQuoteId */
-export const deleteGuestQuoteId = () => BrowserDatabase.deleteItem(GUEST_QUOTE_ID);
+export const deleteGuestQuoteId = () => {
+    const { website_code } = window;
+
+    const tokens = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+    tokens[website_code] = undefined;
+    BrowserDatabase.setItem(tokens, GUEST_QUOTE_ID);
+};
