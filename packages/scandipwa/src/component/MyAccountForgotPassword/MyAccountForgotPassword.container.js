@@ -101,10 +101,9 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
 
     showSuccessNotification(submittedEmail) {
         const { showNotification } = this.props;
-
         // eslint-disable-next-line max-len
         const message = __('If there is an account associated with %s you will receive an email with a link to reset your password', submittedEmail).toString();
-        
+
         showNotification('success', message);
     }
 

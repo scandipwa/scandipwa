@@ -87,6 +87,7 @@ export class CartDispatcher {
             return null;
         } catch (error) {
             dispatch(updateIsLoadingCart(false));
+
             return this.createGuestEmptyCart(dispatch);
         }
     }

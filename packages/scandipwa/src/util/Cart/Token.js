@@ -19,6 +19,7 @@ export const setGuestQuoteId = (token) => {
     const { website_code } = window;
 
     const tokens = BrowserDatabase.getItem(GUEST_QUOTE_ID) || {};
+
     tokens[website_code] = {
         token,
         isCustomerToken: isSignedIn()
@@ -50,6 +51,7 @@ export const deleteGuestQuoteId = () => {
     const { website_code } = window;
 
     const tokens = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+
     tokens[website_code] = undefined;
     BrowserDatabase.setItem(tokens, GUEST_QUOTE_ID);
 };

@@ -71,6 +71,7 @@ export const getUid = () => {
 export const removeUid = () => {
     const { website_code } = window;
     const uids = BrowserDatabase.getItem(COMPARE_UID) || {};
+
     uids[website_code] = undefined;
 
     BrowserDatabase.setItem(uids, COMPARE_UID);
