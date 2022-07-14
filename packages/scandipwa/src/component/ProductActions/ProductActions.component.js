@@ -267,22 +267,17 @@ export class ProductActions extends Product {
             inStock,
             product: { type_id: baseType } = {},
             isPricePreview,
-            productPrice,
-            showOnlyIfLoaded
+            productPrice
         } = this.props;
         const { type_id: activeType } = getActiveProduct();
 
         const notConfigured = baseType === PRODUCT_TYPE.configurable && activeType === baseType;
 
-        return showOnlyIfLoaded(
-            productPrice,
-            (
-                <>
-                    { super.renderPrice(!inStock || notConfigured || isPricePreview) }
-                </>
-            ),
-            <TextPlaceholder />
-        );
+        if (!productPrice) {
+            return <TextPlaceholder />;
+        }
+
+        return super.renderPrice(!inStock || notConfigured || isPricePreview);
     }
 
     renderTierPrices() {
