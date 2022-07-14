@@ -7,8 +7,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { clientsClaim } from 'workbox-core';
@@ -68,6 +68,7 @@ const updateWithFreshDataViaBroadcast = async (request, cache) => {
     const revalidatedResponse = await makeRequestAndUpdateCache(request, cache);
     const responseClone = revalidatedResponse.clone();
     const broadcast = new BroadcastChannel(type);
+
     broadcast.postMessage({ payload: await responseClone.json(), type });
     broadcast.close();
 };

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -113,6 +113,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
 
     handleOptionClick({ attribute_code, attribute_value }) {
         const { updateConfigurableVariant } = this.props;
+
         updateConfigurableVariant(attribute_code, attribute_value);
     }
 
@@ -134,6 +135,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
     handleShakeAnimationEnd(e) {
         e.preventDefault();
         const { updateAddToCartTriggeredWithError } = this.props;
+
         e.target.classList.remove('[class*=_isUnselected]');
 
         updateAddToCartTriggeredWithError();

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -127,6 +127,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
 
         try {
             const { updateCustomerV2: { customer } } = await fetchMutation(mutation);
+
             BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             const { is_subscribed } = customer;
 

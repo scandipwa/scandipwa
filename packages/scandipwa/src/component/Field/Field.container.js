@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -196,6 +196,7 @@ export class FieldContainer extends PureComponent {
         if (hook) {
             const { attr, type } = this.props;
             const { value } = this.fieldRef;
+
             hook(...[...args, {
                 ...attr, fieldRef: this.fieldRef, value, type
             }]);
@@ -230,8 +231,10 @@ export class FieldContainer extends PureComponent {
 
         // Surrounds events with validation
         const newEvents = { ...events };
+
         validateOn.forEach((eventName) => {
             const { [eventName]: baseEvent } = events;
+
             newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
         });
 

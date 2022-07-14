@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -59,6 +59,7 @@ export class DatePickerContainer extends PureComponent {
         const currentDate = new Date();
         const validMinDate = minDate > currentDate ? minDate : currentDate;
         const selectedDate = maxDate < validMinDate ? maxDate : validMinDate;
+
         this.state = { selectedDate };
     }
 

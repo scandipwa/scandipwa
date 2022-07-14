@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -63,6 +63,7 @@ export class CategorySortContainer extends PureComponent {
 
         // eslint-disable-next-line fp/no-let
         let [label] = pureLabel.split(' ');
+
         label = label.charAt(0).toUpperCase() + label.slice(1);
 
         switch (id) {

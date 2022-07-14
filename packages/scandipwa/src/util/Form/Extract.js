@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { FIELD_NAME_ATTR, FIELD_TYPE_ATTR, HOURS_12H_COUNT } from 'Component/DateSelect/DateSelect.config';
@@ -223,6 +223,7 @@ export const getFieldsData = (DOM, excludeEmpty = false, ignoreTypes = [], asObj
     const output = [];
 
     const dateFieldsGrouped = groupDateFieldsData(fields);
+
     output.push(...transformDateFieldsData(dateFieldsGrouped));
 
     fields.forEach((field) => {
@@ -262,8 +263,10 @@ export const getFieldsData = (DOM, excludeEmpty = false, ignoreTypes = [], asObj
 
     if (asObject) {
         const objectOutput = {};
+
         output.forEach((field) => {
             const { name } = field;
+
             objectOutput[name] = field;
         });
 

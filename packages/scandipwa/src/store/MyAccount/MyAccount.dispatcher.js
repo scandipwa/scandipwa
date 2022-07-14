@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { CHECKOUT, MY_ACCOUNT } from 'Component/Header/Header.config';
@@ -185,6 +185,7 @@ export class MyAccountDispatcher {
     createAccount(options = {}, dispatch) {
         const { customer: { email }, password } = options;
         const mutation = MyAccountQuery.getCreateAccountMutation(options);
+
         dispatch(updateIsLoading(true));
 
         return fetchMutation(mutation).then(
@@ -206,6 +207,7 @@ export class MyAccountDispatcher {
             (error) => {
                 dispatch(updateIsLoading(false));
                 dispatch(showNotification('error', getErrorMessage(error)));
+
                 return false;
             }
         );

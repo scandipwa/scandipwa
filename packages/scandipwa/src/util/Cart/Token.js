@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { isSignedIn } from 'Util/Auth';
@@ -19,6 +19,7 @@ export const setGuestQuoteId = (token) => {
     const { website_code } = window;
 
     const tokens = BrowserDatabase.getItem(GUEST_QUOTE_ID) || {};
+
     tokens[website_code] = {
         token,
         isCustomerToken: isSignedIn()
@@ -50,6 +51,7 @@ export const deleteGuestQuoteId = () => {
     const { website_code } = window;
 
     const tokens = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+
     tokens[website_code] = undefined;
     BrowserDatabase.setItem(tokens, GUEST_QUOTE_ID);
 };

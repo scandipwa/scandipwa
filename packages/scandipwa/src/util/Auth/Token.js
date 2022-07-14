@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { updateCustomerSignInStatus } from 'Store/MyAccount/MyAccount.action';
@@ -33,6 +33,7 @@ export const setAuthorizationToken = (token) => {
         } = state.ConfigReducer;
 
         const tokens = BrowserDatabase.getItem(AUTH_TOKEN) || {};
+
         tokens[website_code] = token;
         BrowserDatabase.setItem(tokens, AUTH_TOKEN, access_token_lifetime * ONE_HOUR_IN_SECONDS);
     }
@@ -43,6 +44,7 @@ export const deleteAuthorizationToken = () => {
     const { website_code } = window;
 
     const tokens = BrowserDatabase.getItem(AUTH_TOKEN);
+
     tokens[website_code] = undefined;
     BrowserDatabase.setItem(tokens, AUTH_TOKEN);
 };
@@ -89,6 +91,7 @@ export const isSignedIn = () => {
         removeUid();
 
         const MyAccountDispatcher = import('../../store/MyAccount/MyAccount.dispatcher');
+
         MyAccountDispatcher.then(
             ({ default: dispatcher }) => dispatcher.logout(true, true, dispatch)
         );

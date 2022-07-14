@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
@@ -77,6 +77,7 @@ export const getCustomizableOptions = (buyRequest) => {
 
         if (typeof variant === 'object' && (variant.date_internal || variant.date)) {
             const { date_internal, date } = variant;
+
             return [...prev, btoa(`custom-option/${option}/${date_internal || date}`)];
         }
 
@@ -301,6 +302,7 @@ export const magentoProductTransform = (
 
         items.forEach(({ product: { id } }) => {
             const { [id]: groupedQuantity = 0 } = quantity;
+
             groupedProducts.push(btoa(`grouped/${id}/${groupedQuantity}`));
         });
 

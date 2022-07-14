@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -214,6 +214,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     shareWishlist() {
         const { showPopup } = this.props;
+
         showPopup({ title: __('Share Wishlist') });
     }
 
