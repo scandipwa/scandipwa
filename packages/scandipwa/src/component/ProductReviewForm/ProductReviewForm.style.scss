@@ -117,6 +117,10 @@
         font-weight: 700;
         font-size: 13px;
 
+        @include desktop {
+            line-height: 13px;
+        }
+
         @include mobile {
             padding-block-end: 4px;
             font-size: 15px;
