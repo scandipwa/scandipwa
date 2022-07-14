@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { ORDER_ID } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { SignInStateType } from 'Type/Account.type';
@@ -120,7 +121,6 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             showNotification,
             isMobile
         } = this.props;
-        const { location: { state: { orderID = '' } = {} } } = history;
 
         const {
             password,
@@ -140,7 +140,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
                 taxvat
             },
             password,
-            orderID
+            orderID: sessionStorage.getItem(ORDER_ID)
         };
 
         if (isLoading) {
