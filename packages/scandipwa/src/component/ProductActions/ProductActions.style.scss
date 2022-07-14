@@ -143,6 +143,10 @@
         @include desktop {
             margin-block-start: 24px;
         }
+
+        .TextPlaceholder {
+            line-height: 30px;
+        }
     }
 
     &-ActionButtons {
