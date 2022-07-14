@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
- * @link https://github.com/scandipwa/scandipwa
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
  */
 
 import WishlistQuery from 'Query/Wishlist.query';
@@ -77,7 +77,9 @@ export class WishlistDispatcher {
                             qty: quantity
                         } = wishlistItem;
 
-                        const priceRange = getPriceRange(product, price, price_without_tax);
+                        const { discount } = product.price_range.minimum_price;
+
+                        const priceRange = getPriceRange(product, price, price_without_tax, discount);
 
                         return {
                             ...prev,

@@ -14,27 +14,23 @@
  * @param {Object} product
  * @namespace Util/Wishlist/getPriceRange
  */
-export const getPriceRange = (product, price, priceWithoutTax) => {
+export const getPriceRange = (product, price, priceWithoutTax, discount) => {
     if (!price) {
         return {};
     }
 
-    const {
-        price_range: {
-            minimum_price: {
-                regular_price: { currency }
-            }
-        }
-    } = product;
+    const { currency } = product.price_range.minimum_price.regular_price;
 
     const priceCurrencyValue = { value: price, currency };
     const priceCurrencyValueExclTax = { value: priceWithoutTax, currency };
+
     const priceSection = {
         final_price: priceCurrencyValue,
         regular_price: priceCurrencyValue,
         final_price_excl_tax: priceCurrencyValueExclTax,
         regular_price_excl_tax: priceCurrencyValueExclTax,
-        default_final_price_excl_tax: priceCurrencyValueExclTax
+        default_final_price_excl_tax: priceCurrencyValueExclTax,
+        discount
     };
 
     return {
