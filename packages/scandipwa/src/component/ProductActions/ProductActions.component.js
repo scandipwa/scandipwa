@@ -265,15 +265,14 @@ export class ProductActions extends Product {
         const {
             getActiveProduct,
             inStock,
-            product: { type_id: baseType } = {},
-            isPricePreview,
-            productPrice
+            product: { type_id: baseType, price_range = null } = {},
+            isPricePreview
         } = this.props;
         const { type_id: activeType } = getActiveProduct();
 
         const notConfigured = baseType === PRODUCT_TYPE.configurable && activeType === baseType;
 
-        if (!productPrice) {
+        if (!price_range) {
             return <TextPlaceholder />;
         }
 
