@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -113,6 +113,7 @@ export class MyAccountAddressFormContainer extends PureComponent {
     getCountry(countryId = null) {
         const { countries, defaultCountry, address: { country_id: countryIdAddress } = {} } = this.props;
         const countryIdFixed = countryId || countryIdAddress || defaultCountry;
+
         return countries.find(({ value }) => value === countryIdFixed);
     }
 
@@ -205,6 +206,7 @@ export class MyAccountAddressFormContainer extends PureComponent {
     onZipcodeChange(event, field) {
         const { value: zipCode = '' } = field || {};
         const { countryId } = this.state;
+
         this.setState({ currentZipcode: zipCode });
         debounce(this.getAvailableRegions(countryId, zipCode), UPDATE_ZIPCODE_FREQUENCY);
     }

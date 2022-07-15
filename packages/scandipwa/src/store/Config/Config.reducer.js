@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -108,6 +108,7 @@ export const ConfigReducer = (
     case UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
         const { secure_base_media_url } = filteredStoreConfig;
+
         window.secure_base_media_url = secure_base_media_url;
 
         return {

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import FIELD_TYPE from 'Component/Field/Field.config';
@@ -52,6 +52,7 @@ export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter, 
             inputType: VALIDATION_INPUT_TYPE.password,
             match: (value) => {
                 const password = passwordRef.current;
+
                 return value && password.value === value;
             },
             customErrorMessages: {

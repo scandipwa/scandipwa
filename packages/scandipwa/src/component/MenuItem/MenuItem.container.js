@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -99,6 +99,7 @@ export class MenuItemContainer extends PureComponent {
 
         // keep the stack here, so later we can deconstruct menu out of it
         const { pathname } = location;
+
         history.push(pathname, { stack: activeMenuItemsStack });
 
         if (pathname !== newPathname) {

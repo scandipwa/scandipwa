@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -109,6 +109,7 @@ export class CheckoutOrderSummary extends PureComponent {
 
         const label = coupon_code ? __('Coupon code discount') : __('Discount');
         const discount = -Math.abs(discount_amount);
+
         return (
             <CheckoutOrderSummaryPriceLine
               price={ discount }
@@ -256,6 +257,7 @@ export class CheckoutOrderSummary extends PureComponent {
             cartTotalSubPrice
         } = this.props;
         const title = __('Order total');
+
         return (
                 <CheckoutOrderSummaryPriceLine
                   price={ Number(grand_total || 0).toFixed(2) }

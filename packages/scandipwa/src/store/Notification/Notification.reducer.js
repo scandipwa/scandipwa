@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { HIDE_NOTIFICATION, SHOW_NOTIFICATION } from './Notification.action';
@@ -26,6 +26,7 @@ export const NotificationReducer = (
     switch (action.type) {
     case SHOW_NOTIFICATION:
         const { msgType, msgText, msgDebug } = action;
+
         notifications[Date.now()] = { msgType, msgText, msgDebug };
 
         return {

@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -68,11 +68,13 @@ export class DateSelectComponent extends PureComponent {
         const { minYear, maxYear } = this.props;
 
         const yearRange = range(+minYear, +maxYear);
+
         return yearRange.map((year) => ({ id: year, value: year, label: year }));
     }
 
     getMonthOptions() {
         const monthRange = range(1, +MONTHS_COUNT);
+
         return monthRange.map((month) => ({ id: month, value: month, label: month }));
     }
 
@@ -80,6 +82,7 @@ export class DateSelectComponent extends PureComponent {
         const { maxDay } = this.props;
 
         const dayRange = range(1, +maxDay || DEFAULT_MONTH_DAYS);
+
         return dayRange.map((day) => ({ id: day, value: day, label: day }));
     }
 
@@ -88,6 +91,7 @@ export class DateSelectComponent extends PureComponent {
 
         const maxHours = timeFormat === TIME_FORMAT.H12 ? HOURS_12H_COUNT : HOURS_24H_COUNT - 1;
         const hoursRange = range(timeFormat === TIME_FORMAT.H12 ? 1 : 0, maxHours);
+
         return hoursRange.map((hours) => ({
             id: hours,
             value: zeroBasedValue(hours),
@@ -97,6 +101,7 @@ export class DateSelectComponent extends PureComponent {
 
     getMinutesOptions() {
         const minutesRange = range(0, MINUTES_COUNT - 1);
+
         return minutesRange.map((minutes) => ({
             id: minutes,
             value: zeroBasedValue(minutes),
@@ -106,6 +111,7 @@ export class DateSelectComponent extends PureComponent {
 
     getAMPMOptions() {
         const ampmRange = Object.values(AMPM_FORMAT);
+
         return ampmRange.map((option) => ({
             id: option.toString(),
             value: option.toString(),

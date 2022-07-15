@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { makeCancelable } from 'Util/Promise';
@@ -63,6 +63,7 @@ export class QueryDispatcher {
             }
         }
         const broadcast = await listenForBroadCast(name);
+
         this.onUpdate(broadcast, dispatch, options);
     }
 

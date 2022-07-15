@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import {
@@ -71,6 +71,7 @@ export const getUid = () => {
 export const removeUid = () => {
     const { website_code } = window;
     const uids = BrowserDatabase.getItem(COMPARE_UID) || {};
+
     uids[website_code] = undefined;
 
     BrowserDatabase.setItem(uids, COMPARE_UID);

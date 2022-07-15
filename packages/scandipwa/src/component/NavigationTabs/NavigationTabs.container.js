@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { connect } from 'react-redux';
@@ -86,6 +86,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         const SCROLL_DEBOUNCE_DELAY = 10;
         const { name } = this.getNavigationState();
+
         this.lastSeenMenu = name === MENU_TAB ? 0 : -1;
         window.addEventListener('scroll', debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY));
 
@@ -166,6 +167,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     handleScroll() {
         const windowY = window.pageYOffset;
+
         this.handleNavVisibilityOnScroll(windowY);
         this.scrollPosition = windowY;
     }

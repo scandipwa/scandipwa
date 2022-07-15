@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import 'Util/Polyfill';
@@ -20,6 +20,7 @@ import App from 'Component/App';
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         const swUrl = '/service-worker.js';
+
         navigator.serviceWorker.register(swUrl, { scope: '/' });
     });
 }

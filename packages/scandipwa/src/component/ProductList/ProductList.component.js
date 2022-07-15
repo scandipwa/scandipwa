@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -228,6 +228,7 @@ export class ProductList extends PureComponent {
 
         if (isVisible && isInfiniteLoaderEnabled) { // add placeholders to the end of pages if needed
             const key = Math.max(Object.keys(pages)) + 1; // the key should match next page key
+
             pageRenders.push(this.renderPage({ key }));
         }
 
@@ -244,6 +245,7 @@ export class ProductList extends PureComponent {
         // there must be no more then one page per screen
         // if the "isInfiniteLoaderEnabled" is false
         const { key, ...restProps } = props;
+
         restProps.key = 0;
 
         return restProps;

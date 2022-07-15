@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -163,6 +163,7 @@ export class CheckoutShippingContainer extends PureComponent {
 
     returnInStorePickupMethod() {
         const { shippingMethods = [] } = this.props;
+
         return shippingMethods.find((el) => el.method_code === STORE_IN_PICK_UP_METHOD_CODE);
     }
 
