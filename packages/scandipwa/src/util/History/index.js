@@ -11,8 +11,8 @@
 
 import { createBrowserHistory } from 'history';
 
-/** @namespace Util/History/Index/createBrowserHistoryWithStateInRoot */
-export function createBrowserHistoryWithStateInRoot() {
+/** @namespace Util/History/Index/createBrowserHistoryCustom */
+export function createBrowserHistoryCustom() {
     const browserHistory = createBrowserHistory({ basename: '/' });
 
     const changeListeners = [];
@@ -54,5 +54,5 @@ export function createBrowserHistoryWithStateInRoot() {
     return new Proxy(browserHistory, proxyHandler);
 }
 
-export const history = createBrowserHistoryWithStateInRoot({ basename: '/' });
+export const history = createBrowserHistoryCustom({ basename: '/' });
 export default history;
