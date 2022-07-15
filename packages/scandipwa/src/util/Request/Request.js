@@ -157,8 +157,12 @@ export const checkForErrors = (res) => new Promise((resolve, reject) => {
  * @return {void} Simply console error
  * @namespace Util/Request/handleConnectionError
  */
-// eslint-disable-next-line no-console
-export const handleConnectionError = (err) => console.error(err); // TODO: Add to logs pool
+export const handleConnectionError = (err) => {
+    if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.error(err);
+    }
+}; // TODO: Add to logs pool
 
 /**
  * Parse response and check wether it contains errors

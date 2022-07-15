@@ -17,6 +17,7 @@ import { executeGet, listenForBroadCast } from 'Util/Request/Request';
 export const ONE_MONTH_IN_SECONDS = 2592000;
 export const FIVE_MINUTES_IN_SECONDS = 300;
 export const REQUEST_ABORT_MESSAGE = 'The user aborted a request.';
+export const REQUEST_ABORT_MESSAGE_2 = 'AbortError: The user aborted a request.';
 
 /**
  * Abstract request dispatcher.
@@ -58,7 +59,8 @@ export class QueryDispatcher {
             this.promise = await executeGet(prepareQuery(queries), name, cacheTTL, this.controller.signal);
             this.onSuccess(this.promise, dispatch, options);
         } catch (err) {
-            if (err.message !== REQUEST_ABORT_MESSAGE) {
+            if (err.message !== REQUEST_ABORT_MESSAGE
+                && err.message !== REQUEST_ABORT_MESSAGE_2) {
                 this.onError(err, dispatch, options);
             }
         }
