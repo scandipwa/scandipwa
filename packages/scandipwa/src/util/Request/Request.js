@@ -204,7 +204,7 @@ export const executeGet = async (queryObject, name, cacheTTL, signal) => {
         refreshUid();
     }
 
-    // circumvention for the eslint rule that prohibits usage of let
+    // circumvention of the eslint rule that prohibits usage of let
     const res = [];
 
     try {
@@ -225,9 +225,6 @@ export const executeGet = async (queryObject, name, cacheTTL, signal) => {
     } catch (err) {
         handleConnectionError('executeGet failed');
 
-        if (signal.aborted) {
-            throw new Error('The user aborted a request.');
-        }
         throw new Error(err);
     }
 };
