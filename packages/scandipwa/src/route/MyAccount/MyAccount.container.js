@@ -59,6 +59,7 @@ export const mapStateToProps = (state) => ({
     isLocked: state.MyAccountReducer.isLocked,
     newsletterActive: state.ConfigReducer.newsletter_general_active,
     baseLinkUrl: state.ConfigReducer.base_link_url,
+    activeOverlay: state.OverlayReducer.activeOverlay,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState
 });
 
@@ -101,6 +102,7 @@ export class MyAccountContainer extends PureComponent {
         selectedTab: PropTypes.string,
         logout: PropTypes.func.isRequired,
         updateIsLocked: PropTypes.func.isRequired,
+        activeOverlay: PropTypes.string.isRequired,
         headerState: NavigationStateHistoryType.isRequired
     };
 
@@ -255,6 +257,7 @@ export class MyAccountContainer extends PureComponent {
             wishlistItems,
             IsSignedInFromState: currIsSignedInFromState,
             isLocked,
+            activeOverlay,
             headerState: { name }
         } = this.props;
 
@@ -278,7 +281,7 @@ export class MyAccountContainer extends PureComponent {
             scrollToTop();
         }
 
-        if (name !== prevName) {
+        if (name !== prevName && !activeOverlay) {
             this.changeMyAccountHeaderState();
         }
 
