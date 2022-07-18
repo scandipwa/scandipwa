@@ -57,7 +57,7 @@ export class FieldNumberWithControlsContainer extends PureComponent {
             this.setState({ value: min });
         }
 
-        if (defaultValue <= min) {
+        if (defaultValue < min) {
             this.handleInitialLoad(min);
         }
     }
