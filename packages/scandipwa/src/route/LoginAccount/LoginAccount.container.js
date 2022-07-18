@@ -74,8 +74,6 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
 
         if (isSignedIn() && (!isFromEmailChange && !isFromLocked)) {
             history.replace(appendWithStoreCode(ACCOUNT_URL));
-
-            return;
         }
 
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
