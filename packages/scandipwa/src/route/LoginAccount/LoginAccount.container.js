@@ -74,6 +74,8 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
 
         if (isSignedIn() && (!isFromEmailChange && !isFromLocked)) {
             history.replace(appendWithStoreCode(ACCOUNT_URL));
+
+            return;
         }
 
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
@@ -82,7 +84,9 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (isSignedIn()) {
+        const { redirectToDashboard } = this.props;
+
+        if (isSignedIn() && redirectToDashboard) {
             // remove login url from history to skip it when navigating back
             history.replace(appendWithStoreCode(ACCOUNT_URL));
 
