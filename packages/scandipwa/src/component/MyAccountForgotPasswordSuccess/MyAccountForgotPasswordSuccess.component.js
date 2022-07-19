@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -25,6 +25,7 @@ export class MyAccountForgotPasswordSuccess extends PureComponent {
     render() {
         // eslint-disable-next-line react/prop-types
         const { state, handleSignIn, submittedEmail } = this.props;
+
         return (
             <article
               aria-labelledby="forgot-password-success"

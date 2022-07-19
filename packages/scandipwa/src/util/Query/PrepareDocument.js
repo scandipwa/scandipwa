@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 export const MUTATION_TYPE = 'mutation';
@@ -71,6 +71,7 @@ export const prepareRequest = (fields, type) => {
     const resolvedArgs = Object.entries(accArgs).reduce((acc, [name, dataArray]) => {
         dataArray.forEach(([type, value], i) => {
             const variable = `${name}_${i + 1}`;
+
             acc.push(`$${variable}:${type}`);
             variables[variable] = value;
         });

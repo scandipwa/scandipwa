@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -113,6 +113,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
 
     checkEmailAvailability = debounce((email) => {
         const { checkEmailAvailability } = this.props;
+
         checkEmailAvailability(email);
     }, UPDATE_EMAIL_CHECK_FREQUENCY);
 
@@ -120,6 +121,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
         super.__construct(props);
 
         const { clearEmailStatus } = props;
+
         clearEmailStatus();
     }
 
@@ -204,6 +206,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
     handleEmailInput(event, field) {
         const { onEmailChange } = this.props;
         const { value: email } = field;
+
         this.checkEmailAvailability(email);
         onEmailChange(email);
 
@@ -216,11 +219,13 @@ export class CheckoutGuestFormContainer extends PureComponent {
 
     handleCreateUser() {
         const { onCreateUserChange } = this.props;
+
         onCreateUserChange();
     }
 
     handlePasswordInput(password) {
         const { onPasswordChange } = this.props;
+
         onPasswordChange(password);
     }
 

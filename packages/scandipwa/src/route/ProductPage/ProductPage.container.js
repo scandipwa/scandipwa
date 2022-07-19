@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -290,6 +290,7 @@ export class ProductPageContainer extends PureComponent {
         const { description: { html = '' } = {} } = this.getDataSource();
         // handling cases when empty html tag is received
         const htmlElement = new DOMParser().parseFromString(html, 'text/html');
+
         return !htmlElement?.body?.innerHTML;
     }
 
@@ -441,9 +442,11 @@ export class ProductPageContainer extends PureComponent {
         const { attributes: activeAttr = {}, media_gallery_entries: activeMediaGallery = [] } = activeProduct;
 
         const attributes = {};
+
         Object.keys(productAttr).forEach((attr) => {
             const { [attr]: { attribute_value: attrValue }, [attr]: currAttr } = productAttr;
             const { [attr]: { attribute_value: activeAttrValue } = {} } = activeAttr;
+
             attributes[attr] = {
                 ...currAttr,
                 attribute_value: activeAttrValue || attrValue
@@ -526,11 +529,13 @@ export class ProductPageContainer extends PureComponent {
 
     updateNavigationState() {
         const { changeNavigationState } = this.props;
+
         changeNavigationState({ name: MENU_TAB });
     }
 
     updateMeta() {
         const { updateMetaFromProduct } = this.props;
+
         updateMetaFromProduct(this.getDataSource());
     }
 
@@ -548,6 +553,7 @@ export class ProductPageContainer extends PureComponent {
     updateBreadcrumbs() {
         const { updateBreadcrumbs, location } = this.props;
         const { state: { prevCategoryId = null } = {} } = location;
+
         updateBreadcrumbs(this.getDataSource(), prevCategoryId);
     }
 

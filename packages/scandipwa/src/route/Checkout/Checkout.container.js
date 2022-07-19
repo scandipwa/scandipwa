@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -200,6 +200,7 @@ export class CheckoutContainer extends PureComponent {
 
     checkEmailAvailability = debounce((email) => {
         const { checkEmailAvailability } = this.props;
+
         checkEmailAvailability(email);
     }, UPDATE_EMAIL_CHECK_FREQUENCY);
 
@@ -369,6 +370,7 @@ export class CheckoutContainer extends PureComponent {
 
     componentWillUnmount() {
         const { toggleBreadcrumbs, setPickUpStore } = this.props;
+
         toggleBreadcrumbs(true);
         setPickUpStore(null);
     }
@@ -405,6 +407,7 @@ export class CheckoutContainer extends PureComponent {
 
     onCreateUserChange() {
         const { isCreateUser } = this.state;
+
         this.setState({ isCreateUser: !isCreateUser });
     }
 
@@ -414,6 +417,7 @@ export class CheckoutContainer extends PureComponent {
 
     onShippingMethodSelect(selectedShippingMethod) {
         const { method_code } = selectedShippingMethod;
+
         this.setState({ selectedShippingMethod: method_code });
     }
 

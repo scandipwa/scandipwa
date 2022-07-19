@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import CartQuery from 'Query/Cart.query';
@@ -17,6 +17,8 @@ import { getRegionIdOfRegionName } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+
+export const CURRENT_WEBSITE = 'base';
 
 export const LinkedProductsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -37,9 +39,9 @@ export class CartDispatcher {
             if (!disableLoader) {
                 dispatch(updateIsLoadingCart(true));
             }
-
             // ! Get quote token first (local or from the backend) just to make sure it exists
             const quoteId = await this._getGuestQuoteId(dispatch);
+
             const {
                 cartData = {},
                 cartData: {
@@ -72,6 +74,7 @@ export class CartDispatcher {
 
             if (isForCustomer && !getAuthorizationToken()) {
                 dispatch(updateIsLoadingCart(false));
+
                 return null;
             }
 
@@ -102,6 +105,7 @@ export class CartDispatcher {
         const street = addressStreet.split('\n');
 
         const street_index = {};
+
         street.forEach((item, index) => {
             street_index[`street_${index}`] = item;
         });
@@ -118,9 +122,9 @@ export class CartDispatcher {
 
     async createGuestEmptyCart(dispatch) {
         try {
-            const {
-                createEmptyCart: quoteId = ''
-            } = await fetchMutation(CartQuery.getCreateEmptyCartMutation());
+            dispatch(updateIsLoadingCart(true));
+
+            const quoteId = await this._getNewQuoteId(dispatch);
 
             setGuestQuoteId(quoteId);
 
@@ -191,6 +195,7 @@ export class CartDispatcher {
 
         if (!Array.isArray(products) || products.length === 0) {
             dispatch(showNotification('error', __('No product data!')));
+
             return Promise.reject();
         }
 
@@ -216,10 +221,12 @@ export class CartDispatcher {
         } catch (error) {
             if (!navigator.onLine) {
                 dispatch(showNotification('error', __('Not possible to fetch while offline')));
+
                 return Promise.reject();
             }
 
             dispatch(showNotification('error', getErrorMessage(error)));
+
             return Promise.reject();
         }
 
@@ -376,6 +383,14 @@ export class CartDispatcher {
         }
 
         return this.createGuestEmptyCart(dispatch);
+    }
+
+    async _getNewQuoteId() {
+        const { createEmptyCart: quoteId = '' } = await fetchMutation(
+            CartQuery.getCreateEmptyCartMutation()
+        );
+
+        return quoteId;
     }
 }
 

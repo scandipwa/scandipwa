@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import CartIcon from 'Component/CartIcon';
@@ -19,6 +19,7 @@ import { DeviceType } from 'Type/Device.type';
 import {
     ACCOUNT_TAB,
     CART_TAB,
+    CHECKOUT_TAB,
     HOME_TAB,
     MENU_TAB
 } from './NavigationTabs.config';
@@ -41,6 +42,9 @@ export class NavigationTabs extends NavigationAbstract {
             menu: true
         },
         [CART_TAB]: {
+            minicart: true
+        },
+        [CHECKOUT_TAB]: {
             minicart: true
         },
         [ACCOUNT_TAB]: {

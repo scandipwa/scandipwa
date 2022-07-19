@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import ProductListQuery from 'Query/ProductList.query';
@@ -51,7 +51,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         const relatedSKUs = product_links.reduce((links, link) => {
             const { linked_product_sku } = link;
 
-            return [...links, `${ linked_product_sku.replace(/ /g, '%20') }`];
+            return [...links, linked_product_sku];
         }, []);
 
         return [
@@ -117,6 +117,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
 
         const indexedBySku = items.reduce((acc, item) => {
             const { sku } = item;
+
             acc[sku] = getIndexedProduct(item);
 
             return acc;

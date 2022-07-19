@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import CartQuery from 'Query/Cart.query';
@@ -53,6 +53,7 @@ export class ConfigDispatcher extends QueryDispatcher {
         if (data) {
             const { currencyData, currency } = data;
             const filteredData = { ...data, ...returnFilteredCurrencies(currencyData, currency) };
+
             BrowserDatabase.setItem(filteredData, 'config', ONE_MONTH_IN_SECONDS);
             dispatch(updateConfig(filteredData));
         }
