@@ -14,7 +14,12 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_WISHLIST } from 'Component/Header/Header.config';
+import {
+    CUSTOMER_ACCOUNT,
+    CUSTOMER_ACCOUNT_PAGE,
+    CUSTOMER_ORDER,
+    CUSTOMER_WISHLIST
+} from 'Component/Header/Header.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { updateIsLocked } from 'Store/MyAccount/MyAccount.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -281,7 +286,7 @@ export class MyAccountContainer extends PureComponent {
             scrollToTop();
         }
 
-        if (name !== prevName && !activeOverlay) {
+        if (name !== prevName && name !== CUSTOMER_ORDER && !activeOverlay) {
             this.changeMyAccountHeaderState();
         }
 
