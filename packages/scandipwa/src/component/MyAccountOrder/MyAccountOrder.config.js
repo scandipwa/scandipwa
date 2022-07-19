@@ -13,6 +13,7 @@ export const ORDER_ITEMS = 'Items';
 export const ORDER_INVOICES = 'Invoice';
 export const ORDER_SHIPMENTS = 'Shipment';
 export const ORDER_REFUNDS = 'Refund';
+export const ORDER_ID = 'ORDER_ID';
 
 export const ORDER_ACTION_LABELS = {
     [ORDER_INVOICES]: {

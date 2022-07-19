@@ -33,7 +33,7 @@ export class GroupedProductList extends PureComponent {
             setQuantity
         } = this.props;
 
-        const sortedItems = items.sort(({ position }, { position: cmpPosition }) => position > cmpPosition);
+        const sortedItems = items.sort(({ position }, { position: cmpPosition }) => position - cmpPosition);
 
         return (
             <ul>

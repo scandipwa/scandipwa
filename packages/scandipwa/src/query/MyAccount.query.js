@@ -97,10 +97,10 @@ export class MyAccountQuery {
     }
 
     getCreateAccountMutation(options) {
-        const { customer, password } = options;
+        const { customer, password, orderID } = options;
 
         return new Field('createCustomer')
-            .addArgument('input', 'CustomerInput!', { ...customer, password })
+            .addArgument('input', 'CustomerInput!', { ...customer, password, orderID })
             .addField(this._getCustomerField());
     }
 
