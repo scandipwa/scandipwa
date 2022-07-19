@@ -157,11 +157,13 @@ export const checkForErrors = (res) => new Promise((resolve, reject) => {
  * @return {void} Simply console error
  * @namespace Util/Request/handleConnectionError
  */
-export const handleConnectionError = (err) => {
+export const handleConnectionError = (err, msg = 'error') => {
     if (process.env.NODE_ENV === 'development') {
         // eslint-disable-next-line no-console
+        console.error(msg);
         console.error(err);
     }
+    throw new Error(err);
 }; // TODO: Add to logs pool
 
 /**
@@ -175,8 +177,7 @@ export const parseResponse = async (response) => {
         .catch(
         /** @namespace Util/Request/parseResponse/data/json/catch */
             (err) => {
-                handleConnectionError('Can not parse JSON!');
-                throw new Error(err);
+                handleConnectionError(err, 'Can not parse JSON!');
             }
         );
 
@@ -210,6 +211,8 @@ export const executeGet = async (queryObject, name, cacheTTL, signal) => {
     try {
         res[0] = await getFetch(uri, name, signal);
 
+        return parseResponse(res[0]);
+    } catch (err) {
         if (res.status === HTTP_410_GONE) {
             const putResponse = await putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL);
 
@@ -217,15 +220,12 @@ export const executeGet = async (queryObject, name, cacheTTL, signal) => {
                 res[0] = await getFetch(uri, name, signal);
             }
         } else if (res.status === HTTP_503_SERVICE_UNAVAILABLE) {
-            handleConnectionError('Service unavailable!...');
-            throw new Error('Service unavailable!');
+            handleConnectionError(err, 'Service unavailable!...');
         }
 
-        return parseResponse(res[0]);
-    } catch (err) {
-        handleConnectionError('executeGet failed');
+        handleConnectionError(err, 'executeGet failed');
 
-        throw new Error(err);
+        return null;
     }
 };
 
@@ -248,8 +248,9 @@ export const executePost = async (queryObject) => {
 
         return parseResponse(response);
     } catch (err) {
-        handleConnectionError('executePost failed');
-        throw new Error(err);
+        handleConnectionError(err, 'executePost failed');
+
+        return null;
     }
 };
 
