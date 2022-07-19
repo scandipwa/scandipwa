@@ -209,8 +209,6 @@ export const executeGet = async (queryObject, name, cacheTTL, signal) => {
 
     try {
         res[0] = await getFetch(uri, name, signal);
-
-        return parseResponse(res[0]);
     } catch (err) {
         if (res.status === HTTP_410_GONE) {
             const putResponse = await putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL);
@@ -223,9 +221,9 @@ export const executeGet = async (queryObject, name, cacheTTL, signal) => {
         }
 
         handleConnectionError(err, 'executeGet failed');
-
-        return null;
     }
+
+    return parseResponse(res[0]);
 };
 
 /**
