@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -205,6 +205,7 @@ export class MyAccountInformationContainer extends PureComponent {
         const mutation = MyAccountQuery.getUpdateInformationMutation(options);
 
         const { updateCustomerV2: { customer } } = await fetchMutation(mutation);
+
         BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
         updateCustomer(customer);
     }
@@ -223,6 +224,7 @@ export class MyAccountInformationContainer extends PureComponent {
 
         if (message.includes('locked')) {
             updateIsLocked(true);
+
             return;
         }
 

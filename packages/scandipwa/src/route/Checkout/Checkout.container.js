@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -194,11 +194,13 @@ export class CheckoutContainer extends PureComponent {
         goBack: this.goBack.bind(this),
         handleSelectDeliveryMethod: this.handleSelectDeliveryMethod.bind(this),
         onStoreSelect: this.onStoreSelect.bind(this),
-        onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
+        onShippingMethodSelect: this.onShippingMethodSelect.bind(this),
+        onChangeEmailRequired: this.onChangeEmailRequired.bind(this)
     };
 
     checkEmailAvailability = debounce((email) => {
         const { checkEmailAvailability } = this.props;
+
         checkEmailAvailability(email);
     }, UPDATE_EMAIL_CHECK_FREQUENCY);
 
@@ -233,7 +235,8 @@ export class CheckoutContainer extends PureComponent {
             isGuestEmailSaved: false,
             isCreateUser: false,
             estimateAddress: {},
-            isPickInStoreMethodSelected: false
+            isPickInStoreMethodSelected: false,
+            isVisibleEmailRequired: false
         };
     }
 
@@ -297,8 +300,8 @@ export class CheckoutContainer extends PureComponent {
             isCartLoading: prevIsCartLoading
         } = prevProps;
 
-        const { email, checkoutStep } = this.state;
-        const { email: prevEmail } = prevState;
+        const { email, checkoutStep, isVisibleEmailRequired } = this.state;
+        const { email: prevEmail, isVisibleEmailRequired: prevIsVisibleEmailRequired } = prevState;
         const { pathname = '' } = location;
 
         this.handleRedirectIfNoItemsInCart();
@@ -352,6 +355,10 @@ export class CheckoutContainer extends PureComponent {
 
         if (email !== prevEmail) {
             this.checkEmailAvailability(email);
+
+            if (email && isVisibleEmailRequired !== prevIsVisibleEmailRequired) {
+                this.onChangeEmailRequired();
+            }
         }
 
         if (!isEmailAvailable) {
@@ -363,6 +370,7 @@ export class CheckoutContainer extends PureComponent {
 
     componentWillUnmount() {
         const { toggleBreadcrumbs, setPickUpStore } = this.props;
+
         toggleBreadcrumbs(true);
         setPickUpStore(null);
     }
@@ -399,6 +407,7 @@ export class CheckoutContainer extends PureComponent {
 
     onCreateUserChange() {
         const { isCreateUser } = this.state;
+
         this.setState({ isCreateUser: !isCreateUser });
     }
 
@@ -408,6 +417,7 @@ export class CheckoutContainer extends PureComponent {
 
     onShippingMethodSelect(selectedShippingMethod) {
         const { method_code } = selectedShippingMethod;
+
         this.setState({ selectedShippingMethod: method_code });
     }
 
@@ -534,6 +544,12 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ selectedStoreAddress: address });
     }
 
+    onChangeEmailRequired() {
+        const { email } = this.state;
+
+        this.setState({ isVisibleEmailRequired: !email });
+    }
+
     goBack() {
         const { checkoutStep } = this.state;
 
@@ -627,7 +643,8 @@ export class CheckoutContainer extends PureComponent {
             shippingAddress,
             shippingMethods,
             selectedStoreAddress,
-            isPickInStoreMethodSelected
+            isPickInStoreMethodSelected,
+            isVisibleEmailRequired
         } = this.state;
 
         return {
@@ -656,7 +673,8 @@ export class CheckoutContainer extends PureComponent {
             totals,
             selectedStoreAddress,
             isPickInStoreMethodSelected,
-            isCartLoading
+            isCartLoading,
+            isVisibleEmailRequired
         };
     }
 
@@ -698,6 +716,10 @@ export class CheckoutContainer extends PureComponent {
         const { email } = this.state;
         const { updateEmail } = this.props;
         const guestCartId = getGuestQuoteId();
+
+        if (!email) {
+            this.setState({ isVisibleEmailRequired: false }, this.onChangeEmailRequired);
+        }
 
         if (!guestCartId || !email) {
             return null;

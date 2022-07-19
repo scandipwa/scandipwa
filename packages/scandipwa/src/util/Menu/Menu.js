@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 /* eslint-disable no-param-reassign */
@@ -65,6 +65,7 @@ export class Menu {
     setToValue(obj, path, value) {
         // eslint-disable-next-line fp/no-let
         let i;
+
         path = path.split('.');
         // eslint-disable-next-line fp/no-loops
         for (i = 0; i < path.length - 1; i++) {

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -23,6 +23,7 @@ import {
     STATE_SIGN_IN
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import MyAccountSignIn from 'Component/MyAccountSignIn';
+import { RefType } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import checkoutGuestForm from './CheckoutGuestForm.form';
@@ -42,7 +43,9 @@ export class CheckoutGuestForm extends FieldForm {
         onSignIn: PropTypes.func.isRequired,
         range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }),
         minimunPasswordCharacter: PropTypes.string.isRequired,
-        isLoading: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        onFormError: PropTypes.func.isRequired,
+        formRef: RefType
     };
 
     // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
@@ -100,6 +103,15 @@ export class CheckoutGuestForm extends FieldForm {
             range,
             minimunPasswordCharacter
         });
+    }
+
+    getFormProps() {
+        const { formRef, onFormError } = this.props;
+
+        return {
+            elemRef: formRef,
+            onError: onFormError
+        };
     }
 
     renderHeading() {

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -118,6 +118,7 @@ export class PaginationContainer extends PureComponent {
     // e.g. 7 for pagination like 1 ... 5 6 7 ... 14
     _getLastFramePage() {
         const { paginationFrame, totalPages } = this.props;
+
         return Math.min(totalPages, this._getFirstFramePage() + paginationFrame - 1);
     }
 

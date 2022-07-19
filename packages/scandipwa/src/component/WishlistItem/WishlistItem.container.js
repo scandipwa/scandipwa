@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -187,6 +187,7 @@ export class WishlistItemContainer extends PureComponent {
 
     setQuantity(quantity) {
         const { setIsQtyUpdateInProgress } = this.props;
+
         this.setState({ currentQty: quantity });
 
         setIsQtyUpdateInProgress(true);
@@ -312,6 +313,7 @@ export class WishlistItemContainer extends PureComponent {
 
     showNotification(...args) {
         const { showNotification } = this.props;
+
         this.setState({ isLoading: false });
         showNotification(...args);
     }

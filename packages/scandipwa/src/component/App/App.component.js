@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -66,6 +66,7 @@ export class App extends PureComponent {
 
     configureStore() {
         const store = getStore();
+
         injectStaticReducers(store);
 
         this.reduxStore = store;
@@ -95,6 +96,7 @@ export class App extends PureComponent {
 
     injectComment() {
         const comment = document.createComment('Powered by ScandiPWA (scandipwa.com)');
+
         document.querySelector('html').appendChild(comment);
     }
 

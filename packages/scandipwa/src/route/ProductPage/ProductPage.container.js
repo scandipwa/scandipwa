@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -58,7 +58,8 @@ export const mapStateToProps = (state) => ({
     product: state.ProductReducer.product,
     metaTitle: state.MetaReducer.title,
     isMobile: state.ConfigReducer.device.isMobile,
-    store: state.ConfigReducer.code
+    store: state.ConfigReducer.code,
+    areReviewsEnabled: state.ConfigReducer.reviews_are_enabled
 });
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */
@@ -102,7 +103,8 @@ export class ProductPageContainer extends PureComponent {
         metaTitle: PropTypes.string,
         addRecentlyViewedProduct: PropTypes.func.isRequired,
         store: PropTypes.string.isRequired,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        areReviewsEnabled: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -288,6 +290,7 @@ export class ProductPageContainer extends PureComponent {
         const { description: { html = '' } = {} } = this.getDataSource();
         // handling cases when empty html tag is received
         const htmlElement = new DOMParser().parseFromString(html, 'text/html');
+
         return !htmlElement?.body?.innerHTML;
     }
 
@@ -363,7 +366,7 @@ export class ProductPageContainer extends PureComponent {
     }
 
     containerProps() {
-        const { isMobile, location } = this.props;
+        const { isMobile, location, areReviewsEnabled } = this.props;
         const { parameters } = this.state;
 
         return {
@@ -376,7 +379,8 @@ export class ProductPageContainer extends PureComponent {
             isVariant: this.getIsVariant(),
             isMobile,
             parameters,
-            location
+            location,
+            areReviewsEnabled
         };
     }
 
@@ -438,9 +442,11 @@ export class ProductPageContainer extends PureComponent {
         const { attributes: activeAttr = {}, media_gallery_entries: activeMediaGallery = [] } = activeProduct;
 
         const attributes = {};
+
         Object.keys(productAttr).forEach((attr) => {
             const { [attr]: { attribute_value: attrValue }, [attr]: currAttr } = productAttr;
             const { [attr]: { attribute_value: activeAttrValue } = {} } = activeAttr;
+
             attributes[attr] = {
                 ...currAttr,
                 attribute_value: activeAttrValue || attrValue
@@ -523,11 +529,13 @@ export class ProductPageContainer extends PureComponent {
 
     updateNavigationState() {
         const { changeNavigationState } = this.props;
+
         changeNavigationState({ name: MENU_TAB });
     }
 
     updateMeta() {
         const { updateMetaFromProduct } = this.props;
+
         updateMetaFromProduct(this.getDataSource());
     }
 
@@ -545,6 +553,7 @@ export class ProductPageContainer extends PureComponent {
     updateBreadcrumbs() {
         const { updateBreadcrumbs, location } = this.props;
         const { state: { prevCategoryId = null } = {} } = location;
+
         updateBreadcrumbs(this.getDataSource(), prevCategoryId);
     }
 

@@ -5,10 +5,12 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
+import { isSignedIn } from 'Util/Auth';
+import { getGuestQuoteId } from 'Util/Cart';
 import { Field } from 'Util/Query';
 
 /** @namespace Query/Config/Query */
@@ -71,11 +73,19 @@ export class ConfigQuery {
     }
 
     getSaveSelectedCurrencyMutation(newCurrency) {
-        return new Field('saveSelectedCurrency')
+        const query = new Field('saveSelectedCurrency')
             .addArgument('currency', 'String', newCurrency)
             .addFieldList([
                 this.getCurrencyData()
             ]);
+
+        if (!isSignedIn()) {
+            const guestQuoteId = getGuestQuoteId();
+
+            query.addArgument('guestCartId', 'String', guestQuoteId);
+        }
+
+        return query;
     }
 
     _getCheckoutAgreementFields() {

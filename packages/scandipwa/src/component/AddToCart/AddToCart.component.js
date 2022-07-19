@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -25,17 +25,15 @@ import './AddToCart.style';
  */
 export class AddToCart extends PureComponent {
     static propTypes = {
-        addProductToCart: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool.isRequired,
         isAdding: PropTypes.bool.isRequired,
+        handleButtonClick: PropTypes.func.isRequired,
 
         // Customization
         isIconEnabled: PropTypes.bool.isRequired,
         mix: MixType.isRequired,
         layout: LayoutType.isRequired
     };
-
-    handleButtonClick = this.handleButtonClick.bind(this);
 
     renderCartIcon() {
         const { isIconEnabled } = this.props;
@@ -47,26 +45,18 @@ export class AddToCart extends PureComponent {
         return <CartIcon />;
     }
 
-    handleButtonClick(e) {
-        // Prevent container Link from triggering redirect
-        e.stopPropagation();
-        e.preventDefault();
-
-        const { addProductToCart } = this.props;
-        addProductToCart();
-    }
-
     render() {
         const {
             mix,
             layout,
             isDisabled,
-            isAdding
+            isAdding,
+            handleButtonClick
         } = this.props;
 
         return (
             <button
-              onClick={ this.handleButtonClick }
+              onClick={ handleButtonClick }
               block="Button AddToCart"
               mix={ mix }
               mods={ { layout } }

@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { getAuthorizationToken, isSignedIn, refreshAuthorizationToken } from 'Util/Auth';
@@ -26,6 +26,7 @@ export const getWindowId = () => {
 
     if (!result) {
         const id = Date.now();
+
         sessionStorage.setItem(WINDOW_ID, id);
 
         return id;
@@ -92,9 +93,10 @@ export const formatURI = (query, variables, url) => {
  * @returns {Promise<Response>}
  * @namespace Util/Request/getFetch
  */
-export const getFetch = (uri, name) => fetch(uri,
+export const getFetch = (uri, name, signal) => fetch(uri,
     {
         method: 'GET',
+        signal,
         headers: appendTokenToHeaders({
             'Content-Type': 'application/json',
             'Application-Model': `${ name }_${ getWindowId() }`,
@@ -173,12 +175,14 @@ export const parseResponse = (promise) => new Promise((resolve, reject) => {
             /** @namespace Util/Request/parseResponse/Promise/promise/then/json/then/catch */
             () => {
                 handleConnectionError('Can not transform JSON!');
+
                 return reject();
             }
         ),
         /** @namespace Util/Request/parseResponse/Promise/promise/then/catch */
         (err) => {
             handleConnectionError('Can not establish connection!');
+
             return reject(err);
         }
     );
@@ -196,7 +200,7 @@ export const HTTP_201_CREATED = 201;
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/executeGet
  */
-export const executeGet = (queryObject, name, cacheTTL) => {
+export const executeGet = (queryObject, name, cacheTTL, signal) => {
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, getGraphqlEndpoint());
 
@@ -206,7 +210,7 @@ export const executeGet = (queryObject, name, cacheTTL) => {
     }
 
     return parseResponse(new Promise((resolve, reject) => {
-        getFetch(uri, name).then(
+        getFetch(uri, name, signal).then(
             /** @namespace Util/Request/executeGet/parseResponse/getFetch/then */
             (res) => {
                 if (res.status === HTTP_410_GONE) {
@@ -214,7 +218,7 @@ export const executeGet = (queryObject, name, cacheTTL) => {
                         /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/putPersistedQuery/then */
                         (putResponse) => {
                             if (putResponse.status === HTTP_201_CREATED) {
-                                getFetch(uri, name).then(
+                                getFetch(uri, name, signal).then(
                                     /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/putPersistedQuery/then/getFetch/then/resolve */
                                     (res) => resolve(res)
                                 );
@@ -226,6 +230,13 @@ export const executeGet = (queryObject, name, cacheTTL) => {
                 } else {
                     resolve(res);
                 }
+            }, /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/catch */
+            (err) => {
+                if (!signal.aborted) {
+                    return err;
+                }
+
+                return '';
             }
         );
     }));
@@ -260,8 +271,10 @@ export const listenForBroadCast = (name) => new Promise((resolve) => {
 
     if (BroadcastChannel) {
         const bc = new BroadcastChannel(`${ name }_${ windowId }`);
+
         bc.onmessage = (update) => {
             const { data: { payload: body } } = update;
+
             resolve(checkForErrors(body));
         };
     }
@@ -274,6 +287,7 @@ export const debounce = (callback, delay) => {
 
     return (...args) => {
         const context = this;
+
         clearTimeout(timeout);
         timeout = setTimeout(() => callback.apply(context, args), delay);
     };
@@ -287,6 +301,7 @@ export class Debouncer {
 
     startDebounce = (callback, delay) => (...args) => {
         const context = this;
+
         clearTimeout(this.timeout);
         this.handler = () => callback.apply(context, args);
         this.timeout = setTimeout(this.handler, delay);

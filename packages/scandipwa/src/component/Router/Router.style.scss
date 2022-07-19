@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 .Router {
@@ -15,7 +15,15 @@
     }
 
     &-Loader {
-        height: calc(100vh - var(--header-total-height) - 10px);
-        inset-block-start: calc(var(--header-total-height) + 10px);
+        .Loader-Scale {
+            position: fixed;
+        }
+    }
+
+    @include desktop {
+        &-Loader {
+            height: calc(100vh - var(--header-total-height) - 10px);
+            inset-block-start: calc(var(--header-total-height) + 10px);
+        }
     }
 }

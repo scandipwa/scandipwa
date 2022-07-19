@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -45,6 +45,7 @@ export class MyAccountCustomerForm extends FieldForm {
 
     onFormSuccess(form, fields) {
         const { onSave } = this.props;
+
         onSave(transformToNameValuePair(fields));
     }
 

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -187,6 +187,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     shareWishlist() {
         const { showPopup } = this.props;
+
         showPopup({ title: __('Share Wishlist') });
     }
 
@@ -198,6 +199,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     showNotificationAndRemoveLoading(message) {
         const { showNotification } = this.props;
+
         this.setState({ isLoading: false });
         showNotification(message);
     }
@@ -207,6 +209,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
         try {
             const errorMessages = JSON.parse(message);
+
             errorMessages.forEach((err) => {
                 showError(err);
             });

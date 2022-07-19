@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PRODUCT_TYPE } from 'Component/Product/Product.config';
@@ -25,10 +25,12 @@ export const SALABLE_QTY = 'salable_qty';
 export const getFieldQty = (product, field) => {
     if (field === MIN_SALE_QTY || field === MAX_SALE_QTY) {
         const { stock_item: { [field]: qty } = {} } = product;
+
         return qty;
     }
 
     const { [field]: qty } = product;
+
     return qty;
 };
 
@@ -84,6 +86,7 @@ export const getMinQuantity = (product, configIndex = -1) => (
 export const getMaxQuantity = (product, configIndex = -1) => {
     const maxQuantity = getQuantity(product, DEFAULT_MAX_PRODUCTS, MAX_SALE_QTY, configIndex);
     const salableQuantity = getQuantity(product, DEFAULT_MAX_PRODUCTS, SALABLE_QTY, configIndex);
+
     return Math.min(maxQuantity, salableQuantity);
 };
 
@@ -179,6 +182,7 @@ export const getGroupedProductsInStockQuantity = ({ items = [] }) => items.reduc
  */
 export const getBundleOption = (uid, options = []) => {
     const uidParts = atob(uid).split('/');
+
     return options.find(({ uid: linkedUid }) => {
         const linkedUidParts = atob(linkedUid).split('/');
 
@@ -318,6 +322,7 @@ export const getPrice = (
             ({ value = [] }) => Array.isArray(value) && value.find(({ price }) => price)
         );
         const requiredOptions = options.filter(({ required }) => required);
+
         configuration.containsRequiredOptions = !!requiredOptions.length;
 
         if (requiredOptions.length) {
@@ -412,6 +417,7 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
 
             if (link) {
                 const { price } = link;
+
                 adjustedPrice.downloadable.exclTax += price;
                 adjustedPrice.downloadable.inclTax += price;
             }
@@ -441,6 +447,7 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
 
                     if (!dynamicPrice) {
                         const multiplier = canChangeQuantity ? quantity : quantity;
+
                         adjustedPrice.bundle.exclTax += finalOptionPriceExclTax * multiplier;
                         adjustedPrice.bundle.inclTax += finalOptionPrice * multiplier;
                     } else {
@@ -468,6 +475,7 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
 
         if (option) {
             const { value: { priceExclTax = 0, priceInclTax = 0 } = {} } = option;
+
             adjustedPrice.config.inclTax += priceInclTax;
             adjustedPrice.config.exclTax += priceExclTax;
         }
@@ -479,6 +487,7 @@ export const getAdjustedPrice = (product, downloadableLinks, enteredOptions, sel
 
             if (option) {
                 const { priceExclTax = 0, priceInclTax = 0 } = option;
+
                 adjustedPrice.config.inclTax += priceInclTax;
                 adjustedPrice.config.exclTax += priceExclTax;
             }
@@ -525,6 +534,7 @@ export const getSubLabelFromMaxCharacters = (maxCharacters, value = '') => {
  */
 export const getImage = (product, field) => {
     const { [field]: { url = 'no_selection' } = {} } = product;
+
     return url && url !== 'no_selection' ? url : '';
 };
 

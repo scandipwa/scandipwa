@@ -9,8 +9,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -369,7 +369,7 @@ export class Router extends PureComponent {
 
     renderSectionOfType(type) {
         return (
-            <Suspense fallback={ <Loader isLoading /> }>
+            <Suspense fallback={ this.renderFallbackPage() }>
                 { this.renderComponentsOfType(type) }
             </Suspense>
         );
@@ -400,10 +400,10 @@ export class Router extends PureComponent {
         );
     }
 
-    renderFallbackPage() {
+    renderFallbackPage(showLoader = false) {
         return (
             <main block="Router" elem="Loader">
-                <Loader isLoading />
+                { showLoader && <Loader isLoading /> }
             </main>
         );
     }
@@ -417,15 +417,12 @@ export class Router extends PureComponent {
         }
 
         return (
-            <>
-                { this.renderSectionOfType(BEFORE_ITEMS_TYPE) }
-                <ErrorHandler setBigOfflineNotice={ setBigOfflineNotice }>
+            <ErrorHandler setBigOfflineNotice={ setBigOfflineNotice }>
                     <div block="Router" elem="MainItems">
                         { this.renderMainItems() }
                     </div>
                     { this.renderSectionOfType(AFTER_ITEMS_TYPE) }
-                </ErrorHandler>
-            </>
+            </ErrorHandler>
         );
     }
 
@@ -443,11 +440,12 @@ export class Router extends PureComponent {
         return (
             <>
                 <Meta />
-                <Suspense fallback={ this.renderFallbackPage() }>
-                    <ReactRouter history={ history }>
+                <ReactRouter history={ history }>
+                    { this.renderSectionOfType(BEFORE_ITEMS_TYPE) }
+                    <Suspense fallback={ this.renderFallbackPage(true) }>
                         { this.renderRouterContent() }
-                    </ReactRouter>
-                </Suspense>
+                    </Suspense>
+                </ReactRouter>
             </>
         );
     }

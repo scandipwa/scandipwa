@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -206,6 +206,7 @@ export class CategoryPageContainer extends PureComponent {
                 Object.assign(update, { defaultPlpType: defaultType, plpTypes });
             } else {
                 const defaultType = isMobile ? GRID_LAYOUT : plpType;
+
                 Object.assign(update, { defaultPlpType: defaultType, plpTypes: [plpType] });
             }
         }
@@ -252,6 +253,7 @@ export class CategoryPageContainer extends PureComponent {
         if (categoryIds === id) {
             this.updateBreadcrumbs();
             this.updateHeaderState();
+            this.updateMeta();
         } else {
             /**
              * Still update header and breadcrumbs, but ignore
@@ -620,6 +622,7 @@ export class CategoryPageContainer extends PureComponent {
     updateBreadcrumbs(isUnmatchedCategory = false) {
         const { updateBreadcrumbs, category } = this.props;
         const breadcrumbs = isUnmatchedCategory ? {} : category;
+
         updateBreadcrumbs(breadcrumbs);
 
         this.setState({ breadcrumbsWereUpdated: true });

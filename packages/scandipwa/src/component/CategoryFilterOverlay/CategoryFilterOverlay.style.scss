@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
@@ -29,7 +29,6 @@
     }
 
     @include mobile {
-        transition: transform 200ms ease-in-out;
         transform: translateY(100%);
         will-change: transform;
         overflow-y: hidden;

@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -402,7 +402,9 @@ export class Product extends PureComponent {
     }
 
     renderPrice(isPreview = false) {
-        const { getActiveProduct, productPrice } = this.props;
+        const {
+            getActiveProduct, productPrice
+        } = this.props;
         const product = getActiveProduct();
 
         const {
@@ -432,12 +434,6 @@ export class Product extends PureComponent {
     }
 
     renderStock() {
-        // const { displayProductStockStatus } = this.props;
-        //
-        // if (!displayProductStockStatus) {
-        //     return null;
-        // }
-
         const { inStock } = this.props;
 
         const stockStatusLabel = inStock ? __('In stock') : __('Out of stock');

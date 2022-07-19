@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -43,7 +43,6 @@ export class ProductPriceContainer extends PureComponent {
         price: ProductPriceType,
         isPreview: PropTypes.bool,
         priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
-
         isSchemaRequired: PropTypes.bool,
         mix: MixType,
         displayTaxInPrice: PropTypes.string,

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Field } from 'Util/Query';
@@ -97,10 +97,10 @@ export class MyAccountQuery {
     }
 
     getCreateAccountMutation(options) {
-        const { customer, password } = options;
+        const { customer, password, orderID } = options;
 
         return new Field('createCustomer')
-            .addArgument('input', 'CustomerInput!', { ...customer, password })
+            .addArgument('input', 'CustomerInput!', { ...customer, password, orderID })
             .addField(this._getCustomerField());
     }
 

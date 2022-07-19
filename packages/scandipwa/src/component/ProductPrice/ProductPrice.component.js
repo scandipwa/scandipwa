@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -130,7 +130,7 @@ export class ProductPrice extends PureComponent {
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
-        if (!priceValue && priceValue !== 0) {
+        if ((!priceValue && priceValue !== 0)) {
             return null;
         }
 
@@ -163,7 +163,7 @@ export class ProductPrice extends PureComponent {
             valueFormatted: priceExclTaxFormatted = 0
         } = price;
 
-        if (!priceExclTax) {
+        if (!priceExclTax && priceExclTax !== 0) {
             return null;
         }
 

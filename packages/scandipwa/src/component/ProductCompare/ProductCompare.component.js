@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -163,6 +163,7 @@ export class ProductCompare extends Component {
 
     renderProductPrices() {
         const { products } = this.props;
+
         return products.map((product) => this.renderProductPrice(product));
     }
 
@@ -183,38 +184,41 @@ export class ProductCompare extends Component {
         const { handleBlockScroll, productCompare, productCompareRow } = this.props;
 
         return (
-            <div
-              id="productCompare"
-              block="ProductCompare"
-              onScroll={ handleBlockScroll }
-              ref={ productCompare }
-            >
+            <>
                 { this.renderScroll() }
                 <div
-                  id="productCompareRow"
+                  id="productCompare"
                   block="ProductCompare"
-                  elem="Row"
-                  mix={ { block: 'ProductCardRow' } }
-                  ref={ productCompareRow }
+                  onScroll={ handleBlockScroll }
+                  ref={ productCompare }
                 >
-                    { this.renderClearButton() }
-                    { this.renderProductCards() }
-                </div>
-                <div
-                  block="ProductCompare"
-                  elem="AttributeTable"
-                >
+
                     <div
-                      block="ProductCompareAttributeRow"
+                      id="productCompareRow"
+                      block="ProductCompare"
+                      elem="Row"
+                      mix={ { block: 'ProductCardRow' } }
+                      ref={ productCompareRow }
                     >
-                        { this.renderPriceLabel() }
-                        <div block="ProductCompareAttributeRow" elem="Values">
-                            { this.renderProductPrices() }
-                        </div>
+                        { this.renderClearButton() }
+                        { this.renderProductCards() }
                     </div>
-                    { this.renderAttributes() }
+                    <div
+                      block="ProductCompare"
+                      elem="AttributeTable"
+                    >
+                        <div
+                          block="ProductCompareAttributeRow"
+                        >
+                            { this.renderPriceLabel() }
+                            <div block="ProductCompareAttributeRow" elem="Values">
+                                { this.renderProductPrices() }
+                            </div>
+                        </div>
+                        { this.renderAttributes() }
+                    </div>
                 </div>
-            </div>
+            </>
         );
     }
 

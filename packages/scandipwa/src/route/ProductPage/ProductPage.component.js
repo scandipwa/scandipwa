@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/base-ProductReviewListtheme
  */
 
@@ -58,7 +58,8 @@ export class ProductPage extends PureComponent {
         isAttributesTabEmpty: PropTypes.bool.isRequired,
         setActiveProduct: PropTypes.func.isRequired,
         useEmptyGallerySwitcher: PropTypes.bool.isRequired,
-        isVariant: PropTypes.bool.isRequired
+        isVariant: PropTypes.bool.isRequired,
+        areReviewsEnabled: PropTypes.bool.isRequired
     };
 
     tabMap = {
@@ -82,8 +83,11 @@ export class ProductPage extends PureComponent {
         },
         [PRODUCT_REVIEWS]: {
             name: __('Reviews'),
-            // Return true since we always show 'Add review' button
-            shouldTabRender: () => true,
+            shouldTabRender: () => {
+                const { areReviewsEnabled } = this.props;
+
+                return areReviewsEnabled;
+            },
             render: (key) => this.renderProductReviewsTab(key)
         }
     };

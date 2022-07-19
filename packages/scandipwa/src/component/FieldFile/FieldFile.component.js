@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -68,7 +68,7 @@ export class FieldFile extends PureComponent {
             <label htmlFor={ id }>
                 <UploadIcon />
                 <p>{ dropLabel }</p>
-                <span>{ selectLabel }</span>
+                <span block="Field" elem="SelectFileBtn">{ selectLabel }</span>
             </label>
         );
     }

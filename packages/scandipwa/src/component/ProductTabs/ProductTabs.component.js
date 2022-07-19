@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -32,12 +32,19 @@ export class ProductTabs extends PureComponent {
 
     __construct(props) {
         super.__construct(props);
+        const { tabs } = this.props;
 
-        const { tabs: [{ id }] } = this.props;
+        if (tabs.length > 0) {
+            const { tabs: [{ id }] } = this.props;
 
-        this.state = {
-            activeTab: id
-        };
+            this.state = {
+                activeTab: id
+            };
+        } else {
+            this.state = {
+                activeTab: ''
+            };
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -46,6 +53,7 @@ export class ProductTabs extends PureComponent {
 
         if (prevTabs.length !== tabs.length) {
             const [{ id }] = tabs;
+
             this.setActiveTab(id);
         }
     }
@@ -99,6 +107,10 @@ export class ProductTabs extends PureComponent {
 
     renderTabs() {
         const { tabs } = this.props;
+
+        if (tabs.length === 0) {
+            return null;
+        }
 
         if (isMobile.any() || isSSR() || isCrawler()) {
             return this.renderAllTabs();

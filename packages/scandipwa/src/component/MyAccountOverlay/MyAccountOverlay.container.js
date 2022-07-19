@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -288,12 +288,14 @@ export class MyAccountOverlayContainer extends PureComponent {
 
     stopLoadingAndHideOverlay() {
         const { hideActiveOverlay, updateCustomerLoadingStatus } = this.props;
+
         updateCustomerLoadingStatus(false);
         hideActiveOverlay();
     }
 
     handleForgotPassword(e) {
         const { setHeaderState } = this.props;
+
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: STATE_FORGOT_PASSWORD });
@@ -307,6 +309,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
     handleSignIn(e) {
         const { setHeaderState } = this.props;
+
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: STATE_SIGN_IN });
@@ -319,6 +322,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
     handleCreateAccount(e) {
         const { setHeaderState } = this.props;
+
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: STATE_CREATE_ACCOUNT });

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import OrderQuery from 'Query/Order.query';
@@ -27,6 +27,7 @@ export const CartDispatcher = import(
 export class OrderDispatcher {
     requestOrders(dispatch, page = 1) {
         const query = OrderQuery.getOrderListQuery({ page });
+
         dispatch(setLoadingStatus(true));
 
         return fetchQuery(query).then(
@@ -50,6 +51,7 @@ export class OrderDispatcher {
         } = await this.handleReorderMutation(dispatch, incrementId);
 
         const cartDispatcher = (await CartDispatcher).default;
+
         cartDispatcher.updateInitialCartData(dispatch, getAuthorizationToken());
 
         history.push(appendWithStoreCode(CART_URL));
@@ -92,6 +94,7 @@ export class OrderDispatcher {
             } = await fetchQuery(OrderQuery.getOrderByInvoice(invoiceId));
 
             const invoice = orderByInvoice.invoices.find(({ id }) => atob(id) === invoiceId);
+
             orderByInvoice.invoices = [invoice];
 
             return orderByInvoice;
@@ -109,6 +112,7 @@ export class OrderDispatcher {
             } = await fetchQuery(OrderQuery.getOrderByShipment(shipmentId));
 
             const shipment = orderByShipment.shipments.find(({ id }) => atob(id) === shipmentId);
+
             orderByShipment.shipments = [shipment];
 
             return orderByShipment;
@@ -126,6 +130,7 @@ export class OrderDispatcher {
             } = await fetchQuery(OrderQuery.getOrderByRefund(refundId));
 
             const refund = orderByRefund.credit_memos.find(({ id }) => atob(id) === refundId);
+
             orderByRefund.credit_memos = [refund];
 
             return orderByRefund;
