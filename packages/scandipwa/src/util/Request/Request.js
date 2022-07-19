@@ -160,8 +160,7 @@ export const checkForErrors = (res) => new Promise((resolve, reject) => {
 export const handleConnectionError = (err, msg = 'error') => {
     if (process.env.NODE_ENV === 'development') {
         // eslint-disable-next-line no-console
-        console.error(msg);
-        console.error(err);
+        console.error(`${msg}: \n ${err}`);
     }
     throw new Error(err);
 }; // TODO: Add to logs pool
