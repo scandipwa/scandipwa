@@ -162,7 +162,6 @@ export const handleConnectionError = (err, msg = 'error') => {
         // eslint-disable-next-line no-console
         console.error(`${msg}: \n ${err}`);
     }
-    throw new Error(err);
 }; // TODO: Add to logs pool
 
 /**
@@ -177,6 +176,8 @@ export const parseResponse = async (response) => {
         /** @namespace Util/Request/parseResponse/data/json/catch */
             (err) => {
                 handleConnectionError(err, 'Can not parse JSON!');
+
+                throw new Error(err);
             }
         );
 
@@ -218,9 +219,12 @@ export const executeGet = async (queryObject, name, cacheTTL, signal) => {
             }
         } else if (res.status === HTTP_503_SERVICE_UNAVAILABLE) {
             handleConnectionError(err, 'Service unavailable!...');
+
+            throw new Error(err);
         }
 
         handleConnectionError(err, 'executeGet failed');
+        throw new Error(err);
     }
 
     return parseResponse(res[0]);
@@ -247,7 +251,7 @@ export const executePost = async (queryObject) => {
     } catch (err) {
         handleConnectionError(err, 'executePost failed');
 
-        return null;
+        throw new Error(err);
     }
 };
 
