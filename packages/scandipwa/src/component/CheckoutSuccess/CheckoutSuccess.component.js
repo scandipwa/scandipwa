@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
+import { ORDER_ID } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { ACCOUNT_REGISTRATION_URL } from 'Route/MyAccount/MyAccount.config';
 import { isSignedIn } from 'Util/Auth';
 import { appendWithStoreCode } from 'Util/Url';
@@ -48,12 +49,15 @@ export class CheckoutSuccess extends PureComponent {
             isEmailAvailable,
             email,
             firstName,
-            lastName
+            lastName,
+            orderID
         } = this.props;
 
         if (!isEmailAvailable || isSignedIn()) {
             return null;
         }
+
+        sessionStorage.setItem(ORDER_ID, orderID);
 
         return (
             <div block="CheckoutRegistrationLink">
@@ -69,7 +73,8 @@ export class CheckoutSuccess extends PureComponent {
                       state: {
                           firstName,
                           lastName,
-                          email
+                          email,
+                          orderID
                       }
                   } }
                   block="Button"
