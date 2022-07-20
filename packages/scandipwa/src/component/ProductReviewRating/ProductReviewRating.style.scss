@@ -23,6 +23,11 @@
     display: flex;
     align-items: flex-end;
     line-height: normal;
+    margin-inline-end: 12px;
+
+    @include mobile {
+        margin-inline-end: 14px;
+    }
 
     &_isLoading {
         &::before {

@@ -196,7 +196,6 @@
     "Current product price excl. tax": "Tuotteen nykyinen hinta ilman veroja",
     "Product Price": "Tuotteen hinta",
     "There are no reviews yet! Click button on the right to submit one!": "Ei arvosteluja vielä ole! Lähetä oikea napsauttamalla oikeassa olevaa painiketta!",
-    "%s reviews": "%s prvion perusteella",
     "First name": "Etunimi",
     "Last name": "Sukunimi",
     "Edit details": "Muokkaa tietoja",
@@ -610,5 +609,6 @@
     "Send Confirmation Action": null,
     "This email does not require confirmation.": null,
     "Remove file": null,
-    "Region": null
+    "Region": null,
+    "%s review(s)": null
 }

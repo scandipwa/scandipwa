@@ -1,6 +1,5 @@
 {
     "%s items found": "%s articoli trovati",
-    "%s reviews": "%s recensioni",
     "%s: Ascending": "%s: Crescente",
     "%s: Descending": "%s: Decrescente",
     "%s: High to Low": "%s: dal più caro",
@@ -610,5 +609,6 @@
     "Send Confirmation Action": null,
     "This email does not require confirmation.": null,
     "Remove file": null,
-    "Region": null
+    "Region": null,
+    "%s review(s)": null
 }

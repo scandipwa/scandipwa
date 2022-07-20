@@ -1,6 +1,5 @@
 {
     "%s items found": "%s ürün bulundu",
-    "%s reviews": "%s yorumlar",
     "%s: Ascending": "%s: Artan",
     "%s: Descending": "%s: Azalan",
     "%s: High to Low": "%s: Düşük Yüksek",
@@ -610,5 +609,6 @@
     "Send Confirmation Action": null,
     "This email does not require confirmation.": null,
     "Remove file": null,
-    "Region": null
+    "Region": null,
+    "%s review(s)": null
 }

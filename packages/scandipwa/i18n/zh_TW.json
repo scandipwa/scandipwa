@@ -1,6 +1,5 @@
 {
     "%s items found": "%s 項商品已找到",
-    "%s reviews": "%s 評論",
     "%s: Ascending": "%s: 上升",
     "%s: Descending": "%s: 降序",
     "%s: High to Low": "%s: 从最贵的",
@@ -610,5 +609,6 @@
     "Send Confirmation Action": null,
     "This email does not require confirmation.": null,
     "Remove file": null,
-    "Region": null
+    "Region": null,
+    "%s review(s)": null
 }

@@ -1,5 +1,4 @@
 {
-    "%s reviews": "%s recensioner",
     "%s: Ascending": "%s: stigande",
     "%s: Descending": "%s: Fallande",
     "%s: High to Low": "%s: Hög till låg",
@@ -610,5 +609,6 @@
     "Send Confirmation Action": null,
     "This email does not require confirmation.": null,
     "Remove file": null,
-    "Region": null
+    "Region": null,
+    "%s review(s)": null
 }

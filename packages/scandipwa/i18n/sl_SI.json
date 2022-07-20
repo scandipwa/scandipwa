@@ -1,6 +1,5 @@
 {
     "%s items found": "%s Najdeni Artikli",
-    "%s reviews": "%s Mnenja",
     "%s: Ascending": "%s: Naraščajoče",
     "%s: Descending": "%s: Padajoče",
     "%s: High to Low": "%s: Od Najvišje do Najnižje",
@@ -610,5 +609,6 @@
     "Send Confirmation Action": null,
     "This email does not require confirmation.": null,
     "Remove file": null,
-    "Region": null
+    "Region": null,
+    "%s review(s)": null
 }
