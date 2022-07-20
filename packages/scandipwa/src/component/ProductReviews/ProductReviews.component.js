@@ -87,7 +87,6 @@ export class ProductReviews extends PureComponent {
 
         const STARS_COUNT = 5;
         const PERCENT = 100;
-        const SHOW_STARS = reviewRatings.length > 0;
 
         // eslint-disable-next-line no-mixed-operators
         const percent = parseFloat(STARS_COUNT * (rating_summary || 0) / PERCENT).toFixed(2);
@@ -96,17 +95,19 @@ export class ProductReviews extends PureComponent {
             return this.renderNoRating();
         }
 
+        const isShowStars = reviewRatings.length > 0;
+
         return (
             <>
                 { this.renderRatingSchema(rating_summary, review_count) }
-                { SHOW_STARS && (
+                { isShowStars && (
                     <ProductReviewRating
                       mix={ { block: 'ProductReviews', elem: 'SummaryRating' } }
                       summary={ rating_summary }
                     />
                 ) }
                 <p block="ProductReviews" elem="SummaryDetails">
-                    { SHOW_STARS && (
+                    { isShowStars && (
                         <span block="ProductReviews" elem="Percent">{ percent }</span>
                     ) }
                     <span>{ __('%s review(s)', review_count || 0) }</span>
