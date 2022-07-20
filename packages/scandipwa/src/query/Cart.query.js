@@ -345,7 +345,8 @@ export class CartQuery {
             this._getPricesField(),
             this._getAppliedCouponsField(),
             this._getItemsField(),
-            this._getShippingAddressesField()
+            this._getShippingAddressesField(),
+            this._getMinimumOrderAmountField()
         ];
     }
 
@@ -425,7 +426,7 @@ export class CartQuery {
         ];
     }
 
-    _getMinimumOrderAmount() {
+    _getMinimumOrderAmountField() {
         return new Field('minimum_order_amount')
             .addFieldList(this._getMinimumOrderAmountFields());
     }
