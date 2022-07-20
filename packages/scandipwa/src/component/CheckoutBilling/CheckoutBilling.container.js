@@ -29,6 +29,7 @@ import {
     trimCheckoutAddress,
     trimCheckoutCustomerAddress
 } from 'Util/Address';
+import { isSignedIn } from 'Util/Auth';
 import { getCartTotalSubPrice } from 'Util/Cart';
 import scrollToError from 'Util/Form/Form';
 import transformToNameValuePair from 'Util/Form/Transform';
@@ -123,6 +124,12 @@ export class CheckoutBillingContainer extends PureComponent {
             prevPaymentMethods: paymentMethods,
             paymentMethod: ''
         };
+    }
+
+    componentDidMount() {
+        if (!isSignedIn()) {
+            this.setState({ isSameAsShipping: true });
+        }
     }
 
     componentDidUpdate(prevState) {
