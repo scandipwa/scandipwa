@@ -113,19 +113,7 @@ export class CheckoutPayments extends PureComponent {
     }
 
     renderPayments() {
-        const { paymentMethods, selectPaymentMethod } = this.props;
-
-        if (paymentMethods.length === 1 && paymentMethods[0].code === 'free') {
-            const { code, title } = paymentMethods[0];
-
-            selectPaymentMethod({ code });
-
-            return (
-                <li block="CheckoutPayment">
-                    { title }
-                </li>
-            );
-        }
+        const { paymentMethods } = this.props;
 
         return paymentMethods.map(this.renderPayment);
     }
