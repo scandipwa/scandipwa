@@ -29,14 +29,12 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
 
     onSuccess({ urlResolver }, dispatch, { urlParam }) {
         dispatch(updateUrlRewrite(urlResolver || { notFound: true }, urlParam));
-        console.log(urlResolver);
         dispatch(updateNoMatch(!urlResolver));
     }
 
     onError(error, dispatch, { urlParam }) {
         dispatch(setIsUrlRewritesLoading(false));
         dispatch(updateUrlRewrite({ notFound: true }, urlParam));
-        console.log('onerror', error);
         dispatch(updateNoMatch(true));
         dispatch(showNotification('error', __('Error fetching URL-rewrites!'), error));
     }

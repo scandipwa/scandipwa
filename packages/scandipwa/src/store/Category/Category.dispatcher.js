@@ -30,6 +30,7 @@ export class CategoryDispatcher extends QueryDispatcher {
         const { category = {}, category: { id } } = data;
 
         if (!id && !isSearchPage) {
+            console.log('id', id);
             dispatch(updateNoMatch(true));
         }
 

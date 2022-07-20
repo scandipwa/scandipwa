@@ -603,6 +603,7 @@ export class CategoryPageContainer extends PureComponent {
         } = this.props;
 
         if (!is_active) {
+            console.log('is_active', is_active);
             updateNoMatch({ noMatch: true });
         }
     }

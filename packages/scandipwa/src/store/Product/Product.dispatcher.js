@@ -38,6 +38,7 @@ export class ProductDispatcher extends QueryDispatcher {
          * smaller then 0 => the product was not found.
          */
         if (!items || items.length <= 0) {
+            console.log(items);
             dispatch(updateNoMatch(true));
 
             return;
@@ -71,6 +72,7 @@ export class ProductDispatcher extends QueryDispatcher {
     }
 
     onError(_, dispatch) {
+        console.log('hi!');
         dispatch(updateNoMatch(true));
     }
 
