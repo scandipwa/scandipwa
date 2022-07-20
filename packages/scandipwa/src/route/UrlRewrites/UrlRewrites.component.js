@@ -118,6 +118,8 @@ export class UrlRewrites extends PureComponent {
 
     renderNoMatch() {
         const { props } = this.props;
+
+        console.log('urlrewr', this.props);
         const {
             history,
             location,
