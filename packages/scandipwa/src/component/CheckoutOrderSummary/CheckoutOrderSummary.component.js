@@ -42,10 +42,6 @@ export class CheckoutOrderSummary extends PureComponent {
         checkoutStep: CheckoutStepType,
         isExpandable: PropTypes.bool,
         cartDisplayConfig: CartConfigType.isRequired,
-        cartShippingPrice: PropTypes.number,
-        cartShippingSubPrice: PropTypes.number,
-        cartSubtotal: PropTypes.number,
-        cartSubtotalSubPrice: PropTypes.number,
         cartTotalSubPrice: PropTypes.number,
         showItems: PropTypes.bool,
         children: ChildrenType,
@@ -57,11 +53,7 @@ export class CheckoutOrderSummary extends PureComponent {
         totals: {},
         isLoading: false,
         isExpandable: false,
-        cartShippingPrice: 0,
-        cartShippingSubPrice: null,
         cartTotalSubPrice: null,
-        cartSubtotal: null,
-        cartSubtotalSubPrice: null,
         showItems: true,
         children: [],
         checkoutStep: null
@@ -97,24 +89,27 @@ export class CheckoutOrderSummary extends PureComponent {
     renderDiscount() {
         const {
             totals: {
-                applied_rule_ids,
-                discount_amount,
-                coupon_code
-            }
+                applied_coupons: appliedCoupons = [],
+                prices: {
+                    discounts = []
+                } = {}
+            } = {}
         } = this.props;
 
-        if (!applied_rule_ids) {
+        if (!(appliedCoupons && appliedCoupons.length) && !(discounts && discounts.length)) {
             return null;
         }
 
-        const label = coupon_code ? __('Coupon code discount') : __('Discount');
-        const discount = -Math.abs(discount_amount);
+        const label = appliedCoupons.length ? __('Coupon code discount ') : __('Discount: ');
+        const { amount: { value = 0 } = {} } = discounts[0] || {};
+        const { code } = appliedCoupons[0] || {};
+        const discount = -Math.abs(value);
 
         return (
             <CheckoutOrderSummaryPriceLine
               price={ discount }
               title={ label }
-              coupon_code={ coupon_code }
+              coupon_code={ code }
             />
         );
     }
@@ -136,17 +131,20 @@ export class CheckoutOrderSummary extends PureComponent {
 
     renderDiscountCode() {
         const {
-            totals: { coupon_code, items },
+            totals: {
+                items,
+                applied_coupons: appliedCoupons = []
+            },
             checkoutStep,
             isMobile
         } = this.props;
 
-        if (!items || items.length < 1 || checkoutStep !== BILLING_STEP) {
+        if (appliedCoupons.length < 1 || !items || items.length < 1 || checkoutStep !== BILLING_STEP) {
             return null;
         }
 
         if (isMobile) {
-            return this.renderMobileDiscount(coupon_code);
+            return this.renderMobileDiscount(appliedCoupons[0]);
         }
 
         return (
@@ -155,7 +153,7 @@ export class CheckoutOrderSummary extends PureComponent {
               mix={ { block: 'CheckoutOrderSummary', elem: 'Discount' } }
               isArrow
             >
-                <CartCoupon couponCode={ coupon_code } />
+                <CartCoupon couponCode={ appliedCoupons[0] } />
             </ExpandableContent>
         );
     }
@@ -195,20 +193,24 @@ export class CheckoutOrderSummary extends PureComponent {
 
     renderSubTotal() {
         const {
-            totals: { quote_currency_code },
-            cartSubtotal,
-            cartSubtotalSubPrice
+            totals: {
+                quote_currency_code,
+                prices: {
+                    subtotal_including_tax: cartSubtotal = 0,
+                    subtotal_excluding_tax: cartSubtotalSubPrice = 0
+                } = {}
+            }
         } = this.props;
 
         const title = __('Subtotal');
 
         return (
-                <CheckoutOrderSummaryPriceLine
-                  price={ cartSubtotal?.toFixed(2) ?? 0 }
-                  currency={ quote_currency_code }
-                  title={ title }
-                  subPrice={ cartSubtotalSubPrice?.toFixed(2) ?? 0 }
-                />
+            <CheckoutOrderSummaryPriceLine
+              price={ cartSubtotal?.toFixed(2) ?? 0 }
+              currency={ quote_currency_code }
+              title={ title }
+              subPrice={ cartSubtotalSubPrice?.toFixed(2) ?? 0 }
+            />
         );
     }
 
@@ -225,13 +227,27 @@ export class CheckoutOrderSummary extends PureComponent {
     renderShipping() {
         const {
             totals: {
-                quote_currency_code
-            },
-            cartShippingPrice,
-            cartShippingSubPrice
+                quote_currency_code,
+                shipping_addresses: shippingAddresses = []
+            }
         } = this.props;
         const title = this.getShippingLabel();
         const mods = { divider: true };
+
+        if (!shippingAddresses.length) {
+            return this.renderPriceLine(0, title, mods);
+        }
+
+        const {
+            selected_shipping_method: {
+                amount: {
+                    value: cartShippingSubPrice
+                },
+                amount_inc_tax: {
+                    value: cartShippingPrice
+                }
+            }
+        } = shippingAddresses[0];
 
         if (!cartShippingSubPrice) {
             return this.renderPriceLine(cartShippingPrice, title, mods);
@@ -284,12 +300,10 @@ export class CheckoutOrderSummary extends PureComponent {
         }
 
         return applied_taxes
-            .map(({ rates }) => rates)
-            .reduce((rates, rate) => rates.concat(rate), [])
-            .map(({ percent, title }, i) => (
+            .map(({ label, title, percent }, i) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <div block="CheckoutOrderSummary" elem="AppendedContent" key={ i }>
-                    { `${title} (${percent}%)` }
+                    { `${title || label} (${percent}%)` }
                 </div>
             ));
     }

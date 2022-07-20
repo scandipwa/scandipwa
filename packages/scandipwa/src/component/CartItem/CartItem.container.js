@@ -13,15 +13,15 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import PRODUCT_TYPE from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CartItemType } from 'Type/MiniCart.type';
-import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
+import { getMaxQuantity, getMinQuantity } from 'Util/Product/Extract';
 import { makeCancelable } from 'Util/Promise';
 import { objectToUri } from 'Util/Url';
 
 import CartItem from './CartItem.component';
+import STATUS from './CartItem.config';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -106,22 +106,13 @@ export class CartItemContainer extends PureComponent {
         }
     }
 
-    productIsInStock() {
-        const { item: { product } } = this.props;
-
-        return getProductInStock(product);
-    }
-
     /**
      * @returns {Product}
      */
     getCurrentProduct() {
         const { item: { product } } = this.props;
-        const variantIndex = this._getVariantIndex();
 
-        return variantIndex < 0
-            ? product
-            : product.variants[variantIndex];
+        return product;
     }
 
     setStateNotLoading() {
@@ -132,6 +123,7 @@ export class CartItemContainer extends PureComponent {
     containerProps() {
         const {
             item,
+            item: { status = STATUS.ok },
             currency_code,
             isEditing,
             isCartOverlay,
@@ -152,7 +144,7 @@ export class CartItemContainer extends PureComponent {
             thumbnail: this._getProductThumbnail(),
             minSaleQuantity: getMinQuantity(this.getCurrentProduct()),
             maxSaleQuantity: getMaxQuantity(this.getCurrentProduct()),
-            isProductInStock: this.productIsInStock(),
+            isProductInStock: status === STATUS.ok,
             optionsLabels: this.getConfigurableOptionsLabels(),
             isMobileLayout: this.getIsMobileLayout()
         };
@@ -165,7 +157,14 @@ export class CartItemContainer extends PureComponent {
      */
     handleChangeQuantity(quantity) {
         this.setState({ isLoading: true }, () => {
-            const { changeItemQty, item: { item_id, qty = 1 }, cartId } = this.props;
+            const {
+                changeItemQty,
+                item: {
+                    uid,
+                    qty = 1
+                } = {},
+                cartId
+            } = this.props;
 
             if (quantity === qty) {
                 this.setState({ isLoading: false });
@@ -174,7 +173,7 @@ export class CartItemContainer extends PureComponent {
             }
 
             this.hideLoaderAfterPromise(changeItemQty({
-                uid: btoa(item_id),
+                uid,
                 quantity,
                 cartId
             }));
@@ -280,104 +279,66 @@ export class CartItemContainer extends PureComponent {
     _getProductLinkTo() {
         const {
             item: {
+                configurable_options: options,
                 product,
                 product: {
-                    type_id,
-                    configurable_options,
-                    parent,
+                    configurable_options: attributeData,
                     url
                 } = {}
             } = {}
         } = this.props;
 
-        if (type_id !== PRODUCT_TYPE.configurable) {
+        if (!options) {
             return {
                 pathname: url,
                 state: { product }
             };
         }
 
-        const variant = this.getProductVariant();
+        const parameters = {};
 
-        if (!variant) {
-            return {};
-        }
-        const { attributes } = variant;
+        attributeData.forEach(({ uid, attribute_code }) => {
+            const {
+                configurable_product_option_value_uid: valueUid
+            } = options.find(({ configurable_product_option_uid: optionUid }) => optionUid === uid);
 
-        const parameters = Object.entries(attributes).reduce(
-            (parameters, [code, { attribute_value }]) => {
-                if (Object.keys(configurable_options).includes(code)) {
-                    return { ...parameters, [code]: attribute_value };
-                }
+            const valueParts = atob(valueUid).split('/');
 
-                return parameters;
-            }, {}
-        );
-
-        const stateProduct = parent || product;
+            parameters[attribute_code] = valueParts[valueParts.length - 1];
+        });
 
         return {
             pathname: url,
-            state: { product: stateProduct },
+            state: { product },
             search: objectToUri(parameters)
         };
     }
 
     _getProductThumbnail() {
         const product = this.getCurrentProduct();
-        const { thumbnail: { url: thumbnail } = {} } = product;
+        const { thumbnail } = product;
 
-        return thumbnail || '';
-    }
-
-    getConfigurationOptionLabel([key, attribute]) {
-        const {
-            item: {
-                product: {
-                    configurable_options = {}
-                }
-            }
-        } = this.props;
-
-        const { attribute_code, attribute_value } = attribute;
-
-        if (!Object.keys(configurable_options).includes(key) || attribute_value === null) {
-            return null;
+        if (!thumbnail) {
+            return '';
         }
 
-        const {
-            [attribute_code]: { // configurable option attribute
-                attribute_options: {
-                    [attribute_value]: { // attribute option value label
-                        label
-                    }
-                }
-            }
-        } = configurable_options;
+        const { url = '' } = thumbnail;
 
-        return label;
+        return url || '';
     }
 
     getConfigurableOptionsLabels() {
         const {
             item: {
-                product: {
-                    configurable_options,
-                    variants
-                }
+                configurable_options
             }
         } = this.props;
 
-        if (!variants || !configurable_options) {
+        if (!configurable_options) {
             return [];
         }
 
-        const { attributes = [] } = this.getCurrentProduct() || {};
-
-        return Object.entries(attributes)
-            .filter(([attrKey]) => Object.keys(configurable_options).includes(attrKey))
-            .map(this.getConfigurationOptionLabel.bind(this))
-            .filter((label) => label);
+        return configurable_options.map(({ value_label }) => value_label);
     }
 
     notifyAboutLoadingStateChange(isLoading) {

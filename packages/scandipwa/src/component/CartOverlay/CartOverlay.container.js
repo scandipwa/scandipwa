@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import STATUS from 'Component/CartItem/CartItem.config';
 import { CART_EDITING, CART_OVERLAY } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
@@ -29,7 +30,6 @@ import {
     getCartTotalSubPrice
 } from 'Util/Cart';
 import history from 'Util/History';
-import { getProductInStock } from 'Util/Product/Extract';
 import { appendWithStoreCode } from 'Util/Url';
 
 import CartOverlay from './CartOverlay.component';
@@ -146,7 +146,7 @@ export class CartOverlayContainer extends PureComponent {
     }
 
     hasOutOfStockProductsInCartItems(items = []) {
-        return items.some(({ product }) => !getProductInStock(product));
+        return items.some(({ status = STATUS.ok }) => status !== STATUS.ok);
     }
 
     handleCheckoutClick(e) {

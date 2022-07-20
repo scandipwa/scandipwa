@@ -36,7 +36,6 @@ export class CartOverlay extends PureComponent {
         showOverlay: PropTypes.func.isRequired,
         activeOverlay: PropTypes.string.isRequired,
         hasOutOfStockProductsInCart: PropTypes.bool,
-        cartTotalSubPrice: PropTypes.number,
         cartDisplaySettings: CartDisplayType.isRequired,
         isMobile: PropTypes.bool.isRequired,
         onCartItemLoading: PropTypes.func,
@@ -47,7 +46,6 @@ export class CartOverlay extends PureComponent {
         hasOutOfStockProductsInCart: false,
         onCartItemLoading: null,
         currencyCode: null,
-        cartTotalSubPrice: null,
         minimumOrderAmountReached: true
     };
 
@@ -103,7 +101,13 @@ export class CartOverlay extends PureComponent {
     }
 
     renderOrderTotalExlTax() {
-        const { cartTotalSubPrice } = this.props;
+        const {
+            totals: {
+                prices: {
+                    grand_total_excluding_tax: cartTotalSubPrice = 0
+                }
+            }
+        } = this.props;
 
         if (!cartTotalSubPrice && cartTotalSubPrice !== 0) {
             return null;
@@ -169,17 +173,20 @@ export class CartOverlay extends PureComponent {
     renderDiscount() {
         const {
             totals: {
-                applied_rule_ids,
-                discount_amount,
-                coupon_code
-            }
+                applied_coupons: appliedCoupons = [],
+                prices: {
+                    discounts = []
+                } = {}
+            } = {}
         } = this.props;
 
-        if (!applied_rule_ids || !discount_amount) {
+        if (!(appliedCoupons && appliedCoupons.length) && !(discounts && discounts.length)) {
             return null;
         }
 
-        const label = coupon_code ? __('Coupon code discount ') : __('Discount: ');
+        const label = appliedCoupons.length ? __('Coupon code discount ') : __('Discount: ');
+        const { amount: { value: discount = 0 } = {} } = discounts[0] || {};
+        const { code } = appliedCoupons[0] || {};
 
         return (
             <dl
@@ -188,9 +195,9 @@ export class CartOverlay extends PureComponent {
             >
                 <dt>
                     { label }
-                    { this.renderCouponCode(coupon_code) }
+                    { this.renderCouponCode(code) }
                 </dt>
-                <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>
+                <dd>{ `-${this.renderPriceLine(Math.abs(discount))}` }</dd>
             </dl>
         );
     }
