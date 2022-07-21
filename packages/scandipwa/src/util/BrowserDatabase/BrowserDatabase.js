@@ -19,8 +19,8 @@ import LocalStorageDriver from './LocalStorageDriver';
  * @namespace Util/BrowserDatabase
  */
 export class BrowserDatabase {
-    __construct(adapter = localStorage) {
-        this.adapter = adapter;
+    __construct(driver = localStorage) {
+        this.driver = driver;
     }
 
     /**
@@ -30,15 +30,15 @@ export class BrowserDatabase {
      * @memberof BrowserDatabase
      */
     getItem(location, dependsOnSharing) {
-        const { adapter } = this;
+        const { driver } = this;
 
         try {
-            const entryObject = JSON.parse(adapter.getItem(location, dependsOnSharing));
+            const entryObject = JSON.parse(driver.getItem(location, dependsOnSharing));
             const { data, expiration, createdAt } = entryObject;
             const MILLISECONDS_TO_SECONDS = 1000;
 
             if (expiration && Date.now() - createdAt > expiration * MILLISECONDS_TO_SECONDS) {
-                adapter.removeItem(location);
+                driver.removeItem(location);
 
                 return null;
             }
@@ -58,9 +58,9 @@ export class BrowserDatabase {
      * @memberof BrowserDatabase
      */
     setItem(data, location, expiration, dependsOnSharing) {
-        const { adapter } = this;
+        const { driver } = this;
 
-        adapter.setItem(location, JSON.stringify({
+        driver.setItem(location, JSON.stringify({
             data,
             expiration,
             createdAt: Date.now()
@@ -73,9 +73,9 @@ export class BrowserDatabase {
      * @memberof BrowserDatabase
      */
     deleteItem(location, dependsOnSharing) {
-        const { adapter } = this;
+        const { driver } = this;
 
-        adapter.removeItem(location, dependsOnSharing);
+        driver.removeItem(location, dependsOnSharing);
     }
 }
 
