@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
+ * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -35,9 +35,6 @@ export const ONE_DAY = 86400;
  * @namespace Util/Compare/setUid
  */
 export const setUid = (uid) => {
-    const { website_code } = window;
-    const tokens = BrowserDatabase.getItem(COMPARE_UID) || {};
-
     const state = getStore().getState();
     const {
         access_token_lifetime = ONE_HOUR
@@ -45,9 +42,7 @@ export const setUid = (uid) => {
 
     const uidExpirationTimeInStorage = isSignedIn() ? access_token_lifetime * ONE_HOUR_IN_SECONDS : ONE_DAY;
 
-    tokens[website_code] = uid;
-
-    BrowserDatabase.setItem(tokens, COMPARE_UID, uidExpirationTimeInStorage);
+    BrowserDatabase.setItem(uid, COMPARE_UID, uidExpirationTimeInStorage);
 };
 
 /**
@@ -56,10 +51,7 @@ export const setUid = (uid) => {
  * @namespace Util/Compare/getUid
  */
 export const getUid = () => {
-    const { website_code } = window;
-
-    const tokens = BrowserDatabase.getItem(COMPARE_UID) || {};
-    const uid = tokens[website_code];
+    const uid = BrowserDatabase.getItem(COMPARE_UID);
 
     return (typeof uid === 'string') ? uid : false;
 };
@@ -69,12 +61,7 @@ export const getUid = () => {
  * @namespace Util/Compare/removeUid
  */
 export const removeUid = () => {
-    const { website_code } = window;
-    const uids = BrowserDatabase.getItem(COMPARE_UID) || {};
-
-    uids[website_code] = undefined;
-
-    BrowserDatabase.setItem(uids, COMPARE_UID);
+    BrowserDatabase.deleteItem(COMPARE_UID);
 };
 
 /** @namespace Util/Compare/refreshUid */

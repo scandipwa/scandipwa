@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import LocalStorageAdapter from './LocalStorageAdapter';
+
 // TODO: maybe consider moving to IndexedDB insead of localStorage
 
 /**
@@ -17,20 +19,26 @@
  * @namespace Util/BrowserDatabase
  */
 export class BrowserDatabase {
+    __construct(adapter = localStorage) {
+        this.adapter = adapter;
+    }
+
     /**
      * Loads data from browser storage
      * @param {String} location Name of the local storage
      * @return {Object} Object stored in a specified path
      * @memberof BrowserDatabase
      */
-    getItem(location) {
+    getItem(location, dependsOnSharing) {
+        const { adapter } = this;
+
         try {
-            const entryObject = JSON.parse(localStorage.getItem(location));
+            const entryObject = JSON.parse(adapter.getItem(location, dependsOnSharing));
             const { data, expiration, createdAt } = entryObject;
             const MILLISECONDS_TO_SECONDS = 1000;
 
             if (expiration && Date.now() - createdAt > expiration * MILLISECONDS_TO_SECONDS) {
-                localStorage.removeItem(location);
+                adapter.removeItem(location);
 
                 return null;
             }
@@ -49,12 +57,14 @@ export class BrowserDatabase {
      * @return {Void}
      * @memberof BrowserDatabase
      */
-    setItem(data, location, expiration) {
-        localStorage.setItem(location, JSON.stringify({
+    setItem(data, location, expiration, dependsOnSharing) {
+        const { adapter } = this;
+
+        adapter.setItem(location, JSON.stringify({
             data,
             expiration,
             createdAt: Date.now()
-        }));
+        }), dependsOnSharing);
     }
 
     /**
@@ -62,9 +72,11 @@ export class BrowserDatabase {
      * @param {String} location
      * @memberof BrowserDatabase
      */
-    deleteItem(location) {
-        localStorage.removeItem(location);
+    deleteItem(location, dependsOnSharing) {
+        const { adapter } = this;
+
+        adapter.removeItem(location, dependsOnSharing);
     }
 }
 
-export default new BrowserDatabase();
+export default new BrowserDatabase(new LocalStorageAdapter());

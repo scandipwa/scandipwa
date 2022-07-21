@@ -45,6 +45,8 @@ $icons = $this->getAppIconData();
         window.storeList = JSON.parse(`<?= $this->getStoreListJson() ?>`).sort().reverse();
         window.storeRegexText = `/(${window.storeList.join('|')})?`;
         window.website_code = '<?= $this->getWebsiteCode() ?>';
+        window.customer_account_share = '<?= $this->getAccountSharingOption() ?>';
+
     </script>
 
     <!-- Preload i18n chunk for the store -->

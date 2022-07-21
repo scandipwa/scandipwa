@@ -22,3 +22,5 @@ yarn-error.log*
 
 # nextjs are generated on every build or start routes
 src/pages
+
+.vscode
