@@ -45,7 +45,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
         customer: CustomerType.isRequired,
         isBilling: PropTypes.bool,
         isSubmitted: PropTypes.bool,
-        is_virtual: PropTypes.bool
+        is_virtual: PropTypes.bool,
+        shouldRender: PropTypes.bool
     };
 
     static defaultProps = {
@@ -53,7 +54,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
         onAddressSelect: noopFn,
         onShippingEstimationFieldsChange: noopFn,
         isSubmitted: false,
-        is_virtual: false
+        is_virtual: false,
+        shouldRender: false
     };
 
     static _getDefaultAddressId(props) {
@@ -141,7 +143,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
             onShippingEstimationFieldsChange,
             isBilling,
             isSubmitted,
-            is_virtual
+            is_virtual,
+            shouldRender
         } = this.props;
         const { selectedAddressId } = this.state;
 
@@ -151,7 +154,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
             isBilling,
             selectedAddressId,
             isSubmitted,
-            is_virtual
+            is_virtual,
+            shouldRender
         };
     }
 
