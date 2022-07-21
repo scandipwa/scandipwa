@@ -266,7 +266,11 @@ export const getItemsCountLabel = (items_qty) => (items_qty === 1 ? __('1 item')
 
 /** @namespace Util/Cart/getAllCartItemsSku */
 export const getAllCartItemsSku = (cartItems) => cartItems.reduce((acc, item) => {
-    acc.push({ sku: item.sku });
+    // if condition prevents bundle products from affecting the results of in-store pickup locations search in checkout
+    // this was done to replicate default magento behavior in 2.4.4
+    if (item.product.type_id !== 'bundle') {
+        acc.push({ sku: item.sku });
+    }
 
     return acc;
 }, []);
