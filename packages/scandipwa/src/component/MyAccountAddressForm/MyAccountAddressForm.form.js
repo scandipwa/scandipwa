@@ -53,7 +53,7 @@ export const getStreetFields = (props) => {
                 placeholder: __('Your street address line %s', i + 1)
             },
             addRequiredTag: i === 0,
-            validateOn: i === 0 ? ['onChange'] : [],
+            validateOn: ['onChange'],
             validationRule: {
                 isRequired: i === 0
             }
