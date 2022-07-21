@@ -610,5 +610,9 @@
     "Send Confirmation Action": null,
     "This email does not require confirmation.": null,
     "Remove file": null,
-    "Region": null
+    "Region": null,
+    "Confirm Newsletter Page": null,
+    "Confirm subscription": null,
+    "Unable to confirm subscrabition": null,
+    "Thank you for subscribing to our newsletter!": null
 }

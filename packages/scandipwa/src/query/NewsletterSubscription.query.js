@@ -27,6 +27,20 @@ export class NewsletterSubscriptionQuery {
             'status'
         ];
     }
+
+    confirmSubscribeToNewsletterMutation(id, code) {
+        return new Field('confirmSubscribingToNewsletter')
+            .addArgument('id', 'String!', id)
+            .addArgument('code', 'String!', code)
+            .addFieldList(this._getConfirmFields());
+    }
+
+    _getConfirmFields() {
+        return [
+            'status',
+            'message'
+        ];
+    }
 }
 
 export default new NewsletterSubscriptionQuery();
