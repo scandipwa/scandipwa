@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import LocalStorageAdapter from './LocalStorageAdapter';
+import LocalStorageDriver from './LocalStorageDriver';
 
 // TODO: maybe consider moving to IndexedDB insead of localStorage
 
@@ -79,4 +79,4 @@ export class BrowserDatabase {
     }
 }
 
-export default new BrowserDatabase(new LocalStorageAdapter());
+export default new BrowserDatabase(new LocalStorageDriver());

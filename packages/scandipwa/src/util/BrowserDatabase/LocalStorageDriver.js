@@ -16,8 +16,8 @@ export const GLOBAL_STORAGE = 'storage_global';
 
 const { website_code, customer_account_share } = window;
 
-/** @namespace Util/BrowserDatabase/LocalStorageAdapter */
-export class LocalStorageAdapter {
+/** @namespace Util/BrowserDatabase/LocalStorageDriver */
+export class LocalStorageDriver {
     updateStorage(storage, destination, path, location, data) {
         const newStorage = { ...storage };
 
@@ -71,4 +71,4 @@ export class LocalStorageAdapter {
     }
 }
 
-export default LocalStorageAdapter;
+export default LocalStorageDriver;
