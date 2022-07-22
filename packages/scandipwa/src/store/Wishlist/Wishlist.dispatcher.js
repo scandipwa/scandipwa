@@ -118,9 +118,18 @@ export class WishlistDispatcher {
             const { items = [], wishlistId = '' } = options;
 
             dispatch(updateIsLoading(true));
-            await fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, items));
-            dispatch(showNotification('success', __('Product added to wish-list!')));
-            await this._syncWishlistWithBE(dispatch);
+            const {
+                addProductsToWishlist: { user_errors }
+            } = await fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, items));
+
+            if (user_errors.length > 0) {
+                user_errors.map(({ message }) => dispatch(
+                    showNotification('error', __('We can`t add the item to Wishlist right now: %s', message).toString())
+                ));
+            } else {
+                dispatch(showNotification('success', __('Product added to wish-list!')));
+                await this._syncWishlistWithBE(dispatch);
+            }
         } catch {
             dispatch(showNotification('error', __('Error updating wish list!')));
         } finally {
