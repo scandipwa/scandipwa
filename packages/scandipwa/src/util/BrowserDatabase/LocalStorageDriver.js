@@ -30,8 +30,11 @@ export class LocalStorageDriver {
     }
 
     getWebsiteStorage() {
-        const websiteStorage = JSON.parse(localStorage.getItem(WEBSITE_STORAGE) || '{}');
-        const globalStorage = JSON.parse(localStorage.getItem(GLOBAL_STORAGE) || '{}');
+        const websiteStorageTest = localStorage.getItem(WEBSITE_STORAGE);
+        const websiteStorage = websiteStorageTest ? JSON.parse(websiteStorageTest) : {};
+
+        const globalStorageTest = localStorage.getItem(GLOBAL_STORAGE);
+        const globalStorage = globalStorageTest ? JSON.parse(globalStorageTest) : {};
 
         return { websiteStorage, globalStorage };
     }
