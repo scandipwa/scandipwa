@@ -106,7 +106,7 @@ export class CartItem extends PureComponent {
             item: {
                 customizable_options,
                 bundle_options,
-                downloadable_links
+                links
             } = {}
         } = this.props;
 
@@ -117,7 +117,7 @@ export class CartItem extends PureComponent {
                 { this.renderProductConfigurations() }
                 { this.renderProductOptions(customizable_options) }
                 { this.renderProductBundleOptions(bundle_options) }
-                { this.renderProductLinks(downloadable_links) }
+                { this.renderProductLinks(links) }
             </div>
         );
     }
@@ -181,7 +181,7 @@ export class CartItem extends PureComponent {
     }
 
     renderProductOptionLabel(option) {
-        const { label, values = [] } = option;
+        const { label, title, values = [] } = option;
 
         if (Array.isArray(values) && values.length > 0) {
             return (
@@ -194,7 +194,7 @@ export class CartItem extends PureComponent {
             );
         }
 
-        return label;
+        return label || title;
     }
 
     renderBundleProductOptionValue(value, index) {
