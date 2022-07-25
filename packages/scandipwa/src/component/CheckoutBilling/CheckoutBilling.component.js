@@ -92,6 +92,7 @@ export class CheckoutBilling extends PureComponent {
 
     handleShowPopup(e) {
         const { showPopup } = this.props;
+
         e.preventDefault();
         showPopup();
     }

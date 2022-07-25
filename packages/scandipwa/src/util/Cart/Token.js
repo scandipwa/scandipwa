@@ -19,6 +19,7 @@ export const setCartId = (token) => {
     const { website_code } = window;
 
     const tokens = BrowserDatabase.getItem(CART_ID) || {};
+
     tokens[website_code] = {
         token,
         isCustomerToken: isSignedIn()
@@ -50,6 +51,7 @@ export const deleteCartId = () => {
     const { website_code } = window;
 
     const tokens = BrowserDatabase.getItem(CART_ID);
+
     tokens[website_code] = undefined;
     BrowserDatabase.setItem(tokens, CART_ID);
 };

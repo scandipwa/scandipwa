@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
@@ -89,6 +89,7 @@ export class CarouselScroll extends PureComponent {
 
         if (prevShowedItemCount !== showedItemCount) {
             const width = this.getCarouselWidth(showedItemCount);
+
             CSS.setVariable(this.carouselRef, 'carousel-width', width);
             this.updateFirstSlide();
         }
@@ -108,6 +109,7 @@ export class CarouselScroll extends PureComponent {
     getCarouselWidth(showedItemCount) {
         const margin = CAROUSEL_ITEM_GAP;
         const { offsetWidth: cardWidth } = this.itemRef.current;
+
         return `${ (margin + cardWidth) * showedItemCount - margin }px`;
     }
 
@@ -120,11 +122,13 @@ export class CarouselScroll extends PureComponent {
 
     setTranslate(nextId) {
         const translate = this.getNextTranslate(nextId);
+
         CSS.setVariable(this.carouselRef, 'translateX', translate);
     }
 
     getMaxFirstItemId() {
         const { children: { length: childrenLength }, showedItemCount } = this.props;
+
         return Math.max(childrenLength - showedItemCount, 0);
     }
 
@@ -141,6 +145,7 @@ export class CarouselScroll extends PureComponent {
 
     handleArrowClick(isNextArrow) {
         const firstCarouselItemId = this.getNewCarouselItemId(isNextArrow);
+
         this.setTranslate(firstCarouselItemId);
         this.setState({ firstCarouselItemId });
     }
@@ -148,11 +153,13 @@ export class CarouselScroll extends PureComponent {
     handleChange(nextId) {
         const { onChange, showedItemCount } = this.props;
         const { firstCarouselItemId } = this.state;
+
         onChange(nextId);
         this.setState({ activeItemId: nextId });
 
         if (nextId < firstCarouselItemId || nextId >= firstCarouselItemId + showedItemCount) {
             const newId = Math.min(this.getMaxFirstItemId(), nextId);
+
             this.setTranslate(newId);
             this.setState({ firstCarouselItemId: newId });
         }

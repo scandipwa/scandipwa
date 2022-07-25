@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -77,7 +77,10 @@ export class SearchOverlay extends PureComponent {
         const resultsToRender = (isLoading || this.timeout) ? Array(AMOUNT_OF_PLACEHOLDERS).fill({}) : searchResults;
 
         return (
-            <ul>
+            <ul
+              block="SearchOverlay"
+              elem="ItemsHolder"
+            >
                 { resultsToRender.map((item, i) => this.renderSearchItem(item, i)) }
             </ul>
         );

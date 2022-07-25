@@ -79,6 +79,7 @@ export class WishlistQuery {
 
             if (!isSignedIn()) {
                 const cartId = getCartId();
+
                 field.addArgument('guestCartId', 'ID', cartId);
             }
         }

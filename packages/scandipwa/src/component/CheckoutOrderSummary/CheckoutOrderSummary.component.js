@@ -293,6 +293,7 @@ export class CheckoutOrderSummary extends PureComponent {
             cartTotalSubPrice
         } = this.props;
         const title = __('Order total');
+
         return (
             <CheckoutOrderSummaryPriceLine
               price={ Number(grand_total || 0).toFixed(2) }

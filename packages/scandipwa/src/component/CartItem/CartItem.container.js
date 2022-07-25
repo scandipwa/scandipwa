@@ -170,6 +170,7 @@ export class CartItemContainer extends PureComponent {
 
             if (quantity === itemQuantity) {
                 this.setState({ isLoading: false });
+
                 return;
             }
 
@@ -231,6 +232,7 @@ export class CartItemContainer extends PureComponent {
      */
     registerCancelablePromise(promise) {
         const cancelablePromise = makeCancelable(promise);
+
         this.handlers.push(cancelablePromise);
 
         return cancelablePromise;

@@ -19,6 +19,7 @@ import { DeviceType } from 'Type/Device.type';
 import {
     ACCOUNT_TAB,
     CART_TAB,
+    CHECKOUT_TAB,
     HOME_TAB,
     MENU_TAB
 } from './NavigationTabs.config';
@@ -41,6 +42,9 @@ export class NavigationTabs extends NavigationAbstract {
             menu: true
         },
         [CART_TAB]: {
+            minicart: true
+        },
+        [CHECKOUT_TAB]: {
             minicart: true
         },
         [ACCOUNT_TAB]: {

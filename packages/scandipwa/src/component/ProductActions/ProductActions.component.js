@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import PropTypes from 'prop-types';
@@ -265,12 +265,16 @@ export class ProductActions extends Product {
         const {
             getActiveProduct,
             inStock,
-            product: { type_id: baseType } = {},
+            product: { type_id: baseType, price_range = null } = {},
             isPricePreview
         } = this.props;
         const { type_id: activeType } = getActiveProduct();
 
         const notConfigured = baseType === PRODUCT_TYPE.configurable && activeType === baseType;
+
+        if (!price_range) {
+            return <TextPlaceholder />;
+        }
 
         return super.renderPrice(!inStock || notConfigured || isPricePreview);
     }

@@ -29,6 +29,7 @@ export const updateCartTotals = (action) => {
     if (items.length) {
         const normalizedItemsProduct = items.map((item) => {
             const { variants, ...normalizedItem } = item;
+
             normalizedItem.product = getIndexedProduct(item.product, item.sku);
 
             return normalizedItem;

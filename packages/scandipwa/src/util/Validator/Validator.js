@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 import FIELD_TYPE from 'Component/Field/Field.config';
 import { VALIDATION_INPUT_TYPE_NUMBER, VALIDATION_MESSAGES, VALIDATION_RULES } from 'Util/Validator/Config';
@@ -85,6 +85,7 @@ export const validate = (value, rule) => {
 
             if (max && value.length > max) {
                 const tooMany = value.length - max;
+
                 output.errorMessages.push(onRangeFailMax || __('Maximum %s characters (%s too many)', max, tooMany));
 
                 if (showLengthError) {
@@ -106,6 +107,7 @@ export const validate = (value, rule) => {
     //#endregion
 
     const { errorMessages } = output;
+
     return errorMessages.length === 0 ? true : output;
 };
 
@@ -143,11 +145,13 @@ export const validateGroup = (DOM, rule = null) => {
 
         const fieldType = tagName.toLowerCase() === FIELD_TYPE.textarea ? FIELD_TYPE.textarea : type;
         const fieldValue = fieldType === FIELD_TYPE.checkbox || fieldType === FIELD_TYPE.radio ? field.checked : value;
+
         output.values.push({ name, value: fieldValue, type: fieldType });
 
         // Invokes validation event for all fields
         const data = { errors: [] };
         const event = new CustomEvent('validate', { detail: data });
+
         field.dispatchEvent(event);
         const { errors } = data;
 
@@ -197,6 +201,7 @@ export const validateGroup = (DOM, rule = null) => {
     }
     //#endregion
     const { errorMessages, errorFields } = output;
+
     return errorMessages.length === 0 && errorFields.length === 0 ? true : output;
 };
 

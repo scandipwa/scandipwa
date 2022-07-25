@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import WishlistQuery from 'Query/Wishlist.query';
@@ -116,6 +116,7 @@ export class WishlistDispatcher {
 
         try {
             const { items = [], wishlistId = '' } = options;
+
             dispatch(updateIsLoading(true));
             await fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, items));
             dispatch(showNotification('success', __('Product added to wish-list!')));

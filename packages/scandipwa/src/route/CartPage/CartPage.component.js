@@ -39,7 +39,8 @@ export class CartPage extends PureComponent {
         device: DeviceType.isRequired,
         isInitialLoad: PropTypes.bool.isRequired,
         minimumOrderAmountReached: PropTypes.bool,
-        minimumOrderDescription: PropTypes.string
+        minimumOrderDescription: PropTypes.string,
+        areDetailsLoaded: PropTypes.bool
     };
 
     static defaultProps = {
@@ -47,7 +48,8 @@ export class CartPage extends PureComponent {
         onCouponCodeUpdate: noopFn,
         onCartItemLoading: null,
         minimumOrderAmountReached: true,
-        minimumOrderDescription: ''
+        minimumOrderDescription: '',
+        areDetailsLoaded: false
     };
 
     renderCartItems() {
@@ -196,10 +198,13 @@ export class CartPage extends PureComponent {
     }
 
     renderCrossSellProducts() {
+        const { areDetailsLoaded } = this.props;
+
         return (
             <ProductLinks
               linkType={ CROSS_SELL }
               title={ __('Frequently bought together') }
+              areDetailsLoaded={ areDetailsLoaded }
             />
         );
     }

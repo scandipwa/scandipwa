@@ -97,6 +97,7 @@ export class Klarna extends PureComponent {
         }
 
         const klarnaScript = document.createElement('script');
+
         klarnaScript.setAttribute('id', KLARNA_SCRIPT_ID);
         klarnaScript.setAttribute('src', 'https://x.klarnacdn.net/kp/lib/v1/api.js');
         klarnaScript.async = true;

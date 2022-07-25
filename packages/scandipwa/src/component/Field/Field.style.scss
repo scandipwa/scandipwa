@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
@@ -257,10 +257,6 @@
                 input,
                 textarea,
                 select {
-                    &:placeholder-shown {
-                        border: 1px solid var(--color-dark-gray);
-                    }
-
                     border: 1px solid var(--primary-success-color);
                 }
             }
@@ -330,6 +326,12 @@
             width: 21px;
             will-change: background-color, border-color;
             margin-inline-end: 11px;
+
+            + .ProductCustomizableItem, +.ProductBundleItem {
+                &-Label {
+                    flex: 1;
+                }
+            }
 
             @include desktop {
                 max-width: var(--checkbox-width);

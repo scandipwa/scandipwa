@@ -113,6 +113,7 @@ export class CartPageContainer extends PureComponent {
     };
 
     state = {
+        areDetailsLoaded: false,
         isCartItemLoading: false,
         isInitialLoad: true
     };
@@ -151,6 +152,7 @@ export class CartPageContainer extends PureComponent {
 
         if (total_quantity !== prevItemsQty && prevItemsQty !== undefined) {
             const title = getItemsCountLabel(total_quantity);
+
             changeHeaderState({
                 ...headerState,
                 title
@@ -179,7 +181,7 @@ export class CartPageContainer extends PureComponent {
             }
         } = this.props;
 
-        const { isCartItemLoading, isInitialLoad } = this.state;
+        const { areDetailsLoaded, isCartItemLoading, isInitialLoad } = this.state;
 
         return {
             hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items),
@@ -188,7 +190,8 @@ export class CartPageContainer extends PureComponent {
             device,
             isInitialLoad,
             minimumOrderAmountReached,
-            minimumOrderDescription
+            minimumOrderDescription,
+            areDetailsLoaded
         };
     }
 
@@ -272,7 +275,7 @@ export class CartPageContainer extends PureComponent {
         });
     }
 
-    _updateCrossSellProducts() {
+    async _updateCrossSellProducts() {
         const {
             updateCrossSellProducts,
             totals: {
@@ -282,7 +285,9 @@ export class CartPageContainer extends PureComponent {
 
         const list = trimCrossSellDuplicateItems(items);
 
-        updateCrossSellProducts(list);
+        await updateCrossSellProducts(list);
+
+        this.setState({ areDetailsLoaded: true });
     }
 
     render() {

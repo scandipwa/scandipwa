@@ -338,6 +338,7 @@ export class ProductContainer extends PureComponent {
 
     setAdjustedPrice(type, amount) {
         const { adjustedPrice } = this.state;
+
         this.setState({
             adjustedPrice: {
                 ...adjustedPrice,
@@ -384,6 +385,7 @@ export class ProductContainer extends PureComponent {
             // For product configurable attributes
             if (attributes) {
                 attributes.scrollIntoView({ block: 'center', behaviour: 'smooth' });
+
                 return;
             }
 
@@ -491,6 +493,7 @@ export class ProductContainer extends PureComponent {
     setQuantity(quantity) {
         if (typeof quantity === 'object') {
             const { quantity: oldQuantity = {} } = this.state;
+
             this.setState({ quantity: { ...oldQuantity, ...quantity } });
         } else {
             this.setState({ quantity: +quantity });
