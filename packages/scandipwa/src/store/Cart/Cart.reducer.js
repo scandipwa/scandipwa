@@ -106,9 +106,6 @@ export const updateShippingPrice = (action, state) => {
         }
     };
 
-    console.log('shipping');
-    console.log(shipping);
-
     return {
         cartTotals: {
             ...state.cartTotals,
