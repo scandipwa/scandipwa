@@ -75,14 +75,12 @@ export const updateShippingPrice = (action, state) => {
                     }
                 }
             ],
-            discount: [
-                {
-                    ...state.cartTotals.prices?.discount[0],
-                    amount: {
-                        value: discount_amount
-                    }
+            discount: {
+                ...state.cartTotals.prices?.discount[0],
+                amount: {
+                    value: discount_amount
                 }
-            ],
+            },
             grand_total: {
                 value: grand_total
             },
@@ -107,6 +105,9 @@ export const updateShippingPrice = (action, state) => {
             }
         }
     };
+
+    console.log('shipping');
+    console.log(shipping);
 
     return {
         cartTotals: {
