@@ -52,6 +52,7 @@ export const updateCartTotals = (action) => {
 export const updateShippingPrice = (action, state) => {
     const {
         data: {
+            discount_amount,
             grand_total,
             shipping_amount,
             shipping_incl_tax,
@@ -71,6 +72,14 @@ export const updateShippingPrice = (action, state) => {
                     ...state.cartTotals.prices?.applied_taxes[0],
                     amount: {
                         value: tax_amount
+                    }
+                }
+            ],
+            discount: [
+                {
+                    ...state.cartTotals.prices?.discount[0],
+                    amount: {
+                        value: discount_amount
                     }
                 }
             ],
