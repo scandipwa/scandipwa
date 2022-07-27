@@ -50,12 +50,18 @@
         font-size: 14px;
         font-weight: 400;
 
-        li {
-            &::before {
-                position: relative;
-                margin-inline-start: 7px;
-                margin-inline-end: 7px;
-                inset-block-start: -1px;
+        ul,
+        ol {
+            padding-inline-start: 20px;
+
+            li {
+                font-family: 'Open Sans', sans-serif;
+                list-style-position: inside;
+                list-style-type: inherit;
+
+                &::before {
+                    display: none;
+                }
             }
         }
 
