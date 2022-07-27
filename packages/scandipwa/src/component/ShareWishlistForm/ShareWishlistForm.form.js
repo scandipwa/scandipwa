@@ -36,6 +36,7 @@ export const shareWishlistForm = () => [
     {
         label: __('Message'),
         type: FIELD_TYPE.textarea,
+        validateOn: ['onChange'],
         attr: {
             name: 'message',
             placeholder: __('Message'),
