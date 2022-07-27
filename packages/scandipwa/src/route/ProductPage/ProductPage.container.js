@@ -195,20 +195,12 @@ export class ProductPageContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const {
-            productSKU,
-            product: {
-                sku
-            }
-        } = this.props;
-
         /**
-         * If the currently loaded category ID does not match the ID of
-         * category ID from URL rewrite, request category.
+         * Always request product information. In this case we will have updated data.
+         * Service worker will return previous information and updated new information
+         * through broadcast.
          */
-        if (productSKU !== sku) {
-            this.requestProduct();
-        }
+        this.requestProduct();
 
         /**
          * Always make sure the navigation switches into the MENU tab
@@ -238,16 +230,12 @@ export class ProductPageContainer extends PureComponent {
         const {
             isOffline,
             productSKU,
-            product: {
-                sku
-            }
+            product
         } = this.props;
 
         const {
             productSKU: prevProductSKU,
-            product: {
-                sku: prevSku
-            }
+            product: prevProduct
         } = prevProps;
 
         const { sku: stateSKU } = history?.state?.state?.product || {};
@@ -270,10 +258,10 @@ export class ProductPageContainer extends PureComponent {
         }
 
         /**
-         * If product ID was changed => it is loaded => we need to
+         * If product object was changed => it is loaded => we need to
          * update product specific information, i.e. breadcrumbs.
          */
-        if (sku !== prevSku) {
+        if (JSON.stringify(product) !== JSON.stringify(prevProduct)) {
             this.updateBreadcrumbs();
             this.updateHeaderState();
             this.updateMeta();
