@@ -269,12 +269,15 @@ export class CartPage extends PureComponent {
     }
 
     renderMobile() {
+        const { totals: { items = [] } } = this.props;
+        const isShowTotals = items.length > 0;
+
         return (
             <div block="CartPage" elem="Static">
                 { this.renderHeading() }
                 { this.renderCartItems() }
                 <div block="CartPage" elem="Floating">
-                    { this.renderTotals() }
+                    { isShowTotals && this.renderTotals() }
                 </div>
                 { this.renderDiscountCode() }
                 { this.renderPromo() }
