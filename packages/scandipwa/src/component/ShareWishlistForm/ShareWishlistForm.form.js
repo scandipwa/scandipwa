@@ -41,6 +41,9 @@ export const shareWishlistForm = () => [
             name: 'message',
             placeholder: __('Message'),
             'aria-label': __('Message')
+        },
+        validationRule: {
+            isRequired: false
         }
     }
 ];
