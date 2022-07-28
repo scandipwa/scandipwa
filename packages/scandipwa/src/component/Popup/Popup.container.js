@@ -62,7 +62,8 @@ export class PopupContainer extends PureComponent {
         shouldPopupClose: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
-        resetHideActivePopup: PropTypes.func.isRequired
+        resetHideActivePopup: PropTypes.func.isRequired,
+        clickOutside: PropTypes.bool
     };
 
     static defaultProps = {
@@ -72,7 +73,8 @@ export class PopupContainer extends PureComponent {
         mix: {},
         contentMix: {},
         children: [],
-        isStatic: false
+        isStatic: false,
+        clickOutside: true
     };
 
     containerFunctions = {
@@ -110,7 +112,8 @@ export class PopupContainer extends PureComponent {
             shouldPopupClose,
             hideActiveOverlay,
             resetHideActivePopup,
-            goToPreviousNavigationState
+            goToPreviousNavigationState,
+            clickOutside
         } = this.props;
 
         return {
@@ -130,6 +133,7 @@ export class PopupContainer extends PureComponent {
             hideActiveOverlay,
             resetHideActivePopup,
             goToPreviousNavigationState,
+            clickOutside,
             title: this._getPopupTitle()
         };
     }
