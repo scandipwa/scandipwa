@@ -10,7 +10,6 @@
  */
 
 import { History, Location } from 'history';
-import { match as Match } from 'react-router';
 
 import { ProductListOptions } from 'Query/ProductList.type';
 import { Product as BreadcrumbProduct } from 'Store/Breadcrumbs/Breadcrumbs.type';
@@ -42,8 +41,6 @@ export interface ProductPageContainerMapDispatchProps {
 
 export interface ProductPageContainerBaseProps {
     history: History<HistoryState>;
-    location: Location<HistoryState>;
-    match: Match;
     productSKU: string;
     productID: number;
 }

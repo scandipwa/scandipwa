@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
@@ -30,7 +31,11 @@ import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import LoginAccount from './LoginAccount.component';
-import { LoginAccountContainerMapDispatchProps, LoginAccountContainerProps } from './LoginAccount.type';
+import {
+    LoginAccountContainerFunctions,
+    LoginAccountContainerMapDispatchProps,
+    LoginAccountContainerProps
+} from './LoginAccount.type';
 
 /** @namespace Route/LoginAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): LoginAccountContainerMapDispatchProps => ({
@@ -41,7 +46,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): LoginAccountContainerMap
 
 /** @namespace Route/LoginAccount/Container */
 export class LoginAccountContainer extends MyAccountOverlayContainer<LoginAccountContainerProps> {
-    containerFunctions = {
+    containerFunctions: LoginAccountContainerFunctions = {
         ...this.containerFunctions,
         onCreateAccountClick: this.onCreateAccountClick.bind(this)
     };
@@ -97,5 +102,10 @@ export class LoginAccountContainer extends MyAccountOverlayContainer<LoginAccoun
 }
 
 export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(LoginAccountContainer)
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(
+        LoginAccountContainer as unknown as ComponentType<LoginAccountContainerProps>
+    )
 );

@@ -32,7 +32,7 @@ export class PopupSuspense extends PureComponent<PopupSuspenseComponentProps> {
         onVisible: noopFn
     };
 
-    styleMap = {
+    styleMap: Record<string, string> = {
         [Page.CART_OVERLAY]: 'CartOverlay',
         [CUSTOMER_ACCOUNT_OVERLAY_KEY]: 'MyAccountOverlay'
     };

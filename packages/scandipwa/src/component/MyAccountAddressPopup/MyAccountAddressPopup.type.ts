@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 import { CustomerAddress } from 'Query/MyAccount.type';
+import { PopupPayloadDefault } from 'Store/Popup/Popup.type';
 import { NetworkError } from 'Type/Common.type';
 import { GQLCustomerAddressInput } from 'Type/Graphql.type';
 
@@ -45,10 +46,9 @@ export type MyAccountAddressPopupContainerState = {
     isLoading: boolean;
 };
 
-export type MyAccountAddressPopupPayload = {
+export type MyAccountAddressPopupPayload = PopupPayloadDefault & {
     action: MyAccountAddressPopupAction.EDIT_ADDRESS
     | MyAccountAddressPopupAction.DELETE_ADDRESS
     | MyAccountAddressPopupAction.ADD_ADDRESS;
     address: CustomerAddress;
-    title: string;
 };

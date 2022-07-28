@@ -75,7 +75,7 @@ export class Popup extends Overlay<PopupComponentProps> {
             `${location.pathname}${location.search}${location.hash}`
         );
 
-        onVisible();
+        onVisible?.();
     }
 
     onHide(): void {
@@ -84,7 +84,7 @@ export class Popup extends Overlay<PopupComponentProps> {
 
         this.unfreezeScroll();
 
-        onHide();
+        onHide?.();
     }
 
     hidePopUp(): void {
@@ -95,7 +95,7 @@ export class Popup extends Overlay<PopupComponentProps> {
             this.unfreezeScroll();
             hideActiveOverlay();
             goToPreviousNavigationState();
-            onClose();
+            onClose?.();
         }
     }
 
@@ -197,7 +197,7 @@ export class Popup extends Overlay<PopupComponentProps> {
               ref={ this.overlayRef }
               block="Popup"
               mods={ { isVisible, isInstant: areOtherOverlaysOpen } }
-              mix={ { ...mix, mods: { ...mix.mods, isVisible } } }
+              mix={ { ...mix, mods: { ...mix?.mods, isVisible } } }
             >
                 { this.renderContent() }
             </div>,

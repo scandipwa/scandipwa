@@ -144,7 +144,7 @@ S extends WishlistItemContainerState = WishlistItemContainerState
         this.state = {
             isLoading: false,
             currentQty: this.getQuantity()
-        };
+        } as S;
 
         this.renderRightSideContent = this.renderRightSideContent.bind(this);
         this.getAttributes = this.getAttributes.bind(this);

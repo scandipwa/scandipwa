@@ -10,7 +10,7 @@
  */
 import { AnyAction } from 'redux';
 
-import { ProductItem, ProductsQueryOutput } from 'Query/ProductList.type';
+import { ProductsQueryOutput } from 'Query/ProductList.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export enum SearchBarActionType {

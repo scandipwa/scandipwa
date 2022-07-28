@@ -11,6 +11,7 @@
 
 import {
     MyAccountOverlayComponentProps,
+    MyAccountOverlayContainerFunctions,
     MyAccountOverlayContainerMapDispatchProps,
     MyAccountOverlayContainerMapStateProps,
     MyAccountOverlayContainerProps
@@ -24,7 +25,10 @@ export type ForgotPasswordContainerProps = ForgotPasswordContainerMapDispatchPro
 & MyAccountOverlayContainerMapStateProps
 & MyAccountOverlayContainerProps;
 
-export interface ForgotPasswordComponentProps extends MyAccountOverlayComponentProps {
+export interface ForgotPasswordContainerFunctions extends MyAccountOverlayContainerFunctions {
     onLoginClick: () => void;
     onCreateAccountClick: () => void;
 }
+
+export interface ForgotPasswordComponentProps extends MyAccountOverlayComponentProps,
+    ForgotPasswordContainerFunctions {}

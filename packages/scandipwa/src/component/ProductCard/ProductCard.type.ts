@@ -63,7 +63,7 @@ export interface ProductCardComponentProps extends ProductComponentProps {
     mix: Mix;
     renderContent: ((content: ContentObject) => ReactElement) | null;
     thumbnail: string;
-    linkTo?: Url;
+    linkTo?: Url | string;
     showSelectOptionsNotification: () => void;
     registerSharedElement: (ref: RefObject<HTMLElement>) => void;
 }

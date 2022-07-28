@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { ReactElement } from 'Type/Common.type';
-import { noopFn } from 'Util/Common';
 
 import CartCoupon from './CartCoupon.component';
 import {
@@ -48,7 +47,6 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartCouponContainerMapDi
 export class CartCouponContainer extends PureComponent<CartCouponContainerProps, CartCouponContainerState> {
     static defaultProps: Partial<CartCouponContainerProps> = {
         couponCode: '',
-        onCouponCodeUpdate: noopFn,
         mix: {},
         title: ''
     };

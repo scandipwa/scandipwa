@@ -15,7 +15,6 @@ import { ProductType } from 'Component/Product/Product.config';
 import { ProductOption } from 'Component/Product/Product.type';
 import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
 import { CustomizableSelectionValue, GroupedProductItem } from 'Query/ProductList.type';
-import { Merge } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { decodeBase64, encodeBase64 } from 'Util/Base64';
 import { formatPrice } from 'Util/Price';
@@ -28,7 +27,6 @@ import {
     BuyRequestDownloadableOptions,
     IndexedAttributeWithValue,
     IndexedBundleOption,
-    IndexedCustomOptionValue,
     IndexedProduct,
     NoneRadioOption,
     PriceLabels,
@@ -256,7 +254,9 @@ export const bundleOptionsToSelectTransform = (
  * @returns {{baseLabel: string, priceLabel: string}}
  * @namespace Util/Product/Transform/customizableOptionToLabel
  */
-export const customizableOptionToLabel = (option: CustomizableOption, currencyCode = GQLCurrencyEnum.USD): PriceLabels => {
+export const customizableOptionToLabel = (
+    option: CustomizableOption, currencyCode = GQLCurrencyEnum.USD
+): PriceLabels => {
     const {
         price,
         priceInclTax,

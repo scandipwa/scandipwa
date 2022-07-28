@@ -17,7 +17,6 @@ import { Page } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
-import { noopFn } from 'Util/Common';
 import { appendWithStoreCode } from 'Util/Url';
 
 import {
@@ -66,11 +65,10 @@ export const ExpandableContent = lazy(() => import(
 /** @namespace Route/Checkout/Component */
 export class Checkout extends PureComponent<CheckoutComponentProps> {
     static defaultProps: Partial<CheckoutComponentProps> = {
-        paymentTotals: {},
-        selectedStoreAddress: {},
+        paymentTotals: undefined,
+        selectedStoreAddress: undefined,
         isLoading: false,
-        cartTotalSubPrice: null,
-        onCouponCodeUpdate: noopFn
+        cartTotalSubPrice: null
     };
 
     stepMap: Record<CheckoutSteps, CheckoutMapStep> = {

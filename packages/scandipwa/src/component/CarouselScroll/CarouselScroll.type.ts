@@ -12,7 +12,7 @@
 import { Children } from 'Type/Common.type';
 
 export interface CarouselScrollComponentProps {
-    children: Children;
+    children: Children[];
     showArrow: boolean;
     showedItemCount: number;
     onChange: (activeItem: number) => void;

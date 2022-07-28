@@ -52,7 +52,7 @@ ProductListWidgetContainerState
         showPager: 0,
         productsCount: 10,
         productsPerPage: 5,
-        conditionsEncoded: null
+        conditionsEncoded: undefined
     };
 
     state: ProductListWidgetContainerState = {

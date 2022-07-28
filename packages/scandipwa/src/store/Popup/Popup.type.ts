@@ -48,10 +48,15 @@ export type PopupStore = {
 
 export type PopupPayload = {
     [MyAccountAddressPopupAction.ADDRESS_POPUP_ID]: MyAccountAddressPopupPayload;
-    [Page.CUSTOMER_ACCOUNT]: unknown;
+    [Page.CUSTOMER_ACCOUNT]: PopupPayloadDefault;
     [VIDEO_POPUP_ID]: VideoPopupPayload;
     [TERMS_AND_CONDITIONS_POPUP_ID]: CheckoutTermsAndConditionsPopupPayload;
 };
+
+export interface PopupPayloadDefault {
+    title?: string;
+    text?: string;
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {

@@ -32,7 +32,11 @@ import CmsPage from './CmsPage.component';
 import { LOADING_TIME } from './CmsPage.config';
 import {
     CmsPageComponentProps,
-    CmsPageContainerDispatchStateProps, CmsPageContainerMapStateProps, CmsPageContainerProps, CmsPageContainerState
+    CmsPageContainerDispatchStateProps,
+    CmsPageContainerMapStateProps,
+    CmsPageContainerProps,
+    CmsPageContainerPropsKeys,
+    CmsPageContainerState
 } from './CmsPage.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -98,7 +102,7 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
 
     containerProps(): Pick<
     CmsPageComponentProps,
-    'isBreadcrumbsActive' | 'isLoading' | 'isPageLoaded' | 'page'
+    CmsPageContainerPropsKeys
     > {
         const { isBreadcrumbsActive } = this.props;
         const { page, isPageLoaded, isLoading } = this.state;

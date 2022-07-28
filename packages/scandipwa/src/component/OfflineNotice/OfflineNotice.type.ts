@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Location } from 'history';
 import { RouteComponentProps } from 'react-router';
 
 export interface OfflineNoticeContainerMapStateProps {
@@ -23,8 +22,7 @@ export interface OfflineNoticeContainerMapDispatchProps {
 }
 
 export interface OfflineNoticeContainerBaseProps {
-    location: Location;
-    isPage: boolean;
+    isPage?: boolean;
 }
 
 export type OfflineNoticeContainerProps = OfflineNoticeContainerMapStateProps
@@ -33,7 +31,7 @@ export type OfflineNoticeContainerProps = OfflineNoticeContainerMapStateProps
 & RouteComponentProps;
 
 export interface OfflineNoticeComponentProps {
-    isPage: boolean;
+    isPage?: boolean;
     isBig: boolean;
 }
 

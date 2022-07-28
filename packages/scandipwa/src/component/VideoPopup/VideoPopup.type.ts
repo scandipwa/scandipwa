@@ -11,6 +11,8 @@
 
 import { ComponentType } from 'react';
 
+import { PopupPayloadDefault } from 'Store/Popup/Popup.type';
+
 export interface VideoPopupContainerMapStateProps {
     payload: VideoPopupPayload;
 }
@@ -22,7 +24,7 @@ export interface VideoPopupComponentProps {
     payload: VideoPopupPayload;
 }
 
-export interface VideoPopupPayload {
+export interface VideoPopupPayload extends PopupPayloadDefault {
     media: {
         video_content: {
             video_url: string;

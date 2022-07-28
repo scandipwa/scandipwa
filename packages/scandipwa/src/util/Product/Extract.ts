@@ -614,7 +614,9 @@ export const getImage = (product: Partial<ProductExtractImage>, field: ImageType
  * @param product
  * @namespace Util/Product/Extract/getThumbnailImage
  */
-export const getThumbnailImage = (product: Partial<ProductExtractImage>): string => getImage(product, ImageType.THUMBNAIL);
+export const getThumbnailImage = (
+    product: Partial<ProductExtractImage>
+): string => getImage(product, ImageType.THUMBNAIL);
 
 /**
  * Returns products small image

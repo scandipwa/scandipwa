@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export interface PopupSuspenseMapStateToProps {
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface PopupSuspenseMapStateToProps {}
 
 export interface PopupSuspenseMapDispatchToProps {
     showOverlay: (overlayKey: string) => void;

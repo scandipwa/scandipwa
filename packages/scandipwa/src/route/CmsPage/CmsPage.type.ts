@@ -10,7 +10,7 @@
  */
 
 import { History, Location } from 'history';
-import { match as Match } from 'react-router';
+import { match as Match, RouteComponentProps, StaticContext } from 'react-router';
 
 import { CmsPageFields } from 'Query/CmsPage.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
@@ -40,7 +40,8 @@ export interface CmsPageContainerBaseProps {
     history: History<HistoryState>;
 }
 
-export type CmsPageContainerProps = CmsPageContainerMapStateProps
+export type CmsPageContainerProps = & RouteComponentProps<Record<string, never>, StaticContext, HistoryState>
+& CmsPageContainerMapStateProps
 & CmsPageContainerDispatchStateProps
 & CmsPageContainerBaseProps;
 
@@ -56,3 +57,8 @@ export interface CmsPageComponentProps {
     isPageLoaded: boolean;
     page: Partial<CmsPageFields>;
 }
+
+export type CmsPageContainerPropsKeys = 'isBreadcrumbsActive'
+| 'isLoading'
+| 'isPageLoaded'
+| 'page';

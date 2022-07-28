@@ -36,12 +36,12 @@ import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 import CheckoutShipping from './CheckoutShipping.component';
 import {
     CheckoutShippingComponentProps,
+    CheckoutShippingContainerFunctions,
     CheckoutShippingContainerMapDispatchProps,
     CheckoutShippingContainerMapStateProps,
     CheckoutShippingContainerProps,
     CheckoutShippingContainerPropsKeys,
-    CheckoutShippingContainerState,
-    CheckoutShippingContainerFunctions
+    CheckoutShippingContainerState
 } from './CheckoutShipping.type';
 
 /** @namespace Component/CheckoutShipping/Container/mapStateToProps */

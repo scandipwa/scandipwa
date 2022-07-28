@@ -28,6 +28,7 @@ import { appendWithStoreCode, convertQueryStringToKeyValuePairs } from 'Util/Url
 import ConfirmAccountPage from './ConfirmAccountPage.component';
 import {
     ConfirmAccountPageComponentProps,
+    ConfirmAccountPageContainerFunctions,
     ConfirmAccountPageContainerMapDispatchProps,
     ConfirmAccountPageContainerMapStateProps,
     ConfirmAccountPageContainerProps,
@@ -65,7 +66,7 @@ export class ConfirmAccountPageContainer extends PureComponent<
 ConfirmAccountPageContainerProps,
 ConfirmAccountPageContainerState
 > {
-    containerFunctions = {
+    containerFunctions: ConfirmAccountPageContainerFunctions = {
         onConfirmSuccess: this.onConfirmSuccess.bind(this),
         onFormError: this.onFormError.bind(this)
     };

@@ -30,14 +30,14 @@ export type UrlRewritesContainerProps = UrlRewritesContainerMapStateProps
 
 export interface UrlRewritesComponentProps {
     type: string;
-    props: UrlRewriteProps;
+    props: UrlRewriteProps | Record<string, never>;
 }
 
 export type UrlRewritesContainerPropsKeys = 'type'
 | 'props';
 
-export type UrlRewriteProps = Partial<UrlRewriteTypeSpecificProps>
-& RouteComponentProps<Record<string, never>, StaticContext, HistoryState>;
+export type UrlRewriteProps = RouteComponentProps<Record<string, never>, StaticContext, HistoryState>
+& Partial<UrlRewriteTypeSpecificProps>;
 
 export interface UrlRewriteTypeSpecificProps {
     productSKU: string;

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
@@ -133,5 +133,10 @@ export class OfflineNoticeContainer extends PureComponent<OfflineNoticeContainer
 }
 
 export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(OfflineNoticeContainer)
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(
+        OfflineNoticeContainer as unknown as ComponentType<OfflineNoticeContainerProps>
+    )
 );

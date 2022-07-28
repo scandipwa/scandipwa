@@ -59,9 +59,9 @@ export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackC
 export const OfflineNotice = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/OfflineNotice'));
 export const ContactPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "contact" */ 'Route/ContactPage'));
 export const ProductComparePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/ProductComparePage'));
-export const CreateAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/CreateAccount'));
-export const LoginAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/LoginAccount'));
-export const ForgotPasswordPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/ForgotPassword'));
+export const CreateAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/CreateAccount'));
+export const LoginAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/LoginAccount'));
+export const ForgotPasswordPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/ForgotPassword'));
 export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "something-went-wrong" */ 'Route/SomethingWentWrong'));
 export const StyleGuidePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "styleguide" */ 'Route/StyleGuidePage'));
 export const Breadcrumbs = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/Breadcrumbs'));

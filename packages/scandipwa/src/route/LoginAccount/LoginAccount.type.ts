@@ -13,6 +13,7 @@ import { RouteComponentProps } from 'react-router';
 
 import {
     MyAccountOverlayComponentProps,
+    MyAccountOverlayContainerFunctions,
     MyAccountOverlayContainerMapDispatchProps,
     MyAccountOverlayContainerProps
 } from 'Component/MyAccountOverlay/MyAccountOverlay.type';
@@ -27,6 +28,10 @@ export interface LoginAccountContainerMapDispatchProps extends MyAccountOverlayC
 export type LoginAccountContainerProps = LoginAccountContainerMapDispatchProps
 & MyAccountOverlayContainerProps
 & RouteComponentProps<Record<string, never>, Record<string, never>, HistoryState>;
+
+export interface LoginAccountContainerFunctions extends MyAccountOverlayContainerFunctions {
+    onCreateAccountClick: () => void;
+}
 
 export interface LoginAccountComponentProps extends MyAccountOverlayComponentProps {
     onCreateAccountClick: () => void;

@@ -28,7 +28,7 @@ export type Children = ReactElement;
 // TODO unknown
 export type MetaTitle = string | unknown;
 
-export type Url<T = unknown> = string | {
+export type Url<T = unknown> = {
     search?: string;
     pathname: string;
     state?: T;

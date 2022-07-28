@@ -38,7 +38,7 @@ export class CarouselScroll extends PureComponent<CarouselScrollComponentProps, 
         firstCarouselItemId: 0
     };
 
-    itemRef = createRef<HTMLElement>();
+    itemRef = createRef<HTMLDivElement>();
 
     carouselRef = createRef<HTMLDivElement>();
 

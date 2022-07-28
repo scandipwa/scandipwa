@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -27,7 +28,11 @@ import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import CreateAccount from './CreateAccount.component';
-import { CreateAccountContainerMapDispatchProps, CreateAccountContainerProps } from './CreateAccount.type';
+import {
+    CreateAccountContainerFunctions,
+    CreateAccountContainerMapDispatchProps,
+    CreateAccountContainerProps
+} from './CreateAccount.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -42,7 +47,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CreateAccountContainerMa
 
 /** @namespace Route/CreateAccount/Container */
 export class CreateAccountContainer extends MyAccountOverlayContainer<CreateAccountContainerProps> {
-    containerFunctions = {
+    containerFunctions: CreateAccountContainerFunctions = {
         ...this.containerFunctions,
         onLoginClick: this.onLoginClick.bind(this)
     };
@@ -83,4 +88,9 @@ export class CreateAccountContainer extends MyAccountOverlayContainer<CreateAcco
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateAccountContainer);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(
+    CreateAccountContainer as unknown as ComponentType<CreateAccountContainerProps>
+);

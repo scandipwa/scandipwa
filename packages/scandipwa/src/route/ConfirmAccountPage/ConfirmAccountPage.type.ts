@@ -27,6 +27,11 @@ export interface ConfirmAccountPageContainerMapDispatchProps {
     signIn: (options: SignInOptions) => Promise<boolean>;
 }
 
+export interface ConfirmAccountPageContainerFunctions {
+    onConfirmSuccess: (form: HTMLFormElement, fields: FieldData[]) => void;
+    onFormError: () => void;
+}
+
 export type ConfirmAccountPageContainerProps = ConfirmAccountPageContainerMapStateProps
 & ConfirmAccountPageContainerMapDispatchProps
 & RouteComponentProps;
@@ -36,12 +41,10 @@ export interface ConfirmAccountPageContainerState {
     isLoading: boolean;
 }
 
-export interface ConfirmAccountPageComponentProps {
+export interface ConfirmAccountPageComponentProps extends ConfirmAccountPageContainerFunctions {
     redirect: boolean;
     isLoading: boolean;
     shouldDisplayWarning: boolean;
-    onConfirmSuccess: (form: HTMLFormElement, fields: FieldData[]) => void;
-    onFormError: () => void;
 }
 
 export type ConfirmAccountPageContainerPropsKeys = 'redirect'

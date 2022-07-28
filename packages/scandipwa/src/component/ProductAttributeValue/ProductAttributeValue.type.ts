@@ -13,7 +13,7 @@ import { AggregationOption } from 'Query/ProductList.type';
 import { Mix } from 'Type/Common.type';
 
 export interface ProductAttributeValueComponentProps {
-    getLink: (o: Partial<ProductAttributeShape>) => string;
+    getLink: (o: Partial<ProductAttributeShape>) => string | void;
     onClick: (o: Partial<ProductAttributeShape>) => void;
     attribute: Partial<ProductAttributeShape>;
     isSelected: boolean;

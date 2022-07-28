@@ -386,7 +386,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
             return null;
         }
 
-        const href = getLink(attribute);
+        const href = getLink(attribute) || undefined;
         // Invert to apply css rule without using not()
         const isNotAvailable = !isAvailable;
 

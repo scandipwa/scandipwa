@@ -27,7 +27,7 @@ export class Breadcrumb extends PureComponent<BreadcrumbComponentProps> {
         name: ''
     };
 
-    getLinkUrl(): Partial<Url> {
+    getLinkUrl(): Url {
         const {
             url = ''
         } = this.props;
@@ -59,7 +59,10 @@ export class Breadcrumb extends PureComponent<BreadcrumbComponentProps> {
               to={ url }
               tabIndex={ isDisabled ? -1 : 0 }
             >
-                <meta itemProp="item" content={ window.location.origin + url.pathname } />
+                <meta
+                  itemProp="item"
+                  content={ window.location.origin + url }
+                />
                 <span block="Breadcrumb" elem="Link-Name" itemProp="name">
                     <TextPlaceholder content={ nameToString } />
                 </span>
