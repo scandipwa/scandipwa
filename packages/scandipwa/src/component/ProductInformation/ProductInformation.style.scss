@@ -65,6 +65,8 @@
     }
 
     &-Description {
+        word-break: break-word;
+
         li {
             font-family: 'Open Sans', sans-serif;
             list-style-position: inside;

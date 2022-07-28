@@ -44,6 +44,10 @@
         margin-block: 16px;
         line-height: 20px;
 
+        div[itemprop="description"] {
+            word-break: break-word;
+        }
+
         div[itemprop="description"] ul,
         div[itemprop="description"] ol {
             padding-inline-start: 20px;
