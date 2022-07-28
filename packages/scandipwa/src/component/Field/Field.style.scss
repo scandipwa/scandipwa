@@ -257,10 +257,6 @@
                 input,
                 textarea,
                 select {
-                    &:placeholder-shown {
-                        border: 1px solid var(--color-dark-gray);
-                    }
-
                     border: 1px solid var(--primary-success-color);
                 }
             }
@@ -331,8 +327,10 @@
             will-change: background-color, border-color;
             margin-inline-end: 11px;
 
-            + .ProductBundleItem-Label {
-                flex: 1;
+            + .ProductCustomizableItem, +.ProductBundleItem {
+                &-Label {
+                    flex: 1;
+                }
             }
 
             @include desktop {
