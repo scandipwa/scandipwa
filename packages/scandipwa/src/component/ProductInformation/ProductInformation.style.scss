@@ -65,17 +65,13 @@
     }
 
     &-Description {
-        @include description-tags {
-            font-size: 14px;
-            line-height: 20px;
-        }
-
         li {
+            font-family: 'Open Sans', sans-serif;
+            list-style-position: inside;
+            list-style-type: inherit;
+
             &::before {
-                position: relative;
-                margin-inline-start: 10px;
-                margin-inline-end: -25px;
-                inset-block-start: -1px;
+                display: none;
             }
         }
 
