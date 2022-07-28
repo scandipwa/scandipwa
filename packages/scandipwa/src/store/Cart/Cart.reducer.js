@@ -76,7 +76,7 @@ export const updateShippingPrice = (action, state) => {
                 }
             ],
             discount: {
-                ...state.cartTotals.prices?.discount[0],
+                ...state.cartTotals.prices?.discount,
                 amount: {
                     value: discount_amount
                 }
