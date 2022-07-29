@@ -46,7 +46,7 @@ export class MyAccountOrderTableRow extends PureComponent {
                 <td>{ created_at }</td>
                 <td>{ status }</td>
                 <td block="hidden-mobile">
-                    { typeof value === 'number' ? formatPrice(value, currency) : '' }
+                    { value || value === 0 ? formatPrice(value, currency) : '' }
                 </td>
             </tr>
         );
