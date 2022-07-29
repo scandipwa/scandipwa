@@ -145,7 +145,8 @@ export class CartQuery {
             this._getCartItemPricesField(),
             this._getCartDownloadableProductLinkField(),
             this._getCartBundleProductFragment(),
-            this._getCartConfigurableProductFragment()
+            this._getCartConfigurableProductFragment(),
+            this._getCartSimpleProductFragments()
         ];
     }
 
@@ -158,7 +159,8 @@ export class CartQuery {
         return new Fragment('DownloadableCartItem')
             .addFieldList([
                 this._getDownloadableLinkField(),
-                this._getDownloadableSamplesField()
+                this._getDownloadableSamplesField(),
+                this._getCustomizableOptionsField('downloadable_customizable_options')
             ]);
     }
 
@@ -192,7 +194,7 @@ export class CartQuery {
         return new Fragment('BundleCartItem')
             .addFieldList([
                 this._getBundleOptionsField(),
-                this._getCustomizableOptionsField()
+                this._getCustomizableOptionsField('bundle_customizable_options')
             ]);
     }
 
@@ -227,7 +229,8 @@ export class CartQuery {
     _getCartConfigurableProductFragment() {
         return new Fragment('ConfigurableCartItem')
             .addFieldList([
-                this._getConfigurableOptionsField()
+                this._getConfigurableOptionsField(),
+                this._getCustomizableOptionsField('configurable_customizable_options')
             ]);
     }
 
@@ -244,8 +247,16 @@ export class CartQuery {
         ];
     }
 
-    _getCustomizableOptionsField() {
+    _getCartSimpleProductFragments() {
+        return new Fragment('SimpleCartItem')
+            .addFieldList([
+                this._getCustomizableOptionsField('simple_customizable_options')
+            ]);
+    }
+
+    _getCustomizableOptionsField(alias) {
         return new Field('customizable_options')
+            .setAlias(alias)
             .addFieldList(this._getCustomizableOptionsFields());
     }
 

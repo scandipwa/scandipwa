@@ -28,9 +28,22 @@ export const updateCartTotals = (action) => {
 
     if (items.length) {
         const normalizedItemsProduct = items.map((item) => {
-            const { variants, ...normalizedItem } = item;
+            const {
+                variants,
+                bundle_customizable_options,
+                configurable_customizable_options,
+                downloadable_customizable_options,
+                simple_customizable_options,
+                ...normalizedItem
+            } = item;
 
             normalizedItem.product = getIndexedProduct(item.product, item.sku);
+
+            normalizedItem.customizable_options = bundle_customizable_options
+                || configurable_customizable_options
+                || downloadable_customizable_options
+                || simple_customizable_options
+                || [];
 
             return normalizedItem;
         });
