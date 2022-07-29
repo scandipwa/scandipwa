@@ -52,7 +52,9 @@ export class CheckoutDeliveryOptionContainer extends PureComponent {
             getCartShippingItemSubPrice,
             option = {},
             totals: {
-                quote_currency_code
+                prices: {
+                    quote_currency_code = null
+                } = {}
             }
         } = this.props;
 

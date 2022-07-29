@@ -62,13 +62,13 @@ export class NavigationTabs extends NavigationAbstract {
     shouldComponentUpdate(nextProps) {
         const {
             navigationState: { name: prevName },
-            cartTotals: { items_qty: prevQty },
+            cartTotals: { total_quantity: prevQty },
             device: prevDevice
         } = this.props;
 
         const {
             navigationState: { name: nextName },
-            cartTotals: { items_qty: nextQty },
+            cartTotals: { total_quantity: nextQty },
             device: nextDevice
         } = nextProps;
 

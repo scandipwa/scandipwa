@@ -12,7 +12,7 @@
 
 import ProductListQuery from 'Query/ProductList.query';
 import { isSignedIn } from 'Util/Auth';
-import { getGuestQuoteId } from 'Util/Cart';
+import { getCartId } from 'Util/Cart';
 import { Field } from 'Util/Query';
 
 /** @namespace Query/Wishlist/Query */
@@ -78,9 +78,9 @@ export class WishlistQuery {
             field.addArgument('sharingCode', 'ID', sharingCode);
 
             if (!isSignedIn()) {
-                const guestQuoteId = getGuestQuoteId();
+                const cartId = getCartId();
 
-                field.addArgument('guestCartId', 'ID', guestQuoteId);
+                field.addArgument('guestCartId', 'ID', cartId);
             }
         }
 
