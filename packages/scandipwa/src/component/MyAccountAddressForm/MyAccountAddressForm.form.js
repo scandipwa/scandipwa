@@ -100,7 +100,7 @@ export const getRegionFields = (props, events) => {
                     onChange: onRegionChange
                 },
                 addRequiredTag: isStateRequired,
-                validateOn: isStateRequired ? ['onChange'] : [],
+                validateOn: ['onChange'],
                 validationRule: {
                     isRequired: isStateRequired
                 }
@@ -122,7 +122,7 @@ export const getRegionFields = (props, events) => {
             },
             options: availableRegions.map(({ id, name }) => ({ id, label: name, value: id })),
             addRequiredTag: isStateRequired,
-            validateOn: isStateRequired ? ['onChange'] : [],
+            validateOn: ['onChange'],
             validationRule: {
                 isRequired: isStateRequired
             }
