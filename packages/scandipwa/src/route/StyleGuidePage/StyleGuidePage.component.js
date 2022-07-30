@@ -528,7 +528,7 @@ export class StyleGuidePageComponent extends PureComponent {
                   attr={ { block: 'StyleGuidePage', elem: 'ErrorInput', id: 'errorCheckbox' } }
                 />
                 <div block="Field" elem="ErrorMessages">
-                    <div block="Field" elem="ErrorMessages">
+                    <div block="Field" elem="ErrorMessage">
                         This is an error message
                     </div>
                 </div>
