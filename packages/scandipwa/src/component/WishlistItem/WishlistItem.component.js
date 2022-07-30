@@ -88,13 +88,17 @@ export class WishlistItem extends PureComponent {
 
     renderQuantityFieldInput() {
         const {
-            product: { wishlist: { quantity } },
+            product: { type_id, wishlist: { quantity } },
             changeQuantity,
             setQuantity,
             minSaleQuantity,
             maxSaleQuantity,
             inStock
         } = this.props;
+
+        if (type_id === PRODUCT_TYPE.grouped) {
+            return null;
+        }
 
         return (
             <Field
