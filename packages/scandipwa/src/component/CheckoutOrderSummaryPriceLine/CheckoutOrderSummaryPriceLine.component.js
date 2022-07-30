@@ -65,10 +65,10 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         const { title } = this.props;
 
         return (
-        <p block="CheckoutOrderSummary" elem="Text">
-            { title }
-            { this.renderCoupon() }
-        </p>
+            <p block="CheckoutOrderSummary" elem="Text">
+                { title }
+                { this.renderCoupon() }
+            </p>
         );
     }
 
@@ -80,9 +80,9 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
         }
 
         return (
-        <b>
-            { ` ${ coupon_code.toUpperCase() }:` }
-        </b>
+            <b>
+                { ` ${ coupon_code.toUpperCase() }:` }
+            </b>
         );
     }
 
