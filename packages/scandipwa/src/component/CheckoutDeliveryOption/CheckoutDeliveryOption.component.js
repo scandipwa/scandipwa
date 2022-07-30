@@ -29,7 +29,8 @@ export class CheckoutDeliveryOption extends PureComponent {
         isSelected: PropTypes.bool,
         optionPrice: PropTypes.number,
         optionSubPrice: PropTypes.number,
-        onOptionClick: PropTypes.func.isRequired
+        onOptionClick: PropTypes.func.isRequired,
+        errorMessage: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -108,6 +109,7 @@ export class CheckoutDeliveryOption extends PureComponent {
 
     renderAvailabilityMessage() {
         const {
+            errorMessage,
             option: {
                 available
             } = {}
@@ -122,7 +124,7 @@ export class CheckoutDeliveryOption extends PureComponent {
               block="CheckoutDeliveryOption"
               elem="Message"
             >
-                { DELIVERY_METHOD_UNAVAILABLE_MESSAGE }
+                { errorMessage || DELIVERY_METHOD_UNAVAILABLE_MESSAGE }
             </div>
         );
     }

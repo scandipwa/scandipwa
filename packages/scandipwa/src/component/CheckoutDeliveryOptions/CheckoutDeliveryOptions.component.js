@@ -40,10 +40,12 @@ export class CheckoutDeliveryOptions extends PureComponent {
     renderDeliveryOption(option) {
         const {
             selectShippingMethod,
-            selectedShippingMethod: { method_code: selectedMethodCode }
+            selectedShippingMethod: {
+                method_code: selectedMethodCode
+            }
         } = this.props;
 
-        const { carrier_code, method_code } = option;
+        const { carrier_code, error_message, method_code } = option;
         const isSelected = selectedMethodCode === method_code;
 
         return (
@@ -52,6 +54,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
               isSelected={ isSelected }
               option={ option }
               onClick={ selectShippingMethod }
+              errorMessage={ error_message }
             />
         );
     }
