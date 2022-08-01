@@ -135,6 +135,14 @@
             }
         }
 
+        &Figure {
+            &_type_hideOnDesktop {
+                @include desktop {
+                    display: none;
+                }
+            }
+        }
+
         &List {
             @include desktop {
                 display: flex;
