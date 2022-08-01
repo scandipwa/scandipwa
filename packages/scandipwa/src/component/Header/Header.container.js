@@ -38,7 +38,7 @@ import {
     CART_OVERLAY, CATEGORY,
     CHECKOUT, CHECKOUT_ACCOUNT, CHECKOUT_SUCCESS,
     CMS_PAGE, CONTACT_US, CUSTOMER_ACCOUNT,
-    CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT,
+    CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT, CUSTOMER_WISHLIST,
     MENU, PDP,
     SEARCH
 } from './Header.config';
@@ -108,7 +108,13 @@ export class HeaderContainer extends NavigationAbstractContainer {
         '/category': { name: CATEGORY },
         '/checkout/success': { name: CHECKOUT_SUCCESS },
         '/checkout': { name: CHECKOUT, onBackClick: () => history.push(appendWithStoreCode(CART_URL)) },
-        '/customer/account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push(appendWithStoreCode('/')) },
+        '/customer/account': { name: CUSTOMER_ACCOUNT_PAGE },
+        '/sales/order/history': { name: CUSTOMER_ACCOUNT_PAGE },
+        '/downloadable/customer/products': { name: CUSTOMER_ACCOUNT_PAGE },
+        '/wishlist': { name: CUSTOMER_WISHLIST },
+        '/customer/address': { name: CUSTOMER_ACCOUNT_PAGE },
+        '/customer/account/edit': { name: CUSTOMER_ACCOUNT_PAGE },
+        '/newsletter/manage': { name: CUSTOMER_ACCOUNT_PAGE },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
         '/menu': { name: MENU },

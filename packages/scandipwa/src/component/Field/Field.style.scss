@@ -327,8 +327,10 @@
             will-change: background-color, border-color;
             margin-inline-end: 11px;
 
-            + .ProductBundleItem-Label {
-                flex: 1;
+            + .ProductCustomizableItem, +.ProductBundleItem {
+                &-Label {
+                    flex: 1;
+                }
             }
 
             @include desktop {
