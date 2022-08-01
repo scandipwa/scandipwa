@@ -259,7 +259,7 @@ export class WishlistItem extends PureComponent {
 
         return (
             <div block="WishlistItemOptions" elem="List">
-                { options.map(({ value }) => <Html content={ `${ value }<br>` } />) }
+                { options.map(({ value }) => <div><Html content={ value } /></div>) }
             </div>
         );
     }
