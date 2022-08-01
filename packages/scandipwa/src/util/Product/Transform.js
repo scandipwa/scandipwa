@@ -341,7 +341,7 @@ export const nonRequiredRadioOptions = (
         return options;
     }
 
-    const hasDefault = options.find(({ is_default }) => is_default);
+    const hasDefault = options.find(({ is_default, product }) => is_default && getProductInStock(product));
 
     return [
         {
