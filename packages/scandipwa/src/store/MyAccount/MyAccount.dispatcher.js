@@ -133,7 +133,7 @@ export class MyAccountDispatcher {
         CartDispatcher.then(
             ({ default: dispatcher }) => {
                 dispatcher.resetGuestCart(dispatch);
-                dispatcher.createGuestEmptyCart(dispatch);
+                dispatcher.createGuestEmptyCart(dispatch, true);
             }
         );
         WishlistDispatcher.then(

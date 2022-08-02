@@ -101,7 +101,7 @@ export const mapDispatchToProps = (dispatch) => ({
     resetGuestCart: () => CartDispatcher.then(
         ({ default: dispatcher }) => {
             dispatcher.resetGuestCart(dispatch);
-            dispatcher.createGuestEmptyCart(dispatch);
+            dispatcher.createGuestEmptyCart(dispatch, true);
         }
     ),
     toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
