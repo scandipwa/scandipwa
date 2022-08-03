@@ -137,12 +137,15 @@ export class MyAccountCreateAccountContainer extends PureComponent {
                 firstname,
                 lastname,
                 email,
-                is_subscribed,
                 taxvat
             },
             password,
             orderID: sessionStorage.getItem(ORDER_ID)
         };
+
+        if (is_subscribed) {
+            customerData.customer.is_subscribed = is_subscribed;
+        }
 
         if (isLoading) {
             return;
