@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device.type';
 import { ProductType } from 'Type/ProductList.type';
-import { RatingItemsType } from 'Type/Rating.type';
 
 import ProductReviews from './ProductReviews.component';
 
@@ -24,8 +23,7 @@ import ProductReviews from './ProductReviews.component';
 export const mapStateToProps = (state) => ({
     isEnabled: state.ConfigReducer.reviews_are_enabled,
     isGuestEnabled: state.ConfigReducer.reviews_allow_guest,
-    device: state.ConfigReducer.device,
-    reviewRatings: state.ConfigReducer.reviewRatings
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/ProductReviews/Container/mapDispatchToProps */
@@ -41,8 +39,7 @@ export class ProductReviewsContainer extends PureComponent {
         isEnabled: PropTypes.bool,
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool,
-        device: DeviceType.isRequired,
-        reviewRatings: RatingItemsType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -56,16 +53,14 @@ export class ProductReviewsContainer extends PureComponent {
             areDetailsLoaded,
             device,
             isEnabled,
-            product,
-            reviewRatings
+            product
         } = this.props;
 
         return {
             areDetailsLoaded,
             device,
             isEnabled,
-            product,
-            reviewRatings
+            product
         };
     }
 

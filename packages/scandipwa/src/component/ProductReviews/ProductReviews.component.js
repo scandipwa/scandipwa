@@ -18,7 +18,6 @@ import ProductReviewList from 'Component/ProductReviewList';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { DeviceType } from 'Type/Device.type';
 import { ProductType } from 'Type/ProductList.type';
-import { RatingItemsType } from 'Type/Rating.type';
 import { showNewReviewPopup } from 'Util/Product';
 
 import './ProductReviews.style';
@@ -28,8 +27,7 @@ export class ProductReviews extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
-        device: DeviceType.isRequired,
-        reviewRatings: RatingItemsType.isRequired
+        device: DeviceType.isRequired
     };
 
     renderButton() {
@@ -81,8 +79,7 @@ export class ProductReviews extends PureComponent {
                     rating_summary,
                     review_count
                 } = {}
-            },
-            reviewRatings
+            }
         } = this.props;
 
         const STARS_COUNT = 5;
@@ -95,7 +92,7 @@ export class ProductReviews extends PureComponent {
             return this.renderNoRating();
         }
 
-        const isShowStars = reviewRatings.length > 0;
+        const isShowStars = !!rating_summary;
 
         return (
             <>
