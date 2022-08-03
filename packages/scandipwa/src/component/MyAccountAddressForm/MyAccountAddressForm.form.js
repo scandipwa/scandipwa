@@ -113,6 +113,7 @@ export const getRegionFields = (props, events) => {
             type: FIELD_TYPE.select,
             label: __('State / Province'),
             attr: {
+                id: 'address-region-id',
                 name: 'region_id',
                 value: currentRegionId,
                 selectPlaceholder: __('Select region...')
