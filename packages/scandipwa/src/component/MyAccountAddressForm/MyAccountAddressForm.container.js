@@ -172,7 +172,7 @@ export class MyAccountAddressFormContainer extends PureComponent {
         // Handles auto fill
         const fieldValue = typeof field === 'object' ? e.value : field;
 
-        const { currentZipcode, isStateRequired: prevIsStateRequired } = this.state;
+        const { currentZipcode } = this.state;
         const { countries } = this.props;
         const country = countries.find(({ value }) => value === fieldValue);
 
@@ -193,13 +193,13 @@ export class MyAccountAddressFormContainer extends PureComponent {
             value: countryId
         } = country;
 
-        // If the field was optional, there was an attempt to submit the form
-        // (it was highlighted state field as valid), but then the country was changed,
-        // where state is a required field, BUT of the same type as the previous value(select or text),
-        // despite the fact that the field is required, and empty, it remains highlighted as valid
-        // Therefore, the field is reset when required is changed
-        if (isStateRequired && prevIsStateRequired !== isStateRequired) {
-            const regionField = document.getElementById('address-region-id');
+        // If the field was validated (and eventually highlighted as correct, or vice versa, with an error),
+        // and then the country is changed, the state validation does not change
+        // (although it may no longer meet the requirements of the field)
+        // Therefore, the field is reset when country is changed
+        const regionField = document.getElementById('address-region-id');
+
+        if (regionField) {
             const event = new CustomEvent('resetField');
 
             regionField.dispatchEvent(event);
