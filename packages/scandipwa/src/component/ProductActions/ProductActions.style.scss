@@ -46,11 +46,20 @@
 
         div[itemprop="description"] {
             word-break: break-word;
+        }
 
-            li::before {
-                position: relative;
-                margin-inline-end: 10px;
-                inset-block-start: -1px;
+        div[itemprop="description"] ul,
+        div[itemprop="description"] ol {
+            padding-inline-start: 20px;
+
+            li {
+                font-family: 'Open Sans', sans-serif;
+                list-style-position: inside;
+                list-style-type: inherit;
+
+                &::before {
+                    display: none;
+                }
             }
         }
     }
