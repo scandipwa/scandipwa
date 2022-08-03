@@ -35,6 +35,7 @@
         justify-content: space-between;
     }
 
+    &Options-List div,
     &Options-List,
     &Option {
         font-weight: 400;
@@ -52,6 +53,15 @@
 
         @include desktop {
             padding-inline: 9px;
+        }
+    }
+
+    &Options-List div {
+        display: inline-flex;
+        margin: 0;
+
+        &:not(:last-of-type)::after {
+            content: ',\A0';
         }
     }
 
