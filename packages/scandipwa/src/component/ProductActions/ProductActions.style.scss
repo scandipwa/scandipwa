@@ -44,10 +44,14 @@
         margin-block: 16px;
         line-height: 20px;
 
-        div[itemprop="description"] li::before {
-            position: relative;
-            margin-inline-end: 10px;
-            inset-block-start: -1px;
+        div[itemprop="description"] {
+            word-break: break-word;
+
+            li::before {
+                position: relative;
+                margin-inline-end: 10px;
+                inset-block-start: -1px;
+            }
         }
     }
 
