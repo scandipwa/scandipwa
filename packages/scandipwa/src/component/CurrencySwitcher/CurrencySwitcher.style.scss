@@ -62,12 +62,16 @@
             }
 
             &-Options {
-                overflow-y: auto;
-                width: min-content;
                 min-width: var(--selector-width);
+                width: min-content;
 
                 &_isExpanded {
                     border-block-start: 1px solid var(--primary-divider-color);
+                }
+
+                &Wrapper {
+                    min-width: var(--selector-width);
+                    width: min-content;
                 }
             }
 

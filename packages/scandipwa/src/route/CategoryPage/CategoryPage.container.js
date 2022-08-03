@@ -189,8 +189,7 @@ export class CategoryPageContainer extends PureComponent {
 
         const {
             category: { id },
-            plpType,
-            isMobile
+            plpType
         } = props;
 
         const update = {};
@@ -201,13 +200,10 @@ export class CategoryPageContainer extends PureComponent {
         if (!defaultPlpType || !plpTypes) {
             if (plpType.match('-')) {
                 const plpTypes = plpType.split('-');
-                const defaultType = isMobile ? GRID_LAYOUT : plpTypes[0];
 
-                Object.assign(update, { defaultPlpType: defaultType, plpTypes });
+                Object.assign(update, { defaultPlpType: plpTypes[0], plpTypes });
             } else {
-                const defaultType = isMobile ? GRID_LAYOUT : plpType;
-
-                Object.assign(update, { defaultPlpType: defaultType, plpTypes: [plpType] });
+                Object.assign(update, { defaultPlpType: plpType, plpTypes: [plpType] });
             }
         }
 

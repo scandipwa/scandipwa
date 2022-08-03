@@ -33,7 +33,7 @@ import { HistoryType } from 'Type/Router.type';
 import { removeEmptyStreets } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { deleteGuestQuoteId, getCartTotalSubPrice, getGuestQuoteId } from 'Util/Cart';
+import { deleteCartId, getCartId, getCartTotalSubPrice } from 'Util/Cart';
 import history from 'Util/History';
 import {
     debounce,
@@ -423,9 +423,9 @@ export class CheckoutContainer extends PureComponent {
 
     onShippingEstimationFieldsChange(address) {
         const { requestsSent } = this.state;
-        const guestQuoteId = getGuestQuoteId();
+        const cartId = getCartId();
 
-        if (!guestQuoteId) {
+        if (!cartId) {
             return;
         }
 
@@ -437,7 +437,7 @@ export class CheckoutContainer extends PureComponent {
 
         fetchMutation(CheckoutQuery.getEstimateShippingCosts(
             address,
-            guestQuoteId
+            cartId
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/onShippingEstimationFieldsChange/fetchMutation/then */
             ({ estimateShippingCosts: shippingMethods }) => {
@@ -566,7 +566,7 @@ export class CheckoutContainer extends PureComponent {
     setDetailsStep(orderID) {
         const { resetCart, resetGuestCart, setNavigationState } = this.props;
 
-        deleteGuestQuoteId();
+        deleteCartId();
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
         if (isSignedIn()) {
@@ -693,7 +693,7 @@ export class CheckoutContainer extends PureComponent {
 
     _getPaymentMethods() {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
-            getGuestQuoteId()
+            getCartId()
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/_getPaymentMethods/fetchQuery/then */
             ({ getPaymentMethods: paymentMethods }) => {
@@ -715,7 +715,7 @@ export class CheckoutContainer extends PureComponent {
     saveGuestEmail() {
         const { email } = this.state;
         const { updateEmail } = this.props;
-        const guestCartId = getGuestQuoteId();
+        const guestCartId = getCartId();
 
         if (!email) {
             this.setState({ isVisibleEmailRequired: false }, this.onChangeEmailRequired);
@@ -832,7 +832,7 @@ export class CheckoutContainer extends PureComponent {
 
         fetchMutation(CheckoutQuery.getSaveAddressInformation(
             this.prepareAddressInformation(addressInformation),
-            getGuestQuoteId()
+            getCartId()
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/saveAddressInformation/fetchMutation/then */
             ({ saveAddressInformation: data }) => {
@@ -951,9 +951,9 @@ export class CheckoutContainer extends PureComponent {
 
     async saveBillingAddress(paymentInformation) {
         const isCustomerSignedIn = isSignedIn();
-        const guest_cart_id = !isCustomerSignedIn ? getGuestQuoteId() : '';
+        const guest_cart_id = getCartId();
 
-        if (!isCustomerSignedIn && !getGuestQuoteId) {
+        if (!isCustomerSignedIn && !getCartId) {
             return;
         }
 
@@ -972,8 +972,7 @@ export class CheckoutContainer extends PureComponent {
         }
 
         await fetchMutation(CheckoutQuery.getSetBillingAddressOnCart({
-            guest_cart_id,
-            same_as_shipping,
+            cart_id: guest_cart_id,
             billing_address: billingAddress
         }));
     }
@@ -981,7 +980,7 @@ export class CheckoutContainer extends PureComponent {
     async savePaymentMethodAndPlaceOrder(paymentInformation) {
         const { paymentMethod: { code, additional_data, purchase_order_number } } = paymentInformation;
         const isCustomerSignedIn = isSignedIn();
-        const guest_cart_id = !isCustomerSignedIn ? getGuestQuoteId() : '';
+        const guest_cart_id = getCartId();
 
         if (!isCustomerSignedIn && !guest_cart_id) {
             return;
@@ -989,7 +988,7 @@ export class CheckoutContainer extends PureComponent {
 
         try {
             await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
-                guest_cart_id,
+                cart_id: guest_cart_id,
                 payment_method: {
                     code,
                     [code]: additional_data,

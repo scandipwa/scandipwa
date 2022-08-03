@@ -56,13 +56,31 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
     };
 
     __construct(props) {
-        const { customer: { is_subscribed } = {} } = props;
+        const { customer, customer: { is_subscribed } = {} } = props;
 
         super.__construct(props);
         this.state = {
-            isLoading: false,
+            isLoading: Object.keys(customer).length === 0,
             isSubscriptionSelected: is_subscribed || false
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        const {
+            customer: prevCustomer
+        } = prevProps;
+
+        const {
+            customer,
+            customer: { is_subscribed } = {}
+        } = this.props;
+
+        if (Object.keys(prevCustomer).length === 0 && Object.keys(customer).length !== 0) {
+            this.setState({
+                isSubscriptionSelected: is_subscribed,
+                isLoading: false
+            });
+        }
     }
 
     containerProps() {

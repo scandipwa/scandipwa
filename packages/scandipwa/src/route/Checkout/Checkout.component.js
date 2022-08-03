@@ -351,8 +351,13 @@ export class Checkout extends PureComponent {
 
     renderDiscountCode() {
         const {
-            totals: { coupon_code, items },
-            checkoutStep
+            checkoutStep,
+            totals: {
+                items = [],
+                prices: {
+                    coupon_code
+                } = {}
+            }
         } = this.props;
 
         if (!items || items.length < 1 || checkoutStep !== BILLING_STEP) {
