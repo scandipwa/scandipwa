@@ -65,6 +65,8 @@
     }
 
     &-Description {
+        word-break: break-word;
+
         @include description-tags {
             font-size: 14px;
             line-height: 20px;

@@ -143,6 +143,10 @@
         @include desktop {
             line-height: 20px;
         }
+
+        .TextPlaceholder {
+            margin-block-end: 0;
+        }
     }
 
     &-Brand {

@@ -12,26 +12,26 @@
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-export const GUEST_QUOTE_ID = 'guest_quote_id';
+export const CART_ID = 'cart_id';
 
-/** @namespace Util/Cart/Token/setGuestQuoteId */
-export const setGuestQuoteId = (token) => {
+/** @namespace Util/Cart/Token/setCartId */
+export const setCartId = (token) => {
     const { website_code } = window;
 
-    const tokens = BrowserDatabase.getItem(GUEST_QUOTE_ID) || {};
+    const tokens = BrowserDatabase.getItem(CART_ID) || {};
 
     tokens[website_code] = {
         token,
         isCustomerToken: isSignedIn()
     };
-    BrowserDatabase.setItem(tokens, GUEST_QUOTE_ID);
+    BrowserDatabase.setItem(tokens, CART_ID);
 };
 
-/** @namespace Util/Cart/Token/getGuestQuoteId */
-export const getGuestQuoteId = () => {
+/** @namespace Util/Cart/Token/getCartId */
+export const getCartId = () => {
     const { website_code } = window;
 
-    const tokens = BrowserDatabase.getItem(GUEST_QUOTE_ID) || {};
+    const tokens = BrowserDatabase.getItem(CART_ID) || {};
 
     const token = tokens[website_code];
 
@@ -46,12 +46,12 @@ export const getGuestQuoteId = () => {
     return null;
 };
 
-/** @namespace Util/Cart/Token/deleteGuestQuoteId */
-export const deleteGuestQuoteId = () => {
+/** @namespace Util/Cart/Token/deleteCartId */
+export const deleteCartId = () => {
     const { website_code } = window;
 
-    const tokens = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+    const tokens = BrowserDatabase.getItem(CART_ID);
 
     tokens[website_code] = undefined;
-    BrowserDatabase.setItem(tokens, GUEST_QUOTE_ID);
+    BrowserDatabase.setItem(tokens, CART_ID);
 };
