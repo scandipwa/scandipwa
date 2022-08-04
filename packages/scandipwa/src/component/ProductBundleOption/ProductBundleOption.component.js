@@ -284,10 +284,6 @@ export class ProductBundleOption extends PureComponent {
         const min = getMinQuantity(product);
         const max = getMaxQuantity(product);
 
-        console.log(stock);
-        console.log(min);
-        console.log(max);
-
         return (
             <div block="ProductBundleItem" elem="DropdownWrapper" mods={ { customQuantity: canChangeQuantity } }>
                 <Field
@@ -304,8 +300,8 @@ export class ProductBundleOption extends PureComponent {
                       onChange: this.updateSelect.bind(this)
                   } }
                   validationRule={ {
-                      isRequired
-                      // match: this.getError.bind(this, quantity, stock, min, max)
+                      isRequired,
+                      match: this.getError.bind(this, quantity, stock, min, max)
                   } }
                   validateOn={ ['onChange'] }
                 />

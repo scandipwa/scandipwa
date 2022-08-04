@@ -46,8 +46,7 @@ export class FieldFile extends PureComponent {
             attr: { id = '', multiple = false } = {},
             fileName = '',
             isLoading = false,
-            resetFieldValue,
-            isDisabled
+            resetFieldValue
         } = this.props;
 
         if (isLoading) {
@@ -56,7 +55,7 @@ export class FieldFile extends PureComponent {
 
         if (fileName) {
             return (
-                <label htmlFor={ id } block="FieldFile" elem="Label" mods={ { disabled: isDisabled } }>
+                <label htmlFor={ id }>
                     <p>{ fileName }</p>
                     <button onClick={ resetFieldValue }>{ __('Remove file') }</button>
                 </label>
@@ -67,7 +66,7 @@ export class FieldFile extends PureComponent {
         const selectLabel = multiple ? __('Select files') : __('Select file');
 
         return (
-            <label htmlFor={ id } block="FieldFile" elem="Label" mods={ { disabled: isDisabled } }>
+            <label htmlFor={ id }>
                 <UploadIcon />
                 <p>{ dropLabel }</p>
                 <span block="Field" elem="SelectFileBtn">{ selectLabel }</span>
