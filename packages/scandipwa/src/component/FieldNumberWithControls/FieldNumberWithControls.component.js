@@ -63,7 +63,7 @@ export class FieldNumberWithControls extends PureComponent {
                   disabled={ isDisabled }
                 />
                 <button
-                  disabled={ max === 1 || numberValue >= max || isDisabled }
+                  disabled={ (max === 1 && min !== 0) || numberValue >= max || isDisabled }
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleValueChange(numberValue + 1) }
                   aria-label={ __('Add') }
