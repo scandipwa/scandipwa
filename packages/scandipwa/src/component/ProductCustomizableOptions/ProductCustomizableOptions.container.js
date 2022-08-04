@@ -24,18 +24,21 @@ import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 export class ProductCustomizableOptionsContainer extends PureComponent {
     static propTypes = {
         options: OptionsListType,
+        isProductInStock: PropTypes.bool,
         updateSelectedValues: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        options: []
+        options: [],
+        isProductInStock: true
     };
 
     containerProps() {
-        const { options, updateSelectedValues } = this.props;
+        const { options, isProductInStock, updateSelectedValues } = this.props;
 
         return {
             options,
+            isProductInStock,
             updateSelectedValues
         };
     }

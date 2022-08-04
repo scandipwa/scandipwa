@@ -244,7 +244,7 @@ export const customizableOptionToLabel = (option, currencyCode = 'USD') => {
  * @param options
  * @namespace Util/Product/Transform/customizableOptionsToSelectTransform
  */
-export const customizableOptionsToSelectTransform = (options, currencyCode = 'USD') => (
+export const customizableOptionsToSelectTransform = (options, currencyCode = 'USD', isProductInStock = true) => (
     options.reduce((result = [], option) => {
         const {
             uid,
@@ -264,6 +264,7 @@ export const customizableOptionsToSelectTransform = (options, currencyCode = 'US
             value: uid,
             label: baseLabel,
             subLabel: priceLabel,
+            isAvailable: isProductInStock,
             sort_order: position || sort_order
         });
 

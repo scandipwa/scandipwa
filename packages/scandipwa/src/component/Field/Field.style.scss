@@ -458,6 +458,26 @@
                 margin-block-end: 0;
             }
         }
+
+        &:disabled {
+            cursor: default;
+
+            + label {
+                cursor: default;
+
+                p, span, button {
+                    color: var(--color-dark-gray);
+                }
+
+                .Field-SelectFileBtn {
+                    cursor: default;
+
+                    &:hover {
+                        color: var(--color-dark-gray);
+                    }
+                }
+            }
+        }
     }
 
     &-Labels {

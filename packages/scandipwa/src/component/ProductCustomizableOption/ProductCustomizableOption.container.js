@@ -42,11 +42,13 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         type: PropTypes.string.isRequired,
         options: CustomizableOptionsType,
         updateSelectedValues: PropTypes.func.isRequired,
-        currencyCode: PropTypes.string.isRequired
+        currencyCode: PropTypes.string.isRequired,
+        isProductInStock: PropTypes.bool
     };
 
     static defaultProps = {
-        options: []
+        options: [],
+        isProductInStock: true
     };
 
     containerFunctions = {
@@ -61,13 +63,15 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     }
 
     getDropdownOptions() {
-        const { options, currencyCode, type } = this.props;
+        const {
+            options, currencyCode, type, isProductInStock
+        } = this.props;
 
         if (type !== CONFIG_FIELD_TYPE.select) {
             return null;
         }
 
-        return sortBySortOrder(customizableOptionsToSelectTransform(options, currencyCode));
+        return sortBySortOrder(customizableOptionsToSelectTransform(options, currencyCode, isProductInStock));
     }
 
     getSortedOptions() {
@@ -87,7 +91,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             isRequired,
             type,
             updateSelectedValues,
-            currencyCode
+            currencyCode,
+            isProductInStock
         } = this.props;
 
         return {
@@ -98,6 +103,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             options: nonRequiredRadioOptions(this.getSortedOptions(), isRequired, type),
             updateSelectedValues,
             currencyCode,
+            isProductInStock,
             fieldType: this.getFieldType()
         };
     }

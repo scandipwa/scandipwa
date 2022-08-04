@@ -39,11 +39,13 @@ export class ProductCustomizableOption extends PureComponent {
         getDropdownOptions: PropTypes.func.isRequired,
         isRequired: PropTypes.bool.isRequired,
         currencyCode: PropTypes.string.isRequired,
-        options: CustomizableOptionsType
+        options: CustomizableOptionsType,
+        isProductInStock: PropTypes.bool
     };
 
     static defaultProps = {
-        options: []
+        options: [],
+        isProductInStock: true
     };
 
     renderMap = {
@@ -99,7 +101,7 @@ export class ProductCustomizableOption extends PureComponent {
 
     renderDefaultValue(option) {
         const {
-            title, fieldType, isRequired, uid
+            title, fieldType, isRequired, uid, isProductInStock
         } = this.props;
         const { value } = this.state;
         const { max_characters } = option;
@@ -125,6 +127,7 @@ export class ProductCustomizableOption extends PureComponent {
                       onChange: this.updateValues.bind(this)
                   } }
                   validateOn={ ['onBlur', 'onChange'] }
+                  isDisabled={ !isProductInStock }
                 />
             </>
         );
@@ -155,7 +158,7 @@ export class ProductCustomizableOption extends PureComponent {
 
     renderFileValue(option) {
         const {
-            title, uid, isRequired, updateSelectedValues
+            title, uid, isRequired, updateSelectedValues, isProductInStock
         } = this.props;
         const { file_extension: fileExtensions = '' } = option;
         const label = this.getLabel(option, title);
@@ -163,6 +166,7 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <>
                 { this.renderOptionGroupTitle(label) }
+                &&&
                 <Field
                   type={ FIELD_TYPE.file }
                   validationRule={ {
@@ -180,6 +184,7 @@ export class ProductCustomizableOption extends PureComponent {
                   events={ {
                       onChange: updateSelectedValues
                   } }
+                  isDisabled={ !isProductInStock }
                 />
             </>
         );
@@ -190,7 +195,7 @@ export class ProductCustomizableOption extends PureComponent {
             uid,
             is_default: isDefault = false
         } = option;
-        const { updateSelectedValues } = this.props;
+        const { isProductInStock, updateSelectedValues } = this.props;
         const label = this.getLabel(option);
 
         return (
@@ -207,6 +212,7 @@ export class ProductCustomizableOption extends PureComponent {
                   events={ {
                       onChange: updateSelectedValues
                   } }
+                  isDisabled={ !isProductInStock }
                 />
             </div>
         );

@@ -132,6 +132,7 @@ export class Field extends PureComponent {
             events,
             setRef,
             validate,
+            isDisabled,
             resetFieldValue
         } = this.props;
 
@@ -141,6 +142,7 @@ export class Field extends PureComponent {
               events={ events }
               setRef={ setRef }
               validate={ validate }
+              isDisabled={ isDisabled }
               resetFieldValue={ resetFieldValue }
             />
         );

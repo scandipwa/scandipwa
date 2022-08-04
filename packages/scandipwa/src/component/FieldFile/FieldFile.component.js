@@ -28,6 +28,7 @@ export class FieldFile extends PureComponent {
         setRef: PropTypes.func.isRequired,
         fileName: PropTypes.string.isRequired,
         isLoading: PropTypes.bool.isRequired,
+        isDisabled: PropTypes.bool.isRequired,
         resetFieldValue: PropTypes.func.isRequired
     };
 
@@ -45,7 +46,8 @@ export class FieldFile extends PureComponent {
             attr: { id = '', multiple = false } = {},
             fileName = '',
             isLoading = false,
-            resetFieldValue
+            resetFieldValue,
+            isDisabled
         } = this.props;
 
         if (isLoading) {
@@ -54,7 +56,7 @@ export class FieldFile extends PureComponent {
 
         if (fileName) {
             return (
-                <label htmlFor={ id }>
+                <label htmlFor={ id } block="FieldFile" elem="Label" mods={ { disabled: isDisabled } }>
                     <p>{ fileName }</p>
                     <button onClick={ resetFieldValue }>{ __('Remove file') }</button>
                 </label>
@@ -65,7 +67,7 @@ export class FieldFile extends PureComponent {
         const selectLabel = multiple ? __('Select files') : __('Select file');
 
         return (
-            <label htmlFor={ id }>
+            <label htmlFor={ id } block="FieldFile" elem="Label" mods={ { disabled: isDisabled } }>
                 <UploadIcon />
                 <p>{ dropLabel }</p>
                 <span block="Field" elem="SelectFileBtn">{ selectLabel }</span>
@@ -78,6 +80,7 @@ export class FieldFile extends PureComponent {
             attr = {},
             attr: { accept = '' } = {},
             events = {},
+            isDisabled,
             setRef
         } = this.props;
 
@@ -91,6 +94,7 @@ export class FieldFile extends PureComponent {
                 <input
                   ref={ (elem) => setRef(elem) }
                   type={ FIELD_TYPE.file }
+                  disabled={ isDisabled }
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
                   { ...attr }
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction

@@ -27,6 +27,7 @@ export class FieldFileContainer extends PureComponent {
         events: EventsType.isRequired,
         setRef: PropTypes.func.isRequired,
         validate: PropTypes.func.isRequired,
+        isDisabled: PropTypes.bool.isRequired,
         resetFieldValue: PropTypes.func.isRequired
     };
 
@@ -110,6 +111,7 @@ export class FieldFileContainer extends PureComponent {
                 ...attr
             } = {},
             setRef,
+            isDisabled,
             resetFieldValue
         } = this.props;
         const { fileName, isLoading, value } = this.state;
@@ -127,6 +129,7 @@ export class FieldFileContainer extends PureComponent {
             resetFieldValue: resetFieldValue.bind(this, { setState: (val) => this.setState(val) }),
             fileName,
             isLoading,
+            isDisabled,
             value
         };
     }

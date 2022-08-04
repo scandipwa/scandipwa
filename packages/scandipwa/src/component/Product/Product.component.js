@@ -34,6 +34,7 @@ import { RefType } from 'Type/Common.type';
 import { PriceType } from 'Type/Price.type';
 import { MagentoProductType, ProductType, QuantityType } from 'Type/ProductList.type';
 import { filterConfigurableOptions } from 'Util/Product';
+import { getProductInStock } from 'Util/Product/Extract';
 import { VALIDATION_INPUT_TYPE_NUMBER } from 'Util/Validator/Config';
 
 /**
@@ -109,6 +110,7 @@ export class Product extends PureComponent {
 
     renderCustomizableOptions() {
         const {
+            product,
             product: {
                 options
             },
@@ -120,7 +122,7 @@ export class Product extends PureComponent {
             <ProductCustomizableOptions
               options={ options }
               updateSelectedValues={ updateSelectedValues }
-
+              isProductInStock={ getProductInStock(product) }
             />
         );
     }
