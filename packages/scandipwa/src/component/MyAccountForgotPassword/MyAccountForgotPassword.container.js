@@ -16,6 +16,7 @@ import { STATE_FORGOT_PASSWORD_SUCCESS } from 'Component/MyAccountOverlay/MyAcco
 import { updateCustomerPasswordForgotEmail } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { SignInStateType } from 'Type/Account.type';
+import { DeviceType } from 'Type/Device.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import MyAccountForgotPassword from './MyAccountForgotPassword.component';
@@ -26,7 +27,9 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountForgotPassword/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
 
 /** @namespace Component/MyAccountForgotPassword/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -51,7 +54,8 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
         setLoadingState: PropTypes.func.isRequired,
         setSignInState: PropTypes.func.isRequired,
         isOverlayVisible: PropTypes.bool.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        device: DeviceType.isRequired
     };
 
     containerFunctions = {
@@ -78,7 +82,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
 
     async onForgotPasswordSuccess(form, fields) {
         const {
-            forgotPassword, setSignInState, setLoadingState, forgotPasswordEmail, isOverlayVisible
+            device, forgotPassword, setSignInState, setLoadingState, forgotPasswordEmail, isOverlayVisible
         } = this.props;
         const submittedEmail = form[0].value;
 
@@ -90,7 +94,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent {
             forgotPasswordEmail(submittedEmail);
 
             // if on route /forgotpassword
-            if (!isOverlayVisible) {
+            if (!isOverlayVisible || device.isMobile) {
                 this.showSuccessNotification(submittedEmail);
             }
             setLoadingState(false);

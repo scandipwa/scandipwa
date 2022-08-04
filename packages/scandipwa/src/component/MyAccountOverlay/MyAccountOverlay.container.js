@@ -143,7 +143,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
             stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
 
-            if (!isOverlayVisible) {
+            if (!isOverlayVisible || isMobile) {
                 history.push({ pathname: appendWithStoreCode(ACCOUNT_LOGIN_URL) });
             }
             stateToBeUpdated.state = STATE_SIGN_IN;
