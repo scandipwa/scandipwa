@@ -166,7 +166,6 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <>
                 { this.renderOptionGroupTitle(label) }
-                &&&
                 <Field
                   type={ FIELD_TYPE.file }
                   validationRule={ {
@@ -238,7 +237,7 @@ export class ProductCustomizableOption extends PureComponent {
             uid,
             is_default
         } = option;
-        const { updateSelectedValues } = this.props;
+        const { isProductInStock, updateSelectedValues } = this.props;
         const label = this.getLabel(option);
 
         return (
@@ -255,6 +254,7 @@ export class ProductCustomizableOption extends PureComponent {
                   events={ {
                       onChange: updateSelectedValues
                   } }
+                  isDisabled={ !isProductInStock }
                 />
             </div>
         );
