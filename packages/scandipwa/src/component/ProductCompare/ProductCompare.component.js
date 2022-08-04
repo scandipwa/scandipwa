@@ -146,7 +146,8 @@ export class ProductCompare extends Component {
             price_range,
             dynamic_price,
             type_id,
-            id
+            id,
+            price_tiers
         } = product;
 
         const price = getPrice(price_range, dynamic_price, {}, type_id);
@@ -156,6 +157,7 @@ export class ProductCompare extends Component {
               price={ price }
               key={ id }
               priceType={ type_id }
+              tierPrices={ price_tiers }
               isPreview
             />
         );
