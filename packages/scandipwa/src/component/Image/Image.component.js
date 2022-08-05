@@ -148,9 +148,22 @@ export class Image extends PureComponent {
             alt,
             src,
             style,
-            title
+            title,
+            imageRef
         } = this.props;
         const { imageStatus } = this.state;
+
+        const imgSizes = {
+            height: null,
+            width: null
+        };
+
+        if (imageStatus === IMAGE_LOADED) {
+            // imgSizes.height = imageRef.current.children[0].clientHeight;
+            // imgSizes.width = imageRef.current.children[0].clientWidth;
+
+            console.log(imageRef);
+        }
 
         return (
             <img
@@ -161,6 +174,8 @@ export class Image extends PureComponent {
               mods={ { isLoading: imageStatus === IMAGE_LOADING } }
               style={ style }
               title={ title }
+              height={ imgSizes.height }
+              width={ imgSizes.width }
               onLoad={ this.onLoad }
               onError={ this.onError }
               loading="lazy"
