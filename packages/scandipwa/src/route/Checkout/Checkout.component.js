@@ -24,9 +24,9 @@ import {
     StoreType
 } from 'Type/Checkout.type';
 import { TotalsType } from 'Type/MiniCart.type';
-import { HistoryType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
+import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import {
@@ -95,7 +95,6 @@ export class Checkout extends PureComponent {
         email: PropTypes.string.isRequired,
         isEmailAvailable: PropTypes.bool.isRequired,
         selectedShippingMethod: PropTypes.string.isRequired,
-        history: HistoryType.isRequired,
         onEmailChange: PropTypes.func.isRequired,
         paymentTotals: TotalsType,
         checkoutStep: CheckoutStepType.isRequired,
@@ -179,9 +178,9 @@ export class Checkout extends PureComponent {
     }
 
     updateStepURL(isMounting = false) {
-        const { checkoutStep, history, isCartLoading } = this.props;
+        const { checkoutStep, isCartLoading } = this.props;
         const { url } = this.stepMap[checkoutStep];
-        const { pathname = '' } = location;
+        const { location: { pathname = '' } } = history;
 
         if (!(isCartLoading && pathname.match(CHECKOUT_URL_REGEX))) {
             if (isMounting) {

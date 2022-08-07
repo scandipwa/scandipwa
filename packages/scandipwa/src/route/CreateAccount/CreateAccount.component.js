@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { withRouter } from 'react-router-dom';
-
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import {
@@ -93,6 +91,5 @@ export class CreateAccountComponent extends MyAccountOverlay {
         );
     }
 }
-export default withRouter(
-    CreateAccountComponent
-);
+
+export default CreateAccountComponent;

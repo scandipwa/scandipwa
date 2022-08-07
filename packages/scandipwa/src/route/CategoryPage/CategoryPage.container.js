@@ -30,11 +30,12 @@ import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
 import { CategoryTreeType, SelectedFiltersType, SortFieldsType } from 'Type/Category.type';
 import { AttributesType } from 'Type/ProductList.type';
-import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
+import { MatchType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
 import { withReducers } from 'Util/DynamicReducer';
+import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import {
     appendWithStoreCode,
@@ -118,9 +119,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Route/CategoryPage/Container */
 export class CategoryPageContainer extends PureComponent {
     static propTypes = {
-        history: HistoryType.isRequired,
         category: CategoryTreeType.isRequired,
-        location: LocationType.isRequired,
         match: MatchType.isRequired,
         requestCategory: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
@@ -347,7 +346,7 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     onSortChange(sortDirection, sortKey) {
-        const { location, history } = this.props;
+        const { location } = history;
 
         setQueryParams({ sortKey, sortDirection, page: '' }, location, history);
         this.updateMeta();
@@ -365,13 +364,13 @@ export class CategoryPageContainer extends PureComponent {
 
     getIsMatchingListFilter() {
         const {
-            location,
             currentArgs: {
                 currentPage,
                 sort,
                 filter
             } = {}
         } = this.props;
+        const { location } = history;
 
         /**
          * ? implementation bellow blinks, implementation with categoryIds check only does not show loading when selecting filters.
@@ -461,7 +460,7 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     urlStringToObject() {
-        const { location: { search } } = this.props;
+        const { location: { search } } = history;
 
         return search.substr(1).split('&').reduce((acc, part) => {
             const [key, value] = part.split('=');
@@ -471,7 +470,7 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     getSelectedFiltersFromUrl() {
-        const { location } = this.props;
+        const { location } = history;
         const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
 
         return selectedFiltersString.reduce((acc, filter) => {
@@ -486,11 +485,11 @@ export class CategoryPageContainer extends PureComponent {
 
     getSelectedSortFromUrl() {
         const {
-            location,
             category: {
                 default_sort_by
             }
         } = this.props;
+        const { location } = history;
 
         const {
             sortKey: globalDefaultSortKey,
@@ -520,7 +519,8 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     getSelectedPriceRangeFromUrl() {
-        const { location } = this.props;
+        const { location } = history;
+
         const min = +getQueryParam('priceMin', location);
         const max = +getQueryParam('priceMax', location);
 
@@ -560,16 +560,16 @@ export class CategoryPageContainer extends PureComponent {
 
     updateHistory() {
         const {
-            history,
-            location,
             categoryIds
         } = this.props;
 
         const {
-            search,
-            pathname,
-            state = {}
-        } = location;
+            location: {
+                search,
+                pathname,
+                state = {}
+            }
+        } = history;
 
         const { category } = state;
 
@@ -604,7 +604,7 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     updateMeta() {
-        const { updateMetaFromCategory, category, history } = this.props;
+        const { updateMetaFromCategory, category } = this.props;
         const meta_robots = history.location.search
             ? ''
             : 'follow, index';
@@ -635,8 +635,7 @@ export class CategoryPageContainer extends PureComponent {
             changeHeaderState,
             category: {
                 name
-            },
-            history
+            }
         } = this.props;
 
         const { category } = history?.location?.state || {};

@@ -24,6 +24,7 @@ import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
 import { decodeString, noopFn } from 'Util/Common';
 import { withReducers } from 'Util/DynamicReducer';
+import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -125,8 +126,7 @@ export class SearchPageContainer extends CategoryPageContainer {
 
     updateHeaderState() {
         const {
-            changeHeaderState,
-            history
+            changeHeaderState
         } = this.props;
 
         const { category } = history?.location?.state || {};

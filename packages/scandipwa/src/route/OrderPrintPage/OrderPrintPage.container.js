@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import {
     ORDER_INVOICES,
@@ -143,4 +142,4 @@ export class OrderPrintPageContainer extends PureComponent {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OrderPrintPageContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(OrderPrintPageContainer);

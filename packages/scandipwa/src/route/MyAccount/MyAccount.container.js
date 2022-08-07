@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import {
     CUSTOMER_ACCOUNT,
@@ -36,7 +35,7 @@ import {
     SECOND_SECTION, THIRD_SECTION
 } from 'Type/Account.type';
 import { ItemType } from 'Type/ProductList.type';
-import { LocationType, MatchType, NavigationStateHistoryType } from 'Type/Router.type';
+import { MatchType, NavigationStateHistoryType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
@@ -95,7 +94,6 @@ export class MyAccountContainer extends PureComponent {
         toggleOverlayByKey: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         match: MatchType.isRequired,
-        location: LocationType.isRequired,
         isMobile: PropTypes.bool.isRequired,
         wishlistItems: PropTypes.objectOf(ItemType),
         newsletterActive: PropTypes.bool.isRequired,
@@ -300,8 +298,9 @@ export class MyAccountContainer extends PureComponent {
     }
 
     containerProps() {
-        const { location, match } = this.props;
+        const { match } = this.props;
         const { activeTab, isEditingActive } = this.state;
+        const { location } = history;
 
         return {
             activeTab,
@@ -327,7 +326,7 @@ export class MyAccountContainer extends PureComponent {
     }
 
     getTabName() {
-        const { location: { pathname } } = this.props;
+        const { location: { pathname } } = history;
         const { tabName: stateTabName, activeTab } = this.state;
         const { tabName, url } = MyAccountContainer.tabMap[activeTab];
 
@@ -403,9 +402,9 @@ export class MyAccountContainer extends PureComponent {
 
     handleCheckIfSelectedTab() {
         const {
-            selectedTab,
-            location: { pathname = '' }
+            selectedTab
         } = this.props;
+        const { location: { pathname = '' } } = history;
 
         if (selectedTab) {
             return true;
@@ -535,6 +534,6 @@ export class MyAccountContainer extends PureComponent {
     }
 }
 
-export default withRouter(withReducers({
+export default withReducers({
     OrderReducer
-})(connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer)));
+})(connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer));

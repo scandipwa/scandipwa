@@ -26,7 +26,6 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { DeviceType } from 'Type/Device.type';
 import { TotalsType } from 'Type/MiniCart.type';
-import { HistoryType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import {
@@ -94,7 +93,6 @@ export class CartPageContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         guest_checkout: PropTypes.bool.isRequired,
-        history: HistoryType.isRequired,
         totals: TotalsType.isRequired,
         device: DeviceType.isRequired,
         minimumOrderAmount: PropTypes.shape({
@@ -205,7 +203,6 @@ export class CartPageContainer extends PureComponent {
 
     onCheckoutButtonClick(e) {
         const {
-            history,
             guest_checkout,
             showOverlay,
             showNotification,

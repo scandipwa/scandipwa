@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
@@ -227,8 +226,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     getNavigationState() {
         const { navigationState } = this.props;
 
-        const { pathname } = location;
-        const { state: historyState } = window.history || {};
+        const { state: historyState, location: { pathname } } = history || {};
         const { state = {} } = historyState || {};
 
         // TODO: something here breaks /<STORE CODE> from being opened, and / when, the url-based stores are enabled.
@@ -526,4 +524,4 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);

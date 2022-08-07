@@ -59,6 +59,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class CmsPageContainer extends DataContainer {
     static propTypes = {
         match: MatchType.isRequired,
+        currentUrl: PropTypes.string.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         setBigOfflineNotice: PropTypes.func.isRequired,
@@ -136,19 +137,19 @@ export class CmsPageContainer extends DataContainer {
 
     componentDidUpdate(prevProps) {
         const {
-            location: { pathname },
+            currentUrl,
             pageIdentifiers,
             pageIds
         } = this.props;
 
         const {
-            location: { pathname: prevPathname },
+            currentUrl: prevCurrentUrl,
             pageIdentifiers: prevPageIdentifiers,
             pageIds: prevPageIds
         } = prevProps;
 
         if (
-            pathname !== prevPathname
+            currentUrl !== prevCurrentUrl
             || pageIds !== prevPageIds
             || pageIdentifiers !== prevPageIdentifiers
         ) {
@@ -169,12 +170,11 @@ export class CmsPageContainer extends DataContainer {
 
     onPageLoad({ cmsPage: page }) {
         const {
-            location: { pathname },
             updateMeta,
             setHeaderState,
             updateBreadcrumbs
         } = this.props;
-
+        const { location: { pathname } } = history;
         const {
             content_heading,
             meta_title,
@@ -206,11 +206,11 @@ export class CmsPageContainer extends DataContainer {
 
     getRequestQueryParams() {
         const {
-            location,
             match,
             pageIdentifiers: identifier,
             pageIds: id
         } = this.props;
+        const { location } = history;
 
         if (identifier) {
             return { identifier };
