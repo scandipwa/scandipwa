@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import history from 'history';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
+import history from 'Util/History';
 
 import NewsletterSubscription from './NewsletterSubscription.component';
 
