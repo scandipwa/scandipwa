@@ -36,4 +36,13 @@
         background: var(--secondary-base-color);
         margin-block-start: 30px;
     }
+
+    &Body {
+        .NotificationList,
+        .DemoNotice,
+        .Header-Wrapper,
+        .Breadcrumbs {
+            display: none;
+        }
+    }
 }
