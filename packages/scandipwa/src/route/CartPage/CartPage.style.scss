@@ -112,7 +112,10 @@
         color: var(--color-white);
         inset-inline-start: -16px;
         width: calc(100% + 32px);
-        height: var(--button-height);
+        
+        @include mobile {
+            height: var(--button-height);
+        }
     }
 
     &-CheckoutButton {
