@@ -78,8 +78,6 @@ export class Image extends PureComponent {
         onImageLoad: noopFn
     };
 
-    image = createRef();
-
     state = { imageStatus: IMAGE_LOADING };
 
     renderMap = {
@@ -92,6 +90,8 @@ export class Image extends PureComponent {
     onError = this.onError.bind(this);
 
     onLoad = this.onLoad.bind(this);
+
+    image = createRef(null);
 
     componentDidMount() {
         this.onImageChange();
@@ -148,9 +148,9 @@ export class Image extends PureComponent {
             alt,
             src,
             style,
-            title,
-            imageRef
+            title
         } = this.props;
+
         const { imageStatus } = this.state;
 
         const imgSizes = {
@@ -159,16 +159,15 @@ export class Image extends PureComponent {
         };
 
         if (imageStatus === IMAGE_LOADED) {
-            // imgSizes.height = imageRef.current.children[0].clientHeight;
-            // imgSizes.width = imageRef.current.children[0].clientWidth;
-
-            console.log(imageRef);
+            imgSizes.height = this.image.current.clientHeight;
+            imgSizes.width = this.image.current.clientWidth;
         }
 
         return (
             <img
               block="Image"
               elem="Image"
+              ref={ this.image }
               src={ src || '' }
               alt={ alt }
               mods={ { isLoading: imageStatus === IMAGE_LOADING } }
