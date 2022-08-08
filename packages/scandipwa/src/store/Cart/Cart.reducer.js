@@ -33,6 +33,7 @@ export const updateCartTotals = (action) => {
                 bundle_customizable_options,
                 configurable_customizable_options,
                 downloadable_customizable_options,
+                virtual_customizable_options,
                 simple_customizable_options,
                 ...normalizedItem
             } = item;
@@ -42,6 +43,7 @@ export const updateCartTotals = (action) => {
             normalizedItem.customizable_options = bundle_customizable_options
                 || configurable_customizable_options
                 || downloadable_customizable_options
+                || virtual_customizable_options
                 || simple_customizable_options
                 || [];
 
