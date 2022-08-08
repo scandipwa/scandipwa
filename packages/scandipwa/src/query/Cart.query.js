@@ -146,6 +146,7 @@ export class CartQuery {
             this._getCartDownloadableProductLinkField(),
             this._getCartBundleProductFragment(),
             this._getCartConfigurableProductFragment(),
+            this._getCartVirtualProductFragments(),
             this._getCartSimpleProductFragments()
         ];
     }
@@ -251,6 +252,13 @@ export class CartQuery {
         return new Fragment('SimpleCartItem')
             .addFieldList([
                 this._getCustomizableOptionsField('simple_customizable_options')
+            ]);
+    }
+
+    _getCartVirtualProductFragments() {
+        return new Fragment('VirtualCartItem')
+            .addFieldList([
+                this._getCustomizableOptionsField('virtual_customizable_options')
             ]);
     }
 
