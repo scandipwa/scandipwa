@@ -124,9 +124,9 @@ export class NavigationTabs extends NavigationAbstract {
     }
 
     renderMinicartItemsQty() {
-        const { cartTotals: { items_qty } } = this.props;
+        const { cartTotals: { total_quantity } } = this.props;
 
-        if (!items_qty) {
+        if (!total_quantity) {
             return null;
         }
 
@@ -136,7 +136,7 @@ export class NavigationTabs extends NavigationAbstract {
               block="Header"
               elem="MinicartItemCount"
             >
-                { items_qty }
+                { total_quantity }
             </span>
         );
     }
