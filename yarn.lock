@@ -3047,6 +3047,11 @@
   resolved "https://registry.yarnpkg.com/@tilework/mosaic/-/mosaic-0.1.4.tgz#90b6f504abd0131fc5d4db315878a871e00988b0"
   integrity sha512-r4oIG5JC/hmI48l4FJB8O23jLB0eDlUtp1HMIEVpfihFLZTUqQcfPpZjftl/4Yd/CJS/Hx5Ca1RF7/cKlqvT7Q==
 
+"@tilework/mosaic@0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic/-/mosaic-0.1.7.tgz#a3c4bc4dcb4214c2163c069bfdf4582ea6cfc411"
+  integrity sha512-uBVrP8vscuTO8/lhJ/K02OuzQJRQxLdlyps8CI7bxHuxR0nhDdOBPbSS6naHh+bWvX+Z9JqsFh36OtrzdBloMw==
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
