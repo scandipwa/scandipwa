@@ -26,15 +26,15 @@ export interface InstallPromptContainerFunctions {
 export type InstallPromptContainerProps = InstallPromptContainerMapStateProps
 & InstallPromptContainerMapDispatchProps;
 
-export type InstallPromptContainerState = {
+export interface InstallPromptContainerState {
     isBannerClosed: boolean;
     hasInstallPromptEvent: boolean;
-};
+}
 
-export type InstallPromptComponentProps = {
+export interface InstallPromptComponentProps {
     device: Device;
     isBannerClosed: boolean;
     hasInstallPromptEvent: boolean;
     handleAppInstall: () => void;
     handleBannerClose: () => void;
-};
+}

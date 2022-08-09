@@ -21,9 +21,9 @@ export interface UpdateCurrentCategoryAction extends AnyAction {
     category?: Partial<Category>;
 }
 
-export type CategoryStore = {
+export interface CategoryStore {
     category: Partial<Category>;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {
@@ -31,6 +31,6 @@ declare module 'Util/Store/Store.type' {
     }
 }
 
-export type CategoryDispatcherData = {
+export interface CategoryDispatcherData {
     category: Category;
-};
+}

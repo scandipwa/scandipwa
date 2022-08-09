@@ -12,14 +12,14 @@
 import { MenuItem } from 'Query/Menu.type';
 import { Merge } from 'Type/Common.type';
 
-export type MenuLocation = {
+export interface MenuLocation {
     pathname: string;
     search: string;
     state: {
         category?: number;
         page?: boolean;
     };
-};
+}
 
 export type FormattedMenuItem = Merge<
 Omit<MenuItem, 'cms_page_identifier' | 'url_type' | 'category_id' >,

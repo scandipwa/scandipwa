@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type OrderItemQtyArray = {
+export interface OrderItemQtyArray {
     quantity_ordered: number;
     quantity_canceled: number;
     quantity_invoiced: number;
     quantity_refunded: number;
     quantity_returned: number;
     quantity_shipped: number;
-};
+}

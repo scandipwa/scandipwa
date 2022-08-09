@@ -117,18 +117,18 @@ export type FieldEvents = Omit<DOMAttributes<HTMLElement>, 'children' | 'dangero
     onLoad?: FieldNumberCustomEvents['onLoad'];
 };
 
-export type FieldNumberCustomEvents = {
+export interface FieldNumberCustomEvents {
     onChange?: (value: number, field?: EventFieldData, event?: SyntheticEvent) => void;
     onLoad?: (value: number, field?: EventFieldData, event?: SyntheticEvent) => void;
-};
+}
 
-export type FieldSelectCustomEvents = {
+export interface FieldSelectCustomEvents {
     onChange?: (value: string, field?: EventFieldData, event?: SyntheticEvent) => void;
-};
+}
 
-export type FieldInputCustomEvents = {
+export interface FieldInputCustomEvents {
     onChange?: (value: string, field?: EventFieldData, event?: SyntheticEvent) => void;
-};
+}
 
 export type EventFieldData = FieldAttributes & { fieldRef: FieldRef; value: string; type: string };
 

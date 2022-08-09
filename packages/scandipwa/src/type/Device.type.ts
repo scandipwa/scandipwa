@@ -10,7 +10,7 @@
  */
 
 // ! TODO: Maybe we should move this to common types?
-export type Device = {
+export interface Device {
     isMobile: boolean;
     android: boolean;
     ios: boolean;
@@ -19,4 +19,4 @@ export type Device = {
     safari: boolean;
     windows: boolean;
     standaloneMode?: boolean;
-};
+}

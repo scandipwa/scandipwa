@@ -14,13 +14,13 @@ export enum FieldType {
     QUERY = 'query'
 }
 
-export type FieldArgument = {
+export interface FieldArgument {
     name: string;
     type: string;
     value: unknown;
-};
+}
 
-export type PreparedRequest = {
+export interface PreparedRequest {
     query: string;
     variables: unknown;
-};
+}

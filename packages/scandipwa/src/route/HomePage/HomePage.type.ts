@@ -25,10 +25,6 @@ export interface HomePageContainerProps extends HomePageContainerMapStateProps,
     HomePageContainerMapDispatchProps,
     RouteComponentProps {}
 
-export type HomePageComponentProps = {
-
-};
-
 export type HomePageContainerPropsKeys = 'changeHeaderState'
 | 'location'
 | 'match'

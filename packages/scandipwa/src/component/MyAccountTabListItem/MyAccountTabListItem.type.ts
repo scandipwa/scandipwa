@@ -13,22 +13,22 @@ import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { MyAccountTab } from 'Route/MyAccount/MyAccount.type';
 import { Children, ObjectEntries } from 'Type/Common.type';
 
-export type MyAccountTabListItemComponentProps = {
+export interface MyAccountTabListItemComponentProps {
     children?: Children[] | Children;
     tabEntry: ObjectEntries<Record<string, MyAccountTab>>;
     isActive?: boolean;
     changeActiveTab: (key: string) => void;
-};
+}
 
-export type MyAccountTabListContainerState = {
+export interface MyAccountTabListContainerState {
     isContentExpanded: boolean;
-};
+}
 
-export type MyAccountTabListComponentProps = {
+export interface MyAccountTabListComponentProps {
     tabMap: Record<string, MyAccountTab>;
     activeTab: OrderTabs;
     handleLogout: () => void;
     onTabClick: (key: string) => void;
     isContentExpanded: boolean;
     toggleExpandableContent: () => void;
-};
+}

@@ -29,13 +29,13 @@ export enum MyAccountTabsSection {
     THIRD_SECTION
 }
 
-export type Region = {
+export interface Region {
     region_code: string | null;
     region: string | null;
     region_id: number;
-};
+}
 
-export type Address = {
+export interface Address {
     city: string;
     company: string | null;
     country_id: string;
@@ -53,9 +53,9 @@ export type Address = {
     suffix: string;
     telephone: string;
     vat_id: number | null;
-};
+}
 
-export type TrimmedCheckoutAddress = {
+export interface TrimmedCheckoutAddress {
     city: string;
     company?: string;
     country_id: GQLCountryCodeEnum;
@@ -69,9 +69,9 @@ export type TrimmedCheckoutAddress = {
     street: Array<string | null>;
     telephone: string;
     vat_id?: string;
-};
+}
 
-export type Tab = {
+export interface Tab {
     url: string;
     name: string;
-};
+}

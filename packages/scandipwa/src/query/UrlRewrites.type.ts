@@ -17,6 +17,6 @@ export interface UrlRewritesOutput {
     id: number;
 }
 
-export type UrlRewritesQueryOptions = {
+export interface UrlRewritesQueryOptions {
     urlParam: string;
-};
+}

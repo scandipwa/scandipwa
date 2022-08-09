@@ -39,9 +39,9 @@ export interface UpdateConfigDeviceAction extends AnyAction {
 
 export type ConfigAction = UpdateConfigAction | UpdateConfigDeviceAction;
 
-export type ReviewRatings = {
+export interface ReviewRatings {
     items: ReviewRatingItem[];
-};
+}
 
 export type ConfigStore = StoreConfig & {
     countries: Country[];

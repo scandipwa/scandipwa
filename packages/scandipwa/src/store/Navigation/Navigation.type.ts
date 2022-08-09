@@ -22,7 +22,7 @@ export enum NavigationType {
     BOTTOM_NAVIGATION_TYPE = 'BOTTOM_NAVIGATION_TYPE'
 }
 
-export type NavigationState = {
+export interface NavigationState {
     force?: boolean;
     hiddenElements?: string[];
     isHidden?: boolean;
@@ -35,7 +35,7 @@ export type NavigationState = {
     onOkClick?: (e?: MouseEvent) => void;
     shouldNotGoToPrevState?: boolean;
     title?: string;
-};
+}
 
 export interface ChangeNavigationStateAction extends AnyAction {
     type: NavigationActionType.CHANGE_NAVIGATION_STATE;
@@ -50,7 +50,7 @@ export interface GoToPreviousNavigationStateAction extends AnyAction {
 
 export type NavigationAction = ChangeNavigationStateAction | GoToPreviousNavigationStateAction;
 
-export type NavigationStore = {
+export interface NavigationStore {
     [NavigationType.TOP_NAVIGATION_TYPE]: {
         navigationState: NavigationState;
         navigationStateHistory: NavigationState[];
@@ -59,7 +59,7 @@ export type NavigationStore = {
         navigationState: NavigationState;
         navigationStateHistory: NavigationState[];
     };
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {

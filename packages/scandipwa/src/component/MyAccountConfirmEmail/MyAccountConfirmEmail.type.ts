@@ -13,7 +13,7 @@ import { MouseEvent } from 'react';
 
 import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 
-export type MyAccountConfirmEmailComponentProps = {
+export interface MyAccountConfirmEmailComponentProps {
     state: MyAccountPageState | '';
     handleSignIn: (e: MouseEvent) => void;
-};
+}

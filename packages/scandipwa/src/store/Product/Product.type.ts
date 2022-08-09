@@ -23,9 +23,9 @@ export interface UpdateProductDetailsAction extends AnyAction {
     product?: ProductItem;
 }
 
-export type ProductStore = {
+export interface ProductStore {
     product: Partial<IndexedProduct>;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {
@@ -33,6 +33,6 @@ declare module 'Util/Store/Store.type' {
     }
 }
 
-export type ProductDispatcherData = {
+export interface ProductDispatcherData {
     products: ProductsQueryOutput;
-};
+}

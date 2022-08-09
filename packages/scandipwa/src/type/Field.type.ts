@@ -13,7 +13,7 @@ import { FieldType } from 'Component/Field/Field.config';
 
 export type Label = string | React.ReactNode;
 
-export type Option = {
+export interface Option {
     id?: string | number;
     label?: Label;
     value?: string | number;
@@ -25,9 +25,9 @@ export type Option = {
     subLabel?: string;
     isHovered?: boolean;
     disabled?: boolean;
-};
+}
 
-export type CustomErrorMessages = {
+export interface CustomErrorMessages {
     onRequirementFail?: string;
     onInputTypeFail?: string;
     onMatchFail?: string;
@@ -35,7 +35,7 @@ export type CustomErrorMessages = {
     onRangeFailMax?: string;
     onExtensionFail?: string;
     onGroupFail?: string;
-};
+}
 
 // TODO
 export type Events = Record<string, unknown>;
@@ -43,30 +43,30 @@ export type Events = Record<string, unknown>;
 // TODO
 export type FieldAttr = unknown;
 
-export type FieldOptions = {
+export interface FieldOptions {
     id?: string | number;
     label?: Label;
     value?: string | number;
     isHovered?: boolean;
-};
+}
 
-export type ValuesShape = {
+export interface ValuesShape {
     value?: string | boolean;
     type?: string | boolean;
     name?: string | boolean;
-};
+}
 
-export type ErrorMessageShape = {
+export interface ErrorMessageShape {
     injectables?: string[];
     value?: string;
-};
+}
 
-export type ErrorFieldShape = {
+export interface ErrorFieldShape {
     errorMessages?: ErrorMessageShape[];
     value?: string | boolean;
     type?: string | boolean;
     name?: string | boolean;
-};
+}
 
 export type FieldGroupValidationResponse = {
     errorFields: ErrorFieldShape;
@@ -76,7 +76,7 @@ export type FieldGroupValidationResponse = {
 
 export type Date = number | string;
 
-export type ValidationOutput = {
+export interface ValidationOutput {
     detail?: {
         errors?: {
             type: FieldType;
@@ -85,4 +85,4 @@ export type ValidationOutput = {
             errorMessages?: string[];
         }[];
     };
-};
+}

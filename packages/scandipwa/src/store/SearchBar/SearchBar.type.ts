@@ -37,10 +37,10 @@ export type SearchBarAction = UpdateSearchBarAction
 | UpdateLoadStatusAction
 | ClearSearchResultsAction;
 
-export type SearchBarStore = {
+export interface SearchBarStore {
     productsInSearch: IndexedProduct[];
     isLoading: boolean;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {
@@ -48,6 +48,6 @@ declare module 'Util/Store/Store.type' {
     }
 }
 
-export type SearchBarDispatcherData = {
+export interface SearchBarDispatcherData {
     products: ProductsQueryOutput;
-};
+}

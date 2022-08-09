@@ -15,11 +15,11 @@ export type Merge<A, B> = Omit<A, keyof B> & B;
 
 export type Mods = Record<string, string | boolean>;
 
-export type Mix = {
+export interface Mix {
     block?: string;
     elem?: string;
     mods?: Mods;
-};
+}
 
 export type ReactElement = ReactNode | ReactNode[];
 
@@ -34,7 +34,7 @@ export type Url<T = unknown> = {
     state?: T;
 };
 
-export type NetworkError = { message: string };
+export interface NetworkError { message: string }
 
 export type ObjectEntries<T> = {
     [K in keyof T]: [K, T[K]];

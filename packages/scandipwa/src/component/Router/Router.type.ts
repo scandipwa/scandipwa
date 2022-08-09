@@ -52,8 +52,8 @@ export interface RouterComponentState {
     hasError: boolean;
 }
 
-export type RouterItem = {
+export interface RouterItem {
     component: ReactElement;
     position: number;
     name: RouterBeforeItemType | RouterSwitchItemType | RouterAfterItemType;
-};
+}

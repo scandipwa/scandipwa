@@ -22,11 +22,11 @@ export enum NotificationType {
     SUCCESS = 'success'
 }
 
-export type Notification<T> = {
+export interface Notification<T> {
     msgType: NotificationType;
     msgText: string;
     msgDebug?: T;
-};
+}
 
 export interface ShowNotificationAction<T = unknown> extends AnyAction {
     type: NotificationActionType.SHOW_NOTIFICATION;
@@ -42,9 +42,9 @@ export interface HideNotificationAction extends AnyAction {
 
 export type NotificationAction = ShowNotificationAction<unknown> | HideNotificationAction;
 
-export type NotificationStore = {
+export interface NotificationStore {
     notifications: Record<string, Notification<unknown>>;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {

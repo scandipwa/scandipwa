@@ -20,9 +20,9 @@ export interface UpdateNoMatchAction extends AnyAction {
     noMatch: boolean;
 }
 
-export type NoMatchStore = {
+export interface NoMatchStore {
     noMatch: boolean;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {

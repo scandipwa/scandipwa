@@ -15,31 +15,31 @@ import {
 
 // ! TODO move reducer types when we start work with redux!
 
-export type ConfigReducerState = {
+export interface ConfigReducerState {
     cartDisplayConfig: GQLCartDisplayConfig;
     priceTaxDisplay: GQLPriceTaxDisplay;
-};
+}
 
-export type CartReducerState = {
+export interface CartReducerState {
     cartTotals: GQLQuoteData;
-};
+}
 
-export type CartState = {
+export interface CartState {
     ConfigReducer: ConfigReducerState;
     CartReducer: CartReducerState;
-};
+}
 
-export type CartItem = {
+export interface CartItem {
     sku: string;
     product: GQLConfigurableProduct;
-};
+}
 
-export type CartItemPriceProps = {
+export interface CartItemPriceProps {
     row_total: number;
     row_total_incl_tax: number;
     price_incl_tax: number;
     price_excl_tax: number;
-};
+}
 
 export enum DisplayCartTaxInSubTotal {
     INCL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX',

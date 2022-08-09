@@ -21,10 +21,10 @@ export enum LinkedProductType {
     ASSOCIATED = 'associated'
 }
 
-export type LinkedProducts = {
+export interface LinkedProducts {
     items: IndexedProduct[];
     total_count: number;
-};
+}
 
 export type LinkedProductsMap = Partial<Record<LinkedProductType, Partial<LinkedProducts>>>;
 
@@ -39,9 +39,9 @@ export interface UpdateLinkedProductsAction extends AnyAction {
     };
 }
 
-export type LinkedProductsStore = {
+export interface LinkedProductsStore {
     linkedProducts: LinkedProductsMap;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {
@@ -49,6 +49,6 @@ declare module 'Util/Store/Store.type' {
     }
 }
 
-export type LinkedProductsDispatcherData = {
+export interface LinkedProductsDispatcherData {
     products: ProductsQueryOutput;
-};
+}

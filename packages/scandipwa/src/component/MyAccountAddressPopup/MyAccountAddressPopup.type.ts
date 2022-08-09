@@ -35,16 +35,16 @@ export interface MyAccountAddressPopupContainerFunctions {
 export type MyAccountAddressPopupContainerProps = MyAccountAddressPopupContainerMapStateProps
 & MyAccountAddressPopupContainerMapDispatchProps;
 
-export type MyAccountAddressPopupComponentProps = {
+export interface MyAccountAddressPopupComponentProps {
     isLoading: boolean;
     handleAddress: (address: GQLCustomerAddressInput) => Promise<void>;
     handleDeleteAddress: () => Promise<void>;
     payload: MyAccountAddressPopupPayload;
-};
+}
 
-export type MyAccountAddressPopupContainerState = {
+export interface MyAccountAddressPopupContainerState {
     isLoading: boolean;
-};
+}
 
 export type MyAccountAddressPopupPayload = PopupPayloadDefault & {
     action: MyAccountAddressPopupAction.EDIT_ADDRESS

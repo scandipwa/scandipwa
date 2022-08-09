@@ -24,9 +24,9 @@ export interface UpdateContactFormAction extends AnyAction {
     };
 }
 
-export type ContactFormStore = {
+export interface ContactFormStore {
     isLoading: boolean;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {
@@ -34,9 +34,9 @@ declare module 'Util/Store/Store.type' {
     }
 }
 
-export type ContactFormDispatcherOptions = {
+export interface ContactFormDispatcherOptions {
     form: {
         reset?: () => void;
     };
     fields: GQLContactForm;
-};
+}

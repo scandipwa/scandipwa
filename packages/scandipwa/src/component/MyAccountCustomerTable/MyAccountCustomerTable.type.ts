@@ -10,19 +10,19 @@
  */
 import { Customer } from 'Query/MyAccount.type';
 
-export type MyAccountCustomerTableContainerProps = {
+export interface MyAccountCustomerTableContainerProps {
     customer: Partial<Customer>;
     title?: string;
-};
+}
 
 export interface MyAccountCustomerTableContainerFunctions {
     handleOnEditInformation: () => void;
     handleOnEditPassword: () => void;
 }
 
-export type MyAccountCustomerTableComponentProps = {
+export interface MyAccountCustomerTableComponentProps {
     handleOnEditInformation: () => void;
     handleOnEditPassword: () => void;
     customer: Partial<Customer>;
     title?: string;
-};
+}

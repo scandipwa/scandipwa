@@ -43,14 +43,14 @@ export type MyAccountForgotPasswordContainerProps = MyAccountForgotPasswordConta
     isOverlayVisible: boolean;
 };
 
-export type MyAccountForgotPasswordComponentProps = {
+export interface MyAccountForgotPasswordComponentProps {
     state: MyAccountPageState | '';
     onForgotPasswordSuccess: (form: HTMLFormElement, fields: FieldData[]) => Promise<void>;
     onFormError: () => void;
     handleSignIn: (e: MouseEvent) => void;
     handleCreateAccount: (e: MouseEvent) => void;
     isCheckout: boolean;
-};
+}
 
 export type MyAccountForgotPasswordContainerPropsKeys = 'state'
 | 'onFormError'

@@ -31,13 +31,13 @@ export type FooterContainerProps = FooterContainerMapStateProps
     isVisibleOnMobile: boolean;
 };
 
-export type FooterComponentProps = {
+export interface FooterComponentProps {
     copyright: string;
     isVisibleOnMobile: boolean;
     device: Device;
     newsletterActive: boolean;
     onItemClick: () => void;
-};
+}
 
 export type FooterContainerPropsKeys =
     | 'copyright'
@@ -45,17 +45,17 @@ export type FooterContainerPropsKeys =
     | 'device'
     | 'newsletterActive';
 
-export type FooterRenderColumn = {
+export interface FooterRenderColumn {
     title: string;
     items: FooterRenderColumnItem[];
     isItemsHorizontal?: boolean;
     columnActiveKey?: string;
     mods?: Mods;
-};
+}
 
-export type FooterRenderColumnItem = {
+export interface FooterRenderColumnItem {
     href?: string;
     title?: string;
     src?: string;
     render?: string;
-};
+}

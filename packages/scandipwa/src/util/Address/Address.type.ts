@@ -11,18 +11,18 @@
 
 import { Country } from 'Query/Region.type';
 
-export type ZippopotamResponseResult = {
+export interface ZippopotamResponseResult {
     city: string;
     region: string;
     regionAbbr: string;
-};
+}
 
-export type FormattedRegion = {
+export interface FormattedRegion {
     country?: string;
     region?: string | null;
-};
+}
 
-export type CountryOption = Country & {
+export interface CountryOption extends Country {
     name: string;
     value: string;
-};
+}

@@ -204,10 +204,10 @@ export const HTTP_410_GONE = 410;
 export const HTTP_201_CREATED = 201;
 
 // TODO
-export type QueryObject = {
+export interface QueryObject {
     query: string;
     variables: Record<string, string>;
-};
+}
 
 export type QueryVariables = Record<string, string>;
 

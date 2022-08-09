@@ -29,10 +29,10 @@ export type MyAccountOrderTotalsContainerProps = MyAccountOrderTotalsContainerMa
 & MyAccountOrderTotalsContainerMapDispatchProps
 & MyAccountOrderTotalsContainerBaseProps;
 
-export type MyAccountOrderTotalsContainerState = {
+export interface MyAccountOrderTotalsContainerState {
     colSpanPriceCount: number;
     colSpanLabelCount: number;
-};
+}
 
 export interface MyAccountOrderTotalsComponentProps {
     total: OrderTotal;

@@ -11,7 +11,7 @@
 
 import { Mix } from 'Type/Common.type';
 
-export type LoaderComponentProps = {
+export interface LoaderComponentProps {
     isLoading: boolean;
     mix: Mix;
-};
+}

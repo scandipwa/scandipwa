@@ -23,9 +23,9 @@ export interface CheckoutTermsAndConditionsPopupComponentProps {
     payload: CheckoutTermsAndConditionsPopupPayload;
 }
 
-export type CheckoutTermsAndConditionsPopupPayload = {
+export interface CheckoutTermsAndConditionsPopupPayload {
     title: string;
     text: string;
-};
+}
 
 export type CheckoutTermsAndConditionsContainerPropsKeys = 'payload';

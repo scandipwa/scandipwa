@@ -35,11 +35,11 @@ export interface SetIsUrlRewritesLoadingAction extends AnyAction {
 
 export type UrlRewritesAction = UpdateUrlRewriteAction | SetIsUrlRewritesLoadingAction;
 
-export type UrlRewritesStore = {
+export interface UrlRewritesStore {
     urlRewrite: UrlRewrite;
     requestedUrl: string;
     isLoading: boolean;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {
@@ -47,6 +47,6 @@ declare module 'Util/Store/Store.type' {
     }
 }
 
-export type UrlRewritesDispatcherData = {
+export interface UrlRewritesDispatcherData {
     urlResolver: UrlRewritesOutput;
-};
+}

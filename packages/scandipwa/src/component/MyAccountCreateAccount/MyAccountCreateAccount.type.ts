@@ -46,7 +46,7 @@ export type MyAccountCreateAccountContainerProps = MyAccountCreateAccountContain
     state: MyAccountPageState;
 };
 
-export type MyAccountCreateAccountComponentProps = {
+export interface MyAccountCreateAccountComponentProps {
     state: MyAccountPageState;
     onError: () => void;
     onSuccess: (form: HTMLFormElement, fields: FieldData[]) => Promise<void>;
@@ -56,7 +56,7 @@ export type MyAccountCreateAccountComponentProps = {
     newsletterActive: boolean;
     range: ValidationRule['range'];
     minimunPasswordCharacter: string;
-};
+}
 
 export type MyAccountCreateAccountContainerPropsKeys =
 | 'state'

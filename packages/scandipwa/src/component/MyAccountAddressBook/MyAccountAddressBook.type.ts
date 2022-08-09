@@ -25,7 +25,7 @@ export interface MyAccountAddressBookContainerFunctions {
 export type MyAccountAddressBookContainerProps = MyAccountAddressBookContainerMapStateProps
 & MyAccountAddressBookContainerMapDispatchProps;
 
-export type MyAccountAddressBookComponentProps = {
+export interface MyAccountAddressBookComponentProps {
     customer: Partial<Customer>;
     showCreateNewPopup: () => void;
-};
+}

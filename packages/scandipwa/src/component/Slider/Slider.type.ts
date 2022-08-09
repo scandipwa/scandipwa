@@ -46,6 +46,6 @@ export interface SliderComponentState {
     prevActiveImage: number;
 }
 
-export type SliderHandleDragEndCallback = {
+export interface SliderHandleDragEndCallback {
     callback: () => void;
-};
+}

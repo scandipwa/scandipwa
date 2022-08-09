@@ -33,11 +33,11 @@ export type CheckoutAction = UpdateShippingFieldsAction
 | UpdateEmailAction
 | UpdateEmailAvailableAction;
 
-export type CheckoutStore = {
+export interface CheckoutStore {
     shippingFields: Record<string, unknown>;
     email: string;
     isEmailAvailable: boolean;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {
@@ -45,8 +45,8 @@ declare module 'Util/Store/Store.type' {
     }
 }
 
-export type CheckoutDispatcherData = {
+export interface CheckoutDispatcherData {
     isEmailAvailable: {
         is_email_available: boolean;
     };
-};
+}

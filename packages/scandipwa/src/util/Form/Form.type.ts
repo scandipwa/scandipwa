@@ -11,23 +11,23 @@
 
 import { FieldDateType } from 'Component/FieldDate/FieldDate.config';
 
-export type YearRangeAttribute = {
+export interface YearRangeAttribute {
     minYear: number;
     maxYear: number;
-};
+}
 
-export type DateRangeAttribute = {
+export interface DateRangeAttribute {
     minDate: Date;
     maxDate: Date;
-};
+}
 
-export type DateMap = {
+export interface DateMap {
     d: string;
     m: string;
     y: string;
-};
+}
 
-export type DatesData = {
+export interface DatesData {
     type: FieldDateType;
     year?: string;
     month?: string;
@@ -36,20 +36,20 @@ export type DatesData = {
     minutes?: string;
     ampm?: string;
     name: string;
-};
+}
 
-export type DateObject = {
+export interface DateObject {
     name: string;
     type: FieldDateType;
     value: string;
-};
+}
 
-export type FieldData<T = FieldValue> = {
+export interface FieldData<T = FieldValue> {
     field: HTMLElement;
     name: string;
     type: string;
     value: T;
-};
+}
 
 export type GetFieldsData<AsObject extends boolean = false> = AsObject extends true
     ? Record<string, DateObject | FieldData>

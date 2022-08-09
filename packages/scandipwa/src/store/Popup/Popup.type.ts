@@ -40,18 +40,18 @@ export type PopupType = ShowPopupAction<string, unknown>
 | HideActiveOverlayAction
 | HideActivePopupAction;
 
-export type PopupStore = {
+export interface PopupStore {
     popupPayload: PopupPayload;
     shouldPopupClose: boolean;
     payload: Record<string, unknown>;
-};
+}
 
-export type PopupPayload = {
+export interface PopupPayload {
     [MyAccountAddressPopupAction.ADDRESS_POPUP_ID]: MyAccountAddressPopupPayload;
     [Page.CUSTOMER_ACCOUNT]: PopupPayloadDefault;
     [VIDEO_POPUP_ID]: VideoPopupPayload;
     [TERMS_AND_CONDITIONS_POPUP_ID]: CheckoutTermsAndConditionsPopupPayload;
-};
+}
 
 export interface PopupPayloadDefault {
     title?: string;

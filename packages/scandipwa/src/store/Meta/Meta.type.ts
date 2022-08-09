@@ -18,7 +18,7 @@ export enum MetaActionType {
     UPDATE_META = 'UPDATE_META'
 }
 
-export type PageMeta = {
+export interface PageMeta {
     default_title: string;
     title: string;
     default_description: string;
@@ -30,7 +30,7 @@ export type PageMeta = {
     status_code: string;
     canonical_url: string;
     robots: string;
-};
+}
 
 export interface UpdateMetaAction extends AnyAction {
     type: MetaActionType.UPDATE_META;

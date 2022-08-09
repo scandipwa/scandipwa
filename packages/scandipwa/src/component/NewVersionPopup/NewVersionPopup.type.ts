@@ -29,7 +29,7 @@ export interface NewVersionPopupContainerFunctions {
 export type NewVersionPopupContainerProps = NewVersionPopupContainerMapStateProps
 & NewVersionPopupContainerMapDispatchProps;
 
-export type NewVersionPopupComponentProps = {
+export interface NewVersionPopupComponentProps {
     toggleNewVersion: () => void;
     handleDismiss: () => void;
-};
+}

@@ -92,12 +92,12 @@ export type MyAccountAddressFormContainerPropsKeys = 'address'
 | 'currentZipcode'
 | 'currentRegionId';
 
-export type InitialDataAddress = {
+export interface InitialDataAddress {
     region: string;
     regionId: number;
     postcode: string;
     city: string;
-};
+}
 
 export type MyAccountAddressFormProps = Omit<
 MyAccountAddressFormComponentProps,

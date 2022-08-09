@@ -6,9 +6,7 @@
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
         "build": "scandipwa-scripts build",
-        "build:magento": "BUILD_MODE=magento scandipwa-scripts build",
-        "graphql:fetch": "get-graphql-schema $1 > schema.graphql",
-        "graphql:gen": "node bin/gen-graphql-types schema.graphql ./src/type/Graphql.type.ts"
+        "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
     },
     "dependencies": {
         "@scandipwa/chunk-optimizer": "0.0.6",
@@ -28,8 +26,6 @@
         "@types/webpack-env": "^1.16.3",
         "buffer": "^6.0.3",
         "eslint-config-airbnb-typescript": "^16.1.4",
-        "get-graphql-schema": "^2.1.2",
-        "graphql-schema-typescript": "^1.5.2",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
         "intersection-observer": "^0.12.0",

@@ -35,15 +35,15 @@ MyAccountTabListContainerMapStateProps
     changeActiveTab: (activeTab: string) => void;
 };
 
-export type MyAccountTabListContainerState = {
+export interface MyAccountTabListContainerState {
     isContentExpanded: boolean;
-};
+}
 
-export type MyAccountTabListComponentProps = {
+export interface MyAccountTabListComponentProps {
     tabMap: Record<string, MyAccountTab>;
     activeTab: string;
     handleLogout: () => void;
     onTabClick: (key: string) => void;
     isContentExpanded: boolean;
     toggleExpandableContent: () => void;
-};
+}

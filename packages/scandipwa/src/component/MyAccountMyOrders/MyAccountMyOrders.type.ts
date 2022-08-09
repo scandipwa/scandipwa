@@ -33,10 +33,10 @@ export type MyAccountMyOrdersContainerProps = MyAccountMyOrdersContainerMapState
 & MyAccountMyOrdersContainerMapDispatchProps
 & MyAccountMyOrdersContainerBaseProps;
 
-export type MyAccountMyOrdersContainerState = {
+export interface MyAccountMyOrdersContainerState {
     colSpanPriceCount: number;
     colSpanLabelCount: number;
-};
+}
 
 export interface MyAccountMyOrdersComponentProps {
     orderList: Partial<OrderList>;

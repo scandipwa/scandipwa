@@ -70,10 +70,10 @@ export type CartAction = AddProductToCartAction
 | RemoveCouponFromCartAction
 | UpdateIsLoadingCartAction;
 
-export type CartStore = {
+export interface CartStore {
     isLoading: boolean;
     cartTotals: CartTotals;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {

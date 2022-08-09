@@ -26,11 +26,11 @@ export type MyAccountForgotPasswordSuccessContainerProps = MyAccountForgotPasswo
     handleSignIn: (event: MouseEvent) => void;
 };
 
-export type MyAccountForgotPasswordSuccessComponentProps = {
+export interface MyAccountForgotPasswordSuccessComponentProps {
     state: MyAccountPageState | '';
     handleSignIn: (event: MouseEvent) => void;
     submittedEmail: string;
-};
+}
 
 export type MyAccountForgotPasswordSuccessContainerPropsKeys =
 | 'state'

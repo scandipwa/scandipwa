@@ -55,11 +55,11 @@ export type MyAccountOverlayContainerProps = MyAccountOverlayContainerMapStatePr
     onSignIn: () => void;
 };
 
-export type MyAccountOverlayContainerState = {
+export interface MyAccountOverlayContainerState {
     state: MyAccountPageState;
     isPasswordForgotSend: boolean;
     isLoading: boolean;
-};
+}
 
 export interface MyAccountOverlayComponentProps extends RouteComponentProps {
     isOverlayVisible: boolean;
@@ -78,10 +78,10 @@ export interface MyAccountOverlayComponentProps extends RouteComponentProps {
     device: Device;
 }
 
-export type MyAccountOverlayRenderMap = {
+export interface MyAccountOverlayRenderMap {
     render: () => ReactElement | void;
     title?: string;
-};
+}
 
 export type MyAccountOverlayContainerPropsKeys = 'isCheckout'
 | 'isLoading'

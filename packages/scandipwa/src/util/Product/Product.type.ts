@@ -74,10 +74,10 @@ CleanCustomizableProductFragmentOptions,
 }
 >;
 
-export type ReviewSummary = {
+export interface ReviewSummary {
     rating_summary: number;
     review_count: number;
-};
+}
 
 export type IndexedBaseProduct<T> = Merge<T, {
     configurable_options?: IndexedConfigurableOptions;
@@ -135,17 +135,17 @@ export interface BuyRequestConfigurableOptions {
     super_attribute: Record<string, string>;
 }
 
-export type PriceLabels = {
+export interface PriceLabels {
     baseLabel?: string;
     priceLabel: string;
-};
+}
 
-export type ProductTransformData = {
+export interface ProductTransformData {
     sku: string;
     quantity: number;
     selected_options: string[];
     entered_options: ProductOption[];
-};
+}
 
 export interface FormattedMoney {
     value: number;

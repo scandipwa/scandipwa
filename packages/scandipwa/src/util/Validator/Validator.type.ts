@@ -11,7 +11,7 @@
 
 import { FieldType } from 'Component/Field/Field.config';
 
-export type ValidationRule = {
+export interface ValidationRule {
     isRequired?: boolean;
     inputType?: string;
     selector?: string;
@@ -22,14 +22,14 @@ export type ValidationRule = {
     range?: { min?: number; max?: number; showLengthError?: boolean };
     fileExtension?: Record<string, string>;
     customErrorMessages?: Record<string, string>;
-};
+}
 
-export type ValidationOutput = {
+export interface ValidationOutput {
     value: string | boolean;
     errorMessages: string[];
-};
+}
 
-export type ValidationDOMOutput = {
+export interface ValidationDOMOutput {
     values?: {
         name: string;
         value: string;
@@ -37,11 +37,11 @@ export type ValidationDOMOutput = {
     }[];
     errorFields?: unknown[];
     errorMessages?: string[];
-};
+}
 
-export type FieldValidationOutput = {
+export interface FieldValidationOutput {
     errorMessages?: string[];
     name?: string;
     type: FieldType;
     value?: string | boolean;
-};
+}

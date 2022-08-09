@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type InstallPromptAndroidComponentProps = {
+export interface InstallPromptAndroidComponentProps {
     handleBannerClose: () => void;
     handleAppInstall: () => void;
-};
+}

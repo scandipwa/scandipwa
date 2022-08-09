@@ -96,7 +96,7 @@ declare global {
         fileData?: string;
     }
 
-    type ContentConfiguration = {
+    interface ContentConfiguration {
         header_content?: {
             header_menu?: string;
         };
@@ -119,7 +119,7 @@ declare global {
         contact_us_content?: {
             contact_us_cms_block?: string;
         };
-    };
+    }
 
     // interface HTMLElementEventMap {
     //     validate: ValidationData

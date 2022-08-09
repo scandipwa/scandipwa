@@ -47,10 +47,10 @@ export type WishlistAction = RemoveItemFromWishlistAction
 | UpdateIsLoadingAction
 | ClearWishlistAction;
 
-export type WishlistStore = {
+export interface WishlistStore {
     productsInWishlist: Record<string, IndexedWishlistProduct>;
     isLoading: boolean;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {

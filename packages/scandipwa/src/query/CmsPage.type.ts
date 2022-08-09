@@ -19,8 +19,8 @@ export interface CmsPageFields {
     meta_keywords: string;
 }
 
-export type CmsPageQueryOptions = {
+export interface CmsPageQueryOptions {
     id: number;
     url_key: string;
     identifier: string;
-};
+}

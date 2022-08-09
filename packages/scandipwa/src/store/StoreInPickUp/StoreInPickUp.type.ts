@@ -28,9 +28,9 @@ export interface ClearPickUpStoreAction extends AnyAction {
 
 export type StoreInPickUpAction = SetPickUpStoreAction | ClearPickUpStoreAction;
 
-export type StoreInPickUpStore = {
+export interface StoreInPickUpStore {
     store: Store | null;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {

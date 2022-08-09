@@ -49,7 +49,7 @@ export interface Category extends CategoryTree {
     children: CategoryTree[];
 }
 
-export type CategoryQueryOptions = {
+export interface CategoryQueryOptions {
     categoryIds: number;
     isSearchPage?: boolean;
-};
+}

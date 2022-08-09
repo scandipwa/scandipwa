@@ -45,11 +45,11 @@ export type MyAccountCustomerFormContainerProps = MyAccountCustomerFormContainer
 & MyAccountCustomerFormContainerMapDispatchProps
 & MyAccountCustomerFormContainerBaseProps;
 
-export type MyAccountCustomerFormContainerState = {
+export interface MyAccountCustomerFormContainerState {
     email: string;
     currentPassword: string;
     isEmailEdit: boolean;
-};
+}
 
 export interface MyAccountCustomerFormComponentProps {
     customer: Partial<Customer>;

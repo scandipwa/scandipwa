@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type KeyValueTableComponentProps = {
+export interface KeyValueTableComponentProps {
     title?: string;
     isSelected?: boolean;
-};
+}
 
-export type DataPair<T> = {
+export interface DataPair<T> {
     key: string;
     label: string;
     source: T;
-};
+}

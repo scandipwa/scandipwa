@@ -31,10 +31,10 @@ export interface MyAccountNewsletterSubscriptionContainerFunctions {
 export type MyAccountNewsletterSubscriptionContainerProps = MyAccountNewsletterSubscriptionContainerMapStateProps
 & MyAccountNewsletterSubscriptionContainerMapDispatchProps;
 
-export type MyAccountNewsletterSubscriptionContainerState = {
+export interface MyAccountNewsletterSubscriptionContainerState {
     isLoading: boolean;
     isSubscriptionSelected: boolean;
-};
+}
 
 export interface MyAccountNewsletterSubscriptionComponentProps {
     onCustomerSave: (form, fields) => void;

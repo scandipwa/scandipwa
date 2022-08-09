@@ -38,10 +38,10 @@ export type OverlayAction = ToggleOverlayByKeyAction
 | HideActivePopupAction
 | ShowPopupAction<string, unknown>;
 
-export type OverlayStore = {
+export interface OverlayStore {
     activeOverlay: keyof PopupPayload;
     areOtherOverlaysOpen: boolean;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {

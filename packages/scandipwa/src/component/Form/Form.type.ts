@@ -78,8 +78,8 @@ export type FormContainerPropsKeys = 'validationResponse'
 | 'mix'
 | 'events';
 
-export type FormValidationOutput = {
+export interface FormValidationOutput {
     detail?: {
         errors?: ValidationDOMOutput[];
     };
-};
+}

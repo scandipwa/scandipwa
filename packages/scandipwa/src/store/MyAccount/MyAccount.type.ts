@@ -65,7 +65,7 @@ export type MyAccountAction = UpdateCustomerSignInStatusAction
 | UpdateCustomerPasswordForgotEmailAction
 | UpdateIsLockedAction;
 
-export type MyAccountStore = {
+export interface MyAccountStore {
     isSignedIn: boolean;
     passwordResetStatus: string;
     passwordResetMessage: string;
@@ -76,7 +76,7 @@ export type MyAccountStore = {
     message: string;
     email: string;
     status: boolean;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type HistoryState = {
+export interface HistoryState {
     isForgotPassword?: boolean;
     isFromLocked?: boolean;
     editPassword?: boolean;
@@ -20,4 +20,4 @@ export type HistoryState = {
     firstName?: string;
     lastName?: string;
     email?: string;
-};
+}

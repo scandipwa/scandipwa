@@ -534,7 +534,7 @@ export interface ConfigurableProductFragment {
     variants: VariantItem[];
 }
 
-export type ProductListOptions = {
+export interface ProductListOptions {
     isSingleProduct: boolean;
     isPlp: boolean;
     isForWishlist: boolean;
@@ -547,20 +547,20 @@ export type ProductListOptions = {
     categoryIds: number[];
     args: ProductListOptionArgs;
     isNext?: boolean;
-};
+}
 
-export type ProductListOptionArgs = {
+export interface ProductListOptionArgs {
     filter?: Partial<ProductAttributeFilterOptions>;
     search?: string;
     currentPage?: number;
     sort?: CategorySortOptions;
     pageSize?: number;
-};
+}
 
-export type PriceRangeMap = {
+export interface PriceRangeMap {
     from?: number;
     to?: number;
-};
+}
 
 export type AttributeOptionField = Array<
 Field<'label', string>
@@ -573,7 +573,7 @@ export interface FilterPriceRange {
     max: number;
 }
 
-export type FilterArgumentMap = {
+export interface FilterArgumentMap {
     categoryIds: (id: number | number[]) => ({ category_id: { eq: number | number[] } });
     categoryUrlPath: (url: string) => ({ category_url_path: { eq: string } });
     priceRange: (price: FilterPriceRange) => ({ price: PriceRangeMap });
@@ -589,13 +589,13 @@ export type FilterArgumentMap = {
     newToDate: (date: string) => ({ news_to_date: { gteq: string } });
     conditions: (conditions: string) => ({ conditions: { eq: string } });
     customerGroupId: (id: number) => ({ customer_group_id: { eq: number } });
-};
+}
 
 export interface ProductAttributeCustomFilterOptions {
     category_id?: string;
 }
 
-export type ProductAttributeFilterOptions = {
+export interface ProductAttributeFilterOptions {
     categoryIds?: number | number[];
     categoryUrlPath?: string;
     priceRange?: FilterPriceRange;
@@ -608,9 +608,9 @@ export type ProductAttributeFilterOptions = {
     conditions?: string;
     customerGroupId?: number;
     price?: number[];
-};
+}
 
-export type ArgumentsMap = {
+export interface ArgumentsMap {
     currentPage: {
         type: string;
         handler: undefined;
@@ -633,4 +633,4 @@ export type ArgumentsMap = {
         type: string;
         handler: (initialOptions: ProductAttributeFilterOptions) => Record<string, unknown>;
     };
-};
+}

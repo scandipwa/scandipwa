@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type InstallPromptIOSComponentProps = {
+export interface InstallPromptIOSComponentProps {
     handleBannerClose: () => void;
-};
+}

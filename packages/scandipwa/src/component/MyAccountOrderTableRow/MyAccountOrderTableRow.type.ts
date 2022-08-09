@@ -31,10 +31,10 @@ export type MyAccountOrderTableRowContainerProps = MyAccountOrderTableRowContain
 & MyAccountOrderTableRowContainerMapDispatchProps
 & MyAccountOrderTableRowContainerBaseProps;
 
-export type MyAccountOrderTableRowContainerState = {
+export interface MyAccountOrderTableRowContainerState {
     colSpanPriceCount: number;
     colSpanLabelCount: number;
-};
+}
 
 export interface MyAccountOrderTableRowComponentProps {
     order: OrderRow;

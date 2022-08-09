@@ -47,12 +47,12 @@ export type MyAccountContainerProps = MyAccountContainerMapStateProps
     selectedTab?: MyAccountTabs;
 };
 
-export type MyAccountContainerState = {
+export interface MyAccountContainerState {
     activeTab: string;
     isEditingActive: boolean;
     tabName: string;
     stateSubHeading: string;
-};
+}
 
 export interface MyAccountComponentProps {
     isEditingActive: boolean;
@@ -72,10 +72,10 @@ export interface MyAccountComponentProps {
     setTabSubheading: (subHeading: string) => void;
 }
 
-export type MyAccountTab = {
+export interface MyAccountTab {
     url: string;
     tabName: string;
     section: MyAccountTabsSection;
     title?: string;
     isFullUrl?: boolean;
-};
+}

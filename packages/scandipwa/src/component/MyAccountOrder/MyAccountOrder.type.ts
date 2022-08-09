@@ -50,11 +50,11 @@ export type MyAccountOrderContainerProps = MyAccountOrderContainerMapStateProps
     setTabSubheading: (subHeading: string) => void;
 };
 
-export type MyAccountOrderContainerState = {
+export interface MyAccountOrderContainerState {
     order: Partial<OrderItem>;
     isLoading: boolean;
     activeTab: OrderTabs;
-};
+}
 
 export interface MyAccountOrderComponentProps {
     order: OrderItem | Record<string, never>;
@@ -73,9 +73,9 @@ export type OrderRenderItems = {
     items: OrderItemProduct[]; number: string;
 } | OrderShipment | Invoice;
 
-export type OrderTab = {
+export interface OrderTab {
     tabName: OrderTabs;
     title: string;
     shouldTabRender: () => boolean;
     render: () => ReactElement;
-};
+}

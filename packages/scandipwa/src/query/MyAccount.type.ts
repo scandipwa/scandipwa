@@ -102,27 +102,27 @@ export interface CreateCustomerOutput {
     customer: Customer;
 }
 
-export type ResetPasswordOptions = {
+export interface ResetPasswordOptions {
     token: string;
     password: string;
     password_confirmation: string;
-};
+}
 
-export type SignInOptions = {
+export interface SignInOptions {
     email: string;
     password: string;
-};
+}
 
-export type ConfirmAccountOptions = SignInOptions & {
+export interface ConfirmAccountOptions extends SignInOptions {
     key: string;
-};
+}
 
-export type ChangeCustomerPasswordOptions = {
+export interface ChangeCustomerPasswordOptions {
     password: string;
     newPassword: string;
-};
+}
 
-export type CreateAccountOptions = {
+export interface CreateAccountOptions {
     customer: Omit<GQLCustomerInput, 'password'>;
     password: string;
-};
+}

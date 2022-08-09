@@ -18,10 +18,10 @@ export enum OrderActionType {
     SET_ORDER_LOADING_STATUS = 'SET_ORDER_LOADING_STATUS'
 }
 
-export type OrderList = {
+export interface OrderList {
     items: OrderItem[];
     pageInfo: SearchResultPageInfo;
-};
+}
 
 export interface GetOrderListAction extends AnyAction {
     type: OrderActionType.GET_ORDER_LIST;
@@ -36,10 +36,10 @@ export interface SetLoadingStatusAction extends AnyAction {
 
 export type OrderAction = GetOrderListAction | SetLoadingStatusAction;
 
-export type OrderStore = {
+export interface OrderStore {
     orderList: Partial<OrderList>;
     isLoading: boolean;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {

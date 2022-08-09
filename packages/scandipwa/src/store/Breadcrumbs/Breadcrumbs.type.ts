@@ -12,30 +12,30 @@ import { AnyAction } from 'redux';
 
 import { Url } from 'Type/Common.type';
 
-export type Breadcrumb = {
+export interface Breadcrumb {
     url?: Url | string;
     name: string;
-};
+}
 
-export type CategoryBreadcrumb = {
+export interface CategoryBreadcrumb {
     category_level: number;
     category_url: string;
     category_name: string;
     category_is_active: boolean;
-};
+}
 
-export type Category = {
+export interface Category {
     id: number | string;
     url: string;
     name: string;
     breadcrumbs: CategoryBreadcrumb[];
-};
+}
 
-export type Product = {
+export interface Product {
     name: string;
     url: Url;
     categories: Category[];
-};
+}
 
 export enum BreadcrumbsActionType {
     UPDATE_BREADCRUMBS = 'UPDATE_BREADCRUMBS',
@@ -54,10 +54,10 @@ export interface UpdateBreadcrumbsAction extends AnyAction {
 
 export type BreadcrumbsAction = ToggleBreadcrumbsAction | UpdateBreadcrumbsAction;
 
-export type BreadcrumbsStore = {
+export interface BreadcrumbsStore {
     breadcrumbs: Breadcrumb[];
     areBreadcrumbsVisible: boolean;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {

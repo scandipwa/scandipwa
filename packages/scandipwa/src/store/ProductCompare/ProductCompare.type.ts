@@ -70,14 +70,14 @@ export type ProductCompareAction = ToggleLoaderAction
 | AddComparedProductIdsAction
 | UpdateCompareTotalsAction;
 
-export type ProductCompareStore = {
+export interface ProductCompareStore {
     isLoading: boolean;
     count: number;
     attributes: ComparableAttribute[];
     products: ComparableProduct[];
     productIds: number[];
     items: ComparableItem[];
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {

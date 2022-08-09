@@ -27,10 +27,10 @@ export interface SetBigOfflineNoticeAction extends AnyAction {
 
 export type OfflineAction = ShowOfflineNoticeAction | SetBigOfflineNoticeAction;
 
-export type OfflineStore = {
+export interface OfflineStore {
     isOffline: boolean;
     isBig: boolean;
-};
+}
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {

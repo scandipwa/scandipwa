@@ -34,7 +34,7 @@ export type MyAccountAddressTableContainerProps = MyAccountAddressTableContainer
     title: string;
 };
 
-export type MyAccountAddressTableComponentProps = {
+export interface MyAccountAddressTableComponentProps {
     mix: Mix;
     address: CustomerAddress;
     showActions: boolean;
@@ -43,7 +43,7 @@ export type MyAccountAddressTableComponentProps = {
     onDeleteClick: () => void;
     countries: Country[];
     title: string;
-};
+}
 
 export type MyAccountAddressTableContainerPropsKeys =
 'address'

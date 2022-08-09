@@ -19,7 +19,7 @@ export interface ExpandableContentContainerMapStateProps {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ExpandableContentContainerDispatchProps {}
 
-export type ExpandableContentComponentProps = {
+export interface ExpandableContentComponentProps {
     isContentExpanded: boolean;
     isArrow: boolean;
     heading?: string;
@@ -28,9 +28,9 @@ export type ExpandableContentComponentProps = {
     mods: Mods;
     device: Device;
     onClick?: (props?: ExpandableContentComponentProps, propName?: string, componentName?: string) => void;
-};
+}
 
-export type ExpandableContentComponentState = {
+export interface ExpandableContentComponentState {
     isContentExpanded: boolean;
     prevIsContentExpanded: boolean;
-};
+}
