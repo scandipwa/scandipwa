@@ -10,7 +10,10 @@
  */
 
 import {
-    GQLCartDisplayConfig, GQLConfigurableProduct, GQLPriceTaxDisplay, GQLQuoteData
+    GQLCartDisplayConfig,
+    GQLConfigurableProduct,
+    GQLPriceTaxDisplay,
+    GQLQuoteData
 } from 'Type/Graphql.type';
 
 // ! TODO move reducer types when we start work with redux!

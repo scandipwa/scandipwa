@@ -13,9 +13,9 @@ import { Field, Mutation, Query } from '@tilework/opus';
 
 import {
     GQLEstimateShippingCostsAddress,
-    GQLS_SetBillingAddressOnCartInput,
-    GQLS_SetPaymentMethodOnCartInput,
-    GQLSaveAddressInformation
+    GQLSaveAddressInformation,
+    GQLSSetBillingAddressOnCartInput,
+    GQLSSetPaymentMethodOnCartInput
 } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
 
@@ -78,7 +78,7 @@ export class CheckoutQuery {
     }
 
     getSetBillingAddressOnCart(
-        input: GQLS_SetBillingAddressOnCartInput
+        input: GQLSSetBillingAddressOnCartInput
     ): Mutation<'billingAddress', { cart: { id: number } }> {
         return new Mutation<'s_setBillingAddressOnCart', { cart: { id: number } }>('s_setBillingAddressOnCart')
             .addArgument('input', 'S_SetBillingAddressOnCartInput!', input)
@@ -87,7 +87,7 @@ export class CheckoutQuery {
     }
 
     getSetPaymentMethodOnCartMutation(
-        input: GQLS_SetPaymentMethodOnCartInput
+        input: GQLSSetPaymentMethodOnCartInput
     ): Mutation<'paymentMethod', { cart: { id: number } }> {
         return new Mutation<'s_setPaymentMethodOnCart', { cart: { id: number } }>('s_setPaymentMethodOnCart')
             .addArgument('input', 'S_SetPaymentMethodOnCartInput!', input)
