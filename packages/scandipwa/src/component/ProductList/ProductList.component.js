@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -227,7 +228,7 @@ export class ProductList extends PureComponent {
         const pageRenders = Object.entries(pages).map(this.renderProductPage.bind(this));
 
         if (isVisible && isInfiniteLoaderEnabled) { // add placeholders to the end of pages if needed
-            const key = Math.max(Object.keys(pages)) + 1; // the key should match next page key
+            const key = Math.max(...Object.keys(pages)) + 1; // the key should match next page key
 
             pageRenders.push(this.renderPage({ key }));
         }
