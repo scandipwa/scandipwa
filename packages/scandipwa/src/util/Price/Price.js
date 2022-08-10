@@ -19,7 +19,7 @@ export const formatPrice = (price, currentCurrency) => {
     const language = navigator.languages ? navigator.languages[0] : navigator.language;
     const currency = currentCurrency || 'USD';
 
-    return new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
+    return new Intl.NumberFormat(language, { style: 'currency', currency }).format(price || 0);
 };
 
 /**
