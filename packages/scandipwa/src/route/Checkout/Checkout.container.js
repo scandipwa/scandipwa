@@ -305,20 +305,26 @@ export class CheckoutContainer extends PureComponent {
         const {
             couponActive: prevCouponActive
         } = prevState;
+
         const {
-            email, checkoutStep, isVisibleEmailRequired
+            email,
+            checkoutStep,
+            isVisibleEmailRequired
         } = this.state;
-        const { email: prevEmail, isVisibleEmailRequired: prevIsVisibleEmailRequired } = prevState;
+
+        const {
+            email: prevEmail,
+            isVisibleEmailRequired: prevIsVisibleEmailRequired
+        } = prevState;
+
         const { pathname = '' } = location;
 
         this.handleRedirectIfNoItemsInCart();
         this.handleRedirectIfLessThanMinAmountInCart();
 
-        if (prices && checkoutStep === BILLING_STEP) {
-            if (prevCouponActive !== !!prices.coupon_code) {
-                this.setState({ couponActive: !!prices.coupon_code });
-                this._getPaymentMethods();
-            }
+        if (prices && checkoutStep === BILLING_STEP && prevCouponActive !== !!prices.coupon_code) {
+            this.setState({ couponActive: !!prices.coupon_code });
+            this._getPaymentMethods();
         }
 
         if (prevIsCartLoading && !isCartLoading) {
