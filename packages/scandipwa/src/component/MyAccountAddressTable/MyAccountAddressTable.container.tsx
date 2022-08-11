@@ -57,8 +57,8 @@ export class MyAccountAddressTableContainer<
     };
 
     containerProps(): Pick<
-    MyAccountAddressTableComponentProps,
-    MyAccountAddressTableContainerPropsKeys
+        MyAccountAddressTableComponentProps,
+        MyAccountAddressTableContainerPropsKeys
     > {
         const {
             address,

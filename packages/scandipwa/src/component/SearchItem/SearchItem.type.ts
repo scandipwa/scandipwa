@@ -31,7 +31,7 @@ export type SearchItemContainerProps = SearchItemContainerMapStateProps
 & SearchItemContainerMapDispatchProps
 & SearchItemContainerBaseProps;
 
-export interface SearchItemComponentProps {
+export interface SearchItemComponentProps extends SearchItemContainerFunctions {
     product: Partial<IndexedProduct>;
     linkTo: Url;
     imgSrc: string;

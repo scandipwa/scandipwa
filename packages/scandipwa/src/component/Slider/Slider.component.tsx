@@ -401,7 +401,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
         }
     }
 
-    handleInteraction(callback, ...args): void {
+    handleInteraction(callback: (...args: any[]) => void, ...args: any[]): void {
         const { isInteractionDisabled } = this.props;
 
         if (isInteractionDisabled || !callback) {

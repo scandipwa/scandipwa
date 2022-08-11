@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -109,4 +109,4 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
 
 export default withReducers({
     SearchBarReducer
-})(connect(mapStateToProps, mapDispatchToProps)(SearchOverlayContainer));
+})(connect(mapStateToProps, mapDispatchToProps)(SearchOverlayContainer)) as unknown as ComponentType<Partial<SearchOverlayComponentProps>>;

@@ -11,6 +11,7 @@
 
 import { DataPair } from 'Component/KeyValueTable/KeyValueTable.type';
 import { CustomerAddress } from 'Query/MyAccount.type';
+import { OrderAddress } from 'Query/Order.type';
 import { Country } from 'Query/Region.type';
 import { getFormattedRegion } from 'Util/Address';
 import { FormattedRegion } from 'Util/Address/Address.type';
@@ -19,7 +20,7 @@ import { MyAccountAddressTableComponentProps } from './MyAccountAddressTable.typ
 
 /** @namespace Component/MyAccountAddressTable/Table/getAddressAdditionalTableFields */
 export const getAddressAdditionalTableFields = (
-    address: CustomerAddress,
+    address: CustomerAddress | OrderAddress,
     countries: Country[]
 ): DataPair<CustomerAddress | FormattedRegion>[] => {
     const regionData = getFormattedRegion(address, countries);

@@ -50,9 +50,9 @@ State extends NavigationAbstractContainerState
         '/': this.default_state
     };
 
-    state: NavigationAbstractContainerState = {
+    state: State = {
         prevPathname: ''
-    } as State;
+    } as unknown as State;
 
     componentDidMount(): void {
         const { setNavigationState } = this.props;

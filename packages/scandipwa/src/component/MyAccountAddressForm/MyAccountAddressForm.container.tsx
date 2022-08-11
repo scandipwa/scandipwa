@@ -212,7 +212,7 @@ export class MyAccountAddressFormContainer <
         const { value: zipCode = '' } = field || {};
         const { countryId } = this.state;
         this.setState({ currentZipcode: zipCode });
-        debounce(this.handleSetCityAndRegionDependingOnZipcode(zipCode, countryId), UPDATE_ZIPCODE_FREQUENCY);
+        debounce(this.handleSetCityAndRegionDependingOnZipcode(zipCode, countryId) as unknown as (...args: unknown[]) => Promise<void>, UPDATE_ZIPCODE_FREQUENCY);
     }
 
     async handleSetCityAndRegionDependingOnZipcode(zipCode: string, countryId?: string): Promise<void> {

@@ -50,7 +50,7 @@ export type LinkContainerProps =
     };
 
 export interface LinkComponentProps {
-    to: Url;
+    to: Url | string;
     children: Children;
     onClick: (e: MouseEvent) => void;
     bemProps: Mix & { mix?: Mix };

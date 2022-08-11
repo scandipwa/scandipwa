@@ -105,10 +105,6 @@ export class SearchField extends PureComponent<SearchFieldComponentProps> {
         onSearchBarChange(e);
     }
 
-    clearSearch(): void {
-        this.onClearSearchButtonClick(null, false);
-    }
-
     renderClearSearch(): ReactElement {
         const { isVisible } = this.props;
 
@@ -161,7 +157,6 @@ export class SearchField extends PureComponent<SearchFieldComponentProps> {
                 <Suspense fallback={ this.renderOverlayFallback() }>
                     <SearchOverlay
                       isHideOverlay={ !device.isMobile }
-                      clearSearch={ this.clearSearch }
                       searchCriteria={ searchCriteria }
                     />
                 </Suspense>

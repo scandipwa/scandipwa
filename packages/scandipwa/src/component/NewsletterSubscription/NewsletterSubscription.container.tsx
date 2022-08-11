@@ -17,6 +17,7 @@ import { Dispatch } from 'redux';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
+import { FieldData } from 'Util/Form/Form.type';
 import { RootState } from 'Util/Store/Store.type';
 
 import NewsletterSubscription from './NewsletterSubscription.component';
@@ -72,7 +73,7 @@ NewsletterSubscriptionContainerState
         return { isLoading };
     }
 
-    onFormSubmit(form: HTMLFormElement, fields): void {
+    onFormSubmit(form: HTMLFormElement, fields: FieldData[]): void {
         const {
             subscribeToNewsletter,
             allowGuestSubscribe,
@@ -84,6 +85,10 @@ NewsletterSubscriptionContainerState
             value: email
         } = fields.find(({ name }) => name === 'newsletterEmail') || {};
 
+        if (!email) {
+            return;
+        }
+
         if (!allowGuestSubscribe && !isSignedIn) {
             showErrorNotification(
                 __('Guests can not subscribe to the newsletter. You must create an account or login to subscribe.')
@@ -94,7 +99,7 @@ NewsletterSubscriptionContainerState
 
         this.setState({ isLoading: true });
 
-        subscribeToNewsletter(email)
+        subscribeToNewsletter(email as string)
             .then(this.onFormSubmitDone)
             .catch(this.onFormSubmitDone);
     }

@@ -80,7 +80,7 @@ export class LinkContainer extends PureComponent<LinkContainerProps> {
         };
     }
 
-    getTo(): Url {
+    getTo(): Url | string {
         const { to: toProp } = this.props;
         // fix null, undefined and empty links
         const to = toProp || '/';

@@ -160,7 +160,7 @@ export class Footer extends Component<FooterComponentProps> {
     }
 
     renderCmsBlockWrapper(): ReactElement {
-        const { footer_content: { footer_cms } = {} } = window.contentConfiguration;
+        const { footer_content: { footer_cms = undefined } = {} } = window.contentConfiguration || {};
 
         return (
             <div
@@ -184,7 +184,7 @@ export class Footer extends Component<FooterComponentProps> {
     }
 
     renderContent(): ReactElement {
-        const { footer_content: { footer_cms } = {} } = window.contentConfiguration;
+        const { footer_content: { footer_cms = undefined } = {} } = window.contentConfiguration || {};
 
         if (footer_cms) {
             return this.renderCmsBlockWrapper();

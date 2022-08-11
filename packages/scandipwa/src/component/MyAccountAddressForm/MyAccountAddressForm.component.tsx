@@ -28,10 +28,10 @@ export class MyAccountAddressForm<
     Props extends MyAccountAddressFormComponentProps = MyAccountAddressFormComponentProps
 > extends FieldForm<Props> {
     static defaultProps: Partial<MyAccountAddressFormComponentProps> = {
-        currentZipcode: null,
-        currentCity: null,
-        currentRegion: null,
-        currentRegionId: null,
+        currentZipcode: undefined,
+        currentCity: undefined,
+        currentRegion: undefined,
+        currentRegionId: undefined,
         isStateRequired: false
     };
 

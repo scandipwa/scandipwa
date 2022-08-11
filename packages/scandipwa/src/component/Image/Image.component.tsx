@@ -17,7 +17,7 @@ import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import { ImageState } from './Image.config';
-import { ImageComponentProps, ImageComponentState } from './Image.type';
+import { ImageComponentProps, ImageComponentState, ImageRatio } from './Image.type';
 
 import './Image.style';
 
@@ -36,20 +36,20 @@ S extends ImageComponentState = ImageComponentState
         alt: '',
         wrapperSize: {},
         style: {},
-        title: null,
+        title: undefined,
         isPlain: false,
         isPlaceholder: false,
         isCached: false,
         className: '',
-        ratio: 'square',
+        ratio: ImageRatio.IMG_SQUARE,
         mix: {},
         showIsLoading: false,
-        imageRef: noopFn
+        imageRef: undefined
     };
 
     image = createRef();
 
-    state: ImageComponentState = { imageStatus: ImageState.IMAGE_LOADING };
+    state: S = { imageStatus: ImageState.IMAGE_LOADING } as unknown as S;
 
     renderMap = {
         [ImageState.IMAGE_NOT_FOUND]: this.renderImageNotFound.bind(this),

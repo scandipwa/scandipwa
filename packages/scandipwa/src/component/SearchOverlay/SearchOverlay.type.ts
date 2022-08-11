@@ -35,7 +35,7 @@ export type SearchOverlayContainerProps = SearchOverlayContainerMapStateProps
 & SearchOverlayContainerMapDispatchProps
 & SearchOverlayContainerBaseProps;
 
-export interface SearchOverlayComponentProps {
+export interface SearchOverlayComponentProps extends SearchOverlayContainerFunctions {
     clearSearchResults: () => void;
     isHideOverlay: boolean;
     isLoading: boolean;

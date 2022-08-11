@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 import { CustomerAddress } from 'Query/MyAccount.type';
+import { OrderAddress } from 'Query/Order.type';
 import { Country } from 'Query/Region.type';
 import { Mix } from 'Type/Common.type';
 
@@ -27,22 +28,20 @@ export interface MyAccountAddressTableContainerFunctions {
 
 export type MyAccountAddressTableContainerProps = MyAccountAddressTableContainerMapStateProps
 & MyAccountAddressTableContainerMapDispatchProps & {
-    mix: Mix;
-    address: CustomerAddress;
-    showAdditionalFields: boolean;
-    showActions: boolean;
-    title: string;
+    mix?: Mix;
+    address: CustomerAddress | OrderAddress;
+    showAdditionalFields?: boolean;
+    showActions?: boolean;
+    title?: string;
 };
 
-export interface MyAccountAddressTableComponentProps {
-    mix: Mix;
-    address: CustomerAddress;
-    showActions: boolean;
-    showAdditionalFields: boolean;
-    onEditClick: () => void;
-    onDeleteClick: () => void;
+export interface MyAccountAddressTableComponentProps extends MyAccountAddressTableContainerFunctions {
+    mix?: Mix;
+    address: CustomerAddress | OrderAddress;
+    showActions?: boolean;
+    showAdditionalFields?: boolean;
     countries: Country[];
-    title: string;
+    title?: string;
 }
 
 export type MyAccountAddressTableContainerPropsKeys =

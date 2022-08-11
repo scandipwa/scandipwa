@@ -40,12 +40,12 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         showErrorAsLabel: true,
         label: '',
         subLabel: '',
-        onSubmit: null,
-        onError: null,
+        onSubmit: undefined,
+        onError: undefined,
         children: [],
         returnAsObject: false,
         mix: {},
-        elemRef: null
+        elemRef: undefined
     };
 
     state: FormContainerState = {

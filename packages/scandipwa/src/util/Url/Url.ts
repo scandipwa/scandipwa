@@ -154,11 +154,11 @@ export const convertQueryStringToKeyValuePairs = <T extends Record<string, strin
  * @namespace Util/Url/updateKeyValuePairs
  */
 export const updateKeyValuePairs = (
-    keyValuePairs: Record<string, string>,
+    keyValuePairs: Record<string, string | number>,
     currentKey: string,
-    currentValue: string
-): Record<string, string> => {
-    const updatedKeyValuePairs: Record<string, string> = {};
+    currentValue: string | number
+): Record<string, string | number> => {
+    const updatedKeyValuePairs: Record<string, string | number> = {};
 
     Object.entries(keyValuePairs).forEach((pair) => {
         const [key, value] = pair;
@@ -180,7 +180,7 @@ export const updateKeyValuePairs = (
  * @namespace Util/Url/convertKeyValuesToQueryString
  */
 export const convertKeyValuesToQueryString = (
-    keyValuePairs: Record<string, string>
+    keyValuePairs: Record<string, string | number>
 ): string => Object.entries(keyValuePairs)
     .map((pair) => {
         const [key, value] = pair;
@@ -198,7 +198,7 @@ export const convertKeyValuesToQueryString = (
 
 /** @namespace Util/Url/generateQuery */
 export const generateQuery = (
-    keyValueObject: Record<string, string>,
+    keyValueObject: Record<string, string | number>,
     location: Location,
     history: History
 ): string => Object.entries(keyValueObject)

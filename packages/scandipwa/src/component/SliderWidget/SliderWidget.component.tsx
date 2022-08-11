@@ -35,7 +35,7 @@ import './SliderWidget.style';
  */
 export class SliderWidget extends PureComponent<SliderWidgetComponentProps, SliderWidgetComponentState> {
     static defaultProps: Partial<SliderWidgetComponentProps> = {
-        slider: [{}]
+        slider: {}
     };
 
     changeSlideDebounced?: () => void;

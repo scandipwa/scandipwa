@@ -149,6 +149,8 @@ StoreInPickUpPopupContainerState
         } = this.props;
         const method = this.getShippingMethod();
 
+        // TODO: refactore handling country id from string to GQLCountryCodeEnum.
+        // Since from BE we can get full list of country codes as enum which will be most updated information.
         const updateStore: StoreWithCountryId = { country_id: countryId as GQLCountryCodeEnum, ...store };
 
         onStoreSelect(updateStore);

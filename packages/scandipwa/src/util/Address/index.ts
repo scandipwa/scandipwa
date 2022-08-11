@@ -10,6 +10,7 @@
  */
 
 import { CustomerAddress } from 'Query/MyAccount.type';
+import { OrderAddress } from 'Query/Order.type';
 import { Country, Region } from 'Query/Region.type';
 import { Store } from 'Query/StoreInPickUp.type';
 import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
@@ -233,7 +234,7 @@ export const getAvailableRegions = (country_id: string, countries: Country[]): R
 
 /** @namespace Util/Address/Index/getFormattedRegion */
 export const getFormattedRegion = (
-    address: CustomerAddress,
+    address: CustomerAddress | OrderAddress,
     countries: Country[]
 ): FormattedRegion => {
     const { country_id, region: regionData } = address;

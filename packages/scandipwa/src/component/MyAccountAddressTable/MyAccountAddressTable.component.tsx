@@ -34,8 +34,14 @@ Props extends MyAccountAddressTableComponentProps = MyAccountAddressTableCompone
             onEditClick,
             onDeleteClick,
             showActions,
-            address: { default_billing, default_shipping }
+            address
         } = this.props;
+
+        if (!('default_shipping' in address)) {
+            return null;
+        }
+
+        const { default_billing, default_shipping } = address;
 
         const isDeleteAllowed = default_shipping || default_billing;
 
