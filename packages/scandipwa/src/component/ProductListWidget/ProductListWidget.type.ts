@@ -30,7 +30,7 @@ export interface ProductListWidgetContainerFunctions {
 
 export type ProductListWidgetContainerProps = ProductListWidgetContainerMapDispatchProps
 & {
-    showPager: number;
+    showPager: boolean;
     productsCount: number;
     productsPerPage: number;
     conditionsEncoded: string;

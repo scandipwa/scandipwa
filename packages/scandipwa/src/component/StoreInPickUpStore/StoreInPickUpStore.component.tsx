@@ -41,18 +41,22 @@ export class StoreInPickUpStoreComponent extends PureComponent<StoreInPickUpStor
     }
 
     render(): ReactElement {
+        const { store } = this.props;
+
+        if (!store) {
+            return null;
+        }
+
         const {
-            store: {
-                city,
-                country,
-                description,
-                name,
-                phone,
-                postcode,
-                region,
-                street
-            }
-        } = this.props;
+            city,
+            country,
+            description,
+            name,
+            phone,
+            postcode,
+            region,
+            street
+        } = store;
 
         return (
             <div block="StoreInPickUpStore" elem="Store">

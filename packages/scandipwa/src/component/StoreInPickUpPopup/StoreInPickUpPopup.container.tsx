@@ -38,6 +38,7 @@ import {
     StoreInPickUpPopupContainerState,
     StoreWithCountryId
 } from './StoreInPickUpPopup.type';
+import { GQLCountryCodeEnum } from 'Type/Graphql.type';
 
 /** @namespace Component/StoreInPickUpPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpPopupContainerDispatchProps => ({
@@ -148,7 +149,7 @@ StoreInPickUpPopupContainerState
         } = this.props;
         const method = this.getShippingMethod();
 
-        const updateStore: StoreWithCountryId = { country_id: countryId, ...store };
+        const updateStore: StoreWithCountryId = { country_id: countryId as GQLCountryCodeEnum, ...store };
 
         onStoreSelect(updateStore);
         setSelectedStore(store);

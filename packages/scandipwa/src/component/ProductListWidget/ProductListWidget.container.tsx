@@ -49,7 +49,7 @@ ProductListWidgetContainerProps,
 ProductListWidgetContainerState
 > {
     static defaultProps: Partial<ProductListWidgetContainerProps> = {
-        showPager: 0,
+        showPager: false,
         productsCount: 10,
         productsPerPage: 5,
         conditionsEncoded: undefined
@@ -128,7 +128,7 @@ ProductListWidgetContainerState
             } = {}
         } = data;
 
-        if (showPager === 0) {
+        if (!showPager) {
             return;
         }
 
@@ -191,7 +191,7 @@ ProductListWidgetContainerState
         return {
             filter: { conditions },
             pageSize: showPager ? productsPerPage : productsCount,
-            isPaginationEnabled: !!showPager
+            isPaginationEnabled: showPager
         };
     }
 

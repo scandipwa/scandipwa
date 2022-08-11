@@ -56,3 +56,9 @@ export interface FormattedStore {
     storeLinkUrl: string;
     label: string;
 }
+
+export type StoreSwitcherContainerPropsKeys = 'currentStoreCode'
+| 'device'
+| 'isOpened'
+| 'storeLabel'
+| 'storeList';

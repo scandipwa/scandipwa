@@ -30,6 +30,7 @@ import {
     StoreSwitcherContainerMapDispatchProps,
     StoreSwitcherContainerMapStateProps,
     StoreSwitcherContainerProps,
+    StoreSwitcherContainerPropsKeys,
     StoreSwitcherContainerState
 } from './StoreSwitcher.type';
 
@@ -85,8 +86,8 @@ export class StoreSwitcherContainer extends DataContainer<StoreSwitcherContainer
     }
 
     containerProps(): Pick<
-    StoreSwitcherComponentProps,
-    'currentStoreCode' | 'device' | 'isOpened' | 'storeLabel' | 'storeList'
+        StoreSwitcherComponentProps,
+        StoreSwitcherContainerPropsKeys
     > {
         const { currentStoreCode = '', device } = this.props;
         const { storeList, isOpened, storeLabel } = this.state;

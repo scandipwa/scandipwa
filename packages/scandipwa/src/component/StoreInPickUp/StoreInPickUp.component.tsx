@@ -18,12 +18,13 @@ import { ReactElement } from 'Type/Common.type';
 import { StoreInPickUpComponentProps } from './StoreInPickUp.type';
 
 import './StoreInPickUp.style';
+import { noopFn } from 'Util/Common';
 
 /** @namespace Component/StoreInPickUp/Component */
 export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponentProps> {
     static defaultProps: Partial<StoreInPickUpComponentProps> = {
         selectedStore: null,
-        selectStore: null
+        selectStore: noopFn
     };
 
     renderEmptyResult(): ReactElement {

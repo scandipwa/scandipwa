@@ -10,6 +10,7 @@
  */
 
 import { StoreEnhancer } from 'redux';
+import { Mix } from './Common.type';
 
 // import { ValidationData } from 'Util/Validator';
 
@@ -57,7 +58,7 @@ declare global {
             block?: string;
             elem?: string;
             mods?: Record<string, unknown>;
-            mix?: Record<string, unknown>;
+            mix?: Mix;
         }
     }
 

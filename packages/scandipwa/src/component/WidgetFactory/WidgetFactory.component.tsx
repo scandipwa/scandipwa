@@ -91,7 +91,7 @@ export class WidgetFactory extends PureComponent<WidgetFactoryComponentProps> {
                       sliderId={ sliderId }
                       displayType={ displayType }
                       productsCount={ productsCount }
-                      showPager={ showPager }
+                      showPager={ !!showPager }
                       storeId={ storeId }
                       title={ title }
                       conditionsEncoded={ conditionsEncoded }

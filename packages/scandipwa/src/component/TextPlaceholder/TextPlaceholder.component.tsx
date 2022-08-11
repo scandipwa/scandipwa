@@ -16,6 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import { TextPlaceholderComponentProps } from './TextPlaceholder.type';
 
 import './TextPlaceholder.style';
+import { TextPlaceHolderLength } from './TextPlaceholder.config';
 
 /**
  * Text placeholder
@@ -25,7 +26,7 @@ import './TextPlaceholder.style';
 export class TextPlaceholder extends PureComponent<TextPlaceholderComponentProps> {
     static defaultProps: Partial<TextPlaceholderComponentProps> = {
         content: '',
-        length: 'short',
+        length: TextPlaceHolderLength.SHORT,
         mix: {}
     };
 
