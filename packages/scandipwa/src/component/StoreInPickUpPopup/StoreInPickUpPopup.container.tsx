@@ -22,6 +22,7 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { ReactElement } from 'Type/Common.type';
+import { GQLCountryCodeEnum } from 'Type/Graphql.type';
 import { checkIfStoreIncluded, transformCountriesToOptions } from 'Util/Address';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
@@ -38,7 +39,6 @@ import {
     StoreInPickUpPopupContainerState,
     StoreWithCountryId
 } from './StoreInPickUpPopup.type';
-import { GQLCountryCodeEnum } from 'Type/Graphql.type';
 
 /** @namespace Component/StoreInPickUpPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpPopupContainerDispatchProps => ({

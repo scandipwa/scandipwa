@@ -109,4 +109,7 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
 
 export default withReducers({
     SearchBarReducer
-})(connect(mapStateToProps, mapDispatchToProps)(SearchOverlayContainer)) as unknown as ComponentType<Partial<SearchOverlayComponentProps>>;
+})(connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SearchOverlayContainer)) as unknown as ComponentType<Partial<SearchOverlayComponentProps>>;

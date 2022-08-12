@@ -99,7 +99,10 @@ NavigationAbstractContainerState
         const SCROLL_DEBOUNCE_DELAY = 10;
         const { name } = this.getNavigationState();
         this.lastSeenMenu = name === NavigationTabsMap.MENU_TAB ? 0 : -1;
-        window.addEventListener('scroll', debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY) as EventListenerOrEventListenerObject);
+        window.addEventListener(
+            'scroll',
+            debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY) as EventListenerOrEventListenerObject
+        );
 
         super.componentDidMount();
     }

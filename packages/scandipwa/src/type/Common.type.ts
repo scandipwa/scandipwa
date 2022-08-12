@@ -19,7 +19,7 @@ export interface Mix {
     block?: string;
     elem?: string;
     mods?: Mods;
-    mix?: Mix
+    mix?: Mix;
 }
 
 export type ReactElement = ReactNode | ReactNode[];

@@ -14,11 +14,11 @@ import { PureComponent } from 'react';
 import StoreInPickUpPopupComponent from 'Component/StoreInPickUpPopup';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
 import { ReactElement } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import { StoreInPickUpComponentProps } from './StoreInPickUp.type';
 
 import './StoreInPickUp.style';
-import { noopFn } from 'Util/Common';
 
 /** @namespace Component/StoreInPickUp/Component */
 export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponentProps> {

@@ -10,6 +10,7 @@
  */
 
 import { StoreEnhancer } from 'redux';
+
 import { Mix } from './Common.type';
 
 // import { ValidationData } from 'Util/Validator';

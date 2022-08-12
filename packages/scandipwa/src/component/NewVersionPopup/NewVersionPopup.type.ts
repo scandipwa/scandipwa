@@ -16,6 +16,7 @@ export interface NewVersionPopupContainerMapStateProps {
 }
 
 export interface NewVersionPopupContainerMapDispatchProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     showPopup: (payload: any) => void;
     goToPreviousHeaderState: () => void;
     hideActiveOverlay: () => void;

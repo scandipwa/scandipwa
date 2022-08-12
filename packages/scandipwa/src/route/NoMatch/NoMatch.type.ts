@@ -30,6 +30,7 @@ export type NoMatchContainerProps = NoMatchContainerMapStateProps
 
 export interface NoMatchComponentProps {
     updateBreadcrumbs: (breadcrumbs: Breadcrumb[]) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     cleanUpTransition: any; // TODO after transition migrate
 }
 

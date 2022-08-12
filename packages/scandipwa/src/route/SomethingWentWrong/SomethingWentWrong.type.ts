@@ -17,6 +17,7 @@ export interface SomethingWentWrongContainerMapDispatchProps {
     updateMeta: (meta: Partial<PageMeta>) => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SomethingWentWrongContainerMapStateToProps {}
 
 export interface SomethingWentWrongContainerBaseProps {

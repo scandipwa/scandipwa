@@ -34,5 +34,5 @@ export const getPriceFilterLabel = (
 
 /** @namespace Util/Category/Filters/getFiltersCount */
 export const getFiltersCount = (
-    filters
-): number => Object.values(filters).reduce((prev, next) => prev + next.length, 0);
+    filters: Record<string, unknown[]>
+): number => Object.values(filters).reduce((prev: number, next) => prev + next.length, 0);

@@ -14,7 +14,6 @@
 import { createRef, PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
-import { noopFn } from 'Util/Common';
 
 import { ImageState } from './Image.config';
 import { ImageComponentProps, ImageComponentState, ImageRatio } from './Image.type';
