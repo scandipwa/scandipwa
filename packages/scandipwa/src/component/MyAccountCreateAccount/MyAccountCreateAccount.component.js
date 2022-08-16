@@ -95,7 +95,6 @@ export class MyAccountCreateAccount extends PureComponent {
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
-                      inputType: VALIDATION_INPUT_TYPE.alphaSpace,
                       isRequired: true
                   } }
                   addRequiredTag
@@ -112,7 +111,6 @@ export class MyAccountCreateAccount extends PureComponent {
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
-                      inputType: VALIDATION_INPUT_TYPE.alphaSpace,
                       isRequired: true
                   } }
                   addRequiredTag
