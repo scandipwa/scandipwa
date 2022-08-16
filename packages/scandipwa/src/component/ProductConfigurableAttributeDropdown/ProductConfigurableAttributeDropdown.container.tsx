@@ -102,7 +102,7 @@ ProductConfigurableAttributeDropdownContainerProps
         const { option: { attribute_code = '' } } = this.props;
         const { parameters = {} } = this.props;
 
-        return parameters[ attribute_code ];
+        return parameters[ attribute_code ]?.toString();
     }
 
     render(): ReactElement {

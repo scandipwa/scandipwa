@@ -12,6 +12,7 @@
 import { PureComponent } from 'react';
 
 import ProductAttributeValue from 'Component/ProductAttributeValue';
+import { ProductAttributeShape } from 'Component/ProductAttributeValue/ProductAttributeValue.type';
 import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
@@ -55,8 +56,8 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
               attribute={ attribute }
               isSelected={ isSelected(attribute) }
               isAvailable={ getIsConfigurableAttributeAvailable(attribute) && inStock }
-              onClick={ handleOptionClick }
-              getLink={ getLink }
+              onClick={ handleOptionClick as (o: Partial<ProductAttributeShape>) => void }
+              getLink={ getLink as (o: Partial<ProductAttributeShape>) => string }
               showProductAttributeAsLink={ showProductAttributeAsLink }
             />
         );
@@ -147,7 +148,7 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
                 return null;
             }
 
-            const selectedOption = parameters[attribute_code];
+            const selectedOption = parameters[attribute_code]?.toString();
             const selectedOptionLabel = selectedOption ? attribute_options[selectedOption]?.label : '';
 
             return (

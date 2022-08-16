@@ -25,7 +25,10 @@ export class Draggable extends PureComponent<DraggableComponentProps, DraggableC
         shiftX: 0,
         shiftY: 0,
         onDragStart: noopFn,
-        onDragEnd: (state: DraggableComponentState, callback: (...args: unknown[]) => unknown): void => {
+        onDragEnd: (
+            state: DraggableComponentState,
+            callback: (newState: Partial<DraggableComponentState & { shiftX: number; shiftY: number }>) => unknown
+        ): void => {
             const { translateX, translateY } = state;
 
             callback({
@@ -39,7 +42,7 @@ export class Draggable extends PureComponent<DraggableComponentProps, DraggableC
         onDrag: noopFn,
         handleFocus: noopFn,
         handleKey: noopFn,
-        draggableRef: noopFn,
+        draggableRef: undefined,
         mix: {}
     };
 

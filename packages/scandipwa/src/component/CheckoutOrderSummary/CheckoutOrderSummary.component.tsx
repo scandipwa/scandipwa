@@ -17,6 +17,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import Loader from 'Component/Loader';
 import { TotalsItem } from 'Query/Checkout.type';
 import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
+import { IndexedCartItem } from 'Store/Cart/Cart.type';
 import { Mods, ReactElement } from 'Type/Common.type';
 import { getItemsCountLabel } from 'Util/Cart';
 import { noopFn } from 'Util/Common';
@@ -75,7 +76,7 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
         return (
             <CartItem
               key={ item_id }
-              item={ item }
+              item={ item as unknown as IndexedCartItem }
               currency_code={ quote_currency_code }
             />
         );

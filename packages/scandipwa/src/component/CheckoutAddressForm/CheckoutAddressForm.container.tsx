@@ -27,6 +27,10 @@ import {
 
 /** @namespace Component/CheckoutAddressForm/Container */
 export class CheckoutAddressFormContainer extends MyAccountAddressFormContainer<CheckoutAddressFormContainerProps> {
+    static defaultProps = {
+        ...MyAccountAddressFormContainer.defaultProps
+    };
+
     containerProps(): Pick<CheckoutAddressFormComponentProps, CheckoutAddressFormContainerPropsKeys> {
         const { onShippingEstimationFieldsChange } = this.props;
 

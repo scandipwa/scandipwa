@@ -15,6 +15,7 @@ import { Children } from 'Type/Common.type';
 export interface CmsBlockContainerProps {
     identifier: string;
     blockType?: string;
+    children: Children;
 }
 
 export interface CmsBlockContainerState {

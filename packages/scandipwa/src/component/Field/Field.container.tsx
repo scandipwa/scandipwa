@@ -47,7 +47,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
         addRequiredTag: false,
         label: '',
         subLabel: '',
-        elemRef: null,
+        elemRef: undefined,
         changeValueOnDoubleClick: false,
         isSortSelect: false
     };

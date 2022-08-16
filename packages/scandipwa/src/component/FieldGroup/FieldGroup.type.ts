@@ -39,6 +39,7 @@ export interface FieldGroupContainerProps {
     label: string;
     subLabel: string;
     mods: Mods;
+    returnAsObject?: boolean;
 }
 
 export interface FieldGroupContainerState {

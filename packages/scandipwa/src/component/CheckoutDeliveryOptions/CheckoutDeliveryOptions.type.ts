@@ -15,7 +15,7 @@ export interface CheckoutDeliveryOptionsContainerProps {
     onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
     shippingMethods: ShippingMethod[];
     handleSelectDeliveryMethod: () => void;
-    selectedShippingMethod?: ShippingMethod;
+    selectedShippingMethod?: Partial<ShippingMethod>;
 }
 
 export interface CheckoutDeliveryOptionsContainerState {
@@ -26,7 +26,7 @@ export interface CheckoutDeliveryOptionsComponent {
     shippingMethods: ShippingMethod[];
     selectShippingMethod: (shippingMethod: ShippingMethod) => void;
     handleSelectDeliveryMethod: () => void;
-    selectedShippingMethod?: ShippingMethod;
+    selectedShippingMethod?: Partial<ShippingMethod>;
     isShippingMethodPreSelected: boolean;
 }
 

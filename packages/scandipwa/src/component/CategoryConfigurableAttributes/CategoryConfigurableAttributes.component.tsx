@@ -12,6 +12,7 @@
 import ExpandableContent from 'Component/ExpandableContent';
 import ExpandableContentShowMore from 'Component/ExpandableContentShowMore';
 import ProductAttributeValue from 'Component/ProductAttributeValue/ProductAttributeValue.component';
+import { ProductAttributeShape } from 'Component/ProductAttributeValue/ProductAttributeValue.type';
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
 import {
@@ -114,8 +115,8 @@ CategoryConfigurableAttributesComponentProps
               attribute={ attribute }
               isSelected={ isSelected(attribute) }
               isAvailable={ getIsConfigurableAttributeAvailable(attribute) }
-              onClick={ handleOptionClick }
-              getLink={ getLink }
+              onClick={ handleOptionClick as (o: Partial<ProductAttributeShape>) => void }
+              getLink={ getLink as (o: Partial<ProductAttributeShape>) => string }
               isProductCountVisible={ showProductCount }
             />
         );

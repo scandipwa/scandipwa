@@ -91,7 +91,9 @@ export type IndexedBaseProduct<T> = Merge<T, {
     productOptionsData?: Record<string, string | string[]>;
 }>;
 
-export type IndexedProduct = IndexedBaseProduct<Partial<ProductItem>>;
+export type IndexedProduct = IndexedBaseProduct<Partial<ProductItem>> & {
+    parent?: IndexedBaseProduct<Partial<ProductItem>>;
+};
 
 export type IndexedWishlistProduct = IndexedBaseProduct<Partial<WishlistProduct>>;
 

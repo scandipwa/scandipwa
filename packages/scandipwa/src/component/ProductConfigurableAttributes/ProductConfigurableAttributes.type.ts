@@ -19,7 +19,7 @@ import { IndexedConfigurableOption, IndexedVariant } from 'Util/Product/Product.
 export interface ProductConfigurableAttributesContainerProps {
     renderPlaceholder: (block: string) => ReactElement;
     getLink: (filterKey: string, value: string) => string;
-    parameters: Record<string, string>;
+    parameters: Record<string, string | string[]>;
     updateConfigurableVariant?: (requestVar: string, value: string | number | boolean) => void;
     isExpandable: boolean;
     showProductAttributeAsLink: boolean;
@@ -51,7 +51,7 @@ export interface ProductConfigurableAttributesComponentProps
     isReady: boolean;
     mix: Mix;
     numberOfPlaceholders: number[];
-    parameters: Record<string, string>;
+    parameters: Record<string, string | string[]>;
     showProductAttributeAsLink: boolean;
     updateConfigurableVariant?: (requestVar: string, value: string | number | boolean) => void;
     inStock: boolean;

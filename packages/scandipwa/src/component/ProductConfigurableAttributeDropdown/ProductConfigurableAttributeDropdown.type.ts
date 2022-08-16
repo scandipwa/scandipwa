@@ -26,7 +26,7 @@ export interface ProductConfigurableAttributeDropdownContainerProps {
     option: Partial<ProductConfigurableAttribute>;
     updateConfigurableVariant?: (key: string, value: string | number | boolean, isEmpty?: boolean) => void;
     getIsConfigurableAttributeAvailable: (o: Partial<ProductConfigurableAttribute>) => boolean;
-    parameters: Record<string, string>;
+    parameters: Record<string, string | string[]>;
     isUnselected: boolean;
     handleShakeAnimationEnd: (e: AnimationEvent<HTMLElement>) => void;
 }

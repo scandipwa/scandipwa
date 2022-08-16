@@ -24,6 +24,7 @@ import {
 import { DateFieldAttr } from 'Component/DateSelect/DateSelect.config';
 import { Mix, ReactElement } from 'Type/Common.type';
 import { FieldOptions, Option } from 'Type/Field.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import {
     FieldValidationOutput,
     ValidationDOMOutput,
@@ -113,7 +114,8 @@ export type FieldEvents = Omit<DOMAttributes<HTMLElement>, 'children' | 'dangero
     onChange?: ((event: ChangeEvent<HTMLInputElement>, field?: EventFieldData) => void)
     | FieldNumberCustomEvents['onChange']
     | FieldSelectCustomEvents['onChange']
-    | FieldInputCustomEvents['onChange'];
+    | FieldInputCustomEvents['onChange']
+    | ((currencyCode: GQLCurrencyEnum) => void);
     onLoad?: FieldNumberCustomEvents['onLoad'];
 };
 

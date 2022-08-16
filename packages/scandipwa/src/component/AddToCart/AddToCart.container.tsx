@@ -25,6 +25,7 @@ import {
     getName,
     getProductInStock
 } from 'Util/Product/Extract';
+import { StockCheckProduct } from 'Util/Product/Product.type';
 import { magentoProductTransform } from 'Util/Product/Transform';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -145,7 +146,7 @@ export class AddToCartContainer extends PureComponent<AddToCartContainerProps, A
 
     validateStock(): boolean {
         const { product, showNotification } = this.props;
-        const inStock = getProductInStock(product);
+        const inStock = getProductInStock(product as Partial<StockCheckProduct>);
 
         if (!inStock) {
             const name = getName(product);

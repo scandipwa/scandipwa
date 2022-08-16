@@ -89,6 +89,7 @@ export type CartTotals = Merge<
 Partial<QuoteData>,
 {
     items?: IndexedCartItem[];
+    count?: number;
 }
 >;
 

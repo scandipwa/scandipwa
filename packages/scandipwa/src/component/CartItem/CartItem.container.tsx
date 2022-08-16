@@ -324,7 +324,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
     }
 
     _getProductThumbnail(): string {
-        const product = this.getCurrentProduct() || {};
+        const product = this.getCurrentProduct() || {} as IndexedVariant | IndexedProduct;
         const { thumbnail: { url: thumbnail } = {} } = product;
 
         return thumbnail || '';

@@ -26,6 +26,10 @@ import {
 
 /** @namespace Component/CheckoutAddressTable/Container */
 export class CheckoutAddressTableContainer extends MyAccountAddressTableContainer<CheckoutAddressTableContainerProps> {
+    static defaultProps = {
+        ...MyAccountAddressTableContainer.defaultProps
+    };
+
     containerProps(): Pick<CheckoutAddressTableContainerProps, CheckoutAddressTableContainerPropsKeys> {
         const { isSelected, onClick } = this.props;
 

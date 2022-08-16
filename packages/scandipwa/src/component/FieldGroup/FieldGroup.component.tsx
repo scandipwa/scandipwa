@@ -64,9 +64,7 @@ export class FieldGroup extends PureComponent<FieldGroupComponentProps> {
             return null;
         }
 
-        return (
-            { label }
-        );
+        return label;
     }
 
     // Renders group label under field
@@ -77,9 +75,7 @@ export class FieldGroup extends PureComponent<FieldGroupComponentProps> {
             return null;
         }
 
-        return (
-            { subLabel }
-        );
+        return subLabel;
     }
     //#endregion
 
@@ -99,8 +95,8 @@ export class FieldGroup extends PureComponent<FieldGroupComponentProps> {
                 <div
                   // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
                   { ...attr }
-                  // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
-                  { ...events }
+                  // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction, @typescript-eslint/no-explicit-any
+                  { ...events as any }
                   ref={ (elem) => setRef(elem) }
                   block="FieldGroup"
                   mods={ {

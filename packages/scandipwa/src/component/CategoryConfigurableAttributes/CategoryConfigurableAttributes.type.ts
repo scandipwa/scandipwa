@@ -31,7 +31,7 @@ export interface CategoryConfigurableAttributesContainerMapDispatchProps {}
 
 export interface CategoryConfigurableAttributesContainerBaseProps
     extends ProductConfigurableAttributesContainerProps {
-    parameters: Record<string, string>;
+    parameters: Record<string, string | string[]>;
     isSearchPage: boolean;
 }
 

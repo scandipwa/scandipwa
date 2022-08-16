@@ -24,7 +24,8 @@ import {
     FieldGroupContainerFunctions,
     FieldGroupContainerProps,
     FieldGroupContainerPropsKeys,
-    FieldGroupContainerState
+    FieldGroupContainerState,
+    FieldGroupEvents
 } from './FieldGroup.type';
 
 /**
@@ -34,7 +35,7 @@ import {
 export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps, FieldGroupContainerState> {
     static defaultProps: Partial<FieldGroupContainerProps> = {
         attr: {},
-        events: {},
+        events: {} as FieldGroupEvents,
         validationRule: {},
         validateOn: [],
         showErrorAsLabel: true,
@@ -42,7 +43,7 @@ export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps,
         subLabel: '',
         children: [],
         mods: {},
-        elemRef: null,
+        elemRef: undefined,
         returnAsObject: false
     };
 
@@ -138,15 +139,16 @@ export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps,
         const { validationResponse } = this.state;
 
         // Surrounds events with validation
-        const newEvents: Record<string, unknown> = {};
-        Object.keys(events).forEach((eventName) => {
-            const { [ eventName as keyof typeof events]: event } = events;
-            newEvents[ eventName ] = this.surroundEvent.bind(this, event);
+        const newEvents: FieldGroupEvents = {} as FieldGroupEvents;
+        (Object.keys(events) as Array<keyof FieldGroupEvents>).forEach((eventName) => {
+            const { [ eventName as keyof FieldGroupEvents]: event } = events;
+            this.surroundEvent.bind(this, event);
         });
 
-        validateOn.forEach((eventName) => {
+        (validateOn as Array<keyof FieldGroupEvents>).forEach((eventName) => {
             const { [ eventName as keyof typeof events ]: baseEvent } = events;
-            newEvents[ eventName ] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            newEvents[ eventName ] = (baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate) as any;
         });
 
         return {

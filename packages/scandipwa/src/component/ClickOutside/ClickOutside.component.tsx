@@ -14,6 +14,7 @@ import {
     cloneElement,
     createRef,
     PureComponent,
+    ReactElement as RReactElement,
     RefObject
 } from 'react';
 
@@ -41,7 +42,7 @@ export class ClickOutside extends PureComponent<ClickOutsideComponentProps> {
         this.childrenRefs = Children.map(
             children,
             () => createRef<HTMLElement>()
-        );
+        ) || [];
     }
 
     componentDidMount(): void {
@@ -57,9 +58,11 @@ export class ClickOutside extends PureComponent<ClickOutsideComponentProps> {
 
         if (this.childrenRefs?.every(
             (ref) => {
-                const elementRef = ref.current?.overlayRef?.current || ref.current;
+                const elementRef = (
+                    ref.current as HTMLElement & { overlayRef: RefObject<HTMLElement> }
+                )?.overlayRef?.current || ref.current;
 
-                return !elementRef.contains(target);
+                return !elementRef?.contains(target as HTMLElement);
             }
         )) {
             onClick();
@@ -69,7 +72,7 @@ export class ClickOutside extends PureComponent<ClickOutsideComponentProps> {
     render(): ReactElement {
         const { children } = this.props;
 
-        return Children.map(children, (element, idx) => (
+        return Children.map(children as RReactElement, (element, idx) => (
             cloneElement(element, { ref: this.childrenRefs[idx] })
         ));
     }

@@ -11,6 +11,7 @@
 
 import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable/MyAccountAddressTable.component';
+import { CustomerAddress } from 'Query/MyAccount.type';
 import { ReactElement } from 'Type/Common.type';
 
 import { CheckoutAddressTableComponentProps } from './CheckoutAddressTable.type';
@@ -32,7 +33,7 @@ export class CheckoutAddressTable extends MyAccountAddressTable<CheckoutAddressT
 
     onAddressClick(): void {
         const { address, onClick } = this.props;
-        onClick(address);
+        onClick(address as CustomerAddress);
     }
 
     renderTable(): ReactElement {
