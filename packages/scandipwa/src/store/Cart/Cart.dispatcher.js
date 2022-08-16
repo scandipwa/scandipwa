@@ -123,9 +123,11 @@ export class CartDispatcher {
         };
     }
 
-    async createGuestEmptyCart(dispatch) {
+    async createGuestEmptyCart(dispatch, disableLoader = false) {
         try {
-            dispatch(updateIsLoadingCart(true));
+            if (!disableLoader) {
+                dispatch(updateIsLoadingCart(true));
+            }
 
             const quoteId = await this._getNewQuoteId(dispatch);
 
