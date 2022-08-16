@@ -100,7 +100,7 @@ export const getCustomizableOptions = (buyRequest: string): string[] => {
         return [];
     }
 
-    return Object.entries(options).reduce((prev, [option, variant]) => {
+    return Object.entries(options).reduce<string[]>((prev, [option, variant]) => {
         if (typeof variant === 'string') {
             return [...prev, encodeBase64(`custom-option/${option}/${variant}`)];
         }
@@ -175,7 +175,7 @@ export const transformParameters = (
  * @returns {{baseLabel: string, priceLabel: string}}
  * @namespace Util/Product/Transform/bundleOptionToLabel
  */
-export const bundleOptionToLabel = (option, currencyCode = GQLCurrencyEnum.USD): PriceLabels => {
+export const bundleOptionToLabel = (option: IndexedBundleOption, currencyCode = GQLCurrencyEnum.USD): PriceLabels => {
     const {
         price,
         finalOptionPrice,
@@ -255,7 +255,7 @@ export const bundleOptionsToSelectTransform = (
  * @namespace Util/Product/Transform/customizableOptionToLabel
  */
 export const customizableOptionToLabel = (
-    option: CustomizableOption, currencyCode = GQLCurrencyEnum.USD
+    option: CustomizableSelectionValue, currencyCode = GQLCurrencyEnum.USD
 ): PriceLabels => {
     const {
         price,

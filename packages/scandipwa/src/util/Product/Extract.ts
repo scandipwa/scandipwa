@@ -16,7 +16,6 @@ import { ProductType } from 'Component/Product/Product.config';
 import { AdjustedPriceMap, ProductOption } from 'Component/Product/Product.type';
 import { ImageType } from 'Component/ProductGallery/ProductGallery.config';
 import {
-    BundleOption,
     GroupedProductItem,
     Money,
     PriceRange
@@ -30,6 +29,7 @@ import {
     DEFAULT_MAX_PRODUCTS,
     DEFAULT_MIN_PRODUCTS,
     IndexedBundleItem,
+    IndexedBundleOption,
     IndexedProduct,
     IndexedVariant,
     ProductExtractImage,
@@ -235,8 +235,8 @@ export const getGroupedProductsInStockQuantity = (
  * @namespace Util/Product/Extract/getBundleOption
  */
 export const getBundleOption = (
-    uid: string, options: Partial<BundleOption>[] = []
-): Partial<BundleOption> | undefined => {
+    uid: string, options: IndexedBundleOption[] = []
+): IndexedBundleOption | undefined => {
     const uidParts = decodeBase64(uid).split('/');
     return options.find(({ uid: linkedUid = '' }) => {
         const linkedUidParts = decodeBase64(linkedUid).split('/');
@@ -455,7 +455,7 @@ export const getAdjustedPrice = (
     product: IndexedProduct,
     downloadableLinks: string[],
     enteredOptions: ProductOption[],
-    selectedOptions: FieldValue[]
+    selectedOptions: FieldValue<string, false>[]
 ): AdjustedPriceMap => {
     const {
         options = [],
@@ -503,7 +503,7 @@ export const getAdjustedPrice = (
         const { items = [], dynamic_price: dynamicPrice = false } = product;
 
         selectedOptions.forEach((uid) => {
-            items.forEach(({ options: sldOptions = [] }) => {
+            (items as IndexedBundleItem[]).forEach(({ options: sldOptions = [] }) => {
                 const uidParts = decodeBase64(uid).split('/');
                 const option = Array.isArray(options) && getBundleOption(uid, sldOptions);
                 const quantity = +uidParts[uidParts.length - 1];
@@ -548,15 +548,27 @@ export const getAdjustedPrice = (
         const option = options.find(({ uid: linkUid }) => linkUid === uid);
 
         if (option) {
-            const { value: { priceExclTax = 0, priceInclTax = 0 } = {} } = option;
-            adjustedPrice.config.inclTax += priceInclTax;
-            adjustedPrice.config.exclTax += priceExclTax;
+            const { value } = option;
+
+            if ('priceInclTax' in value) {
+                const { priceExclTax = 0, priceInclTax = 0 } = value;
+                adjustedPrice.config.inclTax += priceInclTax;
+                adjustedPrice.config.exclTax += priceExclTax;
+            }
         }
     });
 
     selectedOptions.forEach((uid) => {
         options.forEach(({ value = [] }) => {
-            const option = Array.isArray(value) && value.find(({ uid: linkedUid }) => linkedUid === uid);
+            const option = Array.isArray(value) && value.find((option) => {
+                if ('uid' in option) {
+                    const { uid: linkedUid } = option;
+
+                    return linkedUid === uid;
+                }
+
+                return false;
+            });
 
             if (option) {
                 const { priceExclTax = 0, priceInclTax = 0 } = option;
