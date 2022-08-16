@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { FREE_PAYMENT } from 'Component/CheckoutPayments/CheckoutPayments.config';
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
 import { PaymentMethodType } from 'Type/Checkout.type';
@@ -41,11 +42,26 @@ export class CheckoutPayment extends PureComponent {
         onClick(method);
     }
 
+    renderFreePayment(title) {
+        return (
+            <li block="CheckoutPayment">
+                { title }
+            </li>
+        );
+    }
+
     render() {
         const {
+            onClick,
             isSelected,
-            method: { title }
+            method: { code, title }
         } = this.props;
+
+        if (code === FREE_PAYMENT) {
+            onClick({ code });
+
+            return this.renderFreePayment(title);
+        }
 
         // disable checkbox in order to skip direct clicks on checkbox and handle clicks on entire button instead
         return (

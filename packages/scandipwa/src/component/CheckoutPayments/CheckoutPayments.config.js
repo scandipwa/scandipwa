@@ -14,3 +14,4 @@ export const CHECK_MONEY = 'checkmo';
 export const PAYPAL_EXPRESS = 'paypal_express';
 export const PAYPAL_EXPRESS_CREDIT = 'paypal_express_bml';
 export const PURCHASE_ORDER = 'purchaseorder';
+export const FREE_PAYMENT = 'free';
