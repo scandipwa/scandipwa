@@ -38,7 +38,8 @@ export class CheckoutDeliveryOptionContainer extends PureComponent {
         getCartShippingItemSubPrice: PropTypes.func.isRequired,
         option: ShippingMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
-        isSelected: PropTypes.bool.isRequired
+        isSelected: PropTypes.bool.isRequired,
+        errorMessage: PropTypes.string.isRequired
     };
 
     containerFunctions = {
@@ -51,6 +52,7 @@ export class CheckoutDeliveryOptionContainer extends PureComponent {
             getCartShippingItemPrice,
             getCartShippingItemSubPrice,
             option = {},
+            errorMessage,
             totals: {
                 prices: {
                     quote_currency_code = null
@@ -61,6 +63,7 @@ export class CheckoutDeliveryOptionContainer extends PureComponent {
         return {
             isSelected,
             option,
+            errorMessage,
             optionPrice: getCartShippingItemPrice(option),
             optionSubPrice: getCartShippingItemSubPrice(option),
             currency: quote_currency_code
