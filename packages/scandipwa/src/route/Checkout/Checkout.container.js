@@ -236,7 +236,8 @@ export class CheckoutContainer extends PureComponent {
             isCreateUser: false,
             estimateAddress: {},
             isPickInStoreMethodSelected: false,
-            isVisibleEmailRequired: false
+            isVisibleEmailRequired: false,
+            couponActive: false
         };
     }
 
@@ -285,7 +286,8 @@ export class CheckoutContainer extends PureComponent {
                 shipping_method
             },
             totals: {
-                is_virtual
+                is_virtual,
+                prices
             },
             showInfoNotification,
             history
@@ -300,12 +302,30 @@ export class CheckoutContainer extends PureComponent {
             isCartLoading: prevIsCartLoading
         } = prevProps;
 
-        const { email, checkoutStep, isVisibleEmailRequired } = this.state;
-        const { email: prevEmail, isVisibleEmailRequired: prevIsVisibleEmailRequired } = prevState;
+        const {
+            couponActive: prevCouponActive
+        } = prevState;
+
+        const {
+            email,
+            checkoutStep,
+            isVisibleEmailRequired
+        } = this.state;
+
+        const {
+            email: prevEmail,
+            isVisibleEmailRequired: prevIsVisibleEmailRequired
+        } = prevState;
+
         const { pathname = '' } = location;
 
         this.handleRedirectIfNoItemsInCart();
         this.handleRedirectIfLessThanMinAmountInCart();
+
+        if (prices && checkoutStep === BILLING_STEP && prevCouponActive !== !!prices.coupon_code) {
+            this.setState({ couponActive: !!prices.coupon_code });
+            this._getPaymentMethods();
+        }
 
         if (prevIsCartLoading && !isCartLoading) {
             if (checkoutStep === SHIPPING_STEP) {
@@ -644,7 +664,8 @@ export class CheckoutContainer extends PureComponent {
             shippingMethods,
             selectedStoreAddress,
             isPickInStoreMethodSelected,
-            isVisibleEmailRequired
+            isVisibleEmailRequired,
+            couponActive
         } = this.state;
 
         return {
@@ -674,7 +695,8 @@ export class CheckoutContainer extends PureComponent {
             selectedStoreAddress,
             isPickInStoreMethodSelected,
             isCartLoading,
-            isVisibleEmailRequired
+            isVisibleEmailRequired,
+            couponActive
         };
     }
 
