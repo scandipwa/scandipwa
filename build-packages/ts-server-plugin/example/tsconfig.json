@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "plugins": [{
+      "name": "@scandipwa/ts-server-plugin"
+    }],
+    "target": "es2017",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true
+  }
+}
