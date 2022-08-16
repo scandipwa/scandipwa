@@ -105,12 +105,17 @@
         padding: 10px;
         display: flex;
         justify-content: center;
+        align-items: center;
         background-color: var(--primary-error-color, red);
         font-size: 14px;
         font-weight: 600;
         color: var(--color-white);
         inset-inline-start: -16px;
         width: calc(100% + 32px);
+        
+        @include mobile {
+            height: var(--button-height);
+        }
     }
 
     &-CheckoutButton {
