@@ -11,6 +11,7 @@
 
 import { Field, InlineFragment } from '@tilework/opus';
 
+import { ProductType } from 'Component/Product/Product.config';
 import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
 import { CategorySortOptions } from 'Route/CategoryPage/CategoryPage.type';
 import {
@@ -276,6 +277,8 @@ export interface ProductBundleOption {
     name: string;
     stock_status: GQLProductStockStatus;
     price_range: PriceRange;
+    type_id: ProductType;
+    dynamic_price: boolean;
 }
 
 export interface BundleOption {
