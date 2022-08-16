@@ -162,10 +162,10 @@ export class CartItem extends PureComponent {
     }
 
     renderContent() {
-        const { linkTo = {}, isProductInStock, isMobile } = this.props;
+        const { linkTo = {}, isMobile } = this.props;
 
-        if (!isProductInStock || Object.keys(linkTo).length === 0 || isMobile) {
-            // If product is out of stock, or link is not set
+        if (Object.keys(linkTo).length === 0 || isMobile) {
+            // If link is not set
             return (
                 <span block="CartItem" elem="Link">
                     { this.renderWrapperContent() }
