@@ -193,6 +193,18 @@ export class MyAccountAddressFormContainer extends PureComponent {
             value: countryId
         } = country;
 
+        // If the field was validated (and eventually highlighted as correct, or vice versa, with an error),
+        // and then the country is changed, the state validation does not change
+        // (although it may no longer meet the requirements of the field)
+        // Therefore, the field is reset when country is changed
+        const regionField = document.getElementById('address-region-id');
+
+        if (regionField) {
+            const event = new CustomEvent('resetField');
+
+            regionField.dispatchEvent(event);
+        }
+
         this.getAvailableRegions(countryId, currentZipcode);
         this.setState({
             availableRegions,

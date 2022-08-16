@@ -53,7 +53,7 @@ export const getStreetFields = (props) => {
                 placeholder: __('Your street address line %s', i + 1)
             },
             addRequiredTag: i === 0,
-            validateOn: i === 0 ? ['onChange'] : [],
+            validateOn: ['onChange'],
             validationRule: {
                 isRequired: i === 0
             }
@@ -100,7 +100,7 @@ export const getRegionFields = (props, events) => {
                     onChange: onRegionChange
                 },
                 addRequiredTag: isStateRequired,
-                validateOn: isStateRequired ? ['onChange'] : [],
+                validateOn: ['onChange'],
                 validationRule: {
                     isRequired: isStateRequired
                 }
@@ -113,6 +113,7 @@ export const getRegionFields = (props, events) => {
             type: FIELD_TYPE.select,
             label: __('State / Province'),
             attr: {
+                id: 'address-region-id',
                 name: 'region_id',
                 value: currentRegionId,
                 selectPlaceholder: __('Select region...')
@@ -122,7 +123,7 @@ export const getRegionFields = (props, events) => {
             },
             options: availableRegions.map(({ id, name }) => ({ id, label: name, value: id })),
             addRequiredTag: isStateRequired,
-            validateOn: isStateRequired ? ['onChange'] : [],
+            validateOn: ['onChange'],
             validationRule: {
                 isRequired: isStateRequired
             }
