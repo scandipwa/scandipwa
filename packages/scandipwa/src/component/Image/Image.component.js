@@ -191,12 +191,27 @@ export class Image extends PureComponent {
             className
         } = this.props;
 
+        const { imageStatus } = this.state;
+
+        const imgSizes = {
+            height: null,
+            width: null
+        };
+
+        if (imageStatus === IMAGE_LOADED) {
+            imgSizes.height = this.image.current.clientHeight;
+            imgSizes.width = this.image.current.clientWidth;
+        }
+
         return (
             <img
               block={ className }
+              ref={ this.image }
               src={ src || '' }
               alt={ alt }
               style={ style }
+              height={ imgSizes.height }
+              width={ imgSizes.width }
               title={ title }
               onLoad={ this.onLoad }
               onError={ this.onError }
