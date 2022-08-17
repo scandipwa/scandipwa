@@ -9,7 +9,7 @@ import { extender } from './commands/extend';
 
 import extensionCreator from './commands/extension/create';
 import { goToChildTheme } from './commands/go-to-child-theme';
-import { onDidSave } from './commands/warn-in-source';
+import { onWillSave } from './commands/warn-in-source';
 
 const commandMap = {
 	'extension.createComponent': creator(ResourceType.Component),
@@ -50,7 +50,7 @@ export function activate(context: vscode.ExtensionContext) {
 		'css'
 	]);
 
-	vscode.workspace.onDidSaveTextDocument(onDidSave);
+	vscode.workspace.onWillSaveTextDocument(onWillSave);
 }
 
 export function deactivate() {}
