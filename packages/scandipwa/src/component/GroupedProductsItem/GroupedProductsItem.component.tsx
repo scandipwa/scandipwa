@@ -22,6 +22,7 @@ import { ReactElement } from 'Type/Common.type';
 import {
     getMaxQuantity, getMinQuantity, getPrice, getProductInStock, getThumbnailImage
 } from 'Util/Product/Extract';
+import { IndexedProduct } from 'Util/Product/Product.type';
 import { ValidationInputTypeNumber } from 'Util/Validator/Config';
 
 import { GroupedProductsItemComponentProps } from './GroupedProductsItem.type';
@@ -60,7 +61,7 @@ export class GroupedProductsItem extends PureComponent<GroupedProductsItemCompon
     renderTierPrices(): ReactElement {
         const { product } = this.props;
 
-        return <TierPrices product={ product } />;
+        return <TierPrices product={ product as unknown as Partial<IndexedProduct> } />;
     }
 
     getError(value: string): true | string {

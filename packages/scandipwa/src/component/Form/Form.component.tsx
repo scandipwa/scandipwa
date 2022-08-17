@@ -55,29 +55,25 @@ export class Form extends PureComponent<FormComponentProps> {
     }
 
     // Renders group label above form
-    renderLabel(): { label: string } | null {
+    renderLabel(): string | null {
         const { label } = this.props;
 
         if (!label) {
             return null;
         }
 
-        return (
-            { label }
-        );
+        return label;
     }
 
     // Renders group label under form
-    renderSubLabel(): { subLabel: string } | null {
+    renderSubLabel(): string | null {
         const { subLabel } = this.props;
 
         if (!subLabel) {
             return null;
         }
 
-        return (
-            { subLabel }
-        );
+        return subLabel;
     }
     //#endregion
 

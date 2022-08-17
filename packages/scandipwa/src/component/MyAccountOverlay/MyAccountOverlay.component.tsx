@@ -69,6 +69,8 @@ Props extends MyAccountOverlayComponentProps = MyAccountOverlayComponentProps
         const { render, title } = this.renderMap[state];
 
         return (
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             <div block="MyAccountOverlay" elem="Action" mods={ { state } }>
                 <p block="MyAccountOverlay" elem="Heading">{ title }</p>
                 { render() }

@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { UTMOST_PAGES_COUNT } from 'Component/Pagination/Pagination.config';
 import { ReactElement } from 'Type/Common.type';
@@ -161,5 +161,10 @@ export class PaginationContainer extends PureComponent<PaginationContainerProps>
 }
 
 export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(PaginationContainer)
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(
+        PaginationContainer as unknown as ComponentType<RouteComponentProps & PaginationContainerProps>
+    )
 );

@@ -10,9 +10,9 @@
  */
 
 import { Location } from 'history';
-import { ChangeEvent, MouseEvent } from 'react';
+import { ChangeEvent, ComponentType, MouseEvent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
@@ -284,7 +284,7 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
         document.documentElement.classList.remove('hiddenHeader');
     }
 
-    handleMobileUrlChange(history: Location) {
+    handleMobileUrlChange(history: Location): { isClearEnabled: boolean; showMyAccountLogin?: boolean } {
         const { prevPathname } = this.state;
         const { pathname } = history;
         const isClearEnabled = this.getIsClearEnabled();
@@ -535,4 +535,11 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderContainer));
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(
+        HeaderContainer as unknown as ComponentType<RouteComponentProps & HeaderContainerProps>
+    )
+);

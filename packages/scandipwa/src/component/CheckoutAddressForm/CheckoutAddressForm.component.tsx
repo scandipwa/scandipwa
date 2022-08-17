@@ -38,7 +38,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFor
         this.onAddressChange = this.onAddressChange.bind(this);
     }
 
-    get fieldMap(): (Partial<FieldContainerProps> | FormSection)[] {
+    fieldMap(): (Partial<FieldContainerProps> | FormSection)[] {
         const {
             address,
             countries,

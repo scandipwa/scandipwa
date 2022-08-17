@@ -10,11 +10,12 @@
  */
 
 import { Location } from 'history';
-import { PureComponent } from 'react';
+import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 
+import { MyAccountContainerProps } from 'Route/MyAccount/MyAccount.type';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { RootState } from 'Util/Store/Store.type';
@@ -74,7 +75,7 @@ export class MyAccountMyOrdersContainer extends PureComponent<MyAccountMyOrdersC
         return { orderList, isLoading, device };
     }
 
-    _getPageFromUrl(url?: string | Location): number {
+    _getPageFromUrl(url?: Location): number {
         const { location: currentLocation } = this.props;
         const location = url || currentLocation;
 
@@ -90,4 +91,11 @@ export class MyAccountMyOrdersContainer extends PureComponent<MyAccountMyOrdersC
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MyAccountMyOrdersContainer));
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(
+        MyAccountMyOrdersContainer as unknown as ComponentType<RouteComponentProps & MyAccountContainerProps>
+    )
+);

@@ -67,7 +67,7 @@ NewsletterSubscriptionContainerState
         this.onFormSubmitDone = this.onFormSubmitDone.bind(this);
     }
 
-    containerProps() {
+    containerProps(): { isLoading: boolean } {
         const { isLoading } = this.state;
 
         return { isLoading };

@@ -45,7 +45,7 @@ export interface DateObject {
 }
 
 export interface FieldData<T = FieldValue> {
-    field: HTMLElement;
+    field?: HTMLElement;
     name: string;
     type: string;
     value: T;
