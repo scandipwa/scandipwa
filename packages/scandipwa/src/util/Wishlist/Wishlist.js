@@ -5,8 +5,8 @@
 * See LICENSE for license details.
 *
 * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
-* @package scandipwa/base-theme
-* @link https://github.com/scandipwa/base-theme
+* @package scandipwa/scandipwa
+* @link https://github.com/scandipwa/scandipwa
 */
 
 /**
@@ -14,7 +14,7 @@
  * @param {Object} product
  * @namespace Util/Wishlist/getPriceRange
  */
-export const getPriceRange = (product, price, priceWithoutTax) => {
+export const getPriceRange = (product, price, priceWithoutTax, discount) => {
     if (!price) {
         return {};
     }
@@ -22,19 +22,23 @@ export const getPriceRange = (product, price, priceWithoutTax) => {
     const {
         price_range: {
             minimum_price: {
-                regular_price: { currency }
+                regular_price: {
+                    currency
+                }
             }
         }
     } = product;
 
     const priceCurrencyValue = { value: price, currency };
     const priceCurrencyValueExclTax = { value: priceWithoutTax, currency };
+
     const priceSection = {
         final_price: priceCurrencyValue,
         regular_price: priceCurrencyValue,
         final_price_excl_tax: priceCurrencyValueExclTax,
         regular_price_excl_tax: priceCurrencyValueExclTax,
-        default_final_price_excl_tax: priceCurrencyValueExclTax
+        default_final_price_excl_tax: priceCurrencyValueExclTax,
+        discount
     };
 
     return {

@@ -156,7 +156,7 @@ export class CheckoutBilling extends PureComponent {
     renderOrderTotalExlTax() {
         const {
             cartTotalSubPrice,
-            totals: { quote_currency_code }
+            totals: { prices: { quote_currency_code = null } = {} }
         } = this.props;
 
         if (!cartTotalSubPrice) {
@@ -173,7 +173,16 @@ export class CheckoutBilling extends PureComponent {
     }
 
     renderOrderTotal() {
-        const { totals: { grand_total, quote_currency_code } } = this.props;
+        const {
+            totals: {
+                prices: {
+                    grand_total: {
+                        value: grand_total = 0
+                    } = {},
+                    quote_currency_code = null
+                } = {}
+            }
+        } = this.props;
 
         const orderTotal = formatPrice(grand_total, quote_currency_code);
 

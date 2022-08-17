@@ -14,7 +14,12 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_WISHLIST } from 'Component/Header/Header.config';
+import {
+    CUSTOMER_ACCOUNT,
+    CUSTOMER_ACCOUNT_PAGE,
+    CUSTOMER_ORDER,
+    CUSTOMER_WISHLIST
+} from 'Component/Header/Header.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { updateIsLocked } from 'Store/MyAccount/MyAccount.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -31,7 +36,7 @@ import {
     SECOND_SECTION, THIRD_SECTION
 } from 'Type/Account.type';
 import { ItemType } from 'Type/ProductList.type';
-import { LocationType, MatchType } from 'Type/Router.type';
+import { LocationType, MatchType, NavigationStateHistoryType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
@@ -58,7 +63,9 @@ export const mapStateToProps = (state) => ({
     IsSignedInFromState: state.MyAccountReducer.isSignedIn,
     isLocked: state.MyAccountReducer.isLocked,
     newsletterActive: state.ConfigReducer.newsletter_general_active,
-    baseLinkUrl: state.ConfigReducer.base_link_url
+    baseLinkUrl: state.ConfigReducer.base_link_url,
+    activeOverlay: state.OverlayReducer.activeOverlay,
+    headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
@@ -99,7 +106,9 @@ export class MyAccountContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         selectedTab: PropTypes.string,
         logout: PropTypes.func.isRequired,
-        updateIsLocked: PropTypes.func.isRequired
+        updateIsLocked: PropTypes.func.isRequired,
+        activeOverlay: PropTypes.string.isRequired,
+        headerState: NavigationStateHistoryType.isRequired
     };
 
     static defaultProps = {
@@ -245,13 +254,16 @@ export class MyAccountContainer extends PureComponent {
     componentDidUpdate(prevProps, prevState) {
         const {
             wishlistItems: prevWishlistItems,
-            IsSignedInFromState: prevIsSignedInFromState
+            IsSignedInFromState: prevIsSignedInFromState,
+            headerState: { name: prevName }
         } = prevProps;
 
         const {
             wishlistItems,
             IsSignedInFromState: currIsSignedInFromState,
-            isLocked
+            isLocked,
+            activeOverlay,
+            headerState: { name }
         } = this.props;
 
         const { activeTab: prevActiveTab } = prevState;
@@ -272,6 +284,10 @@ export class MyAccountContainer extends PureComponent {
             this.changeMyAccountHeaderState();
 
             scrollToTop();
+        }
+
+        if (name !== prevName && name !== CUSTOMER_ORDER && !activeOverlay) {
+            this.changeMyAccountHeaderState();
         }
 
         if (Object.keys(wishlistItems).length !== Object.keys(prevWishlistItems).length) {
