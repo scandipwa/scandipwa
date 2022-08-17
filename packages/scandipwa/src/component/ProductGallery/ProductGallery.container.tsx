@@ -25,7 +25,7 @@ import ProductGallery from './ProductGallery.component';
 import {
     AMOUNT_OF_PLACEHOLDERS,
     MediaType,
-    PRODUCT_GALERY_POPUP_ID,
+    PRODUCT_GALLERY_POPUP_ID,
     THUMBNAIL_KEY
 } from './ProductGallery.config';
 import {
@@ -281,7 +281,7 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
               isActive={ isImageZoomPopupActive }
               onClose={ this.handleImageZoomPopupClose }
               activeImageId={ activeImage }
-              popupId={ PRODUCT_GALERY_POPUP_ID }
+              popupId={ PRODUCT_GALLERY_POPUP_ID }
             >
                 <Subscribe to={ [SharedTransitionContainer] }>
                     { (props) => {

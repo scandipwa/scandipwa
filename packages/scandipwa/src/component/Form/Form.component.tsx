@@ -55,7 +55,7 @@ export class Form extends PureComponent<FormComponentProps> {
     }
 
     // Renders group label above form
-    renderLabel(): ReactElement {
+    renderLabel(): { label: string } | null {
         const { label } = this.props;
 
         if (!label) {
@@ -68,7 +68,7 @@ export class Form extends PureComponent<FormComponentProps> {
     }
 
     // Renders group label under form
-    renderSubLabel(): ReactElement {
+    renderSubLabel(): { subLabel: string } | null {
         const { subLabel } = this.props;
 
         if (!subLabel) {

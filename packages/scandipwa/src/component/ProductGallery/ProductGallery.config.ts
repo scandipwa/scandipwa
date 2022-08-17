@@ -26,4 +26,4 @@ export const MAX_ZOOM_SCALE = 8;
 export const THUMBNAIL_KEY = ImageType.SMALL;
 export const AMOUNT_OF_PLACEHOLDERS = 0;
 
-export const PRODUCT_GALERY_POPUP_ID = 'ProductGalleryPopup';
+export const PRODUCT_GALLERY_POPUP_ID = 'ProductGalleryPopup';

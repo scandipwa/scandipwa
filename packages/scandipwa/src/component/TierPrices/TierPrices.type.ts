@@ -9,9 +9,10 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { ProductItem } from 'Query/ProductList.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export interface TierPricesComponentProps {
-    product: Partial<IndexedProduct>;
+    product: Partial<IndexedProduct> | ProductItem;
     isLowestPrice: boolean;
 }

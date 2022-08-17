@@ -14,6 +14,7 @@ import { FormEvent, PureComponent, SyntheticEvent } from 'react';
 import { FieldType } from 'Component/Field/Field.config';
 import { ReactElement } from 'Type/Common.type';
 import getFieldsData from 'Util/Form/Extract';
+import { FieldData } from 'Util/Form/Form.type';
 import { validateGroup } from 'Util/Validator';
 import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
@@ -168,7 +169,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         }
 
         if (typeof onSubmit === 'function') {
-            onSubmit(this.formRef, fields);
+            onSubmit(this.formRef, fields as FieldData[]);
         }
     }
 
