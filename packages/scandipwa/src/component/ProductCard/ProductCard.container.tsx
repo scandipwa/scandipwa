@@ -64,7 +64,6 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductCardContainerMapD
 export class ProductCardContainer extends ProductContainer<ProductCardContainerProps> {
     static defaultProps: Partial<ProductCardContainerProps> = {
         ...ProductContainer.defaultProps,
-        selectedFilters: {},
         hideWishlistButton: false,
         hideCompareButton: false,
         renderContent: null,

@@ -25,7 +25,7 @@ import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
-import { IndexedVariant, ProductTransformData } from 'Util/Product/Product.type';
+import { IndexedVariant, ProductTransformData, StockCheckProduct } from 'Util/Product/Product.type';
 import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
 import { Debouncer } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
@@ -179,7 +179,7 @@ S extends WishlistItemContainerState = WishlistItemContainerState
     productIsInStock(): boolean {
         const { product } = this.props;
 
-        return getProductInStock(product);
+        return getProductInStock(product as Partial<StockCheckProduct>);
     }
 
     setQuantity(quantity: number): void {

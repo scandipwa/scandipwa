@@ -141,7 +141,7 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
             return null;
         }
 
-        const mods = isMobile ? { isEditingActive } : {};
+        const mods: Record<string, boolean> = isMobile ? { isEditingActive } : {};
 
         return (
             <button

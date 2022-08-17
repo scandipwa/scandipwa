@@ -16,6 +16,7 @@ import ProductCard from 'Component/ProductCard';
 import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
 import { ReactElement } from 'Type/Common.type';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
+import { StockCheckProduct } from 'Util/Product/Product.type';
 
 import { SharedWishlistItemComponentProps } from './SharedWishlistItem.type';
 
@@ -35,7 +36,7 @@ export class SharedWishlistItem extends SourceWishlistItem<SharedWishlistItemCom
 
         const min = getMinQuantity(product);
         const max = getMaxQuantity(product);
-        const inStock = getProductInStock(product);
+        const inStock = getProductInStock(product as Partial<StockCheckProduct>);
 
         return (
             <div
@@ -76,12 +77,11 @@ export class SharedWishlistItem extends SourceWishlistItem<SharedWishlistItemCom
     }
 
     render(): ReactElement {
-        const { product, parameters, isLoading } = this.props;
+        const { product, isLoading } = this.props;
 
         return (
             <ProductCard
               product={ product }
-              selectedFilters={ parameters }
               mix={ { block: 'WishlistItem' } }
               isLoading={ isLoading }
               hideWishlistButton
