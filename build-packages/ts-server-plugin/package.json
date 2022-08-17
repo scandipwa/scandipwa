@@ -1,13 +1,13 @@
 {
     "name": "@scandipwa/ts-server-plugin",
-    "version": "0.0.1",
+    "version": "0.0.0",
     "license": "OSL-3.0",
     "main": "./out",
     "publishConfig": {
         "access": "public"
     },
     "scripts": {
-        "prepublish": "tsc --outDir ./out",
+        "build": "tsc --outDir ./out",
         "start": "tsc --watch --sourceMap --outDir ./out"
     },
     "dependencies": {
