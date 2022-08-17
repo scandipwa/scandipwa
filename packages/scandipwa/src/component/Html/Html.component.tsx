@@ -21,6 +21,7 @@ import { lazy, PureComponent, Suspense } from 'react';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader/Loader.component';
+import { WidgetFactoryComponentProps } from 'Component/WidgetFactory/WidgetFactory.type';
 import { hash } from 'Util/Request/Hash';
 
 import { HtmlComponentProps, HtmlParserRule } from './Html.type';
@@ -208,7 +209,7 @@ export class Html extends PureComponent<HtmlComponentProps> {
     replaceWidget({ attribs }: DomElement): JSX.Element | undefined {
         return (
             <Suspense fallback={ <Loader isLoading /> }>
-                <WidgetFactory { ...this.attributesToProps(attribs) } />
+                <WidgetFactory { ...this.attributesToProps(attribs) as unknown as WidgetFactoryComponentProps } />
             </Suspense>
         );
     }

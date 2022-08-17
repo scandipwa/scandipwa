@@ -19,7 +19,7 @@ import './MyAccountNewsletterSubscription.style.scss';
 
 /** @namespace Component/MyAccountNewsletterSubscription/Component */
 export class MyAccountNewsletterSubscription extends FieldForm<MyAccountNewsletterSubscriptionComponentProps> {
-    get fieldMap() {
+    fieldMap() {
         const { setSubscriptionStatus, isSubscriptionSelected } = this.props;
 
         return [

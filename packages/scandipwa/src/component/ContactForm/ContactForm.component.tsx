@@ -26,7 +26,7 @@ export class ContactForm extends FieldForm<ContactFormComponentProps> {
         isLoading: false
     };
 
-    get fieldMap(): Partial<FieldContainerProps>[] {
+    fieldMap(): Partial<FieldContainerProps>[] {
         return contactForm();
     }
 

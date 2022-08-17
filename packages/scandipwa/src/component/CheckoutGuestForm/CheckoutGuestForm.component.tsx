@@ -63,7 +63,7 @@ export class CheckoutGuestForm extends FieldForm<CheckoutGuestFormComponentProps
         }
     };
 
-    get fieldMap(): Partial<FieldContainerProps>[] {
+    fieldMap(): Partial<FieldContainerProps>[] {
         const {
             handleEmailInput,
             handlePasswordInput,

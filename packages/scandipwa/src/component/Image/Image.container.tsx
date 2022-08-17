@@ -13,13 +13,12 @@ import { PureComponent } from 'react';
 
 import { IMAGE_HUNDRED_PERCENT } from 'Component/Image/Image.config';
 import { ReactElement } from 'Type/Common.type';
-import { noopFn } from 'Util/Common';
 
 import Image from './Image.component';
 import {
     ImageComponentProps,
     ImageContainerProps,
-    ImageSize,
+    ImageRatio,
     WrapperSize
 } from './Image.type';
 
@@ -28,15 +27,15 @@ export class ImageContainer<P extends ImageContainerProps = ImageContainerProps>
     static defaultProps: Partial<ImageContainerProps> = {
         src: '',
         alt: '',
-        ratio: 'square',
+        ratio: ImageRatio.IMG_SQUARE,
         mix: {},
         height: '',
         width: '',
         isPlaceholder: false,
         style: {},
-        title: null,
+        title: undefined,
         className: '',
-        imageRef: noopFn,
+        imageRef: undefined,
         isPlain: false,
         showIsLoading: false
     };
@@ -134,7 +133,7 @@ export class ImageContainer<P extends ImageContainerProps = ImageContainerProps>
         return [className, ...classes].join(' ');
     }
 
-    _getCorrectSize(): Partial<ImageSize> {
+    _getCorrectSize(): Record<string, string> {
         const { width, height } = this.props;
 
         const correctHeight = this._parseSize(height);

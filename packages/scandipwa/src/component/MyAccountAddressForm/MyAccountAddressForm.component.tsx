@@ -36,7 +36,7 @@ export class MyAccountAddressForm<
     };
 
     //#region GETTERS
-    get fieldMap(): (Partial<FieldContainerProps> | FormSection)[] {
+    fieldMap(): (Partial<FieldContainerProps> | FormSection)[] {
         const {
             address,
             countries,

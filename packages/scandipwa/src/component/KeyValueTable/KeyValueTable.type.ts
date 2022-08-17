@@ -14,7 +14,7 @@ export interface KeyValueTableComponentProps {
     isSelected?: boolean;
 }
 
-export interface DataPair<T = Record<string, unknown>> {
+export interface DataPair<T = Record<string, Array<string | number> | string | number>> {
     key: string;
     label: string;
     source: T;

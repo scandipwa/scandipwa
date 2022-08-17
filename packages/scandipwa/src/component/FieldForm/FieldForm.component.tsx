@@ -25,7 +25,7 @@ import './FieldForm.style';
 
 /** @namespace Component/FieldForm/Component */
 export class FieldForm<T> extends PureComponent<T> {
-    get fieldMap(): (Partial<FieldContainerProps> | FormSection)[] {
+    fieldMap(): (Partial<FieldContainerProps> | FormSection)[] {
         return [
             // // Field
             // {
@@ -81,7 +81,7 @@ export class FieldForm<T> extends PureComponent<T> {
         return (
             <div block="FieldForm" elem="Body">
                 <div block="FieldForm" elem="Fields">
-                    { this.fieldMap.map(this.renderSection.bind(this)) }
+                    { this.fieldMap().map(this.renderSection.bind(this)) }
                 </div>
                 { this.renderActions() }
             </div>

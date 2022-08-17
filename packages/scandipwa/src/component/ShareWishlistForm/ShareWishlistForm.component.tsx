@@ -29,7 +29,7 @@ export class ShareWishlistForm extends FieldForm<ShareWishlistFormComponentProps
         this.onFormSuccess = this.onFormSuccess.bind(this);
     }
 
-    get fieldMap(): Partial<FieldContainerProps>[] {
+    fieldMap(): Partial<FieldContainerProps>[] {
         return shareWishlistForm();
     }
 

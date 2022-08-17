@@ -25,7 +25,7 @@ import './MyAccountAddressTable.style';
 export class MyAccountAddressTable <
 Props extends MyAccountAddressTableComponentProps = MyAccountAddressTableComponentProps
 > extends KeyValueTable<Props> {
-    get dataPairArray(): DataPair<CustomerAddress | FormattedRegion>[] {
+    dataPairArray(): DataPair<CustomerAddress | FormattedRegion>[] {
         return getAddressTablePairArray(this.props);
     }
 

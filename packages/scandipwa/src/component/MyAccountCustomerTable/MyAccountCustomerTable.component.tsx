@@ -17,7 +17,7 @@ import { MyAccountCustomerTableComponentProps } from './MyAccountCustomerTable.t
 
 /** @namespace Component/MyAccountCustomerTable/Component */
 export class MyAccountCustomerTable extends KeyValueTable<MyAccountCustomerTableComponentProps> {
-    get dataPairArray(): DataPair<typeof customer>[] {
+    dataPairArray(): DataPair<typeof customer>[] {
         const { customer } = this.props;
 
         return [

@@ -27,7 +27,7 @@ T extends KeyValueTableComponentProps = KeyValueTableComponentProps
         isSelected: false
     };
 
-    get dataPairArray(): DataPair[] {
+    dataPairArray(): DataPair[] {
         return [
             /**
              * {
@@ -94,7 +94,7 @@ T extends KeyValueTableComponentProps = KeyValueTableComponentProps
                         { this.renderHeading() }
                     </thead>
                     <tbody>
-                        { this.dataPairArray.map(this.renderTableRow.bind(this)) }
+                        { this.dataPairArray().map(this.renderTableRow.bind(this)) }
                     </tbody>
                 </table>
             </div>

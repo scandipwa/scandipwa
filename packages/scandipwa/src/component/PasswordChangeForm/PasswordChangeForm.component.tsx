@@ -22,7 +22,7 @@ import './PasswordChangeForm.style';
 
 /** @namespace Component/PasswordChangeForm/Component */
 export class PasswordChangeForm extends FieldForm<PasswordChangeFormComponentProps> {
-    get fieldMap(): Partial<FieldContainerProps>[] {
+    fieldMap(): Partial<FieldContainerProps>[] {
         const { range, minimunPasswordCharacter } = this.props;
 
         return customerEmailAndPasswordFields(range, minimunPasswordCharacter);
