@@ -63,19 +63,11 @@ export class Cache {
         const sourceFile = program.getSourceFile(fileName);
 
         if (sourceFile) {
-            // this.ctx.info.project.projectService.logger.info(
-            //     `Skipping already loaded file: ${sourceFile.fileName}`
-            // );
-
             return sourceFile;
         }
 
         // vvv Add file as new source file
         this.ctx.info.project.addMissingFileRoot(fileName as ts.server.NormalizedPath);
-
-        // this.ctx.info.project.projectService.logger.info(
-        //     `${fileName} is missing from the project. Adding it to the project.`
-        // );
 
         return this.getSourceFileByPath(fileName, tryCount + 1);
     }
@@ -222,7 +214,7 @@ export class Cache {
         this.fileToNamespaceMap[fileName] = comments;
     }
 
-    refreshFileCache(fileName: string) {
+    refreshFileCache(fileName: string): void {
         const sourceFiles = this.getAllSourceFiles();
         const sourceFile = sourceFiles.find((s) => s.fileName === fileName);
         if (!sourceFile) {
@@ -272,8 +264,6 @@ export class Cache {
                 return acc;
             }
 
-            // TODO: implement config mapping, to validate methods
-
             if (!declaration) {
                 return [
                     ...acc,
@@ -299,11 +289,11 @@ export class Cache {
                 CLASS_PLUGIN_PROPERTY_TYPE,
                 CLASS_PLUGIN_METHOD_TYPE,
                 CLASS_PLUGIN_STATIC_TYPE
-            ].reduce((acc, type) => {
+            ].reduce((acc: ts.Diagnostic[], type) => {
                 const methodMap: Record<string, ts.Node> = config[type as ClassPluginTypes];
 
                 const methodDiagnostics = Object.entries(methodMap).reduce(
-                    (cAcc, [methodName, referenceMethod]) => {
+                    (cAcc: ts.Diagnostic[], [methodName, referenceMethod]) => {
                         const methodDec = declaration.getNodeByTargetConfig({
                             type: type as ClassPluginTypes,
                             name: methodName
@@ -325,17 +315,21 @@ export class Cache {
 
                         return cAcc;
                     },
-                    [] as ts.Diagnostic[]
+                    []
                 );
 
                 return [...acc, ...methodDiagnostics];
-            }, [] as ts.Diagnostic[]);
+            }, []);
 
             return [...acc, ...typeDiagnostics];
-        }, [] as ts.Diagnostic[]);
+        }, []);
 
         return diagnostics;
     }
+
+    // vvv This code is not supported in current version of TS
+    // + it is dependent on https://github.com/microsoft/TypeScript/issues/50300
+    // and https://github.com/microsoft/TypeScript/issues/40824
 
     // getDeclarationInlayHintsForFile(fileName: string): ts.InlayHint[] {
     //     // Method hints hint on amount of plugins for this method
