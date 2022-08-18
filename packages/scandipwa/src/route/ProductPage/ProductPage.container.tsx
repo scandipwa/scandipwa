@@ -559,7 +559,7 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
 
         updateBreadcrumbs({
             name,
-            url,
+            url: { pathname: url },
             categories
         }, prevCategoryId);
     }
