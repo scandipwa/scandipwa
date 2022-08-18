@@ -29,10 +29,10 @@ export interface CheckoutOrderSummaryContainerMapStateProps {
 export interface CheckoutOrderSummaryContainerMapDispatchProps {}
 
 export interface CheckoutOrderSummaryComponentBaseProps {
-    totals: TotalsObject;
-    checkoutStep: CheckoutSteps;
+    totals: Partial<TotalsObject>;
+    checkoutStep?: CheckoutSteps;
     renderCmsBlock: () => ReactElement | void;
-    isExpandable: boolean;
+    isExpandable?: boolean;
     showItems: boolean;
     children?: Children;
 }

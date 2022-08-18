@@ -328,7 +328,8 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
                   checkoutStep={ checkoutStep }
                   totals={ paymentTotals }
                   isExpandable={ isMobile }
-                  renderCmsBlock={ this.renderPromo(true) }
+                  // eslint-disable-next-line react/jsx-no-bind
+                  renderCmsBlock={ () => this.renderPromo(true) }
                   showItems
                 />
                 { !showOnMobile && this.renderDiscountCode() }

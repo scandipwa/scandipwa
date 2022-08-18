@@ -20,6 +20,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
 import ProductLinks from 'Component/ProductLinks';
+import { TotalsObject } from 'Query/Checkout.type';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
@@ -32,7 +33,6 @@ import './CartPage.style';
 export class CartPage extends PureComponent<CartPageComponentProps> {
     static defaultProps: Partial<CartPageComponentProps> = {
         hasOutOfStockProductsInCart: false,
-        onCouponCodeUpdate: noopFn,
         onCartItemLoading: noopFn
     };
 
@@ -127,16 +127,14 @@ export class CartPage extends PureComponent<CartPageComponentProps> {
 
     renderSummary(): ReactElement {
         const {
-            totals,
-            onCouponCodeUpdate
+            totals
         } = this.props;
 
         return (
             <CheckoutOrderSummary
-              totals={ totals }
+              totals={ totals as Partial<TotalsObject> }
                 // eslint-disable-next-line react/jsx-no-bind
               renderCmsBlock={ () => this.renderPromo() }
-              onCouponCodeUpdate={ onCouponCodeUpdate }
               showItems={ false }
             >
                 { this.renderSecureCheckoutButton() }

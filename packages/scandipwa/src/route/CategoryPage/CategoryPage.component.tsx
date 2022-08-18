@@ -61,13 +61,13 @@ S extends CategoryPageComponentState = CategoryPageComponentState
         selectedLayoutType: undefined
     };
 
-    state: CategoryPageComponentState = {
-        activeLayoutType: undefined
-    };
-
     __construct(props: CategoryPageComponentProps): void {
         super.__construct?.(props);
         this.onFilterButtonClick = this.onFilterButtonClick.bind(this);
+
+        this.state = {
+            activeLayoutType: undefined
+        } as S;
     }
 
     static getDerivedStateFromProps(props: CategoryPageComponentProps): Partial<CategoryPageComponentState> {

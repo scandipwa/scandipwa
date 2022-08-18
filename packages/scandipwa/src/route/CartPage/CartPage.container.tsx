@@ -16,6 +16,7 @@ import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import { TotalsItem } from 'Query/Cart.type';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { IndexedCartItem } from 'Store/Cart/Cart.type';
@@ -88,7 +89,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDisp
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateCrossSellProducts: (items) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items, dispatch)
+        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items as unknown as TotalsItem[], dispatch)
     )
 });
 

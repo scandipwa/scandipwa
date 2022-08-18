@@ -66,7 +66,6 @@ export interface CartPageComponentProps {
     device: Device;
     onCheckoutButtonClick: (e: MouseEvent) => void;
     onCartItemLoading: (isCartItemLoading: boolean) => void;
-    onCouponCodeUpdate?: () => void;
 }
 
 export type CartPageComponentContainerPropKeys =

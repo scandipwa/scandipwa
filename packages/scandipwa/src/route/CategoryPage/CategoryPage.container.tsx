@@ -15,7 +15,10 @@ import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
-import { FilterPriceRange, ProductAttributeFilterOptions } from 'Query/ProductList.type';
+import {
+    FilterPriceRange,
+    ProductAttributeFilterOptions
+} from 'Query/ProductList.type';
 import {
     CategoryPageLayout,
     LAYOUT_KEY,
@@ -138,15 +141,6 @@ S extends CategoryPageContainerState = CategoryPageContainerState
         plpType: ''
     };
 
-    state: CategoryPageContainerState = {
-        currentCategoryIds: -1,
-        breadcrumbsWereUpdated: false,
-        selectedLayoutType: undefined,
-        activeLayoutType: undefined,
-        defaultPlpType: undefined,
-        plpTypes: []
-    };
-
     config = {
         sortKey: 'name',
         sortDirection: SortDirections.ASC
@@ -160,6 +154,15 @@ S extends CategoryPageContainerState = CategoryPageContainerState
 
     __construct(props: P): void {
         super.__construct?.(props);
+
+        this.state = {
+            currentCategoryIds: -1,
+            breadcrumbsWereUpdated: false,
+            selectedLayoutType: undefined,
+            defaultPlpType: undefined,
+            activeLayoutType: undefined,
+            plpTypes: [] as CategoryPageLayout[]
+        } as S;
 
         this.setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
     }
@@ -395,7 +398,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState
             selectedInfoFilter: { customFilters = {} }
         } = this.props;
 
-        return getFiltersCount(customFilters);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return getFiltersCount(customFilters as Record<string, any[]>);
     }
 
     isCurrentCategoryLoaded(): boolean {

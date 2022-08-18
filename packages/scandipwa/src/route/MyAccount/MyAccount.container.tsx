@@ -90,7 +90,7 @@ MyAccountContainerState
 > {
     static defaultProps: Partial<MyAccountContainerProps> = {
         wishlistItems: {},
-        selectedTab: ''
+        selectedTab: undefined
     };
 
     static tabMap: Record<string, MyAccountTab> = {
@@ -503,6 +503,8 @@ MyAccountContainerState
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export default withRouter(withReducers({
     OrderReducer
 })(connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer)));

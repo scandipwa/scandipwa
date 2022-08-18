@@ -34,5 +34,6 @@ export const getPriceFilterLabel = (
 
 /** @namespace Util/Category/Filters/getFiltersCount */
 export const getFiltersCount = (
-    filters: Record<string, unknown[]>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    filters: Record<string, any[]>
 ): number => Object.values(filters).reduce((prev: number, next) => prev + next.length, 0);

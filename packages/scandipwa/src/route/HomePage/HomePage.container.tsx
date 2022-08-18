@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { Location } from 'history';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -21,6 +22,7 @@ import { CmsPageContainerProps } from 'Route/CmsPage/CmsPage.type';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
+import { HistoryState } from 'Util/History/History.type';
 import { RootState } from 'Util/Store/Store.type';
 
 import {
@@ -63,7 +65,7 @@ export class HomePageContainer extends PureComponent<HomePageContainerProps> {
 
         return {
             changeHeaderState,
-            location,
+            location: location as Location<HistoryState>,
             match,
             pageIdentifiers
         };
