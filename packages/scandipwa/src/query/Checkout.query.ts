@@ -34,9 +34,9 @@ export class CheckoutQuery {
         const query = new Query<'getPaymentMethods', PaymentMethod, true>('getPaymentMethods')
             .addFieldList(this._getPaymentMethodFields());
 
-        this._addGuestCartId(guestCartId, query);
+        this._addGuestCartId(guestCartId, query as Query<'getPaymentMethods', PaymentMethod, true>);
 
-        return query;
+        return query as Query<'getPaymentMethods', PaymentMethod, true>;
     }
 
     getSaveGuestEmailMutation(
@@ -161,7 +161,7 @@ export class CheckoutQuery {
 
     _getPaymentMethodsField(): Field<'payment_methods', PaymentMethod, true> {
         return new Field<'payment_methods', PaymentMethod, true>('payment_methods', true)
-            .addFieldList(this._getPaymentMethodFields());
+            .addFieldList(this._getPaymentMethodFields()) as Field<'payment_methods', PaymentMethod, true>;
     }
 
     _getPaymentMethodFields(): Array<

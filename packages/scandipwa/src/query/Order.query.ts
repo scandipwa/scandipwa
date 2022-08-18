@@ -268,42 +268,42 @@ export class OrderQuery {
 
     _getOrderShippingAmountExclTaxField(): Field<'amount_excluding_tax', Money> {
         return new Field<'amount_excluding_tax', Money>('amount_excluding_tax')
-            .addFieldList(this._getOrderPriceFields());
+            .addFieldList(this._getOrderPriceFields()) as Field<'amount_excluding_tax', Money>;
     }
 
     _getOrderShippingAmountInclTaxField(): Field<'amount_including_tax', Money> {
         return new Field<'amount_including_tax', Money>('amount_including_tax')
-            .addFieldList(this._getOrderPriceFields());
+            .addFieldList(this._getOrderPriceFields()) as Field<'amount_including_tax', Money>;
     }
 
     _getOrderShippingHandlingTotalField(): Field<'total_amount', Money> {
         return new Field<'total_amount', Money>('total_amount')
-            .addFieldList(this._getOrderPriceFields());
+            .addFieldList(this._getOrderPriceFields()) as Field<'total_amount', Money>;
     }
 
     _getOrderTotalTaxField(): Field<'total_tax', Money> {
         return new Field<'total_tax', Money>('total_tax')
-            .addFieldList(this._getOrderPriceFields());
+            .addFieldList(this._getOrderPriceFields()) as Field<'total_tax', Money>;
     }
 
     _getOrderTotalShippingField(): Field<'total_shipping', Money> {
         return new Field<'total_shipping', Money>('total_shipping')
-            .addFieldList(this._getOrderPriceFields());
+            .addFieldList(this._getOrderPriceFields()) as Field<'total_shipping', Money>;
     }
 
     _getOrderBaseGrantTotalField(): Field<'base_grand_total', Money> {
         return new Field<'base_grand_total', Money>('base_grand_total')
-            .addFieldList(this._getOrderPriceFields());
+            .addFieldList(this._getOrderPriceFields()) as Field<'base_grand_total', Money>;
     }
 
     _getOrderSubtotalField(): Field<'subtotal', Money> {
         return new Field<'subtotal', Money>('subtotal')
-            .addFieldList(this._getOrderPriceFields());
+            .addFieldList(this._getOrderPriceFields()) as Field<'subtotal', Money>;
     }
 
     _getOrderGrandTotalField(): Field<'grand_total', Money> {
         return new Field<'grand_total', Money>('grand_total')
-            .addFieldList(this._getOrderPriceFields());
+            .addFieldList(this._getOrderPriceFields()) as Field<'grand_total', Money>;
     }
 
     _getOrderPriceFields(): Array<
@@ -409,7 +409,7 @@ export class OrderQuery {
 
     _getOrderAmountField(): Field<'amount', Money> {
         return new Field<'amount', Money>('amount')
-            .addFieldList(this._getOrderPriceFields());
+            .addFieldList(this._getOrderPriceFields()) as Field<'amount', Money>;
     }
 
     _getRefundsItemsProductsField(): Field<'items', RefundItem, true> {
@@ -525,12 +525,12 @@ export class OrderQuery {
 
     _getOrderProductRowSubtotalField(): Field<'row_subtotal', Money> {
         return new Field<'row_subtotal', Money>('row_subtotal')
-            .addFieldList(this._getOrderPriceFields());
+            .addFieldList(this._getOrderPriceFields()) as Field<'row_subtotal', Money>;
     }
 
     _getOrderProductRowSubtotalInclTaxField(): Field<'row_subtotal_incl_tax', Money> {
         return new Field<'row_subtotal_incl_tax', Money>('row_subtotal_incl_tax')
-            .addFieldList(this._getOrderPriceFields());
+            .addFieldList(this._getOrderPriceFields()) as Field<'row_subtotal_incl_tax', Money>;
     }
 
     _getOrderProductEnteredOptionsField(): Field<'entered_options', OrderProductSelectedOption, true> {
@@ -576,7 +576,7 @@ export class OrderQuery {
 
     _getOrderProductSalePriceField(): Field<'product_sale_price', Money> {
         return new Field<'product_sale_price', Money>('product_sale_price')
-            .addFieldList(this._getOrderPriceFields());
+            .addFieldList(this._getOrderPriceFields()) as Field<'product_sale_price', Money>;
     }
 
     _getReorderField(): Field<'userInputErrors', CheckoutUserInputError, true> {
