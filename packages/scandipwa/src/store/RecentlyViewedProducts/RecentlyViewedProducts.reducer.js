@@ -78,6 +78,10 @@ export const RecentlyViewedProductsReducer = (
         recentProductsFromStorage[storeCode] = recentProductsFromStorage[storeCode]
             .filter((storageItem) => !indexedProducts.every((indexedItem) => indexedItem.id !== storageItem.id));
 
+        // Removing previous version of products that just changed the sku
+        recentProductsFromStorage[storeCode] = recentProductsFromStorage[storeCode]
+            .filter((val, idx, arr) => arr.findIndex((itm) => (itm.id === val.id)) === idx);
+
         BrowserDatabase.setItem(recentProductsFromStorage, RECENTLY_VIEWED_PRODUCTS);
 
         // Sort products same as it is localstorage recentlyViewedProducts
