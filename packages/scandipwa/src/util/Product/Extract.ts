@@ -20,10 +20,11 @@ import {
     Money,
     PriceRange
 } from 'Query/ProductList.type';
-import { GQLCurrencyEnum, GQLProductStockStatus } from 'Type/Graphql.type';
+import { GQLProductStockStatus } from 'Type/Graphql.type';
 import { decodeBase64 } from 'Util/Base64';
 import { FieldValue } from 'Util/Form/Form.type';
 import { formatPrice } from 'Util/Price';
+import { CurrencyMap } from 'Util/Price/Price.config';
 
 import {
     DEFAULT_MAX_PRODUCTS,
@@ -285,7 +286,7 @@ export const getPrice = (
 
     const {
         [accessRange]: {
-            [priceAcc]: { currency = GQLCurrencyEnum.USD, value: basePrice = 0 } = {},
+            [priceAcc]: { currency = CurrencyMap.USD, value: basePrice = 0 } = {},
             [priceExcTaxAcc]: { value: basePriceExclTax = 0 } = {},
             discount: {
                 percent_off: percentOffRef = 0,

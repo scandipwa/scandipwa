@@ -41,7 +41,7 @@ export type PopupType = ShowPopupAction<string, unknown>
 | HideActivePopupAction;
 
 export interface PopupStore {
-    popupPayload: PopupPayload;
+    popupPayload: PopupPayload | PopupPayloadDefault;
     shouldPopupClose: boolean;
     payload: Record<string, unknown>;
 }

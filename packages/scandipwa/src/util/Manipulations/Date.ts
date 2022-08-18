@@ -15,7 +15,7 @@ export const MILLISECONDS_PER_MINUTE = 60000;
 
 /** @namespace Util/Manipulations/Date/convertStringToDate */
 export const convertStringToDate = (stringDate: string, options?: Intl.DateTimeFormatOptions): string => {
-    const defaultOptions = {
+    const defaultOptions: Intl.DateTimeFormatOptions = {
         year: 'numeric',
         month: 'long',
         day: 'numeric'

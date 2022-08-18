@@ -12,7 +12,11 @@ import { Reducer } from 'redux';
 
 import { OverlayActionType } from 'Store/Overlay/Overlay.type';
 
-import { PopupActionType, PopupStore, PopupType } from './Popup.type';
+import {
+    PopupActionType,
+    PopupStore,
+    PopupType
+} from './Popup.type';
 
 /** @namespace Store/Popup/Reducer/getInitialState */
 export const getInitialState = (): PopupStore => ({

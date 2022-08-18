@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export type Props = unknown;
+export type Props = Record<string, unknown>;
 
 export type WithReducersResult = (props: Props) => JSX.Element;

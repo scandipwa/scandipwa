@@ -28,7 +28,14 @@ export const prepareFieldString = <T>(
         alias, name, args, children
     } = rootField;
 
-    const resolvedArgs = args.reduce((acc, arg): string[] => {
+    const resolvedArgs = args.reduce<string[]>((
+        acc: string[],
+        arg: {
+            name: string;
+            type: string;
+            value: unknown;
+        }
+    ): string[] => {
         if (!accArgs[arg.name]) {
             // eslint-disable-next-line no-param-reassign
             accArgs[arg.name] = [] as unknown as [string, unknown];
@@ -40,13 +47,13 @@ export const prepareFieldString = <T>(
 
         // join each argument as "name:$var_1"
         return [...acc, `${arg.name}:$${arg.name}_${index}`];
-    }, [] as string[]);
+    }, []);
 
     // join arguments, wrap into "()" and join with ","
     const formattedArgs = resolvedArgs.length ? `(${resolvedArgs.join(',')})` : '';
 
     // join child fields with ","
-    const formattedChildren = children.map((field) => prepareFieldString(field, accArgs)).join(',');
+    const formattedChildren = children.map((field: unknown) => prepareFieldString(field, accArgs)).join(',');
 
     // wrap body with "{}"
     const body = children.length ? `{${formattedChildren}}` : '';

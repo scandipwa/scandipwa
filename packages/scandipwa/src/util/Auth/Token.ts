@@ -34,7 +34,7 @@ export const setAuthorizationToken = (token: string | null): void => {
         access_token_lifetime = ONE_HOUR
     } = state.ConfigReducer;
 
-    BrowserDatabase.setItem(token, AUTH_TOKEN, access_token_lifetime * ONE_HOUR_IN_SECONDS);
+    BrowserDatabase.setItem(token, AUTH_TOKEN, Number(access_token_lifetime) * ONE_HOUR_IN_SECONDS);
 };
 
 /** @namespace Util/Auth/Token/deleteAuthorizationToken */

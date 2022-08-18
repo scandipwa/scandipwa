@@ -72,7 +72,7 @@ export class OrderDispatcher {
         try {
             return fetchMutation(OrderQuery.getReorder(incrementId));
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError | NetworkError[])));
             return null;
         }
     }
@@ -89,7 +89,7 @@ export class OrderDispatcher {
 
             return items[0];
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError | NetworkError[])));
 
             return null;
         }

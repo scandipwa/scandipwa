@@ -39,7 +39,7 @@ export type OverlayAction = ToggleOverlayByKeyAction
 | ShowPopupAction<string, unknown>;
 
 export interface OverlayStore {
-    activeOverlay: keyof PopupPayload;
+    activeOverlay: keyof PopupPayload | '';
     areOtherOverlaysOpen: boolean;
 }
 

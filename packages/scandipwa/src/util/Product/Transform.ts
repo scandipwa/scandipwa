@@ -15,9 +15,9 @@ import { ProductType } from 'Component/Product/Product.config';
 import { ProductOption } from 'Component/Product/Product.type';
 import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
 import { CustomizableSelectionValue, GroupedProductItem } from 'Query/ProductList.type';
-import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { decodeBase64, encodeBase64 } from 'Util/Base64';
 import { formatPrice } from 'Util/Price';
+import { CurrencyMap } from 'Util/Price/Price.config';
 
 import { getProductInStock } from './Extract';
 import { ADD_TO_CART } from './Product';
@@ -36,22 +36,6 @@ import {
 } from './Product.type';
 
 export const PRICE_TYPE_PERCENT = 'PERCENT';
-
-// export type BuyRequest = {
-//     qty: number;
-//     bundle_option_qty: Record<string, string>;
-//     bundle_option: Record<string, string | ProductItem>;
-//     action: string;
-//     options?: Record<string, Variant | { id: number }[] | string>;
-//     links?: string[];
-//     super_attribute?: Record<string, string>;
-// };
-
-// export interface Variant {
-//     date_internal: string;
-//     date: string;
-//     type: string;
-// }
 
 /**
  * Generates correct UID for bundle with changed quantity
@@ -175,7 +159,7 @@ export const transformParameters = (
  * @returns {{baseLabel: string, priceLabel: string}}
  * @namespace Util/Product/Transform/bundleOptionToLabel
  */
-export const bundleOptionToLabel = (option: IndexedBundleOption, currencyCode = GQLCurrencyEnum.USD): PriceLabels => {
+export const bundleOptionToLabel = (option: IndexedBundleOption, currencyCode = CurrencyMap.USD): PriceLabels => {
     const {
         price,
         finalOptionPrice,
@@ -209,7 +193,7 @@ export const bundleOptionToLabel = (option: IndexedBundleOption, currencyCode = 
  */
 export const bundleOptionsToSelectTransform = (
     options: IndexedBundleOption[],
-    currencyCode = GQLCurrencyEnum.USD,
+    currencyCode = CurrencyMap.USD,
     quantity: Record<string, number> = {}
 ): TransformedBundleOption[] => (
     options.reduce((result: TransformedBundleOption[] = [], option) => {
@@ -255,7 +239,7 @@ export const bundleOptionsToSelectTransform = (
  * @namespace Util/Product/Transform/customizableOptionToLabel
  */
 export const customizableOptionToLabel = (
-    option: CustomizableSelectionValue, currencyCode = GQLCurrencyEnum.USD
+    option: CustomizableSelectionValue, currencyCode = CurrencyMap.USD
 ): PriceLabels => {
     const {
         price,
@@ -282,7 +266,7 @@ export const customizableOptionToLabel = (
  */
 export const customizableOptionsToSelectTransform = (
     options: CustomizableSelectionValue[],
-    currencyCode = GQLCurrencyEnum.USD
+    currencyCode = CurrencyMap.USD
 ): TransformedCustomizableOptions[] => (
     options.reduce((result: TransformedCustomizableOptions[] = [], option) => {
         const {

@@ -61,7 +61,7 @@ declare module 'Util/Store/Store.type' {
 export type WishlistProduct = Merge<ProductItem, {
     price_range?: PriceRange;
     quantity: number;
-    configurableVariantIndex: string;
+    configurableVariantIndex?: string;
     wishlist: Merge<Partial<WishlistItem>, {
         quantity: number;
     }>;
