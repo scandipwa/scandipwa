@@ -15,11 +15,17 @@ import { RootState } from 'Util/Store/Store.type';
 
 import VideoPopup from './VideoPopup.component';
 import { VIDEO_POPUP_ID } from './VideoPopup.config';
-import { VideoPopupContainerMapDispatchProps, VideoPopupContainerMapStateProps } from './VideoPopup.type';
+import {
+    VideoPopupContainerMapDispatchProps,
+    VideoPopupContainerMapStateProps,
+    VideoPopupPayload
+} from './VideoPopup.type';
 
 /** @namespace Component/VideoPopup/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): VideoPopupContainerMapStateProps => ({
-    payload: state.PopupReducer.popupPayload[VIDEO_POPUP_ID] || {}
+    payload: (state.PopupReducer.popupPayload as {
+        [VIDEO_POPUP_ID]: VideoPopupPayload;
+    })[VIDEO_POPUP_ID] || {}
 });
 
 /** @namespace Component/VideoPopup/Container/mapDispatchToProps */

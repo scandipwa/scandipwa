@@ -120,6 +120,8 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
             name: RouterSwitchItemType.SEARCH
         },
         {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             component: <Route path={ withStoreRegex('/page') } render={ (props) => <CmsPage { ...props } /> } />,
             position: 40,
             name: RouterSwitchItemType.CMS_PAGE
@@ -130,6 +132,8 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
             name: RouterSwitchItemType.CART
         },
         {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             component: <Route path={ withStoreRegex('/checkout/:step?') } render={ (props) => <Checkout { ...props } /> } />,
             position: 55,
             name: RouterSwitchItemType.CHECKOUT
@@ -140,16 +144,22 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
             name: RouterSwitchItemType.CHANGE_PASSWORD
         },
         {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             component: <Route path={ withStoreRegex('/customer/account/create/') } render={ (props) => <CreateAccountPage { ...props } /> } />,
             position: 61,
             name: RouterSwitchItemType.CREATE_ACCOUNT
         },
         {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             component: <Route path={ withStoreRegex('/customer/account/login/') } render={ (props) => <LoginAccountPage { ...props } /> } />,
             position: 62,
             name: RouterSwitchItemType.LOGIN
         },
         {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             component: <Route path={ withStoreRegex('/customer/account/forgotpassword/') } render={ (props) => <ForgotPasswordPage { ...props } /> } />,
             position: 63,
             name: RouterSwitchItemType.ACCOUNT_FORGOT_PASSWORD
@@ -195,6 +205,8 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
             name: RouterSwitchItemType.MY_ACCOUNT
         },
         {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             component: <Route path={ withStoreRegex('/menu') } render={ (props) => <MenuPage { ...props } /> } />,
             position: 80,
             name: RouterSwitchItemType.MENU
@@ -220,6 +232,8 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
             name: RouterSwitchItemType.STYLE_GUIDE
         },
         {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             component: <Route render={ (props) => <UrlRewrites { ...props } /> } />,
             position: 1000,
             name: RouterSwitchItemType.URL_REWRITES

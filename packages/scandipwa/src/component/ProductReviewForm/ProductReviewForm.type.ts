@@ -34,7 +34,7 @@ export interface ProductReviewFormContainerBaseProps {
 
 export interface ProductReviewFormContainerFunctions {
     onReviewSubmitSuccess: (form: HTMLFormElement, fields: FormFields) => Promise<void>;
-    onStarRatingClick: (rating_id: number, option_id: string) => void;
+    onStarRatingClick: (rating_id: string, option_id: string) => void;
     onReviewError: (_: HTMLFormElement, invalidFields: FormFields | null) => void;
 }
 
@@ -56,7 +56,7 @@ export interface ProductReviewFormComponentProps {
     reviewData: Partial<ReviewData>;
     reviewRatings: ReviewRatingItem[];
     onReviewSubmitSuccess: (form: HTMLFormElement, fields: FormFields) => Promise<void>;
-    onStarRatingClick: (rating_id: number, option_id: string) => void;
+    onStarRatingClick: (rating_id: string, option_id: string) => void;
     onReviewError: (_: HTMLFormElement, invalidFields: FormFields | null) => void;
 }
 

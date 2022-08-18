@@ -42,16 +42,17 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
         const { ratingData, onStarRatingClick } = this.props;
         const { option_id, value } = options;
         const isChecked = !!ratingData[rating_id] && ratingData[rating_id] === option_id;
+        const ratingId = rating_id.toString();
 
         return (
             <ReviewStar
               key={ option_id }
-              name={ rating_id }
+              name={ ratingId }
               value={ value }
               title={ this.ratingTitleMap[Number(value) as keyof typeof this.ratingTitleMap] }
               isChecked={ isChecked }
               option_id={ option_id }
-              rating_id={ rating_id }
+              rating_id={ ratingId }
               onStarRatingClick={ onStarRatingClick }
             />
         );

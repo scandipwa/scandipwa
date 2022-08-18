@@ -153,7 +153,7 @@ ProductReviewFormContainerState
         }
     }
 
-    _onStarRatingClick(rating_id: number, option_id: string): void {
+    _onStarRatingClick(rating_id: string, option_id: string): void {
         this.setState(({ ratingData }) => ({
             ratingData: { ...ratingData, [ rating_id ]: option_id }
         }));
