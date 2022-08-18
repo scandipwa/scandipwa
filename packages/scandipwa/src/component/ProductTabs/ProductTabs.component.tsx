@@ -63,13 +63,13 @@ export class ProductTabs extends PureComponent<ProductTabsComponentProps, Produc
     renderActiveTab(): ReactElement {
         const { tabs } = this.props;
         const { activeTab } = this.state;
-        const { render } = tabs.find(({ id }) => id === activeTab) || {};
+        const { render, name } = tabs.find(({ id }) => id === activeTab) || {};
 
-        if (!render) {
+        if (!render || !name) {
             return null;
         }
 
-        return render();
+        return render(name);
     }
 
     renderAllTabs(): ReactElement {

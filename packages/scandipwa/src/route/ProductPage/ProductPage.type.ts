@@ -16,7 +16,7 @@ import { Product as BreadcrumbProduct } from 'Store/Breadcrumbs/Breadcrumbs.type
 import { ProductMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { RecentlyViewedProductItem } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.type';
-import { Merge } from 'Type/Common.type';
+import { Merge, ReactElement } from 'Type/Common.type';
 import { HistoryState } from 'Util/History/History.type';
 import { IndexedCustomOption, IndexedProduct } from 'Util/Product/Product.type';
 
@@ -87,3 +87,9 @@ export type ProductPageContainerComponentPropKeys =
     | 'location';
 
 export type OptionWithId = Merge<IndexedCustomOption, { option_id: string }>;
+
+export interface ProductPageTab {
+    name: string;
+    shouldTabRender: () => boolean;
+    render: (key: string) => ReactElement;
+}

@@ -11,9 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    ComponentType, lazy, PureComponent, Suspense
-} from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 
 import RenderWhenVisible from 'Component/RenderWhenVisible';
 import { ReactElement } from 'Type/Common.type';
@@ -21,7 +19,7 @@ import { ReactElement } from 'Type/Common.type';
 import {
     Widget
 } from './WidgetFactory.config';
-import { WidgetComponentProps, WidgetFactoryComponentProps, WidgetFactoryComponentRenderMap } from './WidgetFactory.type';
+import { WidgetFactoryComponentProps, WidgetFactoryComponentRenderMap } from './WidgetFactory.type';
 
 import './WidgetFactory.style';
 
@@ -56,7 +54,7 @@ export class WidgetFactory extends PureComponent<WidgetFactoryComponentProps> {
             component: ProductListWidget
         },
         [Widget.RECENTLY_VIEWED]: {
-            component: RecentlyViewedWidget as unknown as ComponentType<WidgetComponentProps>
+            component: RecentlyViewedWidget
         }
     };
 

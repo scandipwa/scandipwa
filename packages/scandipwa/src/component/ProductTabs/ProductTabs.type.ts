@@ -22,5 +22,6 @@ export interface ProductTabsComponentState {
 export interface ProductTabShape {
     id: string;
     name: string;
-    render: (name?: string) => ReactElement;
+    render: (key: string) => ReactElement;
+    shouldTabRender: () => boolean;
 }

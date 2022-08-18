@@ -25,20 +25,20 @@ import './ProductInformation.style';
 /** @namespace Component/ProductInformation/Component */
 export class ProductInformation extends PureComponent<ProductInformationComponentProps> {
     renderDescription(): ReactElement {
-        const { product: { description: { html } = {} } } = this.props;
+        const { htmlDescription } = this.props;
 
-        if (!html) {
+        if (!htmlDescription) {
             return (
                 <TextPlaceholder length={ TextPlaceHolderLength.LONG } />
             );
         }
 
-        const cleanDescription = html.replace(/<\/?[^>]+(>|$)/g, '');
+        const cleanDescription = htmlDescription.replace(/<\/?[^>]+(>|$)/g, '');
 
         return (
             <div block="ProductInformation" elem="Description">
                 <meta itemProp="description" content={ cleanDescription } />
-                <Html content={ html } />
+                <Html content={ htmlDescription } />
             </div>
         );
     }
@@ -85,12 +85,10 @@ export class ProductInformation extends PureComponent<ProductInformationComponen
     render(): ReactElement {
         const {
             areDetailsLoaded,
-            product: {
-                description: { html = '' } = {}
-            }
+            htmlDescription
         } = this.props;
 
-        if (this.isHTMLWhiteSpaceOrUndefined(html) && areDetailsLoaded) {
+        if (this.isHTMLWhiteSpaceOrUndefined(htmlDescription) && areDetailsLoaded) {
             return null;
         }
 

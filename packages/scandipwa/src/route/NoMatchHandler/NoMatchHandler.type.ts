@@ -24,9 +24,14 @@ export interface NoMatchHandlerContainerMapDispatchProps {
     updateNoMatch: (options: { noMatch: boolean }) => void;
 }
 
+export interface NoMatchHandlerContainerBaseProps {
+    children: Children;
+}
+
 export type NoMatchHandlerContainerProps = RouteComponentProps
 & NoMatchHandlerContainerMapStateProps
-& NoMatchHandlerContainerMapDispatchProps;
+& NoMatchHandlerContainerMapDispatchProps
+& NoMatchHandlerContainerBaseProps;
 
 export interface NoMatchHandlerComponentProps {
     children: Children;

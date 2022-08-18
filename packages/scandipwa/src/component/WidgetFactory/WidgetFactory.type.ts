@@ -9,7 +9,9 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ComponentType } from 'react';
+import { ComponentType, LazyExoticComponent } from 'react';
+
+import { WithReducersResult } from 'Util/DynamicReducer/DynamicReducer.type';
 
 import { Widget } from './WidgetFactory.config';
 
@@ -35,7 +37,7 @@ export interface WidgetComponentProps {
 }
 
 export interface WidgetFactoryComponentRenderMapItem {
-    component: ComponentType<WidgetComponentProps>;
+    component: ComponentType<WidgetComponentProps> | LazyExoticComponent<WithReducersResult>;
     fallback?: () => JSX.Element;
 }
 

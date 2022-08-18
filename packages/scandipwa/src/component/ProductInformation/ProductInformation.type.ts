@@ -9,9 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { IndexedProduct } from 'Util/Product/Product.type';
-
 export interface ProductInformationComponentProps {
-    product: Partial<IndexedProduct>;
+    htmlDescription: string;
     areDetailsLoaded: boolean;
 }

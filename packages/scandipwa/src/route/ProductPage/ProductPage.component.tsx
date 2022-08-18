@@ -19,12 +19,13 @@ import ProductLinks from 'Component/ProductLinks';
 import ProductReviewForm from 'Component/ProductReviewForm/ProductReviewForm.container';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import ProductTabs from 'Component/ProductTabs';
+import { ProductTabShape } from 'Component/ProductTabs/ProductTabs.type';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import { ProductPageTabs } from 'Route/ProductPage/ProductPage.config';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { ProductPageComponentProps } from './ProductPage.type';
+import { ProductPageComponentProps, ProductPageTab } from './ProductPage.type';
 
 import './ProductPage.style';
 
@@ -47,7 +48,7 @@ export const ProductAttributes = lazy(() => import(
 
 /** @namespace Route/ProductPage/Component */
 export class ProductPage extends PureComponent<ProductPageComponentProps> {
-    tabMap = {
+    tabMap: Record<ProductPageTabs, ProductPageTab> = {
         [ ProductPageTabs.INFORMATION ]: {
             name: __('About'),
             shouldTabRender: (): boolean => {
@@ -109,15 +110,18 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
 
     renderProductInformationTab(key: string): ReactElement {
         const {
-            dataSource,
-            parameters,
+            dataSource: { description: { html } = {} },
             areDetailsLoaded
         } = this.props;
+
+        if (!html) {
+            return null;
+        }
 
         return (
             <Suspense fallback={ <Loader /> } key={ key }>
                 <ProductInformation
-                  product={ { ...dataSource, parameters } }
+                  htmlDescription={ html }
                   areDetailsLoaded={ areDetailsLoaded }
                   key={ key }
                 />
@@ -159,7 +163,7 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
         );
     }
 
-    shouldTabsRender(): ReactElement {
+    shouldTabsRender(): ProductTabShape[] {
         return Object.entries(this.tabMap)
             .map(([id, values]) => ({ id, ...values }))
             .filter(({ shouldTabRender }) => shouldTabRender());
