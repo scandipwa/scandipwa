@@ -15,9 +15,9 @@ import { ProductType } from 'Component/Product/Product.config';
 import { ProductOption } from 'Component/Product/Product.type';
 import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
 import { CustomizableSelectionValue, GroupedProductItem } from 'Query/ProductList.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { decodeBase64, encodeBase64 } from 'Util/Base64';
 import { formatPrice } from 'Util/Price';
-import { CurrencyMap } from 'Util/Price/Price.config';
 
 import { getProductInStock } from './Extract';
 import { ADD_TO_CART } from './Product';
@@ -159,7 +159,7 @@ export const transformParameters = (
  * @returns {{baseLabel: string, priceLabel: string}}
  * @namespace Util/Product/Transform/bundleOptionToLabel
  */
-export const bundleOptionToLabel = (option: IndexedBundleOption, currencyCode = CurrencyMap.USD): PriceLabels => {
+export const bundleOptionToLabel = (option: IndexedBundleOption, currencyCode = GQLCurrencyEnum.USD): PriceLabels => {
     const {
         price,
         finalOptionPrice,
@@ -193,7 +193,7 @@ export const bundleOptionToLabel = (option: IndexedBundleOption, currencyCode = 
  */
 export const bundleOptionsToSelectTransform = (
     options: IndexedBundleOption[],
-    currencyCode = CurrencyMap.USD,
+    currencyCode = GQLCurrencyEnum.USD,
     quantity: Record<string, number> = {}
 ): TransformedBundleOption[] => (
     options.reduce((result: TransformedBundleOption[] = [], option) => {
@@ -239,7 +239,7 @@ export const bundleOptionsToSelectTransform = (
  * @namespace Util/Product/Transform/customizableOptionToLabel
  */
 export const customizableOptionToLabel = (
-    option: CustomizableSelectionValue, currencyCode = CurrencyMap.USD
+    option: CustomizableSelectionValue, currencyCode = GQLCurrencyEnum.USD
 ): PriceLabels => {
     const {
         price,
@@ -266,7 +266,7 @@ export const customizableOptionToLabel = (
  */
 export const customizableOptionsToSelectTransform = (
     options: CustomizableSelectionValue[],
-    currencyCode = CurrencyMap.USD
+    currencyCode = GQLCurrencyEnum.USD
 ): TransformedCustomizableOptions[] => (
     options.reduce((result: TransformedCustomizableOptions[] = [], option) => {
         const {

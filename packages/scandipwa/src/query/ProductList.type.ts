@@ -15,11 +15,11 @@ import { ProductType } from 'Component/Product/Product.config';
 import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
 import { CategorySortOptions } from 'Route/CategoryPage/CategoryPage.type';
 import {
+    GQLCurrencyEnum,
     GQLPriceTypeEnum,
     GQLProductStockStatus,
     GQLShipBundleItemsEnum
 } from 'Type/Graphql.type';
-import { CurrencyMap } from 'Util/Price/Price.config';
 
 export interface ProductStockItem {
     in_stock: boolean;
@@ -97,7 +97,7 @@ export interface ProductDiscount {
 }
 
 export interface Money {
-    currency: CurrencyMap;
+    currency: GQLCurrencyEnum;
     value: number;
 }
 
