@@ -159,13 +159,16 @@ export const transformParameters = (
  * @returns {{baseLabel: string, priceLabel: string}}
  * @namespace Util/Product/Transform/bundleOptionToLabel
  */
-export const bundleOptionToLabel = (option: IndexedBundleOption, currencyCode = GQLCurrencyEnum.USD): PriceLabels => {
+export const bundleOptionToLabel = (
+    option: Partial<IndexedBundleOption>,
+    currencyCode = GQLCurrencyEnum.USD
+): PriceLabels => {
     const {
         price,
-        finalOptionPrice,
+        finalOptionPrice = 0,
         price_type: priceType,
         can_change_quantity: canChangeQuantity,
-        quantity,
+        quantity = 0,
         label,
         product
     } = option || {};
@@ -239,11 +242,11 @@ export const bundleOptionsToSelectTransform = (
  * @namespace Util/Product/Transform/customizableOptionToLabel
  */
 export const customizableOptionToLabel = (
-    option: CustomizableSelectionValue, currencyCode = GQLCurrencyEnum.USD
+    option: Partial<CustomizableSelectionValue>, currencyCode = GQLCurrencyEnum.USD
 ): PriceLabels => {
     const {
         price,
-        priceInclTax,
+        priceInclTax = 0,
         price_type,
         title
     } = option || {};

@@ -154,7 +154,11 @@ ProductBundleOptionContainerState
             title,
             isRequired,
             type,
-            options: nonRequiredRadioOptions(this.getSortedOptions(), isRequired, type),
+            options: nonRequiredRadioOptions(
+                this.getSortedOptions(),
+                isRequired,
+                type
+            ) as Partial<IndexedBundleOption>[],
             updateSelectedValues,
             currencyCode: currencyCode as GQLCurrencyEnum,
             activeSelectUid,

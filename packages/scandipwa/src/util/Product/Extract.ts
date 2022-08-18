@@ -235,8 +235,8 @@ export const getGroupedProductsInStockQuantity = (
  * @namespace Util/Product/Extract/getBundleOption
  */
 export const getBundleOption = (
-    uid: string, options: IndexedBundleOption[] = []
-): IndexedBundleOption | undefined => {
+    uid: string, options: Partial<IndexedBundleOption>[] = []
+): Partial<IndexedBundleOption> | undefined => {
     const uidParts = decodeBase64(uid).split('/');
     return options.find(({ uid: linkedUid = '' }) => {
         const linkedUidParts = decodeBase64(linkedUid).split('/');
@@ -510,13 +510,13 @@ export const getAdjustedPrice = (
 
                 if (option) {
                     const {
-                        finalOptionPrice,
-                        finalOptionPriceExclTax,
+                        finalOptionPrice = 0,
+                        finalOptionPriceExclTax = 0,
                         product: {
-                            price_range: optionProductPriceRange,
+                            price_range: optionProductPriceRange = {},
                             type_id: optionProductType,
                             dynamic_price: optionProductDynamic
-                        },
+                        } = {},
                         can_change_quantity: canChangeQuantity = false
                     } = option;
 

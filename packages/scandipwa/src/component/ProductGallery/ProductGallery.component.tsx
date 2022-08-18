@@ -9,7 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { ComponentType, createRef, PureComponent } from 'react';
+import {
+    ComponentType,
+    createRef,
+    PureComponent,
+    ReactNode
+} from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
@@ -283,12 +288,16 @@ export class ProductGallery extends PureComponent<ProductGalleryComponentProps, 
                   minScale: 1
               } }
             >
-                { ({
-                    scale,
-                    previousScale,
-                    resetTransform,
-                    setTransform
-                }: TransformRenderFnProps) => {
+                { /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */ }
+                { /* @ts-ignore */ }
+                { (params: TransformRenderFnProps): ReactNode => {
+                    const {
+                        scale,
+                        previousScale,
+                        resetTransform,
+                        setTransform
+                    } = params;
+
                     if (scale === 1 && previousScale !== 1) {
                         resetTransform();
                     }

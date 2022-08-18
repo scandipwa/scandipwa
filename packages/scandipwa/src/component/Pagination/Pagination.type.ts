@@ -31,7 +31,7 @@ export interface PaginationContainerBaseProps {
     isLoading: boolean;
     totalPages: number;
     id?: string;
-    mix: Mix;
+    mix?: Mix;
 }
 
 export type PaginationContainerProps = PaginationContainerMapStateProps
@@ -56,7 +56,7 @@ export interface PaginationComponentProps {
     shouldRenderJumps: boolean;
     paginationFrame: number;
     id?: string;
-    mix: Mix;
+    mix?: Mix;
 }
 
 export type PaginationContainerPropsKeys =

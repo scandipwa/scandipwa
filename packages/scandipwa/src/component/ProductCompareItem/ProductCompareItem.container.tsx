@@ -20,7 +20,7 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement, Url } from 'Type/Common.type';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
-import { ProductTransformData } from 'Util/Product/Product.type';
+import { IndexedProduct, ProductTransformData } from 'Util/Product/Product.type';
 import { magentoProductTransform } from 'Util/Product/Transform';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
@@ -120,7 +120,7 @@ ProductCompareItemContainerState
         }, {});
     }
 
-    getProductOptionsData(): { requiredOptions: number[] } {
+    getProductOptionsData(): { requiredOptions: Array<number | null> } {
         const { product: { options } } = this.props;
 
         if (!options) {
@@ -128,7 +128,10 @@ ProductCompareItemContainerState
         }
 
         return {
-            requiredOptions: options
+            requiredOptions: (options as unknown as Array<{
+                option_id: number;
+                required: boolean;
+            }>)
                 .map(({ option_id, required }) => (required ? option_id : null))
                 .filter((item) => !!item)
         };
@@ -185,7 +188,7 @@ ProductCompareItemContainerState
         } = this.props;
         const { currentQty } = this.state;
 
-        return magentoProductTransform(ADD_TO_CART, item, currentQty);
+        return magentoProductTransform(ADD_TO_CART, item as unknown as IndexedProduct, currentQty);
     }
 
     async addItemToCart(): Promise<void> {

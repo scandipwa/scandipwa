@@ -212,7 +212,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
 
     containerProps(): Pick<ProductListComponentProps, ProductListComponentContainerPropKeys> {
         const {
-            isPaginationEnabled: defaultIsPaginationEnabled
+            isPaginationEnabled: defaultIsPaginationEnabled = false
         } = ProductListContainer.defaultProps;
         const {
             device,
@@ -246,9 +246,9 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
     }
 
     _getIsInfiniteLoaderEnabled(): boolean { // disable infinite scroll on mobile
-        const { isInfiniteLoaderEnabled, device } = this.props;
+        const { isInfiniteLoaderEnabled = false, device } = this.props;
         const {
-            isInfiniteLoaderEnabled: defaultIsInfiniteLoaderEnabled
+            isInfiniteLoaderEnabled: defaultIsInfiniteLoaderEnabled = false
         } = ProductListContainer.defaultProps;
 
         // allow scroll and mobile
@@ -273,7 +273,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
         const {
             pages,
             totalItems,
-            pageSize = defaultPageSize
+            pageSize = defaultPageSize || 0
         } = this.props;
         const keys: number[] = Object.keys(pages) as unknown as number[];
 

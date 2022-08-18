@@ -21,7 +21,7 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
 import { ReactElement } from 'Type/Common.type';
 import { ADD_TO_WISHLIST } from 'Util/Product';
-import { StockCheckProduct } from 'Util/Product/Product.type';
+import { IndexedProduct, StockCheckProduct } from 'Util/Product/Product.type';
 import { magentoProductTransform } from 'Util/Product/Transform';
 
 import { ProductCompareItemComponentProps } from './ProductCompareItem.type';
@@ -91,7 +91,7 @@ export class ProductCompareItem extends PureComponent<ProductCompareItemComponen
 
         return (
             <ProductWishlistButton
-              magentoProduct={ magentoProductTransform(ADD_TO_WISHLIST, product) }
+              magentoProduct={ magentoProductTransform(ADD_TO_WISHLIST, product as unknown as IndexedProduct) }
               mix={ { block: 'ProductCard', elem: 'WishListButton' } }
             />
         );

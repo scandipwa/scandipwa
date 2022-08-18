@@ -35,7 +35,7 @@ export interface ProductCompareItemContainerBaseProps {
 export interface ProductCompareItemContainerFunctions {
     removeComparedProduct: () => Promise<void>;
     getGroupedProductQuantity: () => Record<number, number>;
-    getProductOptionsData: () => { requiredOptions: number[] };
+    getProductOptionsData: () => { requiredOptions: Array<number | null> };
     overriddenAddToCartBtnHandler: () => void;
     addItemToCart: () => Promise<void>;
 }

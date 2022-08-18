@@ -35,7 +35,8 @@ export type ProductListWidgetContainerProps = ProductListWidgetContainerMapDispa
     productsPerPage: number;
     conditionsEncoded: string;
     title: string;
-    selectedFilters;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    selectedFilters: any;
 };
 
 export interface ProductListWidgetContainerState {
@@ -47,7 +48,8 @@ export interface ProductListWidgetContainerState {
 
 export interface ProductListWidgetComponentProps
     extends ProductListWidgetAdaptProps, ProductListWidgetContainerFunctions {
-    selectedFilters;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    selectedFilters: any;
     title: string;
     pages: Record<number, IndexedProduct[]>;
     totalItems: number;
@@ -81,7 +83,8 @@ export interface ProductListWidgetQueryResult {
 }
 
 export interface ProductListWidgetAdaptProps {
-    filter;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    filter: any;
     pageSize: number;
     isPaginationEnabled: boolean;
 }
