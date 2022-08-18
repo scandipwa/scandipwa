@@ -38,6 +38,7 @@ import CheckoutBilling from './CheckoutBilling.component';
 /** @namespace Component/CheckoutBilling/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
+    isSignedIn: state.MyAccountReducer.isSignedIn,
     totals: state.CartReducer.cartTotals,
     termsAreEnabled: state.ConfigReducer.terms_are_enabled,
     termsAndConditions: state.ConfigReducer.checkoutAgreements,
@@ -76,7 +77,8 @@ export class CheckoutBillingContainer extends PureComponent {
         termsAreEnabled: PropTypes.bool,
         newShippingId: PropTypes.number,
         newShippingStreet: PropTypes.arrayOf(PropTypes.string).isRequired,
-        onChangeEmailRequired: PropTypes.func.isRequired
+        onChangeEmailRequired: PropTypes.func.isRequired,
+        isSignedIn: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -123,6 +125,14 @@ export class CheckoutBillingContainer extends PureComponent {
             prevPaymentMethods: paymentMethods,
             paymentMethod: ''
         };
+    }
+
+    componentDidMount() {
+        const { isSignedIn, customer: { addresses } } = this.props;
+
+        if ((isSignedIn && addresses.length === 0) || !isSignedIn) {
+            this.setState({ isSameAsShipping: true });
+        }
     }
 
     componentDidUpdate(prevState) {
