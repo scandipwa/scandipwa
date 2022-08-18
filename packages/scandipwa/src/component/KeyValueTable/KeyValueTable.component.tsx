@@ -27,7 +27,7 @@ T extends KeyValueTableComponentProps = KeyValueTableComponentProps
         isSelected: false
     };
 
-    dataPairArray(): DataPair[] {
+    dataPairArray(): DataPair<Record<string, string | string[]>>[] {
         return [
             /**
              * {
@@ -39,17 +39,25 @@ T extends KeyValueTableComponentProps = KeyValueTableComponentProps
         ];
     }
 
-    getValueFromSource({ key, source }: DataPair): string | number {
+    getValueFromSource({ key, source }: DataPair<Record<string, string | string[] | boolean>>): string | number {
         const { [key]: value } = source;
 
         if (!value) {
             return '';
         }
 
-        return Array.isArray(value) ? value.join(', ') : value;
+        if (Array.isArray(value)) {
+            return value.join(', ');
+        }
+
+        if (typeof value === 'boolean') {
+            return Number(value);
+        }
+
+        return value;
     }
 
-    renderTableRow(data: DataPair): ReactElement {
+    renderTableRow(data: DataPair<Record<string, string | string[]>>): ReactElement {
         const { key, label } = data;
         const value = this.getValueFromSource(data);
 

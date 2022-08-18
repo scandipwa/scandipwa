@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import { ReactElement } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
 
 import { DELIVERY_METHOD_UNAVAILABLE_MESSAGE } from './CheckoutDeliveryOption.config';
@@ -44,7 +45,7 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
               block="CheckoutDeliveryOption"
               elem="SubPrice"
             >
-                { __('Excl. tax: %s', formatPrice(optionSubPrice, currency)) }
+                { __('Excl. tax: %s', formatPrice(optionSubPrice, currency as GQLCurrencyEnum)) }
             </span>
         );
     }
@@ -55,7 +56,7 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
             optionPrice
         } = this.props;
 
-        return formatPrice(optionPrice, currency);
+        return formatPrice(optionPrice, currency as GQLCurrencyEnum);
     }
 
     renderPrice(): ReactElement {

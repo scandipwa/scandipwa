@@ -21,13 +21,18 @@ import {
     CheckoutTermsAndConditionsPopupComponentProps,
     CheckoutTermsAndConditionsPopupContainerMapDispatchProps,
     CheckoutTermsAndConditionsPopupContainerMapStateProps,
-    CheckoutTermsAndConditionsPopupContainerProps
+    CheckoutTermsAndConditionsPopupContainerProps,
+    CheckoutTermsAndConditionsPopupPayload
 } from './CheckoutTermsAndConditionsPopup.component.type';
 import { TERMS_AND_CONDITIONS_POPUP_ID } from './CheckoutTermsAndConditionsPopup.config';
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CheckoutTermsAndConditionsPopupContainerMapStateProps => ({
-    payload: state.PopupReducer.popupPayload[ TERMS_AND_CONDITIONS_POPUP_ID ]
+    payload: (state.PopupReducer.popupPayload as {
+        [TERMS_AND_CONDITIONS_POPUP_ID]: CheckoutTermsAndConditionsPopupPayload;
+    })[
+        TERMS_AND_CONDITIONS_POPUP_ID
+    ]
 });
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Container/mapDispatchToProps */

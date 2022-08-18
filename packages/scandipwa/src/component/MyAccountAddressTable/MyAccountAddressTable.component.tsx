@@ -25,6 +25,8 @@ import './MyAccountAddressTable.style';
 export class MyAccountAddressTable <
 Props extends MyAccountAddressTableComponentProps = MyAccountAddressTableComponentProps
 > extends KeyValueTable<Props> {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     dataPairArray(): DataPair<CustomerAddress | FormattedRegion>[] {
         return getAddressTablePairArray(this.props);
     }

@@ -22,6 +22,7 @@ import Loader from 'Component/Loader';
 import { SelectedBundleOption, SelectedCustomizableOption } from 'Query/Cart.type';
 import { ReactElement } from 'Type/Common.type';
 import {
+    GQLCurrencyEnum,
     GQLSelectedBundleOptionValue,
     GQLSelectedCustomizableOption,
     GQLSelectedCustomizableOptionValue,
@@ -195,7 +196,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
             label, quantity, price, id
         } = value;
         const { currency_code: currencyCode } = this.props;
-        const formattedPrice = formatPrice(price, currencyCode);
+        const formattedPrice = formatPrice(price, currencyCode as GQLCurrencyEnum);
 
         return (
             <div key={ `${id}-${index}` }>

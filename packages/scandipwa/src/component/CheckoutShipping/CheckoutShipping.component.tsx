@@ -19,6 +19,7 @@ import LockIcon from 'Component/LockIcon';
 import StoreInPickUpComponent from 'Component/StoreInPickUp';
 import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { ReactElement } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { getAllCartItemsSku } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
 
@@ -42,7 +43,7 @@ export class CheckoutShipping extends PureComponent<CheckoutShippingComponentPro
             return null;
         }
 
-        const orderTotalExclTax = formatPrice(cartTotalSubPrice, quote_currency_code);
+        const orderTotalExclTax = formatPrice(cartTotalSubPrice, quote_currency_code as GQLCurrencyEnum);
 
         return (
             <span block="Checkout" elem="SubPrice">
@@ -54,7 +55,7 @@ export class CheckoutShipping extends PureComponent<CheckoutShippingComponentPro
     renderPriceLine(price: number): ReactElement {
         const { totals: { quote_currency_code } } = this.props;
 
-        return formatPrice(price, quote_currency_code);
+        return formatPrice(price, quote_currency_code as GQLCurrencyEnum);
     }
 
     renderOrderTotal(): ReactElement {
@@ -69,7 +70,7 @@ export class CheckoutShipping extends PureComponent<CheckoutShippingComponentPro
             return null;
         }
 
-        const orderTotal = formatPrice(grand_total, quote_currency_code);
+        const orderTotal = formatPrice(grand_total, quote_currency_code as GQLCurrencyEnum);
 
         return (
             <dl block="Checkout" elem="OrderTotal">

@@ -11,13 +11,16 @@
 
 import KeyValueTable from 'Component/KeyValueTable';
 import { DataPair } from 'Component/KeyValueTable/KeyValueTable.type';
+import { Customer } from 'Query/MyAccount.type';
 import { ReactElement } from 'Type/Common.type';
 
 import { MyAccountCustomerTableComponentProps } from './MyAccountCustomerTable.type';
 
 /** @namespace Component/MyAccountCustomerTable/Component */
 export class MyAccountCustomerTable extends KeyValueTable<MyAccountCustomerTableComponentProps> {
-    dataPairArray(): DataPair<typeof customer>[] {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    dataPairArray(): DataPair<Partial<Customer>>[] {
         const { customer } = this.props;
 
         return [

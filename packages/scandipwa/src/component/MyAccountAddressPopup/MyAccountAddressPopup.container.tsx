@@ -33,7 +33,8 @@ import {
     MyAccountAddressPopupContainerMapDispatchProps,
     MyAccountAddressPopupContainerMapStateProps,
     MyAccountAddressPopupContainerProps,
-    MyAccountAddressPopupContainerState
+    MyAccountAddressPopupContainerState,
+    MyAccountAddressPopupPayload
 } from './MyAccountAddressPopup.type';
 
 export const MyAccountDispatcher = import(
@@ -43,7 +44,9 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Component/MyAccountAddressPopup/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountAddressPopupContainerMapStateProps => ({
-    payload: state.PopupReducer.popupPayload[ MyAccountAddressPopupAction.ADDRESS_POPUP_ID ]
+    payload: (state.PopupReducer.popupPayload as {
+        [MyAccountAddressPopupAction.ADDRESS_POPUP_ID]: MyAccountAddressPopupPayload;
+    })[ MyAccountAddressPopupAction.ADDRESS_POPUP_ID ]
 });
 
 /** @namespace Component/MyAccountAddressPopup/Container/mapDispatchToProps */

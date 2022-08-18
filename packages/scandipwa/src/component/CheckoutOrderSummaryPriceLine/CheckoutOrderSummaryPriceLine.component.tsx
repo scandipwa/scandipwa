@@ -34,7 +34,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent<CheckoutOrderSu
 
         return (
             <strong>
-                { formatPrice(Number(price), currency) }
+                { formatPrice(Number(price), currency as GQLCurrencyEnum) }
             </strong>
         );
     }
@@ -48,7 +48,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent<CheckoutOrderSu
 
         return (
             <span>
-                { __('Excl. tax: %s', formatPrice(subPrice, currency)) }
+                { __('Excl. tax: %s', formatPrice(subPrice, currency as GQLCurrencyEnum)) }
             </span>
         );
     }

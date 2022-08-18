@@ -150,7 +150,7 @@ export class MyAccountCreateAccount extends PureComponent<MyAccountCreateAccount
                       validationRule={ {
                           isRequired: true,
                           inputType: ValidationInputType.PASSWORD,
-                          match: (value) => {
+                          match: (value: string) => {
                               const email = document.getElementById('email') as HTMLInputElement;
 
                               if (value && email.value === value) {

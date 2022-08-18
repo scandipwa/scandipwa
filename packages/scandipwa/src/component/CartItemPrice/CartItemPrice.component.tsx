@@ -12,6 +12,7 @@
 import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice, roundPrice } from 'Util/Price';
 
 import { CartItemPriceComponentProps } from './CartItemPrice.type';
@@ -28,7 +29,7 @@ export class CartItemPrice extends PureComponent<CartItemPriceComponentProps> {
 
         return (
             <span aria-label={ __('Current product price') }>
-                <data value={ value }>{ formatPrice(price, currency_code) }</data>
+                <data value={ value }>{ formatPrice(price, currency_code as GQLCurrencyEnum) }</data>
             </span>
         );
     }
@@ -46,7 +47,7 @@ export class CartItemPrice extends PureComponent<CartItemPriceComponentProps> {
               block="ProductPrice"
               elem="SubPrice"
             >
-                { __('Excl. tax: %s', formatPrice(subPrice, currency_code)) }
+                { __('Excl. tax: %s', formatPrice(subPrice, currency_code as GQLCurrencyEnum)) }
             </span>
         );
     }

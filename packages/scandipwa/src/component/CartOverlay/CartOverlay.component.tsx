@@ -19,6 +19,7 @@ import LockIcon from 'Component/LockIcon';
 import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
 import { ReactElement } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { noopFn } from 'Util/Common';
 import { formatPrice } from 'Util/Price';
 
@@ -46,7 +47,7 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
     renderPriceLine(price: number): ReactElement {
         const { currencyCode } = this.props;
 
-        return formatPrice(price, currencyCode);
+        return formatPrice(price, currencyCode as GQLCurrencyEnum);
     }
 
     renderCartItems(): ReactElement {

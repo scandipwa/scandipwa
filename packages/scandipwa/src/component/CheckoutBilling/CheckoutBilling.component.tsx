@@ -20,6 +20,7 @@ import Form from 'Component/Form';
 import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { ReactElement } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
 
 import { CheckoutBillingComponentProps, CheckoutBillingComponentState } from './CheckoutBilling.type';
@@ -134,7 +135,7 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
             return null;
         }
 
-        const orderTotalExlTax = formatPrice(cartTotalSubPrice, quote_currency_code);
+        const orderTotalExlTax = formatPrice(cartTotalSubPrice, quote_currency_code as GQLCurrencyEnum);
 
         return (
             <span>
@@ -146,7 +147,7 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
     renderOrderTotal(): ReactElement {
         const { totals: { grand_total, quote_currency_code } } = this.props;
 
-        const orderTotal = formatPrice(grand_total || 0, quote_currency_code);
+        const orderTotal = formatPrice(grand_total || 0, quote_currency_code as GQLCurrencyEnum);
 
         return (
             <dl block="Checkout" elem="OrderTotal">

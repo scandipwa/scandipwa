@@ -59,16 +59,6 @@ export class MyAccountAddressFormContainer <
         defaultCountry: 'US'
     };
 
-    state: MyAccountAddressFormContainerState = {
-        countryId: this.getCountry()?.value || 'US',
-        availableRegions: this.getAvailableRegions() || [],
-        isStateRequired: !!this.getCountry()?.is_state_required,
-        currentCity: this.getCurrentAddress().city,
-        currentRegion: this.getCurrentAddress().region,
-        currentZipcode: this.getCurrentAddress().postcode,
-        currentRegionId: this.getCurrentAddress().regionId
-    };
-
     containerFunctions: MyAccountAddressFormContainerFunctions = {
         onCountryChange: this.onCountryChange.bind(this),
         onZipcodeChange: this.onZipcodeChange.bind(this),
@@ -76,6 +66,20 @@ export class MyAccountAddressFormContainer <
         onRegionChange: this.onRegionChange.bind(this),
         onRegionIdChange: this.onRegionIdChange.bind(this)
     };
+
+    __construct(props: Props): void {
+        super.__construct?.(props);
+
+        this.state = {
+            countryId: this.getCountry()?.value || 'US',
+            availableRegions: this.getAvailableRegions() || [],
+            isStateRequired: !!this.getCountry()?.is_state_required,
+            currentCity: this.getCurrentAddress().city,
+            currentRegion: this.getCurrentAddress().region,
+            currentZipcode: this.getCurrentAddress().postcode,
+            currentRegionId: this.getCurrentAddress().regionId
+        } as State;
+    }
 
     containerProps(): Pick<MyAccountAddressFormComponentProps, MyAccountAddressFormContainerPropsKeys> {
         const {
