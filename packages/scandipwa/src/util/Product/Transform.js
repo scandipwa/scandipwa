@@ -294,13 +294,16 @@ export const magentoProductTransform = (
 
     if (typeId === PRODUCT_TYPE.grouped && action === ADD_TO_CART) {
         const { items } = product;
+
         const groupedProducts = [];
 
-        items.forEach(({ product: { id } }) => {
-            const { [id]: groupedQuantity = 0 } = quantity;
+        if (items) {
+            items.forEach(({ product: { id } }) => {
+                const { [id]: groupedQuantity = 0 } = quantity;
 
-            groupedProducts.push(btoa(`grouped/${id}/${groupedQuantity}`));
-        });
+                groupedProducts.push(btoa(`grouped/${id}/${groupedQuantity}`));
+            });
+        }
 
         productData.push({
             sku,
