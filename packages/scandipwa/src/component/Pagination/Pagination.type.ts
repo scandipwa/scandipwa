@@ -30,7 +30,7 @@ export interface PaginationContainerFunctions {
 export interface PaginationContainerBaseProps {
     isLoading: boolean;
     totalPages: number;
-    id: string;
+    id?: string;
     mix: Mix;
 }
 
@@ -55,7 +55,7 @@ export interface PaginationComponentProps {
     shouldRenderPreviousJump: boolean;
     shouldRenderJumps: boolean;
     paginationFrame: number;
-    id: string;
+    id?: string;
     mix: Mix;
 }
 

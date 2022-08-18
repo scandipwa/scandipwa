@@ -202,7 +202,7 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
                           block="MyAccountOrder"
                           elem="Comment"
                         >
-                            <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
+                            <dt>{ getTimeInCurrentTimezone(timestamp).toString() }</dt>
                             <dd>{ message }</dd>
                         </dl>
                     )) }

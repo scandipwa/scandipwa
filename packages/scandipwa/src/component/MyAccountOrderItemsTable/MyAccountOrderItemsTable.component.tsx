@@ -214,7 +214,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
                           block="MyAccountOrderItemsTable"
                           elem="Comment"
                         >
-                            <dt>{ getTimeInCurrentTimezone(timestamp) }</dt>
+                            <dt>{ getTimeInCurrentTimezone(timestamp).toString() }</dt>
                             <dd>{ message }</dd>
                         </dl>
                     )) }

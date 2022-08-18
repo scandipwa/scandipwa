@@ -126,7 +126,7 @@ export class MyAccountOrderContainer extends PureComponent<MyAccountOrderContain
             isMobile,
             order: {
                 ...stateOrder
-            }
+            } as OrderItem
         };
     }
 

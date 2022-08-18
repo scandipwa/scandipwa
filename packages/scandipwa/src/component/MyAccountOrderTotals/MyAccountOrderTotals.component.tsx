@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { Discount, TaxItem } from 'Query/Order.type';
 import { Mix, ReactElement } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
 
 import { MyAccountOrderTotalsComponentProps } from './MyAccountOrderTotals.type';
@@ -131,7 +132,9 @@ export class MyAccountOrderTotals extends PureComponent<MyAccountOrderTotalsComp
         return (
             <tr mix={ mix } key={ key }>
                 <th colSpan={ colSpanLabelCount }>{ title }</th>
-                <td colSpan={ colSpanPriceCount }>{ formatPrice(Number(price), currency || defaultCurrency) }</td>
+                <td colSpan={ colSpanPriceCount }>
+                    { formatPrice(Number(price), (currency || defaultCurrency) as GQLCurrencyEnum) }
+                </td>
             </tr>
         );
     }

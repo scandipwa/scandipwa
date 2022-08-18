@@ -10,7 +10,9 @@
  */
 
 import { FieldType } from 'Component/Field/Field.config';
+import { FieldContainerProps } from 'Component/Field/Field.type';
 import FieldForm from 'Component/FieldForm';
+import { FormContainerProps } from 'Component/Form/Form.type';
 import { ReactElement } from 'Type/Common.type';
 
 import { MyAccountNewsletterSubscriptionComponentProps } from './MyAccountNewsletterSubscription.type';
@@ -19,7 +21,7 @@ import './MyAccountNewsletterSubscription.style.scss';
 
 /** @namespace Component/MyAccountNewsletterSubscription/Component */
 export class MyAccountNewsletterSubscription extends FieldForm<MyAccountNewsletterSubscriptionComponentProps> {
-    fieldMap() {
+    fieldMap(): Partial<FieldContainerProps>[] {
         const { setSubscriptionStatus, isSubscriptionSelected } = this.props;
 
         return [
@@ -49,10 +51,12 @@ export class MyAccountNewsletterSubscription extends FieldForm<MyAccountNewslett
         );
     }
 
-    getFormProps() {
+    getFormProps(): Partial<FormContainerProps> {
         const { onCustomerSave, onError } = this.props;
 
         return {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             onSubmit: onCustomerSave,
             onError,
             returnAsObject: true

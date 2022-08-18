@@ -107,11 +107,11 @@ MyAccountNewsletterSubscriptionContainerState
         const { showErrorNotification } = this.props;
 
         this.setState({ isLoading: false }, () => {
-            showErrorNotification(__('We are experiencing issues, please try again later'));
+            showErrorNotification({ message: __('We are experiencing issues, please try again later') });
         });
     }
 
-    async onCustomerSave(form, fields): Promise<void> {
+    async onCustomerSave(form: unknown, fields: { isSubscribed: { value: boolean } }): Promise<void> {
         const {
             updateCustomer,
             customer: {

@@ -15,6 +15,7 @@ import Html from 'Component/Html';
 import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { BundleOption, OrderProductSelectedOption } from 'Query/Order.type';
 import { ReactElement } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { getOrderItemQtyToArray, getOrderItemRowDiscount } from 'Util/Orders';
 import { OrderItemQtyArray } from 'Util/Orders/Orders.type';
 import { formatPrice } from 'Util/Price';
@@ -120,7 +121,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderIte
                 >
                     <td colSpan={ colSpanCount }>
                         <strong>{ title }</strong>
-                        <strong>{ formatPrice(Number(value), currency) }</strong>
+                        <strong>{ formatPrice(Number(value), currency as GQLCurrencyEnum) }</strong>
                     </td>
                 </tr>
             );
@@ -128,7 +129,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderIte
 
         return (
             <td>
-                <strong>{ formatPrice(Number(value), currency) }</strong>
+                <strong>{ formatPrice(Number(value), currency as GQLCurrencyEnum) }</strong>
             </td>
         );
     }

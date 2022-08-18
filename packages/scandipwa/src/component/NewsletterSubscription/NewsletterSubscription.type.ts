@@ -24,7 +24,8 @@ export interface NewsletterSubscriptionMapDispatchProps {
 }
 
 export interface NewsletterSubscriptionContainerFunctions {
-    onFormSubmit: (form: HTMLFormElement, fields) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onFormSubmit: (form: HTMLFormElement, fields: any) => void;
 }
 
 export type NewsletterSubscriptionContainerProps = NewsletterSubscriptionMapStateProps
@@ -36,6 +37,7 @@ export interface NewsletterSubscriptionContainerState {
 }
 
 export interface NewsletterSubscriptionComponentProps {
-    onFormSubmit: (form: HTMLFormElement, fields) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onFormSubmit: (form: HTMLFormElement, fields: any) => void;
     isLoading: boolean;
 }

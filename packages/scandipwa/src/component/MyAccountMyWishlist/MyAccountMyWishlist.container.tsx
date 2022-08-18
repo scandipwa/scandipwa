@@ -70,12 +70,6 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
         creatorsName: ''
     };
 
-    state: MyAccountMyWishlistContainerState = {
-        isLoading: false,
-        loadingItemsMap: {},
-        isQtyUpdateInProgress: false
-    };
-
     containerFunctions: MyAccountMyWishlistContainerFunctions = {
         removeAll: this.removeAll.bind(this),
         addAllToCart: this.addAllToCart.bind(this),
@@ -83,6 +77,16 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
         removeSelectedFromWishlist: this.removeSelectedFromWishlist.bind(this),
         setIsQtyUpdateInProgress: this.setIsQtyUpdateInProgress.bind(this)
     };
+
+    __construct(props: MyAccountMyWishlistContainerProps): void {
+        super.__construct?.(props);
+
+        this.state = {
+            isLoading: false,
+            loadingItemsMap: {} as Record<string, boolean>,
+            isQtyUpdateInProgress: false
+        } as S;
+    }
 
     containerProps(): Pick<MyAccountMyWishlistComponentProps, MyAccountMyWishlistContainerPropsKeys> {
         const {
@@ -177,7 +181,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
         const loadingItemsMap = { ...prevLoadingItemsMap };
 
         selectedIdMap.forEach((id: string) => {
-            loadingItemsMap[ id ] = true;
+            (loadingItemsMap as Record<string, boolean>)[ id ] = true;
         });
 
         this.setState({ loadingItemsMap });

@@ -15,7 +15,7 @@ import { PopupPayload } from 'Store/Popup/Popup.type';
 import { Children, Mix } from 'Type/Common.type';
 
 export interface PopupContainerMapStateProps {
-    activeOverlay: keyof PopupPayload;
+    activeOverlay: keyof PopupPayload | '';
     areOtherOverlaysOpen: boolean;
     shouldPopupClose: boolean;
     payload: PopupPayload;

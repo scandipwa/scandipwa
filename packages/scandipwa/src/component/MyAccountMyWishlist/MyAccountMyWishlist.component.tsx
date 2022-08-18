@@ -37,17 +37,17 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
         creatorsName: ''
     };
 
-    state: MyAccountMyWishlistComponentState = {
-        selectedIdMap: [],
-        actionLineHeight: 0
-    };
-
     actionLineMobileRef = createRef<HTMLDivElement>();
 
     productsRef = createRef<HTMLDivElement>();
 
     __construct(props: P): void {
         super.__construct?.(props);
+
+        this.state = {
+            selectedIdMap: [] as string[],
+            actionLineHeight: 0
+        } as S;
 
         this.handleSelectIdChange = this.handleSelectIdChange.bind(this);
     }

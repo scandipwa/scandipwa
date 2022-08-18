@@ -10,6 +10,7 @@
  */
 
 import { Customer } from 'Query/MyAccount.type';
+import { NetworkError } from 'Type/Common.type';
 
 export interface MyAccountNewsletterSubscriptionContainerMapStateProps {
     customer: Partial<Customer>;
@@ -18,14 +19,14 @@ export interface MyAccountNewsletterSubscriptionContainerMapStateProps {
 
 export interface MyAccountNewsletterSubscriptionContainerMapDispatchProps {
     updateCustomer: (customer: Partial<Customer>) => void;
-    showErrorNotification: (error: string) => void;
+    showErrorNotification: (error: NetworkError) => void;
     showSuccessNotification: (message: string) => void;
 }
 
 export interface MyAccountNewsletterSubscriptionContainerFunctions {
     setSubscriptionStatus: () => void;
     onError: () => void;
-    onCustomerSave: (form, fields) => void;
+    onCustomerSave: (form: unknown, fields: { isSubscribed: { value: boolean } }) => void;
 }
 
 export type MyAccountNewsletterSubscriptionContainerProps = MyAccountNewsletterSubscriptionContainerMapStateProps
@@ -37,7 +38,7 @@ export interface MyAccountNewsletterSubscriptionContainerState {
 }
 
 export interface MyAccountNewsletterSubscriptionComponentProps {
-    onCustomerSave: (form, fields) => void;
+    onCustomerSave: (form: unknown, fields: { isSubscribed: { value: boolean } }) => void;
     customer: Partial<Customer>;
     isSubscriptionSelected: boolean;
     setSubscriptionStatus: () => void;

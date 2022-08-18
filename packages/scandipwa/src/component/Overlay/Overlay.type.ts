@@ -13,7 +13,7 @@ import { PopupPayload } from 'Store/Popup/Popup.type';
 import { Mix, ReactElement } from 'Type/Common.type';
 
 export interface OverlayContainerMapStateProps {
-    activeOverlay: keyof PopupPayload;
+    activeOverlay: keyof PopupPayload | '';
     areOtherOverlaysOpen: boolean;
     isMobile: boolean;
 }

@@ -17,6 +17,7 @@ import { Page } from 'Component/Header/Header.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, hideActivePopup } from 'Store/Overlay/Overlay.action';
+import { PopupPayload } from 'Store/Popup/Popup.type';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import { RootState } from 'Util/Store/Store.type';
@@ -36,7 +37,7 @@ export const mapStateToProps = (state: RootState): PopupContainerMapStateProps =
     activeOverlay: state.OverlayReducer.activeOverlay,
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
     shouldPopupClose: state.PopupReducer.shouldPopupClose,
-    payload: state.PopupReducer.popupPayload,
+    payload: state.PopupReducer.popupPayload as PopupPayload,
     isMobile: state.ConfigReducer.device.isMobile
 });
 
@@ -127,7 +128,7 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
 
     _getPopupTitle(): string | undefined {
         const { payload, activeOverlay } = this.props;
-        const { title } = payload[ activeOverlay ] || {};
+        const { title } = payload[ activeOverlay as keyof PopupPayload ] || {};
 
         return title;
     }
