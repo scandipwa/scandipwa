@@ -99,6 +99,7 @@ export class NoMatchContainer extends PureComponent<NoMatchContainerProps> {
     render(): ReactElement {
         return (
             <Subscribe to={ [SharedTransitionContainer] }>
+                { /* eslint-disable-next-line @typescript-eslint/no-explicit-any */ }
                 { ({ cleanUpTransition }: any) => (
                     <NoMatch
                       { ...this.containerProps() }
