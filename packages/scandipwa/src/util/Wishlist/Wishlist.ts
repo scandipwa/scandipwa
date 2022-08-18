@@ -9,7 +9,7 @@
 * @link https://github.com/scandipwa/base-theme
 */
 
-import { PriceRange, ProductItem } from 'Query/ProductList.type';
+import { PriceRange, ProductItem, ProductPrice } from 'Query/ProductList.type';
 
 /**
  * Updates wishlist item price for option based products
@@ -43,7 +43,7 @@ export const getPriceRange = (
         final_price_excl_tax: priceCurrencyValueExclTax,
         regular_price_excl_tax: priceCurrencyValueExclTax,
         default_final_price_excl_tax: priceCurrencyValueExclTax
-    };
+    } as ProductPrice;
 
     return {
         price_range: {

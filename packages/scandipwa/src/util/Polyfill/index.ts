@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 /* eslint-disable */
 
 //smoothscroll.js file
@@ -330,3 +332,5 @@
     polyfill();
   }
 })(window, document);
+
+export default {};

@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 /* eslint-disable no-magic-numbers */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-fallthrough */

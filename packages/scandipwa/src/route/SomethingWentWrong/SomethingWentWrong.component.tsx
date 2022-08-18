@@ -24,8 +24,11 @@ export class SomethingWentWrong extends PureComponent<SomethingWentWrongComponen
         const { errorDetails: { err, info: { componentStack } = {} } } = this.props;
         const errorString = err.toString();
 
+        // eslint-disable-next-line no-console
         console.groupCollapsed('Suppressed error log:');
+        // eslint-disable-next-line no-console
         console.error(errorString);
+        // eslint-disable-next-line no-console
         console.groupEnd();
 
         if (process.env.NODE_ENV === 'production') {

@@ -83,7 +83,7 @@ export const validate = (value: string | boolean, rule: ValidationRule): boolean
     //#region RANGE
     if (range) {
         const { min, max, showLengthError } = range;
-        const isNumber = inputType in ValidationInputTypeNumber;
+        const isNumber = !!(inputType && inputType in ValidationInputTypeNumber);
 
         if (isNumber) {
             if (min && +value < min) {

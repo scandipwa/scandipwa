@@ -28,7 +28,7 @@ export type NavigationAbstractContainerProps = NavigationAbstractContainerMapSta
 };
 
 export interface NavigationAbstractContainerState {
-    prevPathname: string;
+    prevPathname?: string;
 }
 
 export interface NavigationAbstractComponentProps{

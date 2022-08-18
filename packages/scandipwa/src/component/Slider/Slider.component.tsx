@@ -401,6 +401,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handleInteraction(callback: (...args: any[]) => void, ...args: any[]): void {
         const { isInteractionDisabled } = this.props;
 

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -8,6 +10,10 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
+export type CacheMap = {
+    cache: Record<string, any>;
+};
 
 /**
  * Prefetches images
@@ -41,24 +47,24 @@ export const cacheImages = (urls: string[]): void => {
  * @returns function response
  * @namespace Util/Cache/fromCache
  */
-export const fromCache = (fn, args) => {
+export const fromCache = (fn: any, args: any): any => {
     // Checks if cache is defined
-    if (fromCache.cache === undefined) {
-        fromCache.cache = {};
+    if ((fromCache as unknown as CacheMap).cache === undefined) {
+        (fromCache as unknown as CacheMap).cache = {};
     }
 
     // Checks if function is registered into cache
     const { name } = fn;
 
-    if (fromCache.cache[name] === undefined) {
-        fromCache.cache[name] = {};
+    if ((fromCache as unknown as CacheMap).cache[name] === undefined) {
+        (fromCache as unknown as CacheMap).cache[name] = {};
     }
 
     // Generates key from args
     const key = JSON.stringify(args);
 
     // Finds response
-    const { cache, cache: { [name]: { [key]: cachedResponse } = {} } = {} } = fromCache;
+    const { cache, cache: { [name]: { [key]: cachedResponse } = {} } = {} } = (fromCache as unknown as CacheMap);
 
     // If already cached then returns cache value
     if (cachedResponse) {
@@ -76,13 +82,13 @@ export const fromCache = (fn, args) => {
  * @param {function} fn
  * @namespace Util/Cache/clearCacheFor
  */
-export const clearCacheFor = (fn) => {
-    if (fromCache.cache === undefined) {
+export const clearCacheFor = (fn: any): void => {
+    if ((fromCache as unknown as CacheMap).cache === undefined) {
         return;
     }
 
     const { name } = fn;
-    fromCache.cache[name] = {};
+    (fromCache as unknown as CacheMap).cache[name] = {};
 };
 
 export default fromCache;

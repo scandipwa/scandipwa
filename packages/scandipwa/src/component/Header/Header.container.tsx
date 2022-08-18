@@ -284,8 +284,12 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
         document.documentElement.classList.remove('hiddenHeader');
     }
 
-    handleMobileUrlChange(history: Location): { isClearEnabled: boolean; showMyAccountLogin?: boolean } {
-        const { prevPathname } = this.state;
+    handleMobileUrlChange(history: Location): {
+        isClearEnabled: boolean;
+        showMyAccountLogin?: boolean;
+        prevPathname?: string;
+    } {
+        const { prevPathname = '' } = this.state;
         const { pathname } = history;
         const isClearEnabled = this.getIsClearEnabled();
 

@@ -38,7 +38,7 @@ export const OrderDispatcher = import(
 /** @namespace Component/MyAccountMyOrders/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountMyOrdersContainerMapStateProps => ({
     orderList: state.OrderReducer.orderList,
-    isLoading: state.OrderReducer.isLoading,
+    isLoading: state.OrderReducer.isLoading || false,
     device: state.ConfigReducer.device
 });
 

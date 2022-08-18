@@ -63,7 +63,7 @@ State extends NavigationAbstractContainerState
         });
     }
 
-    onRouteChanged(history: Location) {
+    onRouteChanged(history: Location): { prevPathname?: string } {
         const { device } = this.props;
 
         // check if token is expired and logout
@@ -96,7 +96,7 @@ State extends NavigationAbstractContainerState
         setNavigationState(state);
     }
 
-    handleMobileUrlChange(history: Location) {
+    handleMobileUrlChange(history: Location): { prevPathname?: string } {
         const { prevPathname } = this.state;
         const { pathname } = history;
 
@@ -107,7 +107,7 @@ State extends NavigationAbstractContainerState
         return this.handleMobileRouteChange(history);
     }
 
-    handleMobileRouteChange(history: Location) {
+    handleMobileRouteChange(history: Location): { prevPathname?: string } {
         const {
             // hideActiveOverlay,
             setNavigationState,
@@ -127,7 +127,7 @@ State extends NavigationAbstractContainerState
         return { prevPathname: pathname };
     }
 
-    handleDesktopRouteChange() {
+    handleDesktopRouteChange(): { prevPathname?: string } {
         const {
             hideActiveOverlay,
             setNavigationState

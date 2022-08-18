@@ -29,14 +29,14 @@ export const scrollToError = (fields: FormFields | null, validation: ValidationD
         return;
     }
 
-    const { name } = errorFields[0][0];
+    const { name } = (errorFields as Array<Array<{ name: string }>>)[0][0];
     const errorItem = fields.find(({ name: itemName }) => itemName === name);
 
     if (!errorItem) {
         return;
     }
 
-    const { field } = errorItem;
+    const { field } = errorItem as { field: HTMLElement };
 
     if (field) {
         field.scrollIntoView({ behavior: 'smooth', block: 'center' });

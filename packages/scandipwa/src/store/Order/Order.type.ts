@@ -38,7 +38,7 @@ export type OrderAction = GetOrderListAction | SetLoadingStatusAction;
 
 export interface OrderStore {
     orderList: Partial<OrderList>;
-    isLoading: boolean;
+    isLoading?: boolean;
 }
 
 declare module 'Util/Store/Store.type' {

@@ -53,7 +53,7 @@ export const prepareFieldString = <T>(
     const formattedArgs = resolvedArgs.length ? `(${resolvedArgs.join(',')})` : '';
 
     // join child fields with ","
-    const formattedChildren = children.map((field: unknown) => prepareFieldString(field, accArgs)).join(',');
+    const formattedChildren = children.map((field) => prepareFieldString(field, accArgs)).join(',');
 
     // wrap body with "{}"
     const body = children.length ? `{${formattedChildren}}` : '';
