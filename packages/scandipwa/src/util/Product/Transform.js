@@ -296,11 +296,13 @@ export const magentoProductTransform = (
         const { items } = product;
         const groupedProducts = [];
 
-        items.forEach(({ product: { id } }) => {
-            const { [id]: groupedQuantity = 0 } = quantity;
+        if (items) {
+            items.forEach(({ product: { id } }) => {
+                const { [id]: groupedQuantity = 0 } = quantity;
 
-            groupedProducts.push(btoa(`grouped/${id}/${groupedQuantity}`));
-        });
+                groupedProducts.push(btoa(`grouped/${id}/${groupedQuantity}`));
+            });
+        }
 
         productData.push({
             sku,
