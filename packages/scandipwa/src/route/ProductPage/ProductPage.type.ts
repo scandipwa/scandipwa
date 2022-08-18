@@ -9,7 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { History, Location } from 'history';
+import { Location } from 'history';
+import { RouteComponentProps, StaticContext } from 'react-router';
 
 import { ProductListOptions } from 'Query/ProductList.type';
 import { Product as BreadcrumbProduct } from 'Store/Breadcrumbs/Breadcrumbs.type';
@@ -40,12 +41,12 @@ export interface ProductPageContainerMapDispatchProps {
 }
 
 export interface ProductPageContainerBaseProps {
-    history: History<HistoryState>;
     productSKU: string;
     productID: number;
 }
 
-export type ProductPageContainerProps = ProductPageContainerMapStateProps
+export type ProductPageContainerProps = & RouteComponentProps<Record<string, never>, StaticContext, HistoryState>
+& ProductPageContainerMapStateProps
 & ProductPageContainerMapDispatchProps
 & ProductPageContainerBaseProps;
 

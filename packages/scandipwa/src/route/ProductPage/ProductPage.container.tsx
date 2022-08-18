@@ -96,7 +96,6 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductPageContainerMapD
 /** @namespace Route/ProductPage/Container */
 export class ProductPageContainer extends PureComponent<ProductPageContainerProps, ProductPageContainerState> {
     static defaultProps: Partial<ProductPageContainerProps> = {
-        location: { state: {} },
         productSKU: '',
         productID: 0,
         metaTitle: undefined
