@@ -157,7 +157,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
         const { isOverlayVisible } = this.props;
-        const { location: { pathname } } = history;
+        const { location: { pathname } } = history || {};
 
         const {
             isSignedIn,

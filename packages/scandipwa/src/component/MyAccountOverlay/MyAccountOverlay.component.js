@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
 
 import Loader from 'Component/Loader';
 import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
@@ -211,6 +210,4 @@ export class MyAccountOverlay extends PureComponent {
     }
 }
 
-export default withRouter(
-    MyAccountOverlay
-);
+export default MyAccountOverlay;

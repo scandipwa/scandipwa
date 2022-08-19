@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
 
 import ProductCard from 'Component/ProductCard';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
@@ -243,4 +242,4 @@ export class ProductListPage extends PureComponent {
     }
 }
 
-export default withRouter(ProductListPage);
+export default ProductListPage;

@@ -12,11 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { ChildrenType } from 'Type/Common.type';
-import { LocationType } from 'Type/Router.type';
 
 import NoMatchHandler from './NoMatchHandler.component';
 
@@ -45,7 +43,6 @@ export class NoMatchHandlerContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
         noMatch: PropTypes.bool,
-        location: LocationType.isRequired,
         updateNoMatch: PropTypes.func.isRequired,
         children: ChildrenType.isRequired
     };
@@ -66,7 +63,6 @@ export class NoMatchHandlerContainer extends PureComponent {
     containerProps() {
         const {
             children,
-            location,
             noMatch,
             updateMeta,
             updateNoMatch
@@ -90,6 +86,4 @@ export class NoMatchHandlerContainer extends PureComponent {
     }
 }
 
-export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(NoMatchHandlerContainer)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(NoMatchHandlerContainer);

@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import MyAccountQuery from 'Query/MyAccount.query';
 import { ACCOUNT_LOGIN_URL, ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
@@ -20,7 +19,6 @@ import { updateCustomerDetails, updateIsLoading, updateIsLocked } from 'Store/My
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CustomerType } from 'Type/Account.type';
-import { LocationType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import history from 'Util/History';
@@ -63,7 +61,6 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountInformationContainer extends PureComponent {
     static propTypes = {
         customer: CustomerType.isRequired,
-        location: LocationType.isRequired,
         baseLinkUrl: PropTypes.string.isRequired,
 
         isLoading: PropTypes.bool.isRequired,
@@ -95,7 +92,7 @@ export class MyAccountInformationContainer extends PureComponent {
                     editPassword = false
                 } = {}
             }
-        } = this.props;
+        } = history;
 
         this.state = {
             showEmailChangeField: false,
@@ -249,4 +246,4 @@ export class MyAccountInformationContainer extends PureComponent {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MyAccountInformationContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountInformationContainer);

@@ -21,7 +21,6 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { LocationType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
@@ -79,7 +78,6 @@ export class PasswordChangePageContainer extends PureComponent {
         ]).isRequired,
         passwordResetMessage: PropTypes.string.isRequired,
         resetPassword: PropTypes.func.isRequired,
-        location: LocationType.isRequired,
         isLoading: PropTypes.bool.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired,
@@ -164,14 +162,15 @@ export class PasswordChangePageContainer extends PureComponent {
     }
 
     shouldDisplayWarning() {
-        const token = getQueryParam('token', location);
+        const token = getQueryParam('token', history.location);
 
         return !token;
     }
 
     onPasswordSuccess(form, fields) {
         this.setState({ isLoading: true }, () => {
-            const { resetPassword, location } = this.props;
+            const { resetPassword } = this.props;
+            const { location } = history;
             const { password, password_confirmation } = transformToNameValuePair(fields);
             const token = getQueryParam('token', location);
             const customer_id = getQueryParam('id', location);

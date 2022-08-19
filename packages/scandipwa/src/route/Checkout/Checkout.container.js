@@ -29,7 +29,6 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { Addresstype, CustomerType } from 'Type/Account.type';
 import { TotalsType } from 'Type/MiniCart.type';
-import { HistoryType } from 'Type/Router.type';
 import { removeEmptyStreets } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -136,7 +135,6 @@ export class CheckoutContainer extends PureComponent {
         resetGuestCart: PropTypes.func.isRequired,
         guest_checkout: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired,
-        history: HistoryType.isRequired,
         customer: CustomerType.isRequired,
         countries: PropTypes.arrayOf(
             PropTypes.shape({
@@ -242,7 +240,6 @@ export class CheckoutContainer extends PureComponent {
 
     componentDidMount() {
         const {
-            history,
             guest_checkout,
             updateMeta,
             isGuestNotAllowDownloadable
@@ -287,8 +284,7 @@ export class CheckoutContainer extends PureComponent {
             totals: {
                 is_virtual
             },
-            showInfoNotification,
-            history
+            showInfoNotification
         } = this.props;
 
         const {
@@ -302,7 +298,7 @@ export class CheckoutContainer extends PureComponent {
 
         const { email, checkoutStep, isVisibleEmailRequired } = this.state;
         const { email: prevEmail, isVisibleEmailRequired: prevIsVisibleEmailRequired } = prevState;
-        const { pathname = '' } = location;
+        const { location: { pathname = '' } } = history;
 
         this.handleRedirectIfNoItemsInCart();
         this.handleRedirectIfLessThanMinAmountInCart();
@@ -464,7 +460,7 @@ export class CheckoutContainer extends PureComponent {
                 is_virtual
             }
         } = this.props;
-        const { pathname = '' } = location;
+        const { location: { pathname = '' } } = history;
 
         if (urlStep.includes(DETAILS_URL_STEP)) {
             return DETAILS_STEP;
@@ -489,8 +485,7 @@ export class CheckoutContainer extends PureComponent {
                 items = []
             },
             isCartLoading,
-            showInfoNotification,
-            history
+            showInfoNotification
         } = this.props;
 
         const { checkoutStep, orderID } = this.state;
@@ -618,7 +613,6 @@ export class CheckoutContainer extends PureComponent {
     containerProps() {
         const {
             cartTotalSubPrice,
-            history,
             isEmailAvailable,
             isMobile,
             setHeaderState,
@@ -654,7 +648,6 @@ export class CheckoutContainer extends PureComponent {
             checkoutTotals: this._getCheckoutTotals(),
             email,
             estimateAddress,
-            history,
             isCreateUser,
             isDeliveryOptionsLoading,
             isEmailAvailable,

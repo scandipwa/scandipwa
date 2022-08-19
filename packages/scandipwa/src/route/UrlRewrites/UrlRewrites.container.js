@@ -14,11 +14,10 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import {
-    HistoryType,
-    LocationType,
     MatchType,
     UrlRewriteType
 } from 'Type/Router.type';
+import history from 'Util/History';
 
 import UrlRewrites from './UrlRewrites.component';
 import {
@@ -57,9 +56,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Route/UrlRewrites/Container */
 export class UrlRewritesContainer extends PureComponent {
     static propTypes = {
-        location: LocationType.isRequired,
         match: MatchType.isRequired,
-        history: HistoryType.isRequired,
         isLoading: PropTypes.bool.isRequired,
         requestedUrl: PropTypes.string,
         requestUrlRewrite: PropTypes.func.isRequired,
@@ -101,7 +98,7 @@ export class UrlRewritesContainer extends PureComponent {
     }
 
     redirectToCorrectUrl() {
-        const { location, history } = this.props;
+        const { location } = history;
 
         const type = this.getType();
 
@@ -189,15 +186,11 @@ export class UrlRewritesContainer extends PureComponent {
 
     getProps() {
         const {
-            location,
-            match,
-            history
+            match
         } = this.props;
 
         return {
-            location,
             match,
-            history,
             ...this.getTypeSpecificProps()
         };
     }
