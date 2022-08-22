@@ -10,8 +10,9 @@ import {
     pluginNodeReferenceEntries
 } from './reference';
 import { Ctx } from './util/context';
+import { getAllThemeFiles } from './util/parent-theme';
 
-function init() {
+function init(): ts.server.PluginModule {
     function create(info: ts.server.PluginCreateInfo) {
         const ctx = new Ctx(info);
         const cache = new Cache(ctx);
@@ -116,7 +117,20 @@ function init() {
         return proxy;
     }
 
-    return { create };
+    function getExternalFiles(project: ts.server.Project): string[] {
+        const themeFiles = getAllThemeFiles(project.getCurrentDirectory()).sort(
+            (a, b) => (a.length - b.length)
+            // ^^^ Sort by length to put index files first
+        );
+
+        project.projectService.logger.info(
+            `Adding following files as external: ${themeFiles.join(', ')}`
+        );
+
+        return themeFiles;
+    }
+
+    return { create, getExternalFiles };
 }
 
 export = init;

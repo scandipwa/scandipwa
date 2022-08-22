@@ -16,10 +16,6 @@ type FileToNamespaceMap = Record<string, Array<NamespaceReference | NamespaceDec
 export class Cache {
     ctx: Ctx;
 
-    mosaicSourceFiles: ts.SourceFile[] | undefined;
-
-    mosaicProgram: ts.Program | undefined;
-
     hasCachedAll = false;
 
     declarationMap: DeclarationCacheMap = {};
@@ -40,10 +36,13 @@ export class Cache {
 
     getProgramSourceFiles(): readonly ts.SourceFile[] {
         const program = this.ctx.info.project.getLanguageService().getProgram();
+
         if (!program) {
             return [];
         }
+
         const sourceFiles = program.getSourceFiles();
+
         if (!sourceFiles) {
             return [];
         }
@@ -66,47 +65,18 @@ export class Cache {
             return sourceFile;
         }
 
+        this.ctx.info.project.projectService.logger.info(
+            `File missing in program: ${fileName}`
+        );
+
         // vvv Add file as new source file
         this.ctx.info.project.addMissingFileRoot(fileName as ts.server.NormalizedPath);
 
         return this.getSourceFileByPath(fileName, tryCount + 1);
     }
 
-    getMosaicSourceFiles(): ts.SourceFile[] {
-        if (this.mosaicSourceFiles) {
-            return this.mosaicSourceFiles;
-        }
-
-        const program = this.ctx.info.project.getLanguageService().getProgram();
-        if (!program) {
-            return [];
-        }
-
-        const themeFiles = getAllThemeFiles(program.getCurrentDirectory()).sort(
-            (a, b) => (a.length - b.length)
-            // ^^^ Sort by length to put index files first
-        );
-
-        const moreSourceFiles = themeFiles.reduce((acc, fileName) => {
-            const sourceFile = this.getSourceFileByPath(fileName);
-
-            if (!sourceFile) {
-                return acc;
-            }
-
-            return [...acc, sourceFile];
-        }, [] as ts.SourceFile[]);
-
-        this.mosaicSourceFiles = moreSourceFiles;
-
-        return this.mosaicSourceFiles;
-    }
-
     getAllSourceFiles(): ts.SourceFile[] {
-        return [
-            ...this.getMosaicSourceFiles(),
-            ...this.getProgramSourceFiles()
-        ];
+        return Array.from(this.getProgramSourceFiles());
     }
 
     cacheAllFiles(): void {
@@ -215,8 +185,14 @@ export class Cache {
     }
 
     refreshFileCache(fileName: string): void {
-        const sourceFiles = this.getAllSourceFiles();
-        const sourceFile = sourceFiles.find((s) => s.fileName === fileName);
+        const program = this.ctx.info.project.getLanguageService().getProgram();
+
+        if (!program) {
+            return;
+        }
+
+        const sourceFile = program.getSourceFile(fileName);
+
         if (!sourceFile) {
             return;
         }
