@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { lazy, PureComponent } from 'react';
 
-import { HistoryType, LocationType, MatchType } from 'Type/Router.type';
+import { MatchType } from 'Type/Router.type';
 
 import {
     TYPE_CATEGORY,
@@ -36,9 +36,7 @@ export const NoMatch = lazy(() => import(/* webpackMode: "lazy", webpackChunkNam
 export class UrlRewrites extends PureComponent {
     static propTypes = {
         props: PropTypes.shape({
-            location: LocationType,
             match: MatchType,
-            history: HistoryType,
             categoryIds: PropTypes.number,
             id: PropTypes.number,
             productSKU: PropTypes.string,
@@ -55,8 +53,6 @@ export class UrlRewrites extends PureComponent {
     renderProductPage() {
         const { props } = this.props;
         const {
-            history,
-            location,
             match,
             productSKU,
             id
@@ -68,8 +64,6 @@ export class UrlRewrites extends PureComponent {
 
         return (
                 <ProductPage
-                  history={ history }
-                  location={ location }
                   match={ match }
                   productSKU={ productSKU }
                   productID={ id }
@@ -81,16 +75,12 @@ export class UrlRewrites extends PureComponent {
     renderCmsPage() {
         const { props } = this.props;
         const {
-            history,
-            location,
             match,
             pageIds
         } = props;
 
         return (
             <CmsPage
-              history={ history }
-              location={ location }
               match={ match }
               pageIds={ pageIds }
             />
@@ -100,16 +90,12 @@ export class UrlRewrites extends PureComponent {
     renderCategoryPage() {
         const { props } = this.props;
         const {
-            history,
-            location,
             match,
             categoryIds
         } = props;
 
         return (
             <CategoryPage
-              history={ history }
-              location={ location }
               match={ match }
               categoryIds={ categoryIds }
             />
@@ -117,20 +103,7 @@ export class UrlRewrites extends PureComponent {
     }
 
     renderNoMatch() {
-        const { props } = this.props;
-        const {
-            history,
-            location,
-            match
-        } = props;
-
-        return (
-        <NoMatch
-          history={ history }
-          location={ location }
-          match={ match }
-        />
-        );
+        return <NoMatch />;
     }
 
     renderDefaultPage() {

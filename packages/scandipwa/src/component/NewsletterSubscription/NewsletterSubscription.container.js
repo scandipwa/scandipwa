@@ -12,10 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import { showNotification } from 'Store/Notification/Notification.action';
-import { LocationType } from 'Type/Router.type';
+import history from 'Util/History';
 
 import NewsletterSubscription from './NewsletterSubscription.component';
 
@@ -41,7 +40,6 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/NewsletterSubscription/Container */
 export class NewsletterSubscriptionContainer extends PureComponent {
     static propTypes = {
-        location: LocationType.isRequired,
         subscribeToNewsletter: PropTypes.func.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
         allowGuestSubscribe: PropTypes.bool.isRequired,
@@ -96,7 +94,7 @@ export class NewsletterSubscriptionContainer extends PureComponent {
     }
 
     render() {
-        const { location: { pathname } } = this.props;
+        const { location: { pathname = '' } = {} } = history || {};
 
         return (
             <NewsletterSubscription
@@ -108,7 +106,7 @@ export class NewsletterSubscriptionContainer extends PureComponent {
     }
 }
 
-export default withRouter(connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(NewsletterSubscriptionContainer));
+)(NewsletterSubscriptionContainer);

@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import { FILTER } from 'Component/Header/Header.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
@@ -20,7 +19,7 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { SelectedFiltersType } from 'Type/Category.type';
 import { FilterAttributeType } from 'Type/ProductList.type';
-import { HistoryType, LocationType } from 'Type/Router.type';
+import history from 'Util/History';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
@@ -45,8 +44,6 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/CategoryFilterOverlay/Container */
 export class CategoryFilterOverlayContainer extends PureComponent {
     static propTypes = {
-        history: HistoryType.isRequired,
-        location: LocationType.isRequired,
         customFiltersValues: SelectedFiltersType.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
@@ -76,7 +73,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     };
 
     updateFilter(filterName, filterArray) {
-        const { location, history } = this.props;
+        const { location } = history;
 
         setQueryParams({
             customFilters: this.getFilterUrl(filterName, filterArray, false),
@@ -89,7 +86,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     }
 
     getFilterUrl(filterName, filterArray, isFull = true) {
-        const { location: { pathname } } = this.props;
+        const { location: { pathname } } = history;
         const selectedFilters = this._getNewSelectedFiltersString(filterName, filterArray);
         const customFilters = isFull ? `${pathname}?customFilters=` : '';
         const formattedFilters = this._formatSelectedFiltersString(selectedFilters);
@@ -102,7 +99,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     }
 
     _getSelectedFiltersFromUrl() {
-        const { location } = this.props;
+        const { location } = history;
         const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
 
         return selectedFiltersString.reduce((acc, filter) => {
@@ -168,9 +165,9 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             hideActiveOverlay,
             changeHeaderState,
             changeNavigationState,
-            goToPreviousNavigationState,
-            location: { pathname, search }
+            goToPreviousNavigationState
         } = this.props;
+        const { location: { pathname, search } } = history;
 
         changeHeaderState({
             name: FILTER,
@@ -258,7 +255,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     }
 
     urlStringToObject() {
-        const { location: { search } } = this.props;
+        const { location: { search } } = history;
 
         return search.substr(1).split('&').reduce((acc, part) => {
             const [key, value] = part.split('=');
@@ -312,6 +309,4 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     }
 }
 
-export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(CategoryFilterOverlayContainer)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryFilterOverlayContainer);
