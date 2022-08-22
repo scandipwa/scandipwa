@@ -76,7 +76,7 @@ export class CartItem extends PureComponent {
         const { isEditing, isMobileLayout } = this.props;
 
         if (isMobileLayout) {
-            return this.renderMobileContent();
+            return isEditing ? this.renderMobileContent() : this.renderMobileSummary();
         }
 
         return isEditing ? this.renderDesktopContent() : this.renderDesktopSummary();
@@ -93,6 +93,26 @@ export class CartItem extends PureComponent {
                     </div>
                     <div block="CartItem" elem="ProductActions">
                         { this.renderQuantity() }
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    renderMobileSummary() {
+        const { isMobileLayout, isProductInStock } = this.props;
+
+        return (
+            <div block="CartItem" elem="Wrapper" mods={ { isMobileLayout, isProductOutOfStock: !isProductInStock } }>
+                { this.renderImage() }
+                <div block="CartItem" elem="CartItemRows">
+                    <div block="CartItem" elem="ProductInfo" mods={ { isMobileLayout } }>
+                        { this.renderTitle() }
+                        { this.renderDeleteButton() }
+                    </div>
+                    <div block="CartItem" elem="ProductActions" mods={ { isMobileLayout } }>
+                        { this.renderQuantity() }
+                        { this.renderProductPrice() }
                     </div>
                 </div>
             </div>
