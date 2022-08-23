@@ -10,6 +10,7 @@ import {
     pluginNodeReferenceEntries
 } from './reference';
 import { Ctx } from './util/context';
+import { getAllExtensionsFiles } from './util/extension';
 import { getAllThemeFiles } from './util/parent-theme';
 
 function init(): ts.server.PluginModule {
@@ -123,11 +124,14 @@ function init(): ts.server.PluginModule {
             // ^^^ Sort by length to put index files first
         );
 
-        project.projectService.logger.info(
-            `Adding following files as external: ${themeFiles.join(', ')}`
-        );
+        const extensionFiles = getAllExtensionsFiles(project.getCurrentDirectory());
 
-        return themeFiles;
+        const allFiles = [
+            ...themeFiles,
+            ...extensionFiles
+        ];
+
+        return allFiles;
     }
 
     return { create, getExternalFiles };
