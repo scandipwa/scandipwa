@@ -137,7 +137,7 @@ export class ProductListQuery {
                 type: 'ProductAttributeFilterInput!',
                 handler: (initialOptions = {}) => {
                     // add customer group by default to all requests
-                    const { group_id } = BrowserDatabase.getItem(CUSTOMER) || {};
+                    const { group_id } = BrowserDatabase.getItem(CUSTOMER, true) || {};
 
                     const options = {
                         ...initialOptions,

@@ -11,7 +11,7 @@
 export const ACCOUNT_SHARE_GLOBAL = 'global';
 export const ACCOUNT_SHARE_PER_WEBSITE = 'per_website';
 
-export const WEBSITE_STORAGE = 'storage_website';
+export const WEBSITE_STORAGE = 'storage_per_website';
 export const GLOBAL_STORAGE = 'storage_global';
 
 const { website_code, customer_account_share } = window;
@@ -46,7 +46,7 @@ export class LocalStorageDriver {
             return {
                 storage: globalStorage,
                 destination: GLOBAL_STORAGE,
-                path: 'global'
+                path: GLOBAL_STORAGE
             };
         }
 

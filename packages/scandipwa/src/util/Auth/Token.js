@@ -48,7 +48,7 @@ export const deleteAuthorizationToken = () => BrowserDatabase.deleteItem(AUTH_TO
 
 /** @namespace Util/Auth/Token/getAuthorizationToken */
 export const getAuthorizationToken = () => {
-    const tokenWithExp = BrowserDatabase.getItem(AUTH_TOKEN) || {};
+    const tokenWithExp = BrowserDatabase.getItem(AUTH_TOKEN, true) || {};
 
     const { token, exp } = tokenWithExp;
 
