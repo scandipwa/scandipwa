@@ -161,12 +161,12 @@ export class Router extends PureComponent {
 
     [SWITCH_ITEMS_TYPE] = [
         {
-            component: <Route path={ withStoreRegex('/') } exact render={ ({ currentUrl }) => <HomePage currentUrl={ currentUrl } /> } />,
+            component: <Route path={ withStoreRegex('/') } exact render={ ({ currentUrl, match }) => <HomePage currentUrl={ currentUrl } match={ match } /> } />,
             position: 10,
             name: HOME
         },
         {
-            component: <Route path={ withStoreRegex('/search/:query/') } render={ () => <SearchPage /> } />,
+            component: <Route path={ withStoreRegex('/search/:query/') } render={ ({ match }) => <SearchPage match={ match } /> } />,
             position: 25,
             name: SEARCH
         },
