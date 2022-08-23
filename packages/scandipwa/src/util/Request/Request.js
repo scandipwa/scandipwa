@@ -157,11 +157,9 @@ export const checkForErrors = (res) => new Promise((resolve, reject) => {
  * @return {void} Simply console error
  * @namespace Util/Request/handleConnectionError
  */
-export const handleConnectionError = (err, msg = 'error') => {
-    if (process.env.NODE_ENV === 'development') {
-        // eslint-disable-next-line no-console
-        console.error(`${msg}: \n ${err}`);
-    }
+export const handleConnectionError = (err, msg) => {
+    // eslint-disable-next-line no-console
+    console.error(msg, err);
 }; // TODO: Add to logs pool
 
 /**
@@ -171,17 +169,15 @@ export const handleConnectionError = (err, msg = 'error') => {
  * @namespace Util/Request/parseResponse
  */
 export const parseResponse = async (response) => {
-    const data = await response.json()
-        .catch(
-        /** @namespace Util/Request/parseResponse/data/json/catch */
-            (err) => {
-                handleConnectionError(err, 'Can not parse JSON!');
+    try {
+        const data = await response.json();
 
-                throw new Error(err);
-            }
-        );
+        return checkForErrors(data);
+    } catch (err) {
+        handleConnectionError(err, 'Can not parse JSON!');
 
-    return checkForErrors(data);
+        throw err;
+    }
 };
 
 export const HTTP_503_SERVICE_UNAVAILABLE = 503;
