@@ -16,7 +16,7 @@ import { PureComponent } from 'react';
 import Loader from 'Component/Loader';
 import KlarnaQuery from 'Query/Klarna.query';
 import { isSignedIn } from 'Util/Auth';
-import { getGuestQuoteId } from 'Util/Cart';
+import { getCartId } from 'Util/Cart';
 import { fetchMutation } from 'Util/Request';
 
 import {
@@ -59,14 +59,14 @@ export class Klarna extends PureComponent {
 
     async initiateKlarna() {
         const { showError, setOrderButtonEnableStatus } = this.props;
-        const guest_cart_id = getGuestQuoteId();
+        const cart_id = getCartId();
 
         try {
             setOrderButtonEnableStatus(false);
 
             const { klarnaToken: client_token } = await fetchMutation(
                 KlarnaQuery.getCreateKlarnaTokenMutation(
-                    !isSignedIn() ? { guest_cart_id } : {}
+                    !isSignedIn() ? { cart_id } : {}
                 )
             );
 

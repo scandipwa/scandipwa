@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import { FIELD_TYPE } from 'Component/Field/Field.config';
+import { FIELD_RADIO_NONE, FIELD_TYPE } from 'Component/Field/Field.config';
 import FieldGroup from 'Component/FieldGroup';
 import { ItemOptionsType } from 'Type/ProductList.type';
 import {
@@ -205,7 +205,7 @@ export class ProductBundleOption extends PureComponent {
         } = this.props;
 
         const label = this.getLabel(option);
-        const stock = getProductInStock(product);
+        const stock = (product && uid !== FIELD_RADIO_NONE) ? getProductInStock(product) : 'true';
 
         return (
             <div block="ProductBundleItem" elem="Radio" mods={ { customQuantity: canChangeQuantity } } key={ uid }>

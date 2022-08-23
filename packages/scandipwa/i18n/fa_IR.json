@@ -610,5 +610,6 @@
     "Send Confirmation Action": null,
     "This email does not require confirmation.": null,
     "Remove file": null,
-    "Region": null
+    "Region": null,
+    "We can`t add the item to Wishlist right now: %s": null
 }

@@ -41,7 +41,7 @@ import {
     setAuthorizationToken
 } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { deleteGuestQuoteId, getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
+import { deleteCartId, getCartId, setCartId } from 'Util/Cart';
 import { removeUid } from 'Util/Compare';
 import history from 'Util/History';
 import { prepareQuery } from 'Util/Query';
@@ -121,7 +121,7 @@ export class MyAccountDispatcher {
             }
         }
 
-        deleteGuestQuoteId();
+        deleteCartId();
         BrowserDatabase.deleteItem(CUSTOMER, true);
         removeUid();
 
@@ -290,7 +290,7 @@ export class MyAccountDispatcher {
         );
 
         const cartDispatcher = (await CartDispatcher).default;
-        const guestCartToken = getGuestQuoteId();
+        const guestCartToken = getCartId();
         // if customer is authorized, `createEmptyCart` mutation returns customer cart token
         const customerCartToken = await cartDispatcher.createGuestEmptyCart(dispatch);
 
@@ -299,7 +299,7 @@ export class MyAccountDispatcher {
             await cartDispatcher.mergeCarts(guestCartToken, customerCartToken, dispatch);
         }
 
-        setGuestQuoteId(customerCartToken);
+        setCartId(customerCartToken);
         cartDispatcher.updateInitialCartData(dispatch, true);
 
         WishlistDispatcher.then(

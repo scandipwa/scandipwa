@@ -66,3 +66,9 @@ export const TierPricesType = PropTypes.arrayOf(PropTypes.shape({
     }),
     quantity: PropTypes.number
 }));
+
+export const TierPriceType = PropTypes.shape({
+    currency: PropTypes.string,
+    value: PropTypes.number,
+    valueFormatted: PropTypes.string
+});

@@ -17,6 +17,7 @@ import CloseIcon from 'Component/CloseIcon';
 import EditIcon from 'Component/EditIcon';
 import Field from 'Component/Field';
 import FIELD_TYPE from 'Component/Field/Field.config';
+import Html from 'Component/Html';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
@@ -88,13 +89,17 @@ export class WishlistItem extends PureComponent {
 
     renderQuantityFieldInput() {
         const {
-            product: { wishlist: { quantity } },
+            product: { type_id, wishlist: { quantity } },
             changeQuantity,
             setQuantity,
             minSaleQuantity,
             maxSaleQuantity,
             inStock
         } = this.props;
+
+        if (type_id === PRODUCT_TYPE.grouped) {
+            return null;
+        }
 
         return (
             <Field
@@ -258,7 +263,7 @@ export class WishlistItem extends PureComponent {
 
         return (
             <div block="WishlistItemOptions" elem="List">
-                { options.map(({ value }) => value).join(', ') }
+                { options.map(({ value }) => <div><Html content={ value } /></div>) }
             </div>
         );
     }

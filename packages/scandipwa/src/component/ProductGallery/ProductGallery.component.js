@@ -276,7 +276,7 @@ export class ProductGallery extends PureComponent {
             } = mediaData;
 
             const style = isImageZoomPopupActive ? { height: 'auto' } : {};
-            const src = isImageZoomPopupActive ? largeSrc : baseSrc;
+            const src = isImageZoomPopupActive ? largeSrc || baseSrc : baseSrc;
 
             return (
                 <Image

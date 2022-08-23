@@ -1,7 +1,17 @@
 import * as vscode from 'vscode';
 
-export const onDidSave = () => {
+export const onWillSave = (e: vscode.TextDocumentWillSaveEvent) => {
+    const isDirty = e.document.isDirty;
+
+    if (!(/node_modules/.test(e.document.fileName))) {
+        return;
+    }
+
+    if (!isDirty) {
+        return;
+    }
+
     vscode.window.showWarningMessage(
-        'You are saving a file from a node_modules folder. This is not recommended.',
+        'You are modifying a file from a node_modules folder. This is not recommended.',
     );
 }

@@ -77,7 +77,10 @@ export class SearchOverlay extends PureComponent {
         const resultsToRender = (isLoading || this.timeout) ? Array(AMOUNT_OF_PLACEHOLDERS).fill({}) : searchResults;
 
         return (
-            <ul>
+            <ul
+              block="SearchOverlay"
+              elem="ItemsHolder"
+            >
                 { resultsToRender.map((item, i) => this.renderSearchItem(item, i)) }
             </ul>
         );

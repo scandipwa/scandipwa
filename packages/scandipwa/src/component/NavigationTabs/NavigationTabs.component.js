@@ -62,13 +62,13 @@ export class NavigationTabs extends NavigationAbstract {
     shouldComponentUpdate(nextProps) {
         const {
             navigationState: { name: prevName },
-            cartTotals: { items_qty: prevQty },
+            cartTotals: { total_quantity: prevQty },
             device: prevDevice
         } = this.props;
 
         const {
             navigationState: { name: nextName },
-            cartTotals: { items_qty: nextQty },
+            cartTotals: { total_quantity: nextQty },
             device: nextDevice
         } = nextProps;
 
@@ -124,9 +124,9 @@ export class NavigationTabs extends NavigationAbstract {
     }
 
     renderMinicartItemsQty() {
-        const { cartTotals: { items_qty } } = this.props;
+        const { cartTotals: { total_quantity } } = this.props;
 
-        if (!items_qty) {
+        if (!total_quantity) {
             return null;
         }
 
@@ -136,7 +136,7 @@ export class NavigationTabs extends NavigationAbstract {
               block="Header"
               elem="MinicartItemCount"
             >
-                { items_qty }
+                { total_quantity }
             </span>
         );
     }
