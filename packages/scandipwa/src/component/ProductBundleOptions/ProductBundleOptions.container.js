@@ -24,7 +24,8 @@ import ProductBundleOptions from './ProductBundleOptions.component';
 export class ProductBundleOptionsContainer extends PureComponent {
     static propTypes = {
         options: ProductItemsType,
-        updateSelectedValues: PropTypes.func.isRequired
+        updateSelectedValues: PropTypes.func.isRequired,
+        isParentProductInStock: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -32,11 +33,16 @@ export class ProductBundleOptionsContainer extends PureComponent {
     };
 
     containerProps() {
-        const { options, updateSelectedValues } = this.props;
+        const {
+            options,
+            updateSelectedValues,
+            isParentProductInStock
+        } = this.props;
 
         return {
             options,
-            updateSelectedValues
+            updateSelectedValues,
+            isParentProductInStock
         };
     }
 

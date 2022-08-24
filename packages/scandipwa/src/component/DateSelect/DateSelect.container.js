@@ -37,11 +37,13 @@ export class DateSelectContainer extends PureComponent {
         yearRange: PropTypes.string.isRequired,
         uid: PropTypes.string.isRequired,
         isRequired: PropTypes.bool,
-        updateSelectedValues: PropTypes.func.isRequired
+        updateSelectedValues: PropTypes.func.isRequired,
+        isDisabled: PropTypes.bool
     };
 
     static defaultProps = {
-        isRequired: false
+        isRequired: false,
+        isDisabled: false
     };
 
     containerFunctions = {
@@ -97,7 +99,8 @@ export class DateSelectContainer extends PureComponent {
             timeFormat,
             dateFieldsOrder,
             uid,
-            isRequired
+            isRequired,
+            isDisabled
         } = this.props;
 
         const showTimeSelect = type === FIELD_DATE_TYPE.dateTime || type === FIELD_DATE_TYPE.time;
@@ -118,7 +121,8 @@ export class DateSelectContainer extends PureComponent {
             timeFormat,
             uid,
             isRequired,
-            type
+            type,
+            isDisabled
         };
     }
 

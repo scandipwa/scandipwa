@@ -138,7 +138,8 @@ export class ProductCustomizableOption extends PureComponent {
             title,
             uid,
             isRequired,
-            updateSelectedValues
+            updateSelectedValues,
+            isProductInStock
         } = this.props;
 
         const label = this.getLabel(option, title);
@@ -151,6 +152,7 @@ export class ProductCustomizableOption extends PureComponent {
                   uid={ uid }
                   isRequired={ isRequired }
                   updateSelectedValues={ updateSelectedValues }
+                  isDisabled={ !isProductInStock }
                 />
             </>
         );
@@ -280,7 +282,8 @@ export class ProductCustomizableOption extends PureComponent {
             getDropdownOptions,
             updateSelectedValues,
             isRequired,
-            uid
+            uid,
+            isProductInStock
         } = this.props;
 
         return (
@@ -301,13 +304,16 @@ export class ProductCustomizableOption extends PureComponent {
                       isRequired
                   } }
                   validateOn={ ['onChange'] }
+                  isDisabled={ !isProductInStock }
                 />
             </div>
         );
     }
 
     renderOptionGroupTitle(title) {
-        const { isRequired } = this.props;
+        const {
+            isRequired
+        } = this.props;
 
         return (
             <div block="ProductCustomizableItem" elem="HeadingBold">
@@ -318,7 +324,12 @@ export class ProductCustomizableOption extends PureComponent {
     }
 
     render() {
-        const { options, type, title } = this.props;
+        const {
+            options,
+            type,
+            title,
+            isProductInStock
+        } = this.props;
         const render = this.renderMap[type];
 
         if (!render) {
@@ -331,8 +342,10 @@ export class ProductCustomizableOption extends PureComponent {
             || type === CONFIG_FIELD_TYPE.checkbox
             || type === CONFIG_FIELD_TYPE.multi);
 
+        const isDisabled = !isProductInStock;
+
         return (
-            <div block="ProductCustomizableItem" elem="Wrapper">
+            <div block="ProductCustomizableItem" elem="Wrapper" mods={ { isDisabled } }>
                 { renderTitle && this.renderOptionGroupTitle(title) }
                 { options && render(options) }
             </div>

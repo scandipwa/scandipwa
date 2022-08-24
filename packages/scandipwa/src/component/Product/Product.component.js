@@ -94,6 +94,7 @@ export class Product extends PureComponent {
     //#region PRODUCT OPTIONS
     renderBundleOptions() {
         const {
+            product,
             product: {
                 items
             } = {},
@@ -104,6 +105,7 @@ export class Product extends PureComponent {
             <ProductBundleOptions
               options={ items }
               updateSelectedValues={ updateSelectedValues }
+              isParentProductInStock={ getProductInStock(product) }
             />
         );
     }
@@ -245,6 +247,7 @@ export class Product extends PureComponent {
                   product={ product }
                   quantity={ quantity }
                   setQuantity={ setQuantity }
+                  isParentProductInStock={ getProductInStock(product) }
                 />
             </div>
         );

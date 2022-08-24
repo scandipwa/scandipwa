@@ -25,7 +25,8 @@ import './ProductBundleOptions.style';
 export class ProductBundleOptions extends PureComponent {
     static propTypes = {
         options: ProductItemsType.isRequired,
-        updateSelectedValues: PropTypes.func.isRequired
+        updateSelectedValues: PropTypes.func.isRequired,
+        isParentProductInStock: PropTypes.bool.isRequired
     };
 
     renderOptionGroup(group) {
@@ -38,7 +39,10 @@ export class ProductBundleOptions extends PureComponent {
             option_id
         } = group;
 
-        const { updateSelectedValues } = this.props;
+        const {
+            updateSelectedValues,
+            isParentProductInStock
+        } = this.props;
 
         return (
             <ProductBundleOption
@@ -50,6 +54,7 @@ export class ProductBundleOptions extends PureComponent {
               required={ required }
               updateSelectedValues={ updateSelectedValues }
               uid={ uid }
+              isParentProductInStock={ isParentProductInStock }
             />
         );
     }

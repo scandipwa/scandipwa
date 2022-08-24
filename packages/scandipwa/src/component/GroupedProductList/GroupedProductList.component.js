@@ -24,13 +24,15 @@ export class GroupedProductList extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         quantity: PropTypes.objectOf(PropTypes.number).isRequired,
-        setQuantity: PropTypes.func.isRequired
+        setQuantity: PropTypes.func.isRequired,
+        isParentProductInStock: PropTypes.bool.isRequired
     };
 
     renderProductList(items) {
         const {
             quantity,
-            setQuantity
+            setQuantity,
+            isParentProductInStock
         } = this.props;
 
         const sortedItems = items.sort(({ position }, { position: cmpPosition }) => position - cmpPosition);
@@ -44,6 +46,7 @@ export class GroupedProductList extends PureComponent {
                       defaultQuantity={ qty }
                       quantity={ quantity }
                       setQuantity={ setQuantity }
+                      isParentProductInStock={ isParentProductInStock }
                     />
                 )) }
             </ul>

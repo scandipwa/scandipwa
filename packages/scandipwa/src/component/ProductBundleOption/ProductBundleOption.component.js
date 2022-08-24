@@ -42,7 +42,8 @@ export class ProductBundleOption extends PureComponent {
         activeSelectUid: PropTypes.string,
         setActiveSelectUid: PropTypes.func.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
-        updateSelectedValues: PropTypes.func.isRequired
+        updateSelectedValues: PropTypes.func.isRequired,
+        isParentProductInStock: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -62,7 +63,7 @@ export class ProductBundleOption extends PureComponent {
         updateSelectedValues();
     }
 
-    //#refion ERROR
+    //#region ERROR
     getError(quantity, stock, min = -1, max = DEFAULT_MAX_PRODUCTS, value) {
         if (!value) {
             return true;
@@ -92,6 +93,8 @@ export class ProductBundleOption extends PureComponent {
     }
 
     renderQuantityChange(uid, quantity, product = null) {
+        const { isParentProductInStock } = this.props;
+
         const min = !product ? DEFAULT_MIN_PRODUCTS : getMinQuantity(product);
         const max = !product ? DEFAULT_MAX_PRODUCTS : getMaxQuantity(product);
         // eslint-disable-next-line no-nested-ternary
@@ -122,6 +125,7 @@ export class ProductBundleOption extends PureComponent {
               } }
               events={ { onChange: this.setQuantity.bind(this, uid) } }
               validateOn={ ['onChange'] }
+              isDisabled={ !isParentProductInStock }
             />
         );
     }
@@ -139,13 +143,16 @@ export class ProductBundleOption extends PureComponent {
 
         const {
             updateSelectedValues,
-            quantity: { [uid]: quantity = defaultQuantity }
+            quantity: { [uid]: quantity = defaultQuantity },
+            isParentProductInStock
         } = this.props;
 
         const label = this.getLabel(option);
         const min = getMinQuantity(product);
         const max = getMaxQuantity(product);
         const stock = getProductInStock(product);
+
+        const isDisabled = !isParentProductInStock || !stock;
 
         return (
             <div block="ProductBundleItem" elem="Checkbox" mods={ { customQuantity: canChangeQuantity } } key={ uid }>
@@ -165,7 +172,7 @@ export class ProductBundleOption extends PureComponent {
                       match: this.getError.bind(this, quantity, stock, min, max)
                   } }
                   validateOn={ ['onChange'] }
-                  isDisabled={ !stock }
+                  isDisabled={ isDisabled }
                 />
                 { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>
@@ -201,11 +208,14 @@ export class ProductBundleOption extends PureComponent {
 
         const {
             updateSelectedValues,
-            quantity: { [uid]: quantity = defaultQuantity }
+            quantity: { [uid]: quantity = defaultQuantity },
+            isParentProductInStock
         } = this.props;
 
         const label = this.getLabel(option);
         const stock = (product && uid !== FIELD_RADIO_NONE) ? getProductInStock(product) : 'true';
+
+        const isDisabled = !isParentProductInStock || !stock;
 
         return (
             <div block="ProductBundleItem" elem="Radio" mods={ { customQuantity: canChangeQuantity } } key={ uid }>
@@ -225,7 +235,7 @@ export class ProductBundleOption extends PureComponent {
                       match: this.getError.bind(this, quantity, stock)
                   } }
                   validateOn={ ['onChange'] }
-                  isDisabled={ !stock }
+                  isDisabled={ isDisabled }
                 />
                 { canChangeQuantity && this.renderQuantityChange(uid, quantity, product) }
             </div>
@@ -264,7 +274,8 @@ export class ProductBundleOption extends PureComponent {
             isRequired,
             uid,
             activeSelectUid,
-            options
+            options,
+            isParentProductInStock
         } = this.props;
 
         const activeOption = getBundleOption(activeSelectUid, options);
@@ -283,6 +294,8 @@ export class ProductBundleOption extends PureComponent {
         const stock = !Object.keys(product).length ? true : getProductInStock(product);
         const min = getMinQuantity(product);
         const max = getMaxQuantity(product);
+
+        const isDisabled = !isParentProductInStock;
 
         return (
             <div block="ProductBundleItem" elem="DropdownWrapper" mods={ { customQuantity: canChangeQuantity } }>
@@ -304,6 +317,7 @@ export class ProductBundleOption extends PureComponent {
                       match: this.getError.bind(this, quantity, stock, min, max)
                   } }
                   validateOn={ ['onChange'] }
+                  isDisabled={ { isDisabled } }
                 />
                 { canChangeQuantity && this.renderQuantityChange(optionUid, quantity, product) }
             </div>
@@ -342,15 +356,23 @@ export class ProductBundleOption extends PureComponent {
     //#endregion
 
     render() {
-        const { title, options, type } = this.props;
+        const {
+            title,
+            options,
+            type,
+            isParentProductInStock
+        } = this.props;
+
         const render = this.renderMap[type];
 
         if (!render) {
             return null;
         }
 
+        const isDisabled = !isParentProductInStock;
+
         return (
-            <div block="ProductBundleItem" elem="Wrapper">
+            <div block="ProductBundleItem" elem="Wrapper" mods={ { isDisabled } }>
                 { title && this.renderOptionGroupTitle(title) }
                 { options && render(options) }
             </div>

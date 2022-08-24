@@ -33,8 +33,12 @@ export class FieldFile extends PureComponent {
     };
 
     renderSubLabel(allowedTypes) {
+        const {
+            isDisabled
+        } = this.props;
+
         return (
-            <p block="FieldFile" elem="AllowedTypes">
+            <p block="FieldFile" elem="AllowedTypes" mods={ { isDisabled } }>
                 { __('Compatible file extensions to upload:') }
                 <strong>{ ` ${allowedTypes}` }</strong>
             </p>

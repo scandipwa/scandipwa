@@ -12,6 +12,7 @@
 :root {
     --customizable-options-additional-information-color: #2c2c2c;
     --customizable-options-required-text-color: #dc6d6d;
+    --customizable-options-disabled-label-color: #858481;
 }
 
 .ProductCustomizableItem {
@@ -81,6 +82,30 @@
                         height: 45px;
                     }
                 }
+            }
+        }
+
+        .FieldFile {
+            &-AllowedTypes {
+                &_isDisabled {
+                    color: var(--customizable-options-disabled-label-color);
+                }
+            }
+        }
+
+        &_isDisabled {
+            .ProductCustomizableItem-HeadingBold, 
+            .Field-SubLabelContainer,
+            .Field-LabelContainer {
+                color: var(--customizable-options-disabled-label-color);
+            }
+
+            .ChevronIcon {
+                fill: var(--customizable-options-disabled-label-color);
+            }
+
+            .FieldSelect-Clickable {
+                cursor: default;
             }
         }
     }

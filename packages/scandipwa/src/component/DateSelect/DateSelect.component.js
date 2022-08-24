@@ -55,7 +55,8 @@ export class DateSelectComponent extends PureComponent {
         showDateSelect: PropTypes.bool.isRequired,
         showTimeSelect: PropTypes.bool.isRequired,
         dateFieldsOrder: PropTypes.string.isRequired,
-        timeFormat: PropTypes.string.isRequired
+        timeFormat: PropTypes.string.isRequired,
+        isDisabled: PropTypes.bool.isRequired
     };
 
     dateMap = {
@@ -125,7 +126,8 @@ export class DateSelectComponent extends PureComponent {
             isRequired,
             type,
             selectedYear,
-            onSetYear
+            onSetYear,
+            isDisabled
         } = this.props;
 
         return (
@@ -150,6 +152,7 @@ export class DateSelectComponent extends PureComponent {
                   isRequired
               } }
               validateOn={ ['onChange'] }
+              isDisabled={ isDisabled }
             />
         );
     }
@@ -160,7 +163,8 @@ export class DateSelectComponent extends PureComponent {
             isRequired,
             type,
             selectedMonth,
-            onSetMonth
+            onSetMonth,
+            isDisabled
         } = this.props;
 
         return (
@@ -185,6 +189,7 @@ export class DateSelectComponent extends PureComponent {
                   isRequired
               } }
               validateOn={ ['onChange'] }
+              isDisabled={ isDisabled }
             />
         );
     }
@@ -195,7 +200,8 @@ export class DateSelectComponent extends PureComponent {
             uid,
             isRequired,
             type,
-            selectedDay
+            selectedDay,
+            isDisabled
         } = this.props;
 
         return (
@@ -220,6 +226,7 @@ export class DateSelectComponent extends PureComponent {
                   isRequired
               } }
               validateOn={ ['onChange'] }
+              isDisabled={ isDisabled }
             />
         );
     }
@@ -230,7 +237,8 @@ export class DateSelectComponent extends PureComponent {
             uid,
             isRequired,
             type,
-            selectedHours
+            selectedHours,
+            isDisabled
         } = this.props;
 
         return (
@@ -255,6 +263,7 @@ export class DateSelectComponent extends PureComponent {
                   isRequired
               } }
               validateOn={ ['onChange'] }
+              isDisabled={ isDisabled }
             />
         );
     }
@@ -265,7 +274,8 @@ export class DateSelectComponent extends PureComponent {
             uid,
             isRequired,
             type,
-            selectedMinutes
+            selectedMinutes,
+            isDisabled
         } = this.props;
 
         return (
@@ -290,6 +300,7 @@ export class DateSelectComponent extends PureComponent {
                   isRequired
               } }
               validateOn={ ['onChange'] }
+              isDisabled={ isDisabled }
             />
         );
     }
@@ -301,7 +312,8 @@ export class DateSelectComponent extends PureComponent {
             isRequired,
             type,
             selectedAMPM,
-            timeFormat
+            timeFormat,
+            isDisabled
         } = this.props;
 
         if (timeFormat !== TIME_FORMAT.H12) {
@@ -329,6 +341,7 @@ export class DateSelectComponent extends PureComponent {
                   isRequired
               } }
               validateOn={ ['onChange'] }
+              isDisabled={ isDisabled }
             />
         );
     }

@@ -57,6 +57,22 @@
                 }
             }
         }
+
+        &_isDisabled {
+            .ProductBundleItem-Heading, 
+            .Field-SubLabelContainer,
+            .Field-LabelContainer {
+                color: var(--customizable-options-disabled-label-color);
+            }
+
+            .ChevronIcon {
+                fill: var(--customizable-options-disabled-label-color);
+            }
+
+            .FieldSelect-Clickable {
+                cursor: default;
+            }
+        }
     }
 
     &-PriceLabel {

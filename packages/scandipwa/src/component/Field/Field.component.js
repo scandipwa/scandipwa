@@ -220,21 +220,20 @@ export class Field extends PureComponent {
             isDisabled,
             label
         } = this.props;
-        const { id = '', checked, value = '' } = newAttr;
+        const { id = '', checked } = newAttr;
         const elem = type.charAt(0).toUpperCase() + type.slice(1);
         const inputEvents = {
             ...events,
             onChange: onChange || noopFn
         };
-        // if button value is "none" do not disable
-        const isButtonDisabled = (!value.match('none') && isDisabled);
-        const isChecked = checked || (isButtonDisabled || defaultChecked ? !isDisabled : null);
+
+        const isChecked = checked || (isDisabled || defaultChecked ? !isDisabled : null);
 
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
                 <input
                   ref={ (elem) => setRef(elem) }
-                  disabled={ isButtonDisabled ? isDisabled : false }
+                  disabled={ isDisabled }
                   type={ type }
                   { ...newAttr }
                   { ...inputEvents }
@@ -328,7 +327,9 @@ export class Field extends PureComponent {
 
     // Renders fields label under field
     renderSubLabel() {
-        const { subLabel } = this.props;
+        const {
+            subLabel
+        } = this.props;
 
         if (!subLabel) {
             return null;

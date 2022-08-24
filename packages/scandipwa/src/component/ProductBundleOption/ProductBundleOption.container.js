@@ -45,7 +45,8 @@ export class ProductBundleOptionContainer extends PureComponent {
         type: PropTypes.string.isRequired,
         options: ItemOptionsType.isRequired,
         updateSelectedValues: PropTypes.func.isRequired,
-        currencyCode: PropTypes.string.isRequired
+        currencyCode: PropTypes.string.isRequired,
+        isParentProductInStock: PropTypes.bool.isRequired
     };
 
     state = {
@@ -136,7 +137,8 @@ export class ProductBundleOptionContainer extends PureComponent {
             isRequired,
             type,
             updateSelectedValues,
-            currencyCode
+            currencyCode,
+            isParentProductInStock
         } = this.props;
 
         const {
@@ -153,7 +155,8 @@ export class ProductBundleOptionContainer extends PureComponent {
             updateSelectedValues,
             currencyCode,
             activeSelectUid,
-            quantity
+            quantity,
+            isParentProductInStock
         };
     }
 

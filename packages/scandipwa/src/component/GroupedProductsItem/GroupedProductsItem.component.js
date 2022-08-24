@@ -35,7 +35,8 @@ export class GroupedProductsItem extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         setQuantity: PropTypes.func.isRequired,
-        itemCount: PropTypes.number.isRequired
+        itemCount: PropTypes.number.isRequired,
+        isParentProductInStock: PropTypes.bool.isRequired
     };
 
     renderTitle() {
@@ -92,8 +93,13 @@ export class GroupedProductsItem extends PureComponent {
             product = {},
             product: { id } = {},
             setQuantity,
-            itemCount = 0
+            itemCount = 0,
+            isParentProductInStock
         } = this.props;
+
+        if (!isParentProductInStock) {
+            return null;
+        }
 
         if (!getProductInStock(product)) {
             return (

@@ -23,7 +23,8 @@ export class GroupedProductsItemContainer extends PureComponent {
         product: ProductType.isRequired,
         quantity: PropTypes.objectOf(PropTypes.number).isRequired,
         setQuantity: PropTypes.func.isRequired,
-        defaultQuantity: PropTypes.number.isRequired
+        defaultQuantity: PropTypes.number.isRequired,
+        isParentProductInStock: PropTypes.bool.isRequired
     };
 
     containerFunctions = {
@@ -39,10 +40,14 @@ export class GroupedProductsItemContainer extends PureComponent {
     }
 
     containerProps() {
-        const { product } = this.props;
+        const {
+            product,
+            isParentProductInStock
+        } = this.props;
 
         return {
             itemCount: this._getCurrentQuantity(),
+            isParentProductInStock,
             product
         };
     }
