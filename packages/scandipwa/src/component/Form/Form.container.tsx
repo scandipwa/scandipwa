@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -97,6 +97,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
     resetField(): void {
         const fields = this.formRef && this.formRef.querySelectorAll('input, textarea, select');
         const event = new CustomEvent('resetField');
+
         fields?.forEach((field) => field.dispatchEvent(event));
     }
 
@@ -190,12 +191,14 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
 
         Object.keys(events).forEach((eventName) => {
             const { [eventName as keyof typeof events]: event } = events;
+
             newEvents[eventName] = this.surroundEvent.bind(this, event);
         });
 
         // Surrounds events with validation
         validateOn.forEach((eventName) => {
             const { [eventName as keyof typeof events]: baseEvent } = events;
+
             newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
         });
 

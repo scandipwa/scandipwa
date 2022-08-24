@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { createRef, MouseEvent, PureComponent } from 'react';
@@ -52,6 +52,7 @@ export class SwipeToDelete extends PureComponent<SwipeToDeleteComponentProps, Sw
 
     setRightSideContentWidth(): void {
         const { dragRightOpenThreshold } = this.props;
+
         CSS.setVariable(this.draggableRef, 'right-side-content-width', `${ dragRightOpenThreshold }px`);
     }
 
@@ -67,6 +68,7 @@ export class SwipeToDelete extends PureComponent<SwipeToDeleteComponentProps, Sw
         }
 
         const { width } = draggableRef.current.getBoundingClientRect();
+
         this.draggableWidth = width;
     }
 

@@ -5,14 +5,15 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
 
 import Breadcrumb from 'Component/Breadcrumb';
 import ContentWrapper from 'Component/ContentWrapper';
+import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { Breadcrumb as BreadcrumbType } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { ReactElement } from 'Type/Common.type';
 import { appendWithStoreCode, isHomePageUrl } from 'Util/Url';
@@ -54,15 +55,21 @@ export class Breadcrumbs extends PureComponent<BreadcrumbsComponentProps> {
         ));
     }
 
-    render(): ReactElement {
-        const { breadcrumbs, areBreadcrumbsVisible } = this.props;
+    shouldHideBreadcrumbs(): boolean {
+        const { areBreadcrumbsVisible } = this.props;
         const { pathname = appendWithStoreCode('/') } = location;
 
-        if (
+        return !!(
             !areBreadcrumbsVisible
-            || pathname.match(appendWithStoreCode('/account'))
+            || pathname.match(appendWithStoreCode(CheckoutStepUrl.CHECKOUT_URL))
             || isHomePageUrl(pathname)
-        ) {
+        );
+    }
+
+    render(): ReactElement {
+        const { breadcrumbs } = this.props;
+
+        if (this.shouldHideBreadcrumbs()) {
             return null;
         }
 

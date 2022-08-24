@@ -5,12 +5,11 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
 
 import ProductCard from 'Component/ProductCard';
 import { ProductLinksComponentProps } from 'Component/ProductLinks/ProductLinks.type';
@@ -28,11 +27,30 @@ import './ProductListPage.style';
  * @class ProductListPage
  * @namespace Component/ProductListPage/Component
  */
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductListPage/ProductListPage.component.tsx
 export class ProductListPage extends PureComponent<
 ProductListPageComponentProps,
 ProductListPageComponentState
 > {
     static defaultProps: Partial<ProductListPageComponentProps> = {
+=======
+export class ProductListPage extends PureComponent {
+    static propTypes = {
+        isInfiniteLoaderEnabled: PropTypes.bool.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        isVisible: PropTypes.bool.isRequired,
+        updatePages: PropTypes.func.isRequired,
+        numberOfPlaceholders: PropTypes.number,
+        selectedFilters: FilterType,
+        wrapperRef: PropTypes.func,
+        pageNumber: PropTypes.number,
+        items: PropTypes.arrayOf(ProductType),
+        mix: MixType,
+        isPlp: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductListPage/ProductListPage.component.js
         numberOfPlaceholders: DEFAULT_PLACEHOLDER_COUNT,
         wrapperRef: noopFn,
         selectedFilters: {},
@@ -72,6 +90,8 @@ ProductListPageComponentState
             siblingsHaveConfigurableOptions
         } = this.state;
 
+        const { isPlp } = this.props;
+
         return {
             productCardFunctions: {
                 setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
@@ -84,7 +104,8 @@ ProductListPageComponentState
                 siblingsHavePriceBadge,
                 siblingsHaveTierPrice,
                 siblingsHaveConfigurableOptions
-            }
+            },
+            isPlp
         };
     }
 
@@ -233,4 +254,4 @@ ProductListPageComponentState
     }
 }
 
-export default withRouter(ProductListPage);
+export default ProductListPage;

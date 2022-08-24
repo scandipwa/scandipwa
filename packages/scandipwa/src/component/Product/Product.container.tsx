@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { ComponentType, createRef, PureComponent } from 'react';
@@ -317,16 +317,36 @@ S extends ProductContainerState = ProductContainerState
             });
         }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.container.tsx
         const values = getFieldsData(current, true, [FieldType.NUMBER]);
 
         values?.forEach(({ name, value, type }) => {
             if (type === FieldType.SELECT) {
                 selectedOptions.push(String(value));
             } else if (type === FieldType.CHECKBOX || type === FieldType.RADIO) {
+=======
+        const values = getFieldsData(current, true, [FIELD_TYPE.numberWithControls]);
+
+        values.forEach(({
+            field, name, value, type
+        }) => {
+            if (type === FIELD_TYPE.select) {
+                selectedOptions.push(value);
+            } else if (type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio) {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.container.js
                 if (value !== FIELD_RADIO_NONE) {
                     selectedOptions.push(String(value));
                 }
+<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.container.tsx
             } else if (type !== FieldType.NUMBER) {
+=======
+            } else if (type !== FIELD_TYPE.numberWithControls && type !== FIELD_TYPE.file) {
+                enteredOptions.push({
+                    uid: name,
+                    value
+                });
+            } else if (type === FIELD_TYPE.file && field.value) {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.container.js
                 enteredOptions.push({
                     uid: name,
                     value: String(value)
@@ -359,6 +379,7 @@ S extends ProductContainerState = ProductContainerState
 
     setAdjustedPrice(type: keyof AdjustedPriceMap, amount: number): void {
         const { adjustedPrice } = this.state;
+
         this.setState({
             adjustedPrice: {
                 ...adjustedPrice,
@@ -404,7 +425,12 @@ S extends ProductContainerState = ProductContainerState
 
             // For product configurable attributes
             if (attributes) {
+<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.container.tsx
                 attributes.scrollIntoView({ block: 'center', behavior: 'smooth' });
+=======
+                attributes.scrollIntoView({ block: 'center', behaviour: 'smooth' });
+
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.container.js
                 return;
             }
 
@@ -426,6 +452,7 @@ S extends ProductContainerState = ProductContainerState
 
         const { addProductToCart, cartId } = this.props;
         const products = this.getMagentoProduct();
+
         await addProductToCart({ products, cartId })
             .catch(
                 /** @namespace Component/Product/Container/ProductContainer/addToCart/addProductToCart/catch */
@@ -521,7 +548,12 @@ S extends ProductContainerState = ProductContainerState
     setQuantity(quantity: ProductQuantity): void {
         if (typeof quantity === 'object') {
             const { quantity: oldQuantity = {} } = this.state;
+<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.container.tsx
             this.setState({ quantity: { ...(oldQuantity as Record<number, number>), ...quantity } });
+=======
+
+            this.setState({ quantity: { ...oldQuantity, ...quantity } });
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.container.js
         } else {
             this.setState({ quantity: +quantity });
         }

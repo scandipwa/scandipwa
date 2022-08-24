@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.number (Open Software License ("OSL") v. 3.number)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 

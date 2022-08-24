@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { FieldType } from 'Component/Field/Field.config';
@@ -112,7 +112,8 @@ export class MyAccountAddressForm<
 
         // Fixes region variable format
         const { region_id = 0, region_string: region } = newAddress;
-        newAddress.region = { region_id: +region_id, region: region || '', region_code: '' };
+
+        newAddress.region = { region_id: +region_id, region };
 
         // Filters out non-required options and save address
         onSave(trimCustomerAddress(newAddress));

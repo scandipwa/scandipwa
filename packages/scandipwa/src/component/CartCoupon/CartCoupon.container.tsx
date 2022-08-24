@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -51,32 +51,47 @@ export class CartCouponContainer extends PureComponent<CartCouponContainerProps,
         title: ''
     };
 
-    state: CartCouponContainerState = { isLoading: false };
+    state: CartCouponContainerState = {
+        isLoading: false,
+        isIncorrectCoupon: false
+    };
 
     containerFunctions = {
         handleApplyCouponToCart: this.handleApplyCouponToCart.bind(this),
-        handleRemoveCouponFromCart: this.handleRemoveCouponFromCart.bind(this)
+        handleRemoveCouponFromCart: this.handleRemoveCouponFromCart.bind(this),
+        resetIsIncorrectCoupon: this.resetIsIncorrectCoupon.bind(this)
     };
 
     containerProps(): Pick<CartCouponComponentProps, CartCouponContainerPropsKeys> {
-        const { isLoading } = this.state;
+        const { isLoading, isIncorrectCoupon } = this.state;
         const { couponCode, mix, title } = this.props;
 
         return {
             isLoading,
+            isIncorrectCoupon,
             couponCode,
             mix,
             title
         };
     }
 
+    resetIsIncorrectCoupon(): void {
+        this.setState({ isIncorrectCoupon: false });
+    }
+
     handleApplyCouponToCart(couponCode: string): void {
-        const { applyCouponToCart } = this.props;
+        const { applyCouponToCart, onCouponCodeUpdate } = this.props;
 
         this.setState({ isLoading: true });
 
         applyCouponToCart(couponCode).then(
-            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/applyCouponToCart/then */
+            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally/applyCouponToCart/then */
+            (success) => {
+                onCouponCodeUpdate();
+                this.setState({ isIncorrectCoupon: !success });
+            }
+        ).finally(
+        /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally */
             () => this.setState({ isLoading: false })
         );
     }

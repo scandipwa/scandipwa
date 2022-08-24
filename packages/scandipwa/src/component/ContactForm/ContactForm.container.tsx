@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -15,7 +15,6 @@ import { Dispatch } from 'redux';
 
 import { FormFields } from 'Component/Form/Form.type';
 import { ReactElement } from 'Type/Common.type';
-import { FieldValue } from 'Util/Form/Form.type';
 import { RootState } from 'Util/Store/Store.type';
 
 import ContactForm from './ContactForm.component';
@@ -53,13 +52,11 @@ export class ContactFormContainer extends PureComponent<ContactFormContainerProp
 
     onFormSubmit(form: HTMLFormElement, fields: FormFields): void {
         const { sendMessage } = this.props;
-        const filteredFields: Record<string, FieldValue> = {};
+        const filteredFields = {};
 
-        if (Array.isArray(fields)) {
-            fields.forEach(({ name, value }) => {
-                filteredFields[ name ] = value;
-            });
-        }
+        fields.forEach(({ name, value }) => {
+            filteredFields[name] = value;
+        });
 
         sendMessage({ form, fields: filteredFields });
     }

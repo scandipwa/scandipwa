@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -27,6 +27,10 @@ import './FieldSelect.style';
  * @class FieldSelect
  * @namespace Component/FieldSelect/Component */
 export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
+    static defaultProps: Partial<FieldSelectComponentProps> = {
+        isUpDirection: false
+    };
+
     renderNativeOption(option: Option): ReactElement {
         const {
             id,
@@ -34,7 +38,8 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
             disabled,
             label,
             subLabel = '',
-            isAvailable = true
+            isAvailable = true,
+            isPlaceholder
         } = option;
 
         const { isDisabled } = this.props;
@@ -45,6 +50,7 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
               id={ String(id) }
               value={ value }
               disabled={ disabled || isDisabled || !isAvailable }
+              selected={ isPlaceholder }
             >
                 { `${label} ${subLabel}` }
             </option>
@@ -143,7 +149,14 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
                   isNotScrollable: !isScrollable
               } }
             >
-                { options.map(this.renderOption.bind(this)) }
+                <div
+                  block="FieldSelect"
+                  elem="OptionsWrapper"
+                  role="menu"
+                  mods={ { isExpanded } }
+                >
+                    { options.map(this.renderOption.bind(this)) }
+                </div>
             </ul>
         );
     }
@@ -166,7 +179,8 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
             isExpanded,
             handleSelectExpand,
             handleSelectListKeyPress,
-            handleSelectExpandedExpand
+            handleSelectExpandedExpand,
+            isDisabled
         } = this.props;
 
         return (
@@ -175,8 +189,8 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
                   id={ `${ id }_wrapper` }
                   block="FieldSelect"
                   mods={ { isExpanded } }
-                  onClick={ handleSelectExpand }
-                  onKeyPress={ handleSelectListKeyPress }
+                  onClick={ !isDisabled && handleSelectExpand }
+                  onKeyPress={ !isDisabled && handleSelectListKeyPress }
                   role="button"
                   tabIndex={ 0 }
                   aria-label="Select dropdown"

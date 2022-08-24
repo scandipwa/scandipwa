@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -26,6 +26,7 @@ import {
     trimCheckoutAddress,
     trimCheckoutCustomerAddress
 } from 'Util/Address';
+import { scrollToTop } from 'Util/Browser';
 import { getCartTotalSubPrice } from 'Util/Cart';
 import scrollToError from 'Util/Form/Form';
 import { FieldData } from 'Util/Form/Form.type';
@@ -65,6 +66,8 @@ CheckoutShippingContainerState
 > {
     static defaultProps: Partial<CheckoutShippingContainerProps> = {
         selectedStoreAddress: undefined,
+        selectedShippingMethod: null,
+        setSelectedShippingMethodCode: null,
         isSubmitted: false,
         cartTotalSubPrice: null
     };
@@ -99,26 +102,17 @@ CheckoutShippingContainerState
     }
 
     componentDidUpdate(prevProps: CheckoutShippingContainerProps): void {
-        const { shippingMethods: prevShippingMethods } = prevProps;
-        const { shippingMethods } = this.props;
+        const { isPickInStoreMethodSelected } = this.props;
+        const { isPickInStoreMethodSelected: prevIsPickInStoreMethodSelected } = prevProps;
 
-        if (prevShippingMethods !== shippingMethods) {
-            this.resetShippingMethod();
+        if (isPickInStoreMethodSelected !== prevIsPickInStoreMethodSelected) {
+            if (isPickInStoreMethodSelected) {
+                scrollToTop();
+                this.onShippingMethodSelect(this.returnInStorePickupMethod());
+            } else if (prevIsPickInStoreMethodSelected) {
+                this.resetShippingMethod();
+            }
         }
-    }
-
-    resetShippingMethod(): void {
-        const { selectedShippingMethod: { method_code: selectedMethodCode = '' } = {} } = this.state;
-        const { shippingMethods } = this.props;
-
-        if (shippingMethods.find(({ method_code }) => method_code === selectedMethodCode)) {
-            return;
-        }
-
-        const [defaultShippingMethod] = shippingMethods.filter((method) => method.available);
-        const selectedShippingMethod = defaultShippingMethod || {};
-
-        this.setState({ selectedShippingMethod });
     }
 
     containerProps(): Pick<CheckoutShippingComponentProps, CheckoutShippingContainerPropsKeys> {
@@ -149,6 +143,16 @@ CheckoutShippingContainerState
             onStoreSelect,
             onShippingEstimationFieldsChange
         };
+    }
+
+    returnInStorePickupMethod(): ShippingMethod {
+        const { shippingMethods = [] } = this.props;
+
+        return shippingMethods.find((el) => el.method_code === STORE_IN_PICK_UP_METHOD_CODE);
+    }
+
+    resetShippingMethod(): void {
+        this.onShippingMethodSelect({ method_code: '' });
     }
 
     getStoreAddress(
@@ -213,6 +217,9 @@ CheckoutShippingContainerState
     ): void {
         // TODO: implement notification if some data in Form can not display error
         const { isSubmitted } = this.state;
+        const { onChangeEmailRequired } = this.props;
+
+        onChangeEmailRequired();
         this.setState({ isSubmitted: !isSubmitted });
         scrollToError(fields, validation);
     }

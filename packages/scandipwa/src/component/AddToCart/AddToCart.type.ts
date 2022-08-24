@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -40,6 +40,8 @@ export interface AddToCartContainerBaseProps {
     isIconEnabled: boolean;
     mix: Mix;
     layout: CategoryPageLayout;
+    updateSelectedValues: () => void;
+    withLink: boolean;
 }
 
 export type AddToCartContainerProps = AddToCartContainerMapStateProps
@@ -57,6 +59,7 @@ export interface AddToCartComponentProps {
     layout: CategoryPageLayout;
     isAdding:boolean;
     addProductToCart: (e: MouseEvent) => Promise<void>;
+    handleButtonClick: (e: MouseEvent) => void;
 }
 
 export type AddToCartComponentContainerPropKeys =

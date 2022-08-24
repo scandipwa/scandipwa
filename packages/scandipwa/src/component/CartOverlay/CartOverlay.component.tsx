@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -18,9 +18,9 @@ import Link from 'Component/Link';
 import LockIcon from 'Component/LockIcon';
 import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
+import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { ReactElement } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
-import { noopFn } from 'Util/Common';
 import { formatPrice } from 'Util/Price';
 
 import { CartOverlayComponentProps } from './CartOverlay.type';
@@ -31,9 +31,10 @@ import './CartOverlay.style';
 export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
     static defaultProps: Partial<CartOverlayComponentProps> = {
         hasOutOfStockProductsInCart: false,
-        onCartItemLoading: noopFn,
-        currencyCode: undefined,
-        cartTotalSubPrice: null
+        onCartItemLoading: null,
+        currencyCode: null,
+        cartTotalSubPrice: null,
+        minimumOrderAmountReached: true
     };
 
     componentDidMount(): void {
@@ -54,7 +55,9 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
         const {
             totals: {
                 items = [],
-                quote_currency_code
+                prices: {
+                    quote_currency_code = null
+                } = {}
             },
             onCartItemLoading
         } = this.props;
@@ -67,7 +70,7 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
             <div block="CartOverlay" elem="Items" aria-label="List of items in cart">
                 { items.map((item) => (
                     <CartItem
-                      key={ item.item_id }
+                      key={ item.id }
                       item={ item }
                       currency_code={ quote_currency_code }
                       onCartItemLoading={ onCartItemLoading }
@@ -90,7 +93,7 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
     renderOrderTotalExlTax(): ReactElement {
         const { cartTotalSubPrice } = this.props;
 
-        if (!cartTotalSubPrice) {
+        if (!cartTotalSubPrice && cartTotalSubPrice !== 0) {
             return null;
         }
 
@@ -102,7 +105,15 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
     }
 
     renderTotals(): ReactElement {
-        const { totals: { grand_total = 0 } } = this.props;
+        const {
+            totals: {
+                prices: {
+                    grand_total: {
+                        value: grand_total = 0
+                    } = {}
+                } = {}
+            }
+        } = this.props;
 
         return (
             <dl
@@ -121,14 +132,16 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
     renderTax(): ReactElement {
         const {
             totals: {
-                tax_amount = 0
-            } = {},
+                prices: {
+                    applied_taxes = []
+                } = {}
+            },
             cartDisplaySettings: {
                 display_zero_tax_subtotal
             } = {}
         } = this.props;
 
-        if (!tax_amount && !display_zero_tax_subtotal) {
+        if (!applied_taxes[0]?.amount?.value && !display_zero_tax_subtotal) {
             return null;
         }
 
@@ -138,7 +151,7 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
               elem="Tax"
             >
                 <dt>{ __('Tax total:') }</dt>
-                <dd>{ this.renderPriceLine(tax_amount) }</dd>
+                <dd>{ this.renderPriceLine(applied_taxes[0]?.amount?.value) }</dd>
             </dl>
         );
     }
@@ -154,11 +167,15 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
     renderDiscount(): ReactElement {
         const {
             totals: {
-                applied_rule_ids,
-                discount_amount,
-                coupon_code = ''
+                prices: {
+                    applied_rule_ids,
+                    coupon_code,
+                    discount
+                } = {}
             }
         } = this.props;
+
+        const { amount: { value: discount_amount = 0 } = {} } = discount || {};
 
         if (!applied_rule_ids || !discount_amount) {
             return null;
@@ -181,7 +198,11 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
     }
 
     renderSecureCheckoutButton(): ReactElement {
-        const { handleCheckoutClick, hasOutOfStockProductsInCart } = this.props;
+        const {
+            handleCheckoutClick,
+            minimumOrderAmountReached,
+            hasOutOfStockProductsInCart
+        } = this.props;
 
         return (
             <button
@@ -189,7 +210,7 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
               elem="CheckoutButton"
               mix={ { block: 'Button' } }
               onClick={ handleCheckoutClick }
-              disabled={ hasOutOfStockProductsInCart }
+              disabled={ hasOutOfStockProductsInCart || !minimumOrderAmountReached }
             >
                 <LockIcon />
                 { __('Secure checkout') }
@@ -206,7 +227,7 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
                   block="CartOverlay"
                   elem="CartButton"
                   mix={ { block: 'Button', mods: { isHollow: true } } }
-                  to="/cart"
+                  to={ CART_URL }
                   onClick={ scrollToTop }
                 >
                     { __('View cart') }

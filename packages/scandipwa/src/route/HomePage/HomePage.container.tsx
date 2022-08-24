@@ -5,7 +5,11 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+<<<<<<< HEAD:packages/scandipwa/src/route/HomePage/HomePage.container.tsx
+ * @package scandipwa/scandipwa
+=======
+ * @package scandipwa/scandipwa
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/HomePage/HomePage.container.js
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -20,6 +24,7 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
 import CmsPage from 'Route/CmsPage';
 import { CmsPageContainerProps } from 'Route/CmsPage/CmsPage.type';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
+<<<<<<< HEAD:packages/scandipwa/src/route/HomePage/HomePage.container.tsx
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
 import { HistoryState } from 'Util/History/History.type';
@@ -31,6 +36,10 @@ import {
     HomePageContainerProps,
     HomePageContainerPropsKeys
 } from './HomePage.type';
+=======
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { MatchType } from 'Type/Router.type';
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/HomePage/HomePage.container.js
 
 import './HomePage.style';
 
@@ -45,8 +54,20 @@ export const mapDispatchToProps = (dispatch: Dispatch): HomePageContainerMapDisp
 });
 
 /** @namespace Route/HomePage/Container */
+<<<<<<< HEAD:packages/scandipwa/src/route/HomePage/HomePage.container.tsx
 export class HomePageContainer extends PureComponent<HomePageContainerProps> {
     componentDidMount(): void {
+=======
+export class HomePageContainer extends PureComponent {
+    static propTypes = {
+        changeHeaderState: PropTypes.func.isRequired,
+        pageIdentifiers: PropTypes.string.isRequired,
+        currentUrl: PropTypes.string.isRequired,
+        match: MatchType.isRequired
+    };
+
+    componentDidMount() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/HomePage/HomePage.container.js
         const { changeHeaderState } = this.props;
 
         changeHeaderState({
@@ -58,14 +79,18 @@ export class HomePageContainer extends PureComponent<HomePageContainerProps> {
     containerProps(): Pick<CmsPageContainerProps, HomePageContainerPropsKeys> {
         const {
             changeHeaderState,
-            location,
+            currentUrl,
             match,
             pageIdentifiers
         } = this.props;
 
         return {
             changeHeaderState,
+<<<<<<< HEAD:packages/scandipwa/src/route/HomePage/HomePage.container.tsx
             location: location as Location<HistoryState>,
+=======
+            currentUrl,
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/HomePage/HomePage.container.js
             match,
             pageIdentifiers
         };

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Dispatch } from 'redux';
@@ -43,6 +43,7 @@ export class BreadcrumbsDispatcher {
      */
     updateWithCategory(category: Category, dispatch: Dispatch): void {
         const breadcrumbs = this._getCategoryBreadcrumbs(category);
+
         dispatch(toggleBreadcrumbs(true));
         dispatch(updateBreadcrumbs(breadcrumbs));
     }
@@ -56,6 +57,7 @@ export class BreadcrumbsDispatcher {
      */
     updateWithProduct(product: Product, prevCategoryId: number, dispatch: Dispatch): void {
         const breadcrumbs = this._getProductBreadcrumbs(product, prevCategoryId);
+
         dispatch(toggleBreadcrumbs(true));
         dispatch(updateBreadcrumbs(breadcrumbs));
     }

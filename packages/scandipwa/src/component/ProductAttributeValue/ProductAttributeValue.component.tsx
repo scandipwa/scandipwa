@@ -7,8 +7,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import {
@@ -93,11 +93,21 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         return {};
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductAttributeValue/ProductAttributeValue.component.tsx
     clickHandler(e: MouseEvent | KeyboardEvent): void {
         const { onClick, attribute } = this.props;
+=======
+    clickHandler(e) {
+        const { onClick, attribute, isAvailable } = this.props;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductAttributeValue/ProductAttributeValue.component.js
 
         e.preventDefault();
         e.stopPropagation();
+
+        if (!isAvailable) {
+            return;
+        }
+
         onClick(attribute);
     }
 
@@ -285,13 +295,25 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductAttributeValue/ProductAttributeValue.component.tsx
     getCheckboxLabel(value: string, subLabel: string): ReactElement {
+=======
+    renderCheckboxValue(value) {
+        if (typeof value !== 'string') {
+            return value;
+        }
+
+        return <Html content={ value } />;
+    }
+
+    getCheckboxLabel(value, subLabel) {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductAttributeValue/ProductAttributeValue.component.js
         return (
             <div
               block="ProductAttributeValue"
               elem="Label"
             >
-                { value }
+                { this.renderCheckboxValue(value) }
                 { this.renderSublabel(subLabel) }
             </div>
         );
@@ -318,12 +340,24 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductAttributeValue/ProductAttributeValue.component.tsx
     renderStringValue(value: string | undefined, label: string | null = null, count = 0): ReactElement {
+=======
+    renderValue(value) {
+        if (value) {
+            return <Html content={ `${value}` } />;
+        }
+
+        return false;
+    }
+
+    renderStringValue(value, label, count) {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductAttributeValue/ProductAttributeValue.component.js
         const { isFormattedAsText, isSelected } = this.props;
         const isSwatch = !!label;
 
         if (isFormattedAsText) {
-            return label || value || __('N/A');
+            return label || this.renderValue(value) || __('N/A');
         }
 
         if (!isSwatch) {

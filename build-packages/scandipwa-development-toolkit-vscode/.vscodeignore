@@ -4,6 +4,7 @@ out/test/**
 !src/templates
 src/**
 .gitignore
+node_modules/**
 **/tsconfig.json
 **/.eslintrc.json
 **/*.map

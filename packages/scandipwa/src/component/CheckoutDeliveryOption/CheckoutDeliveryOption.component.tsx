@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -41,12 +41,12 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
         }
 
         return (
-            <span
+            <div
               block="CheckoutDeliveryOption"
               elem="SubPrice"
             >
                 { __('Excl. tax: %s', formatPrice(optionSubPrice, currency as GQLCurrencyEnum)) }
-            </span>
+            </div>
         );
     }
 
@@ -73,7 +73,6 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
         return (
             <strong>
                 { ` - ${ this.getOptionPrice() }` }
-                { this.renderSubPrice() }
             </strong>
         );
     }
@@ -91,10 +90,11 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
         }
 
         return (
-            <span>
+            <div>
                 { __('Rate: ') }
                 <strong>{ method_title }</strong>
-            </span>
+                { this.renderPrice() }
+            </div>
         );
     }
 
@@ -128,14 +128,16 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
         } = this.props;
 
         return (
-            <div block="CheckoutDeliveryOption" elem="Row">
-                <span block="CheckoutDeliveryOption" elem="Span" mods={ { isDisabled: !available } }>
+            <div
+              block="CheckoutDeliveryOption"
+              elem="Row"
+            >
+                <div block="CheckoutDeliveryOption" elem="Span" mods={ { isDisabled: !available } }>
                     { __('Carrier method: ') }
                     <strong>{ carrier_title }</strong>
-                </span>
-                <br />
+                </div>
                 { this.renderRate() }
-                { this.renderPrice() }
+                { this.renderSubPrice() }
                 { this.renderAvailabilityMessage() }
             </div>
         );

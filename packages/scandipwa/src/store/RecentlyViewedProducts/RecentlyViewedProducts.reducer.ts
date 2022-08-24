@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Reducer } from 'redux';
@@ -79,6 +79,7 @@ export const RecentlyViewedProductsReducer: Reducer<RecentlyViewedProductsStore,
 
         // Remove product from existing recentProducts to add it later in the beginning
         const newStoreRecentProducts = storeProducts.filter(({ sku }) => (newSku !== sku));
+
         newStoreRecentProducts.unshift(product);
 
         const newRecentProducts = {

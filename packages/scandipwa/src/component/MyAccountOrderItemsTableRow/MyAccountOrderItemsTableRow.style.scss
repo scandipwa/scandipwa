@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -42,18 +42,20 @@
             padding-block-end: 15px;
             padding-inline: 10px;
 
-            &:nth-child(n+3) {
-                text-align: end;
+            @include desktop {
+                &:nth-child(n+3) {
+                    text-align: end;
+                }
             }
 
-            dl {
-                dt {
-                    padding-block-start: 15px;
-                    line-height: 15px;
-                }
-
-                dd {
-                    line-height: 15px;
+            @include mobile {
+                &::before {
+                    padding-inline-end: 10px;
+                    content: attr(data-th) ': ';
+                    display: inline-block;
+                    color: $black;
+                    font-weight: 700;
+                    vertical-align: inherit;
                 }
             }
         }
@@ -75,9 +77,13 @@
         @include mobile {
             border-block-start: var(--my-account-content-border);
         }
-        
+
         &_lineBefore {
             border-block-end: var(--my-account-content-border);
+        }
+
+        @media print {
+            break-inside: avoid;
         }
     }
 
@@ -88,7 +94,15 @@
 
                 strong {
                     vertical-align: top;
-                    margin-inline-end: 10px;
+                    margin-inline-end: 15px;
+                }
+            }
+
+            &_isOptions {
+                td {
+                    &::before {
+                        content: none;
+                    }
 
                     &:first-child {
                         &::after {
@@ -121,18 +135,35 @@
             padding-block-end: 5px;
             padding-inline: 10px;
 
-            &:nth-child(n+3) {
-                text-align: end;
+            @include desktop {
+                &:first-of-type {
+                    padding-inline-start: 20px;
+                }
+
+                &:nth-child(n+3) {
+                    text-align: end;
+                }
             }
 
-            &:first-of-type {
-                padding-inline-start: 20px;
+            @include mobile {
+                &[data-th] {
+                    &::before {
+                        content: attr(data-th) ": ";
+                        display: inline-block;
+                        color: $black;
+                        font-weight: 700;
+                        vertical-align: inherit;
+                        padding-inline-end: 10px;
+                    }
+                }
             }
         }
 
         &_isLastOptionItem {
-            td {
-                padding-block-end: 15px;
+            @include desktop {
+                td {
+                    padding-block-end: 15px;
+                }
             }
         }
     }

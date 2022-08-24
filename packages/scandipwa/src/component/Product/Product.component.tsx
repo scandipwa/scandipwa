@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { createRef, PureComponent } from 'react';
@@ -238,7 +238,8 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
             addToCart,
             inStock,
             quantity,
-            getActiveProduct
+            getActiveProduct,
+            updateSelectedValues
         } = this.props;
 
         return (
@@ -248,6 +249,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
               isDisabled={ !inStock }
               isIconEnabled={ false }
               layout={ layout }
+              updateSelectedValues={ updateSelectedValues }
               quantity={ quantity }
               product={ getActiveProduct() }
             />
@@ -307,7 +309,11 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
 
         return (
             <FieldContainer
+<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.component.tsx
               type={ FieldType.NUMBER }
+=======
+              type={ FIELD_TYPE.numberWithControls }
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.component.js
               attr={ {
                   id: 'item_qty',
                   name: 'item_qty',
@@ -371,8 +377,15 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.component.tsx
     renderPrice(isPreview = false): ReactElement {
         const { getActiveProduct, productPrice } = this.props;
+=======
+    renderPrice(isPreview = false) {
+        const {
+            getActiveProduct, productPrice
+        } = this.props;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.component.js
         const product = getActiveProduct();
 
         const {
@@ -400,6 +413,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.component.tsx
     renderStock(): ReactElement {
         // const { displayProductStockStatus } = this.props;
         //
@@ -407,6 +421,9 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
         //     return null;
         // }
 
+=======
+    renderStock() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.component.js
         const { inStock } = this.props;
 
         const stockStatusLabel = inStock ? __('In stock') : __('Out of stock');

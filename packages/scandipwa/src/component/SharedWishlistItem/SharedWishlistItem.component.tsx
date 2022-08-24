@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import AddToCart from 'Component/AddToCart';
@@ -45,7 +45,11 @@ export class SharedWishlistItem extends SourceWishlistItem<SharedWishlistItemCom
               mix={ { block: 'SharedWishlistItem', elem: 'Row' } }
             >
                 <Field
+<<<<<<< HEAD:packages/scandipwa/src/component/SharedWishlistItem/SharedWishlistItem.component.tsx
                   type={ FieldType.NUMBER }
+=======
+                  type={ FIELD_TYPE.numberWithControls }
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/SharedWishlistItem/SharedWishlistItem.component.js
                   attr={ {
                       id: `item_qty_wishlist_${id}`,
                       name: `item_qty_wishlist_${id}`,

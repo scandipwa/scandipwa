@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { createRef } from 'react';
@@ -26,6 +26,8 @@ import { Children, ReactElement } from 'Type/Common.type';
 import { IndexedConfigurableOption } from 'Util/Product/Product.type';
 
 import { ContentObject, ProductCardComponentProps } from './ProductCard.type';
+
+import { scrollToTop } from '../../util/Browser/Browser';
 
 import './ProductCard.style';
 
@@ -64,6 +66,7 @@ export class ProductCard extends Product<ProductCardComponentProps> {
 
     className = 'ProductCard';
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductCard/ProductCard.component.tsx
     sharedComponent?: JSX.Element;
 
     __construct(props: ProductCardComponentProps): void {
@@ -74,6 +77,16 @@ export class ProductCard extends Product<ProductCardComponentProps> {
 
     registerSharedElement(): void {
         const { registerSharedElement } = this.props;
+=======
+    handleLinkClick = this.handleLinkClick.bind(this);
+
+    handleLinkClick() {
+        const { registerSharedElement, isPlp } = this.props;
+
+        if (!isPlp) {
+            scrollToTop();
+        }
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCard/ProductCard.component.js
         registerSharedElement(this.imageRef);
     }
 
@@ -216,7 +229,7 @@ export class ProductCard extends Product<ProductCardComponentProps> {
               block="ProductCard"
               elem="Link"
               to={ linkTo }
-              onClick={ this.registerSharedElement }
+              onClick={ this.handleLinkClick }
               mix={ mix }
             >
               { children }
@@ -226,21 +239,56 @@ export class ProductCard extends Product<ProductCardComponentProps> {
 
     requiresConfiguration(): boolean {
         const {
+            parameters,
             product: {
                 type_id: type,
                 options = [],
+                items = [],
                 links_purchased_separately
             }
         } = this.props;
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductCard/ProductCard.component.tsx
         const configureBundleAndGrouped = type === ProductType.BUNDLE || type === ProductType.GROUPED;
         const configureConfig = type === ProductType.CONFIGURABLE
             // eslint-disable-next-line max-len
             && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length;
         const configureCustomize = options.some(({ required = false }) => required);
         const configureDownloadableLinks = ProductType.DOWNLOADABLE && links_purchased_separately === 1;
+=======
+        const configureBundle = type === PRODUCT_TYPE.bundle;
 
-        return configureBundleAndGrouped || configureConfig || configureCustomize || configureDownloadableLinks;
+        const allAttrs = super.getConfigurableAttributes();
+        const plpConfigurableAttrs = this.getConfigurableAttributes();
+
+        const isConfigurable = type === PRODUCT_TYPE.configurable;
+
+        const configureConfig = isConfigurable && (
+            (
+                Object.keys(allAttrs).length
+                !== Object.keys(plpConfigurableAttrs).length
+            )
+            || (
+                Object.values(plpConfigurableAttrs).some(
+                    (value) => value.attribute_values.length === 0
+                )
+            )
+            || (Object.keys(allAttrs).length > 0 && Object.keys(parameters).length === 0)
+        );
+
+        const configureGrouped = type === PRODUCT_TYPE.grouped
+            && items.every(({ qty }) => qty === 0);
+
+        const configureCustomize = options.some(({ required = false }) => required);
+
+        const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCard/ProductCard.component.js
+
+        return configureGrouped
+            || configureBundle
+            || configureConfig
+            || configureCustomize
+            || configureDownloadableLinks;
     }
 
     renderAddToCart(): ReactElement {
@@ -250,15 +298,17 @@ export class ProductCard extends Product<ProductCardComponentProps> {
             inStock
         } = this.props;
 
-        if (inStock && this.requiresConfiguration()) {
+        const requiresConfiguration = this.requiresConfiguration();
+
+        if (inStock && requiresConfiguration) {
             return (
-                <button
-                  block="Button AddToCart"
-                  mods={ { layout } }
-                  onClick={ showSelectOptionsNotification }
-                >
-                    { __('Add to cart') }
-                </button>
+                    <button
+                      block="Button AddToCart"
+                      mods={ { layout } }
+                      onClick={ showSelectOptionsNotification }
+                    >
+                        { __('Add to cart') }
+                    </button>
             );
         }
 
@@ -303,8 +353,13 @@ export class ProductCard extends Product<ProductCardComponentProps> {
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductCard/ProductCard.component.tsx
     renderCardContent(): ReactElement {
         const { renderContent } = this.props;
+=======
+    renderCardContent() {
+        const { renderContent, product: { name } } = this.props;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCard/ProductCard.component.js
 
         if (renderContent) {
             return renderContent(this.contentObject);
@@ -312,7 +367,7 @@ export class ProductCard extends Product<ProductCardComponentProps> {
 
         return (
             this.renderCardLinkWrapper((
-                <>
+                <div block="ProductCard" elem="LinkInnerWrapper" mods={ { loaded: !!name } }>
                     <div block="ProductCard" elem="FigureReview">
                         <figure block="ProductCard" elem="Figure">
                             { this.renderPicture() }
@@ -327,14 +382,14 @@ export class ProductCard extends Product<ProductCardComponentProps> {
                     <div block="ProductCard" elem="VisibleOnHover">
                         { this.renderVisibleOnHover() }
                     </div>
-                </>
+                </div>
             ))
         );
     }
 
     renderCardListContent(): ReactElement {
         const {
-            children, layout, renderContent
+            children, layout, renderContent, product: { name }
         } = this.props;
 
         if (renderContent) {
@@ -358,7 +413,7 @@ export class ProductCard extends Product<ProductCardComponentProps> {
                         { this.renderPrice() }
                         { this.renderConfigurableOptions() }
                     </div>
-                    <div block="ProductCard" elem="ActionWrapper">
+                    <div block="ProductCard" elem="ActionWrapper" mods={ { loaded: !!name } }>
                         { this.renderAddToCart() }
                         { this.renderProductActions() }
                     </div>

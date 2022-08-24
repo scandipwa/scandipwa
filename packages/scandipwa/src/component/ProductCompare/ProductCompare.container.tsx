@@ -5,11 +5,16 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.tsx
 import { PureComponent } from 'react';
+=======
+import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.js
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -65,7 +70,19 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         attributes: []
     };
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.tsx
     containerFunctions: ProductCompareContainerFunctions = {
+=======
+    scrollerScroll = createRef(null);
+
+    productCompare = createRef(null);
+
+    productCompareRow = createRef(null);
+
+    scrollerContent = createRef(null);
+
+    containerFunctions = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.js
         getAttributes: this.getAttributes.bind(this),
         clearCompareList: this.clearCompareList.bind(this),
         isInStock: getProductInStock.bind(this),
@@ -73,19 +90,33 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         handleBlockScroll: this.handleBlockScroll.bind(this)
     };
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.tsx
     componentDidMount(): void {
+=======
+    scrollerTriggered = false;
+
+    blockScrollTriggered = false;
+
+    componentDidMount() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.js
         this.fetchCompareList();
         scrollToTop({ behavior: 'smooth' });
     }
 
     componentDidUpdate(): void {
         const { device } = this.props;
+        const productCompareRow = this.productCompareRow.current;
+        const scrollerContent = this.scrollerContent.current;
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.tsx
         const productCompareRow = document.getElementById('productCompareRow');
         const scrollerContent = document.getElementById('scrollerContent');
 
         if (scrollerContent && ((productCompareRow && productCompareRow.offsetWidth >= scrollerContent.offsetWidth)
             || (productCompareRow && productCompareRow.offsetWidth < scrollerContent.offsetWidth))) {
+=======
+        if (this.productCompareRow.current && this.scrollerContent.current) {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.js
             const width = device.isMobile
                 ? productCompareRow.offsetWidth
                 : productCompareRow.offsetWidth - PRODUCT_COMPARE_FIRST_COLUMN_WIDTH;
@@ -104,10 +135,15 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         return {
             isLoading,
             products,
-            device
+            device,
+            scrollerScroll: this.scrollerScroll,
+            productCompare: this.productCompare,
+            productCompareRow: this.productCompareRow,
+            scrollerContent: this.scrollerContent
         };
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.tsx
     handleScroll(): void {
         const scrollerScroll = document.getElementById('scrollerScroll');
         const productCompare = document.getElementById('productCompare');
@@ -123,6 +159,53 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
 
         if (scrollerScroll) {
             scrollerScroll.scrollLeft = productCompare?.scrollLeft || 0;
+=======
+    handleScroll() {
+        /*
+            This needs a little explaining:
+
+            Setting element.scrollLeft actually causes browser scroll-handler events
+            to fire.
+
+            Without checking whether the scrollLeft was changed through function or
+            through user-interaction, both functions will set each-other
+            until element's scrollLeft delta is not 0 (new-scroll-left - old-scroll-left).
+
+            Example:
+            scroll-event -> handleScroll -> scrollLeft -> handleBlockScroll -> scrollLeft.
+
+            Also keep in mind that event handlers are Async. Thats why we can only
+            unset variables to `false` inside the handlers, otherwise it'd be hard to catch
+            the moment to unset it.
+
+        */
+        const _blockScrollTriggered = this.blockScrollTriggered;
+
+        this.blockScrollTriggered = false;
+
+        if (!_blockScrollTriggered) {
+            const { device } = this.props;
+
+            if (device.isMobile) {
+                return;
+            }
+
+            this.scrollerTriggered = true;
+
+            this.productCompare.current.scrollLeft = this.scrollerScroll.current.scrollLeft;
+        }
+    }
+
+    handleBlockScroll() {
+        const _scrollerTriggered = this.scrollerTriggered;
+
+        this.scrollerTriggered = false;
+
+        if (!_scrollerTriggered) {
+            this.blockScrollTriggered = true;
+
+            this.scrollerScroll.current.scrollLeft = this.productCompare.current.scrollLeft;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.js
         }
     }
 

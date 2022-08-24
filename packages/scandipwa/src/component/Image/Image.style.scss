@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
@@ -103,6 +103,7 @@
         height: 100%;
         object-position: 50% 50%;
         object-fit: contain;
+        color: transparent;
 
         &::after {
             content: '';

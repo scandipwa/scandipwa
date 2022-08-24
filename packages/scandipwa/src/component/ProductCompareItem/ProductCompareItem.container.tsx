@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -112,9 +112,16 @@ ProductCompareItemContainerState
             return {};
         }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompareItem/ProductCompareItem.container.tsx
         return (items as GroupedProductItem[]).reduce((result, item) => {
             const { product: { id = 0 } = {} } = item;
             Object.assign(result, { [ id ]: 1 });
+=======
+        return items.reduce((result, item) => {
+            const { product: { id } = {} } = item;
+
+            Object.assign(result, { [id]: 1 });
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompareItem/ProductCompareItem.container.js
 
             return result;
         }, {});
@@ -173,7 +180,12 @@ ProductCompareItemContainerState
 
     overriddenAddToCartBtnHandler(): void {
         const { showNotification } = this.props;
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompareItem/ProductCompareItem.container.tsx
         showNotification(NotificationType.INFO, __('Please, select required options!'));
+=======
+
+        showNotification('info', __('Please, select required options!'));
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompareItem/ProductCompareItem.container.js
     }
 
     redirectToProductPage(): void {

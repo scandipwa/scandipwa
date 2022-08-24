@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
@@ -439,6 +439,10 @@
         display: flex;
         justify-content: center;
         margin-block-end: var(--header-total-height);
+
+        @include mobile {
+            z-index: 801;
+        }
 
         &_isPrerendered {
             @include mobile {

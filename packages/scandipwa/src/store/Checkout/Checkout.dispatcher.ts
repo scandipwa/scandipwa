@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Query } from '@tilework/opus';
@@ -32,6 +32,7 @@ export class CheckoutDispatcher extends QueryDispatcher<string, CheckoutDispatch
 
     onSuccess(data: CheckoutDispatcherData, dispatch: Dispatch): void {
         const { isEmailAvailable: { is_email_available } } = data;
+
         dispatch(updateEmailAvailable(is_email_available));
     }
 

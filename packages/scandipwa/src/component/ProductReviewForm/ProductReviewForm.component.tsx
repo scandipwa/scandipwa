@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -60,6 +60,7 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
 
     renderReviewRating(): ReactElement {
         const { reviewRatings } = this.props;
+
         return reviewRatings.map((rating) => {
             const { rating_id, rating_code, rating_options } = rating;
 
@@ -95,9 +96,29 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductReviewForm/ProductReviewForm.component.tsx
     renderReviewFormContent(): ReactElement {
-        const { reviewData } = this.props;
+=======
+    renderReviewRatingWrapper() {
+        const { reviewRatings } = this.props;
 
+        if (reviewRatings && reviewRatings.length === 0) {
+            return null;
+        }
+
+        return (
+            <div
+              block="ProductReviewForm"
+              elem="RatingWrapper"
+            >
+              { this.renderReviewRating() }
+            </div>
+        );
+    }
+
+    renderReviewFormContent() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductReviewForm/ProductReviewForm.component.js
+        const { reviewData } = this.props;
         const {
             nickname = '',
             summary = '',
@@ -109,12 +130,7 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
               block="ProductReviewForm"
               elem="Wrapper"
             >
-                <div
-                  block="ProductReviewForm"
-                  elem="RatingWrapper"
-                >
-                    { this.renderReviewRating() }
-                </div>
+               { this.renderReviewRatingWrapper() }
                 <div
                   block="ProductReviewForm"
                   elem="Content"
@@ -133,6 +149,7 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
                           isRequired: true
                       } }
                       addRequiredTag
+                      mix={ { block: 'ProductReviewForm', elem: 'Field' } }
                     />
                     <Field
                       type={ FieldType.TEXT }
@@ -148,6 +165,7 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
                           isRequired: true
                       } }
                       addRequiredTag
+                      mix={ { block: 'ProductReviewForm', elem: 'Field' } }
                     />
                     <Field
                       type={ FieldType.TEXTAREA }
@@ -163,6 +181,7 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
                           isRequired: true
                       } }
                       addRequiredTag
+                      mix={ { block: 'ProductReviewForm', elem: 'Field' } }
                     />
                 </div>
             </div>

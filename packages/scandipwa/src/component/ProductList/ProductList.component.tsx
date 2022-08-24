@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -28,8 +28,33 @@ import './ProductList.style';
  * @class ProductList
  * @namespace Component/ProductList/Component
  */
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductList/ProductList.component.tsx
 export class ProductList extends PureComponent<ProductListComponentProps> {
     static defaultProps: Partial<ProductListComponentProps> = {
+=======
+export class ProductList extends PureComponent {
+    static propTypes = {
+        device: DeviceType.isRequired,
+        title: PropTypes.string,
+        pages: PagesType.isRequired,
+        selectedFilters: FilterType,
+        isLoading: PropTypes.bool,
+        updatePage: PropTypes.func,
+        totalPages: PropTypes.number,
+        loadPage: PropTypes.func,
+        loadPrevPage: PropTypes.func,
+        currentPage: PropTypes.number,
+        isShowLoading: PropTypes.bool,
+        isVisible: PropTypes.bool,
+        isInfiniteLoaderEnabled: PropTypes.bool,
+        isPaginationEnabled: PropTypes.bool,
+        isWidget: PropTypes.bool,
+        isPlp: PropTypes.bool.isRequired,
+        mix: MixType
+    };
+
+    static defaultProps = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductList/ProductList.component.js
         mix: {},
         title: '',
         isInfiniteLoaderEnabled: false,
@@ -207,7 +232,12 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
         const pageRenders = Object.entries(pages).map(this.renderProductPage.bind(this));
 
         if (isVisible && isInfiniteLoaderEnabled) { // add placeholders to the end of pages if needed
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductList/ProductList.component.tsx
             const key = Math.max(...(Object.keys(pages) as unknown as number[])) + 1; // the key should match next page key
+=======
+            const key = Math.max(Object.keys(pages)) + 1; // the key should match next page key
+
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductList/ProductList.component.js
             pageRenders.push(this.renderPage({ key }));
         }
 
@@ -224,6 +254,11 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
         // there must be no more then one page per screen
         // if the "isInfiniteLoaderEnabled" is false
         const { key, ...restProps } = props;
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductList/ProductList.component.tsx
+=======
+
+        restProps.key = 0;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductList/ProductList.component.js
 
         return { ...restProps, key: 0 };
     }
@@ -234,7 +269,8 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
             loadPage,
             isLoading,
             isVisible,
-            mix
+            mix,
+            isPlp
         } = this.props;
         const {
             items = [],
@@ -258,6 +294,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
               pageNumber={ pageNumber }
               selectedFilters={ selectedFilters }
               wrapperRef={ wrapperRef }
+              isPlp={ isPlp }
             />
         );
     }

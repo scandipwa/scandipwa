@@ -5,13 +5,14 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
 
 import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
+import Loader from 'Component/Loader';
 import Overlay from 'Component/Overlay';
 import {
     ProductConfigurableAttribute
@@ -34,8 +35,7 @@ export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayCo
             toggleCustomFilter,
             isMatchingInfoFilter,
             getFilterUrl,
-            isSearchPage,
-            renderPlaceholder
+            isSearchPage
         } = this.props;
 
         const filters = availableFilters as unknown as Record<string, Partial<ProductConfigurableAttribute>>;
@@ -49,7 +49,6 @@ export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayCo
               parameters={ customFiltersValues }
               updateConfigurableVariant={ toggleCustomFilter }
               isSearchPage={ isSearchPage }
-              renderPlaceholder={ renderPlaceholder }
             />
         );
     }
@@ -166,6 +165,23 @@ export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayCo
         );
     }
 
+    renderLoader(): ReactElement {
+        const {
+            isInfoLoading,
+            availableFilters
+        } = this.props;
+
+        const isLoaded = availableFilters && !!Object.keys(availableFilters).length;
+
+        if (!isLoaded) { // hide loader if filters were not yet loaded (even once!)
+            return null;
+        }
+
+        return (
+            <Loader isLoading={ isInfoLoading } />
+        );
+    }
+
     render(): ReactElement {
         const {
             onVisible,
@@ -194,6 +210,7 @@ export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayCo
             >
                 <div block="CategoryFilterOverlay" elem="Wrapper">
                     { this.renderContent() }
+                    { this.renderLoader() }
                 </div>
             </Overlay>
         );

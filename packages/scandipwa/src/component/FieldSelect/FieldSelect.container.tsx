@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -88,8 +88,8 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
 
         const options = this.getOptions();
         const selectedOptionIndex = this.fieldRef.options.selectedIndex;
-        const selectedOption = options[ selectedOptionIndex ];
-        const isAvailable = 'isAvailable' in selectedOption ? selectedOption.isAvailable !== false : false;
+        const selectedOption = options[selectedOptionIndex];
+        const isAvailable = selectedOption && selectedOption.isAvailable !== false;
 
         this.setState({
             selectedOptionIndex,
@@ -99,6 +99,7 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
 
     setRef(elem: HTMLSelectElement | null): void {
         const { setRef } = this.props;
+
         setRef(elem);
 
         if (elem && this.fieldRef !== elem) {
@@ -164,15 +165,16 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
         if (!this.isSelectDisabled()) {
             if (!event) {
                 this.setState({ isExpanded: false });
+
                 return;
             }
 
-            const { localName } = event.currentTarget;
+            const clickedItem = event.target;
 
-            if (localName === 'ul') {
-                this.setState({ isExpanded: true });
-            } else {
+            if (clickedItem === this.fieldRef.parentElement) {
                 this.setState(({ isExpanded }) => ({ isExpanded: !isExpanded }));
+            } else if (clickedItem.localName === 'li' || clickedItem.parentElement.localName === 'li') {
+                this.setState({ isExpanded: false });
             }
         }
         this.handleDropdownOpenDirection();

@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -33,17 +33,38 @@ export const mapStateToProps = (state: RootState): MyAccountOrderItemsTableConta
 export const mapDispatchToProps = (): MyAccountOrderItemsTableContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountOrderItemsTable/Container */
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.container.tsx
 export class MyAccountOrderItemsTableContainer extends PureComponent<MyAccountOrderItemsTableContainerProps> {
     containerProps(): Pick<
     MyAccountOrderItemsTableComponentProps,
     MyAccountOrderItemsTableComponentPropsKeys
     > {
+=======
+export class MyAccountOrderItemsTableContainer extends PureComponent {
+    static propTypes = {
+        isMobile: PropTypes.bool.isRequired,
+        activeTab: PropTypes.string.isRequired,
+        items: OrderTabType.isRequired,
+        total: OrderTotalType.isRequired,
+        allOrderItems: OrderProductsType.isRequired,
+        id: PropTypes.string.isRequired,
+        isPrintPage: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isPrintPage: false
+    };
+
+    containerProps() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.container.js
         const {
             isMobile,
             items,
             activeTab,
             total,
-            allOrderItems
+            allOrderItems,
+            id,
+            isPrintPage
         } = this.props;
 
         return {
@@ -51,7 +72,9 @@ export class MyAccountOrderItemsTableContainer extends PureComponent<MyAccountOr
             items,
             activeTab,
             total,
-            allOrderItems
+            allOrderItems,
+            id,
+            isPrintPage
         };
     }
 

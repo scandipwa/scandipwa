@@ -158,6 +158,15 @@
                 "${workspaceFolder}/build-packages/scandipwa-development-toolkit-vscode/out/**/*.js"
             ],
             "preLaunchTask": "${defaultBuildTask}"
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "VSCode TS Server",
+            "port": 9559,
+            "stopOnEntry": false,
+            "restart": true,
+            "cwd": "${workspaceFolder}/build-packages/ts-server-plugin",
         }
     ]
 }

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -37,7 +37,8 @@ export class FieldFile extends PureComponent<FieldFileComponentProps> {
         const {
             attr: { id = '', multiple = false } = {},
             fileName = '',
-            isLoading = false
+            isLoading = false,
+            resetFieldValue
         } = this.props;
 
         if (isLoading) {
@@ -48,6 +49,7 @@ export class FieldFile extends PureComponent<FieldFileComponentProps> {
             return (
                 <label htmlFor={ id }>
                     <p>{ fileName }</p>
+                    <button onClick={ resetFieldValue }>{ __('Remove file') }</button>
                 </label>
             );
         }
@@ -59,7 +61,7 @@ export class FieldFile extends PureComponent<FieldFileComponentProps> {
             <label htmlFor={ id }>
                 <UploadIcon />
                 <p>{ dropLabel }</p>
-                <span>{ selectLabel }</span>
+                <span block="Field" elem="SelectFileBtn">{ selectLabel }</span>
             </label>
         );
     }

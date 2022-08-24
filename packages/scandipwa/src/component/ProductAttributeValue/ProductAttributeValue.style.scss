@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
@@ -39,6 +39,7 @@
         min-height: var(--option-size);
         width: var(--option-size);
         margin-inline-end: 12px;
+        cursor: pointer;
     }
 
     &-String {
@@ -60,6 +61,7 @@
     &-Image-Overlay {
         --option-check-mark-background: var(--color-white);
 
+        cursor: pointer;
         inset-block-start: 0;
         inset-inline-start: 0;
         margin: 0;
@@ -182,6 +184,17 @@
                     }
                 }
             }
+
+            img {
+                height: 32px;
+                object-fit: cover;
+                vertical-align: middle;
+                width: 32px;
+
+                @include mobile {
+                    margin: 5px 0px;
+                }
+            }
         }
 
         &:hover,
@@ -219,13 +232,41 @@
     &_isNotAvailable {
         opacity: .5;
         cursor: default;
-        pointer-events: none;
 
-        .ProductAttributeValue-Color {
-            &::before {
-                @include not-available;
+        &:hover {
+            @include desktop {
+                --option-border-color: var(--color-dark-gray);
+                --option-text-color: #{$black};
+            }
+        }
 
-                background-color: var(--option-check-mark-background);
+        .ProductAttributeValue {
+            &-Color {
+                &::before {
+                    @include not-available;
+
+                    background-color: var(--option-check-mark-background);
+                }
+            }
+
+            &-Color,
+            &-Image-Overlay {
+                cursor: default;
+
+                &:hover {
+                    @include desktop {
+                        &::before,
+                        &::after {
+                            --option-is-selected: 0;
+                        }
+                    }
+                }
+            }
+
+            &-String,
+            &-Image,
+            &-Text {
+                cursor: default;
             }
         }
     }

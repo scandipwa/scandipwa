@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
@@ -244,9 +244,10 @@
 
     &-DeleteButtonText {
         color: inherit;
-        line-height: 20px;
         margin-inline-start: 4px;
         cursor: pointer;
+        font-family: sans-serif;
+        line-height: 1;
 
         &_isMobileLayout {
             display: none;

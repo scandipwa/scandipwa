@@ -5,11 +5,13 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ChangeEvent, MouseEvent, PureComponent } from 'react';
+import {
+    ChangeEvent, createRef, MouseEvent, PureComponent
+} from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -24,6 +26,7 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
+import scrollToError from 'Util/Form/Form';
 import { debounce, getErrorMessage } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -98,8 +101,11 @@ CheckoutGuestFormContainerState
         setLoadingState: this.setLoadingState.bind(this)
     };
 
+    formRef = createRef();
+
     checkEmailAvailability = debounce((email: string) => {
         const { checkEmailAvailability } = this.props;
+
         checkEmailAvailability(email);
     }, UPDATE_EMAIL_CHECK_FREQUENCY);
 
@@ -107,6 +113,7 @@ CheckoutGuestFormContainerState
         super.__construct?.(props);
 
         const { clearEmailStatus } = props;
+
         clearEmailStatus();
     }
 
@@ -122,6 +129,15 @@ CheckoutGuestFormContainerState
     //         AUTOFILL_CHECK_TIMER
     //     );
     // }
+
+    componentDidUpdate(prevProps: CheckoutGuestFormContainerProps): void {
+        const { isVisibleEmailRequired } = this.props;
+        const { isVisibleEmailRequired: prevIsVisibleEmailRequired } = prevProps;
+
+        if (isVisibleEmailRequired && isVisibleEmailRequired !== prevIsVisibleEmailRequired) {
+            this.formRef.current.requestSubmit();
+        }
+    }
 
     containerProps(): Pick<CheckoutGuestFormComponentProps, CheckoutGuestFormContainerPropsKeys> {
         const {
@@ -145,12 +161,13 @@ CheckoutGuestFormContainerState
             onSignIn,
             range,
             minimunPasswordCharacter,
-            isCreateUser
+            formRef: this.formRef
         });
     }
 
-    onFormError(): void {
+    onFormError(_, fields, validation) {
         this.setState({ isLoading: false });
+        scrollToError(fields, validation);
     }
 
     handleForgotPassword(e: MouseEvent): void {
@@ -182,6 +199,7 @@ CheckoutGuestFormContainerState
     handleEmailInput(event: ChangeEvent<HTMLInputElement>, field?: EventFieldData): void {
         const { onEmailChange } = this.props;
         const { value: email = '' } = field || {};
+
         this.checkEmailAvailability(email);
         onEmailChange(email);
 
@@ -194,11 +212,13 @@ CheckoutGuestFormContainerState
 
     handleCreateUser(): void {
         const { onCreateUserChange } = this.props;
+
         onCreateUserChange();
     }
 
     handlePasswordInput(password: string): void {
         const { onPasswordChange } = this.props;
+
         onPasswordChange(password);
     }
 

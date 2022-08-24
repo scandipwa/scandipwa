@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -54,10 +54,11 @@ export class CategorySort extends PureComponent<CategorySortComponentProps> {
             sortKey,
             sortDirection,
             selectOptions,
-            isMatchingInfoFilter
+            isMatchingInfoFilter,
+            isCurrentCategoryLoaded
         } = this.props;
 
-        if (!isMatchingInfoFilter) {
+        if (!isMatchingInfoFilter || !isCurrentCategoryLoaded) {
             return this.renderPlaceholder();
         }
 
@@ -67,7 +68,7 @@ export class CategorySort extends PureComponent<CategorySortComponentProps> {
               attr={ {
                   id: 'category-sort',
                   name: 'category-sort',
-                  defaultValue: `${sortDirection} ${sortKey}`,
+                  value: `${sortDirection} ${sortKey}`,
                   noPlaceholder: true
               } }
               events={ {

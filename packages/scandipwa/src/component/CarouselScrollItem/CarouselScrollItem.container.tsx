@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { createRef, PureComponent } from 'react';
@@ -50,6 +50,7 @@ export class CarouselScrollItemContainer extends PureComponent<CarouselScrollIte
 
     onClick(): void {
         const { onClick, position } = this.props;
+
         onClick(position);
     }
 

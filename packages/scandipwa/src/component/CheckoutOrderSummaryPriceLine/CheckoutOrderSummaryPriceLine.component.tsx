@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -20,6 +20,7 @@ import { CheckoutOrderSummaryPriceLineProps } from './CheckoutOrderSummaryPriceL
 /** @namespace Component/CheckoutOrderSummaryPriceLine/Component */
 export class CheckoutOrderSummaryPriceLine extends PureComponent<CheckoutOrderSummaryPriceLineProps> {
     static defaultProps: Partial<CheckoutOrderSummaryPriceLineProps> = {
+        itemsQty: 0,
         mods: {},
         subPrice: null,
         children: [],
@@ -57,10 +58,10 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent<CheckoutOrderSu
         const { title } = this.props;
 
         return (
-        <p block="CheckoutOrderSummary" elem="Text">
-            { title }
-            { this.renderCoupon() }
-        </p>
+            <p block="CheckoutOrderSummary" elem="Text">
+                { title }
+                { this.renderCoupon() }
+            </p>
         );
     }
 
@@ -72,9 +73,9 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent<CheckoutOrderSu
         }
 
         return (
-        <b>
-            { ` ${ coupon_code.toUpperCase() }:` }
-        </b>
+            <b>
+                { ` ${ coupon_code.toUpperCase() }:` }
+            </b>
         );
     }
 
@@ -90,7 +91,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent<CheckoutOrderSu
             return null;
         }
 
-        if (+price === 0 && !itemsQty) {
+        if (price === 0 && !itemsQty) {
             return null;
         }
 

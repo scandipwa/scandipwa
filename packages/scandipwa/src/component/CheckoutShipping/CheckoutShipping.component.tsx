@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -36,7 +36,7 @@ export class CheckoutShipping extends PureComponent<CheckoutShippingComponentPro
     renderOrderTotalExclTax(): ReactElement {
         const {
             cartTotalSubPrice,
-            totals: { quote_currency_code }
+            totals: { prices: { quote_currency_code = null } = {} }
         } = this.props;
 
         if (!cartTotalSubPrice) {
@@ -53,7 +53,7 @@ export class CheckoutShipping extends PureComponent<CheckoutShippingComponentPro
     }
 
     renderPriceLine(price: number): ReactElement {
-        const { totals: { quote_currency_code } } = this.props;
+        const { totals: { prices: { quote_currency_code = null } = {} } } = this.props;
 
         return formatPrice(price, quote_currency_code as GQLCurrencyEnum);
     }
@@ -61,8 +61,12 @@ export class CheckoutShipping extends PureComponent<CheckoutShippingComponentPro
     renderOrderTotal(): ReactElement {
         const {
             totals: {
-                grand_total,
-                quote_currency_code
+                prices: {
+                    grand_total: {
+                        value: grand_total = 0
+                    } = {},
+                    quote_currency_code = null
+                } = {}
             }
         } = this.props;
 
@@ -88,13 +92,15 @@ export class CheckoutShipping extends PureComponent<CheckoutShippingComponentPro
     renderActions(): ReactElement {
         const { selectedShippingMethod } = this.props;
 
+        const isDisabled = !selectedShippingMethod?.carrier_code;
+
         return (
             <div block="Checkout" elem="StickyButtonWrapper">
                 { this.renderOrderTotal() }
                 <button
                   type="submit"
                   block="Button"
-                  disabled={ !selectedShippingMethod }
+                  disabled={ isDisabled }
                   mix={ { block: 'CheckoutShipping', elem: 'Button' } }
                 >
                     <LockIcon />

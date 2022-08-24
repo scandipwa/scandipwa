@@ -7,8 +7,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import Image from 'Component/Image/Image.component';
@@ -26,6 +26,8 @@ import './Logo.style';
 /** @namespace Component/Logo/Component */
 export class Logo extends Image<LogoComponentProps> {
     renderPlaceholderLogo(): ReactElement {
+        const { onImageLoad } = this.props;
+
         return (
             <div
               block="Logo"
@@ -35,6 +37,7 @@ export class Logo extends Image<LogoComponentProps> {
                   src={ logo }
                   alt="LogoPlaceholder"
                   ratio={ ImageRatio.IMG_CUSTOM }
+                  onImageLoad={ onImageLoad }
                 />
             </div>
         );

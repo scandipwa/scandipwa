@@ -5,12 +5,11 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Redirect } from 'react-router';
-import { withRouter } from 'react-router-dom';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
@@ -124,6 +123,5 @@ export class ForgotPasswordComponent extends MyAccountOverlay<ForgotPasswordComp
         );
     }
 }
-export default withRouter(
-    ForgotPasswordComponent
-);
+
+export default ForgotPasswordComponent;

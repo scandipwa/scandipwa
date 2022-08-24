@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -43,8 +43,15 @@ export class MyAccountAddressBookContainer extends PureComponent<MyAccountAddres
         showCreateNewPopup: this.showCreateNewPopup.bind(this)
     };
 
+    componentDidMount(): void {
+        const { changeTabName, tabMap } = this.props;
+        const { tabName } = tabMap[ADDRESS_BOOK];
+
+        changeTabName(tabName);
+    }
+
     containerProps(): Pick<MyAccountAddressBookComponentProps, 'customer'> {
-        const { customer } = this.props;
+        const { customer, showPopup } = this.props;
 
         return { customer };
     }

@@ -5,13 +5,20 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
 
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.tsx
 import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
+=======
+import Link from 'Component/Link';
+import {
+    ORDER_ACTION_LABELS, ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS
+} from 'Component/MyAccountOrder/MyAccountOrder.config';
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.js
 import MyAccountOrderItemsTableRow from 'Component/MyAccountOrderItemsTableRow';
 import MyAccountOrderTotals from 'Component/MyAccountOrderTotals';
 import {
@@ -20,12 +27,14 @@ import {
 import { ReactElement } from 'Type/Common.type';
 import { getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 import { getProductFromOrder } from 'Util/Orders';
+import { appendWithStoreCode } from 'Util/Url';
 
 import { MyAccountOrderItemsTableComponentProps } from './MyAccountOrderItemsTable.type';
 
 import './MyAccountOrderItemsTable.style';
 
 /** @namespace Component/MyAccountOrderItemsTable/Component */
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.tsx
 export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsTableComponentProps> {
     renderItems(): ReactElement {
         const { items: { items: products } } = this.props;
@@ -33,16 +42,37 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
         if (!products.length) {
             return null;
         }
+=======
+export class MyAccountOrderItemsTable extends PureComponent {
+    static propTypes = {
+        activeTab: PropTypes.string.isRequired,
+        isMobile: PropTypes.bool.isRequired,
+        items: OrderTabType.isRequired,
+        total: OrderTotalType.isRequired,
+        allOrderItems: OrderProductsType.isRequired,
+        id: PropTypes.string.isRequired,
+        isPrintPage: PropTypes.bool.isRequired
+    };
+
+    renderItems() {
+        const { items: { items: products = [] } } = this.props;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.js
 
         return products.map(this.renderItemRow.bind(this));
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.tsx
     renderItemRow(
         product: OrderItemProduct | ShipmentItemInterface | InvoiceItem | RefundItem,
         i: number
     ): ReactElement {
         const { activeTab, allOrderItems, items } = this.props;
         const { product_sku } = product;
+=======
+    renderItemRow(product) {
+        const { activeTab, allOrderItems, items: { comments = [] } } = this.props;
+        const { product_sku, product_url_key } = product;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.js
         const {
             entered_options = [],
             selected_options = []
@@ -53,14 +83,39 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
               product={ product }
               selectedOptions={ selected_options }
               enteredOptions={ entered_options }
-              key={ i }
+              key={ product_url_key }
               activeTab={ activeTab }
               comments={ 'comments' in items ? items.comments : [] }
             />
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.tsx
     renderOrderTitle(): ReactElement {
+=======
+    renderPrintAction() {
+        const { activeTab, id, isPrintPage } = this.props;
+
+        const { print: printLabel, printUrl } = ORDER_ACTION_LABELS[activeTab] || {};
+
+        if (!printLabel || isPrintPage) {
+            return null;
+        }
+
+        return (
+            <Link
+              block="MyAccountOrderItemsTable"
+              elem="PrintOrder"
+              to={ appendWithStoreCode(`${printUrl}/${id}`) }
+              isOpenInNewTab
+            >
+                { printLabel }
+            </Link>
+        );
+    }
+
+    renderOrderTitleAndActions() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.js
         const { activeTab, items: { number }, isMobile } = this.props;
 
         if (isMobile && activeTab === OrderTabs.ORDER_ITEMS) {
@@ -72,8 +127,11 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
         }
 
         return (
-            <div block="MyAccountOrderItemsTable" elem="OrderTitle">
-                { `${activeTab} # ${number}` }
+            <div block="MyAccountOrderItemsTable" elem="OrderActions">
+                <div block="MyAccountOrderItemsTable" elem="OrderTitle">
+                    { `${activeTab} # ${number}` }
+                </div>
+                { this.renderPrintAction() }
             </div>
         );
     }
@@ -178,6 +236,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
         return <MyAccountOrderTotals activeTab={ activeTab } total={ total } />;
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.tsx
     renderComments(): ReactElement {
         const { items, activeTab } = this.props;
 
@@ -191,6 +250,12 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
         const { comments = [] } = items;
 
         if (!comments.length) {
+=======
+    renderComments() {
+        const { items: { comments = [] }, activeTab, isPrintPage } = this.props;
+
+        if (activeTab === ORDER_ITEMS || !comments.length || isPrintPage) {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.js
             return null;
         }
 
@@ -223,6 +288,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.tsx
     renderDesktopTable(): ReactElement {
         return (
             <div block="MyAccountOrderItemsTable" elem="ProductsWrapper">
@@ -248,9 +314,12 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
     }
 
     renderMobileTable(): ReactElement {
+=======
+    render() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.js
         return (
             <div block="MyAccountOrderItemsTable" elem="ProductsWrapper">
-                { this.renderOrderTitle() }
+                { this.renderOrderTitleAndActions() }
                 <table
                   block="MyAccountOrderItemsTable"
                   elem="Products"
@@ -265,6 +334,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
             </div>
         );
     }
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.tsx
 
     render(): ReactElement {
         const { isMobile } = this.props;
@@ -275,6 +345,8 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
 
         return this.renderMobileTable();
     }
+=======
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.component.js
 }
 
 export default MyAccountOrderItemsTable;

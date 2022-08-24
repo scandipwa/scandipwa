@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/base-ProductReviewListtheme
  */
 
@@ -15,6 +15,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader/Loader.component';
 import Popup from 'Component/Popup/Popup.container';
 import ProductActions from 'Component/ProductActions';
+import ProductInformation from 'Component/ProductInformation';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviewForm from 'Component/ProductReviewForm/ProductReviewForm.container';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
@@ -33,10 +34,7 @@ export const ProductGallery = lazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "product-gallery" */
     'Component/ProductGallery'
 ));
-export const ProductInformation = lazy(() => import(
-    /* webpackMode: "lazy", webpackChunkName: "product-info" */
-    'Component/ProductInformation'
-));
+
 export const ProductReviews = lazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "product-reviews" */
     'Component/ProductReviews'
@@ -47,9 +45,29 @@ export const ProductAttributes = lazy(() => import(
 ));
 
 /** @namespace Route/ProductPage/Component */
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.component.tsx
 export class ProductPage extends PureComponent<ProductPageComponentProps> {
     tabMap: Record<ProductPageTabs, ProductPageTab> = {
         [ ProductPageTabs.INFORMATION ]: {
+=======
+export class ProductPage extends PureComponent {
+    static propTypes = {
+        getLink: PropTypes.func.isRequired,
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
+        dataSource: ProductType.isRequired,
+        activeProduct: ProductType.isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired,
+        isInformationTabEmpty: PropTypes.bool.isRequired,
+        isAttributesTabEmpty: PropTypes.bool.isRequired,
+        setActiveProduct: PropTypes.func.isRequired,
+        useEmptyGallerySwitcher: PropTypes.bool.isRequired,
+        isVariant: PropTypes.bool.isRequired,
+        areReviewsEnabled: PropTypes.bool.isRequired
+    };
+
+    tabMap = {
+        [PRODUCT_INFORMATION]: {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.component.js
             name: __('About'),
             shouldTabRender: (): boolean => {
                 const { isInformationTabEmpty } = this.props;
@@ -69,9 +87,18 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
         },
         [ ProductPageTabs.REVIEWS ]: {
             name: __('Reviews'),
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.component.tsx
             // Return true since we always show 'Add review' button
             shouldTabRender: (): boolean => true,
             render: (key: string): ReactElement => this.renderProductReviewsTab(key)
+=======
+            shouldTabRender: () => {
+                const { areReviewsEnabled } = this.props;
+
+                return areReviewsEnabled;
+            },
+            render: (key) => this.renderProductReviewsTab(key)
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.component.js
         }
     };
 
@@ -89,14 +116,12 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
 
         return (
             <>
-                <Suspense fallback={ <Loader /> }>
-                    <ProductGallery
-                      product={ activeProduct }
-                      areDetailsLoaded={ areDetailsLoaded }
-                      isWithEmptySwitcher={ useEmptyGallerySwitcher }
-                      showLoader={ isVariant }
-                    />
-                </Suspense>
+                <ProductGallery
+                  product={ activeProduct }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  isWithEmptySwitcher={ useEmptyGallerySwitcher }
+                  showLoader={ isVariant }
+                />
                 <ProductActions
                   getLink={ getLink }
                   product={ dataSource }
@@ -119,6 +144,7 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
         }
 
         return (
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.component.tsx
             <Suspense fallback={ <Loader /> } key={ key }>
                 <ProductInformation
                   htmlDescription={ html }
@@ -126,6 +152,13 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
                   key={ key }
                 />
             </Suspense>
+=======
+            <ProductInformation
+              product={ { ...dataSource, parameters } }
+              areDetailsLoaded={ areDetailsLoaded }
+              key={ key }
+            />
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.component.js
         );
     }
 

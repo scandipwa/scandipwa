@@ -5,12 +5,17 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+<<<<<<< HEAD:packages/scandipwa/src/component/NewsletterSubscription/NewsletterSubscription.container.tsx
+ * @package scandipwa/scandipwa
+=======
+ * @package scandipwa/scandipwa
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/NewsletterSubscription/NewsletterSubscription.container.js
  * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+<<<<<<< HEAD:packages/scandipwa/src/component/NewsletterSubscription/NewsletterSubscription.container.tsx
 import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 
@@ -19,6 +24,11 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { FieldData } from 'Util/Form/Form.type';
 import { RootState } from 'Util/Store/Store.type';
+=======
+
+import { showNotification } from 'Store/Notification/Notification.action';
+import history from 'Util/History';
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/NewsletterSubscription/NewsletterSubscription.container.js
 
 import NewsletterSubscription from './NewsletterSubscription.component';
 import {
@@ -49,11 +59,23 @@ export const mapDispatchToProps = (dispatch: Dispatch): NewsletterSubscriptionMa
 });
 
 /** @namespace Component/NewsletterSubscription/Container */
+<<<<<<< HEAD:packages/scandipwa/src/component/NewsletterSubscription/NewsletterSubscription.container.tsx
 export class NewsletterSubscriptionContainer extends PureComponent<
 NewsletterSubscriptionContainerProps,
 NewsletterSubscriptionContainerState
 > {
     containerFunctions: NewsletterSubscriptionContainerFunctions = {
+=======
+export class NewsletterSubscriptionContainer extends PureComponent {
+    static propTypes = {
+        subscribeToNewsletter: PropTypes.func.isRequired,
+        showErrorNotification: PropTypes.func.isRequired,
+        allowGuestSubscribe: PropTypes.bool.isRequired,
+        isSignedIn: PropTypes.bool.isRequired
+    };
+
+    containerFunctions = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/NewsletterSubscription/NewsletterSubscription.container.js
         onFormSubmit: this.onFormSubmit.bind(this)
     };
 
@@ -108,8 +130,13 @@ NewsletterSubscriptionContainerState
         this.setState({ isLoading: false });
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/NewsletterSubscription/NewsletterSubscription.container.tsx
     render(): ReactElement {
         const { location: { pathname } } = this.props;
+=======
+    render() {
+        const { location: { pathname = '' } = {} } = history || {};
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/NewsletterSubscription/NewsletterSubscription.container.js
 
         return (
             <NewsletterSubscription
@@ -121,7 +148,7 @@ NewsletterSubscriptionContainerState
     }
 }
 
-export default withRouter(connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(NewsletterSubscriptionContainer));
+)(NewsletterSubscriptionContainer);

@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Query } from '@tilework/opus';
@@ -45,8 +45,10 @@ export abstract class QueryDispatcher<Options, Data, Error = NetworkError | Netw
         this.name = name;
         this.cacheTTL = cacheTTL;
         this.promise = null;
+        this.controller = null;
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/util/Request/QueryDispatcher.ts
     /**
      * Is responsible for request routing and manages `onError`, `onSuccess`, `onUpdate` functions triggers.
      * @param  {Function} dispatch Store changing function from Redux (dispatches actions)
@@ -54,6 +56,9 @@ export abstract class QueryDispatcher<Options, Data, Error = NetworkError | Netw
      * @return {void}@memberof QueryDispatcher
      */
     handleData(dispatch: Dispatch, options: Options): void {
+=======
+    async handleData(dispatch, options) {
+>>>>>>> scandipwa/master:packages/scandipwa/src/util/Request/QueryDispatcher.js
         const { name, cacheTTL } = this;
 
         const rawQueries = this.prepareRequest(options, dispatch);
@@ -64,10 +69,19 @@ export abstract class QueryDispatcher<Options, Data, Error = NetworkError | Netw
 
         const queries = rawQueries instanceof Query ? [rawQueries] : rawQueries;
 
-        if (this.promise) {
-            this.promise.cancel();
-        }
+        const abort = this.promise && this.controller.abort();
 
+        this.controller = new AbortController();
+
+        try {
+            this.promise = await executeGet(prepareQuery(queries), name, cacheTTL, this.controller.signal);
+            this.onSuccess(this.promise, dispatch, options);
+        } catch (err) {
+            this.onError(err, dispatch, options);
+        }
+        const broadcast = await listenForBroadCast(name);
+
+<<<<<<< HEAD:packages/scandipwa/src/util/Request/QueryDispatcher.ts
         this.promise = makeCancelable(
             new Promise((resolve, reject) => {
                 executeGet(prepareQuery(queries), name, cacheTTL)
@@ -91,6 +105,9 @@ export abstract class QueryDispatcher<Options, Data, Error = NetworkError | Netw
             /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/listenForBroadCast/then */
             (data) => this.onUpdate(data as Data, dispatch, options),
         );
+=======
+        this.onUpdate(broadcast, dispatch, options);
+>>>>>>> scandipwa/master:packages/scandipwa/src/util/Request/QueryDispatcher.js
     }
 
     /**

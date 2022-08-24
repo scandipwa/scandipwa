@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { AbstractField, Mutation, Query } from '@tilework/opus';
@@ -82,8 +82,14 @@ export const prepareRequest = <T>(fields: AbstractField<string, T, boolean>[], t
     const resolvedArgs = Object.entries(accArgs).reduce((acc, [name, dataArray]): string[] => {
         (dataArray as Array<Omit<FieldArgument, 'name'>>).forEach((item, i: number) => {
             const variable = `${name}_${i + 1}`;
+<<<<<<< HEAD:packages/scandipwa/src/util/Query/PrepareDocument.ts
             acc.push(`$${variable}:${item.type}`);
             variables[variable] = String(item.value);
+=======
+
+            acc.push(`$${variable}:${type}`);
+            variables[variable] = value;
+>>>>>>> scandipwa/master:packages/scandipwa/src/util/Query/PrepareDocument.js
         });
 
         return acc;

@@ -5,10 +5,11 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
+<<<<<<< HEAD:packages/scandipwa/src/store/Config/Config.action.ts
 import { Device } from 'Type/Device.type';
 
 import {
@@ -17,6 +18,17 @@ import {
     UpdateConfigAction,
     UpdateConfigDeviceAction
 } from './Config.type';
+=======
+export const UPDATE_CURRENT_CURRENCY = 'UPDATE_CURRENT_CURRENCY';
+
+/** @namespace Store/Config/Action/updateCurrentCurrency  */
+export const updateCurrentCurrency = (selectedCurrency) => ({
+    type: UPDATE_CURRENT_CURRENCY,
+    selectedCurrency
+});
+
+export const UPDATE_CONFIG = 'UPDATE_CONFIG';
+>>>>>>> scandipwa/master:packages/scandipwa/src/store/Config/Config.action.js
 
 /** @namespace Store/Config/Action/updateConfig */
 export const updateConfig = (config: Partial<ConfigStore>): UpdateConfigAction => ({

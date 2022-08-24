@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { History, Location } from 'history';
@@ -31,6 +31,7 @@ export const updateQueryParamWithoutHistory = (
     const { search, pathname } = location;
 
     const params = new URLSearchParams(search);
+
     params.set(name, value);
     history.replace(decodeURIComponent(`${ pathname }?${ params }`));
 };
@@ -44,6 +45,7 @@ export const removeQueryParamWithoutHistory = (name: string, history: History, l
     const { search, pathname } = location;
 
     const params = new URLSearchParams(search);
+
     params.delete(name);
     history.replace(decodeURIComponent(`${ pathname }?${ params }`));
 };
@@ -77,6 +79,7 @@ export const trimEndSlash = (str: string): string => (str.endsWith('/') ? str.sl
  */
 export const replace = (regex: RegExp, path: string): string => {
     const { pathname = '' } = new URL(window.location.href);
+
     return pathname.replace(regex, path);
 };
 

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -37,7 +37,8 @@ export class ImageContainer<P extends ImageContainerProps = ImageContainerProps>
         className: '',
         imageRef: undefined,
         isPlain: false,
-        showIsLoading: false
+        showIsLoading: false,
+        onImageLoad: noopFn
     };
 
     containerProps(): ImageComponentProps {
@@ -50,7 +51,8 @@ export class ImageContainer<P extends ImageContainerProps = ImageContainerProps>
             mix,
             imageRef,
             isPlain,
-            showIsLoading
+            showIsLoading,
+            onImageLoad
         } = this.props;
 
         return {
@@ -66,7 +68,8 @@ export class ImageContainer<P extends ImageContainerProps = ImageContainerProps>
             imageRef,
             isPlain,
             showIsLoading,
-            isCached: this._isCached()
+            isCached: this._isCached(),
+            onImageLoad
         };
     }
 
@@ -87,6 +90,7 @@ export class ImageContainer<P extends ImageContainerProps = ImageContainerProps>
         }
 
         const img = document.createElement('img');
+
         img.src = src || '';
 
         if (img.complete) {

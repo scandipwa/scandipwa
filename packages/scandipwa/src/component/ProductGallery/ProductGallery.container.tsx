@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { createRef, PureComponent } from 'react';
@@ -128,10 +128,19 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
             return;
         }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductGallery/ProductGallery.container.tsx
         const urls: string[] = [];
         variants.forEach(({ media_gallery_entries: mediaGallery = [] }) => {
             if (mediaGallery.length > 0) {
                 const { base: { url = '' } = {} } = mediaGallery[ 0 ];
+=======
+        const urls = [];
+
+        variants.forEach(({ media_gallery_entries: mediaGallery = [] }) => {
+            if (mediaGallery.length > 0) {
+                const { base: { url } = {} } = mediaGallery[0];
+
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductGallery/ProductGallery.container.js
                 urls.push(url);
             }
         });
@@ -178,7 +187,13 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
             return acc;
         }, []).sort((a, b) => a - b);
 
-        return positionsArray.findIndex((value) => value === position);
+        const returnValue = positionsArray.findIndex((value) => value === position);
+
+        if (returnValue === -1) {
+            return 0;
+        }
+
+        return returnValue;
     }
 
     getGalleryPictures(): MediaGalleryEntry[] {

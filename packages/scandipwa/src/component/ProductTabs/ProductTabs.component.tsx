@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -26,13 +26,25 @@ export class ProductTabs extends PureComponent<ProductTabsComponentProps, Produc
     __construct(props: ProductTabsComponentProps): void {
         super.__construct?.(props);
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductTabs/ProductTabs.component.tsx
         this.onTabClick = this.onTabClick.bind(this);
+=======
+    __construct(props) {
+        super.__construct(props);
+        const { tabs } = this.props;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductTabs/ProductTabs.component.js
 
-        const { tabs: [{ id }] } = this.props;
+        if (tabs.length > 0) {
+            const { tabs: [{ id }] } = this.props;
 
-        this.state = {
-            activeTab: id
-        };
+            this.state = {
+                activeTab: id
+            };
+        } else {
+            this.state = {
+                activeTab: ''
+            };
+        }
     }
 
     componentDidUpdate(prevProps: ProductTabsComponentProps): void {
@@ -41,6 +53,7 @@ export class ProductTabs extends PureComponent<ProductTabsComponentProps, Produc
 
         if (prevTabs.length !== tabs.length) {
             const [{ id }] = tabs;
+
             this.setActiveTab(id);
         }
     }
@@ -94,6 +107,10 @@ export class ProductTabs extends PureComponent<ProductTabsComponentProps, Produc
 
     renderTabs(): ReactElement {
         const { tabs } = this.props;
+
+        if (tabs.length === 0) {
+            return null;
+        }
 
         if (isMobile.any() || isSSR() || isCrawler()) {
             return this.renderAllTabs();

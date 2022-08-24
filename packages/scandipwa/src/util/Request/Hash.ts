@@ -12,8 +12,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 // TODO seed is always undefined! Why ?
@@ -40,6 +40,7 @@ export const hash = (key: string, seed = 1): number => {
     const bytes = key.length - remainder;
     const c1 = 0xcc9e2d51;
     const c2 = 0x1b873593;
+
     h1 = seed;
     i = 0;
 

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { MouseEvent, PureComponent } from 'react';
@@ -66,11 +66,15 @@ export class AddToCartContainer extends PureComponent<AddToCartContainerProps, A
         layout: CategoryPageLayout.GRID,
         isIconEnabled: true,
         isDisabled: false,
+        addToCart: undefined,
+        updateSelectedValues: undefined,
+        withLink: false,
         product: {}
     };
 
     containerFunctions = {
-        addProductToCart: this.addProductToCart.bind(this)
+        addProductToCart: this.addProductToCart.bind(this),
+        handleButtonClick: this.handleButtonClick.bind(this)
     };
 
     state: AddToCartContainerState = {
@@ -91,14 +95,29 @@ export class AddToCartContainer extends PureComponent<AddToCartContainerProps, A
         [ ProductType.GROUPED ]: this.validateGroup.bind(this)
     };
 
-    async addProductToCart(e: MouseEvent): Promise<void> {
-        const { product, addToCart } = this.props;
+    handleButtonClick(e: MouseEvent): void {
+        const { withLink } = this.props;
+
+        // Prevent container Link from triggering redirect
+        if (!withLink) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+
+        this.addProductToCart();
+    }
+
+    async addProductToCart(): Promise<void> {
+        const { product, addToCart, updateSelectedValues } = this.props;
+
+        if (updateSelectedValues) {
+            await updateSelectedValues();
+        }
 
         if ((!product || Object.keys(product).length === 0) && !addToCart) {
             return;
         }
 
-        e.preventDefault();
         this.setState({ isAdding: true });
 
         if (!this.validate()) {
@@ -135,6 +154,7 @@ export class AddToCartContainer extends PureComponent<AddToCartContainerProps, A
     validate(): boolean {
         // eslint-disable-next-line fp/no-let
         let isValid = true;
+
         this.globalValidationMap.forEach((step) => {
             if (!step()) {
                 isValid = false;
@@ -150,6 +170,7 @@ export class AddToCartContainer extends PureComponent<AddToCartContainerProps, A
 
         if (!inStock) {
             const name = getName(product);
+
             showNotification(NotificationType.INFO, __('Sorry! The product %s is out of stock!', name));
         }
 
@@ -166,11 +187,17 @@ export class AddToCartContainer extends PureComponent<AddToCartContainerProps, A
         const isValid = typeId === ProductType.GROUPED || inRange;
 
         if (!isValid) {
-            if (quantity < minQty) {
+            if (minQty > maxQty) {
+                showNotification(NotificationType.INFO, __('The requested qty is not available!'));
+            } else if (quantity < minQty) {
                 showNotification(NotificationType.INFO, __('Sorry! Minimum quantity for this product is %s!', minQty));
-            } else {
+            } else if (quantity > maxQty) {
                 showNotification(NotificationType.INFO, __('Sorry! Maximum quantity for this product is %s!', maxQty));
             }
+
+            this.setState({ isAdding: false });
+
+            return false;
         }
 
         return isValid;

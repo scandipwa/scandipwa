@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { DataPair } from 'Component/KeyValueTable/KeyValueTable.type';
@@ -53,7 +53,12 @@ export const getAddressAdditionalTableFields = (
 export const getAddressTablePairArray = (
     props: MyAccountAddressTableComponentProps
 ): DataPair<CustomerAddress | FormattedRegion>[] => {
-    const { address, countries, showAdditionalFields } = props;
+    const { address, countries } = props;
+    const regionData = getFormattedRegion(address, countries);
+
+    const constructRegion = regionData.region
+        ? `${address.city}, ${regionData.region}, ${address.postcode}`
+        : `${address.city},  ${address.postcode}`;
 
     return [
         {
@@ -72,15 +77,21 @@ export const getAddressTablePairArray = (
             source: address
         },
         {
-            key: 'postcode',
-            label: __('Postal code'),
-            source: address
+            key: 'region',
+            label: __('Region'),
+            source: { region: constructRegion }
+        },
+        {
+            key: 'country',
+            label: __('Country'),
+            source: regionData
         },
         {
             key: 'telephone',
             label: __('Phone number'),
             source: address
-        },
-        ...(showAdditionalFields ? getAddressAdditionalTableFields(address, countries) : [])
+        }
     ];
 };
+
+export default getAddressTablePairArray;

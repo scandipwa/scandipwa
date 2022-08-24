@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { connect } from 'react-redux';
@@ -66,8 +66,27 @@ export const mapDispatchToProps = (dispatch: Dispatch): CmsPageContainerDispatch
 });
 
 /** @namespace Route/CmsPage/Container */
+<<<<<<< HEAD:packages/scandipwa/src/route/CmsPage/CmsPage.container.tsx
 export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPageContainerState> {
     static defaultProps: Partial<CmsPageContainerProps> = {
+=======
+export class CmsPageContainer extends DataContainer {
+    static propTypes = {
+        match: MatchType.isRequired,
+        currentUrl: PropTypes.string.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        setBigOfflineNotice: PropTypes.func.isRequired,
+        location: LocationType.isRequired,
+        toggleBreadcrumbs: PropTypes.func.isRequired,
+        pageIds: PropTypes.number,
+        pageIdentifiers: PropTypes.string,
+        isOnlyPlaceholder: PropTypes.bool,
+        isBreadcrumbsActive: PropTypes.bool
+    };
+
+    static defaultProps = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/CmsPage/CmsPage.container.js
         pageIds: -1,
         pageIdentifiers: '',
         isOnlyPlaceholder: false,
@@ -136,19 +155,19 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
 
     componentDidUpdate(prevProps: CmsPageContainerProps): void {
         const {
-            location: { pathname },
+            currentUrl,
             pageIdentifiers,
             pageIds
         } = this.props;
 
         const {
-            location: { pathname: prevPathname },
+            currentUrl: prevCurrentUrl,
             pageIdentifiers: prevPageIdentifiers,
             pageIds: prevPageIds
         } = prevProps;
 
         if (
-            pathname !== prevPathname
+            currentUrl !== prevCurrentUrl
             || pageIds !== prevPageIds
             || pageIdentifiers !== prevPageIdentifiers
         ) {
@@ -169,12 +188,11 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
 
     onPageLoad({ cmsPage: page }: { cmsPage: CmsPageFields }): void {
         const {
-            location: { pathname },
             updateMeta,
             setHeaderState,
             updateBreadcrumbs
         } = this.props;
-
+        const { location: { pathname } } = history;
         const {
             content_heading,
             meta_title,
@@ -206,11 +224,11 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
 
     getRequestQueryParams(): Partial<CmsPageQueryOptions> {
         const {
-            location,
             match,
             pageIdentifiers: identifier,
             pageIds: id
         } = this.props;
+        const { location } = history;
 
         if (identifier) {
             return { identifier };

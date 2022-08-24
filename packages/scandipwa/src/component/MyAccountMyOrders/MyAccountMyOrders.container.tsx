@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Location } from 'history';
@@ -53,6 +53,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyOrdersContain
 export class MyAccountMyOrdersContainer extends PureComponent<MyAccountMyOrdersContainerProps> {
     componentDidMount(): void {
         const { getOrderList } = this.props;
+
         getOrderList(this._getPageFromUrl());
     }
 

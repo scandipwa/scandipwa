@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Component } from 'react';
@@ -33,6 +33,7 @@ export class Footer extends Component<FooterComponentProps> {
     static defaultProps: Partial<FooterComponentProps> = {
         copyright: '',
         isVisibleOnMobile: false,
+        isVisible: true,
         onItemClick: noopFn
     };
 
@@ -219,7 +220,11 @@ export class Footer extends Component<FooterComponentProps> {
     }
 
     render(): ReactElement {
-        const { isVisibleOnMobile, device } = this.props;
+        const { isVisibleOnMobile, isVisible, device } = this.props;
+
+        if (!isVisible) {
+            return null;
+        }
 
         if (!isVisibleOnMobile && device.isMobile) {
             return null;

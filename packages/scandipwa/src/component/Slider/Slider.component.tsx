@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import {
@@ -105,6 +105,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
 
         const sliderChildren = this.draggableRef.current.children;
         const sliderWidth = this.draggableRef.current.offsetWidth;
+
         this.sliderWidth = sliderWidth;
 
         if (!sliderChildren || !sliderChildren[0]) {
@@ -112,6 +113,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
         }
 
         const sliderRef = this.getSliderRef();
+
         CSS.setVariable(sliderRef, 'sliderOpacity', '0');
 
         // delay setting carousel translate to avoid wrong calculations be made during transition
@@ -125,6 +127,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
         target.onload = () => {
             const height = target.offsetHeight;
             const sliderHeight = `${ height }px`;
+
             CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         };
 
@@ -173,6 +176,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
             this.setAnimationSpeedStyle(0);
 
             const delay = 500;
+
             setTimeout(() => {
                 this.setAnimationSpeedStyle();
             }, delay);
@@ -201,6 +205,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
         }
 
         const newTranslate = -activeImage * this.getSlideWidth() * this.getDir();
+
         this.setTranlateXStyle(newTranslate);
     }
 
@@ -266,6 +271,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
 
         if (slideSize / 2 < mousePositionInElement && -fullSliderPoss < sliderPosition) {
             const activeSlide = sliderPosition - 1;
+
             onActiveImageChange(-activeSlide);
 
             return activeSlide;
@@ -273,6 +279,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
 
         if (slideSize / 2 > mousePositionInElement && lastTranslate) {
             const activeSlide = sliderPosition + 1;
+
             onActiveImageChange(-activeSlide);
 
             return activeSlide;
@@ -325,6 +332,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
 
         if ((dir === 1 && translate < -fullSliderSize) || (dir === -1 && translate > fullSliderSize)) {
             const activeSlide = Math.round(fullSliderSize / (-slideSize * dir));
+
             onActiveImageChange(-activeSlide);
 
             return activeSlide;
@@ -332,6 +340,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
 
         if (isSlideBack && activeSlidePercent < 1 - ACTIVE_SLIDE_PERCENT) {
             const activeSlide = Math[dir === 1 ? 'ceil' : 'floor'](activeSlidePosition);
+
             onActiveImageChange(-activeSlide);
 
             return activeSlide;
@@ -339,12 +348,14 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
 
         if (!isSlideBack && activeSlidePercent > ACTIVE_SLIDE_PERCENT) {
             const activeSlide = Math[dir === 1 ? 'floor' : 'ceil'](activeSlidePosition);
+
             onActiveImageChange(-activeSlide);
 
             return activeSlide;
         }
 
         const activeSlide = Math.round(activeSlidePosition);
+
         onActiveImageChange(-activeSlide);
 
         return activeSlide;
@@ -414,6 +425,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
 
     changeActiveImage(activeImage: number): void {
         const { onActiveImageChange } = this.props;
+
         onActiveImageChange(activeImage);
     }
 

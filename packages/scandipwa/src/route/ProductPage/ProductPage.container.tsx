@@ -5,14 +5,17 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.container.tsx
 import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
+=======
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.container.js
 
 import { Page } from 'Component/Header/Header.config';
 import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
@@ -23,9 +26,15 @@ import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import ProductReducer from 'Store/Product/Product.reducer';
 import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.container.tsx
 import { ReactElement } from 'Type/Common.type';
+=======
+import { ProductType } from 'Type/ProductList.type';
+import { MatchType } from 'Type/Router.type';
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.container.js
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
+import history from 'Util/History';
 import { getAttributesWithValues, getIsConfigurableParameterSelected } from 'Util/Product';
 import { IndexedAttributeWithValue, IndexedProduct } from 'Util/Product/Product.type';
 import { debounce } from 'Util/Request';
@@ -69,7 +78,8 @@ export const mapStateToProps = (state: RootState): ProductPageContainerMapStateP
     product: state.ProductReducer.product,
     metaTitle: state.MetaReducer.title,
     isMobile: state.ConfigReducer.device.isMobile,
-    store: state.ConfigReducer.code
+    store: state.ConfigReducer.code,
+    areReviewsEnabled: state.ConfigReducer.reviews_are_enabled
 });
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */
@@ -94,8 +104,33 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductPageContainerMapD
 });
 
 /** @namespace Route/ProductPage/Container */
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.container.tsx
 export class ProductPageContainer extends PureComponent<ProductPageContainerProps, ProductPageContainerState> {
     static defaultProps: Partial<ProductPageContainerProps> = {
+=======
+export class ProductPageContainer extends PureComponent {
+    static propTypes = {
+        changeHeaderState: PropTypes.func.isRequired,
+        setBigOfflineNotice: PropTypes.func.isRequired,
+        changeNavigationState: PropTypes.func.isRequired,
+        updateMetaFromProduct: PropTypes.func.isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        requestProduct: PropTypes.func.isRequired,
+        isOffline: PropTypes.bool.isRequired,
+        productSKU: PropTypes.string,
+        productID: PropTypes.number,
+        product: ProductType.isRequired,
+        match: MatchType.isRequired,
+        goToPreviousNavigationState: PropTypes.func.isRequired,
+        metaTitle: PropTypes.string,
+        addRecentlyViewedProduct: PropTypes.func.isRequired,
+        store: PropTypes.string.isRequired,
+        isMobile: PropTypes.bool.isRequired,
+        areReviewsEnabled: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.container.js
         productSKU: '',
         productID: 0,
         metaTitle: undefined
@@ -132,10 +167,9 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
                 options,
                 // !FIXME: This property always is undefined. We must remove it later.
                 productOptionsData
-            },
-            location: { search }
+            }
         } = props;
-
+        const { location: { search } } = history;
         const {
             currentProductSKU: prevSKU,
             productOptionsData: prevOptionData
@@ -193,6 +227,13 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
 
     componentDidMount(): void {
         /**
+         * Always request product information. In this case we will have updated data.
+         * Service worker will return previous information and updated new information
+         * through broadcast.
+         */
+        this.requestProduct();
+
+        /**
          * Always make sure the navigation switches into the MENU tab
          * */
         this.updateNavigationState();
@@ -220,16 +261,12 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         const {
             isOffline,
             productSKU,
-            product: {
-                sku
-            }
+            product
         } = this.props;
 
         const {
             productSKU: prevProductSKU,
-            product: {
-                sku: prevSku
-            }
+            product: prevProduct
         } = prevProps;
 
         const { sku: stateSKU } = history?.state?.state?.product || {};
@@ -252,18 +289,10 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         }
 
         /**
-         * If the currently loaded category ID does not match the ID of
-         * category ID from URL rewrite, request category.
-         */
-        if (productSKU !== sku) {
-            this.requestProduct();
-        }
-
-        /**
-         * If product ID was changed => it is loaded => we need to
+         * If product object was changed => it is loaded => we need to
          * update product specific information, i.e. breadcrumbs.
          */
-        if (sku !== prevSku) {
+        if (JSON.stringify(product) !== JSON.stringify(prevProduct)) {
             this.updateBreadcrumbs();
             this.updateHeaderState();
             this.updateMeta();
@@ -280,7 +309,8 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         const { description: { html = '' } = {} } = this.getDataSource();
         // handling cases when empty html tag is received
         const htmlElement = new DOMParser().parseFromString(html, 'text/html');
-        return !htmlElement?.body?.innerText;
+
+        return !htmlElement?.body?.innerHTML;
     }
 
     isProductAttributesTabEmpty(): boolean {
@@ -339,8 +369,13 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         }
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.container.tsx
     getLink(key?: string, value = ''): string {
         const { location: { search, pathname } } = this.props;
+=======
+    getLink(key, value) {
+        const { location: { search, pathname } } = history;
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.container.js
         const obj = {
             ...convertQueryStringToKeyValuePairs(search)
         };
@@ -354,9 +389,15 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         return `${pathname}${query}`;
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.container.tsx
     containerProps(): Pick<ProductPageComponentProps, ProductPageContainerComponentPropKeys> {
         const { isMobile, location } = this.props;
+=======
+    containerProps() {
+        const { isMobile, areReviewsEnabled } = this.props;
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.container.js
         const { parameters } = this.state;
+        const { location = {} } = history || {};
 
         return {
             areDetailsLoaded: this.getAreDetailsLoaded(),
@@ -368,7 +409,8 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
             isVariant: this.getIsVariant(),
             isMobile,
             parameters,
-            location
+            location,
+            areReviewsEnabled
         };
     }
 
@@ -385,8 +427,13 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         return id !== childId;
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.container.tsx
     updateUrl(key: string, value: string, parameters: Record<string, string>): void {
         const { location, history } = this.props;
+=======
+    updateUrl(key, value, parameters) {
+        const { location } = history;
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.container.js
 
         const isParameterSelected = getIsConfigurableParameterSelected(parameters, key, value);
 
@@ -429,11 +476,21 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         const { attributes: productAttr = {}, media_gallery_entries: mediaGallery = [] } = product;
         const { attributes: activeAttr = {}, media_gallery_entries: activeMediaGallery = [] } = activeProduct;
 
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.container.tsx
         const attributes: Record<string, IndexedAttributeWithValue> = {};
         Object.keys(productAttr).forEach((attr) => {
             const { [ attr ]: { attribute_value: attrValue }, [ attr ]: currAttr } = productAttr;
             const { [ attr ]: { attribute_value: activeAttrValue = '' } = {} } = activeAttr;
             attributes[ attr ] = {
+=======
+        const attributes = {};
+
+        Object.keys(productAttr).forEach((attr) => {
+            const { [attr]: { attribute_value: attrValue }, [attr]: currAttr } = productAttr;
+            const { [attr]: { attribute_value: activeAttrValue } = {} } = activeAttr;
+
+            attributes[attr] = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.container.js
                 ...currAttr,
                 attribute_value: activeAttrValue || attrValue
             };
@@ -453,7 +510,11 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         } = this.props;
 
         const { sku } = product;
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.container.tsx
         const { product: stateProduct }: { product: Partial<IndexedProduct> } = history?.state?.state || {};
+=======
+        const { product: stateProduct } = history?.location?.state || {};
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.container.js
         const { sku: stateSKU } = stateProduct || {};
 
         /**
@@ -515,11 +576,17 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
 
     updateNavigationState(): void {
         const { changeNavigationState } = this.props;
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.container.tsx
         changeNavigationState({ name: NavigationTabsMap.MENU_TAB });
+=======
+
+        changeNavigationState({ name: MENU_TAB });
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.container.js
     }
 
     updateMeta(): void {
         const { updateMetaFromProduct } = this.props;
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.container.tsx
         const {
             name = '',
             meta_title = '',
@@ -535,6 +602,10 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
             canonical_url,
             meta_description
         });
+=======
+
+        updateMetaFromProduct(this.getDataSource());
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.container.js
     }
 
     updateHeaderState(): void {
@@ -548,6 +619,7 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         });
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.container.tsx
     updateBreadcrumbs(): void {
         const { updateBreadcrumbs, location } = this.props;
         const { state: { prevCategoryId = 0 } = {} } = location;
@@ -562,6 +634,13 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
             url: { pathname: url },
             categories
         }, prevCategoryId);
+=======
+    updateBreadcrumbs() {
+        const { updateBreadcrumbs } = this.props;
+        const { location: { state: { prevCategoryId = null } = {} } } = history;
+
+        updateBreadcrumbs(this.getDataSource(), prevCategoryId);
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.container.js
     }
 
     render(): ReactElement {
@@ -576,6 +655,7 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
 
 export default withReducers({
     ProductReducer
+<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.container.tsx
 })(withRouter(
     connect(mapStateToProps, mapDispatchToProps)(
         ProductPageContainer as unknown as ComponentType<
@@ -583,3 +663,8 @@ export default withReducers({
         >
     )
 ));
+=======
+})(
+    connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer)
+);
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.container.js

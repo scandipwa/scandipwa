@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -56,13 +56,14 @@ export class MenuItem extends PureComponent<MenuItemComponentProps> {
     }
 
     renderItemContent(item: FormattedMenuItem, itemMods: Mods): ReactElement {
-        const { title } = item;
+        const { item_class = '', title } = item;
 
         return (
             <figcaption
               block="Menu"
               elem="ItemCaption"
               mods={ itemMods }
+              mix={ { block: item_class } }
             >
                 { title }
                 { this.renderExpandButton() }

@@ -5,20 +5,19 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Location } from 'history';
 import { ChangeEvent, ComponentType, MouseEvent } from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
-import { Dispatch } from 'redux';
 
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
+import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
@@ -49,7 +48,6 @@ import {
 export const mapStateToProps = (state: RootState): HeaderContainerMapStateProps => ({
     navigationState: state.NavigationReducer[ NavigationType.TOP_NAVIGATION_TYPE ].navigationState,
     cartTotals: state.CartReducer.cartTotals,
-    totals: state.CartReducer.cartTotals,
     compareTotals: state.ProductCompareReducer.count,
     Loading: state.MyAccountReducer.isLoading,
     header_logo_src: state.ConfigReducer.header_logo_src,
@@ -60,7 +58,8 @@ export const mapStateToProps = (state: RootState): HeaderContainerMapStateProps 
     isLoading: state.ConfigReducer.isLoading,
     device: state.ConfigReducer.device,
     activeOverlay: state.OverlayReducer.activeOverlay,
-    isWishlistLoading: state.WishlistReducer.isLoading
+    isWishlistLoading: state.WishlistReducer.isLoading,
+    productsInWishlist: state.WishlistReducer.productsInWishlist
 });
 
 /** @namespace Component/Header/Container/mapDispatchToProps */
@@ -86,19 +85,31 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     default_state = DEFAULT_HEADER_STATE;
 
     routeMap: Record<string, NavigationState> = {
-        // eslint-disable-next-line max-len
-        '/customer/account/confirm': { name: Page.CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push(appendWithStoreCode('/')) },
+        '/customer/account/confirmation': {
+            name: Page.CMS_PAGE,
+            title: __('Send confirmation link'),
+            onBackClick: () => history.push(appendWithStoreCode('/'))
+        },
+        '/customer/account/confirm': {
+            name: Page.CMS_PAGE,
+            title: __('Confirm account'),
+            onBackClick: () => history.push(appendWithStoreCode('/'))
+        },
         '/category': { name: Page.CATEGORY },
         '/checkout/success': { name: Page.CHECKOUT_SUCCESS },
-        '/checkout': { name: Page.CHECKOUT, onBackClick: (): void => history.push(appendWithStoreCode('/cart')) },
-        '/customer/account': {
-            name: Page.CUSTOMER_ACCOUNT_PAGE, onBackClick: (): void => history.push(appendWithStoreCode('/'))
-        },
-        '/product': { name: Page.PDP, onBackClick: (): void => history.goBack() },
+        '/checkout': { name: Page.CHECKOUT, onBackClick: () => history.push(appendWithStoreCode(CART_URL)) },
+        '/customer/account': { name: Page.CUSTOMER_ACCOUNT_PAGE },
+        '/sales/order/history': { name: Page.CUSTOMER_ACCOUNT_PAGE },
+        '/downloadable/customer/products': { name: Page.CUSTOMER_ACCOUNT_PAGE },
+        '/wishlist': { name: Page.CUSTOMER_WISHLIST },
+        '/customer/address': { name: Page.CUSTOMER_ACCOUNT_PAGE },
+        '/customer/account/edit': { name: Page.CUSTOMER_ACCOUNT_PAGE },
+        '/newsletter/manage': { name: Page.CUSTOMER_ACCOUNT_PAGE },
+        '/product': { name: Page.PDP, onBackClick: () => history.goBack() },
         '/cart': { name: Page.CART },
         '/menu': { name: Page.MENU },
-        '/page': { name: Page.CMS_PAGE, onBackClick: (): void => history.goBack() },
-        '/contact': { name: Page.CONTACT_US, onBackClick: (): void => history.goBack() },
+        '/page': { name: Page.CMS_PAGE, onBackClick: () => history.goBack() },
+        '/contact': { name: Page.CONTACT_US, onBackClick: () => history.goBack() },
         '/': { name: DEFAULT_STATE_NAME, isHiddenOnMobile: true }
     };
 
@@ -134,7 +145,8 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
             logo_width,
             isLoading,
             device,
-            isWishlistLoading
+            isWishlistLoading,
+            productsInWishlist
         } = this.props;
 
         const {
@@ -169,6 +181,7 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
             showMyAccountLogin,
             device,
             isWishlistLoading,
+            productsInWishlist,
             shouldRenderCartOverlay,
             firstname: this.getUserName()
         };
@@ -193,34 +206,18 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     componentDidUpdate(prevProps: HeaderContainerProps): void {
         this.hideSearchOnStateChange(prevProps);
         this.handleHeaderVisibility();
-        this.navigateToShippingStep(prevProps);
     }
 
     shareWishlist(): void {
         const { showPopup } = this.props;
+
         showPopup({ title: __('Share Wishlist') });
-    }
-
-    navigateToShippingStep(prevProps: HeaderContainerProps): void {
-        const { totals: { is_virtual, items } } = this.props;
-        const { totals: { items: prevItems } } = prevProps;
-        const { location: { pathname } } = history;
-
-        if (pathname.includes(CheckoutStepUrl.BILLING_URL)
-            && !is_virtual
-            && items
-            && prevItems
-            && prevItems.length !== items.length
-        ) {
-            history.push({ pathname: appendWithStoreCode(CheckoutStepUrl.SHIPPING_URL) });
-        }
     }
 
     getNavigationState(): NavigationState {
         const { navigationState } = this.props;
 
-        const { pathname } = location;
-        const { state: historyState } = window.history || {};
+        const { state: historyState, location: { pathname } } = history || {};
         const { state = {} } = historyState || {};
 
         // TODO: something here breaks /<STORE CODE> from being opened, and / when, the url-based stores are enabled.
@@ -441,17 +438,12 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     }
 
     onSignIn(): void {
-        const { navigationState: { title }, totals: { is_virtual }, goToPreviousNavigationState } = this.props;
         const { location: { pathname } } = history;
 
         goToPreviousNavigationState();
 
         if (pathname.includes(CheckoutStepUrl.CHECKOUT_URL)) {
             this.setState({ showMyAccountLogin: false });
-        }
-
-        if (pathname.includes(CheckoutStepUrl.BILLING_URL) && title && !is_virtual) {
-            history.push({ pathname: appendWithStoreCode(CheckoutStepUrl.SHIPPING_URL) });
         }
     }
 
@@ -539,11 +531,4 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     }
 }
 
-export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(
-        HeaderContainer as unknown as ComponentType<RouteComponentProps & HeaderContainerProps>
-    )
-);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);

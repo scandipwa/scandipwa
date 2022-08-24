@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -30,26 +30,57 @@ import { CartPageComponentProps } from './CartPage.type';
 import './CartPage.style';
 
 /** @namespace Route/CartPage/Component */
+<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.component.tsx
 export class CartPage extends PureComponent<CartPageComponentProps> {
     static defaultProps: Partial<CartPageComponentProps> = {
         hasOutOfStockProductsInCart: false,
         onCartItemLoading: noopFn
+=======
+export class CartPage extends PureComponent {
+    static propTypes = {
+        totals: TotalsType.isRequired,
+        onCheckoutButtonClick: PropTypes.func.isRequired,
+        hasOutOfStockProductsInCart: PropTypes.bool,
+        onCouponCodeUpdate: PropTypes.func,
+        onCartItemLoading: PropTypes.func,
+        device: DeviceType.isRequired,
+        isInitialLoad: PropTypes.bool.isRequired,
+        minimumOrderAmountReached: PropTypes.bool,
+        minimumOrderDescription: PropTypes.string,
+        areDetailsLoaded: PropTypes.bool
+    };
+
+    static defaultProps = {
+        hasOutOfStockProductsInCart: false,
+        onCouponCodeUpdate: noopFn,
+        onCartItemLoading: null,
+        minimumOrderAmountReached: true,
+        minimumOrderDescription: '',
+        areDetailsLoaded: false
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.component.js
     };
 
     renderCartItems(): ReactElement {
         const {
             totals: {
-                items,
-                quote_currency_code
+                items = [],
+                prices: {
+                    quote_currency_code = ''
+                } = {}
             },
-            onCartItemLoading
+            onCartItemLoading,
+            isInitialLoad
         } = this.props;
 
-        if (!items) {
-            return <Loader isLoading />;
+        if (!items || isInitialLoad) {
+            return (
+                <div block="CartPage" elem="InitialLoaderContainer">
+                    <Loader isLoading />
+                </div>
+            );
         }
 
-        if (items.length < 1) {
+        if (!items.length) {
             return (
                 <p block="CartPage" elem="Empty">{ __('There are no products in cart.') }</p>
             );
@@ -81,7 +112,12 @@ export class CartPage extends PureComponent<CartPageComponentProps> {
 
     renderDiscountCode(): ReactElement {
         const {
-            totals: { coupon_code, items }
+            totals: {
+                items = [],
+                prices: {
+                    coupon_code
+                } = {}
+            }
         } = this.props;
 
         if (!items || items.length < 1) {
@@ -99,13 +135,31 @@ export class CartPage extends PureComponent<CartPageComponentProps> {
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.component.tsx
     renderSecureCheckoutButton(): ReactElement {
         const { onCheckoutButtonClick, hasOutOfStockProductsInCart } = this.props;
+=======
+    renderSecureCheckoutButton() {
+        const {
+            onCheckoutButtonClick,
+            minimumOrderDescription,
+            minimumOrderAmountReached,
+            hasOutOfStockProductsInCart
+        } = this.props;
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.component.js
 
         if (hasOutOfStockProductsInCart) {
             return (
                 <div block="CartPage" elem="OutOfStockProductsWarning">
                     { __('Please, remove out of stock products from cart') }
+                </div>
+            );
+        }
+
+        if (!minimumOrderAmountReached) {
+            return (
+                <div block="CartPage" elem="OutOfStockProductsWarning">
+                    { minimumOrderDescription }
                 </div>
             );
         }
@@ -132,9 +186,16 @@ export class CartPage extends PureComponent<CartPageComponentProps> {
 
         return (
             <CheckoutOrderSummary
+<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.component.tsx
               totals={ totals as Partial<TotalsObject> }
                 // eslint-disable-next-line react/jsx-no-bind
               renderCmsBlock={ () => this.renderPromo() }
+=======
+              totals={ totals }
+              // eslint-disable-next-line react/jsx-no-bind
+              renderCmsBlock={ () => this.renderPromo(true) }
+              onCouponCodeUpdate={ onCouponCodeUpdate }
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.component.js
               showItems={ false }
             >
                 { this.renderSecureCheckoutButton() }
@@ -154,11 +215,18 @@ export class CartPage extends PureComponent<CartPageComponentProps> {
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.component.tsx
     renderCrossSellProducts(): ReactElement {
+=======
+    renderCrossSellProducts() {
+        const { areDetailsLoaded } = this.props;
+
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.component.js
         return (
             <ProductLinks
               linkType={ LinkedProductType.CROSS_SELL }
               title={ __('Frequently bought together') }
+              areDetailsLoaded={ areDetailsLoaded }
             />
         );
     }
@@ -229,13 +297,20 @@ export class CartPage extends PureComponent<CartPageComponentProps> {
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.component.tsx
     renderMobile(): ReactElement {
+=======
+    renderMobile() {
+        const { totals: { items = [] } } = this.props;
+        const isShowTotals = items.length > 0;
+
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.component.js
         return (
             <div block="CartPage" elem="Static">
                 { this.renderHeading() }
                 { this.renderCartItems() }
                 <div block="CartPage" elem="Floating">
-                    { this.renderTotals() }
+                    { isShowTotals && this.renderTotals() }
                 </div>
                 { this.renderDiscountCode() }
                 { this.renderPromo() }

@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -5,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { MouseEvent, PureComponent } from 'react';
@@ -167,15 +168,16 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
      */
     handleChangeQuantity(quantity: number): void {
         this.setState({ isLoading: true }, () => {
-            const { changeItemQty, item: { item_id, qty = 1 }, cartId } = this.props;
+            const { changeItemQty, item: { id, quantity: itemQuantity = 1 }, cartId } = this.props;
 
-            if (quantity === qty) {
+            if (quantity === itemQuantity) {
                 this.setState({ isLoading: false });
+
                 return;
             }
 
             this.hideLoaderAfterPromise(changeItemQty({
-                uid: encodeBase64(String(item_id)),
+                uid: encodeBase64(String(id)),
                 quantity,
                 cartId
             }));
@@ -214,10 +216,10 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             removeProduct,
             updateCrossSellProducts,
             updateCrossSellsOnRemove,
-            item: { item_id }
+            item: { id }
         } = this.props;
 
-        const result = await removeProduct(item_id);
+        const result = await removeProduct(id);
 
         if (result && updateCrossSellsOnRemove) {
             await updateCrossSellProducts(result.items || []);
@@ -232,6 +234,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
      */
     registerCancelablePromise(promise: Promise<unknown>): CancelablePromise {
         const cancelablePromise = makeCancelable(promise);
+
         this.handlers.push(cancelablePromise);
 
         return cancelablePromise;
@@ -361,23 +364,18 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
     getConfigurableOptionsLabels(): string[] {
         const {
             item: {
+                configurable_options = [],
                 product: {
-                    configurable_options,
                     variants
-                }
-            }
+                } = {}
+            } = {}
         } = this.props;
 
         if (!variants || !configurable_options) {
             return [];
         }
 
-        const { attributes = {} } = this.getCurrentProduct() || {};
-
-        return Object.entries(attributes)
-            .filter(([attrKey]) => Object.keys(configurable_options).includes(attrKey))
-            .map(this.getConfigurationOptionLabel.bind(this))
-            .filter((label) => !!label) as string[];
+        return configurable_options.map(({ value_label }) => value_label);
     }
 
     notifyAboutLoadingStateChange(isLoading: boolean): void {

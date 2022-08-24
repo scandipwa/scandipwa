@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -91,7 +91,8 @@ export class InstallPromptContainer extends PureComponent<InstallPromptContainer
 
     handleBannerClose(): void {
         this.setState({ isBannerClosed: true });
-        const THREE_DAYS_IN_SECONDS = 259200;
+        const THREE_DAYS_IN_SECONDS = '259200';
+
         BrowserDatabase.setItem(true, 'postpone_installation', THREE_DAYS_IN_SECONDS);
     }
 

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Dispatch } from 'redux';
@@ -20,6 +20,7 @@ import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 export class NoMatchDispatcher {
     updateNoMatch(dispatch: Dispatch, options: { noMatch: boolean }): void {
         const { noMatch } = options;
+
         dispatch(updateNoMatch(noMatch));
     }
 }

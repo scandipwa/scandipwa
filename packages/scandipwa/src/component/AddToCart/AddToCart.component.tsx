@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -37,15 +37,15 @@ export class AddToCart extends PureComponent<AddToCartComponentProps> {
     render(): ReactElement {
         const {
             mix,
-            addProductToCart,
             layout,
             isDisabled,
-            isAdding
+            isAdding,
+            handleButtonClick
         } = this.props;
 
         return (
             <button
-              onClick={ addProductToCart }
+              onClick={ handleButtonClick }
               block="Button AddToCart"
               mix={ mix }
               mods={ { layout } }

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import {
@@ -137,6 +137,7 @@ export class ProductGallery extends PureComponent<ProductGalleryComponentProps, 
         const { width } = ref.getBoundingClientRect();
 
         const slidesCount = Math.floor((width - ARROW_SAFE_AREA * 2) / (CAROUSEL_ITEM_WIDTH + CAROUSEL_ITEM_GAP));
+
         this.setState({ slidesCount });
     }
 
@@ -158,6 +159,7 @@ export class ProductGallery extends PureComponent<ProductGalleryComponentProps, 
 
     updateSharedDestinationElement(): void {
         const { registerSharedElementDestination } = this.props;
+
         registerSharedElementDestination(this.imageRef);
     }
 
@@ -253,7 +255,7 @@ export class ProductGallery extends PureComponent<ProductGalleryComponentProps, 
             } = mediaData;
 
             const style = isImageZoomPopupActive ? { height: 'auto' } : {};
-            const src = isImageZoomPopupActive ? largeSrc : baseSrc;
+            const src = isImageZoomPopupActive ? largeSrc || baseSrc : baseSrc;
 
             return (
                 <Image

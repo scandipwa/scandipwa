@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { DateFieldAttr, HourFormat } from 'Component/DateSelect/DateSelect.config';
@@ -258,6 +258,7 @@ export const getFieldsData = <AsObject extends boolean = false>(
     const output: Array<DateObject | FieldData> = [];
 
     const dateFieldsGrouped = groupDateFieldsData(fields);
+
     output.push(...transformDateFieldsData(dateFieldsGrouped));
 
     fields.forEach((field) => {
@@ -298,10 +299,15 @@ export const getFieldsData = <AsObject extends boolean = false>(
     });
 
     if (asObject) {
+<<<<<<< HEAD:packages/scandipwa/src/util/Form/Extract.ts
         const objectOutput: Record<string, DateObject | FieldData> = {};
+=======
+        const objectOutput = {};
+>>>>>>> scandipwa/master:packages/scandipwa/src/util/Form/Extract.js
 
         output.forEach((field) => {
             const { name } = field;
+
             objectOutput[name] = field;
         });
 

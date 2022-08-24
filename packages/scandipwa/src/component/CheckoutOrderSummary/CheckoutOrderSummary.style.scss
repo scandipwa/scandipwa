@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
@@ -238,6 +238,7 @@
 
         span {
             line-height: 16px;
+            font-size: 12px;
         }
     }
 
@@ -247,23 +248,9 @@
     }
 
     &-ButtonWrapper {
-        @include mobile {
-            --footer-totals-height: 123px;
-
-            height: var(--footer-totals-height);
-            position: fixed;
-            width: 100%;
-            inset-inline-start: 0;
-            padding-inline: 16px;
-            padding-block-end: 16px;
-            inset-block-end: var(--footer-total-height);
-            background-color: var(--color-white);
-            border-block-start: 1px solid var(--primary-divider-color);
-            z-index: 80;
-
-            .hideOnScroll & {
-                transform: translateY(var(--footer-nav-height));
-            }
+        @include mobile-bottom-wrapper {
+            padding: 16px;
+            inset-block-end: 16px;
         }
 
         &_isEmpty {

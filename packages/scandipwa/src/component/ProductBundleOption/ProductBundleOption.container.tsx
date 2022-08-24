@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -79,6 +79,7 @@ ProductBundleOptionContainerState
 
         if (quantity !== prevQuantity) {
             const { updateSelectedValues } = this.props;
+
             updateSelectedValues();
         }
     }
@@ -92,6 +93,7 @@ ProductBundleOptionContainerState
     setQuantity(uid: string, value: number): void {
         const { quantity } = this.state;
         const rangedValue = value < 1 ? 1 : value;
+
         this.setState({
             quantity: {
                 ...quantity,

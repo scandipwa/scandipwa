@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -191,6 +191,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
 
     shareWishlist(): void {
         const { showPopup } = this.props;
+
         showPopup({ title: __('Share Wishlist') });
     }
 
@@ -202,6 +203,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
 
     showNotificationAndRemoveLoading(message: string): void {
         const { showNotification } = this.props;
+
         this.setState({ isLoading: false });
         showNotification(message);
     }
@@ -211,6 +213,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
 
         try {
             const errorMessages = JSON.parse(message);
+
             errorMessages.forEach((err: string) => {
                 showError(err);
             });

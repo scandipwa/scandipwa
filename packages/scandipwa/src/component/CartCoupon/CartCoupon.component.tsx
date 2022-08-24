@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { ChangeEvent, PureComponent } from 'react';
@@ -29,7 +29,8 @@ export class CartCoupon extends PureComponent<CartCouponComponentProps, CartCoup
     };
 
     state: CartCouponComponentState = {
-        enteredCouponCode: ''
+        enteredCouponCode: '',
+        isFieldWithError: false
     };
 
     __construct(props: CartCouponComponentProps): void {
@@ -41,11 +42,28 @@ export class CartCoupon extends PureComponent<CartCouponComponentProps, CartCoup
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
+    componentDidUpdate(prevProps: CartCouponComponentProps): void {
+        const { isIncorrectCoupon: prevIsIncorrectCoupon = false } = prevProps;
+        const { isIncorrectCoupon = false, resetIsIncorrectCoupon } = this.props;
+
+        if (isIncorrectCoupon && prevIsIncorrectCoupon !== isIncorrectCoupon) {
+            this.toggleIsFieldWithError(isIncorrectCoupon);
+            resetIsIncorrectCoupon();
+        }
+    }
+
+    toggleIsFieldWithError(value: boolean): void {
+        this.setState({
+            isFieldWithError: value
+        });
+    }
+
     handleCouponCodeChange(event: ChangeEvent<HTMLInputElement>, field?: EventFieldData): void {
         const { value = '' } = field || {};
 
         this.setState({
-            enteredCouponCode: value
+            enteredCouponCode: value,
+            isFieldWithError: false
         });
     }
 
@@ -81,7 +99,7 @@ export class CartCoupon extends PureComponent<CartCouponComponentProps, CartCoup
     }
 
     renderApplyCoupon(): ReactElement {
-        const { enteredCouponCode } = this.state;
+        const { enteredCouponCode, isFieldWithError } = this.state;
 
         return (
             <>
@@ -98,10 +116,8 @@ export class CartCoupon extends PureComponent<CartCouponComponentProps, CartCoup
                       events={ {
                           onChange: this.handleCouponCodeChange
                       } }
-                      validationRule={ {
-                          isRequired: true
-                      } }
                       validateOn={ ['onChange'] }
+                      mix={ { mods: { hasError: isFieldWithError }, block: 'Field' } }
                     />
                 </div>
                 <button

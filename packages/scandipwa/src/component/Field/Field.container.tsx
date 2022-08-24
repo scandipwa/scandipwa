@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent, SyntheticEvent } from 'react';
@@ -49,7 +49,9 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
         subLabel: '',
         elemRef: undefined,
         changeValueOnDoubleClick: false,
-        isSortSelect: false
+        isSortSelect: false,
+        updateSelectedValues: null,
+        resetFieldValue: null
     };
 
     state: FieldContainerState = {
@@ -102,6 +104,24 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
         this.setState({ validationResponse: null });
     }
 
+    resetFieldValue(fieldHandler, event) {
+        const { updateSelectedValues } = this.props;
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        fieldHandler.setState({
+            value: '',
+            fileName: '',
+            isLoading: false
+        });
+
+        this.fieldRef.fileData = '';
+        this.fieldRef.value = '';
+        this.validate();
+        updateSelectedValues();
+    }
+
     handleShowLengthError(): ValidationRule {
         const { validationRule, type } = this.props;
         const { showLengthError } = this.state;
@@ -118,24 +138,12 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
             validationRule: { range: { max: maxValidLength = 0 } = {} }, type, attr: { name } = {}
         } = this.props;
         const { showLengthError } = this.state;
-
-        if (!this.fieldRef) {
-            return false;
-        }
-
-        const value = this.fieldRef instanceof HTMLInputElement
-        && (type === FieldType.CHECKBOX || type === FieldType.RADIO)
+        const newValidRule = this.handleShowLengthError();
+        const value = type === FieldType.CHECKBOX || type === FieldType.RADIO
             ? !!this.fieldRef.checked
             : this.fieldRef.value;
-        const newValidRule = this.handleShowLengthError();
 
-        if (!value) {
-            return false;
-        }
-
-        const response = validate(type === FieldType.FILE && typeof value === 'string'
-            ? value.toLowerCase()
-            : value, newValidRule);
+        const response = validate(type === FieldType.FILE ? value.toLowerCase() : value, newValidRule);
         const output = response !== true ? { ...response, type, name } : response;
 
         // If validation is called from different object you can pass object
@@ -177,12 +185,11 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
     ): void {
         if (hook && this.fieldRef) {
             const { attr, type } = this.props;
+            const { value } = this.fieldRef;
 
-            if (this.fieldRef.value) {
-                hook(...[...args, {
-                    ...attr, fieldRef: this.fieldRef, value: this.fieldRef.value, type
-                }]);
-            }
+            hook(...[...args, {
+                ...attr, fieldRef: this.fieldRef, value, type
+            }]);
         }
 
         this.validate();
@@ -197,6 +204,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
             attr,
             isDisabled,
             mix,
+            value,
             options,
             showErrorAsLabel,
             label,
@@ -209,17 +217,21 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
         const { validate } = this.containerFunctions;
 
         // Surrounds events with validation
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const newEvents: any = { ...events };
+        const newEvents = { ...events };
 
         validateOn.forEach((eventName) => {
-            const { [ eventName as keyof typeof events]: baseEvent } = events;
-            newEvents[ eventName ] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
+            const { [eventName]: baseEvent } = events;
+
+            newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
         });
 
         return {
             type,
-            attr,
+            attr: {
+                ...attr,
+                autoComplete: autoComplete || autocomplete
+            },
+            value,
             isDisabled,
             mix,
             options,
@@ -230,6 +242,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
             changeValueOnDoubleClick,
             isSortSelect,
             validationResponse,
+            resetFieldValue: this.resetFieldValue.bind(this),
             events: newEvents,
             setRef: this.setRef.bind(this)
         };
@@ -239,6 +252,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
         return (
             <Field
               { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }

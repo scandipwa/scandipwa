@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -15,6 +15,11 @@ import { CartDisplayConfig } from 'Query/Cart.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
+
+export interface MinimumOrderAmount {
+    minimum_order_amount_reached: boolean;
+    minimum_order_description: string;
+}
 
 export interface CartOverlayContainerMapStateProps {
     totals: CartTotals;
@@ -26,6 +31,7 @@ export interface CartOverlayContainerMapStateProps {
     cartShippingPrice: number;
     cartShippingSubPrice: number | null;
     cartDisplaySettings: CartDisplayConfig;
+    minimumOrderAmount: Partial<MinimumOrderAmount>;
 }
 
 export interface CartOverlayContainerMapDispatchProps {
@@ -72,6 +78,7 @@ export interface CartOverlayComponentProps {
     handleCheckoutClick: (e: MouseEvent) => void;
     onCartItemLoading: (isCartItemLoading: boolean) => void;
     scrollToTop: () => void;
+    minimumOrderAmountReached: boolean;
 }
 
 export type CartOverlayComponentContainerPropKeys =

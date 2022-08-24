@@ -5,13 +5,14 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
+import { getProductInStock } from 'Util/Product/Extract';
 
 import GroupedProductsItem from './GroupedProductsItem.component';
 import {
@@ -31,6 +32,7 @@ export class GroupedProductsItemContainer extends PureComponent<GroupedProductsI
         super.__construct?.(props);
 
         const { defaultQuantity } = this.props;
+
         this.setQuantity(defaultQuantity);
     }
 
@@ -57,8 +59,11 @@ export class GroupedProductsItemContainer extends PureComponent<GroupedProductsI
     }
 
     setQuantity(itemCount: number): void {
-        const { setQuantity, product: { id = 0 } } = this.props;
-        setQuantity({ [ id ]: itemCount });
+        const { setQuantity, product, product: { id } } = this.props;
+
+        if (getProductInStock(product)) {
+            setQuantity({ [id]: itemCount }, true);
+        }
     }
 
     render(): ReactElement {

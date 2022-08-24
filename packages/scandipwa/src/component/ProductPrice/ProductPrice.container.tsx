@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -40,8 +40,26 @@ export const mapDispatchToProps = (): ProductPriceContainerMapDispatchProps => (
  * @class ProductPrice
  * @namespace Component/ProductPrice/Container
  */
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductPrice/ProductPrice.container.tsx
 export class ProductPriceContainer extends PureComponent<ProductPriceContainerProps> {
     static defaultProps: Partial<ProductPriceContainerProps> = {
+=======
+export class ProductPriceContainer extends PureComponent {
+    static propTypes = {
+        // Price should be gotten from Util/Product/Extract/getPrice()
+        price: ProductPriceType,
+        isPreview: PropTypes.bool,
+        priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
+        isSchemaRequired: PropTypes.bool,
+        mix: MixType,
+        displayTaxInPrice: PropTypes.string,
+        tierPrices: TierPricesType,
+        label: LabelType,
+        variantsCount: PropTypes.number
+    };
+
+    static defaultProps = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductPrice/ProductPrice.container.js
         isPreview: false,
         isSchemaRequired: false,
         displayTaxInPrice: DisplayProductPricesInCatalog.INCL_TAX,
@@ -105,10 +123,18 @@ export class ProductPriceContainer extends PureComponent<ProductPriceContainerPr
             const prices = tierPrices.map(({ final_price: { value = 0 } = {} }) => value);
             const minPrice = Math.min(...prices);
 
-            return formatPrice(minPrice, currency);
+            return {
+                currency,
+                value: minPrice,
+                valueFormatted: formatPrice(minPrice, currency)
+            };
         }
 
-        return '';
+        return {
+            currency,
+            value: '',
+            valueFormatted: ''
+        };
     }
 
     render(): ReactElement {

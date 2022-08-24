@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 import { Dispatch } from 'redux';
 
@@ -28,6 +28,7 @@ export class MetaDispatcher {
      */
     updateWithCategory(category: Category, dispatch: Dispatch): void {
         const meta = this._getCategoryMeta(category);
+
         dispatch(updateMeta(meta));
     }
 
@@ -39,6 +40,7 @@ export class MetaDispatcher {
      */
     updateWithProduct(product: ProductMeta, dispatch: Dispatch): void {
         const meta = this._getProductMeta(product);
+
         dispatch(updateMeta(meta));
     }
 

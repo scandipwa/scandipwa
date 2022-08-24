@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { ComponentType, PureComponent } from 'react';
@@ -45,7 +45,6 @@ export class MyAccountAddressTableContainer<
     Props extends MyAccountAddressTableContainerProps = MyAccountAddressTableContainerProps
 > extends PureComponent<Props> {
     static defaultProps: Partial<MyAccountAddressTableContainerProps> = {
-        showAdditionalFields: false,
         showActions: false,
         mix: {},
         title: ''
@@ -64,7 +63,6 @@ export class MyAccountAddressTableContainer<
             address,
             countries,
             mix,
-            showAdditionalFields,
             showActions,
             title
         } = this.props;
@@ -73,7 +71,6 @@ export class MyAccountAddressTableContainer<
             address,
             countries,
             mix,
-            showAdditionalFields,
             showActions,
             title
         };

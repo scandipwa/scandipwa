@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { FieldContainerProps } from 'Component/Field/Field.type';
@@ -19,6 +19,7 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import MyAccountSignIn from 'Component/MyAccountSignIn';
 import { ReactElement } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import checkoutGuestForm from './CheckoutGuestForm.form';
 import { CheckoutGuestFormComponentProps, CheckoutGuestFormRenderMapItem } from './CheckoutGuestForm.type';
@@ -84,6 +85,15 @@ export class CheckoutGuestForm extends FieldForm<CheckoutGuestFormComponentProps
             range,
             minimunPasswordCharacter
         });
+    }
+
+    getFormProps() {
+        const { formRef, onFormError } = this.props;
+
+        return {
+            elemRef: formRef,
+            onError: onFormError
+        };
     }
 
     renderHeading(): ReactElement {

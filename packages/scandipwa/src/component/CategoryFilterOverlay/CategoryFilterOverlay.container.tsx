@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { ComponentType, PureComponent } from 'react';
@@ -20,6 +20,7 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
+import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
@@ -66,7 +67,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
     };
 
     updateFilter(filterName: string, filterArray: string[]): void {
-        const { location, history } = this.props;
+        const { location } = history;
 
         setQueryParams({
             customFilters: this.getFilterUrl(filterName, filterArray, false),
@@ -79,7 +80,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
     }
 
     getFilterUrl(filterName: string, filterArray: string[], isFull = true): string {
-        const { location: { pathname } } = this.props;
+        const { location: { pathname } } = history;
         const selectedFilters = this._getNewSelectedFiltersString(filterName, filterArray);
         const customFilters = isFull ? `${pathname}?customFilters=` : '';
         const formattedFilters = this._formatSelectedFiltersString(selectedFilters);
@@ -92,7 +93,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
     }
 
     _getSelectedFiltersFromUrl(): Record<string, string[]> {
-        const { location } = this.props;
+        const { location } = history;
         const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
 
         return selectedFiltersString.reduce((acc, filter) => {
@@ -158,9 +159,9 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
             hideActiveOverlay,
             changeHeaderState,
             changeNavigationState,
-            goToPreviousNavigationState,
-            location: { pathname, search }
+            goToPreviousNavigationState
         } = this.props;
+        const { location: { pathname, search } } = history;
 
         changeHeaderState({
             name: Page.FILTER,
@@ -217,7 +218,6 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
 
     containerProps(): Pick<CategoryFilterOverlayComponentProps, CategoryFilterComponentContainerPropsKey> {
         const {
-            renderPlaceholder,
             availableFilters,
             customFiltersValues,
             isCategoryAnchor,
@@ -229,7 +229,6 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
         } = this.props;
 
         return {
-            renderPlaceholder,
             availableFilters,
             isCategoryAnchor,
             isInfoLoading,
@@ -250,7 +249,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
     }
 
     urlStringToObject(): Record<string, string> {
-        const { location: { search } } = this.props;
+        const { location: { search } } = history;
 
         return search.substr(1).split('&').reduce((acc, part) => {
             const [key, value] = part.split('=');
@@ -306,13 +305,4 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
     }
 }
 
-export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(
-        CategoryFilterOverlayContainer as unknown as ComponentType<
-        RouteComponentProps & CategoryFilterOverlayContainerProps
-        >
-    )
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryFilterOverlayContainer);

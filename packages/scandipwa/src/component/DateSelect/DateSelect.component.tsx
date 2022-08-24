@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -42,28 +42,22 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
         const { minYear, maxYear } = this.props;
 
         const yearRange = range(+minYear, +maxYear);
-        return yearRange.map((year) => {
-            const y = String(year);
-            return { id: y, value: y, label: y };
-        });
+
+        return yearRange.map((year) => ({ id: year, value: year, label: year }));
     }
 
     getMonthOptions(): OptionShape[] {
         const monthRange = range(1, +MONTHS_COUNT);
-        return monthRange.map((month) => {
-            const m = String(month);
-            return { id: m, value: m, label: m };
-        });
+
+        return monthRange.map((month) => ({ id: month, value: month, label: month }));
     }
 
     getDayOptions(): OptionShape[] {
         const { maxDay } = this.props;
 
         const dayRange = range(1, +maxDay || DEFAULT_MONTH_DAYS);
-        return dayRange.map((day) => {
-            const d = String(day);
-            return { id: d, value: d, label: d };
-        });
+
+        return dayRange.map((day) => ({ id: day, value: day, label: day }));
     }
 
     getHoursOptions(): OptionShape[] {
@@ -71,6 +65,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
 
         const maxHours = timeFormat === TimeFormat.H12 ? HourFormat.H12 : HourFormat.H24 - 1;
         const hoursRange = range(timeFormat === TimeFormat.H12 ? 1 : 0, maxHours);
+
         return hoursRange.map((hours) => ({
             id: String(hours),
             value: zeroBasedValue(hours),
@@ -80,6 +75,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
 
     getMinutesOptions(): OptionShape[] {
         const minutesRange = range(0, MINUTES_COUNT - 1);
+
         return minutesRange.map((minutes) => ({
             id: String(minutes),
             value: zeroBasedValue(minutes),
@@ -89,6 +85,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
 
     getAMPMOptions(): OptionShape[] {
         const ampmRange = Object.values(AMPM_FORMAT);
+
         return ampmRange.map((option) => ({
             id: option.toString(),
             value: option.toString(),

@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -31,6 +31,7 @@ import {
     trimCheckoutCustomerAddress
 } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
+import scrollToError from 'Util/Form/Form';
 import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import { RootState } from 'Util/Store/Store.type';
@@ -70,6 +71,7 @@ CheckoutBillingContainerProps,
 CheckoutBillingContainerState
 > {
     static defaultProps = {
+        newShippingId: 0,
         termsAreEnabled: false,
         cartTotalSubPrice: null
     };
@@ -96,6 +98,7 @@ CheckoutBillingContainerState
 
     containerFunctions: CheckoutBillingContainerFunctions = {
         onBillingSuccess: this.onBillingSuccess.bind(this),
+        onBillingError: this.onBillingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
         onSameAsShippingChange: this.onSameAsShippingChange.bind(this),
         onPaymentMethodSelect: this.onPaymentMethodSelect.bind(this),
@@ -105,16 +108,36 @@ CheckoutBillingContainerState
     __construct(props: CheckoutBillingContainerProps): void {
         super.__construct?.(props);
 
-        const { paymentMethods, customer } = props;
-        const [method] = paymentMethods;
-        const { code: paymentMethod } = method || {};
+        const { paymentMethods } = props;
 
         this.state = {
-            isSameAsShipping: this.isSameShippingAddress(customer),
+            isSameAsShipping: false,
+            isMounted: false,
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
-            paymentMethod
+            paymentMethod: ''
         };
+    }
+
+    componentDidUpdate(prevState: CheckoutBillingContainerProps): void {
+        const { customer: { default_billing, default_shipping }, newShippingId } = this.props;
+        const { isMounted, isSameAsShipping: currIsSameAsShipping } = this.state;
+        const { prevIsSameAsShipping } = prevState;
+        const isSameAsShipping = this.isSameShippingAddress({ default_billing, default_shipping });
+
+        // default billing & shipping are undefined on initial mount
+        // wait until they become assigned to real values
+        // then check for isSameAsShipping condition
+        if (!isMounted && default_billing) {
+            this.setState({ isSameAsShipping, isMounted: true });
+        }
+
+        if (prevIsSameAsShipping !== currIsSameAsShipping && currIsSameAsShipping) {
+            this.onAddressSelect(
+                // if the user selected a shipping address different from default
+                newShippingId > 0 ? newShippingId : default_shipping
+            );
+        }
     }
 
     containerProps(): Pick<CheckoutBillingComponentProps, CheckoutBillingContainerPropsKeys>{
@@ -128,7 +151,7 @@ CheckoutBillingContainerState
             termsAreEnabled,
             totals
         } = this.props;
-        const { isSameAsShipping } = this.state;
+        const { isSameAsShipping, paymentMethod } = this.state;
 
         return {
             cartTotalSubPrice,
@@ -139,28 +162,36 @@ CheckoutBillingContainerState
             setLoading,
             termsAndConditions,
             termsAreEnabled,
-            totals
+            totals,
+            paymentMethod
         };
     }
 
-    isSameShippingAddress({ default_billing, default_shipping }: Partial<Customer>): boolean {
+    isSameShippingAddress({
+        default_shipping,
+        default_billing
+    }: Partial<Customer>): boolean {
         const {
             totals: { is_virtual },
             selectedShippingMethod,
-            newShippingId,
-            newShippingStreet
+            newShippingId
         } = this.props;
 
         if (is_virtual) {
             return false;
         }
 
-        return (
-            (!newShippingId && !newShippingStreet.length && default_billing === default_shipping)
-            || (default_billing && parseInt(default_billing, 10) === newShippingId)
-            || (!default_billing)
-        )
-            && selectedShippingMethod !== StoreInPickUpCode.METHOD_CODE;
+        if (selectedShippingMethod === StoreInPickUpCode.METHOD_CODE) {
+            return false;
+        }
+
+        // if the user selected a shipping address different from default
+        if (newShippingId > 0) {
+            return newShippingId === parseInt(default_billing, 10);
+        }
+
+        // otherwise use the default values
+        return default_shipping === default_billing;
     }
 
     onAddressSelect(id: number): void {
@@ -175,18 +206,25 @@ CheckoutBillingContainerState
         this.setState({ paymentMethod: code });
     }
 
-    onBillingSuccess(form: HTMLFormElement, fields: FieldData[]): void {
-        const { savePaymentInformation } = this.props;
-        const { isSameAsShipping } = this.state;
+    onBillingError(_, fields, validation) {
+        const { onChangeEmailRequired } = this.props;
+
+        onChangeEmailRequired();
+        scrollToError(fields, validation);
+    }
+
+    onBillingSuccess(form: HTMLFormElement, fields: FieldData[], asyncData): void {
+        const { savePaymentInformation, onChangeEmailRequired } = this.props;
 
         const extractedFields = transformToNameValuePair<Record<string, unknown>>(fields);
         const address = this._getAddress(extractedFields);
         const paymentMethod = this._getPaymentData(extractedFields);
 
+        onChangeEmailRequired();
+
         savePaymentInformation({
             billing_address: address,
-            paymentMethod,
-            same_as_shipping: isSameAsShipping
+            paymentMethod
         });
     }
 

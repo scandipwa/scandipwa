@@ -16,14 +16,27 @@ import { Dispatch } from 'redux';
 import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { ShippingMethod } from 'Query/Checkout.type';
 import StoreInPickUpQuery from 'Query/StoreInPickUp.query';
+<<<<<<< HEAD:packages/scandipwa/src/component/StoreInPickUpPopup/StoreInPickUpPopup.container.tsx
 import { Store } from 'Query/StoreInPickUp.type';
+=======
+import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/StoreInPickUpPopup/StoreInPickUpPopup.container.js
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
+<<<<<<< HEAD:packages/scandipwa/src/component/StoreInPickUpPopup/StoreInPickUpPopup.container.tsx
 import { ReactElement } from 'Type/Common.type';
 import { GQLCountryCodeEnum } from 'Type/Graphql.type';
 import { checkIfStoreIncluded, transformCountriesToOptions } from 'Util/Address';
+=======
+import { Addresstype } from 'Type/Account.type';
+import { ShippingMethodsType, StoreType } from 'Type/Checkout.type';
+import { CountriesType } from 'Type/Config.type';
+import { NavigationStateHistoryType } from 'Type/Router.type';
+import { checkIfStoreIncluded } from 'Util/Address';
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/StoreInPickUpPopup/StoreInPickUpPopup.container.js
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -44,22 +57,51 @@ import {
 export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpPopupContainerDispatchProps => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    clearPickUpStore: () => dispatch(clearPickUpStore())
+    clearPickUpStore: () => dispatch(clearPickUpStore()),
+    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container/mapStateToProps */
+<<<<<<< HEAD:packages/scandipwa/src/component/StoreInPickUpPopup/StoreInPickUpPopup.container.tsx
 export const mapStateToProps = (state: RootState): StoreInPickUpPopupContainerMapStateProps => ({
+=======
+export const mapStateToProps = (state) => ({
+    navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/StoreInPickUpPopup/StoreInPickUpPopup.container.js
     countries: transformCountriesToOptions(state.ConfigReducer.countries),
     defaultCountry: state.ConfigReducer.default_country,
     selectedStore: state.StoreInPickUpReducer.store
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container */
+<<<<<<< HEAD:packages/scandipwa/src/component/StoreInPickUpPopup/StoreInPickUpPopup.container.tsx
 export class StoreInPickUpPopupContainer extends PureComponent<
 StoreInPickUpPopupContainerProps,
 StoreInPickUpPopupContainerState
 > {
     static defaultProps: Partial<StoreInPickUpPopupContainerProps> = {
+=======
+export class StoreInPickUpContainer extends PureComponent {
+    static propTypes = {
+        countries: CountriesType.isRequired,
+        countryId: PropTypes.string.isRequired,
+        estimateAddress: Addresstype.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired,
+        onShippingMethodSelect: PropTypes.func.isRequired,
+        onStoreSelect: PropTypes.func.isRequired,
+        setSelectedStore: PropTypes.func.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        defaultCountry: PropTypes.string.isRequired,
+        cartItemsSku: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+        clearPickUpStore: PropTypes.func.isRequired,
+        selectedStore: StoreType,
+        goToPreviousNavigationState: PropTypes.func.isRequired,
+        navigationState: NavigationStateHistoryType.isRequired
+    };
+
+    static defaultProps = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/StoreInPickUpPopup/StoreInPickUpPopup.container.js
         selectedStore: null
     };
 
@@ -139,11 +181,29 @@ StoreInPickUpPopupContainerState
         this.setState({ stores: [] });
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/StoreInPickUpPopup/StoreInPickUpPopup.container.tsx
     selectStore(store: Store): void {
+=======
+    closeOverlay() {
+        const {
+            hideActiveOverlay,
+            goToPreviousNavigationState,
+            navigationState: { onCloseClick } = {}
+        } = this.props;
+
+        if (onCloseClick) {
+            onCloseClick();
+        }
+
+        hideActiveOverlay();
+        goToPreviousNavigationState();
+    }
+
+    selectStore(store) {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/StoreInPickUpPopup/StoreInPickUpPopup.container.js
         const {
             onStoreSelect,
             onShippingMethodSelect,
-            hideActiveOverlay,
             setSelectedStore,
             countryId
         } = this.props;
@@ -155,12 +215,17 @@ StoreInPickUpPopupContainerState
 
         onStoreSelect(updateStore);
         setSelectedStore(store);
+<<<<<<< HEAD:packages/scandipwa/src/component/StoreInPickUpPopup/StoreInPickUpPopup.container.tsx
 
         if (method) {
             onShippingMethodSelect(method);
         }
 
         hideActiveOverlay();
+=======
+        onShippingMethodSelect(method);
+        this.closeOverlay();
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/StoreInPickUpPopup/StoreInPickUpPopup.container.js
     }
 
     getShippingMethod(): ShippingMethod | undefined {

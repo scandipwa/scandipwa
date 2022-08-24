@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -87,7 +87,7 @@ MyAccountAddressPopupContainerState
         return { isLoading, payload };
     }
 
-    async handleAfterAction(): Promise<void> {
+    async handleAfterAction(status, operation): Promise<void> {
         const {
             hideActiveOverlay,
             updateCustomerDetails,
@@ -101,6 +101,7 @@ MyAccountAddressPopupContainerState
                 hideActiveOverlay();
                 goToPreviousHeaderState();
             });
+            this.showAddressNotification(status, operation);
         } catch (e) {
             showErrorNotification(e as NetworkError | NetworkError[]);
         }
@@ -108,12 +109,14 @@ MyAccountAddressPopupContainerState
 
     handleError(error: NetworkError | NetworkError[]): void {
         const { showErrorNotification } = this.props;
+
         showErrorNotification(error);
         this.setState({ isLoading: false });
     }
 
     handleAddress(address: GQLCustomerAddressInput): Promise<void> {
         const { payload: { address: { id } } } = this.props;
+
         this.setState({ isLoading: true });
 
         if (id) {
@@ -123,8 +126,25 @@ MyAccountAddressPopupContainerState
         return this.handleCreateAddress(address);
     }
 
-    async handleEditAddress(address: GQLCustomerAddressInput): Promise<void> {
+    async handleEditAddress(address: GQLCustomerAddressInput, operation): Promise<void> {
+        const { showSuccessNotification, showErrorNotification } = this.props;
+        const message = __('You %s the address', operation).toString();
+
+        switch (status) {
+        case 'success':
+            showSuccessNotification(message);
+            break;
+        case 'error':
+            showErrorNotification(message);
+            break;
+        default:
+            break;
+        }
+    }
+
+    async handleEditAddress(address) {
         const { payload: { address: { id } } } = this.props;
+
         const query = MyAccountQuery.getUpdateAddressMutation(id, address);
 
         if (!isSignedIn()) {
@@ -133,7 +153,7 @@ MyAccountAddressPopupContainerState
 
         try {
             await fetchMutation(query);
-            this.handleAfterAction();
+            this.handleAfterAction('success', 'edited');
         } catch (e) {
             this.handleError(e as NetworkError | NetworkError[]);
         }
@@ -151,7 +171,7 @@ MyAccountAddressPopupContainerState
 
         try {
             await fetchMutation(query);
-            this.handleAfterAction();
+            this.handleAfterAction('success', 'deleted');
         } catch (e) {
             this.handleError(e as NetworkError | NetworkError[]);
         }
@@ -166,7 +186,7 @@ MyAccountAddressPopupContainerState
 
         try {
             await fetchMutation(query);
-            this.handleAfterAction();
+            this.handleAfterAction('success', 'saved');
         } catch (e) {
             this.handleError(e as NetworkError | NetworkError[]);
         }

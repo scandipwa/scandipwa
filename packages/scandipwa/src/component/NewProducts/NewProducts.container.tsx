@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -164,7 +164,12 @@ export class NewProductsContainer extends PureComponent<NewProductsContainerProp
         };
 
         const query = [ProductListQuery.getQuery(options)];
+<<<<<<< HEAD:packages/scandipwa/src/component/NewProducts/NewProducts.container.tsx
         executeGet<{ products: ProductsQueryOutput }>(prepareQuery(query), 'NewProducts', cacheLifetime)
+=======
+
+        executeGet(prepareQuery(query), 'NewProducts', cacheLifetime)
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/NewProducts/NewProducts.container.js
             .then(
                 /** @namespace Component/NewProducts/Container/NewProductsContainer/requestProducts/then/catch/executeGet/then */
                 ({ products: { items } }) => this.setState({ products: getIndexedProducts(items) })

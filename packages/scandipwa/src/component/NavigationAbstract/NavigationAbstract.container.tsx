@@ -5,7 +5,11 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+<<<<<<< HEAD:packages/scandipwa/src/component/NavigationAbstract/NavigationAbstract.container.tsx
+ * @package scandipwa/scandipwa
+=======
+ * @package scandipwa/scandipwa
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/NavigationAbstract/NavigationAbstract.container.js
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -56,6 +60,7 @@ State extends NavigationAbstractContainerState
 
     componentDidMount(): void {
         const { setNavigationState } = this.props;
+
         setNavigationState(this.getNavigationState());
         history.listen((history) => {
             this.handlePageScroll();

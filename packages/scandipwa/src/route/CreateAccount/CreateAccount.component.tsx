@@ -5,11 +5,9 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
-
-import { withRouter } from 'react-router-dom';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
@@ -96,6 +94,5 @@ export class CreateAccountComponent extends MyAccountOverlay<CreateAccountCompon
         );
     }
 }
-export default withRouter(
-    CreateAccountComponent
-);
+
+export default CreateAccountComponent;

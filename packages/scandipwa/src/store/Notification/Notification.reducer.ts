@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Reducer } from 'redux';
@@ -31,8 +31,14 @@ export const NotificationReducer: Reducer<NotificationStore, NotificationAction>
     const notifications = { ...state.notifications };
 
     switch (action.type) {
+<<<<<<< HEAD:packages/scandipwa/src/store/Notification/Notification.reducer.ts
     case NotificationActionType.SHOW_NOTIFICATION:
         const { msgType = NotificationType.INFO, msgText = '', msgDebug } = action;
+=======
+    case SHOW_NOTIFICATION:
+        const { msgType, msgText, msgDebug } = action;
+
+>>>>>>> scandipwa/master:packages/scandipwa/src/store/Notification/Notification.reducer.js
         notifications[Date.now()] = { msgType, msgText, msgDebug };
 
         return {

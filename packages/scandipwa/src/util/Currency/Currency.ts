@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -42,4 +42,32 @@ export const getCurrency = (): string => {
     const currency = BrowserDatabase.getItem(CUR_CURRENCY);
 
     return (typeof currency === 'string') ? currency : '';
+};
+
+/**
+ *
+ * @param {object} currencyData
+ * @param {object} currencyRates
+ * @returns {object} filtered currencyData object and currency (rates) object
+ * @namespace Util/Currency/returnFilteredCurrencies
+ */
+export const returnFilteredCurrencies = (currencyData, currencyRates) => {
+    if (
+        currencyData?.available_currencies_data?.length < 1 || currencyRates?.exchange_rates?.length < 1) {
+        return ({ currencyData, currencyRates });
+    }
+
+    const { available_currencies_data: availableCurrencies = [] } = currencyData;
+    const { base_curreny_code: base, exchange_rates: rates = [] } = currencyRates;
+
+    return ({
+        currencyData: {
+            ...currencyData,
+            available_currencies_data:
+                availableCurrencies.filter(({ value }) => (
+                    value === base || rates?.find(({ currency_to }) => currency_to === value)?.rate > 0
+                ))
+        },
+        currency: currencyRates
+    });
 };

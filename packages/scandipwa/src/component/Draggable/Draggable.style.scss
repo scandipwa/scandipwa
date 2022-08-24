@@ -5,15 +5,15 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 .Draggable {
     user-select: none; // because it selects text when dragged
     -webkit-user-drag: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    background-color: var(--imported_secondary_light_color, white);
+    background-color: var(--color-white);
     touch-action: pan-y;
     backface-visibility: hidden;
     overscroll-behavior: contain;

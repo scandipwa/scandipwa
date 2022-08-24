@@ -5,10 +5,11 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
+<<<<<<< HEAD:packages/scandipwa/src/util/Address/index.ts
 import { CustomerAddress } from 'Query/MyAccount.type';
 import { OrderAddress } from 'Query/Order.type';
 import { Country, Region } from 'Query/Region.type';
@@ -17,6 +18,9 @@ import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
 import { GQLCountryCodeEnum, GQLCustomerAddressInput } from 'Type/Graphql.type';
 
 import { CountryOption, FormattedRegion, ZippopotamResponseResult } from './Address.type';
+=======
+import getStore from 'Util/Store';
+>>>>>>> scandipwa/master:packages/scandipwa/src/util/Address/index.js
 
 /** @namespace Util/Address/Index/trimCustomerAddress */
 export const trimCustomerAddress = (customerAddress: Partial<CustomerAddress>): GQLCustomerAddressInput => {
@@ -276,6 +280,17 @@ export const getRegionIdFromAvailableRegions = (
     const { region, regionAbbr } = cityAndRegion;
     const { id: regionId = 1 } = availableRegions.find(
         ({ name, code }) => name === region || code === regionAbbr
+    ) || {};
+
+    return regionId;
+};
+
+/** @namespace Util/Address/Index/getRegionIdOfRegionName */
+export const getRegionIdOfRegionName = (countryId, region) => {
+    const countries = getStore().getState().ConfigReducer.countries || [];
+    const availableRegions = getAvailableRegions(countryId, countries) || [];
+    const { id: regionId = 0 } = availableRegions.find(
+        ({ name }) => name === region
     ) || {};
 
     return regionId;

@@ -5,18 +5,24 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
 
 import { ProductType } from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductPrice/ProductPrice.component.tsx
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { FormattedMoney } from 'Util/Product/Product.type';
+=======
+import { MixType } from 'Type/Common.type';
+import { OriginalPriceType, ProductPriceType, TierPriceType } from 'Type/Price.type';
+import { PriceConfiguration } from 'Type/ProductList.type';
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductPrice/ProductPrice.component.js
 
 import { DisplayProductPricesInCatalog } from './ProductPrice.config';
 import { CurrencySchema, PriceSchema, ProductPriceComponentProps } from './ProductPrice.type';
@@ -28,8 +34,29 @@ import './ProductPrice.style';
  * @class ProductPrice
  * @namespace Component/ProductPrice/Component
  */
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductPrice/ProductPrice.component.tsx
 export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
     static defaultProps: Partial<ProductPriceComponentProps> = {
+=======
+export class ProductPrice extends PureComponent {
+    static propTypes = {
+        price: ProductPriceType,
+        priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
+        originalPrice: OriginalPriceType,
+        tierPrice: TierPriceType,
+        configuration: PriceConfiguration,
+        priceCurrency: PropTypes.string,
+        discountPercentage: PropTypes.number,
+        isPreview: PropTypes.bool,
+        isSchemaRequired: PropTypes.bool,
+        label: PropTypes.string,
+        variantsCount: PropTypes.number,
+        mix: MixType,
+        displayTaxInPrice: PropTypes.string
+    };
+
+    static defaultProps = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductPrice/ProductPrice.component.js
         price: {},
         priceType: ProductType.SIMPLE,
         originalPrice: {},
@@ -39,7 +66,7 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
         isSchemaRequired: false,
         variantsCount: 0,
         mix: {},
-        tierPrice: '',
+        tierPrice: {},
         label: '',
         configuration: {},
         displayTaxInPrice: DisplayProductPricesInCatalog.INCL_TAX
@@ -115,9 +142,7 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
-        // force unequal comparison - unsure of resulting type
-        // eslint-disable-next-line
-        if (priceValue == 0) {
+        if ((!priceValue && priceValue !== 0)) {
             return null;
         }
 
@@ -150,7 +175,7 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
             valueFormatted: priceExclTaxFormatted = 0
         } = price;
 
-        if (!priceExclTax) {
+        if (!priceExclTax && priceExclTax !== 0) {
             return null;
         }
 
@@ -384,22 +409,25 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
 
     renderTierPrice(): ReactElement {
         const {
-            tierPrice,
+            tierPrice: {
+                valueFormatted: tierPriceFormatted,
+                value: tierPriceValue
+            },
             price: {
                 finalPrice: {
-                    valueFormatted = 0
+                    value
                 } = {}
             } = {}
         } = this.props;
 
-        if (!tierPrice || tierPrice === valueFormatted) {
+        if (!tierPriceFormatted || tierPriceValue >= value) {
             return null;
         }
 
         return (
             <p block="ProductPrice" elem="TierPrice">
                 { __('As low as') }
-                <strong>{ ` ${tierPrice}` }</strong>
+                <strong>{ ` ${tierPriceFormatted}` }</strong>
             </p>
         );
     }

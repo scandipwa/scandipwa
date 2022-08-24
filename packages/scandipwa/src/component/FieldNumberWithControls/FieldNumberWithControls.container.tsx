@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -14,19 +14,19 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Product.type';
 
-import FieldNumber from './FieldNumber.component';
+import FieldNumberWithControls from './FieldNumberWithControls.component';
 import {
     FieldNumberComponentProps,
     FieldNumberContainerFunctions,
     FieldNumberContainerProps,
     FieldNumberContainerPropsKeys,
     FieldNumberContainerState
-} from './FieldNumber.type';
+} from './FieldNumberWithControls.type';
 
 /**
- * Field Number
- * @class FieldNumberContainer
- * @namespace Component/FieldNumber/Container */
+ * Field Number With Controls
+ * @class FieldNumberWithControlsContainer
+ * @namespace Component/FieldNumberWithControls/Container */
 export class FieldNumberContainer extends PureComponent<FieldNumberContainerProps, FieldNumberContainerState>{
     state: FieldNumberContainerState = {
         value: 0
@@ -42,31 +42,26 @@ export class FieldNumberContainer extends PureComponent<FieldNumberContainerProp
     componentDidMount(): void {
         const { attr: { defaultValue = 0 } } = this.props;
 
-        if (typeof defaultValue === 'string' && typeof defaultValue === 'number') {
-            this.handleInitialLoad(defaultValue);
-        }
+        this.handleInitialLoad(defaultValue);
     }
 
     componentDidUpdate(prevProps: FieldNumberContainerProps): void {
-        const { attr: { value, defaultValue = 0 } = {} } = this.props;
-        const { attr: { value: prevValue, defaultValue: prevDefaultValue } = {} } = prevProps;
+        const { attr: { min, defaultValue = min } = {} } = this.props;
+        const { attr: { defaultValue: prevDefaultValue } = {} } = prevProps;
 
-        if (defaultValue !== prevDefaultValue
-            && typeof defaultValue === 'string'
-            && typeof defaultValue === 'number') {
-            this.handleInitialLoad(defaultValue);
+        if (defaultValue <= 0 || prevDefaultValue <= 0) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ value: min });
         }
 
-        if (value !== prevValue
-            && typeof value === 'string'
-            && typeof value === 'number') {
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ value });
+        if (defaultValue < min) {
+            this.handleInitialLoad(min);
         }
     }
 
     setRef(elem: HTMLInputElement | null): void {
         const { setRef } = this.props;
+
         setRef(elem);
 
         if (elem && this.fieldRef !== elem) {
@@ -79,17 +74,19 @@ export class FieldNumberContainer extends PureComponent<FieldNumberContainerProp
             attr: { min = 0, max = DEFAULT_MAX_PRODUCTS } = {}
         } = this.props;
 
-        // eslint-disable-next-line no-nested-ternary
-        const rangedValue = value < min ? min : value > max ? max : value;
+        const { value: stateValue } = this.state;
 
-        if (!this.fieldRef) {
-            return 0;
+        // eslint-disable-next-line no-nested-ternary
+        const rangedValue = value <= min ? min : value > max ? max : value;
+
+        if (stateValue >= 0) {
+            this.fieldRef.value = value;
+            this.setState({ value: rangedValue });
+
+            return rangedValue;
         }
 
-        this.fieldRef.value = String(value);
-        this.setState({ value: rangedValue });
-
-        return rangedValue;
+        return null;
     }
 
     handleInitialLoad(value: number | string): void {
@@ -119,9 +116,12 @@ export class FieldNumberContainer extends PureComponent<FieldNumberContainerProp
     containerProps(): Pick<FieldNumberComponentProps, FieldNumberContainerPropsKeys> {
         const {
             attr: {
+                autoComplete,
+                autocomplete,
                 defaultValue,
                 ...attr
             } = {},
+            value,
             events,
             isDisabled
         } = this.props;
@@ -129,16 +129,20 @@ export class FieldNumberContainer extends PureComponent<FieldNumberContainerProp
         const { value: stateValue } = this.state;
 
         return {
-            attr,
+            attr: {
+                ...attr,
+                autoComplete: autoComplete || autocomplete
+            },
+            value,
             events,
             isDisabled,
-            value: stateValue
+            stateValue
         };
     }
 
     render(): ReactElement {
         return (
-            <FieldNumber
+            <FieldNumberWithControls
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />
@@ -146,4 +150,4 @@ export class FieldNumberContainer extends PureComponent<FieldNumberContainerProp
     }
 }
 
-export default FieldNumber;
+export default FieldNumberWithControls;

@@ -7,8 +7,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import {
@@ -22,6 +22,7 @@ import ChevronIcon from 'Component/ChevronIcon';
 import { Directions } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
 import CloseIcon from 'Component/CloseIcon';
+import CmsBlock from 'Component/CmsBlock';
 import CompareIcon from 'Component/CompareIcon';
 import CurrencySwitcher from 'Component/CurrencySwitcher';
 import ExclamationMarkIcon from 'Component/ExclamationMarkIcon';
@@ -267,8 +268,13 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
     renderShareWishListButton(isVisible = false): ReactElement {
         const {
             isWishlistLoading,
-            shareWishlist
+            shareWishlist,
+            productsInWishlist
         } = this.props;
+
+        if (!Object.keys(productsInWishlist).length) {
+            return null;
+        }
 
         return (
             <button
@@ -489,9 +495,9 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
     }
 
     renderMinicartItemsQty(): ReactElement {
-        const { cartTotals: { items_qty } } = this.props;
+        const { cartTotals: { total_quantity } } = this.props;
 
-        if (!items_qty) {
+        if (!total_quantity) {
             return null;
         }
 
@@ -501,7 +507,7 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
               block="Header"
               elem="MinicartItemCount"
             >
-                { items_qty }
+                { total_quantity }
             </span>
         );
     }
@@ -654,22 +660,36 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
         return (
             <div block="Header" elem="TopMenu">
                 <div block="Header" elem="News">
-                    <ExclamationMarkIcon />
-                    <span>{ __('Check new arrivals') }</span>
-                    <Link
-                      to="/"
-                      key="news"
-                      block="Header"
-                      elem="NewsButton"
-                    >
-                        { __('here!') }
-                    </Link>
+                    { this.renderCMSBlock() }
                 </div>
                 <div block="Header" elem="Switcher">
                     <CurrencySwitcher />
                     <StoreSwitcher />
                 </div>
             </div>
+        );
+    }
+
+    renderCMSBlock(): ReactElement {
+        const { header_content: { contacts_cms } = {} } = window.contentConfiguration;
+
+        if (contacts_cms) {
+            return <CmsBlock identifier={ contacts_cms } />;
+        }
+
+        return (
+            <>
+                <ExclamationMarkIcon />
+                <span>{ __('Check new arrivals') }</span>
+                <Link
+                  to="/"
+                  key="news"
+                  block="Header"
+                  elem="NewsButton"
+                >
+                    { __('here!') }
+                </Link>
+            </>
         );
     }
 

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -104,7 +104,7 @@ export class GroupedProductsItem extends PureComponent<GroupedProductsItemCompon
 
         return (
             <FieldContainer
-              type={ FieldType.NUMBER }
+              type={ FieldType.NUMBER_WITH_CONTROLS }
               attr={ {
                   id: `item_qty_${id}`,
                   name: `item_qty_${id}`,
@@ -113,6 +113,7 @@ export class GroupedProductsItem extends PureComponent<GroupedProductsItemCompon
                   min: 0,
                   max
               } }
+              value={ itemCount }
               validationRule={ {
                   inputType: ValidationInputTypeNumber.NUMERIC,
                   isRequired: true,

@@ -5,13 +5,14 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
+import { ORDER_ID } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
@@ -42,12 +43,15 @@ export class CheckoutSuccess extends PureComponent<CheckoutSuccessComponentProps
             isEmailAvailable,
             email,
             firstName,
-            lastName
+            lastName,
+            orderID
         } = this.props;
 
         if (!isEmailAvailable || isSignedIn()) {
             return null;
         }
+
+        sessionStorage.setItem(ORDER_ID, orderID);
 
         return (
             <div block="CheckoutRegistrationLink">
@@ -63,7 +67,8 @@ export class CheckoutSuccess extends PureComponent<CheckoutSuccessComponentProps
                       state: {
                           firstName,
                           lastName,
-                          email
+                          email,
+                          orderID
                       }
                   } }
                   block="Button"

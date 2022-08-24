@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { connect } from 'react-redux';
@@ -72,6 +72,7 @@ CategoryConfigurableAttributesContainerProps
 
     getCategorySubCategories(): string[] {
         const { childrenCategories } = this.props;
+
         return childrenCategories.map(({ id }) => id.toString());
     }
 
@@ -83,6 +84,7 @@ CategoryConfigurableAttributesContainerProps
         if (!isSearchPage) {
             const categoryItemsIds = this.getCategorySubCategories();
             const subCategoriesIds = attribute_values.filter((item) => categoryItemsIds.includes(item));
+
             optionWithSubcategories.attribute_values = subCategoriesIds;
         }
 

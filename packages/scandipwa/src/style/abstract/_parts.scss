@@ -43,3 +43,22 @@
         @content
     }
 }
+
+@mixin mobile-bottom-wrapper {
+    @include mobile {
+        @content;
+
+        border-block-start: 1px solid var(--primary-divider-color);
+        position: fixed;
+        inset-inline-start: 0;
+        width: 100%;
+        z-index: 85;
+        background-color: var(--color-white);
+        padding-block-end: var(--footer-total-height);
+        transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
+
+        .hideOnScroll & {
+            transform: translateY(var(--footer-nav-height));
+        }
+    }
+}

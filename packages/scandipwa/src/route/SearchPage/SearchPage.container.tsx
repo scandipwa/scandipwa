@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -25,6 +25,7 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { ReactElement } from 'Type/Common.type';
 import { decodeString, noopFn } from 'Util/Common';
 import { withReducers } from 'Util/DynamicReducer';
+import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
@@ -91,6 +92,7 @@ SearchPageContainerState
 
     updateMeta(): void {
         const { updateMeta } = this.props;
+
         updateMeta({ title: __('Search') });
     }
 
@@ -108,8 +110,7 @@ SearchPageContainerState
 
     updateHeaderState(): void {
         const {
-            changeHeaderState,
-            history
+            changeHeaderState
         } = this.props;
 
         const { category } = history?.location?.state || {};

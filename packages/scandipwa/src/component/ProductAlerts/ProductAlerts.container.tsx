@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -80,7 +80,12 @@ export class ProductAlertsContainer extends PureComponent<ProductAlertsContainer
         } = this.props;
 
         if (!isSignedIn) {
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductAlerts/ProductAlerts.container.tsx
             showNotification(NotificationType.INFO, __('Please sign in to subscribe for notification'));
+=======
+            showNotification('info', __('Please sign in to subscribe for notification'));
+
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductAlerts/ProductAlerts.container.js
             return;
         }
 

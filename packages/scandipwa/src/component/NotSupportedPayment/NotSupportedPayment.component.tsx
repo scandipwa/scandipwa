@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -21,7 +21,12 @@ import './NotSupportedPayment.style';
 export class NotSupportedPayment extends PureComponent<NotSupportedPaymentComponentProps> {
     componentDidMount(): void {
         const { disableButton } = this.props;
+<<<<<<< HEAD:packages/scandipwa/src/component/NotSupportedPayment/NotSupportedPayment.component.tsx
         disableButton(true);
+=======
+
+        disableButton();
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/NotSupportedPayment/NotSupportedPayment.component.js
     }
 
     render(): ReactElement {

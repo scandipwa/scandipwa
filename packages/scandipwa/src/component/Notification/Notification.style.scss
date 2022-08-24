@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
@@ -58,6 +58,11 @@
         font-weight: bold;
         margin-inline-end: 40px;
         margin-block-end: 0;
+
+        a {
+            color: var(--color-white);
+            text-decoration: underline;
+        }
     }
 
     &-Debug {
@@ -115,15 +120,7 @@
         }
     }
 
-    &_is {
-        &_opening {
-            animation: fadeInStart var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
-        }
-
-        &_closing {
-            animation: fadeOutStart var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
-        }
-    }
+    
 
     &_type {
         &_error {

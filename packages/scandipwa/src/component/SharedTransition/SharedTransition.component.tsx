@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { createRef, PureComponent } from 'react';
@@ -70,11 +70,18 @@ export class SharedTransition extends PureComponent<SharedTransitionComponentPro
         const { current: wrapper } = this.sharedContainer;
         const { cleanUpTransition } = this.props;
 
+<<<<<<< HEAD:packages/scandipwa/src/component/SharedTransition/SharedTransition.component.tsx
         if (wrapper) {
             const range = document.createRange();
             range.selectNodeContents(wrapper);
             range.deleteContents();
         }
+=======
+        const range = document.createRange();
+
+        range.selectNodeContents(wrapper);
+        range.deleteContents();
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/SharedTransition/SharedTransition.component.js
 
         this.transitionInAction = false;
         cleanUpTransition();

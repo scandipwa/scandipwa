@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -73,10 +73,15 @@ export class ProductInformation extends PureComponent<ProductInformationComponen
         }
 
         // check if at least one HTML element has content
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductInformation/ProductInformation.component.tsx
         const elementsWithContent = Array.from(
             document.body.children as HTMLCollectionOf<HTMLElement>
         ).filter(
             (element) => element.innerText !== '' || element.nodeName === 'IMG'
+=======
+        const elementsWithContent = Array.from(document.body.children).filter(
+            (element) => element.innerHTML !== '' || element.nodeName === 'IMG'
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductInformation/ProductInformation.component.js
         );
 
         return elementsWithContent.length === 0;

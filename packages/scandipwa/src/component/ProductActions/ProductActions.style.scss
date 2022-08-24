@@ -5,32 +5,11 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
-@keyframes shake {
-    10%,
-    90% {
-        transform: translate3d(-1px, 0, 0);
-    }
 
-    20%,
-    80% {
-        transform: translate3d(2px, 0, 0);
-    }
-
-    30%,
-    50%,
-    70% {
-        transform: translate3d(-4px, 0, 0);
-    }
-
-    40%,
-    60% {
-        transform: translate3d(4px, 0, 0);
-    }
-}
 
 .ProductActions {
     line-height: 16px;
@@ -48,6 +27,7 @@
 
     &-Title {
         margin-block: 8px;
+        text-transform: none;
 
         @include mobile {
             font-weight: 400;
@@ -59,15 +39,28 @@
         @include description-tags {
             line-height: 20px;
         }
-        
+
         font-size: 14px;
         margin-block: 16px;
         line-height: 20px;
 
-        div[itemprop="description"] li::before {
-            position: relative;
-            margin-inline-end: 10px;
-            inset-block-start: -1px;
+        div[itemprop="description"] {
+            word-break: break-word;
+        }
+
+        div[itemprop="description"] ul,
+        div[itemprop="description"] ol {
+            padding-inline-start: 20px;
+
+            li {
+                font-family: 'Open Sans', sans-serif;
+                list-style-position: inside;
+                list-style-type: inherit;
+
+                &::before {
+                    display: none;
+                }
+            }
         }
     }
 
@@ -163,6 +156,10 @@
         @include desktop {
             margin-block-start: 24px;
         }
+
+        .TextPlaceholder {
+            line-height: 30px;
+        }
     }
 
     &-ActionButtons {
@@ -203,15 +200,11 @@
     }
 
     &-AddToCartFixed {
-        position: fixed;
-        inset-block-end: var(--footer-total-height);
-        z-index: 5;
-        background-color: var(--color-white);
-        width: 100%;
-        display: flex;
-        padding: 12px 16px;
-        border-block-start: 1px solid var(--primary-divider-color);
-        inset-inline-start: 0;
+        @include mobile-bottom-wrapper {
+            padding: 12px 16px;
+            inset-block-end: 16px;
+            display: flex;
+        }
 
         .ProductWishlistButton {
             margin-inline: 18px 4px;
@@ -221,17 +214,13 @@
         .Field {
             &-Wrapper {
                 &_type {
-                    &_number {
+                    &_numberWithControls {
                         @include mobile {
                             display: flex;
                         }
                     }
                 }
             }
-        }
-
-        .hideOnScroll & {
-            transform: translateY(var(--footer-nav-height));
         }
     }
 
@@ -296,8 +285,14 @@
                 cursor: default;
             }
 
-            &:hover {
+            &:active {
                 border-color: var(--primary-dark-color);
+            }
+
+            @include hoverable {
+                &:hover {
+                    border-color: var(--primary-dark-color);
+                }
             }
         }
     }

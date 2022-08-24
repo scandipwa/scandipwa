@@ -5,13 +5,14 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
 
 import { ShippingMethod } from 'Query/Checkout.type';
+import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { ReactElement } from 'Type/Common.type';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
@@ -31,36 +32,64 @@ CheckoutDeliveryOptionsContainerState
         selectedShippingMethod: {}
     };
 
-    state: CheckoutDeliveryOptionsContainerState = {
-        isShippingMethodPreSelected: true
-    };
-
     containerFunctions = {
         selectShippingMethod: this.selectShippingMethod.bind(this)
     };
 
+    dataMap = {};
+
+    componentDidMount(): void {
+        if (window.formPortalCollector) {
+            window.formPortalCollector.subscribe(CheckoutSteps.SHIPPING_STEP, this.collectAdditionalData, 'CheckoutDeliveryOptions');
+        }
+    }
+
+    componentWillUnmount(): void {
+        if (window.formPortalCollector) {
+            window.formPortalCollector.unsubscribe(CheckoutSteps.SHIPPING_STEP, 'CheckoutDeliveryOptions');
+        }
+    }
+
     containerProps(): Pick<CheckoutDeliveryOptionsComponent, CheckoutDeliveryOptionsContainerPropsKeys> {
         const {
+            estimateAddress,
+            onShippingMethodSelect,
+            onStoreSelect,
             shippingMethods,
             handleSelectDeliveryMethod,
             selectedShippingMethod
         } = this.props;
-        const { isShippingMethodPreSelected } = this.state;
 
         return {
+            estimateAddress,
+            onShippingMethodSelect,
+            onStoreSelect,
             selectedShippingMethod,
             shippingMethods,
-            handleSelectDeliveryMethod,
-            isShippingMethodPreSelected
+            handleSelectDeliveryMethod
         };
     }
 
-    selectShippingMethod(shippingMethod: ShippingMethod): void {
-        const { onShippingMethodSelect } = this.props;
-        const { isShippingMethodPreSelected } = this.state;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    collectAdditionalData(): Record<string, any> {
+        const { selectedShippingMethod: { method_code } } = this.props;
+        const additionalDataGetter = this.dataMap[method_code];
 
-        if (isShippingMethodPreSelected) {
-            this.setState({ isShippingMethodPreSelected: false });
+        if (!additionalDataGetter) {
+            return {};
+        }
+
+        return additionalDataGetter();
+    }
+
+    // eslint-disable-next-line consistent-return
+    selectShippingMethod(shippingMethod: ShippingMethod): void {
+        const { onShippingMethodSelect, handleSelectDeliveryMethod } = this.props;
+
+        if (shippingMethod.method_code === 'pickup') {
+            handleSelectDeliveryMethod();
+
+            return;
         }
 
         onShippingMethodSelect(shippingMethod);
@@ -68,10 +97,10 @@ CheckoutDeliveryOptionsContainerState
 
     render(): ReactElement {
         return (
-            <CheckoutDeliveryOptions
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
-            />
+             <CheckoutDeliveryOptions
+               { ...this.containerProps() }
+               { ...this.containerFunctions }
+             />
         );
     }
 }

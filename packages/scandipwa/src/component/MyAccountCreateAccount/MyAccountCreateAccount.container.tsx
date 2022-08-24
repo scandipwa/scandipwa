@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { ORDER_ID } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CreateAccountOptions } from 'Query/MyAccount.type';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -101,6 +102,7 @@ export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCrea
 
     onError(): void {
         const { showNotification } = this.props;
+
         showNotification(NotificationType.INFO, __('Incorrect data! Please resolve all field validation errors.'));
     }
 
@@ -130,11 +132,15 @@ export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCrea
                 firstname,
                 lastname,
                 email,
-                is_subscribed,
                 taxvat
             },
-            password
+            password,
+            orderID: sessionStorage.getItem(ORDER_ID)
         } as CreateAccountOptions;
+
+        if (is_subscribed) {
+            customerData.customer.is_subscribed = is_subscribed;
+        }
 
         if (isLoading) {
             return;

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -23,11 +23,13 @@ import {
 export class CategorySortContainer extends PureComponent<CategorySortContainerProps> {
     static defaultProps: Partial<CategorySortContainerProps> = {
         sortFields: [],
-        isMatchingInfoFilter: false
+        isMatchingInfoFilter: false,
+        isCurrentCategoryLoaded: false
     };
 
     containerProps(): CategorySortComponentProps {
         const {
+            isCurrentCategoryLoaded,
             isMatchingInfoFilter,
             onSortChange,
             sortDirection,
@@ -35,6 +37,7 @@ export class CategorySortContainer extends PureComponent<CategorySortContainerPr
         } = this.props;
 
         return {
+            isCurrentCategoryLoaded,
             isMatchingInfoFilter,
             onSortChange,
             sortDirection,
@@ -48,6 +51,7 @@ export class CategorySortContainer extends PureComponent<CategorySortContainerPr
 
         // eslint-disable-next-line fp/no-let
         let [label] = pureLabel.split(' ');
+
         label = label.charAt(0).toUpperCase() + label.slice(1);
 
         switch (id) {

@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -62,13 +62,31 @@ MyAccountNewsletterSubscriptionContainerState
     };
 
     __construct(props: MyAccountNewsletterSubscriptionContainerProps): void {
-        const { customer: { is_subscribed } = {} } = props;
+        const { customer, customer: { is_subscribed } = {} } = props;
 
         super.__construct?.(props);
         this.state = {
-            isLoading: false,
+            isLoading: Object.keys(customer).length === 0,
             isSubscriptionSelected: is_subscribed || false
         };
+    }
+
+    componentDidUpdate(prevProps: MyAccountNewsletterSubscriptionContainerProps): void {
+        const {
+            customer: prevCustomer
+        } = prevProps;
+
+        const {
+            customer,
+            customer: { is_subscribed } = {}
+        } = this.props;
+
+        if (Object.keys(prevCustomer).length === 0 && Object.keys(customer).length !== 0) {
+            this.setState({
+                isSubscriptionSelected: is_subscribed,
+                isLoading: false
+            });
+        }
     }
 
     containerProps(): Pick<
@@ -136,6 +154,7 @@ MyAccountNewsletterSubscriptionContainerState
 
         try {
             const { updateCustomerV2: { customer } } = await fetchMutation(mutation);
+
             BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             const { is_subscribed } = customer;
 

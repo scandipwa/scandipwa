@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -123,6 +123,7 @@ export class MyAccountAddressFormContainer <
     getCountry(countryId?: string): CountryOption | undefined {
         const { countries, defaultCountry, address: { country_id: countryIdAddress } = {} } = this.props;
         const countryIdFixed = countryId || countryIdAddress || defaultCountry;
+
         return countries.find(({ value }) => value === countryIdFixed);
     }
 
@@ -215,6 +216,7 @@ export class MyAccountAddressFormContainer <
     onZipcodeChange(event: ChangeEvent<HTMLInputElement>, field?: EventFieldData): void {
         const { value: zipCode = '' } = field || {};
         const { countryId } = this.state;
+
         this.setState({ currentZipcode: zipCode });
         debounce(
             this.handleSetCityAndRegionDependingOnZipcode(

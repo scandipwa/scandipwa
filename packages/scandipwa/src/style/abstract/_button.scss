@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 @mixin button-disabled {
     pointer-events: none;
@@ -113,10 +113,17 @@
         font-weight: normal;
         text-align: start;
 
-        &:hover,
-        &:focus {
+        &:active {
             text-decoration: underline;
             padding: 0;
+        }
+
+        @include hoverable {
+            &:hover,
+            &:focus {
+                text-decoration: underline;
+                padding: 0;
+            }
         }
     }
 }

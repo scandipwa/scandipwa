@@ -5,14 +5,13 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
 
 import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
-import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { ShippingMethod } from 'Query/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
 
@@ -26,29 +25,12 @@ export class CheckoutDeliveryOptions extends PureComponent<CheckoutDeliveryOptio
         selectedShippingMethod: {}
     };
 
-    shippingRenderMap: Record<string, () => ReactElement> = {
-        [StoreInPickUpCode.METHOD_CODE]: this.handleSelectStoreInPickUp.bind(this)
-    };
-
     renderHeading(): ReactElement {
         return (
             <h2 block="Checkout" elem="Heading">
                 { __('Shipping method') }
             </h2>
         );
-    }
-
-    handleSelectStoreInPickUp(): ReactElement {
-        const {
-            handleSelectDeliveryMethod,
-            isShippingMethodPreSelected
-        } = this.props;
-
-        if (!isShippingMethodPreSelected) {
-            handleSelectDeliveryMethod();
-        }
-
-        return null;
     }
 
     renderDeliveryOption(option: ShippingMethod): ReactElement {
@@ -88,17 +70,6 @@ export class CheckoutDeliveryOptions extends PureComponent<CheckoutDeliveryOptio
         return shippingMethods.map(this.renderDeliveryOption.bind(this));
     }
 
-    renderSelectedShippingMethod(): ReactElement {
-        const { selectedShippingMethod: { method_code = '' } = {} } = this.props;
-        const render = this.shippingRenderMap[method_code];
-
-        if (!render) {
-            return null;
-        }
-
-        return render();
-    }
-
     render(): ReactElement {
         return (
             <div block="CheckoutDeliveryOptions">
@@ -106,7 +77,6 @@ export class CheckoutDeliveryOptions extends PureComponent<CheckoutDeliveryOptio
                 <ul>
                     { this.renderShippingMethods() }
                 </ul>
-                { this.renderSelectedShippingMethod() }
             </div>
         );
     }

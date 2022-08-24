@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { AnimationEvent, PureComponent } from 'react';
@@ -29,12 +29,34 @@ import {
 } from './ProductConfigurableAttributes.type';
 
 /** @namespace Component/ProductConfigurableAttributes/Container */
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductConfigurableAttributes/ProductConfigurableAttributes.container.tsx
 export class ProductConfigurableAttributesContainer<
     P extends ProductConfigurableAttributesContainerProps = ProductConfigurableAttributesContainerProps
 > extends PureComponent<P> {
     static defaultProps: Partial<ProductConfigurableAttributesContainerProps> = {
         renderPlaceholder: noopFn as unknown as (block: string) => ReactElement,
         getLink: noopFn as unknown as (filterKey: string, value: string) => string,
+=======
+export class ProductConfigurableAttributesContainer extends PureComponent {
+    static propTypes = {
+        getLink: PropTypes.func,
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
+        updateConfigurableVariant: PropTypes.func.isRequired,
+        isExpandable: PropTypes.bool,
+        showProductAttributeAsLink: PropTypes.bool,
+        variants: PropTypes.oneOfType([ItemsType, ItemType]),
+        mix: MixType,
+        isReady: PropTypes.bool,
+        numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
+        configurable_options: AttributesType.isRequired,
+        addToCartTriggeredWithError: PropTypes.bool,
+        updateAddToCartTriggeredWithError: PropTypes.func,
+        inStock: PropTypes.bool
+    };
+
+    static defaultProps = {
+        getLink: noopFn,
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductConfigurableAttributes/ProductConfigurableAttributes.container.js
         isExpandable: true,
         showProductAttributeAsLink: true,
         variants: [],
@@ -62,7 +84,6 @@ export class ProductConfigurableAttributesContainer<
     ProductConfigurableAttributesComponentContainerPropsKeys
     > {
         const {
-            renderPlaceholder,
             configurable_options,
             isExpandable,
             isReady,
@@ -78,7 +99,6 @@ export class ProductConfigurableAttributesContainer<
         } = this.props;
 
         return {
-            renderPlaceholder,
             configurable_options,
             isExpandable,
             isReady,
@@ -117,9 +137,13 @@ export class ProductConfigurableAttributesContainer<
     handleOptionClick({ attribute_code = '', attribute_value = '' }: Partial<ProductConfigurableAttribute>): void {
         const { updateConfigurableVariant } = this.props;
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductConfigurableAttributes/ProductConfigurableAttributes.container.tsx
         if (updateConfigurableVariant) {
             updateConfigurableVariant(attribute_code, attribute_value);
         }
+=======
+        updateConfigurableVariant(attribute_code, attribute_value);
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductConfigurableAttributes/ProductConfigurableAttributes.container.js
     }
 
     isSelected({ attribute_code = '', attribute_value = '' }: Partial<ProductConfigurableAttribute>): boolean {
@@ -140,7 +164,12 @@ export class ProductConfigurableAttributesContainer<
     handleShakeAnimationEnd(e: AnimationEvent<HTMLElement>): void {
         e.preventDefault();
         const { updateAddToCartTriggeredWithError } = this.props;
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductConfigurableAttributes/ProductConfigurableAttributes.container.tsx
         (e.target as HTMLElement)?.classList?.remove('[class*=_isUnselected]');
+=======
+
+        e.target.classList.remove('[class*=_isUnselected]');
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductConfigurableAttributes/ProductConfigurableAttributes.container.js
 
         updateAddToCartTriggeredWithError();
     }

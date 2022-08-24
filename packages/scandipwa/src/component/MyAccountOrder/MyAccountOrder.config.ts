@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 export enum OrderTabs {
@@ -15,3 +15,26 @@ export enum OrderTabs {
     ORDER_SHIPMENTS = 'Shipment',
     ORDER_REFUNDS = 'Refund'
 }
+
+export const ORDER_ID = 'ORDER_ID';
+
+export const ORDER_ACTION_LABELS = {
+    [OrderTabs.ORDER_INVOICES]: {
+        print: __('Print Invoice'),
+        printUrl: '/sales/order/printInvoice/invoice_id',
+        printAll: __('Print All Invoices'),
+        printAllUrl: '/sales/order/printInvoice/order_id'
+    },
+    [OrderTabs.ORDER_SHIPMENTS]: {
+        print: __('Print Shipment'),
+        printUrl: '/sales/order/printShipment/shipment_id',
+        printAll: __('Print All Shipments'),
+        printAllUrl: '/sales/order/printShipment/order_id'
+    },
+    [OrderTabs.ORDER_REFUNDS]: {
+        print: __('Print Refund'),
+        printUrl: '/sales/order/printCreditmemo/creditmemo_id',
+        printAll: __('Print All Refunds'),
+        printAllUrl: '/sales/order/printCreditmemo/order_id'
+    }
+};

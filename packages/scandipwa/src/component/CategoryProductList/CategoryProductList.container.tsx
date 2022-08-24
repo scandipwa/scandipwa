@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -65,7 +65,8 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
         search: '',
         sort: undefined,
         selectedFilters: {},
-        isPageLoading: false
+        isPageLoading: false,
+        isPlp: true
     };
 
     containerFunctions = {
@@ -124,6 +125,7 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
 
     requestProductList(options: Partial<ProductListOptions>): void {
         const { requestProductList } = this.props;
+
         requestProductList({ ...options, isPlp: true });
     }
 
@@ -136,7 +138,8 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
             selectedFilters,
             sort,
             totalItems,
-            totalPages
+            totalPages,
+            isPlp
         } = this.props;
 
         return {
@@ -150,6 +153,7 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
             totalPages,
             isLoading: this.getIsLoading(),
             isPreventRequest: this.getIsPreventRequest(),
+            isPlp,
             mix: { block: 'CategoryProductList', mods: { layout: this.getLayout() } }
         };
     }

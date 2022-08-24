@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Reducer } from 'redux';
@@ -17,11 +17,18 @@ import { ReviewRatingItem } from 'Query/Review.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 import {
+<<<<<<< HEAD:packages/scandipwa/src/store/Config/Config.reducer.ts
     ConfigAction,
     ConfigActionType,
     ConfigStore,
     ReviewRatings
 } from './Config.type';
+=======
+    UPDATE_CONFIG,
+    UPDATE_CONFIG_DEVICE,
+    UPDATE_CURRENT_CURRENCY
+} from './Config.action';
+>>>>>>> scandipwa/master:packages/scandipwa/src/store/Config/Config.reducer.js
 
 export const MAX_WIDTH = 150;
 export const MAX_HEIGHT = 40;
@@ -34,12 +41,13 @@ export const filterStoreConfig = (config: StoreConfig): Partial<StoreConfig> => 
 );
 
 export const {
-    countries, reviewRatings, storeConfig, currencyData, cartDisplayConfig
+    countries, reviewRatings, storeConfig, currencyData, currency, cartDisplayConfig
 } = BrowserDatabase.getItem('config') || {
     countries: [],
     reviewRatings: [],
     storeConfig: {},
     currencyData: {},
+    currency: {},
     cartDisplayConfig: {
         display_tax_in_price: '',
         display_tax_in_subtotal: '',
@@ -54,6 +62,9 @@ export const {
 export const getIndexedRatings = (
     reviewRatings: ReviewRatings
 ): ReviewRatingItem[] => ((reviewRatings) ? reviewRatings.items || [] : []);
+
+/** @namespace Store/Config/Reducer/getCurrencyRates */
+export const getCurrencyRates = (base, state) => (base || state.currency || {});
 
 /** @namespace Store/Config/Reducer/getCurrencyData */
 export const getCurrencyData = (
@@ -76,10 +87,11 @@ export const getCheckoutAgreementData = (
 /** @namespace Store/Config/Reducer/getInitialState */
 export const getInitialState = (): Partial<ConfigStore> => ({
     ...filterStoreConfig(storeConfig),
+    currencyData,
+    currency,
     countries,
     reviewRatings,
     checkoutAgreements: [],
-    currencyData,
     isLoading: true,
     cartDisplayConfig,
     priceTaxDisplay: {
@@ -117,10 +129,14 @@ export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
         device
     } = action;
 
+    const { currentCurrency = '' } = action;
+    const { currencyData: prevCurrencyData } = state;
+
     switch (type) {
     case ConfigActionType.UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
         const { secure_base_media_url } = filteredStoreConfig;
+
         window.secure_base_media_url = secure_base_media_url;
 
         return {
@@ -128,6 +144,7 @@ export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
             countries: getCountryData(countries, state),
             reviewRatings: getIndexedRatings(reviewRatings),
             checkoutAgreements: getCheckoutAgreementData(checkoutAgreements, state),
+            currency: getCurrencyRates(currency, state),
             currencyData: getCurrencyData(currencyData, state),
             ...filteredStoreConfig,
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
@@ -145,9 +162,17 @@ export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
             }
         };
 
+    case UPDATE_CURRENT_CURRENCY:
+        return {
+            ...state,
+            currencyData: {
+                ...prevCurrencyData,
+                current_currency_code: currentCurrency
+            }
+        };
+
     default:
         return state;
     }
 };
-
 export default ConfigReducer;

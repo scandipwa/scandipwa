@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -88,7 +88,7 @@ export class MetaContainer extends PureComponent<MetaContainerProps> {
     _getTitle(): string | undefined {
         const { title, default_title } = this.props;
 
-        return title || default_title;
+        return String(title || default_title);
     }
 
     _getDescription(): string | undefined {

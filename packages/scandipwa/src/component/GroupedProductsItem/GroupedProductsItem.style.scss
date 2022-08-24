@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 .GroupedProductsItem {
@@ -46,14 +46,13 @@
     }
 
     .Field {
-        &_type_number {
+        &_type_numberWithControls {
             margin-block-start: 0;
         }
 
         &-ErrorMessages {
             grid-column-start: 1;
             grid-column-end: 3;
-            margin-block-start: -10px;
         }
     }
 

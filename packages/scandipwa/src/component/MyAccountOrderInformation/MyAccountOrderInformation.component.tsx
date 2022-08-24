@@ -6,7 +6,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -75,7 +75,6 @@ export class MyAccountOrderInformation extends PureComponent<MyAccountOrderInfor
                 <MyAccountAddressTable
                     address={ billing_address }
                     mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
-                    showAdditionalFields
                 />
             </div>
         );
@@ -149,7 +148,6 @@ export class MyAccountOrderInformation extends PureComponent<MyAccountOrderInfor
                 <MyAccountAddressTable
                     address={ shipping_address }
                     mix={ { block: 'MyAccountOrderInformation', elem: 'Address' } }
-                    showAdditionalFields
                 />
             </div>
         );

@@ -5,7 +5,11 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+<<<<<<< HEAD:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.container.tsx
+ * @package scandipwa/scandipwa
+=======
+ * @package scandipwa/scandipwa
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.container.js
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -21,8 +25,11 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+<<<<<<< HEAD:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.container.tsx
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
+=======
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.container.js
 import { isSignedIn } from 'Util/Auth';
 import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
@@ -71,11 +78,33 @@ export const mapDispatchToProps = (dispatch: Dispatch): PasswordChangePageContai
 });
 
 /** @namespace Route/PasswordChangePage/Container */
+<<<<<<< HEAD:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.container.tsx
 export class PasswordChangePageContainer extends PureComponent<
 PasswordChangePageContainerProps,
 PasswordChangePageContainerState
 > {
     state: PasswordChangePageContainerState = {
+=======
+export class PasswordChangePageContainer extends PureComponent {
+    static propTypes = {
+        updateMeta: PropTypes.func.isRequired,
+        toggleBreadcrumbs: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        passwordResetStatus: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ]).isRequired,
+        passwordResetMessage: PropTypes.string.isRequired,
+        resetPassword: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        isMobile: PropTypes.bool.isRequired,
+        minimunPasswordLength: PropTypes.number.isRequired,
+        minimunPasswordCharacter: PropTypes.string.isRequired
+    };
+
+    state = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.container.js
         passwordResetStatus: '',
         isLoading: false
     };
@@ -116,6 +145,7 @@ PasswordChangePageContainerState
 
     componentDidMount(): void {
         const { setHeaderState } = this.props;
+
         this.updateMeta();
         this.toggleBreadcrumbs(false);
 
@@ -132,7 +162,12 @@ PasswordChangePageContainerState
         });
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.container.tsx
     containerProps(): Pick<PasswordChangePageComponentProps, PasswordChangePageContainerPropsKeys> {
+=======
+    containerProps() {
+        const { showNotification } = this.props;
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.container.js
         const { isLoading } = this.state;
         const { isMobile, minimunPasswordLength, minimunPasswordCharacter } = this.props;
 
@@ -144,28 +179,46 @@ PasswordChangePageContainerState
         return {
             range,
             isLoading,
+            showNotification,
             isMobile,
             minimunPasswordCharacter,
             shouldDisplayWarning: this.shouldDisplayWarning()
         };
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.container.tsx
     shouldDisplayWarning(): boolean {
         const { location } = this.props;
         const token = getQueryParam('token', location);
+=======
+    shouldDisplayWarning() {
+        const token = getQueryParam('token', history.location);
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.container.js
 
         return !token;
     }
 
     onPasswordSuccess(form: HTMLFormElement, fields: FieldData[]): void {
         this.setState({ isLoading: true }, () => {
-            const { resetPassword, location } = this.props;
+            const { resetPassword } = this.props;
+            const { location } = history;
             const { password, password_confirmation } = transformToNameValuePair(fields);
             const token = getQueryParam('token', location);
+<<<<<<< HEAD:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.container.tsx
 
             if (token) {
                 resetPassword({ token, password, password_confirmation });
             }
+=======
+            const customer_id = getQueryParam('id', location);
+
+            resetPassword({
+                customer_id,
+                token,
+                password,
+                password_confirmation
+            });
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.container.js
         });
     }
 

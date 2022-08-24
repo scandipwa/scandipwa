@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 .ResetAttributes {
@@ -32,6 +32,19 @@
 
     &-AttributeLabel {
         font-weight: bold;
+    }
+
+    &-AttributeOption {
+        img {
+            height: 32px;
+            object-fit: cover;
+            vertical-align: middle;
+            width: 32px;
+        }
+
+        .Image-Content {
+            position: initial;
+        }
     }
 
     &-CloseIcon {

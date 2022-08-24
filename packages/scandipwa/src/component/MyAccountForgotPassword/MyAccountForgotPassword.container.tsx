@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -79,7 +79,8 @@ export class MyAccountForgotPasswordContainer extends PureComponent<MyAccountFor
         const {
             forgotPassword, setSignInState, setLoadingState, forgotPasswordEmail, isOverlayVisible
         } = this.props;
-        const submittedEmail = fields[ 0 ].value as string;
+        const submittedEmail = form[0].value as string;
+
         setLoadingState(true);
 
         try {
@@ -99,11 +100,10 @@ export class MyAccountForgotPasswordContainer extends PureComponent<MyAccountFor
 
     showSuccessNotification(submittedEmail: string): void {
         const { showNotification } = this.props;
-        showNotification(
-            NotificationType.SUCCESS,
-            // eslint-disable-next-line max-len
-            __('If there is an account associated with %s you will receive an email with a link to reset your password', submittedEmail)
-        );
+        // eslint-disable-next-line max-len
+        const message = __('If there is an account associated with %s you will receive an email with a link to reset your password', submittedEmail).toString();
+
+        showNotification(NotificationType.SUCCESS, message);
     }
 
     render(): ReactElement {

@@ -5,14 +5,15 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
     --cart-page-divider-background: var(--secondary-base-color);
     --cart-page-promo-background: #fff;
     --cart-page-table-head-background: var(--secondary-base-color);
+    --desktop-loader-offset: calc(0px - var(--header-total-height) - var(--breadcrumbs-height) - 32px);
 }
 
 .CartPage {
@@ -32,8 +33,46 @@
             grid-column-gap: 48px;
         }
 
+        @include tablet {
+            grid-column-gap: 12px;
+        }
+
         @include mobile {
             padding: 0;
+        }
+    }
+
+    &-InitialLoaderContainer {
+        inset-inline-start: 0;
+        inset-block-start: 0;
+        z-index: 10;
+        position: fixed;
+
+        @include desktop {
+            max-width: 100vw;
+            max-height: 100vh;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .Loader {
+            margin: none;
+
+            &-Scale {
+                @include mobile {
+                    position: fixed;
+                    inset-block-start: auto;
+                    inset-block-end: 50%;
+
+                    &:dir(rtl) {
+                        transform: translate(50%, 50%);
+                    }
+
+                    &:dir(ltr) {
+                        transform: translate(-50%, 50%);
+                    }
+                }
+            }
         }
     }
 
@@ -238,6 +277,12 @@
         .AddToCart {
             width: 100%;
             margin-inline-end: 0;
+        }
+    }
+
+    .CheckoutOrderSummary {
+        .Loader {
+            display: none;
         }
     }
 }

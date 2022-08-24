@@ -5,11 +5,16 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 // util class, is applied on <html> on fullscreen image
+
+:root {
+    --carousel-scroll-item-height: 38px;
+    --carousel-scroll-margin-top: 28px;
+}
 
 .overscrollPrevented {
     overscroll-behavior: contain;
@@ -32,6 +37,7 @@
 
     &-Additional {
         flex: 0 0 auto;
+        min-height: calc(var(--carousel-scroll-item-height) + var(--carousel-scroll-margin-top));
 
         @include mobile {
             display: none;

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -26,9 +26,21 @@ export class ProductCompareButton extends PureComponent<ProductCompareButtonComp
         isActive: false
     };
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompareButton/ProductCompareButton.component.tsx
     render(): ReactElement {
+=======
+    _handleClick = this._handleClick.bind(this);
+
+    _handleClick(e) {
+        const { handleClick } = this.props;
+
+        e.stopPropagation();
+        handleClick(e);
+    }
+
+    render() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompareButton/ProductCompareButton.component.js
         const {
-            handleClick,
             isLoading,
             isActive,
             mix
@@ -43,7 +55,7 @@ export class ProductCompareButton extends PureComponent<ProductCompareButtonComp
                 <button
                   block="ProductCompareButton"
                   elem="Button"
-                  onClick={ handleClick }
+                  onClick={ this._handleClick }
                   mix={ { block: 'Button' } }
                   aria-label={ __('Compare') }
                 >

@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { FieldContainerProps } from 'Component/Field/Field.type';
@@ -21,11 +21,32 @@ import { PasswordChangeFormComponentProps } from './PasswordChangeForm.type';
 import './PasswordChangeForm.style';
 
 /** @namespace Component/PasswordChangeForm/Component */
+<<<<<<< HEAD:packages/scandipwa/src/component/PasswordChangeForm/PasswordChangeForm.component.tsx
 export class PasswordChangeForm extends FieldForm<PasswordChangeFormComponentProps> {
     fieldMap(): Partial<FieldContainerProps>[] {
         const { range, minimunPasswordCharacter } = this.props;
+=======
+export class PasswordChangeForm extends FieldForm {
+    static propsTypes = {
+        onFormSubmit: PropTypes.func.isRequired,
+        onFormError: PropTypes.func.isRequired,
+        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
+        minimunPasswordCharacter: PropTypes.string.isRequired
+    };
 
-        return customerEmailAndPasswordFields(range, minimunPasswordCharacter);
+    __construct(props) {
+        super.__construct(props);
+        this.passwordRef = React.createRef('');
+    }
+
+    get fieldMap() {
+        const {
+            range,
+            minimunPasswordCharacter
+        } = this.props;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/PasswordChangeForm/PasswordChangeForm.component.js
+
+        return customerEmailAndPasswordFields(range, minimunPasswordCharacter, this.passwordRef);
     }
 
     getFormProps(): Partial<FormContainerProps> {

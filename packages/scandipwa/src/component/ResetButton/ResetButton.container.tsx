@@ -5,14 +5,18 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ResetButton/ResetButton.container.tsx
 import { ReactElement } from 'Type/Common.type';
+=======
+import { MixType } from 'Type/Common.type';
+import history from 'Util/History';
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ResetButton/ResetButton.container.js
 import { setQueryParams } from 'Util/Url';
 
 import ResetButton from './ResetButton.component';
@@ -24,8 +28,18 @@ import {
 } from './ResetButton.type';
 
 /** @namespace Component/ResetButton/Container */
+<<<<<<< HEAD:packages/scandipwa/src/component/ResetButton/ResetButton.container.tsx
 export class ResetButtonContainer extends PureComponent<ResetButtonContainerProps> {
     static defaultProps: Partial<ResetButtonContainerProps> = {
+=======
+export class ResetButtonContainer extends PureComponent {
+    static propTypes = {
+        mix: MixType,
+        onClick: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ResetButton/ResetButton.container.js
         mix: {}
     };
 
@@ -43,8 +57,13 @@ export class ResetButtonContainer extends PureComponent<ResetButtonContainerProp
         };
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ResetButton/ResetButton.container.tsx
     resetFilters(): void {
         const { location, history } = this.props;
+=======
+    resetFilters() {
+        const { location } = history;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ResetButton/ResetButton.container.js
 
         setQueryParams({
             customFilters: '',
@@ -60,8 +79,13 @@ export class ResetButtonContainer extends PureComponent<ResetButtonContainerProp
         return !!(customFilters || priceMin || priceMax);
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/ResetButton/ResetButton.container.tsx
     urlStringToObject(): Record<string, string> {
         const { location: { search = '' } } = this.props;
+=======
+    urlStringToObject() {
+        const { location: { search = '' } } = history;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ResetButton/ResetButton.container.js
 
         return search.substr(1).split('&').reduce((acc, part) => {
             const [key, value] = part.split('=');
@@ -80,6 +104,4 @@ export class ResetButtonContainer extends PureComponent<ResetButtonContainerProp
     }
 }
 
-export default withRouter(
-    ResetButtonContainer
-);
+export default ResetButtonContainer;

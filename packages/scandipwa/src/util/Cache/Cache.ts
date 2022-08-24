@@ -7,8 +7,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 export type CacheMap = {
@@ -33,8 +33,10 @@ export const cacheImages = (urls: string[]): void => {
     }
 
     const filteredUrls = urls.filter((url) => !window.prefetchedImages[url]);
+
     filteredUrls.forEach((url) => {
         const img = new Image();
+
         img.src = url;
         window.prefetchedImages[url] = img;
     });
@@ -73,7 +75,9 @@ export const fromCache = (fn: any, args: any): any => {
 
     // If not get response, caches it and return value
     const response = fn(...args);
+
     cache[name][key] = response;
+
     return response;
 };
 
@@ -88,7 +92,12 @@ export const clearCacheFor = (fn: any): void => {
     }
 
     const { name } = fn;
+<<<<<<< HEAD:packages/scandipwa/src/util/Cache/Cache.ts
     (fromCache as unknown as CacheMap).cache[name] = {};
+=======
+
+    fromCache.cache[name] = {};
+>>>>>>> scandipwa/master:packages/scandipwa/src/util/Cache/Cache.js
 };
 
 export default fromCache;

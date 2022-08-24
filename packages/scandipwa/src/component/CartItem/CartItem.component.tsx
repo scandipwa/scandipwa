@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { KeyboardEvent, MouseEvent, PureComponent } from 'react';
@@ -96,7 +96,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
             item: {
                 customizable_options,
                 bundle_options,
-                downloadable_links
+                links
             } = {}
         } = this.props;
 
@@ -107,7 +107,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
                 { this.renderProductConfigurations() }
                 { this.renderProductOptions(customizable_options) }
                 { this.renderProductBundleOptions(bundle_options) }
-                { this.renderProductLinks(downloadable_links) }
+                { this.renderProductLinks(links) }
             </div>
         );
     }
@@ -173,7 +173,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
     renderProductOptionLabel(
         option: GQLSelectedCustomizableOption | GQLSelectedDownloadableLinks & { values?: never[] }
     ): ReactElement {
-        const { label, values = [] } = option;
+        const { label, title, values = [] } = option;
 
         if (Array.isArray(values) && values.length > 0) {
             return (
@@ -188,7 +188,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
             );
         }
 
-        return label;
+        return label || title;
     }
 
     renderBundleProductOptionValue(value: GQLSelectedBundleOptionValue, index: number): ReactElement {
@@ -335,8 +335,14 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
         const {
             currency_code,
             item: {
-                row_total,
-                row_total_incl_tax
+                prices: {
+                    row_total: {
+                        value: row_total = 0
+                    } = {},
+                    row_total_including_tax: {
+                        value: row_total_incl_tax = 0
+                    } = {}
+                } = {}
             },
             isCartOverlay,
             isMobileLayout
@@ -344,7 +350,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
 
         return (
             <CartItemPrice
-              row_total={ row_total }
+              row_total={ Number(row_total || 0).toFixed(2) }
               row_total_incl_tax={ row_total_incl_tax }
               currency_code={ currency_code }
               mix={ {
@@ -378,7 +384,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
         const {
             item: {
                 sku,
-                qty,
+                quantity,
                 product: {
                     stock_item: {
                         qty_increments: qtyIncrement = 1
@@ -407,16 +413,17 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
               tabIndex={ -1 }
             >
                 <Field
-                  type={ FieldType.NUMBER }
+                  id="item_qty"
+                  type={ FieldType.NUMBER_WITH_CONTROLS }
                   attr={ {
                       id: `${sku}_item_qty`,
                       name: `${sku}_item_qty`,
-                      value: qty,
-                      defaultValue: qty,
+                      defaultValue: quantity,
                       min: minSaleQuantity,
                       max: maxSaleQuantity,
                       step: qtyIncrement
                   } }
+                  value={ quantity }
                   events={ {
                       onChange: handleChangeQuantity
                   } }
@@ -504,14 +511,14 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
     }
 
     renderQuantity(): ReactElement {
-        const { item: { qty } } = this.props;
+        const { item: { quantity } } = this.props;
 
         return (
             <p
               block="CartItem"
               elem="Quantity"
             >
-                { __('Quantity: %s', qty) }
+                { __('Quantity: %s', quantity) }
             </p>
         );
     }

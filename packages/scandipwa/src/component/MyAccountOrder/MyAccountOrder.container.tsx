@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -21,6 +21,7 @@ import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
+import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
@@ -63,9 +64,32 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderContainerM
 });
 
 /** @namespace Component/MyAccountOrder/Container */
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.container.tsx
 export class MyAccountOrderContainer extends PureComponent<MyAccountOrderContainerProps, MyAccountOrderContainerState> {
     static defaultProps: Partial<MyAccountOrderContainerProps> = {
         is_allowed_reorder: false
+=======
+export class MyAccountOrderContainer extends PureComponent {
+    static propTypes = {
+        match: MatchType.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        getOrderById: PropTypes.func.isRequired,
+        display_tax_in_shipping_amount: PropTypes.string.isRequired,
+        changeTabName: PropTypes.func,
+        reorder: PropTypes.func.isRequired,
+        is_allowed_reorder: PropTypes.bool,
+        rss_order_subscribe_allow: PropTypes.bool.isRequired,
+        setTabSubheading: PropTypes.func,
+        changeHeaderState: PropTypes.func.isRequired,
+        goToPreviousNavigationState: PropTypes.func.isRequired,
+        isMobile: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        is_allowed_reorder: false,
+        changeTabName: noopFn,
+        setTabSubheading: noopFn
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.container.js
     };
 
     state: MyAccountOrderContainerState = {
@@ -176,7 +200,11 @@ export class MyAccountOrderContainer extends PureComponent<MyAccountOrderContain
             return;
         }
 
-        const { increment_id, status } = order;
+        const { increment_id, status, id: uid } = order;
+
+        // decode uid of order before setting into state
+        order.id = atob(uid);
+
         changeTabName((__('Order # %s', increment_id)));
         setTabSubheading(status);
         this.handleChangeHeaderState();

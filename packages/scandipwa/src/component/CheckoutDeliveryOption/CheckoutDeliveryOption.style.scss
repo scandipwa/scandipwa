@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
@@ -89,11 +89,6 @@
     &-SubPrice {
         font-size: 12px;
         font-weight: 400;
-        text-align: end;
-        position: absolute;
-        inset-inline-end: 0;
-        inset-block-start: 1.5em;
-        white-space: nowrap;
     }
 
     &-Message {

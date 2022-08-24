@@ -7,8 +7,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 /* eslint-disable consistent-return */
@@ -135,6 +135,10 @@ export class Html extends PureComponent<HtmlComponentProps> {
         return attributesToProps(properties);
     }
 
+    scrollToTopFunction(): void {
+        document.documentElement.scrollIntoView();
+    }
+
     /**
      * Replace links to native React Router links
      * @param  {{ attribs: Object, children: Array }}
@@ -150,7 +154,10 @@ export class Html extends PureComponent<HtmlComponentProps> {
 
             if (!isAbsoluteUrl(href) && !isSpecialLink(href)) {
                 return (
-                    <Link { ...attributesToProps(attrs) } to={ href }>
+                    <Link
+                      onClick={ this.scrollToTopFunction }
+                      { ...attributesToProps({ ...attrs, to: href }) }
+                    >
                         { domToReact(children, this.parserOptions) }
                     </Link>
                 );

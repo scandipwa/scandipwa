@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 export enum FieldType {
@@ -24,7 +24,9 @@ export enum FieldType {
     TIME = 'time',
     DATETIME = 'datetime-local',
     SUBMIT = 'submit',
-    BUTTON = 'button'
+    BUTTON = 'button',
+    NUMBER_WITH_CONTROLS = 'number_with_controls',
+    TEL = 'tel'
 }
 
 export const FIELD_RADIO_NONE = 'none';

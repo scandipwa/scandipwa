@@ -5,11 +5,14 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 .ProductReviewForm {
+    display: flex;
+    flex-direction: column;
+
     &-Wrapper {
         @include desktop {
             display: grid;
@@ -19,18 +22,30 @@
     }
 
     &-RatingWrapper {
+        display: flex;
+        flex-direction: column;
+
         .FieldGroup-Wrapper {
+<<<<<<< HEAD
             margin-block-end: 14px;
+=======
+            &:not(:last-child) {
+                margin-block-end: 25px;
+            }
+>>>>>>> scandipwa/master
 
             .FieldGroup {
                 &_hasError, &_isValid {
                     padding-inline-start: 0;
                     border: none;
                 }
+<<<<<<< HEAD
 
                 &-ErrorMessages {
                     margin-block-start: 6px;
                 }
+=======
+>>>>>>> scandipwa/master
             }
         }
     }
@@ -45,8 +60,32 @@
     }
 
     &-Content {
+        row-gap: 24px;
+
+
         .Field {
-            margin-block-start: 12px;
+            &-Wrapper {
+                margin-block-start: 14px;
+
+                &:first-child {
+                    @include desktop {
+                        margin-block-start: 0;
+                    }
+                }
+            }
+
+            &-ErrorMessages {
+                padding-block-start: 6px;
+            }
+
+            &-Label {
+                line-height: 13px;
+                padding-block-end: 7px;
+            }
+        }
+
+        &:first-child {
+            grid-column: 1 / 3;
         }
 
         input,
@@ -62,7 +101,6 @@
     &-Rating {
         display: flex;
         flex-flow: row-reverse nowrap;
-        margin-block-start: 12px;
         margin-inline: 0;
         text-align: start;
         border: 0;
@@ -90,6 +128,10 @@
         font-weight: 700;
         font-size: 13px;
 
+        @include desktop {
+            line-height: 13px;
+        }
+
         @include mobile {
             padding-block-end: 4px;
             font-size: 15px;
@@ -107,15 +149,22 @@
         color: var(--primary-error-color);
         font-size: 12px;
         text-align: start;
+        padding-block-start: 0;
     }
 
     & &-Button {
-        margin-block-start: 12px;
+        margin-block-start: 14px;
+        width: 160px;
 
         @include mobile {
             margin-block-start: 28px;
             width: 100%;
         }
+    }
+
+    &-Field {
+        margin-block-start: 0;
+        padding-block-end: 0;
     }
 
     input,

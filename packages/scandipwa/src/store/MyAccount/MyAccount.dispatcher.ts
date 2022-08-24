@@ -5,19 +5,31 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { CONFIRMATION_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
+import { ORDER_ID } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import MyAccountQuery from 'Query/MyAccount.query';
 import {
+<<<<<<< HEAD:packages/scandipwa/src/store/MyAccount/MyAccount.dispatcher.ts
     ConfirmAccountOptions, CreateAccountOptions, Customer, ResetPasswordOptions, SignInOptions
 } from 'Query/MyAccount.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
+=======
+    ACCOUNT_CONFIRMATION_URL,
+    ACCOUNT_LOGIN_URL
+} from 'Route/MyAccount/MyAccount.config';
+import {
+    ACCOUNT_CONFIRMATION_NOT_REQUIRED,
+    CONFIRMATION_SENT,
+    WRONG_EMAIL
+} from 'Route/SendConfirmationPage/SendConfirmationPage.config';
+>>>>>>> scandipwa/master:packages/scandipwa/src/store/MyAccount/MyAccount.dispatcher.js
 import {
     updateCustomerDetails,
     updateCustomerPasswordForgotStatus,
@@ -38,7 +50,7 @@ import {
     setAuthorizationToken
 } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { deleteGuestQuoteId, getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
+import { deleteCartId, getCartId, setCartId } from 'Util/Cart';
 import { removeUid } from 'Util/Compare';
 import history from 'Util/History';
 import { prepareQuery } from 'Util/Query';
@@ -122,7 +134,7 @@ export class MyAccountDispatcher {
             }
         }
 
-        deleteGuestQuoteId();
+        deleteCartId();
         BrowserDatabase.deleteItem(CUSTOMER);
         removeUid();
 
@@ -167,7 +179,7 @@ export class MyAccountDispatcher {
 
     /**
      * Reset password action
-     * @param {{token: String, password: String, password_confirmation: String}} [options={}]
+     * @param {{customer_id: String, token: String, password: String, password_confirmation: String}} [options={}]
      * @returns {Promise<{status: String}>} Reset password token
      * @memberof MyAccountDispatcher
      */
@@ -190,6 +202,7 @@ export class MyAccountDispatcher {
     async createAccount(options: CreateAccountOptions, dispatch: Dispatch): Promise<boolean | 'confirmation_required'> {
         const { customer: { email = '' }, password } = options || {};
         const mutation = MyAccountQuery.getCreateAccountMutation(options);
+
         dispatch(updateIsLoading(true));
 
         try {
@@ -197,10 +210,30 @@ export class MyAccountDispatcher {
             const { createCustomer: { customer } } = data;
             const { confirmation_required } = customer;
 
+<<<<<<< HEAD:packages/scandipwa/src/store/MyAccount/MyAccount.dispatcher.ts
             if (confirmation_required) {
                 dispatch(updateIsLoading(false));
 
                 return CONFIRMATION_REQUIRED;
+=======
+                sessionStorage.setItem(ORDER_ID, '');
+
+                if (confirmation_required) {
+                    dispatch(updateIsLoading(false));
+
+                    return CONFIRMATION_REQUIRED;
+                }
+
+                return this.signIn({ email, password }, dispatch);
+            },
+
+            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/createAccount/fetchMutation/then/catch */
+            (error) => {
+                dispatch(updateIsLoading(false));
+                dispatch(showNotification('error', getErrorMessage(error)));
+
+                return false;
+>>>>>>> scandipwa/master:packages/scandipwa/src/store/MyAccount/MyAccount.dispatcher.js
             }
 
             return await this.signIn({ email, password }, dispatch);
@@ -208,6 +241,41 @@ export class MyAccountDispatcher {
             dispatch(updateIsLoading(false));
             dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as Error)));
             return false;
+        }
+    }
+
+    /**
+     * Resend confirmation email
+     * @param {{email: String}} [options={}]
+     * @memberof MyAccountDispatcher
+     */
+    async resendConfirmation(options = {}, dispatch) {
+        const mutation = MyAccountQuery.getResendConfirmationMutation(options);
+
+        try {
+            const { resendConfirmationEmail: { status = '' } } = await fetchMutation(mutation);
+
+            switch (status) {
+            case ACCOUNT_CONFIRMATION_NOT_REQUIRED:
+                dispatch(showNotification('success', __('This email does not require confirmation.')));
+                history.push(ACCOUNT_LOGIN_URL);
+
+                return false;
+            case CONFIRMATION_SENT:
+                dispatch(showNotification('success', __('Please check your email for confirmation key.')));
+
+                return true;
+            case WRONG_EMAIL:
+                const { email = '' } = options;
+
+                history.push(`${ ACCOUNT_CONFIRMATION_URL }/?email=${ email }`);
+
+                throw __('Wrong email! Please, try again!');
+            default:
+                throw __('Something went wrong! Please, try again!');
+            }
+        } catch (error) {
+            throw new Error(error);
         }
     }
 
@@ -250,7 +318,11 @@ export class MyAccountDispatcher {
         );
 
         const cartDispatcher = (await CartDispatcher).default;
+<<<<<<< HEAD:packages/scandipwa/src/store/MyAccount/MyAccount.dispatcher.ts
         const guestCartToken = getGuestQuoteId() || '';
+=======
+        const guestCartToken = getCartId();
+>>>>>>> scandipwa/master:packages/scandipwa/src/store/MyAccount/MyAccount.dispatcher.js
         // if customer is authorized, `createEmptyCart` mutation returns customer cart token
         const customerCartToken = await cartDispatcher.createGuestEmptyCart(dispatch) || '';
 
@@ -259,7 +331,7 @@ export class MyAccountDispatcher {
             await cartDispatcher.mergeCarts(guestCartToken, customerCartToken, dispatch);
         }
 
-        setGuestQuoteId(customerCartToken);
+        setCartId(customerCartToken);
         cartDispatcher.updateInitialCartData(dispatch, true);
 
         WishlistDispatcher.then(

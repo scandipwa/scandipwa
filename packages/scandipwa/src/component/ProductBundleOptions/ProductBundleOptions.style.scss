@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
@@ -16,9 +16,11 @@
 
 .ProductBundleItem {
     &-Label {
-        width: calc(100% - max(21px, var(--checkbox-width)));
-        word-break: break-word;
-        min-width: 50px;
+        & &:not([class*="-Heading"] > [class*="-Label"]) {
+            width: calc(100% - max(21px, var(--checkbox-width)));
+            word-break: break-word;
+            min-width: 50px;
+        }
     }
 
     &-Wrapper {
@@ -33,6 +35,7 @@
 
             &_type_select {
                 margin-block-start: 0;
+                margin-block-end: 6px;
             }
 
             &_type_select + .Field-ErrorMessages {
@@ -47,13 +50,13 @@
                     &_select, &_checkbox, &_radio {
                         flex: 1 1;
                     }
+
+                    &_numberWithControls {
+                        display: flex;
+                    }
                 }
             }
         }
-    }
-
-    &-Select.Field_hasError {
-        margin-block-end: 20px;
     }
 
     &-PriceLabel {
@@ -95,7 +98,7 @@
         &_customQuantity {
             .Field {
                 &_type {
-                    &_number {
+                    &_numberWithControls {
                         margin-inline-start: 16px;
                         margin-block-start: 0;
                     }

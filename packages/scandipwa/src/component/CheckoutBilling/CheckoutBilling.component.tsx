@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { MouseEvent, PureComponent } from 'react';
@@ -32,11 +32,12 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
     state = {
         isOrderButtonVisible: true,
         isOrderButtonEnabled: true,
-        isTermsAndConditionsAccepted: false
+        isTACAccepted: false
     };
 
     static defaultProps = {
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
+        paymentMethod: ''
     };
 
     __construct(props: CheckoutBillingComponentProps): void {
@@ -60,18 +61,19 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
     }
 
     setTACAccepted(): void {
-        this.setState(({ isTermsAndConditionsAccepted: oldIsTACAccepted }) => ({
-            isTermsAndConditionsAccepted: !oldIsTACAccepted
+        this.setState(({ isTACAccepted: oldIsTACAccepted }) => ({
+            isTACAccepted: !oldIsTACAccepted
         }));
     }
 
     handleShowPopup(e: MouseEvent): void {
         const { showPopup } = this.props;
+
         e.preventDefault();
         showPopup();
     }
 
-    renderTermsAndConditions(): ReactElement {
+    renderTAC(): ReactElement {
         const {
             termsAreEnabled,
             termsAndConditions
@@ -81,7 +83,7 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
             checkbox_text = __('I agree to terms and conditions')
         } = termsAndConditions[0] || {};
 
-        const { isTermsAndConditionsAccepted } = this.state;
+        const { isTACAccepted } = this.state;
 
         if (!termsAreEnabled) {
             return null;
@@ -104,23 +106,25 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
                           id: 'termsAndConditions',
                           name: 'termsAndConditions',
                           value: 'termsAndConditions',
-                          checked: isTermsAndConditionsAccepted
+                          checked: isTACAccepted
                       } }
                       events={ {
                           onChange: this.setTACAccepted
                       } }
                       mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
                     />
-                    { `${checkbox_text } - ` }
+                   <div>
+                        { `${checkbox_text } - ` }
+                        <button
+                          block="CheckoutBilling"
+                          elem="TACLink"
+                          onClick={ this.handleShowPopup }
+                          type="button"
+                        >
+                            { __('read more') }
+                        </button>
+                   </div>
                 </label>
-                <button
-                  block="CheckoutBilling"
-                  elem="TACLink"
-                  onClick={ this.handleShowPopup }
-                  type="button"
-                >
-                        { __('read more') }
-                </button>
             </div>
         );
     }
@@ -128,7 +132,7 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
     renderOrderTotalExlTax(): ReactElement {
         const {
             cartTotalSubPrice,
-            totals: { quote_currency_code }
+            totals: { prices: { quote_currency_code = null } = {} }
         } = this.props;
 
         if (!cartTotalSubPrice) {
@@ -145,7 +149,16 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
     }
 
     renderOrderTotal(): ReactElement {
-        const { totals: { grand_total, quote_currency_code } } = this.props;
+        const {
+            totals: {
+                prices: {
+                    grand_total: {
+                        value: grand_total = 0
+                    } = {},
+                    quote_currency_code = null
+                } = {}
+            }
+        } = this.props;
 
         const orderTotal = formatPrice(grand_total || 0, quote_currency_code as GQLCurrencyEnum);
 
@@ -163,10 +176,12 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
     }
 
     renderActions(): ReactElement {
+        const { paymentMethod } = this.props;
+
         const {
             isOrderButtonVisible,
             isOrderButtonEnabled,
-            isTermsAndConditionsAccepted
+            isTACAccepted
         } = this.state;
 
         const { termsAreEnabled } = this.props;
@@ -177,7 +192,7 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
 
         // if terms and conditions are enabled, validate for acceptance
         const isDisabled = termsAreEnabled
-            ? !isOrderButtonEnabled || !isTermsAndConditionsAccepted
+            ? !isOrderButtonEnabled || !isTACAccepted || !paymentMethod
             : !isOrderButtonEnabled;
 
         return (
@@ -227,6 +242,10 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
             return null;
         }
 
+        if (selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE) {
+            return null;
+        }
+
         return (
             <Field
               type={ FieldType.CHECKBOX }
@@ -242,6 +261,7 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
               mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
               label={ __('My billing and shipping are the same') }
               isDisabled={ selectedShippingMethod === StoreInPickUpCode.METHOD_CODE }
+              onChange={ onSameAsShippingChange }
             />
         );
     }
@@ -295,7 +315,7 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
     }
 
     render(): ReactElement {
-        const { onBillingSuccess } = this.props;
+        const { onBillingSuccess, onBillingError } = this.props;
 
         return (
             <Form
@@ -304,10 +324,11 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
               } }
               mix={ { block: 'CheckoutBilling' } }
               onSubmit={ onBillingSuccess }
+              onError={ onBillingError }
             >
                 { this.renderAddresses() }
                 { this.renderPayments() }
-                { this.renderTermsAndConditions() }
+                { this.renderTAC() }
                 { this.renderActions() }
                 { this.renderPopup() }
             </Form>

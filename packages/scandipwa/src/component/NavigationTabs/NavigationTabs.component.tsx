@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import CartIcon from 'Component/CartIcon';
@@ -16,8 +16,18 @@ import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.
 import UserIcon from 'Component/UserIcon';
 import { ReactElement } from 'Type/Common.type';
 
+<<<<<<< HEAD:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.component.tsx
 import { NavigationTabsMap } from './NavigationTabs.config';
 import { NavigationTabsComponentProps } from './NavigationTabs.type';
+=======
+import {
+    ACCOUNT_TAB,
+    CART_TAB,
+    CHECKOUT_TAB,
+    HOME_TAB,
+    MENU_TAB
+} from './NavigationTabs.config';
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.component.js
 
 import './NavigationTabs.style';
 
@@ -35,7 +45,14 @@ export class NavigationTabs extends NavigationAbstract<NavigationTabsComponentPr
         [NavigationTabsMap.CART_TAB]: {
             minicart: true
         },
+<<<<<<< HEAD:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.component.tsx
         [NavigationTabsMap.ACCOUNT_TAB]: {
+=======
+        [CHECKOUT_TAB]: {
+            minicart: true
+        },
+        [ACCOUNT_TAB]: {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.component.js
             account: true
         }
     };
@@ -50,13 +67,13 @@ export class NavigationTabs extends NavigationAbstract<NavigationTabsComponentPr
     shouldComponentUpdate(nextProps: NavigationTabsComponentProps): boolean {
         const {
             navigationState: { name: prevName },
-            cartTotals: { items_qty: prevQty },
+            cartTotals: { total_quantity: prevQty },
             device: prevDevice
         } = this.props;
 
         const {
             navigationState: { name: nextName },
-            cartTotals: { items_qty: nextQty },
+            cartTotals: { total_quantity: nextQty },
             device: nextDevice
         } = nextProps;
 
@@ -111,10 +128,15 @@ export class NavigationTabs extends NavigationAbstract<NavigationTabsComponentPr
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.component.tsx
     renderMinicartItemsQty(): ReactElement {
         const { cartTotals: { items_qty } } = this.props;
+=======
+    renderMinicartItemsQty() {
+        const { cartTotals: { total_quantity } } = this.props;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.component.js
 
-        if (!items_qty) {
+        if (!total_quantity) {
             return null;
         }
 
@@ -124,7 +146,7 @@ export class NavigationTabs extends NavigationAbstract<NavigationTabsComponentPr
               block="Header"
               elem="MinicartItemCount"
             >
-                { items_qty }
+                { total_quantity }
             </span>
         );
     }

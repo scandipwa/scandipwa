@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
@@ -66,17 +66,18 @@
     }
 
     &-AddToCartBtnWrapper {
+        width: 100%;
         display: block;
         margin: 0;
     }
 
     &-AddToCartBtn {
-        flex: 0 0 auto;
         width: 222px;
     }
 
     &-CloseBtn {
         inset-inline-end: 0;
         position: absolute;
+        margin-block-start: -4px;
     }
 }

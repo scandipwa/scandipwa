@@ -7,8 +7,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { createRef, PureComponent } from 'react';
@@ -43,7 +43,8 @@ S extends ImageComponentState = ImageComponentState
         ratio: ImageRatio.IMG_SQUARE,
         mix: {},
         showIsLoading: false,
-        imageRef: undefined
+        imageRef: noopFn,
+        onImageLoad: noopFn
     };
 
     image = createRef();
@@ -78,13 +79,15 @@ S extends ImageComponentState = ImageComponentState
     }
 
     onImageChange(): void {
-        const { src, isCached } = this.props;
+        const { src, isCached, onImageLoad } = this.props;
 
         if (!src) {
             return this.setState({ imageStatus: ImageState.IMAGE_NOT_SPECIFIED });
         }
 
         if (isCached) {
+            onImageLoad();
+
             return this.setState({ imageStatus: ImageState.IMAGE_LOADED });
         }
 
@@ -96,6 +99,9 @@ S extends ImageComponentState = ImageComponentState
     }
 
     onLoad(): void {
+        const { onImageLoad } = this.props;
+
+        onImageLoad();
         this.setState({ imageStatus: ImageState.IMAGE_LOADED });
     }
 

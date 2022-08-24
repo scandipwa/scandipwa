@@ -5,7 +5,11 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+<<<<<<< HEAD:packages/scandipwa/src/route/UrlRewrites/UrlRewrites.container.tsx
+ * @package scandipwa/scandipwa
+=======
+ * @package scandipwa/scandipwa
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/UrlRewrites/UrlRewrites.container.js
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -13,8 +17,16 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+<<<<<<< HEAD:packages/scandipwa/src/route/UrlRewrites/UrlRewrites.container.tsx
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
+=======
+import {
+    MatchType,
+    UrlRewriteType
+} from 'Type/Router.type';
+import history from 'Util/History';
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/UrlRewrites/UrlRewrites.container.js
 
 import UrlRewrites from './UrlRewrites.component';
 import {
@@ -57,8 +69,21 @@ export const mapDispatchToProps = (dispatch: Dispatch): UrlRewritesContainerMapD
 });
 
 /** @namespace Route/UrlRewrites/Container */
+<<<<<<< HEAD:packages/scandipwa/src/route/UrlRewrites/UrlRewrites.container.tsx
 export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProps> {
     static defaultProps: Partial<UrlRewritesContainerProps> = {
+=======
+export class UrlRewritesContainer extends PureComponent {
+    static propTypes = {
+        match: MatchType.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        requestedUrl: PropTypes.string,
+        requestUrlRewrite: PropTypes.func.isRequired,
+        urlRewrite: UrlRewriteType.isRequired
+    };
+
+    static defaultProps = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/UrlRewrites/UrlRewrites.container.js
         requestedUrl: ''
     };
 
@@ -68,15 +93,21 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
         page: UrlRewritePageType.CMS_PAGE
     };
 
+<<<<<<< HEAD:packages/scandipwa/src/route/UrlRewrites/UrlRewrites.container.tsx
     initialUrl = '';
 
     __construct(props: UrlRewritesContainerProps): void {
         super.__construct?.(props);
 
+=======
+    componentDidMount() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/UrlRewrites/UrlRewrites.container.js
         this.requestUrlRewrite();
-    }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/UrlRewrites/UrlRewrites.container.tsx
     componentDidMount(): void {
+=======
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/UrlRewrites/UrlRewrites.container.js
         this.initialUrl = location.pathname;
     }
 
@@ -98,8 +129,13 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
         this.redirectToCorrectUrl();
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/UrlRewrites/UrlRewrites.container.tsx
     redirectToCorrectUrl(): void {
         const { location, history } = this.props;
+=======
+    redirectToCorrectUrl() {
+        const { location } = history;
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/UrlRewrites/UrlRewrites.container.js
 
         const type = this.getType();
 
@@ -186,15 +222,11 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
 
     getProps(): UrlRewriteProps {
         const {
-            location,
-            match,
-            history
+            match
         } = this.props;
 
         return {
-            location,
             match,
-            history,
             ...this.getTypeSpecificProps()
         };
     }

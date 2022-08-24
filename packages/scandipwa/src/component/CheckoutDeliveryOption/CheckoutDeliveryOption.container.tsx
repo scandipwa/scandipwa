@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -50,7 +50,9 @@ export class CheckoutDeliveryOptionContainer extends PureComponent<CheckoutDeliv
             getCartShippingItemSubPrice,
             option,
             totals: {
-                quote_currency_code
+                prices: {
+                    quote_currency_code = null
+                } = {}
             }
         } = this.props;
 

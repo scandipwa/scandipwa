@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Query } from '@tilework/opus';
@@ -71,7 +71,11 @@ LinkedProductsDispatcherData
         const relatedSKUs = product_links.reduce((links: string[], link) => {
             const { linked_product_sku } = link;
 
+<<<<<<< HEAD:packages/scandipwa/src/store/LinkedProducts/LinkedProducts.dispatcher.ts
             return [...links, `${ linked_product_sku?.replace(/ /g, '%20') }`];
+=======
+            return [...links, linked_product_sku];
+>>>>>>> scandipwa/master:packages/scandipwa/src/store/LinkedProducts/LinkedProducts.dispatcher.js
         }, []);
 
         return [

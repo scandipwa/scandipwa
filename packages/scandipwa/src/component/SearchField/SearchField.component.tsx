@@ -6,25 +6,34 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import {
     ChangeEvent,
     createRef,
+<<<<<<< HEAD:packages/scandipwa/src/component/SearchField/SearchField.component.tsx
     KeyboardEvent,
     lazy,
     MouseEvent,
     PureComponent,
     Suspense
+=======
+    PureComponent
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/SearchField/SearchField.component.js
 } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
 import CloseIcon from 'Component/CloseIcon';
 import Loader from 'Component/Loader';
 import SearchIcon from 'Component/SearchIcon';
+<<<<<<< HEAD:packages/scandipwa/src/component/SearchField/SearchField.component.tsx
 import { ReactElement } from 'Type/Common.type';
+=======
+import SearchOverlay from 'Component/SearchOverlay';
+import { DeviceType } from 'Type/Device.type';
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/SearchField/SearchField.component.js
 import { scrollToTop } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
 import history from 'Util/History';
@@ -33,13 +42,6 @@ import { appendWithStoreCode } from 'Util/Url';
 import { SearchFieldComponentProps } from './SearchField.type';
 
 import './SearchField.style';
-
-export const SearchOverlay = lazy(
-    () => import(
-        /* webpackMode: "lazy", webpackChunkName: "overlay" */
-        'Component/SearchOverlay'
-    )
-);
 
 /** @namespace Component/SearchField/Component */
 export class SearchField extends PureComponent<SearchFieldComponentProps> {
@@ -102,6 +104,7 @@ export class SearchField extends PureComponent<SearchFieldComponentProps> {
 
     handleChange(e: ChangeEvent<HTMLInputElement>): void {
         const { onSearchBarChange } = this.props;
+
         onSearchBarChange(e);
     }
 
@@ -154,12 +157,20 @@ export class SearchField extends PureComponent<SearchFieldComponentProps> {
                   aria-label={ __('Search') }
                 />
                 { this.renderSearchIcon() }
+<<<<<<< HEAD:packages/scandipwa/src/component/SearchField/SearchField.component.tsx
                 <Suspense fallback={ this.renderOverlayFallback() }>
                     <SearchOverlay
                       isHideOverlay={ !device.isMobile }
                       searchCriteria={ searchCriteria }
                     />
                 </Suspense>
+=======
+                <SearchOverlay
+                  isHideOverlay={ !device.isMobile }
+                  clearSearch={ this.clearSearch }
+                  searchCriteria={ searchCriteria }
+                />
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/SearchField/SearchField.component.js
             </div>
         );
     }

@@ -7,8 +7,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { MouseEvent, PureComponent } from 'react';
@@ -147,7 +147,7 @@ export class Link extends PureComponent<LinkComponentProps> {
 
         const classNameConverted = `${ className } ${ stringify(bemProps)}`;
 
-        if (/^https?:\/\//.test(to as string)) {
+        if (/^https?:\/\//.test(to as string) || isOpenInNewTab) {
             return this.renderAbsolutePathLink(classNameConverted);
         }
 

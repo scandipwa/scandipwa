@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 import { Location } from 'history';
 import { PureComponent } from 'react';
@@ -45,8 +45,46 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductListContainerMapD
 });
 
 /** @namespace Component/ProductList/Container */
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductList/ProductList.container.tsx
 export class ProductListContainer extends PureComponent<ProductListContainerProps, ProductListContainerState> {
     static defaultProps: Partial<ProductListContainerProps> = {
+=======
+export class ProductListContainer extends PureComponent {
+    containerFunctions = {
+        loadPrevPage: this.loadPage.bind(this, false),
+        loadPage: this.loadPage.bind(this),
+        updatePage: this.updatePage.bind(this)
+    };
+
+    static propTypes = {
+        history: HistoryType.isRequired,
+        location: LocationType.isRequired,
+        pages: PagesType.isRequired,
+        pageSize: PropTypes.number,
+        isLoading: PropTypes.bool.isRequired,
+        isPageLoading: PropTypes.bool,
+        totalItems: PropTypes.number.isRequired,
+        requestProductList: PropTypes.func.isRequired,
+        requestProductListInfo: PropTypes.func.isRequired,
+        selectedFilters: SelectedFiltersType,
+        isPreventRequest: PropTypes.bool,
+        isInfiniteLoaderEnabled: PropTypes.bool,
+        isPaginationEnabled: PropTypes.bool,
+        filter: FilterInputType,
+        search: PropTypes.string,
+        sort: PropTypes.objectOf(PropTypes.string),
+        noAttributes: PropTypes.bool,
+        noVariants: PropTypes.bool,
+        isWidget: PropTypes.bool,
+        device: DeviceType.isRequired,
+        mix: MixType,
+        title: PropTypes.string,
+        totalPages: PropTypes.number,
+        isPlp: PropTypes.bool
+    };
+
+    static defaultProps = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductList/ProductList.container.js
         mix: {},
         pageSize: 24,
         filter: {},
@@ -62,7 +100,8 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
         noVariants: false,
         isWidget: false,
         title: '',
-        totalPages: 1
+        totalPages: 1,
+        isPlp: false
     };
 
     state: ProductListContainerState = {
@@ -222,8 +261,14 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             mix,
             pages,
             selectedFilters,
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductList/ProductList.container.tsx
             title = '',
             totalPages
+=======
+            title,
+            totalPages,
+            isPlp
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductList/ProductList.container.js
         } = this.props;
 
         return {
@@ -239,6 +284,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             currentPage: this._getPageFromUrl(),
             isShowLoading: this._isShowLoading(),
             isVisible: this._isVisible(),
+            isPlp,
             requestPage: this.requestPage,
             // disable this property to enable infinite scroll on desktop
             isInfiniteLoaderEnabled: this._getIsInfiniteLoaderEnabled()

@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { MouseEvent, PureComponent } from 'react';
@@ -56,12 +56,13 @@ export const mapStateToProps = (state: RootState): CartOverlayContainerMapStateP
     totals: state.CartReducer.cartTotals,
     isMobile: state.ConfigReducer.device.isMobile,
     guest_checkout: state.ConfigReducer.guest_checkout,
-    currencyCode: state.CartReducer.cartTotals.quote_currency_code,
+    currencyCode: state.CartReducer.cartTotals?.prices?.quote_currency_code,
     activeOverlay: state.OverlayReducer.activeOverlay,
     cartTotalSubPrice: getCartTotalSubPrice(state),
     cartShippingPrice: getCartShippingPrice(state),
     cartShippingSubPrice: getCartShippingSubPrice(state),
-    cartDisplaySettings: state.ConfigReducer.cartDisplayConfig
+    cartDisplaySettings: state.ConfigReducer.cartDisplayConfig,
+    minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount
 });
 
 /** @namespace Component/CartOverlay/Container/mapDispatchToProps */
@@ -80,7 +81,8 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
         cartTotalSubPrice: null,
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
-        currencyCode: undefined
+        currencyCode: undefined,
+        minimumOrderAmount: {}
     };
 
     state: CartOverlayContainerState = {
@@ -108,7 +110,10 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
             cartDisplaySettings,
             isMobile,
             cartShippingPrice,
-            cartShippingSubPrice
+            cartShippingSubPrice,
+            minimumOrderAmount: {
+                minimum_order_amount_reached: minimumOrderAmountReached = true
+            }
         } = this.props;
         const { isEditing, isCartItemLoading } = this.state;
 
@@ -124,6 +129,7 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
             cartShippingPrice,
             cartShippingSubPrice,
             isCartItemLoading,
+            minimumOrderAmountReached,
             hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items)
         };
     }
@@ -176,9 +182,9 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
     changeHeaderState(): void {
         const {
             changeHeaderState,
-            totals: { count = 0 }
+            totals: { total_quantity = 0 }
         } = this.props;
-        const title = __('%s Items', count || 0);
+        const title = __('%s Items', total_quantity || 0);
 
         changeHeaderState({
             name: Page.CART_OVERLAY,

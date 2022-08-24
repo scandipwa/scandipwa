@@ -5,7 +5,11 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
+ * @package scandipwa/scandipwa
+=======
+ * @package scandipwa/scandipwa
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -19,7 +23,12 @@ import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPo
 import CheckoutQuery from 'Query/Checkout.query';
 import { PaymentMethod, SetGuestEmailOnCartOutput, ShippingMethod } from 'Query/Checkout.type';
 import MyAccountQuery from 'Query/MyAccount.query';
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
+=======
+import { CART_URL } from 'Route/CartPage/CartPage.config';
+import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateShippingPrice } from 'Store/Cart/Cart.action';
 import { CartTotals } from 'Store/Cart/Cart.type';
@@ -28,13 +37,19 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { GQLCartAddressInput, GQLSaveAddressInformation } from 'Type/Graphql.type';
+=======
+import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
+import { Addresstype, CustomerType } from 'Type/Account.type';
+import { TotalsType } from 'Type/MiniCart.type';
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
 import { removeEmptyStreets } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { deleteGuestQuoteId, getCartTotalSubPrice, getGuestQuoteId } from 'Util/Cart';
+import { deleteCartId, getCartId, getCartTotalSubPrice } from 'Util/Cart';
 import history from 'Util/History';
 import {
     debounce,
@@ -48,8 +63,21 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import Checkout from './Checkout.component';
 import {
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
     CheckoutSteps,
     PAYMENT_TOTALS,
+=======
+    BILLING_STEP,
+    BILLING_URL,
+    BILLING_URL_STEP,
+    CHECKOUT_URL_REGEX,
+    DETAILS_STEP,
+    DETAILS_URL_STEP,
+    PAYMENT_TOTALS,
+    SHIPPING_STEP,
+    SHIPPING_URL,
+    SHIPPING_URL_STEP,
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
     UPDATE_EMAIL_CHECK_FREQUENCY
 } from './Checkout.config';
 import {
@@ -80,8 +108,14 @@ export const CheckoutDispatcher = import(
 );
 
 /** @namespace Route/Checkout/Container/mapStateToProps */
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
 export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProps => ({
+=======
+export const mapStateToProps = (state) => ({
+    selectedStore: state.StoreInPickUpReducer.store,
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
     totals: state.CartReducer.cartTotals,
+    isCartLoading: state.CartReducer.isLoading,
     cartTotalSubPrice: getCartTotalSubPrice(state),
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout,
@@ -91,11 +125,18 @@ export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProp
     isInStoreActivated: state.ConfigReducer.delivery_instore_active,
     isGuestNotAllowDownloadable: state.ConfigReducer.downloadable_disable_guest_checkout,
     savedEmail: state.CheckoutReducer.email,
-    isSignedIn: state.MyAccountReducer.isSignedIn
+    isSignedIn: state.MyAccountReducer.isSignedIn,
+    shippingFields: state.CheckoutReducer.shippingFields,
+    minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatchProps => ({
+=======
+export const mapDispatchToProps = (dispatch) => ({
+    setPickUpStore: (store) => dispatch(setPickUpStore(store)),
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     resetCart: () => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken())
@@ -126,9 +167,69 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
 });
 
 /** @namespace Route/Checkout/Container */
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
 export class CheckoutContainer extends PureComponent<CheckoutContainerProps, CheckoutContainerState> {
     static defaultProps: Partial<CheckoutContainerProps> = {
         cartTotalSubPrice: null
+=======
+export class CheckoutContainer extends PureComponent {
+    static propTypes = {
+        setPickUpStore: PropTypes.func.isRequired,
+        showErrorNotification: PropTypes.func.isRequired,
+        showInfoNotification: PropTypes.func.isRequired,
+        showSuccessNotification: PropTypes.func.isRequired,
+        toggleBreadcrumbs: PropTypes.func.isRequired,
+        setNavigationState: PropTypes.func.isRequired,
+        createAccount: PropTypes.func.isRequired,
+        updateMeta: PropTypes.func.isRequired,
+        resetCart: PropTypes.func.isRequired,
+        resetGuestCart: PropTypes.func.isRequired,
+        guest_checkout: PropTypes.bool.isRequired,
+        totals: TotalsType.isRequired,
+        customer: CustomerType.isRequired,
+        countries: PropTypes.arrayOf(
+            PropTypes.shape({
+                label: PropTypes.string,
+                id: PropTypes.string,
+                available_regions: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        code: PropTypes.string,
+                        name: PropTypes.string,
+                        id: PropTypes.number
+                    })
+                )
+            })
+        ).isRequired,
+        match: PropTypes.shape({
+            params: PropTypes.shape({
+                step: PropTypes.string
+            })
+        }).isRequired,
+        updateShippingFields: PropTypes.func.isRequired,
+        updateEmail: PropTypes.func.isRequired,
+        checkEmailAvailability: PropTypes.func.isRequired,
+        isEmailAvailable: PropTypes.bool.isRequired,
+        updateShippingPrice: PropTypes.func.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        isMobile: PropTypes.bool.isRequired,
+        cartTotalSubPrice: PropTypes.number,
+        isInStoreActivated: PropTypes.bool.isRequired,
+        isGuestNotAllowDownloadable: PropTypes.bool.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+        isCartLoading: PropTypes.bool.isRequired,
+        shippingFields: Addresstype,
+        savedEmail: PropTypes.string.isRequired,
+        minimumOrderAmount: PropTypes.shape({
+            minimum_order_amount_reached: PropTypes.bool,
+            minimum_order_description: PropTypes.string
+        })
+    };
+
+    static defaultProps = {
+        cartTotalSubPrice: null,
+        minimumOrderAmount: {},
+        shippingFields: {}
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
     };
 
     containerFunctions: CheckoutContainerFunctions = {
@@ -143,11 +244,13 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         goBack: this.goBack.bind(this),
         handleSelectDeliveryMethod: this.handleSelectDeliveryMethod.bind(this),
         onStoreSelect: this.onStoreSelect.bind(this),
-        onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
+        onShippingMethodSelect: this.onShippingMethodSelect.bind(this),
+        onChangeEmailRequired: this.onChangeEmailRequired.bind(this)
     };
 
     checkEmailAvailability = debounce((email: string): void => {
         const { checkEmailAvailability } = this.props;
+
         checkEmailAvailability(email);
     }, UPDATE_EMAIL_CHECK_FREQUENCY);
 
@@ -175,41 +278,40 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             shippingAddress: undefined,
             billingAddress: undefined,
             selectedShippingMethod: '',
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
             checkoutStep: is_virtual ? CheckoutSteps.BILLING_STEP : CheckoutSteps.SHIPPING_STEP,
+=======
+            checkoutStep: this.determineCheckoutStepFromUrl(),
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || undefined,
             email: savedEmail || '',
             isGuestEmailSaved: false,
             isCreateUser: false,
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
             estimateAddress: undefined,
             isPickInStoreMethodSelected: false,
             selectedStoreAddress: undefined,
             password: ''
+=======
+            estimateAddress: {},
+            isPickInStoreMethodSelected: false,
+            isVisibleEmailRequired: false
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
         };
-
-        if (is_virtual) {
-            this._getPaymentMethods();
-        }
     }
 
     componentDidMount(): void {
         const {
-            history,
-            showInfoNotification,
             guest_checkout,
             updateMeta,
-            isGuestNotAllowDownloadable,
-            totals: {
-                items = []
-            }
+            isGuestNotAllowDownloadable
         } = this.props;
 
         const { email } = this.state;
 
-        if (!items.length) {
-            showInfoNotification(__('Please add at least one product to cart!'));
-            history.push(appendWithStoreCode('/cart'));
-        }
+        this.handleRedirectIfNoItemsInCart();
+        this.handleRedirectIfLessThanMinAmountInCart();
 
         // if guest checkout is disabled and user is not logged in => throw him to homepage
         if (!guest_checkout && !isSignedIn()) {
@@ -228,14 +330,82 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         updateMeta({ title: __('Checkout') });
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
     componentDidUpdate(prevProps: CheckoutContainerProps, prevState: CheckoutContainerState): null {
         const { match: { params: { step: urlStep } }, isEmailAvailable, updateEmail } = this.props;
         const { match: { params: { step: prevUrlStep } } } = prevProps;
         const { email } = this.state;
         const { email: prevEmail } = prevState;
+=======
+    componentDidUpdate(prevProps, prevState) {
+        const {
+            match: {
+                params: {
+                    step: urlStep = ''
+                }
+            },
+            isEmailAvailable,
+            updateEmail,
+            isCartLoading,
+            shippingFields,
+            shippingFields: {
+                shipping_method
+            },
+            totals: {
+                is_virtual
+            },
+            showInfoNotification
+        } = this.props;
+
+        const {
+            match: {
+                params: {
+                    step: prevUrlStep = ''
+                }
+            },
+            isCartLoading: prevIsCartLoading
+        } = prevProps;
+
+        const { email, checkoutStep, isVisibleEmailRequired } = this.state;
+        const { email: prevEmail, isVisibleEmailRequired: prevIsVisibleEmailRequired } = prevState;
+        const { location: { pathname = '' } } = history;
+
+        this.handleRedirectIfNoItemsInCart();
+        this.handleRedirectIfLessThanMinAmountInCart();
+
+        if (prevIsCartLoading && !isCartLoading) {
+            if (checkoutStep === SHIPPING_STEP) {
+                if (is_virtual) {
+                    history.replace(appendWithStoreCode(BILLING_URL));
+                    this._getPaymentMethods();
+                    // eslint-disable-next-line react/no-did-update-set-state
+                    this.setState({ checkoutStep: BILLING_STEP });
+                } else if (pathname.match(CHECKOUT_URL_REGEX)) {
+                    history.replace(appendWithStoreCode(SHIPPING_URL));
+                }
+            }
+
+            const shouldGoToShipping = (
+                !shipping_method
+                && !is_virtual
+                && checkoutStep === BILLING_STEP
+            );
+
+            if (shouldGoToShipping) {
+                showInfoNotification(__('Please add a shipping address and a shipping method!'));
+                // eslint-disable-next-line react/no-did-update-set-state
+                this.setState({ checkoutStep: SHIPPING_STEP });
+            }
+
+            this.saveShippingFieldsAsShippingAddress(shippingFields, is_virtual);
+        }
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
 
         // Handle going back from billing to shipping
-        if (/shipping/.test(urlStep) && /billing/.test(prevUrlStep)) {
+        if (
+            urlStep.includes(SHIPPING_URL_STEP)
+            && prevUrlStep.includes(BILLING_URL_STEP)
+        ) {
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
             // eslint-disable-next-line react/no-did-update-set-state
@@ -245,8 +415,17 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             });
         }
 
+        if (urlStep.includes(BILLING_URL_STEP) && prevUrlStep.includes(DETAILS_URL_STEP)) {
+            BrowserDatabase.deleteItem(PAYMENT_TOTALS);
+            history.push(appendWithStoreCode(CART_URL));
+        }
+
         if (email !== prevEmail) {
             this.checkEmailAvailability(email);
+
+            if (email && isVisibleEmailRequired !== prevIsVisibleEmailRequired) {
+                this.onChangeEmailRequired();
+            }
         }
 
         if (!isEmailAvailable) {
@@ -256,9 +435,42 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         return null;
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
     componentWillUnmount(): void {
         const { toggleBreadcrumbs } = this.props;
+=======
+    componentWillUnmount() {
+        const { toggleBreadcrumbs, setPickUpStore } = this.props;
+
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
         toggleBreadcrumbs(true);
+        setPickUpStore(null);
+    }
+
+    saveShippingFieldsAsShippingAddress(address, is_virtual) {
+        const {
+            street_0,
+            street_1,
+            street_2,
+            shipping_method,
+            ...data
+        } = address;
+        const { savedEmail } = this.props;
+        const { checkoutStep } = this.state;
+
+        const checkoutData = (
+            is_virtual
+                ? { shippingAddress: {}, isGuestEmailSaved: false }
+                : {
+                    shippingAddress: data,
+                    isGuestEmailSaved: savedEmail && checkoutStep !== SHIPPING_STEP
+                }
+        );
+
+        this.setState({
+            ...checkoutData,
+            email: savedEmail
+        });
     }
 
     onEmailChange(email: string): void {
@@ -267,6 +479,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
     onCreateUserChange(): void {
         const { isCreateUser } = this.state;
+
         this.setState({ isCreateUser: !isCreateUser });
     }
 
@@ -276,14 +489,15 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
     onShippingMethodSelect(selectedShippingMethod: ShippingMethod): void {
         const { method_code } = selectedShippingMethod;
+
         this.setState({ selectedShippingMethod: method_code });
     }
 
     onShippingEstimationFieldsChange(address: EstimateAddress): void {
         const { requestsSent } = this.state;
-        const guestQuoteId = getGuestQuoteId();
+        const cartId = getCartId();
 
-        if (!guestQuoteId) {
+        if (!cartId) {
             return;
         }
 
@@ -295,7 +509,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
         fetchMutation<'estimateShippingCosts', ShippingMethod, true>(CheckoutQuery.getEstimateShippingCosts(
             address,
-            guestQuoteId
+            cartId
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/onShippingEstimationFieldsChange/fetchMutation/then */
             ({ estimateShippingCosts: shippingMethods }) => {
@@ -311,7 +525,78 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
     handleRedirectIfDownloadableInCart(): void {
+=======
+    determineCheckoutStepFromUrl() {
+        const {
+            match: {
+                params: {
+                    step: urlStep = ''
+                }
+            },
+            totals: {
+                is_virtual
+            }
+        } = this.props;
+        const { location: { pathname = '' } } = history;
+
+        if (urlStep.includes(DETAILS_URL_STEP)) {
+            return DETAILS_STEP;
+        }
+
+        if (urlStep.includes(BILLING_URL_STEP) || is_virtual) {
+            if (pathname.match(CHECKOUT_URL_REGEX)) {
+                history.replace(appendWithStoreCode(BILLING_URL));
+            }
+
+            this._getPaymentMethods();
+
+            return BILLING_STEP;
+        }
+
+        return SHIPPING_STEP;
+    }
+
+    handleRedirectIfNoItemsInCart() {
+        const {
+            totals: {
+                items = []
+            },
+            isCartLoading,
+            showInfoNotification
+        } = this.props;
+
+        const { checkoutStep, orderID } = this.state;
+
+        if (
+            (!isCartLoading && !items.length)
+            || (checkoutStep === DETAILS_STEP && !orderID)
+        ) {
+            if (checkoutStep !== DETAILS_STEP) {
+                showInfoNotification(__('Please add at least one product to cart!'));
+            }
+
+            if (!(orderID && checkoutStep === DETAILS_STEP)) {
+                history.push(appendWithStoreCode(CART_URL));
+            }
+        }
+    }
+
+    handleRedirectIfLessThanMinAmountInCart() {
+        const {
+            minimumOrderAmount: { minimum_order_amount_reached = true }
+        } = this.props;
+
+        const { checkoutStep } = this.state;
+
+        if (!minimum_order_amount_reached && checkoutStep !== DETAILS_STEP) {
+            history.push(appendWithStoreCode(CART_URL));
+        }
+    }
+
+    handleRedirectIfDownloadableInCart() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
         const { totals: { items }, showInfoNotification } = this.props;
 
         const isDownloadable = items
@@ -336,7 +621,17 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         this.setState({ selectedStoreAddress: address });
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
     goBack(): void {
+=======
+    onChangeEmailRequired() {
+        const { email } = this.state;
+
+        this.setState({ isVisibleEmailRequired: !email });
+    }
+
+    goBack() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
         const { checkoutStep } = this.state;
 
         if (checkoutStep === CheckoutSteps.BILLING_STEP) {
@@ -352,7 +647,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     setDetailsStep(orderID: string): void {
         const { resetCart, resetGuestCart, setNavigationState } = this.props;
 
-        deleteGuestQuoteId();
+        deleteCartId();
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
         if (isSignedIn()) {
@@ -409,13 +704,13 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     containerProps(): Pick<CheckoutComponentProps, CheckoutContainerPropsKeys> {
         const {
             cartTotalSubPrice,
-            history,
             isEmailAvailable,
             isMobile,
             setHeaderState,
             totals,
             isInStoreActivated,
-            isSignedIn
+            isSignedIn,
+            isCartLoading
         } = this.props;
         const {
             billingAddress,
@@ -433,7 +728,8 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             shippingAddress,
             shippingMethods,
             selectedStoreAddress,
-            isPickInStoreMethodSelected
+            isPickInStoreMethodSelected,
+            isVisibleEmailRequired
         } = this.state;
 
         return {
@@ -443,7 +739,6 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             checkoutTotals: this._getCheckoutTotals(),
             email,
             estimateAddress,
-            history,
             isCreateUser,
             isDeliveryOptionsLoading,
             isEmailAvailable,
@@ -461,7 +756,9 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             shippingMethods,
             totals,
             selectedStoreAddress,
-            isPickInStoreMethodSelected
+            isPickInStoreMethodSelected,
+            isCartLoading,
+            isVisibleEmailRequired
         };
     }
 
@@ -478,6 +775,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         return false;
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
     _getPaymentMethods(): void {
         const guestQuoteId = getGuestQuoteId();
 
@@ -487,6 +785,11 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
         fetchQuery<'getPaymentMethods', PaymentMethod, true>(CheckoutQuery.getPaymentMethodsQuery(
             guestQuoteId
+=======
+    _getPaymentMethods() {
+        fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
+            getCartId()
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/_getPaymentMethods/fetchQuery/then */
             ({ getPaymentMethods: paymentMethods }) => {
@@ -508,7 +811,11 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     saveGuestEmail(): null | Promise<boolean | SetGuestEmailOnCartOutput> {
         const { email } = this.state;
         const { updateEmail } = this.props;
-        const guestCartId = getGuestQuoteId();
+        const guestCartId = getCartId();
+
+        if (!email) {
+            this.setState({ isVisibleEmailRequired: false }, this.onChangeEmailRequired);
+        }
 
         if (!guestCartId || !email) {
             return null;
@@ -636,7 +943,11 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
         fetchMutation(CheckoutQuery.getSaveAddressInformation(
             this.prepareAddressInformation(addressInformation),
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
             guestQuoteId
+=======
+            getCartId()
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/saveAddressInformation/fetchMutation/then */
             ({ saveAddressInformation: data }) => {
@@ -755,9 +1066,13 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
     async saveBillingAddress(paymentInformation: PaymentInformation): Promise<void> {
         const isCustomerSignedIn = isSignedIn();
-        const guest_cart_id = !isCustomerSignedIn ? getGuestQuoteId() : '';
+        const guest_cart_id = getCartId();
 
+<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
         if (!isCustomerSignedIn && !guest_cart_id) {
+=======
+        if (!isCustomerSignedIn && !getCartId) {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
             return;
         }
 
@@ -783,8 +1098,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         }
 
         await fetchMutation(CheckoutQuery.getSetBillingAddressOnCart({
-            guest_cart_id,
-            same_as_shipping,
+            cart_id: guest_cart_id,
             billing_address: billingAddress
         }));
     }
@@ -792,7 +1106,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     async savePaymentMethodAndPlaceOrder(paymentInformation: PaymentInformation): Promise<void> {
         const { paymentMethod: { code, additional_data, purchase_order_number } } = paymentInformation;
         const isCustomerSignedIn = isSignedIn();
-        const guest_cart_id = !isCustomerSignedIn ? getGuestQuoteId() : '';
+        const guest_cart_id = getCartId();
 
         if (!isCustomerSignedIn && !guest_cart_id) {
             return;
@@ -804,7 +1118,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
         try {
             await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
-                guest_cart_id,
+                cart_id: guest_cart_id,
                 payment_method: {
                     code,
                     [ code ]: additional_data,

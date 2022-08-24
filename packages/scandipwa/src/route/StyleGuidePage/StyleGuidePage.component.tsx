@@ -7,8 +7,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 import { PureComponent } from 'react';
 
@@ -286,7 +286,13 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   addRequiredTag
                 />
                 <div block="Field" elem="ErrorMessages">
+<<<<<<< HEAD:packages/scandipwa/src/route/StyleGuidePage/StyleGuidePage.component.tsx
                     This field is required!
+=======
+                    <div block="Field" elem="ErrorMessage">
+                        This field is required!
+                    </div>
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/StyleGuidePage/StyleGuidePage.component.js
                 </div>
                 <Field
                   type={ FieldType.SELECT }
@@ -350,7 +356,13 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   addRequiredTag
                 />
                 <div block="Field" elem="ErrorMessages">
+<<<<<<< HEAD:packages/scandipwa/src/route/StyleGuidePage/StyleGuidePage.component.tsx
                     This field is required!
+=======
+                    <div block="Field" elem="ErrorMessage">
+                        This field is required!
+                    </div>
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/StyleGuidePage/StyleGuidePage.component.js
                 </div>
                 <Field
                   type={ FieldType.TEXT }
@@ -361,6 +373,142 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                       elem: 'Text',
                       mods: { isValid: true },
                       value: 'email@example.com'
+                  } }
+                />
+
+                <h4 block="StyleGuidePage" elem="SubHeading">{ __('Number') }</h4>
+                <Field
+                  type={ FIELD_TYPE.number }
+                  label="Number"
+                  attr={ {
+                      placeholder: __('Number'),
+                      step: 5,
+                      min: 0
+                  } }
+                  addRequiredTag
+                />
+                <Field
+                  type={ FIELD_TYPE.number }
+                  label="Number"
+                  attr={ {
+                      placeholder: __('Number'),
+                      step: 5,
+                      min: 0
+                  } }
+                  isDisabled
+                />
+                <Field
+                  type={ FIELD_TYPE.number }
+                  label="Number"
+                  attr={ {
+                      placeholder: __('Number'),
+                      step: 5,
+                      min: 0
+                  } }
+                />
+                <Field
+                  type={ FIELD_TYPE.number }
+                  label="Number"
+                  attr={ {
+                      placeholder: __('Number'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { isFocused: true },
+                      step: 5,
+                      min: 0
+                  } }
+                />
+                <Field
+                  type={ FIELD_TYPE.number }
+                  label="Number"
+                  attr={ {
+                      placeholder: __('Number'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { hasError: true },
+                      step: 5,
+                      min: 0
+                  } }
+                  addRequiredTag
+                />
+                <div block="Field" elem="ErrorMessages">
+                    <div block="Field" elem="ErrorMessage">
+                        This field is required!
+                    </div>
+                </div>
+                <Field
+                  type={ FIELD_TYPE.number }
+                  label="Number"
+                  attr={ {
+                      placeholder: __('Number'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { isValid: true },
+                      value: 56,
+                      step: 5,
+                      min: 0
+                  } }
+                />
+
+                <h4 block="StyleGuidePage" elem="SubHeading">{ __('Telephone') }</h4>
+                <Field
+                  type={ FIELD_TYPE.tel }
+                  label="Telephone"
+                  attr={ {
+                      placeholder: __('Telephone')
+                  } }
+                  addRequiredTag
+                />
+                <Field
+                  type={ FIELD_TYPE.tel }
+                  label="Telephone"
+                  attr={ {
+                      placeholder: __('Telephone')
+                  } }
+                  isDisabled
+                />
+                <Field
+                  type={ FIELD_TYPE.tel }
+                  label="Telephone"
+                  attr={ {
+                      placeholder: __('Telephone')
+                  } }
+                />
+                <Field
+                  type={ FIELD_TYPE.tel }
+                  label="Telephone"
+                  attr={ {
+                      placeholder: __('Telephone'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { isFocused: true }
+                  } }
+                />
+                <Field
+                  type={ FIELD_TYPE.tel }
+                  label="Telephone"
+                  attr={ {
+                      placeholder: __('Telephone'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { hasError: true }
+                  } }
+                  addRequiredTag
+                />
+                <div block="Field" elem="ErrorMessages">
+                    <div block="Field" elem="ErrorMessage">
+                        This field is required!
+                    </div>
+                </div>
+                <Field
+                  type={ FIELD_TYPE.tel }
+                  label="Telephone"
+                  attr={ {
+                      placeholder: __('Telephone'),
+                      block: 'StyleGuidePage',
+                      elem: 'Text',
+                      mods: { isValid: true },
+                      value: '998901234567'
                   } }
                 />
 
@@ -385,7 +533,9 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   attr={ { block: 'StyleGuidePage', elem: 'ErrorInput', id: 'errorCheckbox' } }
                 />
                 <div block="Field" elem="ErrorMessages">
-                    This is an error message
+                    <div block="Field" elem="ErrorMessage">
+                        This is an error message
+                    </div>
                 </div>
                 <Field
                   type={ FieldType.CHECKBOX }
@@ -416,7 +566,9 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   attr={ { block: 'StyleGuidePage', elem: 'ErrorInput', id: 'errorRadio' } }
                 />
                 <div block="Field" elem="ErrorMessages">
-                    This is an error message
+                    <div block="Field" elem="ErrorMessage">
+                        This is an error message
+                    </div>
                 </div>
                 <Field
                   type={ FieldType.RADIO }

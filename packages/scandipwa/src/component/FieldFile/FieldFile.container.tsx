@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -40,6 +40,7 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
 
     setRef(elem: HTMLInputElement | null): void {
         const { setRef } = this.props;
+
         setRef(elem);
 
         if (elem && this.fieldRef !== elem) {
@@ -48,18 +49,27 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
     }
 
     onChange(value: string): void {
-        const { events: { onChange } = {} } = this.props;
+        const { events: { onChange } = {}, validate } = this.props;
 
         if (this.fieldRef) {
             const { files } = this.fieldRef;
-            this.setState({ isLoading: true });
 
-            if (!files) {
+            this.setState({ isLoading: true });
+            const { name } = files[0] || {};
+
+            validate();
+
+            if (!name) {
+                this.setState({
+                    fileName: '',
+                    isLoading: false
+                });
+
                 return;
             }
 
-            const { name } = files[ 0 ];
             const reader = new FileReader();
+
             reader.onload = () => {
                 this.setState({
                     fileName: name,
@@ -96,7 +106,8 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
                 autoComplete,
                 ...attr
             } = {},
-            setRef
+            setRef,
+            resetFieldValue
         } = this.props;
         const { fileName, isLoading } = this.state;
 
@@ -107,6 +118,7 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
                 ...events,
                 onChange: this.onChange.bind(this)
             },
+            resetFieldValue: resetFieldValue.bind(this, { setState: (val) => this.setState(val) }),
             fileName,
             isLoading
         };

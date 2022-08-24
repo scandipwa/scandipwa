@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -57,8 +57,13 @@ export class SearchOverlay extends PureComponent<SearchOverlayComponentProps> {
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/SearchOverlay/SearchOverlay.component.tsx
     renderNoResults(): ReactElement {
         return <p>{ __('No results found!') }</p>;
+=======
+    renderNoResults() {
+        return <p block="NoResults">{ __('No results found!') }</p>;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/SearchOverlay/SearchOverlay.component.js
     }
 
     renderSearchResults(): ReactElement {
@@ -71,7 +76,10 @@ export class SearchOverlay extends PureComponent<SearchOverlayComponentProps> {
         const resultsToRender = (isLoading || this.timeout) ? Array(AMOUNT_OF_PLACEHOLDERS).fill({}) : searchResults;
 
         return (
-            <ul>
+            <ul
+              block="SearchOverlay"
+              elem="ItemsHolder"
+            >
                 { resultsToRender.map((item, i) => this.renderSearchItem(item, i)) }
             </ul>
         );

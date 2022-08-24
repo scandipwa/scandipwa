@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { lazy, PureComponent, Suspense } from 'react';
@@ -100,6 +100,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
 
     onFilterButtonClick(): void {
         const { toggleOverlayByKey } = this.props;
+
         toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
     }
 
@@ -156,8 +157,9 @@ S extends CategoryPageComponentState = CategoryPageComponentState
             totalPages,
             category: { is_anchor },
             isSearchPage,
-            isMatchingInfoFilter,
-            isCurrentCategoryLoaded
+            isCurrentCategoryLoaded,
+            isMatchingInfoFilter
+
         } = this.props;
 
         if (!isMatchingInfoFilter) {
@@ -181,6 +183,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.component.tsx
     renderPlaceholder(block: string): ReactElement {
         return (
             <>
@@ -195,13 +198,21 @@ S extends CategoryPageComponentState = CategoryPageComponentState
     }
 
     renderFilterPlaceholder(): ReactElement {
+=======
+    renderFilterPlaceholder() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.component.js
         return (
             <div block="CategoryPage" elem="PlaceholderWrapper">
-                <h3 block="CategoryPage" elem="PlaceholderHeading">
-                    { __('Shopping Options') }
-                </h3>
-                <div block="CategoryPage" elem="FilterPlaceholderContainer">
-                    { this.renderPlaceholder('CategoryPage') }
+                <div block="CategoryPage" elem="PlaceholderContainer">
+                    <h3 block="CategoryPage" elem="PlaceholderHeading">
+                        { __('Shopping Options') }
+                    </h3>
+                    <div block="CategoryPage" elem="PlaceholderList">
+                        <div block="CategoryPage" elem="PlaceholderListItem" />
+                        <div block="CategoryPage" elem="PlaceholderListItem" />
+                        <div block="CategoryPage" elem="PlaceholderListItem" />
+                    </div>
+                    <Loader isLoading />
                 </div>
             </div>
         );
@@ -248,15 +259,22 @@ S extends CategoryPageComponentState = CategoryPageComponentState
             sortFields,
             selectedSort,
             onSortChange,
-            isMatchingInfoFilter
+            isMatchingInfoFilter,
+            isCurrentCategoryLoaded,
+            isMobile
         } = this.props;
 
         const { options = [] } = sortFields;
         const updatedSortFields: CategorySortField[] = options.map(({ value: id, label }) => ({ id, label }));
         const { sortDirection, sortKey } = selectedSort;
 
+        if (isMobile && !isMatchingInfoFilter) {
+            return this.renderFilterButtonPlaceholder();
+        }
+
         return (
             <CategorySort
+              isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
               isMatchingInfoFilter={ isMatchingInfoFilter }
               onSortChange={ onSortChange }
               sortFields={ updatedSortFields }
@@ -326,10 +344,15 @@ S extends CategoryPageComponentState = CategoryPageComponentState
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.component.tsx
     renderItemsCount(isVisibleOnMobile = false): ReactElement {
         const { isMatchingListFilter, isMobile, totalItems } = this.props;
+=======
+    renderItemsCount(isVisibleOnMobile = false) {
+        const { isMatchingListFilter, isMobile } = this.props;
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.component.js
 
-        if ((isVisibleOnMobile && !isMobile) || (!isVisibleOnMobile && isMobile) || totalItems === 0) {
+        if ((isVisibleOnMobile && !isMobile) || (!isVisibleOnMobile && isMobile)) {
             return null;
         }
 
@@ -401,6 +424,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.component.tsx
     renderMiscellaneous(): ReactElement {
         const { totalItems } = this.props;
 
@@ -408,23 +432,31 @@ S extends CategoryPageComponentState = CategoryPageComponentState
             return <aside block="CategoryPage" elem="Miscellaneous" mods={ { noResults: true } } />;
         }
 
+=======
+    renderMiscellaneous() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.component.js
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
                 { this.renderItemsCount() }
                 <div
                   block="CategoryPage"
-                  elem="LayoutWrapper"
-                  mods={ { isPrerendered: isSSR() || isCrawler() } }
+                  elem="MiscellaneousLayoutWrapper"
                 >
-                    { this.renderLayoutButtons() }
-                    { this.renderCategorySort() }
-                </div>
-                <div
-                  block="CategoryPage"
-                  elem="LayoutWrapper"
-                  mods={ { isPrerendered: isSSR() || isCrawler() } }
-                >
-                    { this.renderFilterButton() }
+                  <div
+                    block="CategoryPage"
+                    elem="LayoutWrapper"
+                    mods={ { isPrerendered: isSSR() || isCrawler() } }
+                  >
+                      { this.renderLayoutButtons() }
+                      { this.renderCategorySort() }
+                  </div>
+                  <div
+                    block="CategoryPage"
+                    elem="LayoutWrapper"
+                    mods={ { isPrerendered: isSSR() || isCrawler() } }
+                  >
+                      { this.renderFilterButton() }
+                  </div>
                 </div>
             </aside>
         );

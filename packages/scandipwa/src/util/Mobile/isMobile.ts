@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 export const isUsingClientHints = 'userAgentData' in navigator;
 
@@ -22,8 +22,13 @@ export const isMobile = {
         && !/FxiOS/i.test(agent),
     windows: (agent = navigator.userAgent): boolean => /iemobile/i.test(agent),
     // iPad uses 810 so we need to handle that.
+<<<<<<< HEAD:packages/scandipwa/src/util/Mobile/isMobile.ts
     any: (): boolean => window.matchMedia('(max-width: 810px)').matches,
     standaloneMode: (): boolean => window.matchMedia('(display-mode: standalone)').matches
+=======
+    any: () => window.matchMedia('(max-width: 810px)').matches && window.matchMedia('screen').matches,
+    standaloneMode: () => window.matchMedia('(display-mode: standalone)').matches
+>>>>>>> scandipwa/master:packages/scandipwa/src/util/Mobile/isMobile.js
 };
 
 // https://medium.com/@galmeiri/get-ready-for-chrome-user-agent-string-phase-out-c6840da1c31e

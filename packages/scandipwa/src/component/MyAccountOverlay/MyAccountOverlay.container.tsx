@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import {
@@ -156,7 +156,7 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
         const { isOverlayVisible } = this.props;
-        const { location: { pathname } } = history;
+        const { location: { pathname } } = history || {};
 
         const {
             isSignedIn,
@@ -294,12 +294,14 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
 
     stopLoadingAndHideOverlay(): void {
         const { hideActiveOverlay, updateCustomerLoadingStatus } = this.props;
+
         updateCustomerLoadingStatus(false);
         hideActiveOverlay();
     }
 
     handleForgotPassword(e: MouseEvent): void {
         const { setHeaderState } = this.props;
+
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: MyAccountPageState.STATE_FORGOT_PASSWORD });
@@ -313,6 +315,7 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
 
     handleSignIn(e: MouseEvent): void {
         const { setHeaderState } = this.props;
+
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: MyAccountPageState.STATE_SIGN_IN });
@@ -325,6 +328,7 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
 
     handleCreateAccount(e: MouseEvent): void {
         const { setHeaderState } = this.props;
+
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: MyAccountPageState.STATE_CREATE_ACCOUNT });

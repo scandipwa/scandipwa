@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
@@ -34,20 +34,21 @@
         }
     }
 
-    &-StickyButtonWrapper {
-        @include mobile {
-            border-block-start: 1px solid var(--primary-divider-color);
-            position: fixed;
-            inset-inline-start: 0;
-            width: 100%;
-            z-index: 85;
-            inset-block-end: var(--footer-total-height);
-            background-color: var(--color-white);
-            padding: 16px;
+    &-FullPageLoader {
+        height: 100vh;
+        position: fixed;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        // Set to 200 to hide the CookiePopup component whose z-index is 200
+        z-index: 201;
+        width: 100vw;
+        background: #fff;
+    }
 
-            .hideOnScroll & {
-                transform: translateY(var(--footer-nav-height));
-            }
+    &-StickyButtonWrapper {
+        @include mobile-bottom-wrapper {
+            padding: 16px;
+            inset-block-end: 16px;
         }
 
         .Button {
@@ -170,9 +171,12 @@
         }
     }
 
+    &-Discount {
+        padding-inline: 16px
+    }
+
     .Checkout-ExpandableContentContent {
         margin-block-start: 0;
-        padding: 0 16px;
     }
 
     .CheckoutOrderSummary-ButtonWrapper {

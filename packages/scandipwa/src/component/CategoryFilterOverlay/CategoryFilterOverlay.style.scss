@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 :root {
@@ -29,7 +29,6 @@
     }
 
     @include mobile {
-        transition: transform 200ms ease-in-out;
         transform: translateY(100%);
         will-change: transform;
         overflow-y: hidden;
@@ -129,10 +128,12 @@
         --option-margin-inline: 6px;
 
         @include mobile {
+            max-width: 100vw;
             --option-margin-block: 7px;
             --option-margin-inline: 7px;
 
             padding: 16px;
+            padding-block-end: calc(var(--button-height) + 32px);
         }
 
         @include desktop {
@@ -175,9 +176,11 @@
         }
 
         @include mobile {
-            position: sticky;
+            position: fixed;
+            inset-block-end: 0;
             background-color: var(--color-white);
             border-block-start: 1px solid var(--primary-divider-color);
+            padding-block-end: calc(16px + env(safe-area-inset-bottom));
         }
 
         .CategoryFilterOverlay-NoResults ~ & {

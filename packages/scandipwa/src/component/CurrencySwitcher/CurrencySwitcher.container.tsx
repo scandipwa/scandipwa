@@ -5,18 +5,21 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { CART_URL } from 'Route/CartPage/CartPage.config';
+import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { ConfigDispatcher } from 'Store/Config/Config.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import DataContainer from 'Util/Request/DataContainer';
 import { RootState } from 'Util/Store/Store.type';
+import { appendWithStoreCode } from 'Util/Url';
 
 import CurrencySwitcher from './CurrencySwitcher.component';
 import {
@@ -52,7 +55,16 @@ export class CurrencySwitcherContainer extends DataContainer<CurrencySwitcherCon
 
         updateCurrency({ currencyCode }).then(
             /** @namespace Component/CurrencySwitcher/Container/CurrencySwitcherContainer/_handleCurrencySelect/updateCurrency/then */
-            () => location.reload()
+            () => {
+                const { pathname = '' } = location;
+                const checkoutOrCartUrlsRegex = (
+                    new RegExp(`^(${appendWithStoreCode('')})?((${CheckoutStepUrl.CHECKOUT_URL})|(${CART_URL}(/)?$))`)
+                );
+
+                if (!pathname.match(checkoutOrCartUrlsRegex)) {
+                    location.reload();
+                }
+            }
         );
     }
 

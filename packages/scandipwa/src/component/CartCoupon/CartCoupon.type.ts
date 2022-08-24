@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -15,19 +15,21 @@ import { Mix } from 'Type/Common.type';
 export interface CartCouponContainerMapStateProps {}
 
 export interface CartCouponContainerMapDispatchProps {
-    applyCouponToCart: (couponCode: string) => Promise<void>;
+    applyCouponToCart: (couponCode: string) => Promise<boolean>;
     removeCouponFromCart: () => Promise<void>;
 }
 
 export interface CartCouponContainerFunctions {
     handleApplyCouponToCart: (coupon: string) => void;
     handleRemoveCouponFromCart: () => void;
+    resetIsIncorrectCoupon: () => void;
 }
 
 export interface CartCouponContainerBaseProps {
     couponCode: string;
     mix: Mix;
     title: string;
+    onCouponCodeUpdate: () => void;
 }
 
 export type CartCouponContainerProps = CartCouponContainerMapStateProps
@@ -36,6 +38,7 @@ export type CartCouponContainerProps = CartCouponContainerMapStateProps
 
 export interface CartCouponContainerState {
     isLoading: boolean;
+    isIncorrectCoupon: boolean;
 }
 
 export interface CartCouponComponentProps {
@@ -45,14 +48,18 @@ export interface CartCouponComponentProps {
     handleRemoveCouponFromCart: () => void;
     mix: Mix;
     title: string;
+    isIncorrectCoupon: boolean;
+    resetIsIncorrectCoupon: () => void;
 }
 
 export interface CartCouponComponentState {
     enteredCouponCode: string;
+    isFieldWithError: boolean;
 }
 
 export type CartCouponContainerPropsKeys =
 | 'isLoading'
 | 'couponCode'
 | 'mix'
-| 'title';
+| 'title'
+| 'isIncorrectCoupon';

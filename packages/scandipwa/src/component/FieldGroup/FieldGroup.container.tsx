@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -117,7 +117,7 @@ export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps,
         const fields = getFieldsData(
             this.groupRef,
             false,
-            [FieldType.NUMBER, FieldType.BUTTON]
+            [FieldType.NUMBER_WITH_CONTROLS, FieldType.BUTTON]
         );
 
         hook(...[...args, { ...attr, formRef: this.groupRef, fields }]);
@@ -140,13 +140,16 @@ export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps,
 
         // Surrounds events with validation
         const newEvents: FieldGroupEvents = {} as FieldGroupEvents;
+
         (Object.keys(events) as Array<keyof FieldGroupEvents>).forEach((eventName) => {
             const { [ eventName as keyof FieldGroupEvents]: event } = events;
-            this.surroundEvent.bind(this, event);
+
+            newEvents[eventName] = this.surroundEvent.bind(this, event);
         });
 
         (validateOn as Array<keyof FieldGroupEvents>).forEach((eventName) => {
             const { [ eventName as keyof typeof events ]: baseEvent } = events;
+
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             newEvents[ eventName ] = (baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate) as any;
         });

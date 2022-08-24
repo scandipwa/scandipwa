@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { FieldType } from 'Component/Field/Field.config';
@@ -36,11 +36,19 @@ export const shareWishlistForm = (): Partial<FieldContainerProps>[] => [
     },
     {
         label: __('Message'),
+<<<<<<< HEAD:packages/scandipwa/src/component/ShareWishlistForm/ShareWishlistForm.form.ts
         type: FieldType.TEXTAREA,
+=======
+        type: FIELD_TYPE.textarea,
+        validateOn: ['onChange'],
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ShareWishlistForm/ShareWishlistForm.form.js
         attr: {
             name: 'message',
             placeholder: __('Message'),
             'aria-label': __('Message')
+        },
+        validationRule: {
+            isRequired: false
         }
     }
 ];

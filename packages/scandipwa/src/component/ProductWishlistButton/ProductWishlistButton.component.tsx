@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { MouseEvent, PureComponent } from 'react';
@@ -58,6 +58,7 @@ export class ProductWishlistButton extends PureComponent<ProductWishlistButtonCo
         } = this.props;
 
         e.preventDefault();
+        e.stopPropagation();
 
         if (!isInWishlist) {
             return addToWishlist();

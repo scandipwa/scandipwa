@@ -5,14 +5,21 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+<<<<<<< HEAD:packages/scandipwa/src/route/LoginAccount/LoginAccount.container.tsx
+ * @package scandipwa/scandipwa
+=======
+ * @package scandipwa/scandipwa
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/LoginAccount/LoginAccount.container.js
  * @link https://github.com/scandipwa/scandipwa
  */
 
 import { ComponentType } from 'react';
 import { connect } from 'react-redux';
+<<<<<<< HEAD:packages/scandipwa/src/route/LoginAccount/LoginAccount.container.tsx
 import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
+=======
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/LoginAccount/LoginAccount.container.js
 
 import { Page } from 'Component/Header/Header.config';
 import {
@@ -24,7 +31,10 @@ import { MyAccountOverlayContainerState } from 'Component/MyAccountOverlay/MyAcc
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { showNotification } from 'Store/Notification/Notification.action';
+<<<<<<< HEAD:packages/scandipwa/src/route/LoginAccount/LoginAccount.container.tsx
 import { ReactElement } from 'Type/Common.type';
+=======
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/LoginAccount/LoginAccount.container.js
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
@@ -45,8 +55,19 @@ export const mapDispatchToProps = (dispatch: Dispatch): LoginAccountContainerMap
 });
 
 /** @namespace Route/LoginAccount/Container */
+<<<<<<< HEAD:packages/scandipwa/src/route/LoginAccount/LoginAccount.container.tsx
 export class LoginAccountContainer extends MyAccountOverlayContainer<LoginAccountContainerProps> {
     containerFunctions: LoginAccountContainerFunctions = {
+=======
+export class LoginAccountContainer extends MyAccountOverlayContainer {
+    static propTypes = {
+        ...MyAccountOverlayContainer.propTypes,
+        toggleBreadcrumbs: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired
+    };
+
+    containerFunctions = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/LoginAccount/LoginAccount.container.js
         ...this.containerFunctions,
         onCreateAccountClick: this.onCreateAccountClick.bind(this)
     };
@@ -62,14 +83,16 @@ export class LoginAccountContainer extends MyAccountOverlayContainer<LoginAccoun
     componentDidMount(): void {
         const {
             setHeaderState,
-            toggleBreadcrumbs,
+            toggleBreadcrumbs
+        } = this.props;
+        const {
             location: {
                 state: {
                     isFromEmailChange = false,
                     isFromLocked = false
                 } = {}
             }
-        } = this.props;
+        } = history;
 
         if (isSignedIn() && (!isFromEmailChange && !isFromLocked)) {
             history.replace(appendWithStoreCode(AccountPageUrl.ACCOUNT_URL));
@@ -101,6 +124,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer<LoginAccoun
     }
 }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/LoginAccount/LoginAccount.container.tsx
 export default withRouter(
     connect(
         mapStateToProps,
@@ -109,3 +133,6 @@ export default withRouter(
         LoginAccountContainer as unknown as ComponentType<LoginAccountContainerProps>
     )
 );
+=======
+export default connect(mapStateToProps, mapDispatchToProps)(LoginAccountContainer);
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/LoginAccount/LoginAccount.container.js

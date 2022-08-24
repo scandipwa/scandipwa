@@ -5,14 +5,18 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { Dispatch } from 'redux';
 
 import OrderQuery from 'Query/Order.query';
+<<<<<<< HEAD:packages/scandipwa/src/store/Order/Order.dispatcher.ts
 import { OrderItem, ReorderOutput } from 'Query/Order.type';
+=======
+import { CART_URL } from 'Route/CartPage/CartPage.config';
+>>>>>>> scandipwa/master:packages/scandipwa/src/store/Order/Order.dispatcher.js
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
@@ -31,6 +35,7 @@ export const CartDispatcher = import(
 export class OrderDispatcher {
     requestOrders(dispatch: Dispatch, page = 1): Promise<void> {
         const query = OrderQuery.getOrderListQuery({ page });
+
         dispatch(setLoadingStatus(true));
 
         return fetchQuery(query).then(
@@ -54,9 +59,14 @@ export class OrderDispatcher {
         } = await this.handleReorderMutation(dispatch, incrementId) || {};
 
         const cartDispatcher = (await CartDispatcher).default;
+<<<<<<< HEAD:packages/scandipwa/src/store/Order/Order.dispatcher.ts
         cartDispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken());
+=======
 
-        history.push(appendWithStoreCode('/cart'));
+        cartDispatcher.updateInitialCartData(dispatch, getAuthorizationToken());
+>>>>>>> scandipwa/master:packages/scandipwa/src/store/Order/Order.dispatcher.js
+
+        history.push(appendWithStoreCode(CART_URL));
 
         if (userInputErrors.length) {
             userInputErrors.map((
@@ -90,6 +100,60 @@ export class OrderDispatcher {
             return items[0];
         } catch (error) {
             dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError | NetworkError[])));
+
+            return null;
+        }
+    }
+
+    async getOrderInvoice(dispatch, invoiceId) {
+        try {
+            const {
+                orderByInvoice
+            } = await fetchQuery(OrderQuery.getOrderByInvoice(invoiceId));
+
+            const invoice = orderByInvoice.invoices.find(({ id }) => atob(id) === invoiceId);
+
+            orderByInvoice.invoices = [invoice];
+
+            return orderByInvoice;
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
+
+            return null;
+        }
+    }
+
+    async getOrderShipment(dispatch, shipmentId) {
+        try {
+            const {
+                orderByShipment
+            } = await fetchQuery(OrderQuery.getOrderByShipment(shipmentId));
+
+            const shipment = orderByShipment.shipments.find(({ id }) => atob(id) === shipmentId);
+
+            orderByShipment.shipments = [shipment];
+
+            return orderByShipment;
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
+
+            return null;
+        }
+    }
+
+    async getOrderRefund(dispatch, refundId) {
+        try {
+            const {
+                orderByRefund
+            } = await fetchQuery(OrderQuery.getOrderByRefund(refundId));
+
+            const refund = orderByRefund.credit_memos.find(({ id }) => atob(id) === refundId);
+
+            orderByRefund.credit_memos = [refund];
+
+            return orderByRefund;
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
 
             return null;
         }

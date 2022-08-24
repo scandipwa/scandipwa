@@ -5,13 +5,12 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 
 import MyAccountQuery from 'Query/MyAccount.query';
@@ -91,7 +90,7 @@ MyAccountInformationContainerState
                     editPassword = false
                 } = {}
             }
-        } = this.props;
+        } = history;
 
         this.state = {
             showEmailChangeField: false,
@@ -208,6 +207,7 @@ MyAccountInformationContainerState
         const mutation = MyAccountQuery.getUpdateInformationMutation(options);
 
         const { updateCustomerV2: { customer } } = await fetchMutation(mutation);
+
         BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
         updateCustomer(customer);
     }
@@ -226,6 +226,7 @@ MyAccountInformationContainerState
 
         if (message.includes('locked')) {
             updateIsLocked(true);
+
             return;
         }
 
@@ -250,4 +251,4 @@ MyAccountInformationContainerState
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MyAccountInformationContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountInformationContainer);

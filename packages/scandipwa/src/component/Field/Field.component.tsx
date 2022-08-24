@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import {
@@ -19,7 +19,7 @@ import {
 } from 'react';
 
 import FieldFile from 'Component/FieldFile';
-import { FieldNumberContainer } from 'Component/FieldNumber/FieldNumber.container';
+import { FieldNumberWithControlsContainer } from 'Component/FieldNumberWithControls/FieldNumberWithControls.container';
 import FieldSelectContainer from 'Component/FieldSelect/FieldSelect.container';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
@@ -62,13 +62,15 @@ export class Field extends PureComponent<FieldComponentProps> {
         [FieldType.DATE]: this.renderDefaultInput.bind(this),
         [FieldType.PASSWORD]: this.renderDefaultInput.bind(this),
         [FieldType.SUBMIT]: this.renderDefaultInput.bind(this),
+        [FieldType.TEL]: this.renderDefaultInput.bind(this),
+        [FieldType.NUMBER]: this.renderDefaultInput.bind(this),
 
         // Custom fields
         [FieldType.FILE]: this.renderFile.bind(this),
         [FieldType.SELECT]: this.renderSelect.bind(this),
         [FieldType.TEXTAREA]: this.renderTextArea.bind(this),
         [FieldType.BUTTON]: this.renderButton.bind(this),
-        [FieldType.NUMBER]: this.renderNumber.bind(this)
+        [FieldType.NUMBER_WITH_CONTROLS]: this.renderNumberWithControls.bind(this)
 
     };
 
@@ -90,27 +92,37 @@ export class Field extends PureComponent<FieldComponentProps> {
     }
 
     renderFile(): ReactElement {
-        const { attr, events, setRef } = this.props;
+        const {
+            attr,
+            events,
+            setRef,
+            validate,
+            resetFieldValue
+        } = this.props;
 
         return (
             <FieldFile
               attr={ attr as InputHTMLAttributes<HTMLInputElement> }
               events={ events as Omit<FieldEvents, 'onChange'> & FieldInputCustomEvents }
               setRef={ setRef }
+              validate={ validate }
+              resetFieldValue={ resetFieldValue }
             />
         );
     }
 
-    renderNumber(): ReactElement {
+    renderNumberWithControls(): ReactElement {
         const {
             attr,
             events,
             setRef,
+            value,
             isDisabled = false
         } = this.props;
 
         return (
-            <FieldNumberContainer
+            <FieldNumberWithControlsContainer
+              value={ value }
               attr={ attr as InputHTMLAttributes<HTMLInputElement> }
               events={ events as Omit<FieldEvents, 'onChange'> & FieldNumberCustomEvents }
               setRef={ setRef }
@@ -182,8 +194,9 @@ export class Field extends PureComponent<FieldComponentProps> {
             ...events,
             onChange: onChange || noopFn
         };
-        const isButtonDisabled = (typeof value === 'string' && !value.match('none') && isDisabled);
-        const isChecked = isButtonDisabled || defaultChecked ? !isDisabled : undefined;
+        // if button value is "none" do not disable
+        const isButtonDisabled = (!value.match('none') && isDisabled);
+        const isChecked = checked || (isButtonDisabled || defaultChecked ? !isDisabled : null);
 
         return (
             <label htmlFor={ id } block="Field" elem={ `${elem}Label` } mods={ { isDisabled } }>
@@ -191,8 +204,10 @@ export class Field extends PureComponent<FieldComponentProps> {
                   ref={ (elem) => setRef(elem) }
                   disabled={ isButtonDisabled ? isDisabled : false }
                   type={ type }
-                  { ...{ ...newAttr, checked: checked || isChecked } as InputHTMLAttributes<HTMLInputElement> }
+                  { ...newAttr as InputHTMLAttributes<HTMLInputElement> }
                   { ...inputEvents as FieldReactEvents<HTMLInputElement> }
+                  // shipping options have checked attr assigned so prioritize its value
+                  defaultChecked={ isChecked }
                 />
                 <div block="input-control" mods={ { disabled: { isDisabled } } } />
                 { label }
@@ -301,7 +316,8 @@ export class Field extends PureComponent<FieldComponentProps> {
         const {
             type, validationResponse, mix
         } = this.props;
-        const inputRenderer = this.renderMap[type];
+        const inputRenderer = this.renderMap[type] ?? this.renderDefaultInput.bind(this);
+        const { mods: { hasError = false } = {} } = mix;
 
         return (
             <div block="Field" elem="Wrapper" mods={ { type } }>
@@ -309,7 +325,7 @@ export class Field extends PureComponent<FieldComponentProps> {
                   block="Field"
                   mods={ {
                       type,
-                      isValid: validationResponse === true,
+                      isValid: !hasError && validationResponse === true,
                       hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
                   } }
                   mix={ mix }

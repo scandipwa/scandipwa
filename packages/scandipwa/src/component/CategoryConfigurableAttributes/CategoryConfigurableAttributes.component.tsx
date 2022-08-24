@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import ExpandableContent from 'Component/ExpandableContent';
@@ -60,6 +60,7 @@ CategoryConfigurableAttributesComponentProps
                     const { label: oldLabel } = option;
                     const [from, to] = oldLabel.split('~');
                     const label = getPriceFilterLabel(from, to, currencyCode);
+
                     acc[key] = { ...option, label };
 
                     return acc;

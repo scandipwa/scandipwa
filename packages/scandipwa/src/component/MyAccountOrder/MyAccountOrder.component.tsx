@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
@@ -18,17 +18,31 @@ import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
 import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
 import { CreditMemo } from 'Query/Order.type';
 import { ReactElement } from 'Type/Common.type';
+import { ACCOUNT_ORDER_PRINT_URL } from 'Route/MyAccount/MyAccount.config';
+import { noopFn } from 'Util/Common';
 import { convertStringToDate, getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
+import { appendWithStoreCode } from 'Util/Url';
 
 import {
-    OrderTabs
+    OrderTabs,
+    ORDER_ACTION_LABELS,
 } from './MyAccountOrder.config';
 import { MyAccountOrderComponentProps, OrderRenderItems, OrderTab } from './MyAccountOrder.type';
 
 import './MyAccountOrder.style';
 
 /** @namespace Component/MyAccountOrder/Component */
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.tsx
 export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> {
+=======
+export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> {
+    static defaultProps: Partial<MyAccountOrderComponentProps> = {
+        isLoading: true,
+        handleReorder: noopFn,
+        handleChangeActiveTab: noopFn
+    };
+
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.js
     renderMap = {
         renderOrderItemsTable: this.renderOrderItemsTable.bind(this),
         renderOrderCreditMemoTable: this.renderOrderCreditMemoTable.bind(this)
@@ -119,6 +133,10 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
 
     renderOrderItemsTable(items: OrderRenderItems, index: number): ReactElement {
         const { activeTab, order: { total: orderTotal, items: allOrderItems, id } } = this.props;
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.tsx
+=======
+        const { total: itemsTotal, id: itemId } = items;
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.js
 
         return (
             <MyAccountOrderItemsTable
@@ -126,7 +144,12 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
               activeTab={ activeTab }
               items={ items }
               allOrderItems={ allOrderItems }
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.tsx
               total={ orderTotal }
+=======
+              total={ itemsTotal || orderTotal }
+              id={ activeTab === OrderTabs.ORDER_ITEMS ? id : atob(itemId) }
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.js
             />
         );
     }
@@ -159,7 +182,32 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.tsx
     renderActions(): ReactElement {
+=======
+    renderPrintAllAction() {
+        const { activeTab, order: { id } } = this.props;
+
+        const { printAllUrl, printAll } = ORDER_ACTION_LABELS[activeTab] || {};
+
+        if (!printAllUrl) {
+            return null;
+        }
+
+        return (
+            <Link
+              block="MyAccountOrder"
+              elem="PrintOrder"
+              to={ appendWithStoreCode(`${printAllUrl}/${id}`) }
+              isOpenInNewTab
+            >
+                { printAll }
+            </Link>
+        );
+    }
+
+    renderActions() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.js
         const {
             handleChangeActiveTab,
             activeTab
@@ -168,8 +216,11 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
         return (
             <div block="MyAccountOrder" elem="Actions">
                 <div block="MyAccountOrder" elem="Buttons">
-                    { this.renderReorderButton() }
-                    { this.renderSubscriptionButton() }
+                    <div>
+                        { this.renderReorderButton() }
+                        { this.renderSubscriptionButton() }
+                    </div>
+                    { this.renderPrintOrder() }
                 </div>
                 { this.renderOrderComments() }
                 <MyAccountOrderTabs
@@ -177,11 +228,31 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
                   handleChangeActiveTab={ handleChangeActiveTab }
                   activeTab={ activeTab }
                 />
+                { this.renderPrintAllAction() }
             </div>
         );
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.tsx
     renderOrderComments(): ReactElement {
+=======
+    renderPrintOrder() {
+        const { order: { id } } = this.props;
+
+        return (
+            <Link
+              block="MyAccountOrder"
+              elem="SubscribeToStatus"
+              to={ appendWithStoreCode(`${ACCOUNT_ORDER_PRINT_URL}/${id}`) }
+              isOpenInNewTab
+            >
+                { __('Print Order') }
+            </Link>
+        );
+    }
+
+    renderOrderComments() {
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.js
         const { activeTab, order: { comments = [] } } = this.props;
 
         if (activeTab !== OrderTabs.ORDER_ITEMS || !comments || !comments.length) {
@@ -201,6 +272,7 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
                         <dl
                           block="MyAccountOrder"
                           elem="Comment"
+                          key={ `${activeTab}-comment-${timestamp}` }
                         >
                             <dt>{ getTimeInCurrentTimezone(timestamp).toString() }</dt>
                             <dd>{ message }</dd>

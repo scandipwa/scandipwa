@@ -5,16 +5,26 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+<<<<<<< HEAD:packages/scandipwa/src/route/MyAccount/MyAccount.container.tsx
 import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
+=======
+
+import {
+    CUSTOMER_ACCOUNT,
+    CUSTOMER_ACCOUNT_PAGE,
+    CUSTOMER_ORDER,
+    CUSTOMER_WISHLIST
+} from 'Component/Header/Header.config';
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/MyAccount/MyAccount.container.js
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { updateIsLocked } from 'Store/MyAccount/MyAccount.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -26,7 +36,12 @@ import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     MyAccountTabs, MyAccountTabsSection
 } from 'Type/Account.type';
+<<<<<<< HEAD:packages/scandipwa/src/route/MyAccount/MyAccount.container.tsx
 import { ReactElement } from 'Type/Common.type';
+=======
+import { ItemType } from 'Type/ProductList.type';
+import { MatchType, NavigationStateHistoryType } from 'Type/Router.type';
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/MyAccount/MyAccount.container.js
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
@@ -62,7 +77,9 @@ export const mapStateToProps = (state: RootState): MyAccountContainerMapStatePro
     IsSignedInFromState: state.MyAccountReducer.isSignedIn,
     isLocked: state.MyAccountReducer.isLocked,
     newsletterActive: state.ConfigReducer.newsletter_general_active,
-    baseLinkUrl: state.ConfigReducer.base_link_url
+    baseLinkUrl: state.ConfigReducer.base_link_url,
+    activeOverlay: state.OverlayReducer.activeOverlay,
+    headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
@@ -84,11 +101,38 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountContainerMapDis
 });
 
 /** @namespace Route/MyAccount/Container */
+<<<<<<< HEAD:packages/scandipwa/src/route/MyAccount/MyAccount.container.tsx
 export class MyAccountContainer extends PureComponent<
 MyAccountContainerProps,
 MyAccountContainerState
 > {
     static defaultProps: Partial<MyAccountContainerProps> = {
+=======
+export class MyAccountContainer extends PureComponent {
+    static propTypes = {
+        changeHeaderState: PropTypes.func.isRequired,
+        requestCustomerData: PropTypes.func.isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        toggleOverlayByKey: PropTypes.func.isRequired,
+        updateMeta: PropTypes.func.isRequired,
+        match: MatchType.isRequired,
+        isMobile: PropTypes.bool.isRequired,
+        wishlistItems: PropTypes.objectOf(ItemType),
+        newsletterActive: PropTypes.bool.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired,
+        IsSignedInFromState: PropTypes.bool.isRequired,
+        isLocked: PropTypes.bool.isRequired,
+        baseLinkUrl: PropTypes.string.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        selectedTab: PropTypes.string,
+        logout: PropTypes.func.isRequired,
+        updateIsLocked: PropTypes.func.isRequired,
+        activeOverlay: PropTypes.string.isRequired,
+        headerState: NavigationStateHistoryType.isRequired
+    };
+
+    static defaultProps = {
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/MyAccount/MyAccount.container.js
         wishlistItems: {},
         selectedTab: undefined
     };
@@ -192,7 +236,8 @@ MyAccountContainerState
         onSignIn: this.onSignIn.bind(this),
         onSignOut: this.onSignOut.bind(this),
         getMyWishlistSubHeading: this.getMyWishlistSubHeading.bind(this),
-        setTabSubheading: this.setTabSubheading.bind(this)
+        setTabSubheading: this.setTabSubheading.bind(this),
+        isTabEnabled: this.isTabEnabled.bind(this)
     };
 
     subHeadingRenderMap: Record<string, () => string> = {
@@ -236,13 +281,16 @@ MyAccountContainerState
     componentDidUpdate(prevProps: MyAccountContainerProps, prevState: MyAccountContainerState): void {
         const {
             wishlistItems: prevWishlistItems,
-            IsSignedInFromState: prevIsSignedInFromState
+            IsSignedInFromState: prevIsSignedInFromState,
+            headerState: { name: prevName }
         } = prevProps;
 
         const {
             wishlistItems,
             IsSignedInFromState: currIsSignedInFromState,
-            isLocked
+            isLocked,
+            activeOverlay,
+            headerState: { name }
         } = this.props;
 
         const { activeTab: prevActiveTab } = prevState;
@@ -265,6 +313,10 @@ MyAccountContainerState
             scrollToTop();
         }
 
+        if (name !== prevName && name !== CUSTOMER_ORDER && !activeOverlay) {
+            this.changeMyAccountHeaderState();
+        }
+
         if (Object.keys(wishlistItems).length !== Object.keys(prevWishlistItems).length) {
             this.changeMyAccountHeaderState();
         }
@@ -274,6 +326,7 @@ MyAccountContainerState
         }
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/MyAccount/MyAccount.container.tsx
     containerProps(): Pick<
     MyAccountComponentProps,
     'activeTab'
@@ -285,7 +338,12 @@ MyAccountContainerState
     | 'subHeading'
     > {
         const { location, match } = this.props;
+=======
+    containerProps() {
+        const { match } = this.props;
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/MyAccount/MyAccount.container.js
         const { activeTab, isEditingActive } = this.state;
+        const { location } = history;
 
         return {
             activeTab,
@@ -311,8 +369,13 @@ MyAccountContainerState
         return subHeadingFunc();
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/MyAccount/MyAccount.container.tsx
     getTabName(): string {
         const { location: { pathname } } = this.props;
+=======
+    getTabName() {
+        const { location: { pathname } } = history;
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/MyAccount/MyAccount.container.js
         const { tabName: stateTabName, activeTab } = this.state;
         const { tabName, url } = MyAccountContainer.tabMap[ activeTab ];
 
@@ -362,9 +425,17 @@ MyAccountContainerState
         }
     }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/MyAccount/MyAccount.container.tsx
     tabsFilterEnabled(): Record<string, MyAccountTab> {
         return Object.fromEntries(Object.entries(MyAccountContainer.tabMap)
             .filter(([tabName]) => MyAccountContainer.isTabEnabled(this.props, tabName)));
+=======
+    tabsFilterEnabled() {
+        return Object.entries(MyAccountContainer.tabMap).reduce((enabledTabs, [key, value]) => (
+            MyAccountContainer.isTabEnabled(this.props, key)
+                ? { ...enabledTabs, [key]: value } : enabledTabs
+        ), {});
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/MyAccount/MyAccount.container.js
     }
 
     changeActiveTab(activeTab: string): void {
@@ -386,9 +457,9 @@ MyAccountContainerState
 
     handleCheckIfSelectedTab(): boolean | MyAccountTab | undefined {
         const {
-            selectedTab,
-            location: { pathname = '' }
+            selectedTab
         } = this.props;
+        const { location: { pathname = '' } } = history;
 
         if (selectedTab) {
             return true;
@@ -402,8 +473,14 @@ MyAccountContainerState
     // #region EVENT
     onSignOut(): void {
         const { toggleOverlayByKey } = this.props;
+<<<<<<< HEAD:packages/scandipwa/src/route/MyAccount/MyAccount.container.tsx
         this.setState({ activeTab: MyAccountTabs.MY_ACCOUNT });
         toggleOverlayByKey(Page.CUSTOMER_ACCOUNT);
+=======
+
+        this.setState({ activeTab: MY_ACCOUNT });
+        toggleOverlayByKey(CUSTOMER_ACCOUNT);
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/MyAccount/MyAccount.container.js
         history.replace(appendWithStoreCode('/'));
     }
 
@@ -503,8 +580,12 @@ MyAccountContainerState
     }
 }
 
+<<<<<<< HEAD:packages/scandipwa/src/route/MyAccount/MyAccount.container.tsx
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export default withRouter(withReducers({
+=======
+export default withReducers({
+>>>>>>> scandipwa/master:packages/scandipwa/src/route/MyAccount/MyAccount.container.js
     OrderReducer
-})(connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer)));
+})(connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer));

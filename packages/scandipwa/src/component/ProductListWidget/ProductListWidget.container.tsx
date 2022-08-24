@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
  */
 
 import { connect } from 'react-redux';
@@ -108,7 +108,12 @@ ProductListWidgetContainerState
 
     onError(error: NetworkError | NetworkError[]): void {
         const { showNotification, updateNoMatch } = this.props;
+<<<<<<< HEAD:packages/scandipwa/src/component/ProductListWidget/ProductListWidget.container.tsx
         showNotification(NotificationType.ERROR, __('Error fetching Product List!'), error);
+=======
+
+        showNotification('error', __('Error fetching Product List!'), error);
+>>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductListWidget/ProductListWidget.container.js
         updateNoMatch(true);
     }
 
