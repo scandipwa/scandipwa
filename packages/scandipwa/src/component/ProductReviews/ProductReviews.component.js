@@ -18,6 +18,7 @@ import ProductReviewList from 'Component/ProductReviewList';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { DeviceType } from 'Type/Device.type';
 import { ProductType } from 'Type/ProductList.type';
+import { RatingItemsType } from 'Type/Rating.type';
 import { showNewReviewPopup } from 'Util/Product';
 
 import './ProductReviews.style';
@@ -27,8 +28,45 @@ export class ProductReviews extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        reviewRatings: RatingItemsType.isRequired
     };
+
+    allReviewsHaveAllRatings() {
+        const {
+            product: {
+                reviews
+            },
+            reviewRatings
+        } = this.props;
+
+        const ratingVotes = {};
+
+        reviews.forEach(({ rating_votes }) => {
+            rating_votes.forEach(({ rating_code }) => {
+                if (ratingVotes[rating_code]) {
+                    ratingVotes[rating_code]++;
+                } else {
+                    ratingVotes[rating_code] = 1;
+                }
+            });
+        });
+
+        if (reviewRatings.length !== Object.keys(ratingVotes).length) {
+            return false;
+        }
+
+        // eslint-disable-next-line fp/no-let
+        let allRatingsPresent = true;
+
+        reviewRatings.forEach(({ rating_code }) => {
+            if (ratingVotes[rating_code] !== reviews.length) {
+                allRatingsPresent = false;
+            }
+        });
+
+        return allRatingsPresent;
+    }
 
     renderButton() {
         return (
@@ -92,7 +130,7 @@ export class ProductReviews extends PureComponent {
             return this.renderNoRating();
         }
 
-        const isShowStars = !!rating_summary;
+        const isShowStars = this.allReviewsHaveAllRatings();
 
         return (
             <>
