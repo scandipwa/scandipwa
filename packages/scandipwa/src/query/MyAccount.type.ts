@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
+ * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -103,6 +103,7 @@ export interface CreateCustomerOutput {
 }
 
 export interface ResetPasswordOptions {
+    customer_id: number;
     token: string;
     password: string;
     password_confirmation: string;

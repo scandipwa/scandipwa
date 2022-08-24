@@ -27,12 +27,7 @@ export const getWindowId = (): string => {
     const result = sessionStorage.getItem(WINDOW_ID);
 
     if (!result) {
-<<<<<<< HEAD:packages/scandipwa/src/util/Request/Request.ts
         const id = String(Date.now());
-=======
-        const id = Date.now();
-
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Request/Request.js
         sessionStorage.setItem(WINDOW_ID, id);
 
         return id;
@@ -99,11 +94,7 @@ export const formatURI = (query: string, variables: Record<string, string>, url:
  * @returns {Promise<Response>}
  * @namespace Util/Request/getFetch
  */
-<<<<<<< HEAD:packages/scandipwa/src/util/Request/Request.ts
-export const getFetch = (uri: string, name: string): Promise<Response> => fetch(uri,
-=======
-export const getFetch = (uri, name, signal) => fetch(uri,
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Request/Request.js
+export const getFetch = (uri: string, name: string, signal?: AbortSignal): Promise<Response> => fetch(uri,
     {
         method: 'GET',
         signal,
@@ -231,11 +222,7 @@ export type QueryVariables = Record<string, string>;
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/executeGet
  */
-<<<<<<< HEAD:packages/scandipwa/src/util/Request/Request.ts
-export const executeGet = <T>(queryObject: QueryObject, name: string, cacheTTL: number): Promise<T> => {
-=======
-export const executeGet = (queryObject, name, cacheTTL, signal) => {
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Request/Request.js
+export const executeGet = <T>(queryObject: QueryObject, name: string, cacheTTL: number, signal?: AbortSignal): Promise<T> => {
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, getGraphqlEndpoint());
 
@@ -244,13 +231,8 @@ export const executeGet = (queryObject, name, cacheTTL, signal) => {
         refreshUid();
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Request/Request.ts
-    return parseResponse(new Promise((resolve, reject): void => {
-        getFetch(uri, name).then(
-=======
-    return parseResponse(new Promise((resolve, reject) => {
+    return parseResponse(new Promise((resolve, reject): void  => {
         getFetch(uri, name, signal).then(
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Request/Request.js
             /** @namespace Util/Request/executeGet/parseResponse/getFetch/then */
             (res) => {
                 if (res.status === HTTP_410_GONE) {
@@ -272,7 +254,7 @@ export const executeGet = (queryObject, name, cacheTTL, signal) => {
                 }
             }, /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/catch */
             (err) => {
-                if (!signal.aborted) {
+                if (!signal?.aborted) {
                     return err;
                 }
 
@@ -327,13 +309,7 @@ export const debounce = <T>(
     // eslint-disable-next-line fp/no-let
     let timeout: NodeJS.Timeout;
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Request/Request.ts
     return (...args: T[]) => {
-=======
-    return (...args) => {
-        const context = this;
-
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Request/Request.js
         clearTimeout(timeout);
         timeout = setTimeout(() => callback.apply(this, args as []), delay);
     };
@@ -345,16 +321,10 @@ export class Debouncer {
 
     handler = (): void => {};
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Request/Request.ts
     startDebounce = <T = unknown>(
         callback: (...args: T[]) => void,
         delay: number
     ) => (...args: T[]): void => {
-=======
-    startDebounce = (callback, delay) => (...args) => {
-        const context = this;
-
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Request/Request.js
         clearTimeout(this.timeout);
         this.handler = () => callback.apply(this, args);
         this.timeout = setTimeout(this.handler, delay);

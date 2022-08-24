@@ -19,25 +19,8 @@ import MyAccountInformation from 'Component/MyAccountInformation';
 import MyAccountOrder from 'Component/MyAccountOrder';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 import MyAccountTabList from 'Component/MyAccountTabList';
-<<<<<<< HEAD:packages/scandipwa/src/route/MyAccount/MyAccount.component.tsx
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
-=======
-import NoMatch from 'Route/NoMatch';
-import {
-    ACCOUNT_INFORMATION,
-    ActiveTabType,
-    ADDRESS_BOOK,
-    MY_ACCOUNT,
-    MY_DOWNLOADABLE,
-    MY_ORDER,
-    MY_ORDERS,
-    MY_WISHLIST,
-    NEWSLETTER_SUBSCRIPTION,
-    TabMapType
-} from 'Type/Account.type';
-import { LocationType, MatchType } from 'Type/Router.type';
->>>>>>> scandipwa/master:packages/scandipwa/src/route/MyAccount/MyAccount.component.js
 import { isSignedIn } from 'Util/Auth';
 
 import { AccountPageUrl } from './MyAccount.config';
@@ -71,29 +54,8 @@ export const MyAccountNewsletterSubscription = lazy(() => import(
 ));
 
 /** @namespace Route/MyAccount/Component */
-<<<<<<< HEAD:packages/scandipwa/src/route/MyAccount/MyAccount.component.tsx
 export class MyAccount extends Component<MyAccountComponentProps> {
     static defaultProps: Partial<MyAccountComponentProps> = {
-=======
-export class MyAccount extends Component {
-    static propTypes = {
-        isEditingActive: PropTypes.bool.isRequired,
-        subHeading: PropTypes.string,
-        activeTab: ActiveTabType.isRequired,
-        tabMap: TabMapType.isRequired,
-        changeActiveTab: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func.isRequired,
-        onSignOut: PropTypes.func.isRequired,
-        location: LocationType.isRequired,
-        match: MatchType.isRequired,
-        changeTabName: PropTypes.func.isRequired,
-        tabName: PropTypes.string,
-        setTabSubheading: PropTypes.func.isRequired,
-        isTabEnabled: PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/MyAccount/MyAccount.component.js
         subHeading: '',
         tabName: ''
     };

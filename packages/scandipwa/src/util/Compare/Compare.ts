@@ -35,16 +35,10 @@ export const ONE_DAY = 86400;
  * @returns {void}
  * @namespace Util/Compare/setUid
  */
-<<<<<<< HEAD:packages/scandipwa/src/util/Compare/Compare.ts
 export const setUid = (uid: string | null): void => {
-    const state = getStore().getState() as RootState;
-=======
-export const setUid = (uid) => {
     const { website_code } = window;
-    const tokens = BrowserDatabase.getItem(COMPARE_UID) || {};
-
-    const state = getStore().getState();
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Compare/Compare.js
+    const tokens: Record<string, string | null | undefined> = BrowserDatabase.getItem(COMPARE_UID) || {};
+    const state = getStore().getState() as RootState;
     const {
         access_token_lifetime = ONE_HOUR
     } = state.ConfigReducer;
@@ -63,16 +57,11 @@ export const setUid = (uid) => {
  * @returns {string|boolean} uid
  * @namespace Util/Compare/getUid
  */
-<<<<<<< HEAD:packages/scandipwa/src/util/Compare/Compare.ts
 export const getUid = (): string | null => {
-    const uid = BrowserDatabase.getItem(COMPARE_UID);
-=======
-export const getUid = () => {
     const { website_code } = window;
 
-    const tokens = BrowserDatabase.getItem(COMPARE_UID) || {};
+    const tokens: Record<string, string | null | undefined> = BrowserDatabase.getItem(COMPARE_UID) || {};
     const uid = tokens[website_code];
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Compare/Compare.js
 
     return (typeof uid === 'string') ? uid : null;
 };
@@ -81,18 +70,13 @@ export const getUid = () => {
  *
  * @namespace Util/Compare/removeUid
  */
-<<<<<<< HEAD:packages/scandipwa/src/util/Compare/Compare.ts
 export const removeUid = (): void => {
-    BrowserDatabase.deleteItem(COMPARE_UID);
-=======
-export const removeUid = () => {
     const { website_code } = window;
-    const uids = BrowserDatabase.getItem(COMPARE_UID) || {};
+    const uids: Record<string, string | null | undefined> = BrowserDatabase.getItem(COMPARE_UID) || {};
 
     uids[website_code] = undefined;
 
     BrowserDatabase.setItem(uids, COMPARE_UID);
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Compare/Compare.js
 };
 
 /** @namespace Util/Compare/refreshUid */

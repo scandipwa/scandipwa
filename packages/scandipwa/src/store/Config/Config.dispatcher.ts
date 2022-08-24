@@ -20,18 +20,20 @@ import RegionQuery from 'Query/Region.query';
 import { Country } from 'Query/Region.type';
 import ReviewQuery from 'Query/Review.query';
 import { ReviewRatingItem } from 'Query/Review.type';
-import { updateConfig } from 'Store/Config/Config.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { setCurrency } from 'Util/Currency';
 import { fetchMutation, QueryDispatcher } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-
+import { updateConfig, updateCurrentCurrency } from 'Store/Config/Config.action';
+import { returnFilteredCurrencies, setCurrency } from 'Util/Currency';
 import { ConfigStore } from './Config.type';
-
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 /** @namespace Store/Config/Dispatcher */
 export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
     __construct(): void {
@@ -44,6 +46,11 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
         try {
             await fetchMutation(ConfigQuery.getSaveSelectedCurrencyMutation(currencyCode));
             setCurrency(currencyCode);
+            await dispatch(updateCurrentCurrency(currencyCode));
+
+            CartDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, true)
+            );
         } catch (e) {
             dispatch(updateConfig({}));
         }
@@ -51,8 +58,11 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
 
     onSuccess(data: ConfigStore, dispatch: Dispatch): void {
         if (data) {
-            BrowserDatabase.setItem(data, 'config', ONE_MONTH_IN_SECONDS);
-            dispatch(updateConfig(data));
+            const { currencyData, currency } = data;
+            const filteredData = { ...data, ...returnFilteredCurrencies(currencyData, currency) };
+
+            BrowserDatabase.setItem(filteredData, 'config', ONE_MONTH_IN_SECONDS);
+            dispatch(updateConfig(filteredData));
         }
     }
 
@@ -66,6 +76,7 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
     | Query<'storeConfig', StoreConfig>
     | Query<'checkoutAgreements', CheckoutAgreement, true>
     | Query<'currencyData', CurrencyConfig>
+    | Query<'currencyRates', CurrencyRates>
     | Query<'cartDisplayConfig', CartDisplayConfig>
     > {
         return [
@@ -74,6 +85,7 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
             ConfigQuery.getQuery(),
             ConfigQuery.getCheckoutAgreements(),
             ConfigQuery.getCurrencyData(),
+            ConfigQuery.getCurrencyRates(),
             CartQuery.getCartDisplayConfig()
         ];
     }

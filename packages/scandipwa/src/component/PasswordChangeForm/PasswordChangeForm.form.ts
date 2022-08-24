@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { MutableRefObject } from 'react';
+
 import { FieldType } from 'Component/Field/Field.config';
 import { FieldContainerProps } from 'Component/Field/Field.type';
 import { validatePassword } from 'Util/Validator';
@@ -20,14 +22,11 @@ import { ValidationRule } from 'Util/Validator/Validator.type';
  * @param props
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/PasswordChangeForm/Form/customerEmailAndPasswordFields */
-<<<<<<< HEAD:packages/scandipwa/src/component/PasswordChangeForm/PasswordChangeForm.form.ts
 export const customerEmailAndPasswordFields = (
     range: ValidationRule['range'],
-    minimunPasswordCharacter: string
+    minimunPasswordCharacter: string,
+    passwordRef: MutableRefObject<HTMLInputElement>
 ): Partial<FieldContainerProps>[] => [
-=======
-export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter, passwordRef) => [
->>>>>>> scandipwa/master:packages/scandipwa/src/component/PasswordChangeForm/PasswordChangeForm.form.js
     {
         type: FieldType.PASSWORD,
         label: __('New password'),
@@ -58,18 +57,11 @@ export const customerEmailAndPasswordFields = (range, minimunPasswordCharacter, 
         validateOn: ['onChange'],
         validationRule: {
             isRequired: true,
-<<<<<<< HEAD:packages/scandipwa/src/component/PasswordChangeForm/PasswordChangeForm.form.ts
             inputType: ValidationInputType.PASSWORD,
             match: (value: string) => {
-                const password = document.getElementById('password') as HTMLInputElement;
-                return password.value === value;
-=======
-            inputType: VALIDATION_INPUT_TYPE.password,
-            match: (value) => {
                 const password = passwordRef.current;
 
                 return value && password.value === value;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/PasswordChangeForm/PasswordChangeForm.form.js
             },
             customErrorMessages: {
                 onMatchFail: __('Passwords do not match!')

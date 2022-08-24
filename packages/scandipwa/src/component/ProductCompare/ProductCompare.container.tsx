@@ -9,12 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.tsx
-import { PureComponent } from 'react';
-=======
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.js
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -70,9 +66,6 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         attributes: []
     };
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.tsx
-    containerFunctions: ProductCompareContainerFunctions = {
-=======
     scrollerScroll = createRef(null);
 
     productCompare = createRef(null);
@@ -81,8 +74,7 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
 
     scrollerContent = createRef(null);
 
-    containerFunctions = {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.js
+    containerFunctions: ProductCompareContainerFunctions = {
         getAttributes: this.getAttributes.bind(this),
         clearCompareList: this.clearCompareList.bind(this),
         isInStock: getProductInStock.bind(this),
@@ -90,15 +82,11 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         handleBlockScroll: this.handleBlockScroll.bind(this)
     };
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.tsx
-    componentDidMount(): void {
-=======
     scrollerTriggered = false;
 
     blockScrollTriggered = false;
 
-    componentDidMount() {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.js
+    componentDidMount(): void {
         this.fetchCompareList();
         scrollToTop({ behavior: 'smooth' });
     }
@@ -108,15 +96,7 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         const productCompareRow = this.productCompareRow.current;
         const scrollerContent = this.scrollerContent.current;
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.tsx
-        const productCompareRow = document.getElementById('productCompareRow');
-        const scrollerContent = document.getElementById('scrollerContent');
-
-        if (scrollerContent && ((productCompareRow && productCompareRow.offsetWidth >= scrollerContent.offsetWidth)
-            || (productCompareRow && productCompareRow.offsetWidth < scrollerContent.offsetWidth))) {
-=======
         if (this.productCompareRow.current && this.scrollerContent.current) {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.js
             const width = device.isMobile
                 ? productCompareRow.offsetWidth
                 : productCompareRow.offsetWidth - PRODUCT_COMPARE_FIRST_COLUMN_WIDTH;
@@ -143,23 +123,6 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         };
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.tsx
-    handleScroll(): void {
-        const scrollerScroll = document.getElementById('scrollerScroll');
-        const productCompare = document.getElementById('productCompare');
-
-        if (productCompare) {
-            productCompare.scrollLeft = scrollerScroll?.scrollLeft || 0;
-        }
-    }
-
-    handleBlockScroll(): void {
-        const scrollerScroll = document.getElementById('scrollerScroll');
-        const productCompare = document.getElementById('productCompare');
-
-        if (scrollerScroll) {
-            scrollerScroll.scrollLeft = productCompare?.scrollLeft || 0;
-=======
     handleScroll() {
         /*
             This needs a little explaining:
@@ -205,7 +168,6 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
             this.blockScrollTriggered = true;
 
             this.scrollerScroll.current.scrollLeft = this.productCompare.current.scrollLeft;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompare/ProductCompare.container.js
         }
     }
 

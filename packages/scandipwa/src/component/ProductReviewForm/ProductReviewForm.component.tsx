@@ -96,10 +96,7 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductReviewForm/ProductReviewForm.component.tsx
-    renderReviewFormContent(): ReactElement {
-=======
-    renderReviewRatingWrapper() {
+    renderReviewRatingWrapper(): ReactElement {
         const { reviewRatings } = this.props;
 
         if (reviewRatings && reviewRatings.length === 0) {
@@ -116,8 +113,7 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
         );
     }
 
-    renderReviewFormContent() {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductReviewForm/ProductReviewForm.component.js
+    renderReviewFormContent(): ReactElement {
         const { reviewData } = this.props;
         const {
             nickname = '',

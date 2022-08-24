@@ -123,11 +123,8 @@ export class ProductCompareItem extends PureComponent<ProductCompareItemComponen
                 <AddToCart
                   product={ {} }
                   mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompareItem/ProductCompareItem.component.tsx
-=======
                   withLink
                   disableHandler
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompareItem/ProductCompareItem.component.js
                 />
             </Link>
         );

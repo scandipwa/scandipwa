@@ -33,30 +33,15 @@ export const mapStateToProps = (state: RootState): MyAccountOrderItemsTableConta
 export const mapDispatchToProps = (): MyAccountOrderItemsTableContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountOrderItemsTable/Container */
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.container.tsx
 export class MyAccountOrderItemsTableContainer extends PureComponent<MyAccountOrderItemsTableContainerProps> {
-    containerProps(): Pick<
-    MyAccountOrderItemsTableComponentProps,
-    MyAccountOrderItemsTableComponentPropsKeys
-    > {
-=======
-export class MyAccountOrderItemsTableContainer extends PureComponent {
-    static propTypes = {
-        isMobile: PropTypes.bool.isRequired,
-        activeTab: PropTypes.string.isRequired,
-        items: OrderTabType.isRequired,
-        total: OrderTotalType.isRequired,
-        allOrderItems: OrderProductsType.isRequired,
-        id: PropTypes.string.isRequired,
-        isPrintPage: PropTypes.bool
-    };
-
     static defaultProps = {
         isPrintPage: false
     };
 
-    containerProps() {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTable/MyAccountOrderItemsTable.container.js
+    containerProps(): Pick<
+    MyAccountOrderItemsTableComponentProps,
+    MyAccountOrderItemsTableComponentPropsKeys
+    > {
         const {
             isMobile,
             items,

@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
+ * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -27,6 +27,8 @@ export interface MyAccountContainerMapStateProps {
     isLocked: boolean;
     newsletterActive: boolean;
     baseLinkUrl: string;
+    activeOverlay: string;
+    headerState: NavigationState;
 }
 
 export interface MyAccountContainerMapDispatchProps {

@@ -108,12 +108,8 @@ ProductListWidgetContainerState
 
     onError(error: NetworkError | NetworkError[]): void {
         const { showNotification, updateNoMatch } = this.props;
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductListWidget/ProductListWidget.container.tsx
-        showNotification(NotificationType.ERROR, __('Error fetching Product List!'), error);
-=======
 
-        showNotification('error', __('Error fetching Product List!'), error);
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductListWidget/ProductListWidget.container.js
+        showNotification(NotificationType.ERROR, __('Error fetching Product List!'), error);
         updateNoMatch(true);
     }
 

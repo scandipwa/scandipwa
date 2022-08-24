@@ -93,13 +93,8 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         return {};
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductAttributeValue/ProductAttributeValue.component.tsx
     clickHandler(e: MouseEvent | KeyboardEvent): void {
-        const { onClick, attribute } = this.props;
-=======
-    clickHandler(e) {
         const { onClick, attribute, isAvailable } = this.props;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductAttributeValue/ProductAttributeValue.component.js
 
         e.preventDefault();
         e.stopPropagation();
@@ -295,9 +290,6 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductAttributeValue/ProductAttributeValue.component.tsx
-    getCheckboxLabel(value: string, subLabel: string): ReactElement {
-=======
     renderCheckboxValue(value) {
         if (typeof value !== 'string') {
             return value;
@@ -306,8 +298,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         return <Html content={ value } />;
     }
 
-    getCheckboxLabel(value, subLabel) {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductAttributeValue/ProductAttributeValue.component.js
+    getCheckboxLabel(value: string, subLabel: string): ReactElement {
         return (
             <div
               block="ProductAttributeValue"
@@ -340,9 +331,6 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductAttributeValue/ProductAttributeValue.component.tsx
-    renderStringValue(value: string | undefined, label: string | null = null, count = 0): ReactElement {
-=======
     renderValue(value) {
         if (value) {
             return <Html content={ `${value}` } />;
@@ -351,8 +339,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         return false;
     }
 
-    renderStringValue(value, label, count) {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductAttributeValue/ProductAttributeValue.component.js
+    renderStringValue(value: string | undefined, label: string | null = null, count = 0): ReactElement {
         const { isFormattedAsText, isSelected } = this.props;
         const isSwatch = !!label;
 

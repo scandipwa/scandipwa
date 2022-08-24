@@ -35,6 +35,8 @@ export abstract class QueryDispatcher<Options, Data, Error = NetworkError | Netw
 
     protected promise: CancelablePromise<Data> | null = null;
 
+    protected controller: AbortController | null = null;
+
     /**
      * Creates an instance of QueryDispatcher.
      * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
@@ -48,17 +50,7 @@ export abstract class QueryDispatcher<Options, Data, Error = NetworkError | Netw
         this.controller = null;
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Request/QueryDispatcher.ts
-    /**
-     * Is responsible for request routing and manages `onError`, `onSuccess`, `onUpdate` functions triggers.
-     * @param  {Function} dispatch Store changing function from Redux (dispatches actions)
-     * @param  {any} options Any options received from Container
-     * @return {void}@memberof QueryDispatcher
-     */
-    handleData(dispatch: Dispatch, options: Options): void {
-=======
-    async handleData(dispatch, options) {
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Request/QueryDispatcher.js
+    async handleData(dispatch: Dispatch, options: Options): Promise<void> {
         const { name, cacheTTL } = this;
 
         const rawQueries = this.prepareRequest(options, dispatch);
@@ -69,45 +61,19 @@ export abstract class QueryDispatcher<Options, Data, Error = NetworkError | Netw
 
         const queries = rawQueries instanceof Query ? [rawQueries] : rawQueries;
 
-        const abort = this.promise && this.controller.abort();
-
         this.controller = new AbortController();
 
         try {
             this.promise = await executeGet(prepareQuery(queries), name, cacheTTL, this.controller.signal);
             this.onSuccess(this.promise, dispatch, options);
         } catch (err) {
-            this.onError(err, dispatch, options);
+            if (!err.message.includes('abort')) {
+                this.onError(err, dispatch, options);
+            }
         }
         const broadcast = await listenForBroadCast(name);
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Request/QueryDispatcher.ts
-        this.promise = makeCancelable(
-            new Promise((resolve, reject) => {
-                executeGet(prepareQuery(queries), name, cacheTTL)
-                    .then(
-                        /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/makeCancelable/executeGet/then/resolve */
-                        (data) => resolve(data as Data),
-                        /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/makeCancelable/executeGet/then/reject/catch */
-                        (error) => reject(error)
-                    );
-            })
-        );
-
-        this.promise.promise.then(
-            /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/then */
-            (data) => this.onSuccess(data, dispatch, options),
-            /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/then/catch */
-            (error) => this.onError(error, dispatch, options),
-        );
-
-        listenForBroadCast(name).then(
-            /** @namespace Util/Request/QueryDispatcher/QueryDispatcher/handleData/listenForBroadCast/then */
-            (data) => this.onUpdate(data as Data, dispatch, options),
-        );
-=======
         this.onUpdate(broadcast, dispatch, options);
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Request/QueryDispatcher.js
     }
 
     /**

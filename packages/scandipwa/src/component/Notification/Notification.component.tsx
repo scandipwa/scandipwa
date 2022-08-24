@@ -11,13 +11,9 @@
 
 import { createRef, PureComponent } from 'react';
 
-<<<<<<< HEAD:packages/scandipwa/src/component/Notification/Notification.component.tsx
+import Html from 'Component/Html';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
-=======
-import Html from 'Component/Html';
-import { NotificationType } from 'Type/NotificationList.type';
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Notification/Notification.component.js
 import CSS from 'Util/CSS';
 
 import {
@@ -46,13 +42,7 @@ export class Notification extends PureComponent<NotificationComponentProps, Noti
 
     CSSHideTimeout: ReturnType<typeof setTimeout> = setTimeout(noopFn);
 
-<<<<<<< HEAD:packages/scandipwa/src/component/Notification/Notification.component.tsx
     componentDidMount(): void {
-=======
-    hideNotification = this.hideNotification.bind(this);
-
-    componentDidMount() {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Notification/Notification.component.js
         const { notification: { msgType }, lifeTime } = this.props;
 
         // Make sure error notification stays a little longer

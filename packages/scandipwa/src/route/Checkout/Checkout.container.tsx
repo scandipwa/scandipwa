@@ -5,11 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
  * @package scandipwa/scandipwa
-=======
- * @package scandipwa/scandipwa
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -23,12 +19,7 @@ import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPo
 import CheckoutQuery from 'Query/Checkout.query';
 import { PaymentMethod, SetGuestEmailOnCartOutput, ShippingMethod } from 'Query/Checkout.type';
 import MyAccountQuery from 'Query/MyAccount.query';
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-=======
-import { CART_URL } from 'Route/CartPage/CartPage.config';
-import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateShippingPrice } from 'Store/Cart/Cart.action';
 import { CartTotals } from 'Store/Cart/Cart.type';
@@ -37,15 +28,10 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
 import { NotificationType } from 'Store/Notification/Notification.type';
+import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { GQLCartAddressInput, GQLSaveAddressInformation } from 'Type/Graphql.type';
-=======
-import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
-import { Addresstype, CustomerType } from 'Type/Account.type';
-import { TotalsType } from 'Type/MiniCart.type';
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
 import { removeEmptyStreets } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -63,21 +49,8 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import Checkout from './Checkout.component';
 import {
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
     CheckoutSteps,
     PAYMENT_TOTALS,
-=======
-    BILLING_STEP,
-    BILLING_URL,
-    BILLING_URL_STEP,
-    CHECKOUT_URL_REGEX,
-    DETAILS_STEP,
-    DETAILS_URL_STEP,
-    PAYMENT_TOTALS,
-    SHIPPING_STEP,
-    SHIPPING_URL,
-    SHIPPING_URL_STEP,
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
     UPDATE_EMAIL_CHECK_FREQUENCY
 } from './Checkout.config';
 import {
@@ -108,12 +81,8 @@ export const CheckoutDispatcher = import(
 );
 
 /** @namespace Route/Checkout/Container/mapStateToProps */
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
 export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProps => ({
-=======
-export const mapStateToProps = (state) => ({
     selectedStore: state.StoreInPickUpReducer.store,
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
     totals: state.CartReducer.cartTotals,
     isCartLoading: state.CartReducer.isLoading,
     cartTotalSubPrice: getCartTotalSubPrice(state),
@@ -131,12 +100,8 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatchProps => ({
-=======
-export const mapDispatchToProps = (dispatch) => ({
     setPickUpStore: (store) => dispatch(setPickUpStore(store)),
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     resetCart: () => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken())
@@ -167,69 +132,9 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/Checkout/Container */
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
 export class CheckoutContainer extends PureComponent<CheckoutContainerProps, CheckoutContainerState> {
     static defaultProps: Partial<CheckoutContainerProps> = {
         cartTotalSubPrice: null
-=======
-export class CheckoutContainer extends PureComponent {
-    static propTypes = {
-        setPickUpStore: PropTypes.func.isRequired,
-        showErrorNotification: PropTypes.func.isRequired,
-        showInfoNotification: PropTypes.func.isRequired,
-        showSuccessNotification: PropTypes.func.isRequired,
-        toggleBreadcrumbs: PropTypes.func.isRequired,
-        setNavigationState: PropTypes.func.isRequired,
-        createAccount: PropTypes.func.isRequired,
-        updateMeta: PropTypes.func.isRequired,
-        resetCart: PropTypes.func.isRequired,
-        resetGuestCart: PropTypes.func.isRequired,
-        guest_checkout: PropTypes.bool.isRequired,
-        totals: TotalsType.isRequired,
-        customer: CustomerType.isRequired,
-        countries: PropTypes.arrayOf(
-            PropTypes.shape({
-                label: PropTypes.string,
-                id: PropTypes.string,
-                available_regions: PropTypes.arrayOf(
-                    PropTypes.shape({
-                        code: PropTypes.string,
-                        name: PropTypes.string,
-                        id: PropTypes.number
-                    })
-                )
-            })
-        ).isRequired,
-        match: PropTypes.shape({
-            params: PropTypes.shape({
-                step: PropTypes.string
-            })
-        }).isRequired,
-        updateShippingFields: PropTypes.func.isRequired,
-        updateEmail: PropTypes.func.isRequired,
-        checkEmailAvailability: PropTypes.func.isRequired,
-        isEmailAvailable: PropTypes.bool.isRequired,
-        updateShippingPrice: PropTypes.func.isRequired,
-        setHeaderState: PropTypes.func.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        cartTotalSubPrice: PropTypes.number,
-        isInStoreActivated: PropTypes.bool.isRequired,
-        isGuestNotAllowDownloadable: PropTypes.bool.isRequired,
-        isSignedIn: PropTypes.bool.isRequired,
-        isCartLoading: PropTypes.bool.isRequired,
-        shippingFields: Addresstype,
-        savedEmail: PropTypes.string.isRequired,
-        minimumOrderAmount: PropTypes.shape({
-            minimum_order_amount_reached: PropTypes.bool,
-            minimum_order_description: PropTypes.string
-        })
-    };
-
-    static defaultProps = {
-        cartTotalSubPrice: null,
-        minimumOrderAmount: {},
-        shippingFields: {}
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
     };
 
     containerFunctions: CheckoutContainerFunctions = {
@@ -278,26 +183,16 @@ export class CheckoutContainer extends PureComponent {
             shippingAddress: undefined,
             billingAddress: undefined,
             selectedShippingMethod: '',
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
-            checkoutStep: is_virtual ? CheckoutSteps.BILLING_STEP : CheckoutSteps.SHIPPING_STEP,
-=======
             checkoutStep: this.determineCheckoutStepFromUrl(),
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || undefined,
             email: savedEmail || '',
             isGuestEmailSaved: false,
             isCreateUser: false,
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
             estimateAddress: undefined,
             isPickInStoreMethodSelected: false,
             selectedStoreAddress: undefined,
             password: ''
-=======
-            estimateAddress: {},
-            isPickInStoreMethodSelected: false,
-            isVisibleEmailRequired: false
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
         };
     }
 
@@ -330,14 +225,7 @@ export class CheckoutContainer extends PureComponent {
         updateMeta({ title: __('Checkout') });
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
     componentDidUpdate(prevProps: CheckoutContainerProps, prevState: CheckoutContainerState): null {
-        const { match: { params: { step: urlStep } }, isEmailAvailable, updateEmail } = this.props;
-        const { match: { params: { step: prevUrlStep } } } = prevProps;
-        const { email } = this.state;
-        const { email: prevEmail } = prevState;
-=======
-    componentDidUpdate(prevProps, prevState) {
         const {
             match: {
                 params: {
@@ -399,7 +287,6 @@ export class CheckoutContainer extends PureComponent {
 
             this.saveShippingFieldsAsShippingAddress(shippingFields, is_virtual);
         }
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
 
         // Handle going back from billing to shipping
         if (
@@ -435,14 +322,9 @@ export class CheckoutContainer extends PureComponent {
         return null;
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
-    componentWillUnmount(): void {
-        const { toggleBreadcrumbs } = this.props;
-=======
     componentWillUnmount() {
         const { toggleBreadcrumbs, setPickUpStore } = this.props;
 
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
         toggleBreadcrumbs(true);
         setPickUpStore(null);
     }
@@ -525,9 +407,6 @@ export class CheckoutContainer extends PureComponent {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
-    handleRedirectIfDownloadableInCart(): void {
-=======
     determineCheckoutStepFromUrl() {
         const {
             match: {
@@ -596,7 +475,6 @@ export class CheckoutContainer extends PureComponent {
     }
 
     handleRedirectIfDownloadableInCart() {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
         const { totals: { items }, showInfoNotification } = this.props;
 
         const isDownloadable = items
@@ -621,9 +499,6 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ selectedStoreAddress: address });
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
-    goBack(): void {
-=======
     onChangeEmailRequired() {
         const { email } = this.state;
 
@@ -631,7 +506,6 @@ export class CheckoutContainer extends PureComponent {
     }
 
     goBack() {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
         const { checkoutStep } = this.state;
 
         if (checkoutStep === CheckoutSteps.BILLING_STEP) {
@@ -775,21 +649,15 @@ export class CheckoutContainer extends PureComponent {
         return false;
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
     _getPaymentMethods(): void {
-        const guestQuoteId = getGuestQuoteId();
+        const cartId = getCartId();
 
-        if (!guestQuoteId) {
+        if (!cartId) {
             return;
         }
 
         fetchQuery<'getPaymentMethods', PaymentMethod, true>(CheckoutQuery.getPaymentMethodsQuery(
-            guestQuoteId
-=======
-    _getPaymentMethods() {
-        fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
-            getCartId()
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
+            cartId
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/_getPaymentMethods/fetchQuery/then */
             ({ getPaymentMethods: paymentMethods }) => {
@@ -943,11 +811,7 @@ export class CheckoutContainer extends PureComponent {
 
         fetchMutation(CheckoutQuery.getSaveAddressInformation(
             this.prepareAddressInformation(addressInformation),
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
-            guestQuoteId
-=======
             getCartId()
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/saveAddressInformation/fetchMutation/then */
             ({ saveAddressInformation: data }) => {
@@ -1066,13 +930,9 @@ export class CheckoutContainer extends PureComponent {
 
     async saveBillingAddress(paymentInformation: PaymentInformation): Promise<void> {
         const isCustomerSignedIn = isSignedIn();
-        const guest_cart_id = getCartId();
+        const guest_cart_id = !isCustomerSignedIn ? getCartId() : '';
 
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.container.tsx
         if (!isCustomerSignedIn && !guest_cart_id) {
-=======
-        if (!isCustomerSignedIn && !getCartId) {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.container.js
             return;
         }
 

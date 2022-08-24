@@ -21,30 +21,14 @@ import { PasswordChangeFormComponentProps } from './PasswordChangeForm.type';
 import './PasswordChangeForm.style';
 
 /** @namespace Component/PasswordChangeForm/Component */
-<<<<<<< HEAD:packages/scandipwa/src/component/PasswordChangeForm/PasswordChangeForm.component.tsx
 export class PasswordChangeForm extends FieldForm<PasswordChangeFormComponentProps> {
-    fieldMap(): Partial<FieldContainerProps>[] {
-        const { range, minimunPasswordCharacter } = this.props;
-=======
-export class PasswordChangeForm extends FieldForm {
-    static propsTypes = {
-        onFormSubmit: PropTypes.func.isRequired,
-        onFormError: PropTypes.func.isRequired,
-        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
-        minimunPasswordCharacter: PropTypes.string.isRequired
-    };
-
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: PasswordChangeFormComponentProps): void {
+        super.__construct?.(props);
         this.passwordRef = React.createRef('');
     }
 
-    get fieldMap() {
-        const {
-            range,
-            minimunPasswordCharacter
-        } = this.props;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/PasswordChangeForm/PasswordChangeForm.component.js
+    fieldMap(): Partial<FieldContainerProps>[] {
+        const { range, minimunPasswordCharacter } = this.props;
 
         return customerEmailAndPasswordFields(range, minimunPasswordCharacter, this.passwordRef);
     }

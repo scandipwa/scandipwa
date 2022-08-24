@@ -26,13 +26,8 @@ import {
 export const CART_TOTALS = 'cart_totals';
 
 /** @namespace Store/Cart/Reducer/updateCartTotals */
-<<<<<<< HEAD:packages/scandipwa/src/store/Cart/Cart.reducer.ts
 export const updateCartTotals = (action: UpdateTotalsAction): CartStore => {
-    const { cartData: { items = [], ...rest } = {} } = action;
-=======
-export const updateCartTotals = (action) => {
     const { cartData: { items = [], shipping_addresses = {}, ...rest } = {} } = action;
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Cart/Cart.reducer.js
 
     const cartTotals: CartTotals = {
         ...rest,
@@ -42,12 +37,6 @@ export const updateCartTotals = (action) => {
 
     if (items.length) {
         const normalizedItemsProduct = items.map((item) => {
-<<<<<<< HEAD:packages/scandipwa/src/store/Cart/Cart.reducer.ts
-            const normalizedItem = {
-                ...item,
-                product: getIndexedProduct(item.product, item?.sku)
-            };
-=======
             const {
                 variants,
                 bundle_customizable_options,
@@ -59,7 +48,6 @@ export const updateCartTotals = (action) => {
             } = item;
 
             normalizedItem.product = getIndexedProduct(item.product, item.sku);
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Cart/Cart.reducer.js
 
             normalizedItem.customizable_options = bundle_customizable_options
                 || configurable_customizable_options

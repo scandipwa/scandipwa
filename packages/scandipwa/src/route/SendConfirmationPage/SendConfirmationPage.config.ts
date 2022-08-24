@@ -5,12 +5,12 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { StartFill } from './StarIcon.config';
-
-export interface StarIconComponentProps {
-    starFill: StartFill;
+export enum SendConfirmationStatus {
+    ACCOUNT_CONFIRMATION_NOT_REQUIRED = 'account_confirmation_not_required',
+    CONFIRMATION_SENT = 'confirmation_sent',
+    WRONG_EMAIL = 'wrong_email'
 }

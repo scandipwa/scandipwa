@@ -20,13 +20,8 @@ export const formatCurrency = (
 ): string | null => (Object.keys(CurrencyMap).includes(currency) ? currency : null);
 
 /** @namespace Util/Price/formatPrice */
-<<<<<<< HEAD:packages/scandipwa/src/util/Price/Price.ts
 export const formatPrice = (price: number, currency = GQLCurrencyEnum.USD) : string => {
-=======
-export const formatPrice = (price, currentCurrency) => {
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Price/Price.js
     const language = navigator.languages ? navigator.languages[0] : navigator.language;
-    const currency = currentCurrency || 'USD';
 
     return new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
 };

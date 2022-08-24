@@ -31,14 +31,8 @@ export const NotificationReducer: Reducer<NotificationStore, NotificationAction>
     const notifications = { ...state.notifications };
 
     switch (action.type) {
-<<<<<<< HEAD:packages/scandipwa/src/store/Notification/Notification.reducer.ts
     case NotificationActionType.SHOW_NOTIFICATION:
         const { msgType = NotificationType.INFO, msgText = '', msgDebug } = action;
-=======
-    case SHOW_NOTIFICATION:
-        const { msgType, msgText, msgDebug } = action;
-
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Notification/Notification.reducer.js
         notifications[Date.now()] = { msgType, msgText, msgDebug };
 
         return {

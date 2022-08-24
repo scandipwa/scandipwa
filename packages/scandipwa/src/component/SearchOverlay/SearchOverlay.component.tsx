@@ -57,13 +57,8 @@ export class SearchOverlay extends PureComponent<SearchOverlayComponentProps> {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/SearchOverlay/SearchOverlay.component.tsx
     renderNoResults(): ReactElement {
-        return <p>{ __('No results found!') }</p>;
-=======
-    renderNoResults() {
         return <p block="NoResults">{ __('No results found!') }</p>;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/SearchOverlay/SearchOverlay.component.js
     }
 
     renderSearchResults(): ReactElement {

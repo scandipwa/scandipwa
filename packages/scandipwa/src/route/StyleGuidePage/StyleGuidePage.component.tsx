@@ -286,13 +286,9 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   addRequiredTag
                 />
                 <div block="Field" elem="ErrorMessages">
-<<<<<<< HEAD:packages/scandipwa/src/route/StyleGuidePage/StyleGuidePage.component.tsx
-                    This field is required!
-=======
                     <div block="Field" elem="ErrorMessage">
                         This field is required!
                     </div>
->>>>>>> scandipwa/master:packages/scandipwa/src/route/StyleGuidePage/StyleGuidePage.component.js
                 </div>
                 <Field
                   type={ FieldType.SELECT }
@@ -356,13 +352,9 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   addRequiredTag
                 />
                 <div block="Field" elem="ErrorMessages">
-<<<<<<< HEAD:packages/scandipwa/src/route/StyleGuidePage/StyleGuidePage.component.tsx
-                    This field is required!
-=======
                     <div block="Field" elem="ErrorMessage">
                         This field is required!
                     </div>
->>>>>>> scandipwa/master:packages/scandipwa/src/route/StyleGuidePage/StyleGuidePage.component.js
                 </div>
                 <Field
                   type={ FieldType.TEXT }
@@ -378,7 +370,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
 
                 <h4 block="StyleGuidePage" elem="SubHeading">{ __('Number') }</h4>
                 <Field
-                  type={ FIELD_TYPE.number }
+                  type={ FieldType.NUMBER }
                   label="Number"
                   attr={ {
                       placeholder: __('Number'),
@@ -388,7 +380,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   addRequiredTag
                 />
                 <Field
-                  type={ FIELD_TYPE.number }
+                  type={ FieldType.NUMBER }
                   label="Number"
                   attr={ {
                       placeholder: __('Number'),
@@ -398,7 +390,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   isDisabled
                 />
                 <Field
-                  type={ FIELD_TYPE.number }
+                  type={ FieldType.NUMBER }
                   label="Number"
                   attr={ {
                       placeholder: __('Number'),
@@ -407,7 +399,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   } }
                 />
                 <Field
-                  type={ FIELD_TYPE.number }
+                  type={ FieldType.NUMBER }
                   label="Number"
                   attr={ {
                       placeholder: __('Number'),
@@ -419,7 +411,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   } }
                 />
                 <Field
-                  type={ FIELD_TYPE.number }
+                  type={ FieldType.NUMBER }
                   label="Number"
                   attr={ {
                       placeholder: __('Number'),
@@ -437,7 +429,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                     </div>
                 </div>
                 <Field
-                  type={ FIELD_TYPE.number }
+                  type={ FieldType.NUMBER }
                   label="Number"
                   attr={ {
                       placeholder: __('Number'),
@@ -452,7 +444,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
 
                 <h4 block="StyleGuidePage" elem="SubHeading">{ __('Telephone') }</h4>
                 <Field
-                  type={ FIELD_TYPE.tel }
+                  type={ FieldType.TEL }
                   label="Telephone"
                   attr={ {
                       placeholder: __('Telephone')
@@ -460,7 +452,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   addRequiredTag
                 />
                 <Field
-                  type={ FIELD_TYPE.tel }
+                  type={ FieldType.TEL }
                   label="Telephone"
                   attr={ {
                       placeholder: __('Telephone')
@@ -468,14 +460,14 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   isDisabled
                 />
                 <Field
-                  type={ FIELD_TYPE.tel }
+                  type={ FieldType.TEL }
                   label="Telephone"
                   attr={ {
                       placeholder: __('Telephone')
                   } }
                 />
                 <Field
-                  type={ FIELD_TYPE.tel }
+                  type={ FieldType.TEL }
                   label="Telephone"
                   attr={ {
                       placeholder: __('Telephone'),
@@ -485,7 +477,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   } }
                 />
                 <Field
-                  type={ FIELD_TYPE.tel }
+                  type={ FieldType.TEL }
                   label="Telephone"
                   attr={ {
                       placeholder: __('Telephone'),
@@ -501,7 +493,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                     </div>
                 </div>
                 <Field
-                  type={ FIELD_TYPE.tel }
+                  type={ FieldType.TEL }
                   label="Telephone"
                   attr={ {
                       placeholder: __('Telephone'),

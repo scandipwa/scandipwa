@@ -15,14 +15,9 @@ import { PureComponent } from 'react';
 import CloseIcon from 'Component/CloseIcon';
 import EditIcon from 'Component/EditIcon';
 import Field from 'Component/Field';
-<<<<<<< HEAD:packages/scandipwa/src/component/WishlistItem/WishlistItem.component.tsx
 import { FieldType } from 'Component/Field/Field.config';
-import { ProductType } from 'Component/Product/Product.config';
-=======
-import FIELD_TYPE from 'Component/Field/Field.config';
 import Html from 'Component/Html';
-import PRODUCT_TYPE from 'Component/Product/Product.config';
->>>>>>> scandipwa/master:packages/scandipwa/src/component/WishlistItem/WishlistItem.component.js
+import { ProductType } from 'Component/Product/Product.config';
 import ProductCard from 'Component/ProductCard';
 import { ContentObject } from 'Component/ProductCard/ProductCard.type';
 import ProductReviewRating from 'Component/ProductReviewRating';
@@ -84,11 +79,7 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
 
     renderQuantityFieldInput(): ReactElement {
         const {
-<<<<<<< HEAD:packages/scandipwa/src/component/WishlistItem/WishlistItem.component.tsx
-            product: { wishlist: { quantity } = {} },
-=======
-            product: { type_id, wishlist: { quantity } },
->>>>>>> scandipwa/master:packages/scandipwa/src/component/WishlistItem/WishlistItem.component.js
+            product: { type_id, wishlist: { quantity } = {} },
             changeQuantity,
             setQuantity,
             minSaleQuantity,
@@ -96,17 +87,13 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
             inStock
         } = this.props;
 
-        if (type_id === PRODUCT_TYPE.grouped) {
+        if (type_id === ProductType.GROUPED) {
             return null;
         }
 
         return (
             <Field
-<<<<<<< HEAD:packages/scandipwa/src/component/WishlistItem/WishlistItem.component.tsx
-              type={ FieldType.NUMBER }
-=======
-              type={ FIELD_TYPE.numberWithControls }
->>>>>>> scandipwa/master:packages/scandipwa/src/component/WishlistItem/WishlistItem.component.js
+              type={ FieldType.NUMBER_WITH_CONTROLS }
               attr={ {
                   id: 'item_qty',
                   name: 'item_qty',
@@ -189,14 +176,9 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/WishlistItem/WishlistItem.component.tsx
-    renderRemove(): ReactElement {
-        const { removeItem } = this.props;
-=======
     renderRemove() {
         const { removeItem, product: { review_count } } = this.props;
         const withReview = review_count >= 1;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/WishlistItem/WishlistItem.component.js
 
         return (
             <button

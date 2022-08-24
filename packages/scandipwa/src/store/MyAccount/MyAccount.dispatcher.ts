@@ -16,20 +16,12 @@ import { CONFIRMATION_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccoun
 import { ORDER_ID } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import MyAccountQuery from 'Query/MyAccount.query';
 import {
-<<<<<<< HEAD:packages/scandipwa/src/store/MyAccount/MyAccount.dispatcher.ts
     ConfirmAccountOptions, CreateAccountOptions, Customer, ResetPasswordOptions, SignInOptions
 } from 'Query/MyAccount.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-=======
-    ACCOUNT_CONFIRMATION_URL,
-    ACCOUNT_LOGIN_URL
-} from 'Route/MyAccount/MyAccount.config';
 import {
-    ACCOUNT_CONFIRMATION_NOT_REQUIRED,
-    CONFIRMATION_SENT,
-    WRONG_EMAIL
+    SendConfirmationStatus
 } from 'Route/SendConfirmationPage/SendConfirmationPage.config';
->>>>>>> scandipwa/master:packages/scandipwa/src/store/MyAccount/MyAccount.dispatcher.js
 import {
     updateCustomerDetails,
     updateCustomerPasswordForgotStatus,
@@ -57,6 +49,7 @@ import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation, getErrorMessage } from 'Util/Request';
 
 import { UpdateCustomerPasswordForgotStatusAction, UpdateCustomerPasswordResetStatusAction } from './MyAccount.type';
+import { NetworkError } from 'Type/Common.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -210,12 +203,8 @@ export class MyAccountDispatcher {
             const { createCustomer: { customer } } = data;
             const { confirmation_required } = customer;
 
-<<<<<<< HEAD:packages/scandipwa/src/store/MyAccount/MyAccount.dispatcher.ts
             if (confirmation_required) {
                 dispatch(updateIsLoading(false));
-
-                return CONFIRMATION_REQUIRED;
-=======
                 sessionStorage.setItem(ORDER_ID, '');
 
                 if (confirmation_required) {
@@ -225,15 +214,14 @@ export class MyAccountDispatcher {
                 }
 
                 return this.signIn({ email, password }, dispatch);
-            },
+            }
 
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/createAccount/fetchMutation/then/catch */
-            (error) => {
+            (error: NetworkError) => {
                 dispatch(updateIsLoading(false));
-                dispatch(showNotification('error', getErrorMessage(error)));
+                dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
 
                 return false;
->>>>>>> scandipwa/master:packages/scandipwa/src/store/MyAccount/MyAccount.dispatcher.js
             }
 
             return await this.signIn({ email, password }, dispatch);
@@ -249,33 +237,33 @@ export class MyAccountDispatcher {
      * @param {{email: String}} [options={}]
      * @memberof MyAccountDispatcher
      */
-    async resendConfirmation(options = {}, dispatch) {
+    async resendConfirmation(options = {}, dispatch: Dispatch) {
         const mutation = MyAccountQuery.getResendConfirmationMutation(options);
 
         try {
-            const { resendConfirmationEmail: { status = '' } } = await fetchMutation(mutation);
+            const { resendConfirmationEmail: { status } } = await fetchMutation(mutation);
 
             switch (status) {
-            case ACCOUNT_CONFIRMATION_NOT_REQUIRED:
-                dispatch(showNotification('success', __('This email does not require confirmation.')));
-                history.push(ACCOUNT_LOGIN_URL);
+            case SendConfirmationStatus.ACCOUNT_CONFIRMATION_NOT_REQUIRED:
+                dispatch(showNotification(NotificationType.SUCCESS, __('This email does not require confirmation.')));
+                history.push(AccountPageUrl.LOGIN_URL);
 
                 return false;
-            case CONFIRMATION_SENT:
-                dispatch(showNotification('success', __('Please check your email for confirmation key.')));
+            case SendConfirmationStatus.CONFIRMATION_SENT:
+                dispatch(showNotification(NotificationType.SUCCESS, __('Please check your email for confirmation key.')));
 
                 return true;
-            case WRONG_EMAIL:
+            case SendConfirmationStatus.WRONG_EMAIL:
                 const { email = '' } = options;
 
-                history.push(`${ ACCOUNT_CONFIRMATION_URL }/?email=${ email }`);
+                history.push(`${ AccountPageUrl.CONFIRMATION_URL }/?email=${ email }`);
 
                 throw __('Wrong email! Please, try again!');
             default:
                 throw __('Something went wrong! Please, try again!');
             }
         } catch (error) {
-            throw new Error(error);
+            throw new Error(error as string);
         }
     }
 
@@ -318,11 +306,7 @@ export class MyAccountDispatcher {
         );
 
         const cartDispatcher = (await CartDispatcher).default;
-<<<<<<< HEAD:packages/scandipwa/src/store/MyAccount/MyAccount.dispatcher.ts
-        const guestCartToken = getGuestQuoteId() || '';
-=======
-        const guestCartToken = getCartId();
->>>>>>> scandipwa/master:packages/scandipwa/src/store/MyAccount/MyAccount.dispatcher.js
+        const guestCartToken = getCartId() || '';
         // if customer is authorized, `createEmptyCart` mutation returns customer cart token
         const customerCartToken = await cartDispatcher.createGuestEmptyCart(dispatch) || '';
 

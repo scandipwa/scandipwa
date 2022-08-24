@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { lazy, PureComponent, Suspense } from 'react';
+import { lazy, PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
@@ -39,69 +39,88 @@ export class UrlRewrites extends PureComponent<UrlRewritesComponentProps> {
         type: ''
     };
 
-    renderDefaultPage(): JSX.Element {
+    renderDefaultPage(): ReactElement {
         return (
             <main />
         );
     }
 
-    renderContent(): ReactElement {
-        const { props, type } = this.props;
+    renderProductPage(): ReactElement {
+        const { props } = this.props;
         const {
-            id,
-            history,
-            location,
             match,
             productSKU,
-            categoryIds,
+            id
+        } = props;
+
+        if (!productSKU) {
+            return this.renderDefaultPage();
+        }
+
+        return (
+                <ProductPage
+                  match={ match }
+                  productSKU={ productSKU }
+                  productID={ id }
+                  key={ id }
+                />
+        );
+    }
+
+    renderCmsPage(): ReactElement {
+        const { props } = this.props;
+        const {
+            match,
             pageIds
         } = props;
 
+        return (
+            <CmsPage
+              match={ match }
+              pageIds={ pageIds }
+            />
+        );
+    }
+
+    renderCategoryPage(): ReactElement {
+        const { props } = this.props;
+        const {
+            match,
+            categoryIds
+        } = props;
+
+        return (
+            <CategoryPage
+              match={ match }
+              categoryIds={ categoryIds }
+            />
+        );
+    }
+
+    renderNoMatch(): ReactElement {
+        return <NoMatch />;
+    }
+
+
+    renderContent(): ReactElement {
+        const { props, type } = this.props;
+
         switch (type) {
         case UrlRewritePageType.PRODUCT:
-            return (
-                    <ProductPage
-                      history={ history }
-                      location={ location }
-                      match={ match }
-                      productSKU={ productSKU }
-                      productID={ id }
-                      key={ id }
-                    />
-            );
+            return this.renderProductPage();
         case UrlRewritePageType.CMS_PAGE:
-            return (
-                    <CmsPage
-                      history={ history }
-                      location={ location }
-                      match={ match }
-                      pageIds={ pageIds }
-                    />
-            );
+            return this.renderCmsPage();
         case UrlRewritePageType.CATEGORY:
-            return (
-                    <CategoryPage
-                      history={ history }
-                      location={ location }
-                      match={ match }
-                      categoryIds={ categoryIds }
-                    />
-            );
+            return this.renderCategoryPage();
         case UrlRewritePageType.NOTFOUND:
-            return (
-                    <NoMatch />
-            );
+            return this.renderNoMatch();
         default:
             return this.renderDefaultPage();
         }
     }
 
     render(): ReactElement {
-        return (
-            <Suspense fallback={ this.renderDefaultPage() }>
-                { this.renderContent() }
-            </Suspense>
-        );
+        return this.renderContent();
     }
 }
 

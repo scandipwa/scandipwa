@@ -12,14 +12,9 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.container.tsx
 import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
-=======
-import { ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccountOrder/MyAccountOrder.config';
-import { OptionsType, OrderComments, OrderProductType } from 'Type/Order.type';
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.container.js
 
 import MyAccountOrderItemsTableRow from './MyAccountOrderItemsTableRow.component';
 import { OrderColumnSpanCount } from './MyAccountOrderItemsTableRow.config';
@@ -40,22 +35,8 @@ export const mapStateToProps = (state: RootState): MyAccountOrderItemsTableRowCo
 export const mapDispatchToProps = (): MyAccountOrderItemsTableRowContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountOrderItemsTableRow/Container */
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.container.tsx
 export class MyAccountOrderItemsTableRowContainer extends PureComponent<MyAccountOrderItemsTableRowContainerProps> {
     static defaultProps: Partial<MyAccountOrderItemsTableRowContainerProps> = {
-=======
-export class MyAccountOrderItemsTableRowContainer extends PureComponent {
-    static propTypes = {
-        product: OrderProductType.isRequired,
-        activeTab: PropTypes.string.isRequired,
-        selectedOptions: OptionsType,
-        enteredOptions: OptionsType,
-        isMobile: PropTypes.bool.isRequired,
-        comments: OrderComments
-    };
-
-    static defaultProps = {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.container.js
         selectedOptions: [],
         enteredOptions: [],
         comments: []

@@ -26,26 +26,21 @@
         flex-direction: column;
 
         .FieldGroup-Wrapper {
-<<<<<<< HEAD
             margin-block-end: 14px;
-=======
+
             &:not(:last-child) {
                 margin-block-end: 25px;
             }
->>>>>>> scandipwa/master
 
             .FieldGroup {
                 &_hasError, &_isValid {
                     padding-inline-start: 0;
                     border: none;
                 }
-<<<<<<< HEAD
 
                 &-ErrorMessages {
                     margin-block-start: 6px;
                 }
-=======
->>>>>>> scandipwa/master
             }
         }
     }

@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
+ * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -21,11 +21,16 @@ export interface HomePageContainerMapDispatchProps {
     changeHeaderState: (state: NavigationState) => void;
 }
 
+export interface HomePageContainerBaseProps {
+    currentUrl: string;
+}
+
 export interface HomePageContainerProps extends HomePageContainerMapStateProps,
     HomePageContainerMapDispatchProps,
-    RouteComponentProps {}
+    RouteComponentProps,
+    HomePageContainerBaseProps {}
 
 export type HomePageContainerPropsKeys = 'changeHeaderState'
-| 'location'
+| 'currentUrl'
 | 'match'
 | 'pageIdentifiers';

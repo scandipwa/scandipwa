@@ -13,16 +13,10 @@ import { PureComponent } from 'react';
 
 import { ProductType } from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductPrice/ProductPrice.component.tsx
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { FormattedMoney } from 'Util/Product/Product.type';
-=======
-import { MixType } from 'Type/Common.type';
-import { OriginalPriceType, ProductPriceType, TierPriceType } from 'Type/Price.type';
-import { PriceConfiguration } from 'Type/ProductList.type';
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductPrice/ProductPrice.component.js
 
 import { DisplayProductPricesInCatalog } from './ProductPrice.config';
 import { CurrencySchema, PriceSchema, ProductPriceComponentProps } from './ProductPrice.type';
@@ -34,29 +28,8 @@ import './ProductPrice.style';
  * @class ProductPrice
  * @namespace Component/ProductPrice/Component
  */
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductPrice/ProductPrice.component.tsx
 export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
     static defaultProps: Partial<ProductPriceComponentProps> = {
-=======
-export class ProductPrice extends PureComponent {
-    static propTypes = {
-        price: ProductPriceType,
-        priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
-        originalPrice: OriginalPriceType,
-        tierPrice: TierPriceType,
-        configuration: PriceConfiguration,
-        priceCurrency: PropTypes.string,
-        discountPercentage: PropTypes.number,
-        isPreview: PropTypes.bool,
-        isSchemaRequired: PropTypes.bool,
-        label: PropTypes.string,
-        variantsCount: PropTypes.number,
-        mix: MixType,
-        displayTaxInPrice: PropTypes.string
-    };
-
-    static defaultProps = {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductPrice/ProductPrice.component.js
         price: {},
         priceType: ProductType.SIMPLE,
         originalPrice: {},

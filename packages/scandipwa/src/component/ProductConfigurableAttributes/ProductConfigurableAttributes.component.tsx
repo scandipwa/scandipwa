@@ -14,16 +14,12 @@ import { PureComponent } from 'react';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import { ProductAttributeShape } from 'Component/ProductAttributeValue/ProductAttributeValue.type';
 import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductConfigurableAttributes/ProductConfigurableAttributes.component.tsx
-import { ReactElement } from 'Type/Common.type';
-=======
 import {
     BIG_PLACEHOLDER_CONFIG,
     SMALL_PLACEHOLDER_CONFIG
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
-import { MixType } from 'Type/Common.type';
+import { MixType, ReactElement } from 'Type/Common.type';
 import { AttributesType } from 'Type/ProductList.type';
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductConfigurableAttributes/ProductConfigurableAttributes.component.js
 import { noopFn } from 'Util/Common';
 
 import {
@@ -34,7 +30,6 @@ import {
 import './ProductConfigurableAttributes.style';
 
 /** @namespace Component/ProductConfigurableAttributes/Component */
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductConfigurableAttributes/ProductConfigurableAttributes.component.tsx
 export class ProductConfigurableAttributes<
 P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttributesComponentProps
 > extends PureComponent<P> {
@@ -43,32 +38,6 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
         mix: {},
         getIsConfigurableAttributeAvailable: (): boolean => true,
         renderPlaceholder: noopFn as unknown as (block: string) => ReactElement,
-=======
-export class ProductConfigurableAttributes extends PureComponent {
-    static propTypes = {
-        numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
-        configurable_options: AttributesType.isRequired,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        updateConfigurableVariant: PropTypes.func.isRequired,
-        isReady: PropTypes.bool,
-        mix: MixType,
-        getIsConfigurableAttributeAvailable: PropTypes.func,
-        handleShakeAnimationEnd: PropTypes.func,
-        handleOptionClick: PropTypes.func.isRequired,
-        isSelected: PropTypes.func.isRequired,
-        getLink: PropTypes.func.isRequired,
-        isExpandable: PropTypes.bool,
-        showProductAttributeAsLink: PropTypes.bool,
-        inStock: PropTypes.bool.isRequired,
-        addToCartTriggeredWithError: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
-        isReady: true,
-        mix: {},
-        getIsConfigurableAttributeAvailable: () => true,
-        numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductConfigurableAttributes/ProductConfigurableAttributes.component.js
         handleShakeAnimationEnd: noopFn,
         isExpandable: true,
         showProductAttributeAsLink: true
@@ -142,14 +111,9 @@ export class ProductConfigurableAttributes extends PureComponent {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductConfigurableAttributes/ProductConfigurableAttributes.component.tsx
-    renderAttributesPlaceholder(): ReactElement {
-        const { renderPlaceholder } = this.props;
-=======
     renderPlaceholders() {
         const { numberOfPlaceholders, isExpandable } = this.props;
         const numberOfPlaceholdersToRender = isExpandable ? numberOfPlaceholders : SMALL_PLACEHOLDER_CONFIG;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductConfigurableAttributes/ProductConfigurableAttributes.component.js
 
         const arr = Array.from({ length: 30 }, (_, index) => index + 1);
 

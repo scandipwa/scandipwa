@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
- * @link https://github.com/scandipwa/scandipwa
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
  */
 
 import { Field, Mutation, Query } from '@tilework/opus';
@@ -53,9 +53,33 @@ export class OrderQuery {
             .addField(this._getReorderField());
     }
 
+    getSubscribeToOrderStatus(incrementId) {
+        return new Field('subscribeToOrderStatus')
+            .addArgument('orderNumber', 'String!', incrementId)
+            .addFieldList(this._getSubscribeToOrderStatusOutputFields());
+    }
+
     getOrderListQuery(options: Partial<OrdersOptions>): Query<'customer', { orders: CustomerOrders }> {
         return new Query<'customer', { orders: CustomerOrders }>('customer')
             .addFieldList(this._getOrderListFields(options));
+    }
+
+    getOrderByInvoice(invoiceId) {
+        return new Field('orderByInvoice')
+            .addArgument('invoiceId', 'Int!', invoiceId)
+            .addFieldList(this._getOrderItemsFields(true));
+    }
+
+    getOrderByShipment(shipmentId) {
+        return new Field('orderByShipment')
+            .addArgument('shipmentId', 'Int!', shipmentId)
+            .addFieldList(this._getOrderItemsFields(true));
+    }
+
+    getOrderByRefund(refundId) {
+        return new Field('orderByRefund')
+            .addArgument('refundId', 'Int!', refundId)
+            .addFieldList(this._getOrderItemsFields(true));
     }
 
     _getOrderListFields(options: Partial<OrdersOptions>): Field<'orders', CustomerOrders>[] {

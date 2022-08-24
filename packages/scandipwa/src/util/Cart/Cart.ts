@@ -136,9 +136,6 @@ export const getCartShippingPrice = (state: RootState): number => {
         } = {}
     } = state;
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Cart/Cart.ts
-    if (display_tax_in_shipping_amount === DisplayCartTaxInShipping.EXCL_TAX) {
-=======
     const {
         amount: {
             value: shipping_amount = 0
@@ -146,8 +143,7 @@ export const getCartShippingPrice = (state: RootState): number => {
         amount_incl_tax: shipping_incl_tax = 0
     } = selected_shipping_method || {};
 
-    if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING.EXCL_TAX) {
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Cart/Cart.js
+    if (display_tax_in_shipping_amount === DisplayCartTaxInShipping.EXCL_TAX) {
         return shipping_amount;
     }
 
@@ -171,17 +167,13 @@ export const getCartShippingSubPrice = (state: RootState): number | null => {
         } = {}
     } = state;
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Cart/Cart.ts
-    if (display_tax_in_shipping_amount === DisplayCartTaxInShipping.BOTH) {
-=======
     const {
         amount: {
             value: shipping_amount = 0
         } = {}
     } = selected_shipping_method || {};
 
-    if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING.BOTH) {
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Cart/Cart.js
+    if (display_tax_in_shipping_amount === DisplayCartTaxInShipping.BOTH) {
         return shipping_amount;
     }
 

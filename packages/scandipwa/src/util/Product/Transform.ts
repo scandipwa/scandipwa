@@ -31,6 +31,7 @@ import {
     NoneRadioOption,
     PriceLabels,
     ProductTransformData,
+    StockCheckProduct,
     TransformedBundleOption,
     TransformedCustomizableOptions
 } from './Product.type';
@@ -67,13 +68,8 @@ export const getBundleOptions = (buyRequest: string): string[] => {
     return Object.entries(bundle_option).reduce((prev: string[], [option, variant]) => {
         const qty = bundle_option_qty[option] || 1;
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Product/Transform.ts
-        if (typeof variant === 'string') {
-            return [...prev, encodeBase64(`bundle/${option}/${variant}/${qty}`)];
-=======
         if (Array.isArray(variant) && variant.every((val) => typeof (val) === 'string')) {
-            return [...prev, ...variant.map((val) => btoa(`bundle/${option}/${val}/${qty}`))];
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Product/Transform.js
+            return [...prev, ...variant.map((val) => encodeBase64(`bundle/${option}/${val}/${qty}`))];
         }
 
         return [...prev, ...Object.keys(variant).map((id) => encodeBase64(`bundle/${option}/${id}/${qty}`))];
@@ -100,12 +96,8 @@ export const getCustomizableOptions = (buyRequest: string): string[] => {
 
         if (typeof variant === 'object' && (variant.date_internal || variant.date)) {
             const { date_internal, date } = variant;
-<<<<<<< HEAD:packages/scandipwa/src/util/Product/Transform.ts
-            return [...prev, encodeBase64(`custom-option/${option}/${date_internal || date}`)];
-=======
 
-            return [...prev, btoa(`custom-option/${option}/${date_internal || date}`)];
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Product/Transform.js
+            return [...prev, encodeBase64(`custom-option/${option}/${date_internal || date}`)];
         }
 
         // Handle case when we need to pass previously uploaded file as selected option
@@ -327,11 +319,7 @@ export const magentoProductTransform = (
 
     const productData: ProductTransformData[] = [];
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Product/Transform.ts
     if (typeId === ProductType.GROUPED && action === ADD_TO_CART) {
-        if (Object.keys(quantity).length === 0) {
-            return productData;
-        }
 
         const { items = [] } = product;
         const groupedProducts: string[] = [];
@@ -339,16 +327,6 @@ export const magentoProductTransform = (
         (items as GroupedProductItem[]).forEach(({ product: { id } }) => {
             const { [String(id)]: groupedQuantity = 0 } = quantity as Record<string, number>;
             groupedProducts.push(encodeBase64(`grouped/${id}/${groupedQuantity}`));
-=======
-    if (typeId === PRODUCT_TYPE.grouped && action === ADD_TO_CART) {
-        const { items } = product;
-        const groupedProducts = [];
-
-        items.forEach(({ product: { id } }) => {
-            const { [id]: groupedQuantity = 0 } = quantity;
-
-            groupedProducts.push(btoa(`grouped/${id}/${groupedQuantity}`));
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Product/Transform.js
         });
 
         productData.push({
@@ -388,11 +366,7 @@ export const nonRequiredRadioOptions = <T>(
         return options;
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Product/Transform.ts
-    const hasDefault = (options as Array<{ is_default?: boolean }>).find(({ is_default }) => is_default);
-=======
-    const hasDefault = options.find(({ is_default, product }) => is_default && getProductInStock(product));
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Product/Transform.js
+    const hasDefault = (options as Array<{ is_default?: boolean, product: StockCheckProduct }>).find(({ is_default }) => is_default && getProductInStock(product));
 
     return [
         {

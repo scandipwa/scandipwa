@@ -25,28 +25,8 @@ import { ProductCompareComponentProps } from './ProductCompare.type';
 import './ProductCompare.style';
 
 /** @namespace Component/ProductCompare/Component */
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompare/ProductCompare.component.tsx
 export class ProductCompare extends Component<ProductCompareComponentProps> {
     static defaultProps: Partial<ProductCompareComponentProps> = {
-=======
-export class ProductCompare extends Component {
-    static propTypes = {
-        clearCompareList: PropTypes.func.isRequired,
-        getAttributes: PropTypes.func.isRequired,
-        isInStock: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool,
-        products: ProductItemsType,
-        device: DeviceType.isRequired,
-        handleScroll: PropTypes.func.isRequired,
-        handleBlockScroll: PropTypes.func.isRequired,
-        scrollerScroll: PropTypes.node.isRequired,
-        productCompare: PropTypes.node.isRequired,
-        productCompareRow: PropTypes.node.isRequired,
-        scrollerContent: PropTypes.node.isRequired
-    };
-
-    static defaultProps = {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompare/ProductCompare.component.js
         isLoading: false,
         products: []
     };
@@ -58,13 +38,8 @@ export class ProductCompare extends Component {
         return products !== nextProducts || isLoading !== nextIsLoading;
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompare/ProductCompare.component.tsx
-    renderScroll(): ReactElement {
-        const { handleScroll } = this.props;
-=======
     renderScroll() {
         const { handleScroll, scrollerScroll, scrollerContent } = this.props;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompare/ProductCompare.component.js
 
         return (
             <div block="ProductCompare" elem="Scroller">
@@ -193,13 +168,8 @@ export class ProductCompare extends Component {
         ));
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompare/ProductCompare.component.tsx
-    renderProducts(): ReactElement {
-        const { handleBlockScroll } = this.props;
-=======
     renderProducts() {
         const { handleBlockScroll, productCompare, productCompareRow } = this.props;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompare/ProductCompare.component.js
 
         return (
             <>

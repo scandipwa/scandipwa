@@ -16,18 +16,8 @@ import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.
 import UserIcon from 'Component/UserIcon';
 import { ReactElement } from 'Type/Common.type';
 
-<<<<<<< HEAD:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.component.tsx
 import { NavigationTabsMap } from './NavigationTabs.config';
 import { NavigationTabsComponentProps } from './NavigationTabs.type';
-=======
-import {
-    ACCOUNT_TAB,
-    CART_TAB,
-    CHECKOUT_TAB,
-    HOME_TAB,
-    MENU_TAB
-} from './NavigationTabs.config';
->>>>>>> scandipwa/master:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.component.js
 
 import './NavigationTabs.style';
 
@@ -45,15 +35,11 @@ export class NavigationTabs extends NavigationAbstract<NavigationTabsComponentPr
         [NavigationTabsMap.CART_TAB]: {
             minicart: true
         },
-<<<<<<< HEAD:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.component.tsx
         [NavigationTabsMap.ACCOUNT_TAB]: {
-=======
-        [CHECKOUT_TAB]: {
-            minicart: true
-        },
-        [ACCOUNT_TAB]: {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.component.js
             account: true
+        },
+        [NavigationTabsMap.CHECKOUT_TAB]: {
+            minicart: true
         }
     };
 
@@ -128,13 +114,8 @@ export class NavigationTabs extends NavigationAbstract<NavigationTabsComponentPr
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.component.tsx
     renderMinicartItemsQty(): ReactElement {
-        const { cartTotals: { items_qty } } = this.props;
-=======
-    renderMinicartItemsQty() {
         const { cartTotals: { total_quantity } } = this.props;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.component.js
 
         if (!total_quantity) {
             return null;

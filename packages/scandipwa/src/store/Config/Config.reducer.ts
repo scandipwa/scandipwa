@@ -17,18 +17,11 @@ import { ReviewRatingItem } from 'Query/Review.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 import {
-<<<<<<< HEAD:packages/scandipwa/src/store/Config/Config.reducer.ts
     ConfigAction,
     ConfigActionType,
     ConfigStore,
     ReviewRatings
 } from './Config.type';
-=======
-    UPDATE_CONFIG,
-    UPDATE_CONFIG_DEVICE,
-    UPDATE_CURRENT_CURRENCY
-} from './Config.action';
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Config/Config.reducer.js
 
 export const MAX_WIDTH = 150;
 export const MAX_HEIGHT = 40;
@@ -162,7 +155,7 @@ export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
             }
         };
 
-    case UPDATE_CURRENT_CURRENCY:
+    case ConfigActionType.UPDATE_CURRENT_CURRENCY:
         return {
             ...state,
             currencyData: {

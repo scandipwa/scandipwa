@@ -71,11 +71,7 @@ LinkedProductsDispatcherData
         const relatedSKUs = product_links.reduce((links: string[], link) => {
             const { linked_product_sku } = link;
 
-<<<<<<< HEAD:packages/scandipwa/src/store/LinkedProducts/LinkedProducts.dispatcher.ts
-            return [...links, `${ linked_product_sku?.replace(/ /g, '%20') }`];
-=======
             return [...links, linked_product_sku];
->>>>>>> scandipwa/master:packages/scandipwa/src/store/LinkedProducts/LinkedProducts.dispatcher.js
         }, []);
 
         return [

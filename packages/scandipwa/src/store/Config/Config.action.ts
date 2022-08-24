@@ -9,26 +9,23 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-<<<<<<< HEAD:packages/scandipwa/src/store/Config/Config.action.ts
 import { Device } from 'Type/Device.type';
 
 import {
     ConfigActionType,
     ConfigStore,
     UpdateConfigAction,
+    UpdateConfigCurrencyAction,
     UpdateConfigDeviceAction
 } from './Config.type';
-=======
-export const UPDATE_CURRENT_CURRENCY = 'UPDATE_CURRENT_CURRENCY';
 
 /** @namespace Store/Config/Action/updateCurrentCurrency  */
-export const updateCurrentCurrency = (selectedCurrency) => ({
-    type: UPDATE_CURRENT_CURRENCY,
+export const updateCurrentCurrency = (selectedCurrency: string): UpdateConfigCurrencyAction => ({
+    type: ConfigActionType.UPDATE_CURRENT_CURRENCY,
     selectedCurrency
 });
 
 export const UPDATE_CONFIG = 'UPDATE_CONFIG';
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Config/Config.action.js
 
 /** @namespace Store/Config/Action/updateConfig */
 export const updateConfig = (config: Partial<ConfigStore>): UpdateConfigAction => ({

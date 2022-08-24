@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
- * @link https://github.com/scandipwa/scandipwa
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
  */
 
 import { Field, Mutation, Query } from '@tilework/opus';
@@ -80,8 +80,8 @@ export class CheckoutQuery {
     getSetBillingAddressOnCart(
         input: GQLSSetBillingAddressOnCartInput
     ): Mutation<'billingAddress', { cart: { id: number } }> {
-        return new Mutation<'s_setBillingAddressOnCart', { cart: { id: number } }>('s_setBillingAddressOnCart')
-            .addArgument('input', 'S_SetBillingAddressOnCartInput!', input)
+        return new Mutation<'setBillingAddressOnCart', { cart: { id: number } }>('setBillingAddressOnCart')
+            .addArgument('input', 'SetBillingAddressOnCartInput', input)
             .addField(this._getCartField())
             .setAlias('billingAddress');
     }
@@ -89,27 +89,23 @@ export class CheckoutQuery {
     getSetPaymentMethodOnCartMutation(
         input: GQLSSetPaymentMethodOnCartInput
     ): Mutation<'paymentMethod', { cart: { id: number } }> {
-        return new Mutation<'s_setPaymentMethodOnCart', { cart: { id: number } }>('s_setPaymentMethodOnCart')
-            .addArgument('input', 'S_SetPaymentMethodOnCartInput!', input)
+        return new Mutation<'setPaymentMethodOnCart', { cart: { id: number } }>('setPaymentMethodOnCart')
+            .addArgument('input', 'SetPaymentMethodOnCartInput', input)
             .addField(this._getCartField())
             .setAlias('paymentMethod');
     }
 
-    getPlaceOrderMutation(guestCartId: string): Mutation<'placeOrder', { order: { order_id: string } }> {
-        const mutation = new Mutation<'s_placeOrder', { order: { order_id: string } }>('s_placeOrder')
-            .setAlias('placeOrder')
+    getPlaceOrderMutation(cartId: string): Mutation<'placeOrder', { order: { order_id: string } }> {
+        const mutation = new Mutation<'placeOrder', { order: { order_id: string } }>('placeOrder')
+            .addArgument('input', 'String', { cart_id: cartId })
             .addField(this._getOrderField());
-
-        if (!isSignedIn()) {
-            mutation.addArgument('guestCartId', 'String', guestCartId);
-        }
 
         return mutation;
     }
 
     _addGuestCartId(
         guestCartId: string,
-        mutation: Mutation<'saveAddressInformation', PaymentDetails>
+        mutation: Mutation<'saveAd dressInformation', PaymentDetails>
         | Mutation<'estimateShippingCosts', ShippingMethod, true>
         | Query<'getPaymentMethods', PaymentMethod, true>
     ): void {

@@ -40,29 +40,19 @@ import {
 
 // TODO unify keyof product and stockitem.
 /** @namespace Util/Product/Extract/getFieldQty */
-<<<<<<< HEAD:packages/scandipwa/src/util/Product/Extract.ts
 export const getFieldQty = (
     product: Partial<IndexedProduct> | Partial<IndexedVariant>,
     field: QtyFields
 ): number => {
     if (field === QtyFields.MIN_SALE_QTY || field === QtyFields.MAX_SALE_QTY) {
         const { stock_item: { [field]: qty = 0 } = {} } = product;
-=======
-export const getFieldQty = (product, field) => {
-    if (field === MIN_SALE_QTY || field === MAX_SALE_QTY) {
-        const { stock_item: { [field]: qty } = {} } = product;
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Product/Extract.js
 
         return qty;
     }
 
     const { [field]: qty } = product;
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Product/Extract.ts
     return qty || 0;
-=======
-    return qty;
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Product/Extract.js
 };
 
 /**
@@ -119,7 +109,6 @@ export const getMinQuantity = (product: IndexedProduct, configIndex = -1): numbe
  * @returns {*}
  * @namespace Util/Product/Extract/getMaxQuantity
  */
-<<<<<<< HEAD:packages/scandipwa/src/util/Product/Extract.ts
 export const getMaxQuantity = (product: IndexedProduct, configIndex = -1): number => {
     const maxQuantity: number = getQuantity(
         product, DEFAULT_MAX_PRODUCTS,
@@ -131,11 +120,6 @@ export const getMaxQuantity = (product: IndexedProduct, configIndex = -1): numbe
         QtyFields.SALABLE_QTY,
         configIndex
     );
-=======
-export const getMaxQuantity = (product, configIndex = -1) => {
-    const maxQuantity = getQuantity(product, DEFAULT_MAX_PRODUCTS, MAX_SALE_QTY, configIndex);
-    const salableQuantity = getQuantity(product, DEFAULT_MAX_PRODUCTS, SALABLE_QTY, configIndex);
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Product/Extract.js
 
     return Math.min(maxQuantity, salableQuantity);
 };
@@ -250,20 +234,12 @@ export const getGroupedProductsInStockQuantity = (
  * @param options
  * @namespace Util/Product/Extract/getBundleOption
  */
-<<<<<<< HEAD:packages/scandipwa/src/util/Product/Extract.ts
 export const getBundleOption = (
     uid: string, options: Partial<IndexedBundleOption>[] = []
 ): Partial<IndexedBundleOption> | undefined => {
     const uidParts = decodeBase64(uid).split('/');
     return options.find(({ uid: linkedUid = '' }) => {
         const linkedUidParts = decodeBase64(linkedUid).split('/');
-=======
-export const getBundleOption = (uid, options = []) => {
-    const uidParts = atob(uid).split('/');
-
-    return options.find(({ uid: linkedUid }) => {
-        const linkedUidParts = atob(linkedUid).split('/');
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Product/Extract.js
 
         if (uidParts.length !== linkedUidParts.length) {
             return false;
@@ -575,7 +551,6 @@ export const getAdjustedPrice = (
         const option = options.find(({ uid: linkUid }) => linkUid === uid);
 
         if (option) {
-<<<<<<< HEAD:packages/scandipwa/src/util/Product/Extract.ts
             const { value } = option;
 
             if ('priceInclTax' in value) {
@@ -583,12 +558,6 @@ export const getAdjustedPrice = (
                 adjustedPrice.config.inclTax += priceInclTax;
                 adjustedPrice.config.exclTax += priceExclTax;
             }
-=======
-            const { value: { priceExclTax = 0, priceInclTax = 0 } = {} } = option;
-
-            adjustedPrice.config.inclTax += priceInclTax;
-            adjustedPrice.config.exclTax += priceExclTax;
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Product/Extract.js
         }
     });
 

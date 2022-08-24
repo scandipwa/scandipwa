@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
+ * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -24,7 +24,8 @@ import { Device } from 'Type/Device.type';
 
 export enum ConfigActionType {
     UPDATE_CONFIG = 'UPDATE_CONFIG',
-    UPDATE_CONFIG_DEVICE = 'UPDATE_CONFIG_DEVICE'
+    UPDATE_CONFIG_DEVICE = 'UPDATE_CONFIG_DEVICE',
+    UPDATE_CURRENT_CURRENCY = 'UPDATE_CURRENT_CURRENCY'
 }
 
 export interface UpdateConfigAction extends AnyAction {
@@ -37,7 +38,12 @@ export interface UpdateConfigDeviceAction extends AnyAction {
     device: Device;
 }
 
-export type ConfigAction = UpdateConfigAction | UpdateConfigDeviceAction;
+export interface UpdateConfigCurrencyAction extends AnyAction {
+    type: ConfigActionType.UPDATE_CURRENT_CURRENCY;
+    selectedCurrency: string;
+}
+
+export type ConfigAction = UpdateConfigAction | UpdateConfigDeviceAction | UpdateConfigCurrencyAction;
 
 export interface ReviewRatings {
     items: ReviewRatingItem[];
@@ -53,6 +59,7 @@ export type ConfigStore = StoreConfig & {
     isLoading: boolean;
     category_url_suffix: string;
     device: Device;
+    currency: string
 };
 
 declare module 'Util/Store/Store.type' {

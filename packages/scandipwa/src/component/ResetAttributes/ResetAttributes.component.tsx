@@ -13,11 +13,8 @@
 import { PureComponent } from 'react';
 
 import CloseIcon from 'Component/CloseIcon';
-<<<<<<< HEAD:packages/scandipwa/src/component/ResetAttributes/ResetAttributes.component.tsx
-import { ReactElement } from 'Type/Common.type';
-=======
 import Html from 'Component/Html';
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ResetAttributes/ResetAttributes.component.js
+import { ReactElement } from 'Type/Common.type';
 import { getFiltersCount } from 'Util/Category';
 
 import { ResetAttributesComponentProps, ResetItem } from './ResetAttributes.type';
@@ -25,20 +22,8 @@ import { ResetAttributesComponentProps, ResetItem } from './ResetAttributes.type
 import './ResetAttributes.style';
 
 /** @namespace Component/ResetAttributes/Component */
-<<<<<<< HEAD:packages/scandipwa/src/component/ResetAttributes/ResetAttributes.component.tsx
 export class ResetAttributes extends PureComponent<ResetAttributesComponentProps> {
-    renderSelectedOption(selectedOption: ResetItem): ReactElement {
-=======
-export class ResetAttributes extends PureComponent {
-    static propTypes = {
-        toggleCustomFilter: PropTypes.func.isRequired,
-        filtersData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.shape({
-            label: PropTypes.string.isRequired,
-            attribute_code: PropTypes.string.isRequired
-        }))).isRequired
-    };
-
-    renderSelectedOptionLabel(label) {
+    renderSelectedOptionLabel(label): ReactElement {
         if (typeof label !== 'string') {
             return label;
         }
@@ -46,8 +31,7 @@ export class ResetAttributes extends PureComponent {
         return <Html content={ label } />;
     }
 
-    renderSelectedOption(selectedOption) {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ResetAttributes/ResetAttributes.component.js
+    renderSelectedOption(selectedOption: ResetItem): ReactElement {
         const { toggleCustomFilter } = this.props;
         const { attribute_code, attribute_label, value_string } = selectedOption;
         const onRemove = () => toggleCustomFilter(attribute_code, value_string);

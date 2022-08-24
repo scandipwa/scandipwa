@@ -12,15 +12,9 @@
 import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.tsx
 import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { BundleOption, OrderProductSelectedOption } from 'Query/Order.type';
 import { ReactElement } from 'Type/Common.type';
-import { GQLCurrencyEnum } from 'Type/Graphql.type';
-=======
-import { ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS } from 'Component/MyAccountOrder/MyAccountOrder.config';
-import { OptionsType, OrderComments, OrderProductType } from 'Type/Order.type';
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.js
 import { getOrderItemQtyToArray, getOrderItemRowDiscount } from 'Util/Orders';
 import { OrderItemQtyArray } from 'Util/Orders/Orders.type';
 import { formatPrice } from 'Util/Price';
@@ -31,23 +25,8 @@ import { MyAccountOrderItemsTableRowComponentProps } from './MyAccountOrderItems
 import './MyAccountOrderItemsTableRow.style';
 
 /** @namespace Component/MyAccountOrderItemsTableRow/Component */
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.tsx
 export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderItemsTableRowComponentProps> {
     static defaultProps: Partial<MyAccountOrderItemsTableRowComponentProps> = {
-=======
-export class MyAccountOrderItemsTableRow extends PureComponent {
-    static propTypes = {
-        activeTab: PropTypes.string.isRequired,
-        product: OrderProductType.isRequired,
-        selectedOptions: OptionsType.isRequired,
-        enteredOptions: OptionsType.isRequired,
-        colSpanCount: PropTypes.string.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        comments: OrderComments
-    };
-
-    static defaultProps = {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.js
         comments: []
     };
 
@@ -130,33 +109,10 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         return this.renderPrice(value, currency, __('Subtotal'));
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.tsx
     renderPrice<T>(value: T, currency: string | undefined, title: string): ReactElement {
-        const { isMobile, colSpanCount } = this.props;
-
-        if (isMobile) {
-            return (
-                <tr
-                  block="MyAccountOrderItemsTableRow"
-                  elem="Row"
-                >
-                    <td colSpan={ colSpanCount }>
-                        <strong>{ title }</strong>
-                        <strong>{ formatPrice(Number(value), currency as GQLCurrencyEnum) }</strong>
-                    </td>
-                </tr>
-            );
-        }
-
-        return (
-            <td>
-                <strong>{ formatPrice(Number(value), currency as GQLCurrencyEnum) }</strong>
-=======
-    renderPrice(value, currency, title) {
         return (
             <td data-th={ title }>
                 <strong>{ formatPrice(value, currency) }</strong>
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.js
             </td>
         );
     }
@@ -198,13 +154,8 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.tsx
     renderOptionItem(item: BundleOption, isLastOptionItem: boolean): ReactElement {
-        const { product: { product_sale_price: { currency } }, product, isMobile } = this.props;
-=======
-    renderOptionItem(item, isLastOptionItem) {
-        const { product: { quantity_ordered = 1, product_sale_price: { currency } } } = this.props;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.js
+        const { product: { product_sale_price: { currency } }, product } = this.props;
         const { qty, title, price } = item;
 
         return (
@@ -249,26 +200,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.tsx
-    renderMobileOptionItem(item: BundleOption): ReactElement {
-        const { product: { product_sale_price: { currency } } } = this.props;
-        const { qty, title, price } = item;
-
-        const nameRowMix = { block: 'MyAccountOrderItemsTableRow', elem: 'Name' };
-
-        return (
-            <>
-                { this.renderMobileBodyContentRow(__('Product name'), `${qty} x ${title}`, nameRowMix) }
-                { this.renderMobileBodyContentRow(__('SKU'), title) }
-                { this.renderMobileBodyContentRow(__('Price'), formatPrice(price, currency)) }
-            </>
-        );
-    }
-
     renderEnteredOptionAsRow(option: OrderProductSelectedOption, index: number): ReactElement {
-=======
-    renderEnteredOptionAsRow(option, index) {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.js
         const { colSpanCount, enteredOptions } = this.props;
         const { label, items } = option;
         const { renderOptionItem } = this.renderMap;
@@ -407,59 +339,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.tsx
-    renderMobileBodyContentRow(label: string, value: string | ReactElement, mix = {}): ReactElement {
-        const { colSpanCount } = this.props;
-
-        return (
-            <tr
-              block="MyAccountOrderItemsTableRow"
-              elem="Row"
-              mix={ mix }
-            >
-                <td colSpan={ colSpanCount }>
-                    <strong>{ label }</strong>
-                    { value }
-                </td>
-            </tr>
-        );
-    }
-
-    renderMobileTableRow(): ReactElement {
-        const {
-            activeTab,
-            product: {
-                product_sku,
-                product_name
-            },
-            comments
-        } = this.props;
-
-        const nameRowMix = { block: 'MyAccountOrderItemsTableRow', elem: 'Name' };
-        const lineBefore = !!((activeTab === OrderTabs.ORDER_SHIPMENTS) && (comments.length));
-
-        return (
-            <tbody
-              block="MyAccountOrderItemsTableRow"
-              elem="RowWrapper"
-              mods={ { lineBefore } }
-            >
-                { this.renderMobileBodyContentRow(__('Product name'), product_name, nameRowMix) }
-                { this.renderSelectedAndEnteredOptions() }
-                { this.renderMobileBodyContentRow(__('SKU'), product_sku) }
-                { this.renderItemPrice() }
-                { this.renderMobileBodyContentRow(__('Qty'), this.renderRowQty()) }
-                { this.renderRowSubtotal() }
-                { this.renderDiscountAndRowTotal() }
-                { this.renderEnteredOptionsAsRow() }
-            </tbody>
-        );
-    }
-
-    renderDesktopTableRow(): ReactElement {
-=======
-    renderTableRow() {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.js
+    renderTableRow(): ReactElement {
         const {
             activeTab,
             product: {
@@ -497,19 +377,8 @@ export class MyAccountOrderItemsTableRow extends PureComponent {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.tsx
     render(): ReactElement {
-        const { isMobile } = this.props;
-
-        if (!isMobile) {
-            return this.renderDesktopTableRow();
-        }
-
-        return this.renderMobileTableRow();
-=======
-    render() {
         return this.renderTableRow();
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrderItemsTableRow/MyAccountOrderItemsTableRow.component.js
     }
 }
 

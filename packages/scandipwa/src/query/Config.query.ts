@@ -5,13 +5,15 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
- * @link https://github.com/scandipwa/scandipwa
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
  */
 
 import { Field, Mutation, Query } from '@tilework/opus';
 
 import { GQLCheckoutAgreementMode } from 'Type/Graphql.type';
+import { isSignedIn } from 'Util/Auth';
+import { getCartId } from 'Util/Cart';
 
 import {
     CheckoutAgreement,
@@ -35,21 +37,43 @@ export class ConfigQuery {
             .addFieldList(this._getCheckoutAgreementFields());
     }
 
-    getCurrencyField(): Field<'available_currencies_data', Currency, true> {
-        return new Field<'available_currencies_data', Currency, true>('available_currencies_data', true)
+    getCurrencyData() {
+        return new Field('currencyData')
             .addFieldList([
-                new Field<'id', string>('id'),
-                new Field<'label', string>('label'),
-                new Field<'value', string>('value')
+                this.getCurrencyFields(),
+                'current_currency_code'
             ]);
     }
 
-    getCurrencyData(): Query<'currencyData', CurrencyConfig> {
-        return new Query<'currencyData', CurrencyConfig>('currencyData')
-            .addFieldList([
-                this.getCurrencyField(),
-                new Field<'current_currency_code', string>('current_currency_code')
-            ]);
+    getCurrencyFields() {
+        return new Field('available_currencies_data')
+            .addFieldList(this._getAvailableCurrenciesFields());
+    }
+
+    _getAvailableCurrenciesFields() {
+        return [
+            'id',
+            'label',
+            'value'
+        ];
+    }
+
+    getCurrencyRates() {
+        return new Field('currency').addFieldList(this.getCurrencyRatesFields());
+    }
+
+    getCurrencyRatesFields() {
+        return [
+            'base_currency_code',
+            new Field('exchange_rates').addFieldList(this._getExchangeRatesFields())
+        ];
+    }
+
+    _getExchangeRatesFields() {
+        return [
+            'currency_to',
+            'rate'
+        ];
     }
 
     _getPriceDisplayTypeField(): Field<'priceTaxDisplay', PriceTaxDisplay> {
@@ -63,13 +87,19 @@ export class ConfigQuery {
     getSaveSelectedCurrencyMutation(newCurrency: string): Mutation<'saveSelectedCurrency', {
         currencyData: CurrencyConfig;
     }> {
-        return new Mutation<'saveSelectedCurrency', {
-            currencyData: CurrencyConfig;
-        }>('saveSelectedCurrency')
+        const query = new Field('saveSelectedCurrency')
             .addArgument('currency', 'String', newCurrency)
             .addFieldList([
-                this._getCurrencyDataField()
+                this.getCurrencyData()
             ]);
+
+        if (!isSignedIn()) {
+            const guestQuoteId = getCartId();
+
+            query.addArgument('guestCartId', 'String', guestQuoteId);
+        }
+
+        return query;
     }
 
     _getCurrencyDataField(): Field<'currencyData', CurrencyConfig> {

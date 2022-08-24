@@ -112,16 +112,10 @@ ProductCompareItemContainerState
             return {};
         }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompareItem/ProductCompareItem.container.tsx
         return (items as GroupedProductItem[]).reduce((result, item) => {
             const { product: { id = 0 } = {} } = item;
-            Object.assign(result, { [ id ]: 1 });
-=======
-        return items.reduce((result, item) => {
-            const { product: { id } = {} } = item;
 
-            Object.assign(result, { [id]: 1 });
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompareItem/ProductCompareItem.container.js
+            Object.assign(result, { [ id ]: 1 });
 
             return result;
         }, {});
@@ -180,12 +174,8 @@ ProductCompareItemContainerState
 
     overriddenAddToCartBtnHandler(): void {
         const { showNotification } = this.props;
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompareItem/ProductCompareItem.container.tsx
-        showNotification(NotificationType.INFO, __('Please, select required options!'));
-=======
 
-        showNotification('info', __('Please, select required options!'));
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompareItem/ProductCompareItem.container.js
+        showNotification(NotificationType.INFO, __('Please, select required options!'));
     }
 
     redirectToProductPage(): void {

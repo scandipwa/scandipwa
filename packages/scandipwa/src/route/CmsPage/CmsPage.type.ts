@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
+ * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -38,6 +38,7 @@ export interface CmsPageContainerBaseProps {
     isBreadcrumbsActive: boolean;
     changeHeaderState?: (state: NavigationState) => void;
     history: History<HistoryState>;
+    currentUrl: string;
 }
 
 export type CmsPageContainerProps = & RouteComponentProps<Record<string, never>, StaticContext, HistoryState>
@@ -60,5 +61,6 @@ export interface CmsPageComponentProps {
 
 export type CmsPageContainerPropsKeys = 'isBreadcrumbsActive'
 | 'isLoading'
+| 'currentUrl'
 | 'isPageLoaded'
 | 'page';

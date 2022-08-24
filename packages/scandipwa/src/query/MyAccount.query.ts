@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
- * @link https://github.com/scandipwa/scandipwa
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
  */
 
 import { Field, Mutation, Query } from '@tilework/opus';
@@ -39,12 +39,18 @@ export class MyAccountQuery {
      * @memberof MyAccount
      */
     getResetPasswordMutation(options: ResetPasswordOptions): Mutation<'s_resetPassword', { status: string }> {
-        const { token, password, password_confirmation } = options;
+        const {
+            customer_id,
+            token,
+            password,
+            password_confirmation
+        } = options;
 
         return new Mutation<'s_resetPassword', { status: string }>('s_resetPassword')
             .addArgument('token', 'String!', token)
             .addArgument('password', 'String!', password)
             .addArgument('password_confirmation', 'String!', password_confirmation)
+            .addArgument('customer_id', 'String!', customer_id)
             .addField('status');
     }
 
@@ -107,10 +113,11 @@ export class MyAccountQuery {
         id: number,
         options: GQLCustomerAddressInput
     ): Mutation<'updateCustomerAddress', CustomerAddress> {
-        return new Mutation<'updateCustomerAddress', CustomerAddress>('updateCustomerAddress')
-            .addArgument('id', 'Int!', id)
-            .addArgument('input', 'CustomerAddressInput!', options)
-            .addFieldList(this._getAddressFields());
+        const { customer, password, orderID } = options;
+
+        return new Field('createCustomer')
+            .addArgument('input', 'CustomerInput!', { ...customer, password, orderID })
+            .addField(this._getCustomerField());
     }
 
     getCreateAccountMutation(options: CreateAccountOptions): Mutation<'createCustomer', { customer: Customer }> {
@@ -119,6 +126,20 @@ export class MyAccountQuery {
         return new Mutation<'createCustomer', { customer: Customer }>('createCustomer')
             .addArgument('input', 'CustomerInput!', { ...customer, password })
             .addField(this._getCustomerField());
+    }
+
+    getResendConfirmationMutation(options) {
+        const { email } = options;
+
+        return new Field('resendConfirmationEmail')
+            .addArgument('email', 'String!', email)
+            .addFieldList(this._getResendConfirmationFields());
+    }
+
+    _getResendConfirmationFields() {
+        return [
+            'status'
+        ];
     }
 
     getConfirmAccountMutation(options: ConfirmAccountOptions): Mutation<'confirmCustomerEmail', CreateCustomerOutput> {

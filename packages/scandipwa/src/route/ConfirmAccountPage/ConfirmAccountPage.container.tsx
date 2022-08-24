@@ -5,11 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
-<<<<<<< HEAD:packages/scandipwa/src/route/ConfirmAccountPage/ConfirmAccountPage.container.tsx
  * @package scandipwa/scandipwa
-=======
- * @package scandipwa/scandipwa
->>>>>>> scandipwa/master:packages/scandipwa/src/route/ConfirmAccountPage/ConfirmAccountPage.container.js
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -22,10 +18,7 @@ import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-<<<<<<< HEAD:packages/scandipwa/src/route/ConfirmAccountPage/ConfirmAccountPage.container.tsx
 import { ReactElement } from 'Type/Common.type';
-=======
->>>>>>> scandipwa/master:packages/scandipwa/src/route/ConfirmAccountPage/ConfirmAccountPage.container.js
 import { isSignedIn } from 'Util/Auth';
 import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
@@ -69,24 +62,11 @@ export const mapDispatchToProps = (dispatch: Dispatch): ConfirmAccountPageContai
 });
 
 /** @namespace Route/ConfirmAccountPage/Container */
-<<<<<<< HEAD:packages/scandipwa/src/route/ConfirmAccountPage/ConfirmAccountPage.container.tsx
 export class ConfirmAccountPageContainer extends PureComponent<
 ConfirmAccountPageContainerProps,
 ConfirmAccountPageContainerState
 > {
     containerFunctions: ConfirmAccountPageContainerFunctions = {
-=======
-export class ConfirmAccountPageContainer extends PureComponent {
-    static propTypes = {
-        signIn: PropTypes.func.isRequired,
-        updateMeta: PropTypes.func.isRequired,
-        confirmAccount: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        toggleBreadcrumbs: PropTypes.func.isRequired
-    };
-
-    containerFunctions = {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/ConfirmAccountPage/ConfirmAccountPage.container.js
         onConfirmSuccess: this.onConfirmSuccess.bind(this),
         onFormError: this.onFormError.bind(this)
     };

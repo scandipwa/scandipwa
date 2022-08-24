@@ -29,6 +29,7 @@ import { RootState } from 'Util/Store/Store.type';
 import { getPriceRange } from 'Util/Wishlist';
 
 import { ClearWishlistAction, WishlistProduct } from './Wishlist.type';
+import { NetworkError } from 'Type/Common.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -88,9 +89,6 @@ export class WishlistDispatcher {
                             qty: quantity
                         } = wishlistItem;
 
-<<<<<<< HEAD:packages/scandipwa/src/store/Wishlist/Wishlist.dispatcher.ts
-                        const { price_range } = getPriceRange(product, price, price_without_tax);
-=======
                         const {
                             price_range: {
                                 minimum_price: {
@@ -100,11 +98,10 @@ export class WishlistDispatcher {
                         } = product;
 
                         const priceRange = getPriceRange(product, price, price_without_tax, discount);
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Wishlist/Wishlist.dispatcher.js
 
                         const result: WishlistProduct = {
                             ...product,
-                            price_range,
+                            ...priceRange,
                             quantity,
                             wishlist: {
                                 id,
@@ -146,24 +143,18 @@ export class WishlistDispatcher {
             const { items = [], wishlistId = '' } = options;
 
             dispatch(updateIsLoading(true));
-<<<<<<< HEAD:packages/scandipwa/src/store/Wishlist/Wishlist.dispatcher.ts
-            await fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, items));
-            dispatch(showNotification(NotificationType.SUCCESS, __('Product added to wish-list!')));
-            await this._syncWishlistWithBE(dispatch);
-=======
             const {
                 addProductsToWishlist: { user_errors }
             } = await fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, items));
 
             if (user_errors.length > 0) {
-                user_errors.map(({ message }) => dispatch(
-                    showNotification('error', __('We can`t add the item to Wishlist right now: %s', message).toString())
+                user_errors.map(({ message }: NetworkError) => dispatch(
+                    showNotification(NotificationType.ERROR, __('We can`t add the item to Wishlist right now: %s', message).toString())
                 ));
             } else {
-                dispatch(showNotification('success', __('Product added to wish-list!')));
+                dispatch(showNotification(NotificationType.SUCCESS, __('Product added to wish-list!')));
                 await this._syncWishlistWithBE(dispatch);
             }
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Wishlist/Wishlist.dispatcher.js
         } catch {
             dispatch(showNotification(NotificationType.ERROR, __('Error updating wish list!')));
         } finally {

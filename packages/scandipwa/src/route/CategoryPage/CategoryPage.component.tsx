@@ -183,7 +183,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.component.tsx
     renderPlaceholder(block: string): ReactElement {
         return (
             <>
@@ -198,9 +197,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState
     }
 
     renderFilterPlaceholder(): ReactElement {
-=======
-    renderFilterPlaceholder() {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.component.js
         return (
             <div block="CategoryPage" elem="PlaceholderWrapper">
                 <div block="CategoryPage" elem="PlaceholderContainer">
@@ -344,13 +340,8 @@ S extends CategoryPageComponentState = CategoryPageComponentState
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.component.tsx
     renderItemsCount(isVisibleOnMobile = false): ReactElement {
-        const { isMatchingListFilter, isMobile, totalItems } = this.props;
-=======
-    renderItemsCount(isVisibleOnMobile = false) {
         const { isMatchingListFilter, isMobile } = this.props;
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.component.js
 
         if ((isVisibleOnMobile && !isMobile) || (!isVisibleOnMobile && isMobile)) {
             return null;
@@ -424,7 +415,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.component.tsx
     renderMiscellaneous(): ReactElement {
         const { totalItems } = this.props;
 
@@ -432,9 +422,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState
             return <aside block="CategoryPage" elem="Miscellaneous" mods={ { noResults: true } } />;
         }
 
-=======
-    renderMiscellaneous() {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.component.js
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
                 { this.renderItemsCount() }

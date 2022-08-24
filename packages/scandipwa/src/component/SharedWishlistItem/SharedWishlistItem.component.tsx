@@ -45,11 +45,7 @@ export class SharedWishlistItem extends SourceWishlistItem<SharedWishlistItemCom
               mix={ { block: 'SharedWishlistItem', elem: 'Row' } }
             >
                 <Field
-<<<<<<< HEAD:packages/scandipwa/src/component/SharedWishlistItem/SharedWishlistItem.component.tsx
-                  type={ FieldType.NUMBER }
-=======
-                  type={ FIELD_TYPE.numberWithControls }
->>>>>>> scandipwa/master:packages/scandipwa/src/component/SharedWishlistItem/SharedWishlistItem.component.js
+                  type={ FieldType.NUMBER_WITH_CONTROLS }
                   attr={ {
                       id: `item_qty_wishlist_${id}`,
                       name: `item_qty_wishlist_${id}`,

@@ -6,8 +6,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
- * @link https://github.com/scandipwa/scandipwa
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
  */
 
 import { Field, Mutation, Query } from '@tilework/opus';
@@ -19,7 +19,7 @@ import {
     GQLWishlistItemUpdateInput
 } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
-import { getGuestQuoteId } from 'Util/Cart';
+import { getCartId } from 'Util/Cart';
 
 import { ProductItem } from './ProductList.type';
 import {
@@ -103,8 +103,9 @@ export class WishlistQuery {
             field.addArgument('sharingCode', 'ID', sharingCode);
 
             if (!isSignedIn()) {
-                const guestQuoteId = getGuestQuoteId();
-                field.addArgument('guestCartId', 'ID', guestQuoteId);
+                const cartId = getCartId();
+
+                field.addArgument('guestCartId', 'ID', cartId);
             }
         }
 

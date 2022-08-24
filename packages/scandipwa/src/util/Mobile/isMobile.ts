@@ -22,13 +22,8 @@ export const isMobile = {
         && !/FxiOS/i.test(agent),
     windows: (agent = navigator.userAgent): boolean => /iemobile/i.test(agent),
     // iPad uses 810 so we need to handle that.
-<<<<<<< HEAD:packages/scandipwa/src/util/Mobile/isMobile.ts
-    any: (): boolean => window.matchMedia('(max-width: 810px)').matches,
+    any: (): boolean => window.matchMedia('(max-width: 810px)').matches && window.matchMedia('screen').matches,
     standaloneMode: (): boolean => window.matchMedia('(display-mode: standalone)').matches
-=======
-    any: () => window.matchMedia('(max-width: 810px)').matches && window.matchMedia('screen').matches,
-    standaloneMode: () => window.matchMedia('(display-mode: standalone)').matches
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Mobile/isMobile.js
 };
 
 // https://medium.com/@galmeiri/get-ready-for-chrome-user-agent-string-phase-out-c6840da1c31e

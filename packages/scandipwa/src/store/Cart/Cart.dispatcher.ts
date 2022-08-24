@@ -15,25 +15,18 @@ import CartQuery from 'Query/Cart.query';
 import { QuoteData, TotalsItem } from 'Query/Cart.type';
 import { ProductLink } from 'Query/ProductList.type';
 import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
-<<<<<<< HEAD:packages/scandipwa/src/store/Cart/Cart.dispatcher.ts
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
-=======
 import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { getRegionIdOfRegionName } from 'Util/Address';
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Cart/Cart.dispatcher.js
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { getCartId, setCartId } from 'Util/Cart';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 
-<<<<<<< HEAD:packages/scandipwa/src/store/Cart/Cart.dispatcher.ts
 import { AddProductToCartOptions, UpdateProductInCartOptions } from './Cart.type';
-=======
 export const CURRENT_WEBSITE = 'base';
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Cart/Cart.dispatcher.js
 
 export const LinkedProductsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -46,11 +39,7 @@ export const LinkedProductsDispatcher = import(
  * @namespace Store/Cart/Dispatcher
  */
 export class CartDispatcher {
-<<<<<<< HEAD:packages/scandipwa/src/store/Cart/Cart.dispatcher.ts
-    async updateInitialCartData(dispatch: Dispatch, isForCustomer = false): Promise<void> {
-=======
-    async updateInitialCartData(dispatch, isForCustomer = false, disableLoader = false) {
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Cart/Cart.dispatcher.js
+    async updateInitialCartData(dispatch: Dispatch, isForCustomer = false, disableLoader = false): Promise<void> {
         // Need to get current cart from BE, update cart
         try {
             // ! Get quote token first (local or from the backend) just to make sure it exists
@@ -95,18 +84,6 @@ export class CartDispatcher {
             }
 
             if (isForCustomer && !getAuthorizationToken()) {
-<<<<<<< HEAD:packages/scandipwa/src/store/Cart/Cart.dispatcher.ts
-                return;
-            }
-
-            this._updateCartData(cartData, dispatch);
-        } catch (error) {
-            this.createGuestEmptyCart(dispatch);
-        }
-    }
-
-    async createGuestEmptyCart(dispatch: Dispatch): Promise<string | null> {
-=======
                 dispatch(updateIsLoadingCart(false));
 
                 return null;
@@ -154,8 +131,7 @@ export class CartDispatcher {
         };
     }
 
-    async createGuestEmptyCart(dispatch) {
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Cart/Cart.dispatcher.js
+    async createGuestEmptyCart(dispatch: Dispatch): Promise<string | null> {
         try {
             dispatch(updateIsLoadingCart(true));
 
@@ -236,12 +212,8 @@ export class CartDispatcher {
         const cartId = userCartId || getCartId();
 
         if (!Array.isArray(products) || products.length === 0) {
-<<<<<<< HEAD:packages/scandipwa/src/store/Cart/Cart.dispatcher.ts
             dispatch(showNotification(NotificationType.ERROR, __('No product data!')));
-=======
-            dispatch(showNotification('error', __('No product data!')));
 
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Cart/Cart.dispatcher.js
             return Promise.reject();
         }
 
@@ -266,21 +238,13 @@ export class CartDispatcher {
             dispatch(showNotification(NotificationType.SUCCESS, __('Product was added to cart!')));
         } catch (error) {
             if (!navigator.onLine) {
-<<<<<<< HEAD:packages/scandipwa/src/store/Cart/Cart.dispatcher.ts
                 dispatch(showNotification(NotificationType.ERROR, __('Not possible to fetch while offline')));
+
                 return Promise.reject();
             }
 
             dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
-=======
-                dispatch(showNotification('error', __('Not possible to fetch while offline')));
 
-                return Promise.reject();
-            }
-
-            dispatch(showNotification('error', getErrorMessage(error)));
-
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Cart/Cart.dispatcher.js
             return Promise.reject();
         }
 
@@ -296,13 +260,8 @@ export class CartDispatcher {
                 return null;
             }
 
-<<<<<<< HEAD:packages/scandipwa/src/store/Cart/Cart.dispatcher.ts
-            const { removeCartItem: { cartData = {} } = {} } = await fetchMutation(
-                CartQuery.getRemoveCartItemMutation(item_id, guestQuoteId || '')
-=======
             const { removeItemFromCart: { cartData = {} } = {} } = await fetchMutation(
                 CartQuery.getRemoveCartItemMutation(item_id, cartId)
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Cart/Cart.dispatcher.js
             );
 
             this._updateCartData(cartData, dispatch);
@@ -315,27 +274,23 @@ export class CartDispatcher {
         }
     }
 
-    async applyCouponToCart(dispatch: Dispatch, couponCode: string): Promise<boolean> {
+    async applyCouponToCart(dispatch: Dispatch, couponCode: string): Promise<void> {
         try {
             const isCustomerSignedIn = isSignedIn();
             const cartId = getCartId();
 
             if (!isCustomerSignedIn && !cartId) {
-                return false;
+                return;
             }
 
-            const { applyCouponToCart: { cartData = {} } = {} } = await fetchMutation(
+            const { applyCoupon: { cartData = {} } = {} } = await fetchMutation(
                 CartQuery.getApplyCouponMutation(couponCode, cartId)
             );
 
             this._updateCartData(cartData, dispatch);
             dispatch(showNotification(NotificationType.SUCCESS, __('Coupon was applied!')));
-
-            return true;
         } catch (error) {
             dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
-
-            return false;
         }
     }
 
@@ -348,13 +303,8 @@ export class CartDispatcher {
                 return;
             }
 
-<<<<<<< HEAD:packages/scandipwa/src/store/Cart/Cart.dispatcher.ts
-            const { removeCoupon: { cartData = {} } = {} } = await fetchMutation(
-                CartQuery.getRemoveCouponMutation(guestQuoteId || '')
-=======
             const { removeCouponFromCart: { cartData = {} } = {} } = await fetchMutation(
                 CartQuery.getRemoveCouponMutation(cartId)
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Cart/Cart.dispatcher.js
             );
 
             this._updateCartData(cartData, dispatch);
@@ -419,13 +369,8 @@ export class CartDispatcher {
      * @param Dispatch dispatch
      * @return string quote id
      */
-<<<<<<< HEAD:packages/scandipwa/src/store/Cart/Cart.dispatcher.ts
-    async _getGuestQuoteId(dispatch: Dispatch): Promise<string | null> {
-        const guestQuoteId = getGuestQuoteId();
-=======
-    _getCartId(dispatch) {
+    _getCartId(dispatch: Dispatch) {
         const cartId = getCartId();
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Cart/Cart.dispatcher.js
 
         if (cartId) {
             return cartId;

@@ -31,13 +31,7 @@ import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
-<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.tsx
 import { ReactElement } from 'Type/Common.type';
-=======
-import { CategoryTreeType, SelectedFiltersType, SortFieldsType } from 'Type/Category.type';
-import { AttributesType } from 'Type/ProductList.type';
-import { MatchType } from 'Type/Router.type';
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.js
 import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
@@ -136,50 +130,11 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
 });
 
 /** @namespace Route/CategoryPage/Container */
-<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.tsx
 export class CategoryPageContainer<
 P extends CategoryPageContainerProps = CategoryPageContainerProps,
 S extends CategoryPageContainerState = CategoryPageContainerState
 > extends PureComponent<P, S> {
     static defaultProps: Partial<CategoryPageContainerProps> = {
-=======
-export class CategoryPageContainer extends PureComponent {
-    static propTypes = {
-        category: CategoryTreeType.isRequired,
-        match: MatchType.isRequired,
-        requestCategory: PropTypes.func.isRequired,
-        changeHeaderState: PropTypes.func.isRequired,
-        changeNavigationState: PropTypes.func.isRequired,
-        requestProductListInfo: PropTypes.func.isRequired,
-        setBigOfflineNotice: PropTypes.func.isRequired,
-        updateMetaFromCategory: PropTypes.func.isRequired,
-        updateBreadcrumbs: PropTypes.func.isRequired,
-        updateLoadStatus: PropTypes.func.isRequired,
-        updateNoMatch: PropTypes.func.isRequired,
-        filters: AttributesType.isRequired,
-        sortFields: SortFieldsType.isRequired,
-        currentArgs: PropTypes.shape({
-            filter: PropTypes.shape({
-                categoryIds: PropTypes.number
-            })
-        }),
-        selectedInfoFilter: PropTypes.shape({
-            categoryIds: PropTypes.number,
-            customFilters: SelectedFiltersType
-        }),
-        isInfoLoading: PropTypes.bool.isRequired,
-        isOffline: PropTypes.bool.isRequired,
-        categoryIds: PropTypes.number,
-        isSearchPage: PropTypes.bool,
-        isMobile: PropTypes.bool.isRequired,
-        plpType: PropTypes.string,
-        totalPages: PropTypes.number.isRequired,
-        totalItems: PropTypes.number.isRequired,
-        toggleOverlayByKey: PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.js
         categoryIds: -1,
         isSearchPage: false,
         currentArgs: {},
@@ -236,19 +191,10 @@ export class CategoryPageContainer extends PureComponent {
         if (!defaultPlpType || !plpTypes) {
             if (plpType.match('-')) {
                 const plpTypes = plpType.split('-');
-<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.tsx
-                const defaultType = isMobile ? CategoryPageLayout.GRID : plpTypes[ 0 ];
-=======
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.js
 
                 Object.assign(update, { defaultPlpType: plpTypes[0], plpTypes });
             } else {
-<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.tsx
-                const defaultType = isMobile ? CategoryPageLayout.GRID : plpType;
-                Object.assign(update, { defaultPlpType: defaultType, plpTypes: [plpType] });
-=======
                 Object.assign(update, { defaultPlpType: plpType, plpTypes: [plpType] });
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.js
             }
         }
 
@@ -370,7 +316,7 @@ export class CategoryPageContainer extends PureComponent {
         }
 
         /*
-        ** if category wasn't changed we still need to update meta for correct robots meta tag [#928](https://github.com/scandipwa/scandipwa/issues/928)
+        ** if category wasn't changed we still need to update meta for correct robots meta tag [#928](https://github.com/scandipwa/base-theme/issues/928)
         */
         if (!categoryChange
             && filter?.customFilters
@@ -391,13 +337,8 @@ export class CategoryPageContainer extends PureComponent {
         this.setState({ selectedLayoutType: CategoryPageLayout.LIST });
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.tsx
     onSortChange(sortDirection: SortDirections, sortKey: string[]): void {
-        const { location, history } = this.props;
-=======
-    onSortChange(sortDirection, sortKey) {
         const { location } = history;
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.js
 
         setQueryParams({ sortKey: sortKey.join(','), sortDirection, page: '' }, location, history);
         this.updateMeta();
@@ -518,13 +459,8 @@ export class CategoryPageContainer extends PureComponent {
         return !!(customFilters || priceMin || priceMax);
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.tsx
     urlStringToObject(): Partial<CategoryUrlParams> {
-        const { location: { search } } = this.props;
-=======
-    urlStringToObject() {
         const { location: { search } } = history;
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.js
 
         return search.substr(1).split('&').reduce((acc: Partial<CategoryUrlParams>, part) => {
             const [key, value] = part.split('=');
@@ -533,13 +469,8 @@ export class CategoryPageContainer extends PureComponent {
         }, {});
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.tsx
     getSelectedFiltersFromUrl(): Record<string, string[]> {
-        const { location } = this.props;
-=======
-    getSelectedFiltersFromUrl() {
         const { location } = history;
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.js
         const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
 
         return selectedFiltersString.reduce((acc, filter) => {
@@ -588,14 +519,8 @@ export class CategoryPageContainer extends PureComponent {
         };
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.tsx
     getSelectedPriceRangeFromUrl(): FilterPriceRange {
-        const { location } = this.props;
-=======
-    getSelectedPriceRangeFromUrl() {
         const { location } = history;
-
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.js
         const min = +getQueryParam('priceMin', location);
         const max = +getQueryParam('priceMax', location);
 
@@ -680,13 +605,8 @@ export class CategoryPageContainer extends PureComponent {
         }
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.tsx
     updateMeta(): void {
-        const { updateMetaFromCategory, category, history } = this.props;
-=======
-    updateMeta() {
         const { updateMetaFromCategory, category } = this.props;
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.js
         const meta_robots = history.location.search
             ? ''
             : 'follow, index';
@@ -699,7 +619,6 @@ export class CategoryPageContainer extends PureComponent {
 
     updateBreadcrumbs(isUnmatchedCategory = false): void {
         const { updateBreadcrumbs, category } = this.props;
-<<<<<<< HEAD:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.tsx
         const {
             id = 0,
             url = '',
@@ -713,11 +632,6 @@ export class CategoryPageContainer extends PureComponent {
             name,
             breadcrumbs
         });
-=======
-        const breadcrumbs = isUnmatchedCategory ? {} : category;
-
-        updateBreadcrumbs(breadcrumbs);
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CategoryPage/CategoryPage.container.js
 
         this.setState({ breadcrumbsWereUpdated: true });
     }

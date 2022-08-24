@@ -128,19 +128,12 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
             return;
         }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductGallery/ProductGallery.container.tsx
         const urls: string[] = [];
+
         variants.forEach(({ media_gallery_entries: mediaGallery = [] }) => {
             if (mediaGallery.length > 0) {
                 const { base: { url = '' } = {} } = mediaGallery[ 0 ];
-=======
-        const urls = [];
 
-        variants.forEach(({ media_gallery_entries: mediaGallery = [] }) => {
-            if (mediaGallery.length > 0) {
-                const { base: { url } = {} } = mediaGallery[0];
-
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductGallery/ProductGallery.container.js
                 urls.push(url);
             }
         });

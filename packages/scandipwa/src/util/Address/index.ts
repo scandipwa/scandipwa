@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Address/index.ts
 import { CustomerAddress } from 'Query/MyAccount.type';
 import { OrderAddress } from 'Query/Order.type';
 import { Country, Region } from 'Query/Region.type';
@@ -18,9 +17,7 @@ import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
 import { GQLCountryCodeEnum, GQLCustomerAddressInput } from 'Type/Graphql.type';
 
 import { CountryOption, FormattedRegion, ZippopotamResponseResult } from './Address.type';
-=======
 import getStore from 'Util/Store';
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Address/index.js
 
 /** @namespace Util/Address/Index/trimCustomerAddress */
 export const trimCustomerAddress = (customerAddress: Partial<CustomerAddress>): GQLCustomerAddressInput => {

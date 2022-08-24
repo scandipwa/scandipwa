@@ -64,32 +64,11 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderContainerM
 });
 
 /** @namespace Component/MyAccountOrder/Container */
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.container.tsx
 export class MyAccountOrderContainer extends PureComponent<MyAccountOrderContainerProps, MyAccountOrderContainerState> {
     static defaultProps: Partial<MyAccountOrderContainerProps> = {
-        is_allowed_reorder: false
-=======
-export class MyAccountOrderContainer extends PureComponent {
-    static propTypes = {
-        match: MatchType.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        getOrderById: PropTypes.func.isRequired,
-        display_tax_in_shipping_amount: PropTypes.string.isRequired,
-        changeTabName: PropTypes.func,
-        reorder: PropTypes.func.isRequired,
-        is_allowed_reorder: PropTypes.bool,
-        rss_order_subscribe_allow: PropTypes.bool.isRequired,
-        setTabSubheading: PropTypes.func,
-        changeHeaderState: PropTypes.func.isRequired,
-        goToPreviousNavigationState: PropTypes.func.isRequired,
-        isMobile: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
         is_allowed_reorder: false,
         changeTabName: noopFn,
         setTabSubheading: noopFn
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.container.js
     };
 
     state: MyAccountOrderContainerState = {

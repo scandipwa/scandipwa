@@ -21,12 +21,8 @@ import './NotSupportedPayment.style';
 export class NotSupportedPayment extends PureComponent<NotSupportedPaymentComponentProps> {
     componentDidMount(): void {
         const { disableButton } = this.props;
-<<<<<<< HEAD:packages/scandipwa/src/component/NotSupportedPayment/NotSupportedPayment.component.tsx
-        disableButton(true);
-=======
 
-        disableButton();
->>>>>>> scandipwa/master:packages/scandipwa/src/component/NotSupportedPayment/NotSupportedPayment.component.js
+        disableButton(true);
     }
 
     render(): ReactElement {

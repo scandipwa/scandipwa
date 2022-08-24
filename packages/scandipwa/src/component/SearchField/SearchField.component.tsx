@@ -13,27 +13,19 @@
 import {
     ChangeEvent,
     createRef,
-<<<<<<< HEAD:packages/scandipwa/src/component/SearchField/SearchField.component.tsx
     KeyboardEvent,
     lazy,
     MouseEvent,
     PureComponent,
     Suspense
-=======
-    PureComponent
->>>>>>> scandipwa/master:packages/scandipwa/src/component/SearchField/SearchField.component.js
 } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
 import CloseIcon from 'Component/CloseIcon';
 import Loader from 'Component/Loader';
 import SearchIcon from 'Component/SearchIcon';
-<<<<<<< HEAD:packages/scandipwa/src/component/SearchField/SearchField.component.tsx
-import { ReactElement } from 'Type/Common.type';
-=======
 import SearchOverlay from 'Component/SearchOverlay';
-import { DeviceType } from 'Type/Device.type';
->>>>>>> scandipwa/master:packages/scandipwa/src/component/SearchField/SearchField.component.js
+import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
 import history from 'Util/History';
@@ -157,20 +149,10 @@ export class SearchField extends PureComponent<SearchFieldComponentProps> {
                   aria-label={ __('Search') }
                 />
                 { this.renderSearchIcon() }
-<<<<<<< HEAD:packages/scandipwa/src/component/SearchField/SearchField.component.tsx
-                <Suspense fallback={ this.renderOverlayFallback() }>
-                    <SearchOverlay
-                      isHideOverlay={ !device.isMobile }
-                      searchCriteria={ searchCriteria }
-                    />
-                </Suspense>
-=======
                 <SearchOverlay
                   isHideOverlay={ !device.isMobile }
-                  clearSearch={ this.clearSearch }
                   searchCriteria={ searchCriteria }
                 />
->>>>>>> scandipwa/master:packages/scandipwa/src/component/SearchField/SearchField.component.js
             </div>
         );
     }

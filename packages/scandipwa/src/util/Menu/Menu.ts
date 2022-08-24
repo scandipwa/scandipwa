@@ -72,15 +72,11 @@ export class Menu {
         // eslint-disable-next-line fp/no-let
         let i;
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Menu/Menu.ts
         const pathArray = path.split('.');
 
         // eslint-disable-next-line fp/no-let, @typescript-eslint/no-explicit-any
         let tmpObj: Record<string, any> = obj;
 
-=======
-        path = path.split('.');
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Menu/Menu.js
         // eslint-disable-next-line fp/no-loops
         for (i = 0; i < pathArray.length - 1; i++) {
             tmpObj = tmpObj[pathArray[i]];

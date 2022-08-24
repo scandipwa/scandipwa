@@ -164,12 +164,8 @@ export class NewProductsContainer extends PureComponent<NewProductsContainerProp
         };
 
         const query = [ProductListQuery.getQuery(options)];
-<<<<<<< HEAD:packages/scandipwa/src/component/NewProducts/NewProducts.container.tsx
-        executeGet<{ products: ProductsQueryOutput }>(prepareQuery(query), 'NewProducts', cacheLifetime)
-=======
 
-        executeGet(prepareQuery(query), 'NewProducts', cacheLifetime)
->>>>>>> scandipwa/master:packages/scandipwa/src/component/NewProducts/NewProducts.container.js
+        executeGet<{ products: ProductsQueryOutput }>(prepareQuery(query), 'NewProducts', cacheLifetime)
             .then(
                 /** @namespace Component/NewProducts/Container/NewProductsContainer/requestProducts/then/catch/executeGet/then */
                 ({ products: { items } }) => this.setState({ products: getIndexedProducts(items) })

@@ -16,7 +16,8 @@ import Loader from 'Component/Loader';
 import MyAccountOrderInformation from 'Component/MyAccountOrderInformation';
 import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
 import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
-import { CreditMemo } from 'Query/Order.type';
+import { CreditMemo, OrderType } from 'Query/Order.type';
+import { ORDER_ACTION_LABELS } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { ReactElement } from 'Type/Common.type';
 import { ACCOUNT_ORDER_PRINT_URL } from 'Route/MyAccount/MyAccount.config';
 import { noopFn } from 'Util/Common';
@@ -24,25 +25,20 @@ import { convertStringToDate, getTimeInCurrentTimezone } from 'Util/Manipulation
 import { appendWithStoreCode } from 'Util/Url';
 
 import {
-    OrderTabs,
-    ORDER_ACTION_LABELS,
+    OrderTabs
 } from './MyAccountOrder.config';
 import { MyAccountOrderComponentProps, OrderRenderItems, OrderTab } from './MyAccountOrder.type';
 
 import './MyAccountOrder.style';
 
 /** @namespace Component/MyAccountOrder/Component */
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.tsx
 export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> {
-=======
-export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> {
-    static defaultProps: Partial<MyAccountOrderComponentProps> = {
+    static defaultProps = {
         isLoading: true,
         handleReorder: noopFn,
         handleChangeActiveTab: noopFn
     };
 
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.js
     renderMap = {
         renderOrderItemsTable: this.renderOrderItemsTable.bind(this),
         renderOrderCreditMemoTable: this.renderOrderCreditMemoTable.bind(this)
@@ -133,10 +129,7 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
 
     renderOrderItemsTable(items: OrderRenderItems, index: number): ReactElement {
         const { activeTab, order: { total: orderTotal, items: allOrderItems, id } } = this.props;
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.tsx
-=======
         const { total: itemsTotal, id: itemId } = items;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.js
 
         return (
             <MyAccountOrderItemsTable
@@ -144,12 +137,8 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
               activeTab={ activeTab }
               items={ items }
               allOrderItems={ allOrderItems }
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.tsx
-              total={ orderTotal }
-=======
               total={ itemsTotal || orderTotal }
-              id={ activeTab === OrderTabs.ORDER_ITEMS ? id : atob(itemId) }
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.js
+              id={ activeTab === ORDER_ITEMS ? id : atob(itemId) }
             />
         );
     }
@@ -182,9 +171,6 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.tsx
-    renderActions(): ReactElement {
-=======
     renderPrintAllAction() {
         const { activeTab, order: { id } } = this.props;
 
@@ -207,7 +193,6 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
     }
 
     renderActions() {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.js
         const {
             handleChangeActiveTab,
             activeTab
@@ -233,9 +218,6 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.tsx
-    renderOrderComments(): ReactElement {
-=======
     renderPrintOrder() {
         const { order: { id } } = this.props;
 
@@ -252,7 +234,6 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
     }
 
     renderOrderComments() {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/MyAccountOrder/MyAccountOrder.component.js
         const { activeTab, order: { comments = [] } } = this.props;
 
         if (activeTab !== OrderTabs.ORDER_ITEMS || !comments || !comments.length) {

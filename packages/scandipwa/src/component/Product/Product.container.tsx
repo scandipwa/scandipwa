@@ -317,36 +317,23 @@ S extends ProductContainerState = ProductContainerState
             });
         }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.container.tsx
-        const values = getFieldsData(current, true, [FieldType.NUMBER]);
+        const values = getFieldsData(current, true, [FieldType.NUMBER_WITH_CONTROLS]);
 
-        values?.forEach(({ name, value, type }) => {
+        values?.forEach(({
+            field, name, value, type
+        }) => {
             if (type === FieldType.SELECT) {
                 selectedOptions.push(String(value));
             } else if (type === FieldType.CHECKBOX || type === FieldType.RADIO) {
-=======
-        const values = getFieldsData(current, true, [FIELD_TYPE.numberWithControls]);
-
-        values.forEach(({
-            field, name, value, type
-        }) => {
-            if (type === FIELD_TYPE.select) {
-                selectedOptions.push(value);
-            } else if (type === FIELD_TYPE.checkbox || type === FIELD_TYPE.radio) {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.container.js
                 if (value !== FIELD_RADIO_NONE) {
                     selectedOptions.push(String(value));
                 }
-<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.container.tsx
-            } else if (type !== FieldType.NUMBER) {
-=======
-            } else if (type !== FIELD_TYPE.numberWithControls && type !== FIELD_TYPE.file) {
+            } else if (type !== FieldType.NUMBER_WITH_CONTROLS && type !== FieldType.FILE) {
                 enteredOptions.push({
                     uid: name,
                     value
                 });
-            } else if (type === FIELD_TYPE.file && field.value) {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.container.js
+            } else if (type === FieldType.FILE && field.value) {
                 enteredOptions.push({
                     uid: name,
                     value: String(value)
@@ -425,12 +412,8 @@ S extends ProductContainerState = ProductContainerState
 
             // For product configurable attributes
             if (attributes) {
-<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.container.tsx
                 attributes.scrollIntoView({ block: 'center', behavior: 'smooth' });
-=======
-                attributes.scrollIntoView({ block: 'center', behaviour: 'smooth' });
 
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.container.js
                 return;
             }
 
@@ -548,12 +531,8 @@ S extends ProductContainerState = ProductContainerState
     setQuantity(quantity: ProductQuantity): void {
         if (typeof quantity === 'object') {
             const { quantity: oldQuantity = {} } = this.state;
-<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.container.tsx
-            this.setState({ quantity: { ...(oldQuantity as Record<number, number>), ...quantity } });
-=======
 
-            this.setState({ quantity: { ...oldQuantity, ...quantity } });
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.container.js
+            this.setState({ quantity: { ...(oldQuantity as Record<number, number>), ...quantity } });
         } else {
             this.setState({ quantity: +quantity });
         }

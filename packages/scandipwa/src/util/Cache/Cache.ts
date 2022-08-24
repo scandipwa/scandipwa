@@ -92,12 +92,7 @@ export const clearCacheFor = (fn: any): void => {
     }
 
     const { name } = fn;
-<<<<<<< HEAD:packages/scandipwa/src/util/Cache/Cache.ts
     (fromCache as unknown as CacheMap).cache[name] = {};
-=======
-
-    fromCache.cache[name] = {};
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Cache/Cache.js
 };
 
 export default fromCache;

@@ -45,29 +45,9 @@ export const ProductAttributes = lazy(() => import(
 ));
 
 /** @namespace Route/ProductPage/Component */
-<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.component.tsx
 export class ProductPage extends PureComponent<ProductPageComponentProps> {
     tabMap: Record<ProductPageTabs, ProductPageTab> = {
         [ ProductPageTabs.INFORMATION ]: {
-=======
-export class ProductPage extends PureComponent {
-    static propTypes = {
-        getLink: PropTypes.func.isRequired,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        dataSource: ProductType.isRequired,
-        activeProduct: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired,
-        isInformationTabEmpty: PropTypes.bool.isRequired,
-        isAttributesTabEmpty: PropTypes.bool.isRequired,
-        setActiveProduct: PropTypes.func.isRequired,
-        useEmptyGallerySwitcher: PropTypes.bool.isRequired,
-        isVariant: PropTypes.bool.isRequired,
-        areReviewsEnabled: PropTypes.bool.isRequired
-    };
-
-    tabMap = {
-        [PRODUCT_INFORMATION]: {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.component.js
             name: __('About'),
             shouldTabRender: (): boolean => {
                 const { isInformationTabEmpty } = this.props;
@@ -87,18 +67,13 @@ export class ProductPage extends PureComponent {
         },
         [ ProductPageTabs.REVIEWS ]: {
             name: __('Reviews'),
-<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.component.tsx
             // Return true since we always show 'Add review' button
-            shouldTabRender: (): boolean => true,
-            render: (key: string): ReactElement => this.renderProductReviewsTab(key)
-=======
-            shouldTabRender: () => {
+            shouldTabRender: (): boolean => {
                 const { areReviewsEnabled } = this.props;
 
                 return areReviewsEnabled;
             },
-            render: (key) => this.renderProductReviewsTab(key)
->>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.component.js
+            render: (key: string): ReactElement => this.renderProductReviewsTab(key)
         }
     };
 
@@ -144,21 +119,11 @@ export class ProductPage extends PureComponent {
         }
 
         return (
-<<<<<<< HEAD:packages/scandipwa/src/route/ProductPage/ProductPage.component.tsx
-            <Suspense fallback={ <Loader /> } key={ key }>
-                <ProductInformation
-                  htmlDescription={ html }
-                  areDetailsLoaded={ areDetailsLoaded }
-                  key={ key }
-                />
-            </Suspense>
-=======
             <ProductInformation
-              product={ { ...dataSource, parameters } }
+              htmlDescription={ html }
               areDetailsLoaded={ areDetailsLoaded }
               key={ key }
             />
->>>>>>> scandipwa/master:packages/scandipwa/src/route/ProductPage/ProductPage.component.js
         );
     }
 

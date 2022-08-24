@@ -9,22 +9,19 @@
 * @link https://github.com/scandipwa/scandipwa
 */
 
-import { PriceRange, ProductItem, ProductPrice } from 'Query/ProductList.type';
+import { PriceRange, ProductDiscount, ProductItem, ProductPrice } from 'Query/ProductList.type';
 
 /**
  * Updates wishlist item price for option based products
  * @param {Object} product
  * @namespace Util/Wishlist/getPriceRange
  */
-<<<<<<< HEAD:packages/scandipwa/src/util/Wishlist/Wishlist.ts
 export const getPriceRange = (
     product: ProductItem,
     price: number,
-    priceWithoutTax: number
+    priceWithoutTax: number,
+    discount: ProductDiscount | number = 0
 ): { price_range?: PriceRange } => {
-=======
-export const getPriceRange = (product, price, priceWithoutTax, discount) => {
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Wishlist/Wishlist.js
     if (!price) {
         return {};
     }
@@ -34,11 +31,7 @@ export const getPriceRange = (product, price, priceWithoutTax, discount) => {
             minimum_price: {
                 regular_price: {
                     currency
-<<<<<<< HEAD:packages/scandipwa/src/util/Wishlist/Wishlist.ts
                 } = {}
-=======
-                }
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Wishlist/Wishlist.js
             }
         }
     } = product;
@@ -51,14 +44,9 @@ export const getPriceRange = (product, price, priceWithoutTax, discount) => {
         regular_price: priceCurrencyValue,
         final_price_excl_tax: priceCurrencyValueExclTax,
         regular_price_excl_tax: priceCurrencyValueExclTax,
-<<<<<<< HEAD:packages/scandipwa/src/util/Wishlist/Wishlist.ts
-        default_final_price_excl_tax: priceCurrencyValueExclTax
-    } as ProductPrice;
-=======
         default_final_price_excl_tax: priceCurrencyValueExclTax,
         discount
-    };
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Wishlist/Wishlist.js
+    } as ProductPrice;
 
     return {
         price_range: {

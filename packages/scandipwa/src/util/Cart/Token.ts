@@ -14,33 +14,19 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 
 export const CART_ID = 'cart_id';
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Cart/Token.ts
-/** @namespace Util/Cart/Token/setGuestQuoteId */
-export const setGuestQuoteId = (token: string): void => {
-    BrowserDatabase.setItem({
-=======
 /** @namespace Util/Cart/Token/setCartId */
-export const setCartId = (token) => {
+export const setCartId = (token: string): void => {
     const { website_code } = window;
 
     const tokens = BrowserDatabase.getItem(CART_ID) || {};
 
     tokens[website_code] = {
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Cart/Token.js
         token,
         isCustomerToken: isSignedIn()
     };
     BrowserDatabase.setItem(tokens, CART_ID);
 };
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Cart/Token.ts
-/** @namespace Util/Cart/Token/getGuestQuoteId */
-export const getGuestQuoteId = (): string | null => {
-    const {
-        token,
-        isCustomerToken
-    } = BrowserDatabase.getItem(GUEST_QUOTE_ID) || {};
-=======
 /** @namespace Util/Cart/Token/getCartId */
 export const getCartId = () => {
     const { website_code } = window;
@@ -48,7 +34,6 @@ export const getCartId = () => {
     const tokens = BrowserDatabase.getItem(CART_ID) || {};
 
     const token = tokens[website_code];
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Cart/Token.js
 
     if (token) {
         if (token.isCustomerToken && !isSignedIn()) {
@@ -61,12 +46,8 @@ export const getCartId = () => {
     return null;
 };
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Cart/Token.ts
-/** @namespace Util/Cart/Token/deleteGuestQuoteId */
-export const deleteGuestQuoteId = (): void => BrowserDatabase.deleteItem(GUEST_QUOTE_ID);
-=======
 /** @namespace Util/Cart/Token/deleteCartId */
-export const deleteCartId = () => {
+export const deleteCartId = (): void => {
     const { website_code } = window;
 
     const tokens = BrowserDatabase.getItem(CART_ID);
@@ -74,4 +55,3 @@ export const deleteCartId = () => {
     tokens[website_code] = undefined;
     BrowserDatabase.setItem(tokens, CART_ID);
 };
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Cart/Token.js

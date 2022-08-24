@@ -42,48 +42,10 @@ import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 
 import {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
     RouterAfterItemType,
     RouterBeforeItemType,
     RouterItemType,
     RouterSwitchItemType
-=======
-    ACCOUNT_FORGOT_PASSWORD,
-    AFTER_ITEMS_TYPE,
-    BEFORE_ITEMS_TYPE,
-    BREADCRUMBS,
-    CART,
-    CHANGE_PASSWORD,
-    CHECKOUT,
-    CMS_PAGE,
-    COMPARE,
-    CONFIRM_ACCOUNT,
-    CONTACT_PAGE,
-    COOKIE_POPUP,
-    CREATE_ACCOUNT,
-    DEMO_NOTICE,
-    FOOTER,
-    HEADER,
-    HOME,
-    LOGIN,
-    MENU,
-    MY_ACCOUNT,
-    MY_ACCOUNT_ADDRESS,
-    MY_ACCOUNT_DOWNLOADABLE,
-    MY_ACCOUNT_NEWSLETTER,
-    MY_ACCOUNT_ORDER,
-    MY_ACCOUNT_ORDERS,
-    MY_ACCOUNT_WISHLIST,
-    NAVIGATION_TABS,
-    NEW_VERSION_POPUP,
-    NOTIFICATION_LIST,
-    PRINT_ORDER,
-    SEARCH,
-    SHARED_WISHLIST,
-    STYLE_GUIDE,
-    SWITCH_ITEMS_TYPE,
-    URL_REWRITES
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
 } from './Router.config';
 import { RouterComponentProps, RouterComponentState, RouterItem } from './Router.type';
 
@@ -122,20 +84,8 @@ export const OrderPrintPage = lazy(() => import(/* webpackMode: "lazy", webpackC
 export const withStoreRegex = (path: string): string => window.storeRegexText.concat(path);
 
 /** @namespace Component/Router/Component */
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
 export class Router extends PureComponent<RouterComponentProps, RouterComponentState> {
     static defaultProps: Partial<RouterComponentProps> = {
-=======
-export class Router extends PureComponent {
-    static propTypes = {
-        isBigOffline: PropTypes.bool,
-        isOnlyMainItems: PropTypes.bool.isRequired,
-        setBigOfflineNotice: PropTypes.func.isRequired,
-        currentUrl: PropTypes.string.isRequired
-    };
-
-    static defaultProps = {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
         isBigOffline: false
     };
 
@@ -184,13 +134,7 @@ export class Router extends PureComponent {
             name: RouterSwitchItemType.SEARCH
         },
         {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            component: <Route path={ withStoreRegex('/page') } render={ (props) => <CmsPage { ...props } /> } />,
-=======
             component: <Route path={ withStoreRegex('/page') } render={ ({ currentUrl, match }) => <CmsPage match={ match } currentUrl={ currentUrl } /> } />,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
             position: 40,
             name: RouterSwitchItemType.CMS_PAGE
         },
@@ -200,13 +144,7 @@ export class Router extends PureComponent {
             name: RouterSwitchItemType.CART
         },
         {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            component: <Route path={ withStoreRegex('/checkout/:step?') } render={ (props) => <Checkout { ...props } /> } />,
-=======
             component: <Route path={ withStoreRegex('/checkout/:step?') } render={ ({ match }) => <Checkout match={ match } /> } />,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
             position: 55,
             name: RouterSwitchItemType.CHECKOUT
         },
@@ -216,35 +154,17 @@ export class Router extends PureComponent {
             name: RouterSwitchItemType.CHANGE_PASSWORD
         },
         {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            component: <Route path={ withStoreRegex('/customer/account/create/') } render={ (props) => <CreateAccountPage { ...props } /> } />,
-=======
             component: <Route path={ withStoreRegex('/customer/account/create/') } render={ () => <CreateAccountPage /> } />,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
             position: 61,
             name: RouterSwitchItemType.CREATE_ACCOUNT
         },
         {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            component: <Route path={ withStoreRegex('/customer/account/login/') } render={ (props) => <LoginAccountPage { ...props } /> } />,
-=======
             component: <Route path={ withStoreRegex('/customer/account/login/') } render={ () => <LoginAccountPage /> } />,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
             position: 62,
             name: RouterSwitchItemType.LOGIN
         },
         {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            component: <Route path={ withStoreRegex('/customer/account/forgotpassword/') } render={ (props) => <ForgotPasswordPage { ...props } /> } />,
-=======
             component: <Route path={ withStoreRegex('/customer/account/forgotpassword/') } render={ () => <ForgotPasswordPage /> } />,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
             position: 63,
             name: RouterSwitchItemType.ACCOUNT_FORGOT_PASSWORD
         },
@@ -259,56 +179,32 @@ export class Router extends PureComponent {
             name: RouterSwitchItemType.CONFIRM_ACCOUNT
         },
         {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            component: <Route path={ withStoreRegex('/sales/order/view/order_id/:orderId?') } render={ (props) => <MyAccount { ...{ ...props, selectedTab: MyAccountTabs.MY_ORDERS } } /> } />,
-=======
-            component: <Route path={ withStoreRegex('/sales/order/view/order_id/:orderId?') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MY_ORDERS } /> } />,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
+            component: <Route path={ withStoreRegex('/sales/order/view/order_id/:orderId?') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.MY_ORDER } /> } />,
             position: 70,
             name: RouterSwitchItemType.MY_ACCOUNT_ORDER
         },
         {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            component: <Route path={ withStoreRegex('/sales/order/history') } render={ (props) => <MyAccount { ...{ ...props, selectedTab: MyAccountTabs.MY_ORDERS } } /> } />,
-=======
-            component: <Route path={ withStoreRegex('/sales/order/history') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MY_ORDERS } /> } />,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
+            component: <Route path={ withStoreRegex('/sales/order/history') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.MY_ORDERS } /> } />,
             position: 71,
             name: RouterSwitchItemType.MY_ACCOUNT_ORDERS
         },
         {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            component: <Route path={ withStoreRegex('/downloadable/customer/products') } render={ (props) => <MyAccount { ...{ ...props, selectedTab: MyAccountTabs.MY_DOWNLOADABLE } } /> } />,
-=======
-            component: <Route path={ withStoreRegex('/downloadable/customer/products') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MY_DOWNLOADABLE } /> } />,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
+            component: <Route path={ withStoreRegex('/downloadable/customer/products') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.MY_DOWNLOADABLE } /> } />,
             position: 72,
             name: RouterSwitchItemType.MY_ACCOUNT_DOWNLOADABLE
         },
         {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            component: <Route path={ withStoreRegex('/wishlist') } render={ (props) => <MyAccount { ...{ ...props, selectedTab: MyAccountTabs.MY_WISHLIST } } /> } />,
-=======
-            component: <Route path={ withStoreRegex('/wishlist') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MY_WISHLIST } /> } />,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
+            component: <Route path={ withStoreRegex('/wishlist') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.MY_WISHLIST } /> } />,
             position: 73,
             name: RouterSwitchItemType.MY_ACCOUNT_WISHLIST
         },
         {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            component: <Route path={ withStoreRegex('/customer/address') } render={ (props) => <MyAccount { ...{ ...props, selectedTab: MyAccountTabs.ADDRESS_BOOK } } /> } />,
-=======
-            component: <Route path={ withStoreRegex('/customer/address') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ ADDRESS_BOOK } /> } />,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
+            component: <Route path={ withStoreRegex('/customer/address') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.ADDRESS_BOOK } /> } />,
             position: 74,
             name: RouterSwitchItemType.MY_ACCOUNT_ADDRESS
         },
         {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            component: <Route path={ withStoreRegex('/newsletter/manage') } render={ (props) => <MyAccount { ...{ ...props, selectedTab: MyAccountTabs.NEWSLETTER_SUBSCRIPTION } } /> } />,
-=======
-            component: <Route path={ withStoreRegex('/newsletter/manage') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ NEWSLETTER_SUBSCRIPTION } /> } />,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
+            component: <Route path={ withStoreRegex('/newsletter/manage') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.NEWSLETTER_SUBSCRIPTION } /> } />,
             position: 75,
             name: RouterSwitchItemType.MY_ACCOUNT_NEWSLETTER
         },
@@ -318,13 +214,7 @@ export class Router extends PureComponent {
             name: RouterSwitchItemType.MY_ACCOUNT
         },
         {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            component: <Route path={ withStoreRegex('/menu') } render={ (props) => <MenuPage { ...props } /> } />,
-=======
             component: <Route path={ withStoreRegex('/menu') } render={ () => <MenuPage /> } />,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
             position: 80,
             name: RouterSwitchItemType.MENU
         },
@@ -349,10 +239,6 @@ export class Router extends PureComponent {
             name: RouterSwitchItemType.STYLE_GUIDE
         },
         {
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-=======
             component: <Route path={ withStoreRegex('/sales/order/print/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_ORDER_REQUEST } /> } />,
             position: 90,
             name: PRINT_ORDER
@@ -388,7 +274,6 @@ export class Router extends PureComponent {
             name: PRINT_ORDER
         },
         {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
             component: <Route render={ (props) => <UrlRewrites { ...props } /> } />,
             position: 1000,
             name: RouterSwitchItemType.URL_REWRITES
@@ -482,11 +367,7 @@ export class Router extends PureComponent {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-    renderFallbackPage(): ReactChild {
-=======
     renderFallbackPage(showLoader = false) {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
         return (
             <main block="Router" elem="Loader">
                 { showLoader && <Loader isLoading /> }
@@ -494,34 +375,21 @@ export class Router extends PureComponent {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-    renderDefaultRouterContent(): ReactElement {
-        if (location.pathname.match('/styleguide')) {
-=======
     renderDefaultRouterContent() {
         const { isOnlyMainItems } = this.props;
         const { setBigOfflineNotice } = this.props;
 
         if (isOnlyMainItems) {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
             return this.renderMainItems();
         }
 
         return (
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.component.tsx
-            <>
-                { this.renderSectionOfType(RouterItemType.BEFORE_ITEMS_TYPE) }
-                { this.renderMainItems() }
-                { this.renderSectionOfType(RouterItemType.AFTER_ITEMS_TYPE) }
-            </>
-=======
             <ErrorHandler setBigOfflineNotice={ setBigOfflineNotice }>
                     <div block="Router" elem="MainItems">
                         { this.renderMainItems() }
                     </div>
                     { this.renderSectionOfType(AFTER_ITEMS_TYPE) }
             </ErrorHandler>
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.component.js
         );
     }
 

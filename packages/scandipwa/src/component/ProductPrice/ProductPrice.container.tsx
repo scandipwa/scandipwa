@@ -40,26 +40,8 @@ export const mapDispatchToProps = (): ProductPriceContainerMapDispatchProps => (
  * @class ProductPrice
  * @namespace Component/ProductPrice/Container
  */
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductPrice/ProductPrice.container.tsx
 export class ProductPriceContainer extends PureComponent<ProductPriceContainerProps> {
     static defaultProps: Partial<ProductPriceContainerProps> = {
-=======
-export class ProductPriceContainer extends PureComponent {
-    static propTypes = {
-        // Price should be gotten from Util/Product/Extract/getPrice()
-        price: ProductPriceType,
-        isPreview: PropTypes.bool,
-        priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
-        isSchemaRequired: PropTypes.bool,
-        mix: MixType,
-        displayTaxInPrice: PropTypes.string,
-        tierPrices: TierPricesType,
-        label: LabelType,
-        variantsCount: PropTypes.number
-    };
-
-    static defaultProps = {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductPrice/ProductPrice.container.js
         isPreview: false,
         isSchemaRequired: false,
         displayTaxInPrice: DisplayProductPricesInCatalog.INCL_TAX,

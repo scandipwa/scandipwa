@@ -66,27 +66,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): CmsPageContainerDispatch
 });
 
 /** @namespace Route/CmsPage/Container */
-<<<<<<< HEAD:packages/scandipwa/src/route/CmsPage/CmsPage.container.tsx
 export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPageContainerState> {
     static defaultProps: Partial<CmsPageContainerProps> = {
-=======
-export class CmsPageContainer extends DataContainer {
-    static propTypes = {
-        match: MatchType.isRequired,
-        currentUrl: PropTypes.string.isRequired,
-        setHeaderState: PropTypes.func.isRequired,
-        updateBreadcrumbs: PropTypes.func.isRequired,
-        setBigOfflineNotice: PropTypes.func.isRequired,
-        location: LocationType.isRequired,
-        toggleBreadcrumbs: PropTypes.func.isRequired,
-        pageIds: PropTypes.number,
-        pageIdentifiers: PropTypes.string,
-        isOnlyPlaceholder: PropTypes.bool,
-        isBreadcrumbsActive: PropTypes.bool
-    };
-
-    static defaultProps = {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CmsPage/CmsPage.container.js
         pageIds: -1,
         pageIdentifiers: '',
         isOnlyPlaceholder: false,

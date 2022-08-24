@@ -98,14 +98,8 @@ export const validate = (value: string | boolean, rule: ValidationRule): boolean
                 output.errorMessages.push(onRangeFailMin || __('Minimum %s characters!', min));
             }
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Validator/Validator.ts
             if (max && (value as string).length > max) {
                 const tooMany = (value as string).length - max;
-=======
-            if (max && value.length > max) {
-                const tooMany = value.length - max;
-
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Validator/Validator.js
                 output.errorMessages.push(onRangeFailMax || __('Maximum %s characters (%s too many)', max, tooMany));
 
                 if (showLengthError) {
@@ -159,17 +153,10 @@ export const validateGroup = (DOM: HTMLElement, rule?: ValidationRule): true | V
             type = FieldType.SELECT
         } = field;
 
-<<<<<<< HEAD:packages/scandipwa/src/util/Validator/Validator.ts
         const fieldType = tagName.toLowerCase() === FieldType.TEXTAREA ? FieldType.TEXTAREA : type;
         // eslint-disable-next-line max-len
         const fieldValue = fieldType === (FieldType.CHECKBOX || fieldType === FieldType.RADIO) && field.checked ? '' : value;
         output.values?.push({ name, value: fieldValue, type: fieldType });
-=======
-        const fieldType = tagName.toLowerCase() === FIELD_TYPE.textarea ? FIELD_TYPE.textarea : type;
-        const fieldValue = fieldType === FIELD_TYPE.checkbox || fieldType === FIELD_TYPE.radio ? field.checked : value;
-
-        output.values.push({ name, value: fieldValue, type: fieldType });
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Validator/Validator.js
 
         // Invokes validation event for all fields
         const data = { errors: [] };
@@ -224,12 +211,7 @@ export const validateGroup = (DOM: HTMLElement, rule?: ValidationRule): true | V
     }
     //#endregion
     const { errorMessages, errorFields } = output;
-<<<<<<< HEAD:packages/scandipwa/src/util/Validator/Validator.ts
     return !errorMessages?.length && !errorFields?.length ? true : output;
-=======
-
-    return errorMessages.length === 0 && errorFields.length === 0 ? true : output;
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Validator/Validator.js
 };
 
 /**

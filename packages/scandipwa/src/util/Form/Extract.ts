@@ -299,11 +299,7 @@ export const getFieldsData = <AsObject extends boolean = false>(
     });
 
     if (asObject) {
-<<<<<<< HEAD:packages/scandipwa/src/util/Form/Extract.ts
         const objectOutput: Record<string, DateObject | FieldData> = {};
-=======
-        const objectOutput = {};
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Form/Extract.js
 
         output.forEach((field) => {
             const { name } = field;

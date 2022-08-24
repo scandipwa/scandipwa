@@ -27,40 +27,20 @@ export const TOKEN_REFRESH_DELAY = 2000;
 export const MILLISECONDS_IN_SECOND = 1000;
 
 /** @namespace Util/Auth/Token/setAuthorizationToken */
-<<<<<<< HEAD:packages/scandipwa/src/util/Auth/Token.ts
 export const setAuthorizationToken = (token: string | null): void => {
-    if (!token) {
-        return;
-    }
-
-    const state = getStore().getState() as RootState;
-    const {
-        access_token_lifetime = ONE_HOUR
-    } = state.ConfigReducer;
-
-    BrowserDatabase.setItem(token, AUTH_TOKEN, Number(access_token_lifetime) * ONE_HOUR_IN_SECONDS);
-};
-
-/** @namespace Util/Auth/Token/deleteAuthorizationToken */
-export const deleteAuthorizationToken = (): void => BrowserDatabase.deleteItem(AUTH_TOKEN);
-
-/** @namespace Util/Auth/Token/getAuthorizationToken */
-export const getAuthorizationToken = (): string | null => BrowserDatabase.getItem(AUTH_TOKEN);
-=======
-export const setAuthorizationToken = (token) => {
     if (token) {
         const { website_code } = window;
 
-        const state = getStore().getState();
+        const state = getStore().getState() as RootState;
         const {
             access_token_lifetime = ONE_HOUR
         } = state.ConfigReducer;
 
         const tokens = BrowserDatabase.getItem(AUTH_TOKEN) || {};
-        const { exp } = jwtDecode(token) || {};
+        const { exp } = jwtDecode<{exp: number}>(token) || {};
 
         tokens[ website_code ] = { token, exp: exp * MILLISECONDS_IN_SECOND };
-        BrowserDatabase.setItem(tokens, AUTH_TOKEN, access_token_lifetime * ONE_HOUR_IN_SECONDS);
+        BrowserDatabase.setItem(tokens, AUTH_TOKEN, Number(access_token_lifetime) * ONE_HOUR_IN_SECONDS);
     }
 };
 
@@ -75,7 +55,7 @@ export const deleteAuthorizationToken = () => {
 };
 
 /** @namespace Util/Auth/Token/getAuthorizationToken */
-export const getAuthorizationToken = () => {
+export const getAuthorizationToken = (): string | null => {
     const { website_code } = window;
     const tokens = BrowserDatabase.getItem(AUTH_TOKEN) || {};
 
@@ -91,7 +71,6 @@ export const getAuthorizationToken = () => {
 
     return null;
 };
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Auth/Token.js
 
 /** @namespace Util/Auth/Token/refreshAuthorizationToken */
 export const refreshAuthorizationToken = debounce(

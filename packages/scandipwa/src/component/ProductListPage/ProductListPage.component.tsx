@@ -27,30 +27,11 @@ import './ProductListPage.style';
  * @class ProductListPage
  * @namespace Component/ProductListPage/Component
  */
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductListPage/ProductListPage.component.tsx
 export class ProductListPage extends PureComponent<
 ProductListPageComponentProps,
 ProductListPageComponentState
 > {
     static defaultProps: Partial<ProductListPageComponentProps> = {
-=======
-export class ProductListPage extends PureComponent {
-    static propTypes = {
-        isInfiniteLoaderEnabled: PropTypes.bool.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        isVisible: PropTypes.bool.isRequired,
-        updatePages: PropTypes.func.isRequired,
-        numberOfPlaceholders: PropTypes.number,
-        selectedFilters: FilterType,
-        wrapperRef: PropTypes.func,
-        pageNumber: PropTypes.number,
-        items: PropTypes.arrayOf(ProductType),
-        mix: MixType,
-        isPlp: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductListPage/ProductListPage.component.js
         numberOfPlaceholders: DEFAULT_PLACEHOLDER_COUNT,
         wrapperRef: noopFn,
         selectedFilters: {},

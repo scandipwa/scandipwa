@@ -73,15 +73,10 @@ export class ProductInformation extends PureComponent<ProductInformationComponen
         }
 
         // check if at least one HTML element has content
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductInformation/ProductInformation.component.tsx
         const elementsWithContent = Array.from(
             document.body.children as HTMLCollectionOf<HTMLElement>
         ).filter(
             (element) => element.innerText !== '' || element.nodeName === 'IMG'
-=======
-        const elementsWithContent = Array.from(document.body.children).filter(
-            (element) => element.innerHTML !== '' || element.nodeName === 'IMG'
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductInformation/ProductInformation.component.js
         );
 
         return elementsWithContent.length === 0;

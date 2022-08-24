@@ -28,7 +28,7 @@ import {
     PRINT_REFUND,
     PRINT_SHIPMENT
 } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
-import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { MatchType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
@@ -98,7 +98,7 @@ export class OrderPrintPageContainer extends PureComponent {
         super.__construct(props);
 
         if (!isSignedIn()) {
-            history.push({ pathname: appendWithStoreCode(ACCOUNT_LOGIN_URL) });
+            history.push({ pathname: appendWithStoreCode(AccountPageUrl.LOGIN_URL) });
         }
     }
 

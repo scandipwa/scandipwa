@@ -25,9 +25,8 @@ import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { Children, ReactElement } from 'Type/Common.type';
 import { IndexedConfigurableOption } from 'Util/Product/Product.type';
 
-import { ContentObject, ProductCardComponentProps } from './ProductCard.type';
-
 import { scrollToTop } from '../../util/Browser/Browser';
+import { ContentObject, ProductCardComponentProps } from './ProductCard.type';
 
 import './ProductCard.style';
 
@@ -66,19 +65,11 @@ export class ProductCard extends Product<ProductCardComponentProps> {
 
     className = 'ProductCard';
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCard/ProductCard.component.tsx
-    sharedComponent?: JSX.Element;
-
     __construct(props: ProductCardComponentProps): void {
         super.__construct?.(props);
 
-        this.registerSharedElement = this.registerSharedElement.bind(this);
+        this.handleLinkClick = this.handleLinkClick.bind(this);
     }
-
-    registerSharedElement(): void {
-        const { registerSharedElement } = this.props;
-=======
-    handleLinkClick = this.handleLinkClick.bind(this);
 
     handleLinkClick() {
         const { registerSharedElement, isPlp } = this.props;
@@ -86,7 +77,6 @@ export class ProductCard extends Product<ProductCardComponentProps> {
         if (!isPlp) {
             scrollToTop();
         }
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCard/ProductCard.component.js
         registerSharedElement(this.imageRef);
     }
 
@@ -248,20 +238,12 @@ export class ProductCard extends Product<ProductCardComponentProps> {
             }
         } = this.props;
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCard/ProductCard.component.tsx
-        const configureBundleAndGrouped = type === ProductType.BUNDLE || type === ProductType.GROUPED;
-        const configureConfig = type === ProductType.CONFIGURABLE
-            // eslint-disable-next-line max-len
-            && Object.keys(super.getConfigurableAttributes()).length !== Object.keys(this.getConfigurableAttributes()).length;
-        const configureCustomize = options.some(({ required = false }) => required);
-        const configureDownloadableLinks = ProductType.DOWNLOADABLE && links_purchased_separately === 1;
-=======
-        const configureBundle = type === PRODUCT_TYPE.bundle;
+        const configureBundle = type === ProductType.BUNDLE;
 
         const allAttrs = super.getConfigurableAttributes();
         const plpConfigurableAttrs = this.getConfigurableAttributes();
 
-        const isConfigurable = type === PRODUCT_TYPE.configurable;
+        const isConfigurable = type === ProductType.CONFIGURABLE;
 
         const configureConfig = isConfigurable && (
             (
@@ -276,13 +258,12 @@ export class ProductCard extends Product<ProductCardComponentProps> {
             || (Object.keys(allAttrs).length > 0 && Object.keys(parameters).length === 0)
         );
 
-        const configureGrouped = type === PRODUCT_TYPE.grouped
+        const configureGrouped = type === ProductType.GROUPED
             && items.every(({ qty }) => qty === 0);
 
         const configureCustomize = options.some(({ required = false }) => required);
 
-        const configureDownloadableLinks = PRODUCT_TYPE.downloadable && links_purchased_separately === 1;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCard/ProductCard.component.js
+        const configureDownloadableLinks = ProductType.DOWNLOADABLE && links_purchased_separately === 1;
 
         return configureGrouped
             || configureBundle
@@ -353,13 +334,8 @@ export class ProductCard extends Product<ProductCardComponentProps> {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCard/ProductCard.component.tsx
     renderCardContent(): ReactElement {
-        const { renderContent } = this.props;
-=======
-    renderCardContent() {
         const { renderContent, product: { name } } = this.props;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCard/ProductCard.component.js
 
         if (renderContent) {
             return renderContent(this.contentObject);

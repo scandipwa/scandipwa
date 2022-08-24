@@ -82,14 +82,8 @@ export const prepareRequest = <T>(fields: AbstractField<string, T, boolean>[], t
     const resolvedArgs = Object.entries(accArgs).reduce((acc, [name, dataArray]): string[] => {
         (dataArray as Array<Omit<FieldArgument, 'name'>>).forEach((item, i: number) => {
             const variable = `${name}_${i + 1}`;
-<<<<<<< HEAD:packages/scandipwa/src/util/Query/PrepareDocument.ts
-            acc.push(`$${variable}:${item.type}`);
-            variables[variable] = String(item.value);
-=======
-
             acc.push(`$${variable}:${type}`);
-            variables[variable] = value;
->>>>>>> scandipwa/master:packages/scandipwa/src/util/Query/PrepareDocument.js
+            variables[variable] = String(item.value);
         });
 
         return acc;

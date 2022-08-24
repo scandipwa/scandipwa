@@ -45,46 +45,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductListContainerMapD
 });
 
 /** @namespace Component/ProductList/Container */
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductList/ProductList.container.tsx
 export class ProductListContainer extends PureComponent<ProductListContainerProps, ProductListContainerState> {
     static defaultProps: Partial<ProductListContainerProps> = {
-=======
-export class ProductListContainer extends PureComponent {
-    containerFunctions = {
-        loadPrevPage: this.loadPage.bind(this, false),
-        loadPage: this.loadPage.bind(this),
-        updatePage: this.updatePage.bind(this)
-    };
-
-    static propTypes = {
-        history: HistoryType.isRequired,
-        location: LocationType.isRequired,
-        pages: PagesType.isRequired,
-        pageSize: PropTypes.number,
-        isLoading: PropTypes.bool.isRequired,
-        isPageLoading: PropTypes.bool,
-        totalItems: PropTypes.number.isRequired,
-        requestProductList: PropTypes.func.isRequired,
-        requestProductListInfo: PropTypes.func.isRequired,
-        selectedFilters: SelectedFiltersType,
-        isPreventRequest: PropTypes.bool,
-        isInfiniteLoaderEnabled: PropTypes.bool,
-        isPaginationEnabled: PropTypes.bool,
-        filter: FilterInputType,
-        search: PropTypes.string,
-        sort: PropTypes.objectOf(PropTypes.string),
-        noAttributes: PropTypes.bool,
-        noVariants: PropTypes.bool,
-        isWidget: PropTypes.bool,
-        device: DeviceType.isRequired,
-        mix: MixType,
-        title: PropTypes.string,
-        totalPages: PropTypes.number,
-        isPlp: PropTypes.bool
-    };
-
-    static defaultProps = {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductList/ProductList.container.js
         mix: {},
         pageSize: 24,
         filter: {},
@@ -261,14 +223,9 @@ export class ProductListContainer extends PureComponent {
             mix,
             pages,
             selectedFilters,
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductList/ProductList.container.tsx
             title = '',
-            totalPages
-=======
-            title,
             totalPages,
             isPlp
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductList/ProductList.container.js
         } = this.props;
 
         return {

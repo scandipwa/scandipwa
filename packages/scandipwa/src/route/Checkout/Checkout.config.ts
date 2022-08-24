@@ -9,11 +9,18 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.config.ts
+import { appendWithStoreCode } from 'Util/Url';
+
 export enum CheckoutSteps {
     SHIPPING_STEP = 'SHIPPING_STEP',
     BILLING_STEP = 'BILLING_STEP',
     DETAILS_STEP = 'DETAILS_STEP'
+}
+
+export enum CheckoutUrlSteps {
+    BILLING_URL_STEP = 'billing',
+    SHIPPING_URL_STEP = 'shipping',
+    DETAILS_URL_STEP = 'success'
 }
 
 export enum CheckoutStepUrl {
@@ -21,23 +28,8 @@ export enum CheckoutStepUrl {
     BILLING_URL = '/checkout/billing',
     SHIPPING_URL = '/checkout/shipping'
 }
-=======
-import { appendWithStoreCode } from 'Util/Url';
 
-export const SHIPPING_STEP = 'SHIPPING_STEP';
-export const BILLING_STEP = 'BILLING_STEP';
-export const DETAILS_STEP = 'DETAILS_STEP';
-
-export const BILLING_URL_STEP = 'billing';
-export const SHIPPING_URL_STEP = 'shipping';
-export const DETAILS_URL_STEP = 'success';
-
-export const CHECKOUT_URL = '/checkout';
-export const BILLING_URL = '/checkout/billing';
-export const SHIPPING_URL = '/checkout/shipping';
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.config.js
-
-export const CHECKOUT_URL_REGEX = new RegExp(`^(${appendWithStoreCode('')})?${CHECKOUT_URL}(/)?$`);
+export const CHECKOUT_URL_REGEX = new RegExp(`^(${appendWithStoreCode('')})?${CheckoutStepUrl.CHECKOUT_URL}(/)?$`);
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
 

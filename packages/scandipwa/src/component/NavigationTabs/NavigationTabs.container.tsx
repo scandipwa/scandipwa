@@ -98,17 +98,12 @@ NavigationAbstractContainerState
 
         const SCROLL_DEBOUNCE_DELAY = 10;
         const { name } = this.getNavigationState();
-<<<<<<< HEAD:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.container.tsx
+
         this.lastSeenMenu = name === NavigationTabsMap.MENU_TAB ? 0 : -1;
         window.addEventListener(
             'scroll',
             debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY) as EventListenerOrEventListenerObject
         );
-=======
-
-        this.lastSeenMenu = name === MENU_TAB ? 0 : -1;
-        window.addEventListener('scroll', debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY));
->>>>>>> scandipwa/master:packages/scandipwa/src/component/NavigationTabs/NavigationTabs.container.js
 
         super.componentDidMount();
     }

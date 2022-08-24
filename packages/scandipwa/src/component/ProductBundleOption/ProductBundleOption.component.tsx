@@ -13,11 +13,7 @@
 import { ChangeEvent, ChangeEventHandler, PureComponent } from 'react';
 
 import Field from 'Component/Field';
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductBundleOption/ProductBundleOption.component.tsx
-import { FieldType } from 'Component/Field/Field.config';
-=======
-import { FIELD_RADIO_NONE, FIELD_TYPE } from 'Component/Field/Field.config';
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductBundleOption/ProductBundleOption.component.js
+import { FIELD_RADIO_NONE, FieldType } from 'Component/Field/Field.config';
 import FieldGroup from 'Component/FieldGroup';
 import { ReactElement } from 'Type/Common.type';
 import {
@@ -101,11 +97,7 @@ export class ProductBundleOption extends PureComponent<ProductBundleOptionCompon
 
         return (
             <Field
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductBundleOption/ProductBundleOption.component.tsx
-              type={ FieldType.NUMBER }
-=======
-              type={ FIELD_TYPE.numberWithControls }
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductBundleOption/ProductBundleOption.component.js
+              type={ FieldType.NUMBER_WITH_CONTROLS }
               attr={ {
                   id: `item_qty_${uid}`,
                   name: `item_qty_${uid}`,
@@ -254,12 +246,8 @@ export class ProductBundleOption extends PureComponent<ProductBundleOptionCompon
     //#region SELECT
     updateSelect(...args: [ChangeEvent, HTMLInputElement]): void {
         const { updateSelectedValues, setActiveSelectUid } = this.props;
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductBundleOption/ProductBundleOption.component.tsx
         const { value } = (args[args.length - 1] || {}) as HTMLInputElement;
-=======
-        const { value } = args[args.length - 1] || {};
 
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductBundleOption/ProductBundleOption.component.js
         setActiveSelectUid(value);
         updateSelectedValues();
     }

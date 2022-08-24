@@ -21,27 +21,8 @@ import { StoreInPickUpComponentProps } from './StoreInPickUp.type';
 import './StoreInPickUp.style';
 
 /** @namespace Component/StoreInPickUp/Component */
-<<<<<<< HEAD:packages/scandipwa/src/component/StoreInPickUp/StoreInPickUp.component.tsx
 export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponentProps> {
     static defaultProps: Partial<StoreInPickUpComponentProps> = {
-=======
-export class StoreInPickUpComponent extends PureComponent {
-    static propTypes = {
-        selectStore: PropTypes.func,
-        handleOpenPopup: PropTypes.func.isRequired,
-        countryId: PropTypes.string.isRequired,
-        estimateAddress: Addresstype.isRequired,
-        shippingMethods: ShippingMethodsType.isRequired,
-        onStoreSelect: PropTypes.func.isRequired,
-        onShippingMethodSelect: PropTypes.func.isRequired,
-        setSelectedStore: PropTypes.func.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func,
-        cartItemsSku: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
-        selectedStore: StoreType
-    };
-
-    static defaultProps = {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/StoreInPickUp/StoreInPickUp.component.js
         selectedStore: null,
         selectStore: noopFn
     };

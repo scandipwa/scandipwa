@@ -21,24 +21,8 @@ import { PasswordChangePageComponentProps } from './PasswordChangePage.type';
 import './PasswordChangePage.style';
 
 /** @namespace Route/PasswordChangePage/Component */
-<<<<<<< HEAD:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.component.tsx
 export class PasswordChangePage extends PureComponent<PasswordChangePageComponentProps> {
     renderWarningMessage(): ReactElement {
-=======
-export class PasswordChangePage extends PureComponent {
-    static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        onPasswordSuccess: PropTypes.func.isRequired,
-        onError: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        range: PropTypes.shape({ min: PropTypes.number, max: PropTypes.number }).isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        shouldDisplayWarning: PropTypes.bool.isRequired,
-        minimunPasswordCharacter: PropTypes.string.isRequired
-    };
-
-    renderWarningMessage() {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/PasswordChangePage/PasswordChangePage.component.js
         const { shouldDisplayWarning } = this.props;
 
         if (!shouldDisplayWarning) {

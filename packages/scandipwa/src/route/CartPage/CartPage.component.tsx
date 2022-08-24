@@ -30,34 +30,10 @@ import { CartPageComponentProps } from './CartPage.type';
 import './CartPage.style';
 
 /** @namespace Route/CartPage/Component */
-<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.component.tsx
 export class CartPage extends PureComponent<CartPageComponentProps> {
     static defaultProps: Partial<CartPageComponentProps> = {
         hasOutOfStockProductsInCart: false,
         onCartItemLoading: noopFn
-=======
-export class CartPage extends PureComponent {
-    static propTypes = {
-        totals: TotalsType.isRequired,
-        onCheckoutButtonClick: PropTypes.func.isRequired,
-        hasOutOfStockProductsInCart: PropTypes.bool,
-        onCouponCodeUpdate: PropTypes.func,
-        onCartItemLoading: PropTypes.func,
-        device: DeviceType.isRequired,
-        isInitialLoad: PropTypes.bool.isRequired,
-        minimumOrderAmountReached: PropTypes.bool,
-        minimumOrderDescription: PropTypes.string,
-        areDetailsLoaded: PropTypes.bool
-    };
-
-    static defaultProps = {
-        hasOutOfStockProductsInCart: false,
-        onCouponCodeUpdate: noopFn,
-        onCartItemLoading: null,
-        minimumOrderAmountReached: true,
-        minimumOrderDescription: '',
-        areDetailsLoaded: false
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.component.js
     };
 
     renderCartItems(): ReactElement {
@@ -135,18 +111,13 @@ export class CartPage extends PureComponent {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.component.tsx
     renderSecureCheckoutButton(): ReactElement {
-        const { onCheckoutButtonClick, hasOutOfStockProductsInCart } = this.props;
-=======
-    renderSecureCheckoutButton() {
         const {
             onCheckoutButtonClick,
             minimumOrderDescription,
             minimumOrderAmountReached,
             hasOutOfStockProductsInCart
         } = this.props;
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.component.js
 
         if (hasOutOfStockProductsInCart) {
             return (
@@ -186,16 +157,10 @@ export class CartPage extends PureComponent {
 
         return (
             <CheckoutOrderSummary
-<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.component.tsx
               totals={ totals as Partial<TotalsObject> }
                 // eslint-disable-next-line react/jsx-no-bind
-              renderCmsBlock={ () => this.renderPromo() }
-=======
-              totals={ totals }
-              // eslint-disable-next-line react/jsx-no-bind
               renderCmsBlock={ () => this.renderPromo(true) }
               onCouponCodeUpdate={ onCouponCodeUpdate }
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.component.js
               showItems={ false }
             >
                 { this.renderSecureCheckoutButton() }
@@ -215,13 +180,9 @@ export class CartPage extends PureComponent {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.component.tsx
     renderCrossSellProducts(): ReactElement {
-=======
-    renderCrossSellProducts() {
         const { areDetailsLoaded } = this.props;
 
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.component.js
         return (
             <ProductLinks
               linkType={ LinkedProductType.CROSS_SELL }
@@ -297,14 +258,10 @@ export class CartPage extends PureComponent {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.component.tsx
     renderMobile(): ReactElement {
-=======
-    renderMobile() {
         const { totals: { items = [] } } = this.props;
         const isShowTotals = items.length > 0;
 
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.component.js
         return (
             <div block="CartPage" elem="Static">
                 { this.renderHeading() }

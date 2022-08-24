@@ -25,14 +25,9 @@ import './ProductTabs.style';
 export class ProductTabs extends PureComponent<ProductTabsComponentProps, ProductTabsComponentState> {
     __construct(props: ProductTabsComponentProps): void {
         super.__construct?.(props);
-
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductTabs/ProductTabs.component.tsx
-        this.onTabClick = this.onTabClick.bind(this);
-=======
-    __construct(props) {
-        super.__construct(props);
         const { tabs } = this.props;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductTabs/ProductTabs.component.js
+
+        this.onTabClick = this.onTabClick.bind(this);
 
         if (tabs.length > 0) {
             const { tabs: [{ id }] } = this.props;

@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
+ * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -27,6 +27,7 @@ export interface ProductPageContainerMapStateProps {
     metaTitle?: string;
     isMobile: boolean;
     store: string;
+    areReviewsEnabled: boolean;
 }
 
 export interface ProductPageContainerMapDispatchProps {
@@ -73,6 +74,7 @@ export interface ProductPageComponentProps {
     isProductAttributesTabEmpty: () => boolean;
     isMobile: boolean;
     location: Location<HistoryState>;
+    areReviewsEnabled: boolean;
 }
 
 export type ProductPageContainerComponentPropKeys =
@@ -85,7 +87,8 @@ export type ProductPageContainerComponentPropKeys =
     | 'isVariant'
     | 'isMobile'
     | 'parameters'
-    | 'location';
+    | 'location'
+    | 'areReviewsEnabled';
 
 export type OptionWithId = Merge<IndexedCustomOption, { option_id: string }>;
 

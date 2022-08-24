@@ -36,12 +36,8 @@ export const shareWishlistForm = (): Partial<FieldContainerProps>[] => [
     },
     {
         label: __('Message'),
-<<<<<<< HEAD:packages/scandipwa/src/component/ShareWishlistForm/ShareWishlistForm.form.ts
         type: FieldType.TEXTAREA,
-=======
-        type: FIELD_TYPE.textarea,
         validateOn: ['onChange'],
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ShareWishlistForm/ShareWishlistForm.form.js
         attr: {
             name: 'message',
             placeholder: __('Message'),

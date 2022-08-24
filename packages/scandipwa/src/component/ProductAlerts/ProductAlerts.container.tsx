@@ -80,12 +80,8 @@ export class ProductAlertsContainer extends PureComponent<ProductAlertsContainer
         } = this.props;
 
         if (!isSignedIn) {
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductAlerts/ProductAlerts.container.tsx
             showNotification(NotificationType.INFO, __('Please sign in to subscribe for notification'));
-=======
-            showNotification('info', __('Please sign in to subscribe for notification'));
 
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductAlerts/ProductAlerts.container.js
             return;
         }
 

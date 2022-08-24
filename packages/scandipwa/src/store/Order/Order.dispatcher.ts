@@ -12,11 +12,8 @@
 import { Dispatch } from 'redux';
 
 import OrderQuery from 'Query/Order.query';
-<<<<<<< HEAD:packages/scandipwa/src/store/Order/Order.dispatcher.ts
 import { OrderItem, ReorderOutput } from 'Query/Order.type';
-=======
 import { CART_URL } from 'Route/CartPage/CartPage.config';
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Order/Order.dispatcher.js
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
@@ -59,12 +56,7 @@ export class OrderDispatcher {
         } = await this.handleReorderMutation(dispatch, incrementId) || {};
 
         const cartDispatcher = (await CartDispatcher).default;
-<<<<<<< HEAD:packages/scandipwa/src/store/Order/Order.dispatcher.ts
         cartDispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken());
-=======
-
-        cartDispatcher.updateInitialCartData(dispatch, getAuthorizationToken());
->>>>>>> scandipwa/master:packages/scandipwa/src/store/Order/Order.dispatcher.js
 
         history.push(appendWithStoreCode(CART_URL));
 
@@ -105,7 +97,7 @@ export class OrderDispatcher {
         }
     }
 
-    async getOrderInvoice(dispatch, invoiceId) {
+    async getOrderInvoice(dispatch: Dispatch, invoiceId: string) {
         try {
             const {
                 orderByInvoice
@@ -117,13 +109,13 @@ export class OrderDispatcher {
 
             return orderByInvoice;
         } catch (error) {
-            dispatch(showNotification('error', getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return null;
         }
     }
 
-    async getOrderShipment(dispatch, shipmentId) {
+    async getOrderShipment(dispatch: Dispatch, shipmentId: : number) {
         try {
             const {
                 orderByShipment
@@ -135,13 +127,13 @@ export class OrderDispatcher {
 
             return orderByShipment;
         } catch (error) {
-            dispatch(showNotification('error', getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return null;
         }
     }
 
-    async getOrderRefund(dispatch, refundId) {
+    async getOrderRefund(dispatch: Dispatch, refundId: : number) {
         try {
             const {
                 orderByRefund
@@ -153,7 +145,7 @@ export class OrderDispatcher {
 
             return orderByRefund;
         } catch (error) {
-            dispatch(showNotification('error', getErrorMessage(error)));
+            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return null;
         }

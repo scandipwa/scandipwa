@@ -26,9 +26,6 @@ export class ProductCompareButton extends PureComponent<ProductCompareButtonComp
         isActive: false
     };
 
-<<<<<<< HEAD:packages/scandipwa/src/component/ProductCompareButton/ProductCompareButton.component.tsx
-    render(): ReactElement {
-=======
     _handleClick = this._handleClick.bind(this);
 
     _handleClick(e) {
@@ -38,8 +35,7 @@ export class ProductCompareButton extends PureComponent<ProductCompareButtonComp
         handleClick(e);
     }
 
-    render() {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/ProductCompareButton/ProductCompareButton.component.js
+    render(): ReactElement {
         const {
             isLoading,
             isActive,

@@ -309,11 +309,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
 
         return (
             <FieldContainer
-<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.component.tsx
-              type={ FieldType.NUMBER }
-=======
-              type={ FIELD_TYPE.numberWithControls }
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.component.js
+              type={ FieldType.NUMBER_WITH_CONTROLS }
               attr={ {
                   id: 'item_qty',
                   name: 'item_qty',
@@ -377,15 +373,8 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.component.tsx
     renderPrice(isPreview = false): ReactElement {
         const { getActiveProduct, productPrice } = this.props;
-=======
-    renderPrice(isPreview = false) {
-        const {
-            getActiveProduct, productPrice
-        } = this.props;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.component.js
         const product = getActiveProduct();
 
         const {
@@ -413,17 +402,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/Product/Product.component.tsx
-    renderStock(): ReactElement {
-        // const { displayProductStockStatus } = this.props;
-        //
-        // if (!displayProductStockStatus) {
-        //     return null;
-        // }
-
-=======
     renderStock() {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Product/Product.component.js
         const { inStock } = this.props;
 
         const stockStatusLabel = inStock ? __('In stock') : __('Out of stock');

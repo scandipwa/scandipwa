@@ -5,11 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.component.tsx
  * @package scandipwa/scandipwa
-=======
- * @package scandipwa/scandipwa
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.component.js
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -19,7 +15,6 @@ import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import { Page } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.component.tsx
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { appendWithStoreCode } from 'Util/Url';
@@ -27,27 +22,6 @@ import { appendWithStoreCode } from 'Util/Url';
 import {
     CheckoutSteps,
     CheckoutStepUrl
-=======
-import { Addresstype } from 'Type/Account.type';
-import {
-    CheckoutStepType,
-    PaymentMethodsType,
-    ShippingMethodsType,
-    StoreType
-} from 'Type/Checkout.type';
-import { TotalsType } from 'Type/MiniCart.type';
-import { scrollToTop } from 'Util/Browser';
-import { noopFn } from 'Util/Common';
-import history from 'Util/History';
-import { appendWithStoreCode } from 'Util/Url';
-
-import {
-    BILLING_STEP,
-    CHECKOUT_URL,
-    CHECKOUT_URL_REGEX,
-    DETAILS_STEP,
-    SHIPPING_STEP
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.component.js
 } from './Checkout.config';
 import { CheckoutComponentProps, CheckoutMapStep } from './Checkout.type';
 
@@ -89,60 +63,10 @@ export const ExpandableContent = lazy(() => import(
 ));
 
 /** @namespace Route/Checkout/Component */
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.component.tsx
 export class Checkout extends PureComponent<CheckoutComponentProps> {
     static defaultProps: Partial<CheckoutComponentProps> = {
         paymentTotals: undefined,
         selectedStoreAddress: undefined,
-=======
-export class Checkout extends PureComponent {
-    static propTypes = {
-        setLoading: PropTypes.func.isRequired,
-        setDetailsStep: PropTypes.func.isRequired,
-        shippingMethods: ShippingMethodsType.isRequired,
-        onShippingEstimationFieldsChange: PropTypes.func.isRequired,
-        setHeaderState: PropTypes.func.isRequired,
-        paymentMethods: PaymentMethodsType.isRequired,
-        saveAddressInformation: PropTypes.func.isRequired,
-        savePaymentInformation: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool,
-        isDeliveryOptionsLoading: PropTypes.bool.isRequired,
-        shippingAddress: Addresstype.isRequired,
-        billingAddress: Addresstype.isRequired,
-        estimateAddress: Addresstype.isRequired,
-        checkoutTotals: TotalsType.isRequired,
-        orderID: PropTypes.string.isRequired,
-        email: PropTypes.string.isRequired,
-        isEmailAvailable: PropTypes.bool.isRequired,
-        selectedShippingMethod: PropTypes.string.isRequired,
-        onEmailChange: PropTypes.func.isRequired,
-        paymentTotals: TotalsType,
-        checkoutStep: CheckoutStepType.isRequired,
-        isCreateUser: PropTypes.bool.isRequired,
-        onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired,
-        isGuestEmailSaved: PropTypes.bool.isRequired,
-        goBack: PropTypes.func.isRequired,
-        totals: TotalsType.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        isPickInStoreMethodSelected: PropTypes.bool.isRequired,
-        handleSelectDeliveryMethod: PropTypes.func.isRequired,
-        isInStoreActivated: PropTypes.bool.isRequired,
-        cartTotalSubPrice: PropTypes.number,
-        onShippingMethodSelect: PropTypes.func.isRequired,
-        onStoreSelect: PropTypes.func.isRequired,
-        selectedStoreAddress: StoreType,
-        onCouponCodeUpdate: PropTypes.func,
-        isSignedIn: PropTypes.bool.isRequired,
-        isCartLoading: PropTypes.bool.isRequired,
-        isVisibleEmailRequired: PropTypes.bool.isRequired,
-        onChangeEmailRequired: PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
-        paymentTotals: {},
-        selectedStoreAddress: {},
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.component.js
         isLoading: false,
         cartTotalSubPrice: null
     };
@@ -171,7 +95,6 @@ export class Checkout extends PureComponent {
         }
     };
 
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.component.tsx
     stepsCount = 2;
 
     componentDidMount(): void {
@@ -181,11 +104,6 @@ export class Checkout extends PureComponent {
         this.updateHeader();
 
         history.replace(appendWithStoreCode(`${CheckoutStepUrl.CHECKOUT_URL}${url}`));
-=======
-    componentDidMount() {
-        this.updateHeader();
-        this.updateStepURL(true);
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.component.js
     }
 
     componentDidUpdate(prevProps: CheckoutComponentProps): void {
@@ -209,13 +127,6 @@ export class Checkout extends PureComponent {
         });
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.component.tsx
-    updateStep(): void {
-        const { checkoutStep, history } = this.props;
-        const { url } = this.stepMap[ checkoutStep ];
-
-        history.push(appendWithStoreCode(`${CheckoutStepUrl.CHECKOUT_URL}${url}`));
-=======
     updateStepURL(isMounting = false) {
         const { checkoutStep, isCartLoading } = this.props;
         const { url } = this.stepMap[checkoutStep];
@@ -232,7 +143,6 @@ export class Checkout extends PureComponent {
 
     updateStep() {
         this.updateStepURL();
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.component.js
         scrollToTop({ behavior: 'smooth' });
     }
 
@@ -418,9 +328,6 @@ export class Checkout extends PureComponent {
         return <Loader isLoading={ isLoading } />;
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.component.tsx
-    renderSummary(showOnMobile = false): ReactElement {
-=======
     renderFullPageLoader() {
         return (
             <main block="Checkout" elem="FullPageLoader">
@@ -429,19 +336,14 @@ export class Checkout extends PureComponent {
         );
     }
 
-    renderSummary(showOnMobile = false) {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.component.js
+    renderSummary(showOnMobile = false): ReactElement {
         const {
             checkoutStep,
             paymentTotals,
             isMobile
         } = this.props;
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.component.tsx
-        const { areTotalsVisible } = this.stepMap[ checkoutStep ];
-=======
         const { areTotalsVisible } = this.stepMap[checkoutStep];
         const { renderPromo } = this.renderPromo(true) || {};
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.component.js
 
         if (!areTotalsVisible
             || (showOnMobile && !isMobile)
@@ -540,9 +442,6 @@ export class Checkout extends PureComponent {
         );
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/Checkout/Checkout.component.tsx
-    render(): ReactElement {
-=======
     render() {
         const { totals, checkoutStep } = this.props;
 
@@ -550,7 +449,6 @@ export class Checkout extends PureComponent {
             return this.renderFullPageLoader();
         }
 
->>>>>>> scandipwa/master:packages/scandipwa/src/route/Checkout/Checkout.component.js
         return (
             <main block="Checkout">
                 <ContentWrapper

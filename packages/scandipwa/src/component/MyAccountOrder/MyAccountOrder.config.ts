@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
- * @link https://github.com/scandipwa/scandipwa
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
  */
 
 export enum OrderTabs {
@@ -18,7 +18,7 @@ export enum OrderTabs {
 
 export const ORDER_ID = 'ORDER_ID';
 
-export const ORDER_ACTION_LABELS = {
+export const ORDER_ACTION_LABELS: Record<OrderTabs, Record<string, string>> = {
     [OrderTabs.ORDER_INVOICES]: {
         print: __('Print Invoice'),
         printUrl: '/sales/order/printInvoice/invoice_id',

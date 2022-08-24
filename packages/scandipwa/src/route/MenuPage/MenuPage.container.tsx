@@ -11,19 +11,15 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-<<<<<<< HEAD:packages/scandipwa/src/route/MenuPage/MenuPage.container.tsx
-import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
-=======
->>>>>>> scandipwa/master:packages/scandipwa/src/route/MenuPage/MenuPage.container.js
 
 import { Page } from 'Component/Header/Header.config';
 import Menu from 'Component/Menu';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-<<<<<<< HEAD:packages/scandipwa/src/route/MenuPage/MenuPage.container.tsx
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
+import { history } from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
 
 import {
@@ -31,9 +27,6 @@ import {
     MenuPageContainerMapStateProps,
     MenuPageContainerProps
 } from './MenuPage.type';
-=======
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
->>>>>>> scandipwa/master:packages/scandipwa/src/route/MenuPage/MenuPage.container.js
 
 /** @namespace Route/MenuPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MenuPageContainerMapStateProps => ({
@@ -47,19 +40,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): MenuPageContainerMapDisp
 });
 
 /** @namespace Route/MenuPage/Container */
-<<<<<<< HEAD:packages/scandipwa/src/route/MenuPage/MenuPage.container.tsx
 export class MenuPageContainer extends PureComponent<MenuPageContainerProps> {
     __construct(): void {
-=======
-export class MenuPageContainer extends PureComponent {
-    static propTypes = {
-        updateMeta: PropTypes.func.isRequired,
-        changeHeaderState: PropTypes.func.isRequired,
-        isMobile: PropTypes.bool.isRequired
-    };
-
-    __construct() {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/MenuPage/MenuPage.container.js
         this.redirectIfNotOnMobile();
     }
 
@@ -77,13 +59,8 @@ export class MenuPageContainer extends PureComponent {
         this.redirectIfNotOnMobile();
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/MenuPage/MenuPage.container.tsx
     redirectIfNotOnMobile(): void {
-        const { history, isMobile } = this.props;
-=======
-    redirectIfNotOnMobile() {
         const { isMobile } = this.props;
->>>>>>> scandipwa/master:packages/scandipwa/src/route/MenuPage/MenuPage.container.js
 
         if (!isMobile) {
             history.push('/');

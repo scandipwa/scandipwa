@@ -16,28 +16,17 @@ import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.container.tsx
 import { TotalsItem } from 'Query/Cart.type';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { IndexedCartItem } from 'Store/Cart/Cart.type';
-=======
-import { CART_URL } from 'Route/CartPage/CartPage.config';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
-import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.container.js
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.container.tsx
 import { ReactElement } from 'Type/Common.type';
-=======
-import { DeviceType } from 'Type/Device.type';
-import { TotalsType } from 'Type/MiniCart.type';
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.container.js
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import {
@@ -107,46 +96,16 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDisp
 });
 
 /** @namespace Route/CartPage/Container */
-<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.container.tsx
 export class CartPageContainer extends PureComponent<CartPageContainerProps, CartPageContainerState> {
     containerFunctions: CartPageContainerFunctions = {
-=======
-export class CartPageContainer extends PureComponent {
-    static propTypes = {
-        updateBreadcrumbs: PropTypes.func.isRequired,
-        changeHeaderState: PropTypes.func.isRequired,
-        updateCrossSellProducts: PropTypes.func.isRequired,
-        showOverlay: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        updateMeta: PropTypes.func.isRequired,
-        guest_checkout: PropTypes.bool.isRequired,
-        totals: TotalsType.isRequired,
-        device: DeviceType.isRequired,
-        minimumOrderAmount: PropTypes.shape({
-            minimum_order_amount_reached: PropTypes.bool,
-            minimum_order_description: PropTypes.string
-        })
-    };
-
-    static defaultProps = {
-        minimumOrderAmount: {}
-    };
-
-    containerFunctions = {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.container.js
         onCheckoutButtonClick: this.onCheckoutButtonClick.bind(this),
         onCartItemLoading: this.onCartItemLoading.bind(this)
     };
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.container.tsx
     state: CartPageContainerState = {
-        isCartItemLoading: false
-=======
-    state = {
         areDetailsLoaded: false,
         isCartItemLoading: false,
         isInitialLoad: true
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.container.js
     };
 
     componentDidMount(): void {
@@ -226,17 +185,12 @@ export class CartPageContainer extends PureComponent {
         };
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.container.tsx
-    hasOutOfStockProductsInCartItems(items: IndexedCartItem[]): boolean {
-        return items.some(({ product }) => !getProductInStock(product as Partial<StockCheckProduct>));
-=======
-    toggleIsInitialLoad() {
+    toggleIsInitialLoad(): void {
         this.setState({ isInitialLoad: false });
     }
 
-    hasOutOfStockProductsInCartItems(items) {
-        return items.some(({ product }) => !getProductInStock(product));
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.container.js
+    hasOutOfStockProductsInCartItems(items: IndexedCartItem[]): boolean {
+        return items.some(({ product }) => !getProductInStock(product as Partial<StockCheckProduct>));
     }
 
     onCheckoutButtonClick(e: MouseEvent): void {
@@ -299,15 +253,9 @@ export class CartPageContainer extends PureComponent {
         updateBreadcrumbs(breadcrumbs);
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.container.tsx
     _changeHeaderState(): void {
-        const { changeHeaderState, totals: { items_qty = 0 } } = this.props;
-        const title = getItemsCountLabel(items_qty);
-=======
-    _changeHeaderState() {
-        const { changeHeaderState, totals: { total_quantity } } = this.props;
+        const { changeHeaderState, totals: { total_quantity = 0 } } = this.props;
         const title = getItemsCountLabel(total_quantity);
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.container.js
 
         changeHeaderState({
             name: Page.CART,
@@ -316,11 +264,7 @@ export class CartPageContainer extends PureComponent {
         });
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/route/CartPage/CartPage.container.tsx
-    _updateCrossSellProducts(): void {
-=======
-    async _updateCrossSellProducts() {
->>>>>>> scandipwa/master:packages/scandipwa/src/route/CartPage/CartPage.container.js
+    async _updateCrossSellProducts(): Promise<void> {
         const {
             updateCrossSellProducts,
             totals: {

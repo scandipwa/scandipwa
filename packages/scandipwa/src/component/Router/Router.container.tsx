@@ -5,11 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.container.tsx
  * @package scandipwa/scandipwa
-=======
- * @package scandipwa/scandipwa
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.container.js
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -19,13 +15,9 @@ import { Dispatch } from 'redux';
 
 import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.container.tsx
-import { ReactElement } from 'Type/Common.type';
-import { history } from 'Util/History';
-=======
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
-import { MetaTitleType } from 'Type/Common.type';
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.container.js
+import { MetaTitleType, ReactElement } from 'Type/Common.type';
+import { history } from 'Util/History';
 import {
     isMobile,
     isMobileClientHints,
@@ -34,13 +26,10 @@ import {
 import { RootState } from 'Util/Store/Store.type';
 
 import Router from './Router.component';
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.container.tsx
+import { URL_ONLY_MAIN_ITEMS_RENDER } from './Router.config';
 import {
     RouterComponentProps, RouterContainerMapDispatchProps, RouterContainerMapStateProps, RouterContainerProps
 } from './Router.type';
-=======
-import { URL_ONLY_MAIN_ITEMS_RENDER } from './Router.config';
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.container.js
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -106,30 +95,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispat
 });
 
 /** @namespace Component/Router/Container */
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.container.tsx
 export class RouterContainer extends PureComponent<RouterContainerProps> {
     static defaultProps: Partial<RouterContainerProps> = {
-=======
-export class RouterContainer extends PureComponent {
-    static propTypes = {
-        init: PropTypes.func.isRequired,
-        updateMeta: PropTypes.func.isRequired,
-        updateConfigDevice: PropTypes.func.isRequired,
-        setBigOfflineNotice: PropTypes.func.isRequired,
-        base_link_url: PropTypes.string,
-        default_description: PropTypes.string,
-        default_keywords: PropTypes.string,
-        default_title: PropTypes.string,
-        title_prefix: PropTypes.string,
-        title_suffix: PropTypes.string,
-        isLoading: PropTypes.bool,
-        isBigOffline: PropTypes.bool,
-        meta_title: MetaTitleType,
-        status_code: PropTypes.string
-    };
-
-    static defaultProps = {
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.container.js
         base_link_url: '',
         default_description: '',
         default_keywords: '',
@@ -153,12 +120,9 @@ export class RouterContainer extends PureComponent {
         this.initializeApplication();
         this.redirectFromPartialUrl();
         this.handleResize();
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.container.tsx
 
         this.handleResize = this.handleResize.bind(this);
-=======
         this.handleCheckIfOnlyMainItemsRender();
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.container.js
     }
 
     componentDidMount(): void {
@@ -232,10 +196,6 @@ export class RouterContainer extends PureComponent {
         }
     }
 
-<<<<<<< HEAD:packages/scandipwa/src/component/Router/Router.container.tsx
-    containerProps(): Pick<RouterComponentProps, 'isBigOffline'> {
-        const { isBigOffline } = this.props;
-=======
     handleCheckIfOnlyMainItemsRender() {
         const { pathname } = location;
 
@@ -254,10 +214,9 @@ export class RouterContainer extends PureComponent {
         this.setState({ isOnlyMainItems: true });
     }
 
-    containerProps() {
+    containerProps(): Pick<RouterComponentProps, 'isBigOffline'> {
         const { isBigOffline, setBigOfflineNotice } = this.props;
         const { isOnlyMainItems, currentUrl } = this.state;
->>>>>>> scandipwa/master:packages/scandipwa/src/component/Router/Router.container.js
 
         return {
             isBigOffline,

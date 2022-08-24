@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
+ * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -46,6 +46,7 @@ export interface PasswordChangePageContainerState {
 export interface PasswordChangePageComponentProps {
     isLoading: boolean;
     onPasswordSuccess: (form: HTMLFormElement, fields: FieldData[]) => void;
+    showNotification: (type: NotificationType, message: string) => void;
     onError: () => void;
     range: ValidationRule['range'];
     isMobile: boolean;
@@ -57,4 +58,5 @@ export type PasswordChangePageContainerPropsKeys = 'range'
 | 'isLoading'
 | 'isMobile'
 | 'minimunPasswordCharacter'
-| 'shouldDisplayWarning';
+| 'shouldDisplayWarning'
+| 'showNotification';

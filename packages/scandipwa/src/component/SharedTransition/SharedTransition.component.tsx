@@ -70,18 +70,12 @@ export class SharedTransition extends PureComponent<SharedTransitionComponentPro
         const { current: wrapper } = this.sharedContainer;
         const { cleanUpTransition } = this.props;
 
-<<<<<<< HEAD:packages/scandipwa/src/component/SharedTransition/SharedTransition.component.tsx
         if (wrapper) {
             const range = document.createRange();
+
             range.selectNodeContents(wrapper);
             range.deleteContents();
         }
-=======
-        const range = document.createRange();
-
-        range.selectNodeContents(wrapper);
-        range.deleteContents();
->>>>>>> scandipwa/master:packages/scandipwa/src/component/SharedTransition/SharedTransition.component.js
 
         this.transitionInAction = false;
         cleanUpTransition();

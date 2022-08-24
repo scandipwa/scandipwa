@@ -5,11 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
-<<<<<<< HEAD:packages/scandipwa/src/route/NoMatchHandler/NoMatchHandler.component.tsx
  * @package scandipwa/scandipwa
-=======
- * @package scandipwa/scandipwa
->>>>>>> scandipwa/master:packages/scandipwa/src/route/NoMatchHandler/NoMatchHandler.component.js
  * @link https://github.com/scandipwa/scandipwa
  */
 

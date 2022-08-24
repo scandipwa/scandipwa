@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
+ * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -44,28 +44,8 @@ export const mapStateToProps = (state: RootState): StoreInPickUpContainerMapStat
 });
 
 /** @namespace Component/StoreInPickUp/Container */
-<<<<<<< HEAD:packages/scandipwa/src/component/StoreInPickUp/StoreInPickUp.container.tsx
 export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainerProps> {
     static defaultProps: Partial<StoreInPickUpContainerProps> = {
-=======
-export class StoreInPickUpContainer extends PureComponent {
-    static propTypes = {
-        showPopup: PropTypes.func.isRequired,
-        estimateAddress: Addresstype.isRequired,
-        shippingMethods: ShippingMethodsType.isRequired,
-        onStoreSelect: PropTypes.func.isRequired,
-        onShippingMethodSelect: PropTypes.func.isRequired,
-        countryId: PropTypes.string.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func,
-        cartItemsSku: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
-        setPickUpStore: PropTypes.func.isRequired,
-        selectedStore: StoreType
-    };
-
-    static defaultProps = {
-        setSelectedShippingMethodCode: null,
->>>>>>> scandipwa/master:packages/scandipwa/src/component/StoreInPickUp/StoreInPickUp.container.js
         cartItemsSku: [],
         selectedStore: null
     };
