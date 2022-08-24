@@ -18,7 +18,6 @@ import ProductReviewList from 'Component/ProductReviewList';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { DeviceType } from 'Type/Device.type';
 import { ProductType } from 'Type/ProductList.type';
-import { RatingItemsType } from 'Type/Rating.type';
 import { showNewReviewPopup } from 'Util/Product';
 
 import './ProductReviews.style';
@@ -29,44 +28,8 @@ export class ProductReviews extends PureComponent {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         device: DeviceType.isRequired,
-        reviewRatings: RatingItemsType.isRequired
+        allReviewsHaveAllRatings: PropTypes.bool.isRequired
     };
-
-    allReviewsHaveAllRatings() {
-        const {
-            product: {
-                reviews
-            },
-            reviewRatings
-        } = this.props;
-
-        const ratingVotes = {};
-
-        reviews.forEach(({ rating_votes }) => {
-            rating_votes.forEach(({ rating_code }) => {
-                if (ratingVotes[rating_code]) {
-                    ratingVotes[rating_code]++;
-                } else {
-                    ratingVotes[rating_code] = 1;
-                }
-            });
-        });
-
-        if (reviewRatings.length !== Object.keys(ratingVotes).length) {
-            return false;
-        }
-
-        // eslint-disable-next-line fp/no-let
-        let allRatingsPresent = true;
-
-        reviewRatings.forEach(({ rating_code }) => {
-            if (ratingVotes[rating_code] !== reviews.length) {
-                allRatingsPresent = false;
-            }
-        });
-
-        return allRatingsPresent;
-    }
 
     renderButton() {
         return (
@@ -117,7 +80,8 @@ export class ProductReviews extends PureComponent {
                     rating_summary,
                     review_count
                 } = {}
-            }
+            },
+            allReviewsHaveAllRatings
         } = this.props;
 
         const STARS_COUNT = 5;
@@ -130,19 +94,17 @@ export class ProductReviews extends PureComponent {
             return this.renderNoRating();
         }
 
-        const isShowStars = this.allReviewsHaveAllRatings();
-
         return (
             <>
                 { this.renderRatingSchema(rating_summary, review_count) }
-                { isShowStars && (
+                { allReviewsHaveAllRatings && (
                     <ProductReviewRating
                       mix={ { block: 'ProductReviews', elem: 'SummaryRating' } }
                       summary={ rating_summary }
                     />
                 ) }
                 <p block="ProductReviews" elem="SummaryDetails">
-                    { isShowStars && (
+                    { allReviewsHaveAllRatings && (
                         <span block="ProductReviews" elem="Percent">{ percent }</span>
                     ) }
                     <span>{ __('%s review(s)', review_count || 0) }</span>

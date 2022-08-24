@@ -51,6 +51,42 @@ export class ProductReviewsContainer extends PureComponent {
         areDetailsLoaded: false
     };
 
+    allReviewsHaveAllRatings() {
+        const {
+            product: {
+                reviews
+            },
+            reviewRatings
+        } = this.props;
+
+        const ratingVotes = {};
+
+        reviews.forEach(({ rating_votes }) => {
+            rating_votes.forEach(({ rating_code }) => {
+                if (ratingVotes[rating_code]) {
+                    ratingVotes[rating_code]++;
+                } else {
+                    ratingVotes[rating_code] = 1;
+                }
+            });
+        });
+
+        if (reviewRatings.length !== Object.keys(ratingVotes).length) {
+            return false;
+        }
+
+        // eslint-disable-next-line fp/no-let
+        let allRatingsPresent = true;
+
+        reviewRatings.forEach(({ rating_code }) => {
+            if (ratingVotes[rating_code] !== reviews.length) {
+                allRatingsPresent = false;
+            }
+        });
+
+        return allRatingsPresent;
+    }
+
     containerProps() {
         const {
             areDetailsLoaded,
@@ -65,7 +101,8 @@ export class ProductReviewsContainer extends PureComponent {
             device,
             isEnabled,
             product,
-            reviewRatings
+            reviewRatings,
+            allReviewsHaveAllRatings: this.allReviewsHaveAllRatings()
         };
     }
 
