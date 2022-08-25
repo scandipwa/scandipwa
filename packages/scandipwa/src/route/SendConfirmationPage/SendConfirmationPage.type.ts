@@ -11,6 +11,7 @@
 
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
+import { FieldData } from 'Util/Form/Form.type';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SendConfirmationPageContainerMapStateProps {}
@@ -30,7 +31,7 @@ export interface SendConfirmationPageContainerProps extends SendConfirmationPage
     SendConfirmationPageContainerBaseProps {}
 
 export interface SendConfirmationPageContainerFunctions {
-    onConfirmSuccess: () => void;
+    onConfirmSuccess: (form: HTMLFormElement, fields: FieldData[]) => void;
     onFormError: () => void;
 }
 
@@ -46,3 +47,8 @@ export interface SendConfirmationPageComponentProps extends SendConfirmationPage
     isLoading: boolean;
     shouldDisplayWarning: boolean;
 }
+
+export type SendConfirmationPageContainerPropsKeys = 'email'
+| 'redirect'
+| 'isLoading'
+| 'shouldDisplayWarning';

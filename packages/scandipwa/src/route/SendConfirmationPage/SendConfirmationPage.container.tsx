@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -19,15 +18,19 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
+import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
 import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 import SendConfirmationPage from './SendConfirmationPage.component';
 import {
+    SendConfirmationPageComponentProps,
+    SendConfirmationPageContainerFunctions,
     SendConfirmationPageContainerMapDispatchProps,
     SendConfirmationPageContainerMapStateProps,
     SendConfirmationPageContainerProps,
+    SendConfirmationPageContainerPropsKeys,
     SendConfirmationPageContainerState
 } from './SendConfirmationPage.type';
 
@@ -58,14 +61,7 @@ export class SendConfirmationPageContainer extends PureComponent<
 SendConfirmationPageContainerProps,
 SendConfirmationPageContainerState
 > {
-    static propTypes = {
-        updateMeta: PropTypes.func.isRequired,
-        resendConfirmation: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        toggleBreadcrumbs: PropTypes.func.isRequired
-    };
-
-    containerFunctions = {
+    containerFunctions: SendConfirmationPageContainerFunctions = {
         onConfirmSuccess: this.onConfirmSuccess.bind(this),
         onFormError: this.onFormError.bind(this)
     };
@@ -87,7 +83,7 @@ SendConfirmationPageContainerState
         toggleBreadcrumbs(false);
     }
 
-    containerProps() {
+    containerProps(): Pick<SendConfirmationPageComponentProps, SendConfirmationPageContainerPropsKeys> {
         const { email, redirect, isLoading } = this.state;
 
         return {
@@ -109,7 +105,7 @@ SendConfirmationPageContainerState
         return !email;
     }
 
-    async onConfirmSuccess(form, fields): Promise<boolean> {
+    async onConfirmSuccess(form: HTMLFormElement, fields: FieldData[]): Promise<boolean> {
         const {
             showNotification,
             resendConfirmation
