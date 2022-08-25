@@ -59,34 +59,17 @@ export class ProductReviewsContainer extends PureComponent {
             reviewRatings
         } = this.props;
 
-        const ratingVotes = {};
-
-        reviews.forEach(({ rating_votes }) => {
-            rating_votes.forEach(({ rating_code }) => {
-                if (ratingVotes[rating_code]) {
-                    ratingVotes[rating_code]++;
-                } else {
-                    ratingVotes[rating_code] = 1;
-                }
-            });
-        });
-
-        if (reviewRatings.length !== Object.keys(ratingVotes).length) {
-            return false;
-        }
-
         if (reviewRatings.length === 0) {
             return false;
         }
 
-        // eslint-disable-next-line fp/no-let
-        let allRatingsPresent = true;
-
-        reviewRatings.forEach(({ rating_code }) => {
-            if (ratingVotes[rating_code] !== reviews.length) {
-                allRatingsPresent = false;
-            }
-        });
+        const allRatingsPresent = reviews.every(
+            ({ rating_votes }) => rating_votes.some(
+                ({ rating_code }) => reviewRatings.find(
+                    ({ rating_code: find_rating_code }) => find_rating_code === rating_code
+                )
+            )
+        );
 
         return allRatingsPresent;
     }
