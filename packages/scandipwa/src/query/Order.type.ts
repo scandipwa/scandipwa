@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -110,6 +110,7 @@ export interface ShipmentItemInterface {
     product_name: string;
     product_sku: string;
     product_sale_price: Money;
+    product_url_key: string;
 }
 
 export interface OrderShipment {
@@ -143,6 +144,7 @@ export interface RefundItem {
     order_item: OrderItemProduct;
     row_subtotal: Money;
     discounts: Discount[];
+    product_url_key: string;
 }
 
 export interface CreditMemo {
@@ -159,6 +161,7 @@ export interface InvoiceItem {
     product_name: string;
     product_sku: string;
     product_sale_price: Money;
+    product_url_key: string;
 }
 
 export interface Invoice {

@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import Link from 'Component/Link/Link.component';
 import {
-    ORDER_ACTION_LABELS, ORDER_ITEMS, ORDER_REFUNDS, ORDER_SHIPMENTS,
+    ORDER_ACTION_LABELS,
     OrderTabs
 } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import MyAccountOrderItemsTableRow from 'Component/MyAccountOrderItemsTableRow';
@@ -43,8 +43,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
     }
 
     renderItemRow(
-        product: OrderItemProduct | ShipmentItemInterface | InvoiceItem | RefundItem,
-        i: number
+        product: OrderItemProduct | ShipmentItemInterface | InvoiceItem | RefundItem
     ): ReactElement {
         const { activeTab, allOrderItems, items } = this.props;
         const { product_sku, product_url_key } = product;
@@ -65,7 +64,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
         );
     }
 
-    renderPrintAction() {
+    renderPrintAction(): ReactElement {
         const { activeTab, id, isPrintPage } = this.props;
 
         const { print: printLabel, printUrl } = ORDER_ACTION_LABELS[activeTab] || {};
@@ -86,7 +85,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
         );
     }
 
-    renderOrderTitleAndActions() {
+    renderOrderTitleAndActions(): ReactElement {
         const { activeTab, items: { number }, isMobile } = this.props;
 
         if (isMobile && activeTab === OrderTabs.ORDER_ITEMS) {

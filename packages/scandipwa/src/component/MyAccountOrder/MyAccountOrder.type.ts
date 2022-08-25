@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -40,15 +40,17 @@ export interface MyAccountOrderContainerFunctions {
     handleChangeActiveTab: (tab: OrderTabs) => void;
 }
 
-export type MyAccountOrderContainerProps = MyAccountOrderContainerMapStateProps
-& MyAccountOrderContainerMapDispatchProps
-& {
+export interface MyAccountOrderContainerBaseProps {
     match: match<{
         orderId?: string;
     }>;
     changeTabName: (newTabName: string) => void;
     setTabSubheading: (subHeading: string) => void;
-};
+}
+
+export type MyAccountOrderContainerProps = MyAccountOrderContainerMapStateProps
+& MyAccountOrderContainerMapDispatchProps
+& MyAccountOrderContainerBaseProps;
 
 export interface MyAccountOrderContainerState {
     order: Partial<OrderItem>;
@@ -68,6 +70,15 @@ export interface MyAccountOrderComponentProps {
     display_tax_in_shipping_amount: string;
     setTabSubheading: (subHeading: string) => void;
 }
+
+export type MyAccountOrderContainerPropsKeys = 'order'
+| 'isLoading'
+| 'activeTab'
+| 'display_tax_in_shipping_amount'
+| 'is_allowed_reorder'
+| 'rss_order_subscribe_allow'
+| 'setTabSubheading'
+| 'isMobile';
 
 export type OrderRenderItems = {
     items: OrderItemProduct[]; number: string;

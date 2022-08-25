@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-tdeme
- * @link https://gitdub.com/scandipwa/base-tdeme
+ * @package scandipwa/scandipwa-tdeme
+ * @link https://gitdub.com/scandipwa/scandipwa-tdeme
  */
 
 import { PureComponent } from 'react';

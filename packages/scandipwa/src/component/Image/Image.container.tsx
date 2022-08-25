@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 
 import { IMAGE_HUNDRED_PERCENT } from 'Component/Image/Image.config';
 import { ReactElement } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import Image from './Image.component';
 import {

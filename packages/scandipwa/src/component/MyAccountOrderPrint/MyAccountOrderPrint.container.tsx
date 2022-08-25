@@ -10,24 +10,34 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps as sourceMapStateToProps,
     MyAccountOrderContainer
 } from 'Component/MyAccountOrder/MyAccountOrder.container';
-import { ACCOUNT_ORDER_HISTORY } from 'Route/MyAccount/MyAccount.config';
+import { OrderItem } from 'Query/Order.type';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
-import { OrderPrintMapType } from 'Type/Order.type';
+import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
+import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountOrderPrint from './MyAccountOrderPrint.component';
+import {
+    MyAccountOrderPrintComponentProps,
+    MyAccountOrderPrintContainerMapDispatchProps,
+    MyAccountOrderPrintContainerMapStateProps,
+    MyAccountOrderPrintContainerProps,
+    MyAccountOrderPrintContainerPropsKeys,
+    MyAccountOrderPrintContainerState
+} from './MyAccountOrderPrint.type';
 
 /** @namespace Component/MyAccountOrderPrint/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: RootState): MyAccountOrderPrintContainerMapStateProps => ({
     ...sourceMapStateToProps(state),
     logo_src: state.ConfigReducer.header_logo_src,
     logo_alt: state.ConfigReducer.logo_alt,
@@ -37,37 +47,31 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/MyAccountOrderPrint/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderPrintContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
     updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 /** @namespace Component/MyAccountOrderPrint/Container */
-export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
-    static propTypes = {
-        ...MyAccountOrderContainer.propTypes,
-        orderPrintRequest: PropTypes.string.isRequired,
-        updateMeta: PropTypes.func.isRequired,
-        orderPrintMap: PropTypes.shape(OrderPrintMapType).isRequired
-    };
-
+export class MyAccountOrderPrintContainer extends MyAccountOrderContainer<
+MyAccountOrderPrintContainerProps,
+MyAccountOrderPrintContainerState
+> {
     containerFunctions = {
         ...MyAccountOrderContainer.containerFunctions,
         onLogoLoad: this.onLogoLoad.bind(this)
     };
 
-    state = {
+    state: MyAccountOrderPrintContainerState = {
         ...MyAccountOrderContainer.state,
         isLogoLoaded: false
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.requestOrderPrintDetails();
     }
 
-    componentWillUnmount() {}
-
-    async requestOrderPrintDetails() {
+    async requestOrderPrintDetails(): Promise<void> {
         const {
             match: {
                 params: {
@@ -85,16 +89,16 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
             return this.requestOrderDetails();
         }
 
-        const order = await request(invoiceId || shipmentId || refundId);
+        const order = await request(Number(invoiceId || shipmentId || refundId) || 0);
 
         if (!order) {
-            return history.push({ pathname: appendWithStoreCode(ACCOUNT_ORDER_HISTORY) });
+            return history.push({ pathname: appendWithStoreCode(AccountPageUrl.ORDER_HISTORY) });
         }
 
         return this.handleSetOrder(order);
     }
 
-    async requestOrderDetails() {
+    async requestOrderDetails(): Promise<void> {
         const {
             match: {
                 params: {
@@ -104,16 +108,16 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
             getOrderById
         } = this.props;
 
-        const order = await getOrderById(orderId);
+        const order = await getOrderById(Number(orderId));
 
         if (!order) {
-            return history.push({ pathname: appendWithStoreCode(ACCOUNT_ORDER_HISTORY) });
+            return history.push({ pathname: appendWithStoreCode(AccountPageUrl.ORDER_HISTORY) });
         }
 
         return this.handleSetOrder(order);
     }
 
-    handleSetOrder(order) {
+    handleSetOrder(order: OrderItem): void {
         const { updateMeta } = this.props;
         const { id: uid, increment_id, ...newOrder } = order;
 
@@ -121,11 +125,11 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
         this.setState({ order: { increment_id, id: atob(uid), ...newOrder }, isLoading: false });
     }
 
-    onLogoLoad() {
+    onLogoLoad(): void {
         this.setState({ isLogoLoaded: true });
     }
 
-    containerProps() {
+    containerProps(): Pick<MyAccountOrderPrintComponentProps, MyAccountOrderPrintContainerPropsKeys> {
         const {
             logo_alt,
             logo_src,
@@ -153,7 +157,7 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer {
         };
     }
 
-    render() {
+    render(): ReactElement {
         return (
             <MyAccountOrderPrint
               { ...this.containerFunctions }

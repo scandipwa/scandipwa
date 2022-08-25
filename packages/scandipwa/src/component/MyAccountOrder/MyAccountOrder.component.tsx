@@ -13,13 +13,13 @@ import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
+import { ORDER_ACTION_LABELS } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import MyAccountOrderInformation from 'Component/MyAccountOrderInformation';
 import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
 import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
-import { CreditMemo, OrderType } from 'Query/Order.type';
-import { ORDER_ACTION_LABELS } from 'Component/MyAccountOrder/MyAccountOrder.config';
+import { CreditMemo } from 'Query/Order.type';
+import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { ReactElement } from 'Type/Common.type';
-import { ACCOUNT_ORDER_PRINT_URL } from 'Route/MyAccount/MyAccount.config';
 import { noopFn } from 'Util/Common';
 import { convertStringToDate, getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 import { appendWithStoreCode } from 'Util/Url';
@@ -32,7 +32,9 @@ import { MyAccountOrderComponentProps, OrderRenderItems, OrderTab } from './MyAc
 import './MyAccountOrder.style';
 
 /** @namespace Component/MyAccountOrder/Component */
-export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> {
+export class MyAccountOrder<
+Props extends MyAccountOrderComponentProps = MyAccountOrderComponentProps
+> extends PureComponent<Props> {
     static defaultProps = {
         isLoading: true,
         handleReorder: noopFn,
@@ -138,7 +140,7 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
               items={ items }
               allOrderItems={ allOrderItems }
               total={ itemsTotal || orderTotal }
-              id={ activeTab === ORDER_ITEMS ? id : atob(itemId) }
+              id={ activeTab === OrderTabs.ORDER_ITEMS ? id : atob(itemId) }
             />
         );
     }
@@ -171,7 +173,7 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
         );
     }
 
-    renderPrintAllAction() {
+    renderPrintAllAction(): ReactElement {
         const { activeTab, order: { id } } = this.props;
 
         const { printAllUrl, printAll } = ORDER_ACTION_LABELS[activeTab] || {};
@@ -192,7 +194,7 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
         );
     }
 
-    renderActions() {
+    renderActions(): ReactElement {
         const {
             handleChangeActiveTab,
             activeTab
@@ -218,14 +220,14 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
         );
     }
 
-    renderPrintOrder() {
+    renderPrintOrder(): ReactElement {
         const { order: { id } } = this.props;
 
         return (
             <Link
               block="MyAccountOrder"
               elem="SubscribeToStatus"
-              to={ appendWithStoreCode(`${ACCOUNT_ORDER_PRINT_URL}/${id}`) }
+              to={ appendWithStoreCode(`${AccountPageUrl.ORDER_PRINT_URL}/${id}`) }
               isOpenInNewTab
             >
                 { __('Print Order') }
@@ -233,7 +235,7 @@ export class MyAccountOrder extends PureComponent<MyAccountOrderComponentProps> 
         );
     }
 
-    renderOrderComments() {
+    renderOrderComments(): ReactElement {
         const { activeTab, order: { comments = [] } } = this.props;
 
         if (activeTab !== OrderTabs.ORDER_ITEMS || !comments || !comments.length) {

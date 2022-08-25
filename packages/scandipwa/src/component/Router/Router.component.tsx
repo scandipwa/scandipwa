@@ -18,7 +18,6 @@ import {
     ErrorInfo,
     lazy,
     PureComponent,
-    ReactChild,
     Suspense
 } from 'react';
 import { Router as ReactRouter } from 'react-router';
@@ -28,13 +27,7 @@ import ErrorHandler from 'Component/ErrorHandler';
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 import {
-    PRINT_ALL_INVOICES,
-    PRINT_ALL_REFUNDS,
-    PRINT_ALL_SHIPMENT,
-    PRINT_INVOICE,
-    PRINT_ORDER as PRINT_ORDER_REQUEST,
-    PRINT_REFUND,
-    PRINT_SHIPMENT
+    PrintTypes
 } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
 import UrlRewrites from 'Route/UrlRewrites';
 import { MyAccountTabs } from 'Type/Account.type';
@@ -239,39 +232,39 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
             name: RouterSwitchItemType.STYLE_GUIDE
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/print/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_ORDER_REQUEST } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/print/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_ORDER } /> } />,
             position: 90,
-            name: PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/printInvoice/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_ALL_INVOICES } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/printInvoice/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_ALL_INVOICES } /> } />,
             position: 91,
-            name: PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/printShipment/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_ALL_SHIPMENT } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/printShipment/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_ALL_SHIPMENT } /> } />,
             position: 92,
-            name: PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_ALL_REFUNDS } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_ALL_REFUNDS } /> } />,
             position: 93,
-            name: PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/printInvoice/invoice_id/:invoiceId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_INVOICE } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/printInvoice/invoice_id/:invoiceId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_INVOICE } /> } />,
             position: 94,
-            name: PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/printShipment/shipment_id/:shipmentId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_SHIPMENT } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/printShipment/shipment_id/:shipmentId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_SHIPMENT } /> } />,
             position: 95,
-            name: PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/creditmemo_id/:refundId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_REFUND } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/creditmemo_id/:refundId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_REFUND } /> } />,
             position: 95,
-            name: PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER
         },
         {
             component: <Route render={ (props) => <UrlRewrites { ...props } /> } />,
@@ -367,7 +360,7 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
         );
     }
 
-    renderFallbackPage(showLoader = false) {
+    renderFallbackPage(showLoader = false): ReactElement {
         return (
             <main block="Router" elem="Loader">
                 { showLoader && <Loader isLoading /> }
@@ -375,7 +368,7 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
         );
     }
 
-    renderDefaultRouterContent() {
+    renderDefaultRouterContent(): ReactElement {
         const { isOnlyMainItems } = this.props;
         const { setBigOfflineNotice } = this.props;
 
@@ -388,7 +381,7 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
                     <div block="Router" elem="MainItems">
                         { this.renderMainItems() }
                     </div>
-                    { this.renderSectionOfType(AFTER_ITEMS_TYPE) }
+                    { this.renderSectionOfType(RouterItemType.AFTER_ITEMS_TYPE) }
             </ErrorHandler>
         );
     }
@@ -408,7 +401,7 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
             <>
                 <Meta />
                 <ReactRouter history={ history }>
-                    { this.renderSectionOfType(BEFORE_ITEMS_TYPE) }
+                    { this.renderSectionOfType(RouterItemType.BEFORE_ITEMS_TYPE) }
                     <Suspense fallback={ this.renderFallbackPage(true) }>
                         { this.renderRouterContent() }
                     </Suspense>

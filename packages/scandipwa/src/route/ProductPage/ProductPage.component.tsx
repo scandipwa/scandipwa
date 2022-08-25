@@ -6,7 +6,7 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/scandipwa
- * @link https://github.com/scandipwa/base-ProductReviewListtheme
+ * @link https://github.com/scandipwa/scandipwa-ProductReviewListtheme
  */
 
 import { lazy, PureComponent, Suspense } from 'react';

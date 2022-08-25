@@ -5,8 +5,8 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @package scandipwa/scandipwa-theme
+ * @link https://github.com/scandipwa/scandipwa-theme
  */
 
 export enum OrderTabs {
@@ -36,5 +36,6 @@ export const ORDER_ACTION_LABELS: Record<OrderTabs, Record<string, string>> = {
         printUrl: '/sales/order/printCreditmemo/creditmemo_id',
         printAll: __('Print All Refunds'),
         printAllUrl: '/sales/order/printCreditmemo/order_id'
-    }
+    },
+    [OrderTabs.ORDER_ITEMS]: {}
 };

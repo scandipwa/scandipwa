@@ -316,7 +316,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState
         }
 
         /*
-        ** if category wasn't changed we still need to update meta for correct robots meta tag [#928](https://github.com/scandipwa/base-theme/issues/928)
+        ** if category wasn't changed we still need to update meta for correct robots meta tag [#928](https://github.com/scandipwa/scandipwa-theme/issues/928)
         */
         if (!categoryChange
             && filter?.customFilters

@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -59,7 +59,7 @@ export type ConfigStore = StoreConfig & {
     isLoading: boolean;
     category_url_suffix: string;
     device: Device;
-    currency: string
+    currency: string;
 };
 
 declare module 'Util/Store/Store.type' {

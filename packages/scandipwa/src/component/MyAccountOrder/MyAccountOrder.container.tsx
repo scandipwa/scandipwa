@@ -34,6 +34,7 @@ import {
     MyAccountOrderContainerMapDispatchProps,
     MyAccountOrderContainerMapStateProps,
     MyAccountOrderContainerProps,
+    MyAccountOrderContainerPropsKeys,
     MyAccountOrderContainerState
 } from './MyAccountOrder.type';
 
@@ -64,18 +65,21 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderContainerM
 });
 
 /** @namespace Component/MyAccountOrder/Container */
-export class MyAccountOrderContainer extends PureComponent<MyAccountOrderContainerProps, MyAccountOrderContainerState> {
+export class MyAccountOrderContainer<
+Props extends MyAccountOrderContainerProps = MyAccountOrderContainerProps,
+State extends MyAccountOrderContainerState = MyAccountOrderContainerState
+> extends PureComponent<Props, State> {
     static defaultProps: Partial<MyAccountOrderContainerProps> = {
         is_allowed_reorder: false,
         changeTabName: noopFn,
         setTabSubheading: noopFn
     };
 
-    state: MyAccountOrderContainerState = {
+    state: State = {
         order: {},
         isLoading: true,
         activeTab: OrderTabs.ORDER_ITEMS
-    };
+    } as State;
 
     containerFunctions: MyAccountOrderContainerFunctions = {
         handleReorder: this.handleReorder.bind(this),
@@ -101,14 +105,7 @@ export class MyAccountOrderContainer extends PureComponent<MyAccountOrderContain
 
     containerProps(): Pick<
     MyAccountOrderComponentProps,
-    'order'
-    | 'isLoading'
-    | 'activeTab'
-    | 'display_tax_in_shipping_amount'
-    | 'is_allowed_reorder'
-    | 'rss_order_subscribe_allow'
-    | 'setTabSubheading'
-    | 'isMobile'
+    MyAccountOrderContainerPropsKeys
     > {
         const { order: stateOrder, isLoading, activeTab } = this.state;
         const {

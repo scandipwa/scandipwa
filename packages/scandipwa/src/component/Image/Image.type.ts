@@ -36,6 +36,7 @@ export interface ImageContainerProps {
     title: string;
     isPlain: boolean;
     showIsLoading: boolean;
+    onImageLoad: () => void;
 }
 
 export interface ImageComponentProps {
@@ -52,6 +53,7 @@ export interface ImageComponentProps {
     isPlain: boolean;
     showIsLoading: boolean;
     isCached: boolean;
+    onImageLoad: () => void;
 }
 
 export interface ImageComponentState {

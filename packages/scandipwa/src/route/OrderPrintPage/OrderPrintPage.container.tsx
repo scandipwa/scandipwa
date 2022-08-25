@@ -9,32 +9,24 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import {
-    ORDER_INVOICES,
-    ORDER_ITEMS,
-    ORDER_REFUNDS,
-    ORDER_SHIPMENTS
+    OrderTabs
 } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import {
-    PRINT_ALL_INVOICES,
-    PRINT_ALL_REFUNDS,
-    PRINT_ALL_SHIPMENT,
-    PRINT_INVOICE,
-    PRINT_ORDER,
-    PRINT_REFUND,
-    PRINT_SHIPMENT
+    PrintTypes
 } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { MatchType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import OrderPrintPage from './OrderPrintPage.component';
+import { OrderPrintMapItems, OrderPrintPageMapDispatchProps, OrderPrintPageMapStateProps } from './OrderPrintPage.type';
 
 export const OrderDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -42,7 +34,7 @@ export const OrderDispatcher = import(
 );
 
 /** @namespace Route/OrderPrintPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): OrderPrintPageMapDispatchProps => ({
     getOrderInvoice: (invoiceId) => OrderDispatcher.then(
         ({ default: dispatcher }) => dispatcher.getOrderInvoice(dispatch, invoiceId)
     ),
@@ -55,66 +47,58 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/OrderPrintPage/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (): OrderPrintPageMapStateProps => ({});
 
 /** @namespace Route/OrderPrintPage/Container */
 export class OrderPrintPageContainer extends PureComponent {
-    static propTypes = {
-        match: MatchType.isRequired,
-        orderPrintRequest: PropTypes.string.isRequired,
-        getOrderInvoice: PropTypes.func.isRequired,
-        getOrderShipment: PropTypes.func.isRequired,
-        getOrderRefund: PropTypes.func.isRequired
-    };
-
-    orderPrintMap = {
-        [PRINT_ORDER]: {
-            activeTab: ORDER_ITEMS
+    orderPrintMap: OrderPrintMapItems = {
+        [PrintTypes.PRINT_ORDER]: {
+            activeTab: OrderTabs.ORDER_ITEMS
         },
-        [PRINT_ALL_INVOICES]: {
-            activeTab: ORDER_INVOICES
+        [PrintTypes.PRINT_ALL_INVOICES]: {
+            activeTab: OrderTabs.ORDER_INVOICES
         },
-        [PRINT_ALL_SHIPMENT]: {
-            activeTab: ORDER_SHIPMENTS
+        [PrintTypes.PRINT_ALL_SHIPMENT]: {
+            activeTab: OrderTabs.ORDER_SHIPMENTS
         },
-        [PRINT_ALL_REFUNDS]: {
-            activeTab: ORDER_REFUNDS
+        [PrintTypes.PRINT_ALL_REFUNDS]: {
+            activeTab: OrderTabs.ORDER_REFUNDS
         },
-        [PRINT_INVOICE]: {
+        [PrintTypes.PRINT_INVOICE]: {
             request: (invoiceId) => this.requestOrderByInvoice(invoiceId),
-            activeTab: ORDER_INVOICES
+            activeTab: OrderTabs.ORDER_INVOICES
         },
-        [PRINT_SHIPMENT]: {
+        [PrintTypes.PRINT_SHIPMENT]: {
             request: (shipmentId) => this.requestOrderByShipment(shipmentId),
-            activeTab: ORDER_SHIPMENTS
+            activeTab: OrderTabs.ORDER_SHIPMENTS
         },
-        [PRINT_REFUND]: {
+        [PrintTypes.PRINT_REFUND]: {
             request: (refundId) => this.requestOrderByRefund(refundId),
-            activeTab: ORDER_REFUNDS
+            activeTab: OrderTabs.ORDER_REFUNDS
         }
     };
 
-    __construct(props) {
-        super.__construct(props);
+    __construct(props): void {
+        super.__construct?.(props);
 
         if (!isSignedIn()) {
             history.push({ pathname: appendWithStoreCode(AccountPageUrl.LOGIN_URL) });
         }
     }
 
-    async requestOrderByInvoice(invoiceId) {
+    async requestOrderByInvoice(invoiceId: number) {
         const { getOrderInvoice } = this.props;
 
         return getOrderInvoice(invoiceId);
     }
 
-    async requestOrderByShipment(shipmentId) {
+    async requestOrderByShipment(shipmentId: number) {
         const { getOrderShipment } = this.props;
 
         return getOrderShipment(shipmentId);
     }
 
-    async requestOrderByRefund(refundId) {
+    async requestOrderByRefund(refundId: number) {
         const { getOrderRefund } = this.props;
 
         return getOrderRefund(refundId);
@@ -133,7 +117,7 @@ export class OrderPrintPageContainer extends PureComponent {
         };
     }
 
-    render() {
+    render(): ReactElement {
         return (
             <OrderPrintPage
               { ...this.containerProps() }

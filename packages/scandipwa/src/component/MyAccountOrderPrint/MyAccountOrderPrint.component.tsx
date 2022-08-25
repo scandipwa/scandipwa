@@ -15,23 +15,28 @@ import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import Logo from 'Component/Logo';
 import MyAccountOrder from 'Component/MyAccountOrder/MyAccountOrder.component';
-import { ORDER_ITEMS } from 'Component/MyAccountOrder/MyAccountOrder.config';
+import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
+import { OrderRenderItems } from 'Component/MyAccountOrder/MyAccountOrder.type';
 import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
+import { CreditMemo } from 'Query/Order.type';
+import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
 import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
 
+import { MyAccountOrderPrintComponentProps } from './MyAccountOrderPrint.type';
+
 import './MyAccountOrderPrint.style';
 
 /** @namespace Component/MyAccountOrderPrint/Component */
-export class MyAccountOrderPrint extends MyAccountOrder {
-    logoRef = createRef();
+export class MyAccountOrderPrint extends MyAccountOrder<MyAccountOrderPrintComponentProps> {
+    logoRef = createRef<HTMLDivElement>();
 
     state = {
         isPrintShown: false
     };
 
-    componentDidUpdate() {
+    componentDidUpdate(): void {
         const { order: { id } = {}, isLogoLoaded } = this.props;
         const { isPrintShown } = this.state;
 
@@ -40,12 +45,12 @@ export class MyAccountOrderPrint extends MyAccountOrder {
         }
     }
 
-    showPrint() {
+    showPrint(): void {
         this.setState({ isPrintShown: true });
         print();
     }
 
-    renderOrderIncrementIdAndStatus() {
+    renderOrderIncrementIdAndStatus(): ReactElement {
         const { order: { increment_id, status } } = this.props;
 
         return (
@@ -58,7 +63,7 @@ export class MyAccountOrderPrint extends MyAccountOrder {
         );
     }
 
-    renderOrderItemsTable(items, index) {
+    renderOrderItemsTable(items: OrderRenderItems | CreditMemo, index: number): ReactElement {
         const { activeTab, order: { total: orderTotal, items: allOrderItems, id } } = this.props;
         const { total: itemsTotal, id: itemId } = items;
 
@@ -69,13 +74,13 @@ export class MyAccountOrderPrint extends MyAccountOrder {
               items={ items }
               allOrderItems={ allOrderItems }
               total={ itemsTotal || orderTotal }
-              id={ activeTab === ORDER_ITEMS ? id : atob(itemId) }
+              id={ activeTab === OrderTabs.ORDER_ITEMS ? id : atob(itemId) }
               isPrintPage
             />
         );
     }
 
-    renderLogoImage() {
+    renderLogoImage(): ReactElement {
         const {
             logo_src,
             logo_alt,
@@ -107,7 +112,7 @@ export class MyAccountOrderPrint extends MyAccountOrder {
         );
     }
 
-    renderCopyright() {
+    renderCopyright(): ReactElement {
         const { copyright } = this.props;
 
         return (
@@ -120,7 +125,7 @@ export class MyAccountOrderPrint extends MyAccountOrder {
         );
     }
 
-    renderContent() {
+    renderContent(): ReactElement {
         const { order: { items } } = this.props;
 
         if (!items) {
@@ -139,7 +144,7 @@ export class MyAccountOrderPrint extends MyAccountOrder {
         );
     }
 
-    render() {
+    render(): ReactElement {
         const { isLoading } = this.props;
 
         return (

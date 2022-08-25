@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
+ * @package scandipwa/scandipwa-theme
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -27,6 +27,8 @@ export type MyAccountOrderItemsTableContainerProps = MyAccountOrderItemsTableCon
     items: OrderRenderItems | CreditMemo;
     total: OrderTotal;
     allOrderItems: OrderItemProduct[];
+    isPrintPage: boolean;
+    id: number;
 };
 
 export interface MyAccountOrderItemsTableComponentProps {
@@ -35,10 +37,14 @@ export interface MyAccountOrderItemsTableComponentProps {
     items: OrderRenderItems | CreditMemo;
     total: OrderTotal;
     allOrderItems: OrderItemProduct[];
+    id: number;
+    isPrintPage: boolean;
 }
 
 export type MyAccountOrderItemsTableComponentPropsKeys = 'isMobile'
 | 'items'
 | 'activeTab'
 | 'total'
-| 'allOrderItems';
+| 'allOrderItems'
+| 'id'
+| 'isPrintPage';
