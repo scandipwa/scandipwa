@@ -54,7 +54,7 @@ export class ProductReviewsContainer extends PureComponent {
     allReviewsHaveAllRatings() {
         const {
             product: {
-                reviews
+                reviews = []
             },
             reviewRatings
         } = this.props;
