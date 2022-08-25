@@ -146,6 +146,8 @@ export const handleReferenceCompletions = (
         // ^^^ Get one before
     );
 
+    // TODO: make these work better (completion does not always work)
+
     if (
         !completionNode
         || !completionNode.parent
