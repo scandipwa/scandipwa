@@ -114,7 +114,7 @@ export interface ShipmentItemInterface {
 }
 
 export interface OrderShipment {
-    id: number;
+    id: string;
     number: string;
     comments: SalesCommentItem[];
     tracking: ShipmentTracking[];
@@ -148,7 +148,7 @@ export interface RefundItem {
 }
 
 export interface CreditMemo {
-    id: number;
+    id: string;
     number: string;
     comments: SalesCommentItem[];
     items: RefundItem[];
@@ -165,7 +165,7 @@ export interface InvoiceItem {
 }
 
 export interface Invoice {
-    id: number;
+    id: string;
     number: string;
     comments: SalesCommentItem[];
     items: InvoiceItem[];

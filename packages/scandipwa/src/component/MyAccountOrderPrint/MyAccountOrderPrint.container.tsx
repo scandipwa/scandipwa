@@ -10,6 +10,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -29,6 +30,7 @@ import { appendWithStoreCode } from 'Util/Url';
 import MyAccountOrderPrint from './MyAccountOrderPrint.component';
 import {
     MyAccountOrderPrintComponentProps,
+    MyAccountOrderPrintContainerFunctions,
     MyAccountOrderPrintContainerMapDispatchProps,
     MyAccountOrderPrintContainerMapStateProps,
     MyAccountOrderPrintContainerProps,
@@ -57,13 +59,13 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer<
 MyAccountOrderPrintContainerProps,
 MyAccountOrderPrintContainerState
 > {
-    containerFunctions = {
-        ...MyAccountOrderContainer.containerFunctions,
+    containerFunctions: MyAccountOrderPrintContainerFunctions = {
+        ...this.containerFunctions,
         onLogoLoad: this.onLogoLoad.bind(this)
     };
 
     state: MyAccountOrderPrintContainerState = {
-        ...MyAccountOrderContainer.state,
+        ...this.state,
         isLogoLoaded: false
     };
 
@@ -167,4 +169,9 @@ MyAccountOrderPrintContainerState
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountOrderPrintContainer);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(
+    MyAccountOrderPrintContainer as unknown as ComponentType<MyAccountOrderPrintContainerProps>
+);

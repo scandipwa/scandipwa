@@ -18,8 +18,9 @@ import MyAccountOrder from 'Component/MyAccountOrder/MyAccountOrder.component';
 import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { OrderRenderItems } from 'Component/MyAccountOrder/MyAccountOrder.type';
 import MyAccountOrderItemsTable from 'Component/MyAccountOrderItemsTable';
-import { CreditMemo } from 'Query/Order.type';
+import { CreditMemo, Invoice } from 'Query/Order.type';
 import { ReactElement } from 'Type/Common.type';
+import { decodeBase64 } from 'Util/Base64';
 import CSS from 'Util/CSS';
 import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
@@ -65,7 +66,7 @@ export class MyAccountOrderPrint extends MyAccountOrder<MyAccountOrderPrintCompo
 
     renderOrderItemsTable(items: OrderRenderItems | CreditMemo, index: number): ReactElement {
         const { activeTab, order: { total: orderTotal, items: allOrderItems, id } } = this.props;
-        const { total: itemsTotal, id: itemId } = items;
+        const { total: itemsTotal, id: itemId } = items as CreditMemo | Invoice;
 
         return (
             <MyAccountOrderItemsTable
@@ -74,7 +75,7 @@ export class MyAccountOrderPrint extends MyAccountOrder<MyAccountOrderPrintCompo
               items={ items }
               allOrderItems={ allOrderItems }
               total={ itemsTotal || orderTotal }
-              id={ activeTab === OrderTabs.ORDER_ITEMS ? id : atob(itemId) }
+              id={ Number(activeTab === OrderTabs.ORDER_ITEMS ? id : decodeBase64(itemId)) }
               isPrintPage
             />
         );

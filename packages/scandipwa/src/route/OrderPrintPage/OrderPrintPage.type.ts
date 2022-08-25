@@ -9,26 +9,51 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { match } from 'react-router';
+
 import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { PrintTypes } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
+import { OrderItem } from 'Query/Order.type';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface OrderPrintPageMapStateProps {}
+export interface OrderPrintPageContainerMapStateProps {}
 
-export interface OrderPrintPageMapDispatchProps {
-    getOrderInvoice: (invoiceId: number) => any;
-    getOrderShipment: (shipmentId: number) => any;
-    getOrderRefund: (refundId: number) => any;
+export interface OrderPrintPageContainerMapDispatchProps {
+    getOrderInvoice: (invoiceId: number) => Promise<OrderItem | null>;
+    getOrderShipment: (shipmentId: number) => Promise<OrderItem | null>;
+    getOrderRefund: (refundId: number) => Promise<OrderItem | null>;
 }
 
-export interface OrderPrintPageBaseProps {
-    match;
-    orderPrintRequest;
+export interface OrderPrintPageContainerBaseProps {
+    match: match<{
+        invoiceId?: string;
+        shipmentId?: string;
+        refundId?: string;
+    }>;
+    orderPrintRequest: PrintTypes;
 }
+
+export interface OrderPrintPageContainerProps extends OrderPrintPageContainerMapStateProps,
+    OrderPrintPageContainerMapDispatchProps,
+    OrderPrintPageContainerBaseProps {}
+
+export interface OrderPrintPageComponentProps {
+    match: match<{
+        invoiceId?: string;
+        shipmentId?: string;
+        refundId?: string;
+    }>;
+    orderPrintRequest: PrintTypes;
+    orderPrintMap: OrderPrintMapItems;
+}
+
+export type OrderPrintPageContainerPropsKeys = 'match'
+| 'orderPrintRequest'
+| 'orderPrintMap';
 
 export interface OrderPrintMapItem {
     activeTab: OrderTabs;
-    request?: (id: number) => Promise<any>;
+    request?: (id: number) => Promise<OrderItem | null>;
 }
 
 export type OrderPrintMapItems = Record<PrintTypes, OrderPrintMapItem>;

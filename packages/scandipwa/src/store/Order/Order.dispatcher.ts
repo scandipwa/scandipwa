@@ -19,6 +19,7 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
 import { NetworkError } from 'Type/Common.type';
 import { getAuthorizationToken } from 'Util/Auth';
+import { decodeBase64 } from 'Util/Base64';
 import history from 'Util/History';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -56,6 +57,7 @@ export class OrderDispatcher {
         } = await this.handleReorderMutation(dispatch, incrementId) || {};
 
         const cartDispatcher = (await CartDispatcher).default;
+
         cartDispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken());
 
         history.push(appendWithStoreCode(CART_URL));
@@ -75,6 +77,7 @@ export class OrderDispatcher {
             return fetchMutation(OrderQuery.getReorder(incrementId));
         } catch (error) {
             dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError | NetworkError[])));
+
             return null;
         }
     }
@@ -97,13 +100,17 @@ export class OrderDispatcher {
         }
     }
 
-    async getOrderInvoice(dispatch: Dispatch, invoiceId: string) {
+    async getOrderInvoice(dispatch: Dispatch, invoiceId: number): Promise<OrderItem | null> {
         try {
             const {
                 orderByInvoice
             } = await fetchQuery(OrderQuery.getOrderByInvoice(invoiceId));
 
-            const invoice = orderByInvoice.invoices.find(({ id }) => atob(id) === invoiceId);
+            const invoice = orderByInvoice.invoices.find(({ id }) => Number(decodeBase64(id)) === invoiceId);
+
+            if (!invoice) {
+                return null;
+            }
 
             orderByInvoice.invoices = [invoice];
 
@@ -115,13 +122,17 @@ export class OrderDispatcher {
         }
     }
 
-    async getOrderShipment(dispatch: Dispatch, shipmentId: : number) {
+    async getOrderShipment(dispatch: Dispatch, shipmentId: number): Promise<OrderItem | null> {
         try {
             const {
                 orderByShipment
             } = await fetchQuery(OrderQuery.getOrderByShipment(shipmentId));
 
-            const shipment = orderByShipment.shipments.find(({ id }) => atob(id) === shipmentId);
+            const shipment = orderByShipment.shipments.find(({ id }) => Number(decodeBase64(id)) === shipmentId);
+
+            if (!shipment) {
+                return null;
+            }
 
             orderByShipment.shipments = [shipment];
 
@@ -133,13 +144,17 @@ export class OrderDispatcher {
         }
     }
 
-    async getOrderRefund(dispatch: Dispatch, refundId: : number) {
+    async getOrderRefund(dispatch: Dispatch, refundId: number): Promise<OrderItem | null> {
         try {
             const {
                 orderByRefund
             } = await fetchQuery(OrderQuery.getOrderByRefund(refundId));
 
-            const refund = orderByRefund.credit_memos.find(({ id }) => atob(id) === refundId);
+            const refund = orderByRefund.credit_memos.find(({ id }) => Number(decodeBase64(id)) === refundId);
+
+            if (!refund) {
+                return null;
+            }
 
             orderByRefund.credit_memos = [refund];
 

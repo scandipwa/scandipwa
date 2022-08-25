@@ -75,7 +75,7 @@ State extends MyAccountOrderContainerState = MyAccountOrderContainerState
         setTabSubheading: noopFn
     };
 
-    state: State = {
+    public state: State = {
         order: {},
         isLoading: true,
         activeTab: OrderTabs.ORDER_ITEMS

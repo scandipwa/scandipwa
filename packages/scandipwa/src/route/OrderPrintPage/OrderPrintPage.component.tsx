@@ -9,34 +9,27 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import MyAccountOrderPrint from 'Component/MyAccountOrderPrint';
-import { OrderPrintMapType } from 'Type/Order.type';
-import { MatchType } from 'Type/Router.type';
+import { ReactElement } from 'Type/Common.type';
 
 import { ORDER_PRINT_PAGE_BODY_CLS } from './OrderPrintPage.config';
+import { OrderPrintPageComponentProps } from './OrderPrintPage.type';
 
 import './OrderPrintPage.style';
 
 /** @namespace Route/OrderPrintPage/Component */
-export class OrderPrintPage extends PureComponent {
-    static propTypes = {
-        match: MatchType.isRequired,
-        orderPrintRequest: PropTypes.string.isRequired,
-        orderPrintMap: PropTypes.shape(OrderPrintMapType).isRequired
-    };
-
-    componentDidMount() {
+export class OrderPrintPage extends PureComponent<OrderPrintPageComponentProps> {
+    componentDidMount(): void {
         document.body.classList.add(ORDER_PRINT_PAGE_BODY_CLS);
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         document.body.classList.remove(ORDER_PRINT_PAGE_BODY_CLS);
     }
 
-    render() {
+    render(): ReactElement {
         const { match, orderPrintRequest, orderPrintMap } = this.props;
 
         return (

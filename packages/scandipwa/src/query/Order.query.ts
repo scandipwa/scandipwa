@@ -53,31 +53,31 @@ export class OrderQuery {
             .addField(this._getReorderField());
     }
 
-    getSubscribeToOrderStatus(incrementId) {
-        return new Field('subscribeToOrderStatus')
-            .addArgument('orderNumber', 'String!', incrementId)
-            .addFieldList(this._getSubscribeToOrderStatusOutputFields());
-    }
+    // getSubscribeToOrderStatus(incrementId: string) {
+    //     return new Field('subscribeToOrderStatus')
+    //         .addArgument('orderNumber', 'String!', incrementId)
+    //         .addFieldList(this._getSubscribeToOrderStatusOutputFields());
+    // }
 
     getOrderListQuery(options: Partial<OrdersOptions>): Query<'customer', { orders: CustomerOrders }> {
         return new Query<'customer', { orders: CustomerOrders }>('customer')
             .addFieldList(this._getOrderListFields(options));
     }
 
-    getOrderByInvoice(invoiceId) {
-        return new Field('orderByInvoice')
+    getOrderByInvoice(invoiceId: number): Query<'orderByInvoice', OrderItem, true> {
+        return new Query<'orderByInvoice', OrderItem, true>('orderByInvoice')
             .addArgument('invoiceId', 'Int!', invoiceId)
             .addFieldList(this._getOrderItemsFields(true));
     }
 
-    getOrderByShipment(shipmentId) {
-        return new Field('orderByShipment')
+    getOrderByShipment(shipmentId: number): Query<'orderByShipment', OrderItem, true> {
+        return new Query<'orderByShipment', OrderItem, true>('orderByShipment')
             .addArgument('shipmentId', 'Int!', shipmentId)
             .addFieldList(this._getOrderItemsFields(true));
     }
 
-    getOrderByRefund(refundId) {
-        return new Field('orderByRefund')
+    getOrderByRefund(refundId: number): Query<'orderByRefund', OrderItem, true> {
+        return new Query<'orderByRefund', OrderItem, true>('orderByRefund')
             .addArgument('refundId', 'Int!', refundId)
             .addFieldList(this._getOrderItemsFields(true));
     }
