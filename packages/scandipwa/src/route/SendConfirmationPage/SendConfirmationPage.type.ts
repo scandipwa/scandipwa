@@ -1,0 +1,48 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
+ */
+
+import { PageMeta } from 'Store/Meta/Meta.type';
+import { NotificationType } from 'Store/Notification/Notification.type';
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SendConfirmationPageContainerMapStateProps {}
+
+export interface SendConfirmationPageContainerMapDispatchProps {
+    toggleBreadcrumbs: (isVisible: boolean) => void;
+    updateMeta: (meta: Partial<PageMeta>) => void;
+    resendConfirmation: (options: { email: string }) => Promise<boolean>;
+    showNotification: (type: NotificationType, message: string) => void;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SendConfirmationPageContainerBaseProps {}
+
+export interface SendConfirmationPageContainerProps extends SendConfirmationPageContainerMapStateProps,
+    SendConfirmationPageContainerMapDispatchProps,
+    SendConfirmationPageContainerBaseProps {}
+
+export interface SendConfirmationPageContainerFunctions {
+    onConfirmSuccess: () => void;
+    onFormError: () => void;
+}
+
+export interface SendConfirmationPageContainerState {
+    email: string;
+    redirect: boolean;
+    isLoading: boolean;
+}
+
+export interface SendConfirmationPageComponentProps extends SendConfirmationPageContainerFunctions {
+    email: string;
+    redirect: boolean;
+    isLoading: boolean;
+    shouldDisplayWarning: boolean;
+}

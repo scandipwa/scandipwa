@@ -12,15 +12,24 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { NotificationType } from 'Store/Notification/Notification.type';
+import { NetworkError, ReactElement } from 'Type/Common.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
 import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 import SendConfirmationPage from './SendConfirmationPage.component';
+import {
+    SendConfirmationPageContainerMapDispatchProps,
+    SendConfirmationPageContainerMapStateProps,
+    SendConfirmationPageContainerProps,
+    SendConfirmationPageContainerState
+} from './SendConfirmationPage.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -32,10 +41,10 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Route/SendConfirmationPage/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (): SendConfirmationPageContainerMapStateProps => ({});
 
 /** @namespace Route/SendConfirmationPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch): SendConfirmationPageContainerMapDispatchProps => ({
     toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     resendConfirmation: (options) => MyAccountDispatcher.then(
@@ -45,7 +54,10 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/SendConfirmationPage/Container */
-export class SendConfirmationPageContainer extends PureComponent {
+export class SendConfirmationPageContainer extends PureComponent<
+SendConfirmationPageContainerProps,
+SendConfirmationPageContainerState
+> {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
         resendConfirmation: PropTypes.func.isRequired,
@@ -58,8 +70,8 @@ export class SendConfirmationPageContainer extends PureComponent {
         onFormError: this.onFormError.bind(this)
     };
 
-    __construct(props) {
-        super.__construct(props);
+    __construct(props: SendConfirmationPageContainerProps): void {
+        super.__construct?.(props);
 
         this.state = {
             email: '',
@@ -68,7 +80,7 @@ export class SendConfirmationPageContainer extends PureComponent {
         };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { updateMeta, toggleBreadcrumbs } = this.props;
 
         updateMeta({ title: __('Send confirmation link') });
@@ -86,7 +98,7 @@ export class SendConfirmationPageContainer extends PureComponent {
         };
     }
 
-    shouldDisplayWarning() {
+    shouldDisplayWarning(): boolean {
         const { location: { search } } = history;
         const { email } = convertQueryStringToKeyValuePairs(search);
 
@@ -97,7 +109,7 @@ export class SendConfirmationPageContainer extends PureComponent {
         return !email;
     }
 
-    async onConfirmSuccess(form, fields) {
+    async onConfirmSuccess(form, fields): Promise<boolean> {
         const {
             showNotification,
             resendConfirmation
@@ -112,7 +124,7 @@ export class SendConfirmationPageContainer extends PureComponent {
 
             this.setState({ redirect: data });
         } catch (error) {
-            showNotification('error', error.message);
+            showNotification(NotificationType.ERROR, (error as NetworkError).message);
 
             return false;
         } finally {
@@ -122,11 +134,11 @@ export class SendConfirmationPageContainer extends PureComponent {
         return true;
     }
 
-    onFormError() {
+    onFormError(): void {
         this.setState({ isLoading: false });
     }
 
-    render() {
+    render(): ReactElement {
         return (
             <SendConfirmationPage
               { ...this.containerProps() }

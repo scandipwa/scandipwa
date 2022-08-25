@@ -113,11 +113,10 @@ export class MyAccountQuery {
         id: number,
         options: GQLCustomerAddressInput
     ): Mutation<'updateCustomerAddress', CustomerAddress> {
-        const { customer, password, orderID } = options;
-
-        return new Field('createCustomer')
-            .addArgument('input', 'CustomerInput!', { ...customer, password, orderID })
-            .addField(this._getCustomerField());
+        return new Mutation<'updateCustomerAddress', CustomerAddress>('updateCustomerAddress')
+            .addArgument('id', 'Int!', id)
+            .addArgument('input', 'CustomerAddressInput!', options)
+            .addFieldList(this._getAddressFields());
     }
 
     getCreateAccountMutation(options: CreateAccountOptions): Mutation<'createCustomer', { customer: Customer }> {
@@ -128,17 +127,17 @@ export class MyAccountQuery {
             .addField(this._getCustomerField());
     }
 
-    getResendConfirmationMutation(options) {
+    getResendConfirmationMutation(options: { email: string }): Mutation<'resendConfirmationEmail', { status: string }> {
         const { email } = options;
 
-        return new Field('resendConfirmationEmail')
+        return new Mutation<'resendConfirmationEmail', { status: string }>('resendConfirmationEmail')
             .addArgument('email', 'String!', email)
             .addFieldList(this._getResendConfirmationFields());
     }
 
-    _getResendConfirmationFields() {
+    _getResendConfirmationFields(): Array<Field<'status', string>> {
         return [
-            'status'
+            new Field<'status', string>('status')
         ];
     }
 

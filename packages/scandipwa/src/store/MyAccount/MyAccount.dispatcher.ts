@@ -49,7 +49,6 @@ import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation, getErrorMessage } from 'Util/Request';
 
 import { UpdateCustomerPasswordForgotStatusAction, UpdateCustomerPasswordResetStatusAction } from './MyAccount.type';
-import { NetworkError } from 'Type/Common.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -203,9 +202,10 @@ export class MyAccountDispatcher {
             const { createCustomer: { customer } } = data;
             const { confirmation_required } = customer;
 
+            sessionStorage.setItem(ORDER_ID, '');
+
             if (confirmation_required) {
                 dispatch(updateIsLoading(false));
-                sessionStorage.setItem(ORDER_ID, '');
 
                 if (confirmation_required) {
                     dispatch(updateIsLoading(false));
@@ -213,31 +213,24 @@ export class MyAccountDispatcher {
                     return CONFIRMATION_REQUIRED;
                 }
 
-                return this.signIn({ email, password }, dispatch);
-            }
-
-            /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/createAccount/fetchMutation/then/catch */
-            (error: NetworkError) => {
-                dispatch(updateIsLoading(false));
-                dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
-
-                return false;
+                return await this.signIn({ email, password }, dispatch);
             }
 
             return await this.signIn({ email, password }, dispatch);
         } catch (error) {
             dispatch(updateIsLoading(false));
             dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as Error)));
+
             return false;
         }
     }
 
     /**
      * Resend confirmation email
-     * @param {{email: String}} [options={}]
+     * @param {{email: String}}
      * @memberof MyAccountDispatcher
      */
-    async resendConfirmation(options = {}, dispatch: Dispatch) {
+    async resendConfirmation(options: { email: string }, dispatch: Dispatch): Promise<boolean> {
         const mutation = MyAccountQuery.getResendConfirmationMutation(options);
 
         try {
@@ -250,7 +243,10 @@ export class MyAccountDispatcher {
 
                 return false;
             case SendConfirmationStatus.CONFIRMATION_SENT:
-                dispatch(showNotification(NotificationType.SUCCESS, __('Please check your email for confirmation key.')));
+                dispatch(showNotification(
+                    NotificationType.SUCCESS,
+                    __('Please check your email for confirmation key.')
+                ));
 
                 return true;
             case SendConfirmationStatus.WRONG_EMAIL:
@@ -258,9 +254,9 @@ export class MyAccountDispatcher {
 
                 history.push(`${ AccountPageUrl.CONFIRMATION_URL }/?email=${ email }`);
 
-                throw __('Wrong email! Please, try again!');
+                throw new Error(__('Wrong email! Please, try again!'));
             default:
-                throw __('Something went wrong! Please, try again!');
+                throw new Error(__('Something went wrong! Please, try again!'));
             }
         } catch (error) {
             throw new Error(error as string);

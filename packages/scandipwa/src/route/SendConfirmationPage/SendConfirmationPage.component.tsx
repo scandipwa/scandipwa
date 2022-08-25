@@ -9,36 +9,25 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { Redirect } from 'react-router';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Field from 'Component/Field';
-import FIELD_TYPE from 'Component/Field/Field.config';
+import { FieldType } from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
+import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
-import { VALIDATION_INPUT_TYPE } from 'Util/Validator/Config';
+import { ValidationInputTypeInput } from 'Util/Validator/Config';
+
+import { SendConfirmationPageComponentProps } from './SendConfirmationPage.type';
 
 import './SendConfirmationPage.style';
 
 /** @namespace Route/SendConfirmationPage/Component */
-export class SendConfirmationPage extends PureComponent {
-    static propTypes = {
-        email: PropTypes.string,
-        redirect: PropTypes.bool.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        shouldDisplayWarning: PropTypes.bool.isRequired,
-        onConfirmSuccess: PropTypes.func.isRequired,
-        onFormError: PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
-        email: ''
-    };
-
-    renderWarningMessage() {
+export class SendConfirmationPage extends PureComponent<SendConfirmationPageComponentProps> {
+    renderWarningMessage(): ReactElement {
         const { shouldDisplayWarning } = this.props;
 
         if (!shouldDisplayWarning) {
@@ -57,7 +46,7 @@ export class SendConfirmationPage extends PureComponent {
         );
     }
 
-    renderForm() {
+    renderForm(): ReactElement {
         const {
             email,
             onConfirmSuccess,
@@ -72,7 +61,7 @@ export class SendConfirmationPage extends PureComponent {
               onError={ onFormError }
             >
                 <Field
-                  type={ FIELD_TYPE.email }
+                  type={ FieldType.EMAIL }
                   label={ __('Email') }
                   attr={ {
                       id: 'email',
@@ -83,7 +72,7 @@ export class SendConfirmationPage extends PureComponent {
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: VALIDATION_INPUT_TYPE.email
+                      inputType: ValidationInputTypeInput.EMAIL
                   } }
                   addRequiredTag
                 />
@@ -98,7 +87,7 @@ export class SendConfirmationPage extends PureComponent {
         );
     }
 
-    renderPageContents() {
+    renderPageContents(): ReactElement {
         const { shouldDisplayWarning } = this.props;
 
         if (shouldDisplayWarning) {
@@ -118,7 +107,7 @@ export class SendConfirmationPage extends PureComponent {
         );
     }
 
-    render() {
+    render(): ReactElement {
         const {
             redirect,
             isLoading

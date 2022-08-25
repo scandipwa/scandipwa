@@ -190,6 +190,7 @@
             }
         ],
         "rules": {
+            "@typescript-eslint/default-param-last": "off",
             "@typescript-eslint/no-shadow": "off",
             "@typescript-eslint/space-before-blocks": "off",
             "@scandipwa/scandipwa-guidelines/no-jsx-variables": "off",
