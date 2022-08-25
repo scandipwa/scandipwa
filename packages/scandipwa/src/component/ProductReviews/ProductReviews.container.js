@@ -61,8 +61,6 @@ export class ProductReviewsContainer extends PureComponent {
 
         const ratingVotes = {};
 
-        console.log('****', reviewRatings);
-
         reviews.forEach(({ rating_votes }) => {
             rating_votes.forEach(({ rating_code }) => {
                 if (ratingVotes[rating_code]) {
