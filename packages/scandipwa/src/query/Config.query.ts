@@ -17,7 +17,6 @@ import { getCartId } from 'Util/Cart';
 
 import {
     CheckoutAgreement,
-    Currency,
     CurrencyConfig,
     PriceTaxDisplay,
     StoreConfig,

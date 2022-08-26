@@ -92,6 +92,7 @@ export const clearCacheFor = (fn: any): void => {
     }
 
     const { name } = fn;
+
     (fromCache as unknown as CacheMap).cache[name] = {};
 };
 

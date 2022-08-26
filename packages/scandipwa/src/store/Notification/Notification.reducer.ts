@@ -33,6 +33,7 @@ export const NotificationReducer: Reducer<NotificationStore, NotificationAction>
     switch (action.type) {
     case NotificationActionType.SHOW_NOTIFICATION:
         const { msgType = NotificationType.INFO, msgText = '', msgDebug } = action;
+
         notifications[Date.now()] = { msgType, msgText, msgDebug };
 
         return {

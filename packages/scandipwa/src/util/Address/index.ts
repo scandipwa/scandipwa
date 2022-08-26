@@ -15,9 +15,9 @@ import { Country, Region } from 'Query/Region.type';
 import { Store } from 'Query/StoreInPickUp.type';
 import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
 import { GQLCountryCodeEnum, GQLCustomerAddressInput } from 'Type/Graphql.type';
+import getStore from 'Util/Store';
 
 import { CountryOption, FormattedRegion, ZippopotamResponseResult } from './Address.type';
-import getStore from 'Util/Store';
 
 /** @namespace Util/Address/Index/trimCustomerAddress */
 export const trimCustomerAddress = (customerAddress: Partial<CustomerAddress>): GQLCustomerAddressInput => {

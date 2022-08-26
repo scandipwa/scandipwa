@@ -37,7 +37,7 @@ export const setAuthorizationToken = (token: string | null): void => {
         } = state.ConfigReducer;
 
         const tokens = BrowserDatabase.getItem(AUTH_TOKEN) || {};
-        const { exp } = jwtDecode<{exp: number}>(token) || {};
+        const { exp } = jwtDecode<{ exp: number }>(token) || {};
 
         tokens[ website_code ] = { token, exp: exp * MILLISECONDS_IN_SECOND };
         BrowserDatabase.setItem(tokens, AUTH_TOKEN, Number(access_token_lifetime) * ONE_HOUR_IN_SECONDS);

@@ -14,12 +14,8 @@ import { PureComponent } from 'react';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import { ProductAttributeShape } from 'Component/ProductAttributeValue/ProductAttributeValue.type';
 import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
-import {
-    BIG_PLACEHOLDER_CONFIG,
-    SMALL_PLACEHOLDER_CONFIG
-} from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
-import { MixType, ReactElement } from 'Type/Common.type';
-import { AttributesType } from 'Type/ProductList.type';
+import { SMALL_PLACEHOLDER_CONFIG } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
+import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import {

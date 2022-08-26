@@ -28,6 +28,7 @@ export const getWindowId = (): string => {
 
     if (!result) {
         const id = String(Date.now());
+
         sessionStorage.setItem(WINDOW_ID, id);
 
         return id;
@@ -222,7 +223,12 @@ export type QueryVariables = Record<string, string>;
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/executeGet
  */
-export const executeGet = <T>(queryObject: QueryObject, name: string, cacheTTL: number, signal?: AbortSignal): Promise<T> => {
+export const executeGet = <T>(
+    queryObject: QueryObject,
+    name: string,
+    cacheTTL: number,
+    signal?: AbortSignal
+): Promise<T> => {
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, getGraphqlEndpoint());
 
@@ -231,7 +237,7 @@ export const executeGet = <T>(queryObject: QueryObject, name: string, cacheTTL: 
         refreshUid();
     }
 
-    return parseResponse(new Promise((resolve, reject): void  => {
+    return parseResponse(new Promise((resolve, reject): void => {
         getFetch(uri, name, signal).then(
             /** @namespace Util/Request/executeGet/parseResponse/getFetch/then */
             (res) => {

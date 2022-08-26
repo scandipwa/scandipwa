@@ -126,23 +126,7 @@ MyAccountAddressPopupContainerState
         return this.handleCreateAddress(address);
     }
 
-    async handleEditAddress(address: GQLCustomerAddressInput, operation): Promise<void> {
-        const { showSuccessNotification, showErrorNotification } = this.props;
-        const message = __('You %s the address', operation).toString();
-
-        switch (status) {
-        case 'success':
-            showSuccessNotification(message);
-            break;
-        case 'error':
-            showErrorNotification(message);
-            break;
-        default:
-            break;
-        }
-    }
-
-    async handleEditAddress(address) {
+    async handleEditAddress(address): Promise<void> {
         const { payload: { address: { id } } } = this.props;
 
         const query = MyAccountQuery.getUpdateAddressMutation(id, address);

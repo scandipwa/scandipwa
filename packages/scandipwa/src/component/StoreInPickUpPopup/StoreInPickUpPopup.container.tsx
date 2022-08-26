@@ -18,7 +18,7 @@ import { ShippingMethod } from 'Query/Checkout.type';
 import StoreInPickUpQuery from 'Query/StoreInPickUp.query';
 import { Store } from 'Query/StoreInPickUp.type';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
@@ -47,12 +47,17 @@ export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpPopupContai
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     clearPickUpStore: () => dispatch(clearPickUpStore()),
-    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
+    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(
+        NavigationType.TOP_NAVIGATION_TYPE,
+        state
+    ))
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): StoreInPickUpPopupContainerMapStateProps => ({
-    navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+    navigationState: state.NavigationReducer[
+        NavigationType.TOP_NAVIGATION_TYPE
+    ].navigationState,
     countries: transformCountriesToOptions(state.ConfigReducer.countries),
     defaultCountry: state.ConfigReducer.default_country,
     selectedStore: state.StoreInPickUpReducer.store

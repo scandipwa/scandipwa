@@ -127,7 +127,7 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
         });
     }
 
-    updateStepURL(isMounting = false) {
+    updateStepURL(isMounting = false): void {
         const { checkoutStep, isCartLoading } = this.props;
         const { url } = this.stepMap[checkoutStep];
         const { location: { pathname = '' } } = history;
@@ -141,7 +141,7 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
         }
     }
 
-    updateStep() {
+    updateStep(): void {
         this.updateStepURL();
         scrollToTop({ behavior: 'smooth' });
     }
@@ -328,7 +328,7 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
         return <Loader isLoading={ isLoading } />;
     }
 
-    renderFullPageLoader() {
+    renderFullPageLoader(): ReactElement {
         return (
             <main block="Checkout" elem="FullPageLoader">
                 <Loader isLoading />
@@ -343,7 +343,6 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
             isMobile
         } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
-        const { renderPromo } = this.renderPromo(true) || {};
 
         if (!areTotalsVisible
             || (showOnMobile && !isMobile)
@@ -442,10 +441,10 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
         );
     }
 
-    render() {
+    render(): ReactElement {
         const { totals, checkoutStep } = this.props;
 
-        if (totals.items.length < 1 && checkoutStep !== DETAILS_STEP) {
+        if (totals.items.length < 1 && checkoutStep !== CheckoutSteps.DETAILS_STEP) {
             return this.renderFullPageLoader();
         }
 

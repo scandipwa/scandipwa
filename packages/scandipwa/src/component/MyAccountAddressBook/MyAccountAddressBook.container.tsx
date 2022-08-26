@@ -51,7 +51,7 @@ export class MyAccountAddressBookContainer extends PureComponent<MyAccountAddres
     }
 
     containerProps(): Pick<MyAccountAddressBookComponentProps, 'customer'> {
-        const { customer, showPopup } = this.props;
+        const { customer } = this.props;
 
         return { customer };
     }

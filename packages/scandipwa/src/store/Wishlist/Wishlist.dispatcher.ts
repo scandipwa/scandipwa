@@ -21,6 +21,7 @@ import {
     updateAllProductsInWishlist,
     updateIsLoading
 } from 'Store/Wishlist/Wishlist.action';
+import { NetworkError } from 'Type/Common.type';
 import { GQLWishlistItemInput, GQLWishlistItemUpdateInput } from 'Type/Graphql.type';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
@@ -29,7 +30,6 @@ import { RootState } from 'Util/Store/Store.type';
 import { getPriceRange } from 'Util/Wishlist';
 
 import { ClearWishlistAction, WishlistProduct } from './Wishlist.type';
-import { NetworkError } from 'Type/Common.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -149,7 +149,10 @@ export class WishlistDispatcher {
 
             if (user_errors.length > 0) {
                 user_errors.map(({ message }: NetworkError) => dispatch(
-                    showNotification(NotificationType.ERROR, __('We can`t add the item to Wishlist right now: %s', message).toString())
+                    showNotification(
+                        NotificationType.ERROR,
+                        __('We can`t add the item to Wishlist right now: %s', message).toString()
+                    )
                 ));
             } else {
                 dispatch(showNotification(NotificationType.SUCCESS, __('Product added to wish-list!')));

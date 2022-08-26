@@ -19,7 +19,6 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import MyAccountSignIn from 'Component/MyAccountSignIn';
 import { ReactElement } from 'Type/Common.type';
-import { noopFn } from 'Util/Common';
 
 import checkoutGuestForm from './CheckoutGuestForm.form';
 import { CheckoutGuestFormComponentProps, CheckoutGuestFormRenderMapItem } from './CheckoutGuestForm.type';

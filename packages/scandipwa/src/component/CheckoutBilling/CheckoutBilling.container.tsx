@@ -213,7 +213,7 @@ CheckoutBillingContainerState
         scrollToError(fields, validation);
     }
 
-    onBillingSuccess(form: HTMLFormElement, fields: FieldData[], asyncData): void {
+    onBillingSuccess(form: HTMLFormElement, fields: FieldData[]): void {
         const { savePaymentInformation, onChangeEmailRequired } = this.props;
 
         const extractedFields = transformToNameValuePair<Record<string, unknown>>(fields);

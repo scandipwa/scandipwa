@@ -18,6 +18,7 @@ import { GQLContactForm } from 'Type/Graphql.type';
 export class ContactFormQuery {
     getSendContactFormMutation(options: GQLContactForm): Mutation<'contactForm', NetworkError> {
         const mutation = new Mutation<'contactForm', NetworkError>('contactForm');
+
         this._addSendContactFormMutationArguments(mutation, options);
         mutation.addFieldList(this._getSendContactFormMutationResponse());
 

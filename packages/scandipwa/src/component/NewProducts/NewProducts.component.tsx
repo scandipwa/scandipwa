@@ -54,6 +54,7 @@ export class NewProducts extends Component<NewProductsComponentProps> {
 
     setStyles(): void {
         const { productsPerPage } = this.props;
+
         CSS.setVariable(this.newProductsRef, 'new-products-per-page-count', productsPerPage);
     }
 

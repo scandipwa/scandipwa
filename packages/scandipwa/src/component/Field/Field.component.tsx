@@ -19,7 +19,7 @@ import {
 } from 'react';
 
 import FieldFile from 'Component/FieldFile';
-import { FieldNumberWithControlsContainer } from 'Component/FieldNumberWithControls/FieldNumberWithControls.container';
+import FieldNumberWithControls from 'Component/FieldNumberWithControls';
 import FieldSelectContainer from 'Component/FieldSelect/FieldSelect.container';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
@@ -121,7 +121,7 @@ export class Field extends PureComponent<FieldComponentProps> {
         } = this.props;
 
         return (
-            <FieldNumberWithControlsContainer
+            <FieldNumberWithControls
               value={ value }
               attr={ attr as InputHTMLAttributes<HTMLInputElement> }
               events={ events as Omit<FieldEvents, 'onChange'> & FieldNumberCustomEvents }

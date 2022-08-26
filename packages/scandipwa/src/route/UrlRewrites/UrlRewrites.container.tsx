@@ -14,8 +14,8 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { ReactElement } from 'Type/Common.type';
-import { RootState } from 'Util/Store/Store.type';
 import history from 'Util/History';
+import { RootState } from 'Util/Store/Store.type';
 
 import UrlRewrites from './UrlRewrites.component';
 import {
@@ -71,7 +71,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
 
     initialUrl = '';
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.requestUrlRewrite();
 
         this.initialUrl = location.pathname;

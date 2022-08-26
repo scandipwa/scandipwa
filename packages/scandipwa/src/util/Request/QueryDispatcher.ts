@@ -14,7 +14,6 @@ import { Query } from '@tilework/opus';
 import { Dispatch } from 'redux';
 
 import { NetworkError } from 'Type/Common.type';
-import { makeCancelable } from 'Util/Promise';
 import { CancelablePromise } from 'Util/Promise/Promise.type';
 import { prepareQuery } from 'Util/Query';
 import { executeGet, listenForBroadCast } from 'Util/Request/Request';

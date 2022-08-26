@@ -15,17 +15,18 @@ import CartQuery from 'Query/Cart.query';
 import { QuoteData, TotalsItem } from 'Query/Cart.type';
 import { ProductLink } from 'Query/ProductList.type';
 import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
+import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
-import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { getRegionIdOfRegionName } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { getCartId, setCartId } from 'Util/Cart';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 
 import { AddProductToCartOptions, UpdateProductInCartOptions } from './Cart.type';
+
 export const CURRENT_WEBSITE = 'base';
 
 export const LinkedProductsDispatcher = import(

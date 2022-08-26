@@ -9,9 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ComponentType, PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';

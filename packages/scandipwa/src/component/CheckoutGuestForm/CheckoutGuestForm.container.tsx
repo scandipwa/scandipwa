@@ -145,8 +145,7 @@ CheckoutGuestFormContainerState
             isEmailAvailable,
             onSignIn,
             minimunPasswordLength,
-            minimunPasswordCharacter,
-            isCreateUser
+            minimunPasswordCharacter
         } = this.props;
         const { isLoading, signInState } = this.state;
 

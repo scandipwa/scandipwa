@@ -11,7 +11,7 @@
 
 import { PureComponent } from 'react';
 
-import { MixType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { setQueryParams } from 'Util/Url';
 

@@ -101,9 +101,8 @@ export class UrlRewrites extends PureComponent<UrlRewritesComponentProps> {
         return <NoMatch />;
     }
 
-
     renderContent(): ReactElement {
-        const { props, type } = this.props;
+        const { type } = this.props;
 
         switch (type) {
         case UrlRewritePageType.PRODUCT:

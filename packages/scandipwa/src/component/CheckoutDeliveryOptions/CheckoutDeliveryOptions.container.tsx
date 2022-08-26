@@ -40,7 +40,11 @@ CheckoutDeliveryOptionsContainerState
 
     componentDidMount(): void {
         if (window.formPortalCollector) {
-            window.formPortalCollector.subscribe(CheckoutSteps.SHIPPING_STEP, this.collectAdditionalData, 'CheckoutDeliveryOptions');
+            window.formPortalCollector.subscribe(
+                CheckoutSteps.SHIPPING_STEP,
+                this.collectAdditionalData,
+                'CheckoutDeliveryOptions'
+            );
         }
     }
 

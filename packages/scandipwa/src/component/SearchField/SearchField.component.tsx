@@ -14,10 +14,8 @@ import {
     ChangeEvent,
     createRef,
     KeyboardEvent,
-    lazy,
     MouseEvent,
-    PureComponent,
-    Suspense
+    PureComponent
 } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';

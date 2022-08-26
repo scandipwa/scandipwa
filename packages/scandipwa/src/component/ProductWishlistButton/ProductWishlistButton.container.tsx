@@ -164,6 +164,7 @@ ProductWishlistButtonContainerState
 
     isDisabled(): boolean {
         const { isAddingWishlistItem } = this.props;
+
         return isAddingWishlistItem || !isSignedIn();
     }
 

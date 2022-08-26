@@ -55,3 +55,8 @@ export enum RouterAfterItemType {
     FOOTER = 'FOOTER',
     COOKIE_POPUP = 'COOKIE_POPUP'
 }
+
+export const URL_ONLY_MAIN_ITEMS_RENDER = [
+    '/sales/order/print',
+    '/styleguide'
+];

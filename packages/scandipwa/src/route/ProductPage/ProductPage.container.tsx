@@ -9,13 +9,12 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ComponentType, PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
-import { RouterComponentProps } from 'Component/Router/Router.type';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
@@ -23,8 +22,6 @@ import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import ProductReducer from 'Store/Product/Product.reducer';
 import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { ReactElement } from 'Type/Common.type';
-import { ProductType } from 'Type/ProductList.type';
-import { MatchType } from 'Type/Router.type';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
@@ -430,6 +427,7 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         const { attributes: activeAttr = {}, media_gallery_entries: activeMediaGallery = [] } = activeProduct;
 
         const attributes: Record<string, IndexedAttributeWithValue> = {};
+
         Object.keys(productAttr).forEach((attr) => {
             const { [ attr ]: { attribute_value: attrValue }, [ attr ]: currAttr } = productAttr;
             const { [ attr ]: { attribute_value: activeAttrValue = '' } = {} } = activeAttr;
@@ -516,6 +514,7 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
 
     updateNavigationState(): void {
         const { changeNavigationState } = this.props;
+
         changeNavigationState({ name: NavigationTabsMap.MENU_TAB });
     }
 

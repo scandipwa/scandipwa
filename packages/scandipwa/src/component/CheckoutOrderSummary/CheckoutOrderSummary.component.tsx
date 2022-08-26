@@ -100,7 +100,7 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
             }
         } = this.props;
 
-        if (!applied_rule_ids || !discount_amount) {
+        if (!applied_rule_ids) {
             return null;
         }
 

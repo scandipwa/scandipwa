@@ -16,7 +16,7 @@ import { Dispatch } from 'redux';
 import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
-import { MetaTitleType, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { history } from 'Util/History';
 import {
     isMobile,
@@ -196,7 +196,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps> {
         }
     }
 
-    handleCheckIfOnlyMainItemsRender() {
+    handleCheckIfOnlyMainItemsRender(): boolean {
         const { pathname } = location;
 
         if (URL_ONLY_MAIN_ITEMS_RENDER.find((url) => pathname.includes(url))) {
@@ -206,11 +206,11 @@ export class RouterContainer extends PureComponent<RouterContainerProps> {
         return false;
     }
 
-    setRenderAllItems() {
+    setRenderAllItems(): void {
         this.setState({ isOnlyMainItems: false });
     }
 
-    setRenderOnlyMainItems() {
+    setRenderOnlyMainItems(): void {
         this.setState({ isOnlyMainItems: true });
     }
 

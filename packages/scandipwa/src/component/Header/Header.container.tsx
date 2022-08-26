@@ -10,7 +10,7 @@
  */
 
 import { Location } from 'history';
-import { ChangeEvent, ComponentType, MouseEvent } from 'react';
+import { ChangeEvent, MouseEvent } from 'react';
 import { connect } from 'react-redux';
 
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';

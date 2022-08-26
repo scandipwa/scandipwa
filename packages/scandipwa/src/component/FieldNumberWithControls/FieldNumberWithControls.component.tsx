@@ -24,7 +24,7 @@ import './FieldNumberWithControls.style.scss';
 /**
  * Field Number With Controls
  * @class FieldNumberWithControls
- * @namespace Component/FieldNumberWithControls/FieldNumber/Component */
+ * @namespace Component/FieldNumberWithControls/Component */
 export class FieldNumberWithControls extends PureComponent<FieldNumberComponentProps> {
     render(): ReactElement {
         const {

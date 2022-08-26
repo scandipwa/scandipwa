@@ -18,7 +18,6 @@ import { updateCustomerPasswordForgotEmail } from 'Store/MyAccount/MyAccount.act
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
-import { FieldData } from 'Util/Form/Form.type';
 
 import MyAccountForgotPassword from './MyAccountForgotPassword.component';
 import {
@@ -75,7 +74,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent<MyAccountFor
         };
     }
 
-    async onForgotPasswordSuccess(form: HTMLFormElement, fields: FieldData[]): Promise<void> {
+    async onForgotPasswordSuccess(form: HTMLFormElement): Promise<void> {
         const {
             forgotPassword, setSignInState, setLoadingState, forgotPasswordEmail, isOverlayVisible
         } = this.props;
