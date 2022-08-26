@@ -74,7 +74,7 @@ export class PopupContainer extends PureComponent {
         contentMix: {},
         children: [],
         isStatic: false,
-        allowClickOutside: true
+        allowClickOutside: false
     };
 
     containerFunctions = {
