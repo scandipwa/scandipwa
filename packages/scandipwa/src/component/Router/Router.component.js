@@ -312,7 +312,7 @@ export class Router extends PureComponent {
             name: PRINT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/newsletter/subscriber/confirm/:id?/code/:code?') } render={ (props) => <ConfirmNewsletterPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/newsletter/subscriber/confirm/id/:id?/code/:code?') } render={ (props) => <ConfirmNewsletterPage { ...props } /> } />,
             position: 100,
             name: CONFIRM_NEWSLETTER
         },

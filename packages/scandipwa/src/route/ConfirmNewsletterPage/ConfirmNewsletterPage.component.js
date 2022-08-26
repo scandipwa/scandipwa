@@ -37,7 +37,7 @@ export class ConfirmNewsletterPage extends PureComponent {
         return (
             <div block="ConfirmNewsletterPage" elem="WarningMsg">
                 <h2>
-                    { __('Unable to confirm subscrabition') }
+                    { __('Unable to confirm subscription') }
                 </h2>
                 <div>
                     { message }

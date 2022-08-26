@@ -614,5 +614,7 @@
     "Confirm Newsletter Page": null,
     "Confirm subscription": null,
     "Unable to confirm subscrabition": null,
-    "Thank you for subscribing to our newsletter!": null
+    "Thank you for subscribing to our newsletter!": null,
+    "Error subscribing to newsletter!": null,
+    "Unable to confirm subscription": null
 }

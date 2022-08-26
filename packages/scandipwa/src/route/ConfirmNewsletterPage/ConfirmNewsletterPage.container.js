@@ -16,10 +16,12 @@ import { connect } from 'react-redux';
 import NewsletterSubscriptionQuery from 'Query/NewsletterSubscription.query';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { MatchType } from 'Type/Router.type';
 import { fetchMutation } from 'Util/Request';
 
 import ConfirmNewsletterPage from './ConfirmNewsletterPage.component';
+import { FAILED_STATUS } from './ConfirmNewsletterPage.config';
 
 /** @namespace Route/ConfirmNewsletterPage/Container/mapStateToProps */
 export const mapStateToProps = () => ({});
@@ -80,11 +82,16 @@ export class ConfirmNewsletterPageContainer extends PureComponent {
     async requestSubscriptionConfirmation() {
         const { match: { params: { id, code } } } = this.props;
 
-        const { confirmSubscribingToNewsletter: { status, message } } = await fetchMutation(
-            NewsletterSubscriptionQuery.confirmSubscribeToNewsletterMutation(id, code)
-        );
+        try {
+            const { confirmSubscribingToNewsletter: { status, message } } = await fetchMutation(
+                NewsletterSubscriptionQuery.confirmSubscribeToNewsletterMutation(id, code)
+            );
 
-        this.setState({ status, message });
+            this.setState({ status, message });
+        } catch (error) {
+            showNotification('error', __('Error subscribing to newsletter!'));
+            this.setState({ status: FAILED_STATUS, message: error[0].message });
+        }
     }
 
     render() {
