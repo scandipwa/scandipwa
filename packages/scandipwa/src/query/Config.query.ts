@@ -16,8 +16,12 @@ import { isSignedIn } from 'Util/Auth';
 import { getCartId } from 'Util/Cart';
 
 import {
+    AvailableCurrency,
     CheckoutAgreement,
     CurrencyConfig,
+    CurrencyData,
+    ExchangeRate,
+    ExchangeRates,
     PriceTaxDisplay,
     StoreConfig,
     StoreConfigFields,
@@ -36,42 +40,56 @@ export class ConfigQuery {
             .addFieldList(this._getCheckoutAgreementFields());
     }
 
-    getCurrencyData() {
-        return new Field('currencyData')
+    getCurrencyData(): Field<'currencyData', CurrencyData> {
+        return new Field<'currencyData', CurrencyData>('currencyData')
             .addFieldList([
                 this.getCurrencyFields(),
-                'current_currency_code'
+                new Field<'current_currency_code', string>('current_currency_code')
             ]);
     }
 
-    getCurrencyFields() {
-        return new Field('available_currencies_data')
+    getCurrencyFields(): Field<'available_currencies_data', AvailableCurrency, true> {
+        return new Field<'available_currencies_data', AvailableCurrency, true>('available_currencies_data')
             .addFieldList(this._getAvailableCurrenciesFields());
     }
 
-    _getAvailableCurrenciesFields() {
+    _getAvailableCurrenciesFields(): Array<
+    Field<'id', string>
+    | Field<'label', string>
+    | Field<'value', string>
+    > {
         return [
-            'id',
-            'label',
-            'value'
+            new Field<'id', string>('id'),
+            new Field<'label', string>('label'),
+            new Field<'value', string>('value')
         ];
     }
 
-    getCurrencyRates() {
-        return new Field('currency').addFieldList(this.getCurrencyRatesFields());
+    getCurrencyRates(): Field<'currency', ExchangeRates> {
+        return new Field<'currency', ExchangeRates>('currency').addFieldList(this.getCurrencyRatesFields());
     }
 
-    getCurrencyRatesFields() {
+    getCurrencyRatesFields(): Array<
+    Field<'base_currency_code', string>
+    | Field<'exchange_rates', ExchangeRate, true>
+    > {
         return [
-            'base_currency_code',
-            new Field('exchange_rates').addFieldList(this._getExchangeRatesFields())
+            new Field<'base_currency_code', string>('base_currency_code'),
+            new Field<
+            'exchange_rates',
+            ExchangeRate,
+            true
+            >('exchange_rates').addFieldList(this._getExchangeRatesFields())
         ];
     }
 
-    _getExchangeRatesFields() {
+    _getExchangeRatesFields(): Array<
+    Field<'currency_to', string>
+    | Field<'rate', string>
+    > {
         return [
-            'currency_to',
-            'rate'
+            new Field<'currency_to', string>('currency_to'),
+            new Field<'rate', string>('rate')
         ];
     }
 
@@ -86,7 +104,7 @@ export class ConfigQuery {
     getSaveSelectedCurrencyMutation(newCurrency: string): Mutation<'saveSelectedCurrency', {
         currencyData: CurrencyConfig;
     }> {
-        const query = new Field('saveSelectedCurrency')
+        const query = new Mutation<'saveSelectedCurrency', { currencyData: CurrencyData }>('saveSelectedCurrency')
             .addArgument('currency', 'String', newCurrency)
             .addFieldList([
                 this.getCurrencyData()
@@ -99,14 +117,6 @@ export class ConfigQuery {
         }
 
         return query;
-    }
-
-    _getCurrencyDataField(): Field<'currencyData', CurrencyConfig> {
-        return new Field<'currencyData', CurrencyConfig>('currencyData')
-            .addFieldList([
-                this.getCurrencyField(),
-                new Field<'current_currency_code', string>('current_currency_code')
-            ]);
     }
 
     _getCheckoutAgreementFields(): Array<

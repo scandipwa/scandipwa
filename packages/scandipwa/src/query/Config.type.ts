@@ -176,3 +176,24 @@ export interface CheckoutAgreement {
     mode: GQLCheckoutAgreementMode;
     name: string;
 }
+
+export interface AvailableCurrency {
+    id: string;
+    label: string;
+    value: string;
+}
+
+export interface CurrencyData {
+    available_currencies_data: AvailableCurrency[];
+    current_currency_code: string;
+}
+
+export interface ExchangeRate {
+    currency_to: string;
+    rate: string;
+}
+
+export interface ExchangeRates {
+    base_currency_code: string;
+    exchange_rates: ExchangeRate[];
+}
