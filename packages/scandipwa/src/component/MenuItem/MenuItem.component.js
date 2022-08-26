@@ -66,13 +66,14 @@ export class MenuItem extends PureComponent {
     }
 
     renderItemContent(item, itemMods) {
-        const { title } = item;
+        const { item_class = '', title } = item;
 
         return (
             <figcaption
               block="Menu"
               elem="ItemCaption"
               mods={ itemMods }
+              mix={ { block: item_class } }
             >
                 { title }
                 { this.renderExpandButton() }

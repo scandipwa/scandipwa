@@ -106,7 +106,7 @@ export class CartItem extends PureComponent {
             item: {
                 customizable_options,
                 bundle_options,
-                downloadable_links
+                links
             } = {}
         } = this.props;
 
@@ -117,7 +117,7 @@ export class CartItem extends PureComponent {
                 { this.renderProductConfigurations() }
                 { this.renderProductOptions(customizable_options) }
                 { this.renderProductBundleOptions(bundle_options) }
-                { this.renderProductLinks(downloadable_links) }
+                { this.renderProductLinks(links) }
             </div>
         );
     }
@@ -181,7 +181,7 @@ export class CartItem extends PureComponent {
     }
 
     renderProductOptionLabel(option) {
-        const { label, values = [] } = option;
+        const { label, title, values = [] } = option;
 
         if (Array.isArray(values) && values.length > 0) {
             return (
@@ -194,7 +194,7 @@ export class CartItem extends PureComponent {
             );
         }
 
-        return label;
+        return label || title;
     }
 
     renderBundleProductOptionValue(value, index) {
@@ -339,8 +339,14 @@ export class CartItem extends PureComponent {
         const {
             currency_code,
             item: {
-                row_total,
-                row_total_incl_tax
+                prices: {
+                    row_total: {
+                        value: row_total = 0
+                    } = {},
+                    row_total_including_tax: {
+                        value: row_total_incl_tax = 0
+                    } = {}
+                } = {}
             },
             isCartOverlay,
             isMobileLayout
@@ -382,7 +388,7 @@ export class CartItem extends PureComponent {
         const {
             item: {
                 sku,
-                qty,
+                quantity,
                 product: {
                     stock_item: {
                         qty_increments: qtyIncrement = 1
@@ -416,12 +422,12 @@ export class CartItem extends PureComponent {
                   attr={ {
                       id: `${sku}_item_qty`,
                       name: `${sku}_item_qty`,
-                      defaultValue: qty,
+                      defaultValue: quantity,
                       min: minSaleQuantity,
                       max: maxSaleQuantity,
                       step: qtyIncrement
                   } }
-                  value={ qty }
+                  value={ quantity }
                   events={ {
                       onChange: handleChangeQuantity
                   } }
@@ -509,14 +515,14 @@ export class CartItem extends PureComponent {
     }
 
     renderQuantity() {
-        const { item: { qty } } = this.props;
+        const { item: { quantity } } = this.props;
 
         return (
             <p
               block="CartItem"
               elem="Quantity"
             >
-                { __('Quantity: %s', qty) }
+                { __('Quantity: %s', quantity) }
             </p>
         );
     }

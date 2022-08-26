@@ -55,8 +55,10 @@ export class CartPage extends PureComponent {
     renderCartItems() {
         const {
             totals: {
-                items,
-                quote_currency_code
+                items = [],
+                prices: {
+                    quote_currency_code = ''
+                } = {}
             },
             onCartItemLoading,
             isInitialLoad
@@ -102,7 +104,12 @@ export class CartPage extends PureComponent {
 
     renderDiscountCode() {
         const {
-            totals: { coupon_code, items }
+            totals: {
+                items = [],
+                prices: {
+                    coupon_code
+                } = {}
+            }
         } = this.props;
 
         if (!items || items.length < 1) {
@@ -168,7 +175,7 @@ export class CartPage extends PureComponent {
         return (
             <CheckoutOrderSummary
               totals={ totals }
-                // eslint-disable-next-line react/jsx-no-bind
+              // eslint-disable-next-line react/jsx-no-bind
               renderCmsBlock={ () => this.renderPromo(true) }
               onCouponCodeUpdate={ onCouponCodeUpdate }
               showItems={ false }
@@ -269,12 +276,15 @@ export class CartPage extends PureComponent {
     }
 
     renderMobile() {
+        const { totals: { items = [] } } = this.props;
+        const isShowTotals = items.length > 0;
+
         return (
             <div block="CartPage" elem="Static">
                 { this.renderHeading() }
                 { this.renderCartItems() }
                 <div block="CartPage" elem="Floating">
-                    { this.renderTotals() }
+                    { isShowTotals && this.renderTotals() }
                 </div>
                 { this.renderDiscountCode() }
                 { this.renderPromo() }

@@ -115,10 +115,18 @@ export class ProductPriceContainer extends PureComponent {
             const prices = tierPrices.map(({ final_price: { value = 0 } = {} }) => value);
             const minPrice = Math.min(...prices);
 
-            return formatPrice(minPrice, currency);
+            return {
+                currency,
+                value: minPrice,
+                valueFormatted: formatPrice(minPrice, currency)
+            };
         }
 
-        return '';
+        return {
+            currency,
+            value: '',
+            valueFormatted: ''
+        };
     }
 
     render() {
