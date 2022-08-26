@@ -89,7 +89,7 @@ export class MyAccountDispatcher {
 
                 dispatch(updateIsLocked(false));
                 dispatch(updateCustomerDetails(customer));
-                BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS, true);
+                BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then/catch */
             (error) => {
@@ -122,7 +122,7 @@ export class MyAccountDispatcher {
         }
 
         deleteCartId();
-        BrowserDatabase.deleteItem(CUSTOMER, true);
+        BrowserDatabase.deleteItem(CUSTOMER);
         removeUid();
 
         dispatch(updateCustomerSignInStatus(false));
@@ -336,7 +336,7 @@ export class MyAccountDispatcher {
             return;
         }
 
-        BrowserDatabase.deleteItem(CUSTOMER, true);
+        BrowserDatabase.deleteItem(CUSTOMER);
         CartDispatcher.then(
             ({ default: dispatcher }) => dispatcher.resetGuestCart(dispatch)
         );

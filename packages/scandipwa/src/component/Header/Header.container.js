@@ -248,7 +248,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     getUserName() {
-        const { firstname } = BrowserDatabase.getItem(CUSTOMER, true) || {};
+        const { firstname } = BrowserDatabase.getItem(CUSTOMER) || {};
 
         return firstname;
     }

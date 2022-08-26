@@ -1,3 +1,6 @@
+import { CUSTOMER } from '../../store/MyAccount/MyAccount.dispatcher';
+import { AUTH_TOKEN } from '../Auth/Token';
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -15,6 +18,13 @@ export const WEBSITE_STORAGE = 'storage_per_website';
 export const GLOBAL_STORAGE = 'storage_global';
 
 const { website_code, customer_account_share } = window;
+
+/*  Keys which depend on customer_account_share option
+    whether they'll be saved in global or shared storage. */
+export const KEYS_DEPEND_ON_SHARING = {
+    [CUSTOMER]: true,
+    [AUTH_TOKEN]: true
+};
 
 /** @namespace Util/BrowserDatabase/LocalStorageDriver */
 export class LocalStorageDriver {
@@ -57,20 +67,30 @@ export class LocalStorageDriver {
         };
     }
 
-    getItem(location, dependsOnSharing) {
+    getItem(location) {
+        const dependsOnSharing = this.dependsOnSharing(location);
+
         const { storage, path } = this.getSiteStorage(dependsOnSharing);
 
         return JSON.stringify(storage[path][location]) || null;
     }
 
-    setItem(location, data, dependsOnSharing) {
+    setItem(location, data) {
+        const dependsOnSharing = this.dependsOnSharing(location);
+
         const { storage, destination, path } = this.getSiteStorage(dependsOnSharing);
 
         this.updateStorage(storage, destination, path, location, data);
     }
 
-    removeItem(location, dependsOnSharing) {
+    removeItem(location) {
+        const dependsOnSharing = this.dependsOnSharing(location);
+
         this.setItem(location, 'null', dependsOnSharing);
+    }
+
+    dependsOnSharing(key) {
+        return KEYS_DEPEND_ON_SHARING[key];
     }
 }
 

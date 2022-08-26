@@ -40,15 +40,15 @@ export const setAuthorizationToken = (token) => {
 
     const tokenWithExp = { token, exp: exp * MILLISECONDS_IN_SECOND };
 
-    BrowserDatabase.setItem(tokenWithExp, AUTH_TOKEN, access_token_lifetime * ONE_HOUR_IN_SECONDS, true);
+    BrowserDatabase.setItem(tokenWithExp, AUTH_TOKEN, access_token_lifetime * ONE_HOUR_IN_SECONDS);
 };
 
 /** @namespace Util/Auth/Token/deleteAuthorizationToken */
-export const deleteAuthorizationToken = () => BrowserDatabase.deleteItem(AUTH_TOKEN, true);
+export const deleteAuthorizationToken = () => BrowserDatabase.deleteItem(AUTH_TOKEN);
 
 /** @namespace Util/Auth/Token/getAuthorizationToken */
 export const getAuthorizationToken = () => {
-    const tokenWithExp = BrowserDatabase.getItem(AUTH_TOKEN, true) || {};
+    const tokenWithExp = BrowserDatabase.getItem(AUTH_TOKEN) || {};
 
     const { token, exp } = tokenWithExp;
 

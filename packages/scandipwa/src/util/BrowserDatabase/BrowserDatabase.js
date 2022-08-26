@@ -29,11 +29,11 @@ export class BrowserDatabase {
      * @return {Object} Object stored in a specified path
      * @memberof BrowserDatabase
      */
-    getItem(location, dependsOnSharing) {
+    getItem(location) {
         const { driver } = this;
 
         try {
-            const entryObject = JSON.parse(driver.getItem(location, dependsOnSharing));
+            const entryObject = JSON.parse(driver.getItem(location));
             const { data, expiration, createdAt } = entryObject;
             const MILLISECONDS_TO_SECONDS = 1000;
 
@@ -57,14 +57,14 @@ export class BrowserDatabase {
      * @return {Void}
      * @memberof BrowserDatabase
      */
-    setItem(data, location, expiration, dependsOnSharing) {
+    setItem(data, location, expiration) {
         const { driver } = this;
 
         driver.setItem(location, JSON.stringify({
             data,
             expiration,
             createdAt: Date.now()
-        }), dependsOnSharing);
+        }));
     }
 
     /**
@@ -72,10 +72,10 @@ export class BrowserDatabase {
      * @param {String} location
      * @memberof BrowserDatabase
      */
-    deleteItem(location, dependsOnSharing) {
+    deleteItem(location) {
         const { driver } = this;
 
-        driver.removeItem(location, dependsOnSharing);
+        driver.removeItem(location);
     }
 }
 
