@@ -162,7 +162,7 @@ export interface Currency {
     value: string;
 }
 
-export interface CurrencyConfig {
+export interface CurrencyData {
     available_currencies_data: Currency[];
     current_currency_code: GQLCurrencyEnum;
 }
@@ -181,11 +181,6 @@ export interface AvailableCurrency {
     id: string;
     label: string;
     value: string;
-}
-
-export interface CurrencyData {
-    available_currencies_data: AvailableCurrency[];
-    current_currency_code: string;
 }
 
 export interface ExchangeRate {

@@ -18,7 +18,6 @@ import { getCartId } from 'Util/Cart';
 import {
     AvailableCurrency,
     CheckoutAgreement,
-    CurrencyConfig,
     CurrencyData,
     ExchangeRate,
     ExchangeRates,
@@ -40,8 +39,8 @@ export class ConfigQuery {
             .addFieldList(this._getCheckoutAgreementFields());
     }
 
-    getCurrencyData(): Field<'currencyData', CurrencyData> {
-        return new Field<'currencyData', CurrencyData>('currencyData')
+    getCurrencyData(): Query<'currencyData', CurrencyData> {
+        return new Query<'currencyData', CurrencyData>('currencyData')
             .addFieldList([
                 this.getCurrencyFields(),
                 new Field<'current_currency_code', string>('current_currency_code')
@@ -65,8 +64,8 @@ export class ConfigQuery {
         ];
     }
 
-    getCurrencyRates(): Field<'currency', ExchangeRates> {
-        return new Field<'currency', ExchangeRates>('currency').addFieldList(this.getCurrencyRatesFields());
+    getCurrencyRates(): Query<'currency', ExchangeRates> {
+        return new Query<'currency', ExchangeRates>('currency').addFieldList(this.getCurrencyRatesFields());
     }
 
     getCurrencyRatesFields(): Array<
@@ -102,7 +101,7 @@ export class ConfigQuery {
     }
 
     getSaveSelectedCurrencyMutation(newCurrency: string): Mutation<'saveSelectedCurrency', {
-        currencyData: CurrencyConfig;
+        currencyData: CurrencyData;
     }> {
         const query = new Mutation<'saveSelectedCurrency', { currencyData: CurrencyData }>('saveSelectedCurrency')
             .addArgument('currency', 'String', newCurrency)

@@ -15,7 +15,9 @@ import { Dispatch } from 'redux';
 import CartQuery from 'Query/Cart.query';
 import { CartDisplayConfig } from 'Query/Cart.type';
 import ConfigQuery from 'Query/Config.query';
-import { CheckoutAgreement, CurrencyConfig, StoreConfig } from 'Query/Config.type';
+import {
+    CheckoutAgreement, CurrencyData, ExchangeRates, StoreConfig
+} from 'Query/Config.type';
 import RegionQuery from 'Query/Region.query';
 import { Country } from 'Query/Region.type';
 import ReviewQuery from 'Query/Review.query';
@@ -77,8 +79,8 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
     | Query<'reviewRatings', { items: ReviewRatingItem[] }>
     | Query<'storeConfig', StoreConfig>
     | Query<'checkoutAgreements', CheckoutAgreement, true>
-    | Query<'currencyData', CurrencyConfig>
-    | Query<'currencyRates', CurrencyRates>
+    | Query<'currencyData', CurrencyData>
+    | Query<'currency', ExchangeRates>
     | Query<'cartDisplayConfig', CartDisplayConfig>
     > {
         return [
