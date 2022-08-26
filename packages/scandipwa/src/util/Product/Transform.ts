@@ -320,12 +320,12 @@ export const magentoProductTransform = (
     const productData: ProductTransformData[] = [];
 
     if (typeId === ProductType.GROUPED && action === ADD_TO_CART) {
-
         const { items = [] } = product;
         const groupedProducts: string[] = [];
 
         (items as GroupedProductItem[]).forEach(({ product: { id } }) => {
             const { [String(id)]: groupedQuantity = 0 } = quantity as Record<string, number>;
+
             groupedProducts.push(encodeBase64(`grouped/${id}/${groupedQuantity}`));
         });
 
@@ -366,7 +366,9 @@ export const nonRequiredRadioOptions = <T>(
         return options;
     }
 
-    const hasDefault = (options as Array<{ is_default?: boolean, product: StockCheckProduct }>).find(({ is_default }) => is_default && getProductInStock(product));
+    const hasDefault = (options as unknown as Array<
+    { is_default?: boolean; product: StockCheckProduct }
+    >).find(({ is_default, product }) => is_default && getProductInStock(product));
 
     return [
         {

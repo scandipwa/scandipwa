@@ -238,6 +238,7 @@ export const getBundleOption = (
     uid: string, options: Partial<IndexedBundleOption>[] = []
 ): Partial<IndexedBundleOption> | undefined => {
     const uidParts = decodeBase64(uid).split('/');
+
     return options.find(({ uid: linkedUid = '' }) => {
         const linkedUidParts = decodeBase64(linkedUid).split('/');
 
@@ -487,6 +488,7 @@ export const getAdjustedPrice = (
     // #region DOWNLOADABLE
     if (typeId === ProductType.DOWNLOADABLE) {
         const { downloadable_product_links = [] } = product;
+
         downloadableLinks.forEach((uid) => {
             const link = downloadable_product_links.find(({ uid: linkUid }) => linkUid === uid);
 
@@ -555,6 +557,7 @@ export const getAdjustedPrice = (
 
             if ('priceInclTax' in value) {
                 const { priceExclTax = 0, priceInclTax = 0 } = value;
+
                 adjustedPrice.config.inclTax += priceInclTax;
                 adjustedPrice.config.exclTax += priceExclTax;
             }

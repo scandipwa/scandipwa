@@ -20,16 +20,18 @@ import RegionQuery from 'Query/Region.query';
 import { Country } from 'Query/Region.type';
 import ReviewQuery from 'Query/Review.query';
 import { ReviewRatingItem } from 'Query/Review.type';
+import { updateConfig, updateCurrentCurrency } from 'Store/Config/Config.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { returnFilteredCurrencies, setCurrency } from 'Util/Currency';
 import { fetchMutation, QueryDispatcher } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import { updateConfig, updateCurrentCurrency } from 'Store/Config/Config.action';
-import { returnFilteredCurrencies, setCurrency } from 'Util/Currency';
+
 import { ConfigStore } from './Config.type';
+
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'

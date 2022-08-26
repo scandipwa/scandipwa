@@ -9,7 +9,12 @@
 * @link https://github.com/scandipwa/scandipwa
 */
 
-import { PriceRange, ProductDiscount, ProductItem, ProductPrice } from 'Query/ProductList.type';
+import {
+    PriceRange,
+    ProductDiscount,
+    ProductItem,
+    ProductPrice
+} from 'Query/ProductList.type';
 
 /**
  * Updates wishlist item price for option based products

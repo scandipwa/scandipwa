@@ -100,6 +100,7 @@ export const validate = (value: string | boolean, rule: ValidationRule): boolean
 
             if (max && (value as string).length > max) {
                 const tooMany = (value as string).length - max;
+
                 output.errorMessages.push(onRangeFailMax || __('Maximum %s characters (%s too many)', max, tooMany));
 
                 if (showLengthError) {
@@ -156,6 +157,7 @@ export const validateGroup = (DOM: HTMLElement, rule?: ValidationRule): true | V
         const fieldType = tagName.toLowerCase() === FieldType.TEXTAREA ? FieldType.TEXTAREA : type;
         // eslint-disable-next-line max-len
         const fieldValue = fieldType === (FieldType.CHECKBOX || fieldType === FieldType.RADIO) && field.checked ? '' : value;
+
         output.values?.push({ name, value: fieldValue, type: fieldType });
 
         // Invokes validation event for all fields
@@ -211,6 +213,7 @@ export const validateGroup = (DOM: HTMLElement, rule?: ValidationRule): true | V
     }
     //#endregion
     const { errorMessages, errorFields } = output;
+
     return !errorMessages?.length && !errorFields?.length ? true : output;
 };
 
