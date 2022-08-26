@@ -87,7 +87,7 @@ export class MyAccountAddressPopup extends PureComponent {
         return (
             <Popup
               id={ ADDRESS_POPUP_ID }
-              clickOutside={ false }
+              allowClickOutside={ false }
               mix={ { block: 'MyAccountAddressPopup' } }
             >
                 <div>

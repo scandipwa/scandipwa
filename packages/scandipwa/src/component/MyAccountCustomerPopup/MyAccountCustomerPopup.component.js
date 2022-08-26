@@ -77,7 +77,7 @@ export class MyAccountCustomerPopup extends PureComponent {
         return (
             <Popup
               id={ CUSTOMER_POPUP_ID }
-              clickOutside={ false }
+              allowClickOutside={ false }
               mix={ { block: 'MyAccountCustomerPopup' } }
             >
                 <Loader isLoading={ isLoading } />
