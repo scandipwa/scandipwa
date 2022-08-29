@@ -103,7 +103,7 @@ export interface CreateCustomerOutput {
 }
 
 export interface ResetPasswordOptions {
-    customer_id: number;
+    customer_id: number | boolean;
     token: string;
     password: string;
     password_confirmation: string;

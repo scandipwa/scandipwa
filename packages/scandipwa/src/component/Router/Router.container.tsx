@@ -28,7 +28,12 @@ import { RootState } from 'Util/Store/Store.type';
 import Router from './Router.component';
 import { URL_ONLY_MAIN_ITEMS_RENDER } from './Router.config';
 import {
-    RouterComponentProps, RouterContainerMapDispatchProps, RouterContainerMapStateProps, RouterContainerProps
+    RouterComponentProps,
+    RouterContainerMapDispatchProps,
+    RouterContainerMapStateProps,
+    RouterContainerProps,
+    RouterContainerPropsKeys,
+    RouterContainerState
 } from './Router.type';
 
 export const CartDispatcher = import(
@@ -95,7 +100,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispat
 });
 
 /** @namespace Component/Router/Container */
-export class RouterContainer extends PureComponent<RouterContainerProps> {
+export class RouterContainer extends PureComponent<RouterContainerProps, RouterContainerState> {
     static defaultProps: Partial<RouterContainerProps> = {
         base_link_url: '',
         default_description: '',
@@ -214,7 +219,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps> {
         this.setState({ isOnlyMainItems: true });
     }
 
-    containerProps(): Pick<RouterComponentProps, 'isBigOffline'> {
+    containerProps(): Pick<RouterComponentProps, RouterContainerPropsKeys> {
         const { isBigOffline, setBigOfflineNotice } = this.props;
         const { isOnlyMainItems, currentUrl } = this.state;
 

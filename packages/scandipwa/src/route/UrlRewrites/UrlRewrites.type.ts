@@ -9,10 +9,9 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { RouteComponentProps, StaticContext } from 'react-router';
+import { match as Match } from 'react-router';
 
 import { UrlRewrite } from 'Store/UrlRewrites/UrlRewrites.type';
-import { HistoryState } from 'Util/History/History.type';
 
 export interface UrlRewritesContainerMapStateProps {
     urlRewrite: UrlRewrite;
@@ -26,7 +25,9 @@ export interface UrlRewritesContainerMapDispatchProps {
 
 export type UrlRewritesContainerProps = UrlRewritesContainerMapStateProps
 & UrlRewritesContainerMapDispatchProps
-& RouteComponentProps<Record<string, never>, StaticContext, HistoryState>;
+& {
+    match: Match;
+};
 
 export interface UrlRewritesComponentProps {
     type: string;
@@ -36,8 +37,9 @@ export interface UrlRewritesComponentProps {
 export type UrlRewritesContainerPropsKeys = 'type'
 | 'props';
 
-export type UrlRewriteProps = RouteComponentProps<Record<string, never>, StaticContext, HistoryState>
-& Partial<UrlRewriteTypeSpecificProps>;
+export type UrlRewriteProps = Partial<UrlRewriteTypeSpecificProps> & {
+    match: Match;
+};
 
 export interface UrlRewriteTypeSpecificProps {
     productSKU: string;

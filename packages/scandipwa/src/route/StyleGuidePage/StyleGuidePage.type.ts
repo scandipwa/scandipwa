@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { RouteComponentProps } from 'react-router';
-
 import { ProductItem } from 'Query/ProductList.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
@@ -23,8 +21,7 @@ export interface StyleGuidePageContainerMapDispatchProps {
 }
 
 export type StyleGuidePageContainerProps = StyleGuidePageContainerMapStateProps
-& StyleGuidePageContainerMapDispatchProps
-& RouteComponentProps;
+& StyleGuidePageContainerMapDispatchProps;
 
 export interface StyleGuidePageComponentProps {
     fakeFunction: () => string;

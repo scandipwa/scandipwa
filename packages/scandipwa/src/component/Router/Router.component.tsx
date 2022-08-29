@@ -164,7 +164,7 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
         {
             component: <Route path={ withStoreRegex('/customer/account/confirmation') } render={ () => <SendConfirmationPage /> } />,
             position: 64,
-            name: CONFIRM_ACCOUNT
+            name: RouterSwitchItemType.CONFIRM_ACCOUNT
         },
         {
             component: <Route path={ withStoreRegex('/customer/account/confirm') } render={ () => <ConfirmAccountPage /> } />,
@@ -267,7 +267,7 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
             name: PrintTypes.PRINT_ORDER
         },
         {
-            component: <Route render={ (props) => <UrlRewrites { ...props } /> } />,
+            component: <Route render={ ({ match }) => <UrlRewrites match={ match } /> } />,
             position: 1000,
             name: RouterSwitchItemType.URL_REWRITES
         }

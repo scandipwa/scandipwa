@@ -170,7 +170,7 @@ PasswordChangePageContainerState
 
             if (token) {
                 resetPassword({
-                    customer_id, token, password, password_confirmation
+                    customer_id: Number(customer_id), token, password, password_confirmation
                 });
             }
         });

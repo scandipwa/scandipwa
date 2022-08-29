@@ -134,13 +134,14 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
                  * - fallback to none
                  */
             if (isLoading) {
-                const product = history?.state?.state?.product;
+                // TODO: history.state.state looks like undefined all the time.
+                // const product = history?.state?.state?.product;
 
-                if (product) {
-                    const { sku: historySKU, id } = product;
+                // if (product) {
+                //     const { sku: historySKU, id } = product;
 
-                    return { productSKU: historySKU, id };
-                }
+                //     return { productSKU: historySKU, id };
+                // }
 
                 return {};
             }
@@ -159,11 +160,12 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
                  * - fallback to none
                  */
             if (isLoading) {
-                const category = history?.state?.state?.category;
+                // TODO: history.state.state looks like undefined all the time.
+                // const category = history?.state?.state?.category;
 
-                if (category && category !== true) {
-                    return { categoryIds: category };
-                }
+                // if (category && category !== true) {
+                //     return { categoryIds: category };
+                // }
 
                 return {};
             }
@@ -213,12 +215,13 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
          * (which is only valid for 1st load).
          */
         if (this.getIsLoading()) {
-            const state = history?.state?.state || {};
-            const typeKey = Object.keys(state).find((key) => key in UrlRewritesContainer.stateMapping);
+            // TODO: history.state.state looks like undefined all the time.
+            // const state = history?.state?.state || {};
+            // const typeKey = Object.keys(state).find((key) => key in UrlRewritesContainer.stateMapping);
 
-            if (typeKey) {
-                return UrlRewritesContainer.stateMapping[ typeKey as keyof typeof UrlRewritesContainer.stateMapping];
-            }
+            // if (typeKey) {
+            //     return UrlRewritesContainer.stateMapping[ typeKey as keyof typeof UrlRewritesContainer.stateMapping];
+            // }
 
             /**
              * Otherwise fallback to other guessed types - from window i.e.

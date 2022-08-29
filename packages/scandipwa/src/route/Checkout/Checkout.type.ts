@@ -10,7 +10,7 @@
  */
 
 import { History } from 'history';
-import { RouteComponentProps } from 'react-router-dom';
+import { match as Match } from 'react-router-dom';
 
 import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.type';
 import { PaymentMethod, ShippingMethod, TotalsObject } from 'Query/Checkout.type';
@@ -70,9 +70,14 @@ export interface CheckoutContainerFunctions {
     setLoading: (isLoading: boolean) => void;
 }
 
-export type CheckoutContainerProps = RouteComponentProps<{ step: string }>
-& CheckoutContainerMapStateProps
-& CheckoutContainerDispatchProps;
+export interface CheckoutContainerBaseProps {
+    match: Match<{ step?: string }>;
+}
+
+export type CheckoutContainerProps = CheckoutContainerMapStateProps
+& CheckoutContainerDispatchProps
+& CheckoutContainerBaseProps;
+
 export interface CheckoutContainerState {
     billingAddress: CheckoutAddress | undefined;
     checkoutStep: CheckoutSteps;

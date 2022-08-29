@@ -5,11 +5,9 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
-
-import { RouteComponentProps } from 'react-router';
 
 import { ConfirmAccountOptions, SignInOptions } from 'Query/MyAccount.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
@@ -33,8 +31,7 @@ export interface ConfirmAccountPageContainerFunctions {
 }
 
 export type ConfirmAccountPageContainerProps = ConfirmAccountPageContainerMapStateProps
-& ConfirmAccountPageContainerMapDispatchProps
-& RouteComponentProps;
+& ConfirmAccountPageContainerMapDispatchProps;
 
 export interface ConfirmAccountPageContainerState {
     redirect: boolean;

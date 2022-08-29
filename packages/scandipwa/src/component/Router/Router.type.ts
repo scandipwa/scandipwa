@@ -33,6 +33,7 @@ export interface RouterContainerMapStateProps {
 
 export interface RouterContainerMapDispatchProps {
     updateMeta: (meta: Partial<PageMeta>) => void;
+    setBigOfflineNotice: (isBig: boolean) => void;
     updateConfigDevice: (device: Device) => void;
     init: () => void;
 }
@@ -40,9 +41,22 @@ export interface RouterContainerMapDispatchProps {
 export type RouterContainerProps = RouterContainerMapStateProps
 & RouterContainerMapDispatchProps;
 
+export interface RouterContainerState {
+    currentUrl: string;
+    isOnlyMainItems: boolean;
+}
+
 export interface RouterComponentProps {
     isBigOffline: boolean;
+    currentUrl: string;
+    setBigOfflineNotice: (isBig: boolean) => void;
+    isOnlyMainItems: boolean;
 }
+
+export type RouterContainerPropsKeys = 'isBigOffline'
+| 'setBigOfflineNotice'
+| 'isOnlyMainItems'
+| 'currentUrl';
 
 export interface RouterComponentState {
     errorDetails: {

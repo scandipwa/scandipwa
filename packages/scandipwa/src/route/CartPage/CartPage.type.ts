@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { History } from 'history';
 import { MouseEvent } from 'react';
 
 import { CartDisplayConfig } from 'Query/Cart.type';
@@ -47,13 +46,8 @@ export interface CartPageContainerFunctions {
     onCartItemLoading: (isCartItemLoading: boolean) => void;
 }
 
-export interface CartPageContainerBaseProps {
-    history: History;
-}
-
 export type CartPageContainerProps = CartPageContainerMapStateProps
-& CartPageContainerMapDispatchProps
-& CartPageContainerBaseProps;
+& CartPageContainerMapDispatchProps;
 
 export interface CartPageContainerState {
     isCartItemLoading: boolean;
