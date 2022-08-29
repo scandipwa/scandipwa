@@ -38,7 +38,7 @@ Data-integrity and simple server setup. Changes from Magento 2 admin are reflect
 
 > Powered by [Create ScandiPWA App](https://github.com/scandipwa/create-scandipwa-app).
 
-:gift: **BONUS!** You will get ESLins rules covering:
+:gift: **BONUS!** You will get ESLint rules covering:
 
 - Well-thought file-structure
 - Naming-convention
