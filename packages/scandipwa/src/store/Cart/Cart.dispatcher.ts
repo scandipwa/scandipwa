@@ -12,7 +12,7 @@
 import { Dispatch } from 'redux';
 
 import CartQuery from 'Query/Cart.query';
-import { QuoteData, TotalsItem } from 'Query/Cart.type';
+import { CartAddress, CartItem, CartTotals as QuoteData } from 'Query/Cart.type';
 import { ProductLink } from 'Query/ProductList.type';
 import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
 import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
@@ -25,7 +25,7 @@ import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { getCartId, setCartId } from 'Util/Cart';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 
-import { AddProductToCartOptions, UpdateProductInCartOptions } from './Cart.type';
+import { AddProductToCartOptions, CheckoutAddress, UpdateProductInCartOptions } from './Cart.type';
 
 export const CURRENT_WEBSITE = 'base';
 
@@ -40,7 +40,11 @@ export const LinkedProductsDispatcher = import(
  * @namespace Store/Cart/Dispatcher
  */
 export class CartDispatcher {
-    async updateInitialCartData(dispatch: Dispatch, isForCustomer = false, disableLoader = false): Promise<void> {
+    async updateInitialCartData(
+        dispatch: Dispatch,
+        isForCustomer = false,
+        disableLoader = false
+    ): Promise<string | null> {
         // Need to get current cart from BE, update cart
         try {
             // ! Get quote token first (local or from the backend) just to make sure it exists
@@ -54,16 +58,16 @@ export class CartDispatcher {
                 cartData = {},
                 cartData: {
                     is_virtual = false,
-                    shipping_address: {
+                    shipping_addresses: [{
                         selected_shipping_method: {
                             address,
                             address: {
                                 street = null,
                                 email = ''
-                            } = {}
-                        } = {},
-                        method_code
-                    } = {}
+                            } = {},
+                            method_code = ''
+                        } = {}
+                    }] = []
                 } = {}
             } = await fetchQuery(
                 CartQuery.getCartQuery(
@@ -75,7 +79,7 @@ export class CartDispatcher {
                 if (!is_virtual) {
                     await dispatch(
                         updateShippingFields({
-                            ...this.prepareCheckoutAddressFormat(address),
+                            ...this.prepareCheckoutAddressFormat(address as CartAddress),
                             method_code
                         })
                     );
@@ -104,19 +108,18 @@ export class CartDispatcher {
         }
     }
 
-    prepareCheckoutAddressFormat(address) {
+    prepareCheckoutAddressFormat(address: Partial<CartAddress>): CheckoutAddress {
         const {
             street: addressStreet = '',
             email,
-            country_id,
+            country: { code: country_id } = {},
             region,
-            region_id,
             ...data
         } = address;
 
         const street = addressStreet.split('\n');
 
-        const street_index = {};
+        const street_index: Record<string, string> = {};
 
         street.forEach((item, index) => {
             street_index[`street_${index}`] = item;
@@ -136,7 +139,7 @@ export class CartDispatcher {
         try {
             dispatch(updateIsLoadingCart(true));
 
-            const quoteId = await this._getNewQuoteId(dispatch);
+            const quoteId = await this._getNewQuoteId();
 
             setCartId(quoteId);
 
@@ -174,7 +177,7 @@ export class CartDispatcher {
         return this._updateCartData({}, dispatch);
     }
 
-    async changeItemQty(dispatch: Dispatch, options: UpdateProductInCartOptions): Promise<void> {
+    async changeItemQty(dispatch: Dispatch, options: UpdateProductInCartOptions): Promise<string | null> {
         const { uid, quantity = 1, cartId: originalCartId } = options;
 
         const cartId = !originalCartId ? getCartId() : originalCartId;
@@ -255,7 +258,7 @@ export class CartDispatcher {
     async removeProductFromCart(dispatch: Dispatch, item_id: number): Promise<Partial<QuoteData> | null> {
         try {
             const isCustomerSignedIn = isSignedIn();
-            const cartId = getCartId();
+            const cartId = getCartId() || '';
 
             if (!isCustomerSignedIn && !cartId) {
                 return null;
@@ -278,13 +281,13 @@ export class CartDispatcher {
     async applyCouponToCart(dispatch: Dispatch, couponCode: string): Promise<void> {
         try {
             const isCustomerSignedIn = isSignedIn();
-            const cartId = getCartId();
+            const cartId = getCartId() || '';
 
             if (!isCustomerSignedIn && !cartId) {
                 return;
             }
 
-            const { applyCoupon: { cartData = {} } = {} } = await fetchMutation(
+            const { applyCouponToCart: { cartData = {} } = {} } = await fetchMutation(
                 CartQuery.getApplyCouponMutation(couponCode, cartId)
             );
 
@@ -298,7 +301,7 @@ export class CartDispatcher {
     async removeCouponFromCart(dispatch: Dispatch): Promise<void> {
         try {
             const isCustomerSignedIn = isSignedIn();
-            const cartId = getCartId();
+            const cartId = getCartId() || '';
 
             if (!isCustomerSignedIn && !cartId) {
                 return;
@@ -315,7 +318,7 @@ export class CartDispatcher {
         }
     }
 
-    updateCrossSellProducts(items: TotalsItem[], dispatch: Dispatch): void {
+    updateCrossSellProducts(items: CartItem[], dispatch: Dispatch): void {
         if (items && items.length) {
             const product_links = items.reduce((links: ProductLink[], product) => {
                 const { product: { product_links, variants = [] }, sku: variantSku } = product;
@@ -370,7 +373,7 @@ export class CartDispatcher {
      * @param Dispatch dispatch
      * @return string quote id
      */
-    _getCartId(dispatch: Dispatch) {
+    _getCartId(dispatch: Dispatch): string | Promise<string | null> {
         const cartId = getCartId();
 
         if (cartId) {
@@ -380,10 +383,10 @@ export class CartDispatcher {
         return this.createGuestEmptyCart(dispatch);
     }
 
-    async _getNewQuoteId() {
-        const { createEmptyCart: quoteId = '' } = await fetchMutation(
+    async _getNewQuoteId(): Promise<string> {
+        const { createEmptyCart: quoteId = '' } = (await fetchMutation(
             CartQuery.getCreateEmptyCartMutation()
-        );
+        ) || {}) as unknown as { createEmptyCart: string };
 
         return quoteId;
     }

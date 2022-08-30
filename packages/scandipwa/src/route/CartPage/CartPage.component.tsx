@@ -159,7 +159,7 @@ export class CartPage extends PureComponent<CartPageComponentProps> {
             <CheckoutOrderSummary
               totals={ totals as Partial<TotalsObject> }
                 // eslint-disable-next-line react/jsx-no-bind
-              renderCmsBlock={ () => this.renderPromo(true) }
+              renderCmsBlock={ () => this.renderPromo() }
               onCouponCodeUpdate={ onCouponCodeUpdate }
               showItems={ false }
             >

@@ -162,7 +162,7 @@ export const getCartShippingSubPrice = (state: RootState): number | null => {
             cartTotals: {
                 shipping_addresses: {
                     selected_shipping_method = {}
-                } = []
+                } = {}
             } = {}
         } = {}
     } = state;

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { QuoteData } from 'Query/Cart.type';
+import { CartTotals as QuoteData } from 'Query/Cart.type';
 import { TotalsObject } from 'Query/Checkout.type';
 import { ProductItem } from 'Query/ProductList.type';
 

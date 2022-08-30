@@ -39,6 +39,7 @@ export interface FieldContainerFunctions {
 }
 
 export interface FieldContainerProps {
+    id?: string;
     type: FieldType;
     attr: FieldAttributes;
     events: FieldEvents;

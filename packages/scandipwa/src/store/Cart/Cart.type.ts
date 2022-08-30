@@ -11,7 +11,9 @@
 
 import { AnyAction } from 'redux';
 
-import { QuoteData, TotalsItem } from 'Query/Cart.type';
+import {
+    CartItem, CartShippingAddress, CartTotals as QuoteData, Region
+} from 'Query/Cart.type';
 import { TotalsObject } from 'Query/Checkout.type';
 import { ProductItem } from 'Query/ProductList.type';
 import { Merge } from 'Type/Common.type';
@@ -81,7 +83,7 @@ declare module 'Util/Store/Store.type' {
     }
 }
 
-export type IndexedCartItem = Merge<TotalsItem, {
+export type IndexedCartItem = Merge<CartItem, {
     product: IndexedProduct;
 }>;
 
@@ -90,6 +92,7 @@ Partial<QuoteData>,
 {
     items?: IndexedCartItem[];
     count?: number;
+    shipping_addresses: Partial<CartShippingAddress>;
 }
 >;
 
@@ -102,4 +105,17 @@ export interface UpdateProductInCartOptions {
     quantity: number;
     uid: string;
     cartId: string;
+}
+
+export interface CheckoutAddress {
+    country_id?: string;
+    region?: Region;
+    region_id?: number;
+    street?: string[];
+    city?: string;
+    firstname?: string;
+    lastname?: string;
+    postcode?: string;
+    telephone?: string;
+    vat_id?: string;
 }

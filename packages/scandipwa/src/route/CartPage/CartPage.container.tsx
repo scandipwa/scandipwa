@@ -16,7 +16,7 @@ import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import { TotalsItem } from 'Query/Cart.type';
+import { CartItem } from 'Query/Cart.type';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { IndexedCartItem } from 'Store/Cart/Cart.type';
@@ -45,6 +45,7 @@ import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import CartPage from './CartPage.component';
+import { CART_URL } from './CartPage.config';
 import {
     CartPageComponentContainerPropKeys,
     CartPageComponentProps,
@@ -91,7 +92,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDisp
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateCrossSellProducts: (items) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items as unknown as TotalsItem[], dispatch)
+        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items as unknown as CartItem[], dispatch)
     )
 });
 
@@ -168,7 +169,7 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
             minimumOrderAmount: {
                 minimum_order_amount_reached: minimumOrderAmountReached = true,
                 minimum_order_description: minimumOrderDescription = ''
-            }
+            } = {}
         } = this.props;
 
         const { areDetailsLoaded, isCartItemLoading, isInitialLoad } = this.state;

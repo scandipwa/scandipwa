@@ -12,7 +12,13 @@
 import { GQLCurrencyEnum, GQLProductStockItem } from 'Type/Graphql.type';
 
 import {
-    AttributeWithValue, ConfigurableCartProductFragment, OptimizedProductImage, ProductLink, ProductStockItem
+    AttributeWithValue,
+    ConfigurableCartProductFragment,
+    ConfigurableProductOptions,
+    ConfigurableVariant,
+    OptimizedProductImage,
+    ProductLink,
+    ProductStockItem
 } from './ProductList.type';
 
 export interface UserErrors {
@@ -27,7 +33,7 @@ export interface Money {
 
 export interface Discount {
     label: string;
-    amount: number;
+    amount: Money;
 }
 
 export interface AppliedTax {
@@ -45,7 +51,7 @@ export interface CartPrices {
     subtotal_excluding_tax: Money;
     subtotal_with_discount_excluding_tax: Money;
     discount: Discount;
-    applied_taxes: AppliedTax;
+    applied_taxes: AppliedTax[];
 }
 
 export interface AvailableShippingMethod {
@@ -108,6 +114,16 @@ export interface CartItem {
     ConfigurableCartItem: CartConfigurableItem;
     VirtualCartItem: CartVirtualItem;
     SimpleCartItem: CartSimpleItem;
+    links: CartDownloadableProductLink[];
+    samples: CartDownloadableProductSample[];
+    downloadable_customizable_options: CartCustomizableOption[];
+    bundle_options: CartBundleOption[];
+    bundle_customizable_options: CartCustomizableOption[];
+    configurable_options: CartConfigurableOption[];
+    configurable_customizable_options: CartCustomizableOption[];
+    virtual_customizable_options: CartCustomizableOption[];
+    simple_customizable_options: CartCustomizableOption[];
+    customizable_options: CartCustomizableOption[];
 }
 
 export interface CartItemProduct {
@@ -124,6 +140,8 @@ export interface CartItemProduct {
     ConfigurableProduct: ConfigurableCartProductFragment;
     attributes: AttributeWithValue;
     product_links: ProductLink;
+    configurable_options: ConfigurableProductOptions[];
+    variants: ConfigurableVariant[];
 }
 
 export interface CartItemPrices {
@@ -208,7 +226,7 @@ export interface CartSimpleItem {
 export interface CartTotals {
     id: string;
     email: string;
-    prices: CartPrices;
+    prices: Partial<CartPrices>;
     shipping_addresses: CartShippingAddress[];
     minimum_order_amount: MinimumOrderAmount;
     items: CartItem[];

@@ -28,7 +28,7 @@ export const setCartId = (token: string): void => {
 };
 
 /** @namespace Util/Cart/Token/getCartId */
-export const getCartId = () => {
+export const getCartId = (): string | null => {
     const { website_code } = window;
 
     const tokens = BrowserDatabase.getItem(CART_ID) || {};

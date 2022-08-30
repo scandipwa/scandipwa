@@ -15,7 +15,7 @@ import { Mix } from 'Type/Common.type';
 export interface CartCouponContainerMapStateProps {}
 
 export interface CartCouponContainerMapDispatchProps {
-    applyCouponToCart: (couponCode: string) => Promise<boolean>;
+    applyCouponToCart: (couponCode: string) => Promise<boolean | void>;
     removeCouponFromCart: () => Promise<void>;
 }
 

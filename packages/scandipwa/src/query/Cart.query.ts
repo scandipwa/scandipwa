@@ -53,7 +53,7 @@ import {
 /** @namespace Query/Cart/Query */
 export class CartQuery {
     // #region MUTATIONS
-    getAddProductToCartMutation(cartId: string, cartItems: GQLCartItemInput): Mutation<
+    getAddProductToCartMutation(cartId: string, cartItems: GQLCartItemInput[]): Mutation<
     'addProductsToCart',
     { user_errors: UserErrors }
     > {

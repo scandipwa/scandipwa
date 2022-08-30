@@ -91,7 +91,7 @@ export class CartCouponContainer extends PureComponent<CartCouponContainerProps,
                 this.setState({ isIncorrectCoupon: !success });
             }
         ).finally(
-        /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally */
+            /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally */
             () => this.setState({ isLoading: false })
         );
     }

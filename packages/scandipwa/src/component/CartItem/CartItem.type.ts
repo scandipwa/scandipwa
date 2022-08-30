@@ -11,10 +11,15 @@
 
 import { MouseEvent } from 'react';
 
-import { QuoteData, TotalsItem } from 'Query/Cart.type';
+import { CartItem, CartTotals } from 'Query/Cart.type';
 import { AddProductToCartOptions, IndexedCartItem, UpdateProductInCartOptions } from 'Store/Cart/Cart.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { Url } from 'Type/Common.type';
+import {
+    GQLSelectedCustomizableOption,
+    GQLSelectedCustomizableOptionValue,
+    GQLSelectedDownloadableLinks
+} from 'Type/Graphql.type';
 import { IndexedProduct, IndexedVariant } from 'Util/Product/Product.type';
 
 export interface CartItemContainerMapStateProps {
@@ -25,13 +30,13 @@ export interface CartItemContainerMapStateProps {
 export interface CartItemContainerMapDispatchProps {
     addProduct: (options: AddProductToCartOptions) => void;
     changeItemQty: (options: UpdateProductInCartOptions) => Promise<void>;
-    removeProduct: (itemId: number) => Promise<Partial<QuoteData> | null>;
-    updateCrossSellProducts: (items: TotalsItem[]) => void;
+    removeProduct: (itemId: number) => Promise<Partial<CartTotals> | null>;
+    updateCrossSellProducts: (items: CartItem[]) => void;
     showNotification: (type: NotificationType, title: string, error: unknown) => void;
 }
 
 export interface CartItemContainerBaseProps {
-    item: IndexedCartItem;
+    item: Partial<IndexedCartItem>;
     currency_code: string;
     updateCrossSellsOnRemove: boolean;
     isCartOverlay: boolean;
@@ -56,7 +61,7 @@ export interface CartItemContainerState {
 }
 
 export interface CartItemComponentProps {
-    item: IndexedCartItem;
+    item: Partial<IndexedCartItem>;
     currency_code: string;
     isEditing: boolean;
     isCartOverlay: boolean;
@@ -91,3 +96,8 @@ export type CartItemComponentContainerPropKeys =
     | 'isProductInStock'
     | 'optionsLabels'
     | 'isMobileLayout';
+
+export type CartItemComponentProductOption = (GQLSelectedCustomizableOption | GQLSelectedDownloadableLinks) & {
+    values?: GQLSelectedCustomizableOptionValue[];
+    title?: string;
+};

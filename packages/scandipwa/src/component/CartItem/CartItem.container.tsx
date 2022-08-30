@@ -16,7 +16,7 @@ import { Dispatch } from 'redux';
 
 import { ProductType } from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
-import { QuoteData } from 'Query/Cart.type';
+import { CartTotals } from 'Query/Cart.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement, Url } from 'Type/Common.type';
 import { encodeBase64 } from 'Util/Base64';
@@ -124,7 +124,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
 
         return variantIndex < 0
             ? product
-            : product.variants?.[ variantIndex ];
+            : product?.variants?.[ variantIndex ];
     }
 
     setStateNotLoading(): void {
@@ -211,7 +211,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         return isMobile || isCartOverlay;
     }
 
-    async removeProductAndUpdateCrossSell(): Promise<Partial<QuoteData> | null> {
+    async removeProductAndUpdateCrossSell(): Promise<Partial<CartTotals> | null> {
         const {
             removeProduct,
             updateCrossSellProducts,
@@ -254,7 +254,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             item: {
                 product: {
                     variants = []
-                }
+                } = {}
             }
         } = this.props;
 
@@ -338,7 +338,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             item: {
                 product: {
                     configurable_options = {}
-                }
+                } = {}
             }
         } = this.props;
 
@@ -375,7 +375,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             return [];
         }
 
-        return configurable_options.map(({ value_label }) => value_label);
+        return (configurable_options as Array<{ value_label: string }>).map(({ value_label }) => value_label);
     }
 
     notifyAboutLoadingStateChange(isLoading: boolean): void {

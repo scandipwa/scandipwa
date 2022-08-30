@@ -23,7 +23,7 @@ export interface CartItemPriceContainerMapDispatchProps {}
 export interface CartItemPriceContainerBaseProps {
     currency_code: string;
     mix: Mix;
-    row_total: number;
+    row_total: number | string;
     row_total_incl_tax: number;
 }
 

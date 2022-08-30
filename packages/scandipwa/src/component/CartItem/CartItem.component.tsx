@@ -19,19 +19,18 @@ import Image from 'Component/Image';
 import { ImageRatio } from 'Component/Image/Image.type';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import { SelectedBundleOption, SelectedCustomizableOption } from 'Query/Cart.type';
+import { CartBundleOption, CartCustomizableOption } from 'Query/Cart.type';
 import { ReactElement } from 'Type/Common.type';
 import {
     GQLCurrencyEnum,
     GQLSelectedBundleOptionValue,
     GQLSelectedCustomizableOption,
-    GQLSelectedCustomizableOptionValue,
     GQLSelectedDownloadableLinks
 } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
 import { ValidationInputType } from 'Util/Validator/Config';
 
-import { CartItemComponentProps } from './CartItem.type';
+import { CartItemComponentProductOption, CartItemComponentProps } from './CartItem.type';
 
 import './CartItem.style';
 
@@ -171,7 +170,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
     }
 
     renderProductOptionLabel(
-        option: GQLSelectedCustomizableOption | GQLSelectedDownloadableLinks & { values?: never[] }
+        option: CartItemComponentProductOption
     ): ReactElement {
         const { label, title, values = [] } = option;
 
@@ -180,7 +179,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
                 <>
                     <strong>{ `${label}: ` }</strong>
                     <span>
-                    { (values as GQLSelectedCustomizableOptionValue[])
+                    { (values)
                         .map(({ label, value }) => label || value)
                         .join(', ') }
                     </span>
@@ -206,7 +205,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
         );
     }
 
-    renderBundleProductOptionLabel(option: SelectedBundleOption): ReactElement {
+    renderBundleProductOptionLabel(option: CartBundleOption): ReactElement {
         const { label, values = [] } = option;
 
         if (values.length === 0) {
@@ -225,7 +224,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
         );
     }
 
-    renderProductBundleOption(option: SelectedBundleOption): ReactElement {
+    renderProductBundleOption(option: CartBundleOption): ReactElement {
         const { id } = option;
 
         return (
@@ -240,7 +239,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
         );
     }
 
-    renderProductBundleOptions(itemOptions: SelectedBundleOption[] = []): ReactElement {
+    renderProductBundleOptions(itemOptions: CartBundleOption[] = []): ReactElement {
         if (!itemOptions.length) {
             return null;
         }
@@ -266,12 +265,12 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
               elem="Option"
               key={ id }
             >
-                { this.renderProductOptionLabel(option) }
+                { this.renderProductOptionLabel(option as CartItemComponentProductOption) }
             </div>
         );
     }
 
-    renderProductOptions(itemOptions: SelectedCustomizableOption[] = []): ReactElement {
+    renderProductOptions(itemOptions: CartCustomizableOption[] = []): ReactElement {
         if (!itemOptions.length) {
             return null;
         }
