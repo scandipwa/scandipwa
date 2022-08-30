@@ -188,7 +188,7 @@ export interface ExchangeRate {
     rate: string;
 }
 
-export interface ExchangeRates {
+export interface Currencies {
     base_currency_code: string;
     exchange_rates: ExchangeRate[];
 }

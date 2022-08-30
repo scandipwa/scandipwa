@@ -10,7 +10,6 @@
  */
 
 import { Location } from 'history';
-import { RouteComponentProps, StaticContext } from 'react-router';
 
 import { ProductListOptions } from 'Query/ProductList.type';
 import { Product as BreadcrumbProduct } from 'Store/Breadcrumbs/Breadcrumbs.type';
@@ -46,8 +45,7 @@ export interface ProductPageContainerBaseProps {
     productID: number;
 }
 
-export type ProductPageContainerProps = & RouteComponentProps<Record<string, never>, StaticContext, HistoryState>
-& ProductPageContainerMapStateProps
+export type ProductPageContainerProps = ProductPageContainerMapStateProps
 & ProductPageContainerMapDispatchProps
 & ProductPageContainerBaseProps;
 

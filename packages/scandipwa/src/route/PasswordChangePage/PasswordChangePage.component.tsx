@@ -43,7 +43,6 @@ export class PasswordChangePage extends PureComponent<PasswordChangePageComponen
 
     renderPageContents(): ReactElement {
         const {
-            showNotification,
             range,
             onError,
             isMobile,
@@ -62,7 +61,6 @@ export class PasswordChangePage extends PureComponent<PasswordChangePageComponen
                 <PasswordChangeForm
                   onFormError={ onError }
                   onFormSubmit={ onPasswordSuccess }
-                  showNotification={ showNotification }
                   range={ range }
                   minimunPasswordCharacter={ minimunPasswordCharacter }
                 />

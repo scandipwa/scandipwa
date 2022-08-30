@@ -9,7 +9,10 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { IndexedProduct } from 'Util/Product/Product.type';
+
 export interface HistoryState {
+    product?: Partial<IndexedProduct>;
     isForgotPassword?: boolean;
     isFromLocked?: boolean;
     editPassword?: boolean;

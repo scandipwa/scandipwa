@@ -46,7 +46,6 @@ export interface PasswordChangePageContainerState {
 export interface PasswordChangePageComponentProps {
     isLoading: boolean;
     onPasswordSuccess: (form: HTMLFormElement, fields: FieldData[]) => void;
-    showNotification: (type: NotificationType, message: string) => void;
     onError: () => void;
     range: ValidationRule['range'];
     isMobile: boolean;
@@ -58,5 +57,4 @@ export type PasswordChangePageContainerPropsKeys = 'range'
 | 'isLoading'
 | 'isMobile'
 | 'minimunPasswordCharacter'
-| 'shouldDisplayWarning'
-| 'showNotification';
+| 'shouldDisplayWarning';

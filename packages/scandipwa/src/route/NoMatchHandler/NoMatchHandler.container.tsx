@@ -15,6 +15,7 @@ import { Dispatch } from 'redux';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { ReactElement } from 'Type/Common.type';
+import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
 
 import NoMatchHandler from './NoMatchHandler.component';
@@ -67,6 +68,7 @@ export class NoMatchHandlerContainer extends PureComponent<NoMatchHandlerContain
             noMatch,
             updateNoMatch
         } = this.props;
+        const { location } = history;
 
         return {
             children,

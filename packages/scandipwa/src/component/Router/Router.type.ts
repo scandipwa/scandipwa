@@ -11,6 +11,7 @@
 
 import { ErrorInfo, ReactElement } from 'react';
 
+import { PrintTypes } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { Device } from 'Type/Device.type';
 
@@ -69,5 +70,5 @@ export interface RouterComponentState {
 export interface RouterItem {
     component: ReactElement;
     position: number;
-    name: RouterBeforeItemType | RouterSwitchItemType | RouterAfterItemType;
+    name: RouterBeforeItemType | RouterSwitchItemType | RouterAfterItemType | PrintTypes;
 }

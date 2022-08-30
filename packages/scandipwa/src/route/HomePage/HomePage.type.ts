@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { RouteComponentProps } from 'react-router';
+import { match as Match } from 'react-router';
 
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 
@@ -23,11 +23,11 @@ export interface HomePageContainerMapDispatchProps {
 
 export interface HomePageContainerBaseProps {
     currentUrl: string;
+    match: Match;
 }
 
 export interface HomePageContainerProps extends HomePageContainerMapStateProps,
     HomePageContainerMapDispatchProps,
-    RouteComponentProps,
     HomePageContainerBaseProps {}
 
 export type HomePageContainerPropsKeys = 'changeHeaderState'

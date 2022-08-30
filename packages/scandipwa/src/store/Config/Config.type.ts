@@ -14,7 +14,8 @@ import { AnyAction } from 'redux';
 import { CartDisplayConfig } from 'Query/Cart.type';
 import {
     CheckoutAgreement,
-    CurrencyConfig,
+    Currencies,
+    CurrencyData,
     PriceTaxDisplay,
     StoreConfig
 } from 'Query/Config.type';
@@ -53,13 +54,13 @@ export type ConfigStore = StoreConfig & {
     countries: Country[];
     reviewRatings: ReviewRatingItem[];
     checkoutAgreements: CheckoutAgreement[];
-    currencyData: CurrencyConfig;
+    currencyData: CurrencyData;
     cartDisplayConfig: CartDisplayConfig;
     priceTaxDisplay: PriceTaxDisplay;
     isLoading: boolean;
     category_url_suffix: string;
     device: Device;
-    currency: string;
+    currency: Currencies;
 };
 
 declare module 'Util/Store/Store.type' {

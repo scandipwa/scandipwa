@@ -37,6 +37,7 @@ import MyAccount from './MyAccount.component';
 import { AccountPageUrl, LOCKED_ACCOUNT_ERROR_MESSAGE } from './MyAccount.config';
 import {
     MyAccountComponentProps,
+    MyAccountContainerFunctions,
     MyAccountContainerMapDispatchProps,
     MyAccountContainerMapStateProps,
     MyAccountContainerProps,
@@ -63,7 +64,7 @@ export const mapStateToProps = (state: RootState): MyAccountContainerMapStatePro
     newsletterActive: state.ConfigReducer.newsletter_general_active,
     baseLinkUrl: state.ConfigReducer.base_link_url,
     activeOverlay: state.OverlayReducer.activeOverlay,
-    headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState
+    headerState: state.NavigationReducer[NavigationType.TOP_NAVIGATION_TYPE].navigationState
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
@@ -187,7 +188,7 @@ MyAccountContainerState
         return { activeTab: '' };
     }
 
-    containerFunctions = {
+    containerFunctions: MyAccountContainerFunctions = {
         changeActiveTab: this.changeActiveTab.bind(this),
         changeTabName: this.changeTabName.bind(this),
         onSignIn: this.onSignIn.bind(this),

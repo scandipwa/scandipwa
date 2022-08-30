@@ -16,7 +16,7 @@ import CartQuery from 'Query/Cart.query';
 import { CartDisplayConfig } from 'Query/Cart.type';
 import ConfigQuery from 'Query/Config.query';
 import {
-    CheckoutAgreement, CurrencyData, ExchangeRates, StoreConfig
+    CheckoutAgreement, Currencies, CurrencyData, StoreConfig
 } from 'Query/Config.type';
 import RegionQuery from 'Query/Region.query';
 import { Country } from 'Query/Region.type';
@@ -80,7 +80,7 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
     | Query<'storeConfig', StoreConfig>
     | Query<'checkoutAgreements', CheckoutAgreement, true>
     | Query<'currencyData', CurrencyData>
-    | Query<'currency', ExchangeRates>
+    | Query<'currency', Currencies>
     | Query<'cartDisplayConfig', CartDisplayConfig>
     > {
         return [

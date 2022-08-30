@@ -51,7 +51,7 @@ export class MenuPageContainer extends PureComponent<MenuPageContainerProps> {
         updateMeta({ title: __('Menu') });
         changeHeaderState({
             name: Page.MENU,
-            onBackClick: () => history.back()
+            onBackClick: () => history.goBack()
         });
     }
 

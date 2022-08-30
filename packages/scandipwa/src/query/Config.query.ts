@@ -18,9 +18,9 @@ import { getCartId } from 'Util/Cart';
 import {
     AvailableCurrency,
     CheckoutAgreement,
+    Currencies,
     CurrencyData,
     ExchangeRate,
-    ExchangeRates,
     PriceTaxDisplay,
     StoreConfig,
     StoreConfigFields,
@@ -48,7 +48,7 @@ export class ConfigQuery {
     }
 
     getCurrencyFields(): Field<'available_currencies_data', AvailableCurrency, true> {
-        return new Field<'available_currencies_data', AvailableCurrency, true>('available_currencies_data')
+        return new Field<'available_currencies_data', AvailableCurrency, true>('available_currencies_data', true)
             .addFieldList(this._getAvailableCurrenciesFields());
     }
 
@@ -64,8 +64,8 @@ export class ConfigQuery {
         ];
     }
 
-    getCurrencyRates(): Query<'currency', ExchangeRates> {
-        return new Query<'currency', ExchangeRates>('currency').addFieldList(this.getCurrencyRatesFields());
+    getCurrencyRates(): Query<'currency', Currencies> {
+        return new Query<'currency', Currencies>('currency').addFieldList(this.getCurrencyRatesFields());
     }
 
     getCurrencyRatesFields(): Array<

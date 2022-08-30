@@ -10,7 +10,7 @@
  */
 
 import { Location } from 'history';
-import { match, RouteComponentProps } from 'react-router';
+import { match as Match } from 'react-router';
 
 import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
@@ -44,10 +44,23 @@ export interface MyAccountContainerMapDispatchProps {
 
 export type MyAccountContainerProps = MyAccountContainerMapStateProps
 & MyAccountContainerMapDispatchProps
-& RouteComponentProps<{ tab?: string; orderId?: string }>
 & {
     selectedTab?: MyAccountTabs;
+    match: Match<{
+        tab?: string;
+        orderId?: string;
+    }>;
 };
+
+export interface MyAccountContainerFunctions {
+    changeActiveTab: (activeTab: string) => void;
+    changeTabName: (newTabName: string) => void;
+    onSignIn: () => void;
+    onSignOut: () => void;
+    getMyWishlistSubHeading: () => string;
+    setTabSubheading: (subHeading: string) => void;
+    isTabEnabled: (tabName: string) => boolean;
+}
 
 export interface MyAccountContainerState {
     activeTab: string;
@@ -56,22 +69,17 @@ export interface MyAccountContainerState {
     stateSubHeading: string;
 }
 
-export interface MyAccountComponentProps {
+export interface MyAccountComponentProps extends MyAccountContainerFunctions {
     isEditingActive: boolean;
     subHeading: string;
     activeTab: string;
     tabMap: Record<string, MyAccountTab>;
-    changeActiveTab: (activeTab: string) => void;
-    onSignIn: () => void;
-    onSignOut: () => void;
     location: Location;
-    match: match<{
+    match: Match<{
         tab?: string;
         orderId?: string;
     }>;
-    changeTabName: (newTabName: string) => void;
     tabName: string;
-    setTabSubheading: (subHeading: string) => void;
 }
 
 export interface MyAccountTab {

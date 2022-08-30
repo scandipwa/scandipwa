@@ -234,7 +234,7 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
             product: prevProduct
         } = prevProps;
 
-        const { sku: stateSKU } = history?.state?.state?.product || {};
+        const { sku: stateSKU } = history?.location?.state?.product || {};
 
         if (isOffline) {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
@@ -352,7 +352,7 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
     containerProps(): Pick<ProductPageComponentProps, ProductPageContainerComponentPropKeys> {
         const { isMobile, areReviewsEnabled } = this.props;
         const { parameters } = this.state;
-        const { location = {} } = history || {};
+        const { location } = history;
 
         return {
             areDetailsLoaded: this.getAreDetailsLoaded(),
@@ -452,8 +452,8 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         } = this.props;
 
         const { sku } = product;
-        const { product: stateProduct }: { product: Partial<IndexedProduct> } = history?.state?.state || {};
-        const { sku: stateSKU } = stateProduct || {};
+        const { product: stateProduct = {} } = history?.location?.state;
+        const { sku: stateSKU } = stateProduct;
 
         /**
          * If URL rewrite requested matches loaded product SKU
@@ -544,13 +544,13 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         changeHeaderState({
             name: Page.PDP,
             title: name,
-            onBackClick: () => history.back()
+            onBackClick: () => history.goBack()
         });
     }
 
     updateBreadcrumbs(): void {
-        const { updateBreadcrumbs, location } = this.props;
-        const { state: { prevCategoryId = 0 } = {} } = location;
+        const { updateBreadcrumbs } = this.props;
+        const { location: { state: { prevCategoryId = 0 } = {} } } = history;
         const {
             name = '',
             url = '',

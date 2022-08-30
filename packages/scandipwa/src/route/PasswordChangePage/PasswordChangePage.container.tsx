@@ -134,7 +134,6 @@ PasswordChangePageContainerState
     }
 
     containerProps(): Pick<PasswordChangePageComponentProps, PasswordChangePageContainerPropsKeys> {
-        const { showNotification } = this.props;
         const { isLoading } = this.state;
         const { isMobile, minimunPasswordLength, minimunPasswordCharacter } = this.props;
 
@@ -146,7 +145,6 @@ PasswordChangePageContainerState
         return {
             range,
             isLoading,
-            showNotification,
             isMobile,
             minimunPasswordCharacter,
             shouldDisplayWarning: this.shouldDisplayWarning()

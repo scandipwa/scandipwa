@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable max-len */
@@ -117,7 +118,7 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
 
     [RouterItemType.SWITCH_ITEMS_TYPE] = [
         {
-            component: <Route path={ withStoreRegex('/') } exact render={ ({ currentUrl }) => <HomePage currentUrl={ currentUrl } /> } />,
+            component: <Route path={ withStoreRegex('/') } exact render={ () => <HomePage currentUrl={ this.props.currentUrl } /> } />,
             position: 10,
             name: RouterSwitchItemType.HOME
         },
@@ -127,7 +128,7 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
             name: RouterSwitchItemType.SEARCH
         },
         {
-            component: <Route path={ withStoreRegex('/page') } render={ ({ currentUrl, match }) => <CmsPage match={ match } currentUrl={ currentUrl } /> } />,
+            component: <Route path={ withStoreRegex('/page') } render={ ({ match }) => <CmsPage match={ match } currentUrl={ this.props.currentUrl } /> } />,
             position: 40,
             name: RouterSwitchItemType.CMS_PAGE
         },
