@@ -216,7 +216,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             removeProduct,
             updateCrossSellProducts,
             updateCrossSellsOnRemove,
-            item: { id }
+            item: { id = 0 }
         } = this.props;
 
         const result = await removeProduct(id);
@@ -272,7 +272,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             }
         } = this.props;
 
-        return variants.findIndex(({ sku }) => sku === itemSku || itemSku.includes(sku));
+        return variants.findIndex(({ sku }) => sku === itemSku || itemSku?.includes(sku));
     }
 
     /**

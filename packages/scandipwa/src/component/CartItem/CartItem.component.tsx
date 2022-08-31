@@ -383,7 +383,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
         const {
             item: {
                 sku,
-                quantity,
+                quantity = 0,
                 product: {
                     stock_item: {
                         qty_increments: qtyIncrement = 1

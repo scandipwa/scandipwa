@@ -62,7 +62,7 @@ export const mapStateToProps = (state: RootState): CartOverlayContainerMapStateP
     cartShippingPrice: getCartShippingPrice(state),
     cartShippingSubPrice: getCartShippingSubPrice(state),
     cartDisplaySettings: state.ConfigReducer.cartDisplayConfig,
-    minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount
+    minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount || {}
 });
 
 /** @namespace Component/CartOverlay/Container/mapDispatchToProps */

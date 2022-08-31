@@ -93,4 +93,5 @@ export type CartOverlayComponentContainerPropKeys =
     | 'cartShippingPrice'
     | 'cartShippingSubPrice'
     | 'isCartItemLoading'
-    | 'hasOutOfStockProductsInCart';
+    | 'hasOutOfStockProductsInCart'
+    | 'minimumOrderAmountReached';

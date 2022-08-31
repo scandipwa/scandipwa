@@ -68,11 +68,8 @@ export class Popup extends Overlay<PopupComponentProps> {
         window.addEventListener('popstate', this.hidePopUp);
 
         window.history.pushState(
-            {
-                popupOpen: true
-            },
-            '',
-            `${location.pathname}${location.search}${location.hash}`
+            `${location.pathname}${location.search}${location.hash}`,
+            { popupOpen: true }
         );
 
         onVisible?.();

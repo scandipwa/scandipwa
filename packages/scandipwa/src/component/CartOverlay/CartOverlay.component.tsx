@@ -31,8 +31,8 @@ import './CartOverlay.style';
 export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
     static defaultProps: Partial<CartOverlayComponentProps> = {
         hasOutOfStockProductsInCart: false,
-        onCartItemLoading: null,
-        currencyCode: null,
+        onCartItemLoading: undefined,
+        currencyCode: undefined,
         cartTotalSubPrice: null,
         minimumOrderAmountReached: true
     };
@@ -56,7 +56,7 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
             totals: {
                 items = [],
                 prices: {
-                    quote_currency_code = null
+                    quote_currency_code
                 } = {}
             },
             onCartItemLoading
@@ -169,7 +169,7 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
             totals: {
                 prices: {
                     applied_rule_ids,
-                    coupon_code,
+                    coupon_code = '',
                     discount
                 } = {}
             }

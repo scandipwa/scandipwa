@@ -29,7 +29,7 @@ export interface CartItemContainerMapStateProps {
 
 export interface CartItemContainerMapDispatchProps {
     addProduct: (options: AddProductToCartOptions) => void;
-    changeItemQty: (options: UpdateProductInCartOptions) => Promise<void>;
+    changeItemQty: (options: UpdateProductInCartOptions) => Promise<string | null>;
     removeProduct: (itemId: number) => Promise<Partial<CartTotals> | null>;
     updateCrossSellProducts: (items: CartItem[]) => void;
     showNotification: (type: NotificationType, title: string, error: unknown) => void;

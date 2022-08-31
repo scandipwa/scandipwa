@@ -23,4 +23,5 @@ export interface HistoryState {
     firstName?: string;
     lastName?: string;
     email?: string;
+    overlayOpen?: boolean;
 }

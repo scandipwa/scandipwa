@@ -14,7 +14,6 @@ import { History, Location } from 'history';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
 import { ReactElement } from 'Type/Common.type';
-import { HistoryState } from 'Util/History/History.type';
 
 export interface CategoryFilterOverlayContainerMapStateProps {
     isInfoLoading: boolean;
@@ -39,9 +38,9 @@ export interface CategoryFilterOverlayContainerFunctions {
 }
 
 export interface CategoryFilterOverlayContainerBaseProps {
-    history: History<HistoryState>;
+    history: History;
     renderPlaceholder: (block: string) => ReactElement;
-    location: Location<HistoryState>;
+    location: Location;
     customFiltersValues: Record<string, string[]>;
     availableFilters: Record<string, ProductListFilter>;
     isCategoryAnchor: boolean;
@@ -54,7 +53,6 @@ export type CategoryFilterOverlayContainerProps = CategoryFilterOverlayContainer
 & CategoryFilterOverlayContainerBaseProps;
 
 export interface CategoryFilterOverlayComponentProps {
-    renderPlaceholder: (block: string) => ReactElement;
     availableFilters: Record<string, ProductListFilter>;
     isCategoryAnchor: boolean;
     isInfoLoading: boolean;
@@ -73,7 +71,6 @@ export interface CategoryFilterOverlayComponentProps {
 }
 
 export type CategoryFilterComponentContainerPropsKey =
-    | 'renderPlaceholder'
     | 'availableFilters'
     | 'isCategoryAnchor'
     | 'isInfoLoading'
