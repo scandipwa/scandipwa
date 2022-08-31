@@ -57,13 +57,23 @@ export class ConfirmNewsletterPageContainer extends PureComponent {
     }
 
     containerProps() {
-        const { status, message } = this.state;
+        const { status } = this.state;
 
         return {
             status,
-            message,
+            message: this.getErrorMessage(),
             shouldDisplayWarning: this.shouldDisplayWarning()
         };
+    }
+
+    getErrorMessage() {
+        const { message } = this.state;
+
+        if (this.shouldDisplayWarning()) {
+            return 'The URL is invalid, some parameters are missing';
+        }
+
+        return message;
     }
 
     shouldDisplayWarning() {

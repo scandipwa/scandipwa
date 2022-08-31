@@ -70,11 +70,11 @@ export class ConfirmNewsletterPage extends PureComponent {
         return (
             <>
                 <h1 block="ConfirmNewsletterPage" elem="Heading">
-                    { message }
-                </h1>
-                <h3 block="ConfirmNewsletterPage" elem="Message">
                     { __('Thank you for subscribing to our newsletter!') }
-                </h3>
+                </h1>
+                <p block="ConfirmNewsletterPage" elem="Message">
+                    { message }
+                </p>
                 { this.renderButtons() }
             </>
         );

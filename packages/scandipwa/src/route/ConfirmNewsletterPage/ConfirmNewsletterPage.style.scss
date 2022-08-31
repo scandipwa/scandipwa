@@ -48,6 +48,19 @@
 
     &-Message {
         margin-block-start: 22px;
+        font-weight: normal;
+        text-transform: none;
+    }
+
+    &-ButtonWrapper {
+        @include mobile {
+            padding: 14px;
+            position: fixed;
+            inset-inline-start: 0;
+            width: 100%;
+            inset-block-end: calc(var(--navigation-tabs-height) - 2px);
+            border-block-start: 1px solid var(--primary-divider-color);
+        }
     }
 
     &-ContinueButton {
