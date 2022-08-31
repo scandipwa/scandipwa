@@ -26,7 +26,6 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { DeviceType } from 'Type/Device.type';
 import { TotalsType } from 'Type/MiniCart.type';
-import { HistoryType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
 import {
@@ -94,7 +93,6 @@ export class CartPageContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         guest_checkout: PropTypes.bool.isRequired,
-        history: HistoryType.isRequired,
         totals: TotalsType.isRequired,
         device: DeviceType.isRequired,
         minimumOrderAmount: PropTypes.shape({
@@ -131,14 +129,14 @@ export class CartPageContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const {
             changeHeaderState,
-            totals: { items_qty = 0 },
+            totals: { total_quantity = 0 },
             headerState,
             headerState: { name },
             isLoading
         } = this.props;
 
         const {
-            totals: { items_qty: prevItemsQty = 0 },
+            totals: { total_quantity: prevItemsQty = 0 },
             headerState: { name: prevName }
         } = prevProps;
 
@@ -150,8 +148,8 @@ export class CartPageContainer extends PureComponent {
             }
         }
 
-        if (items_qty !== prevItemsQty && prevItemsQty !== undefined) {
-            const title = getItemsCountLabel(items_qty);
+        if (total_quantity !== prevItemsQty && prevItemsQty !== undefined) {
+            const title = getItemsCountLabel(total_quantity);
 
             changeHeaderState({
                 ...headerState,
@@ -159,7 +157,7 @@ export class CartPageContainer extends PureComponent {
             });
         }
 
-        if (items_qty !== prevItemsQty) {
+        if (total_quantity !== prevItemsQty) {
             this._updateCrossSellProducts();
         }
 
@@ -205,7 +203,6 @@ export class CartPageContainer extends PureComponent {
 
     onCheckoutButtonClick(e) {
         const {
-            history,
             guest_checkout,
             showOverlay,
             showNotification,
@@ -265,8 +262,8 @@ export class CartPageContainer extends PureComponent {
     }
 
     _changeHeaderState() {
-        const { changeHeaderState, totals: { items_qty } } = this.props;
-        const title = getItemsCountLabel(items_qty);
+        const { changeHeaderState, totals: { total_quantity } } = this.props;
+        const title = getItemsCountLabel(total_quantity);
 
         changeHeaderState({
             name: CART,

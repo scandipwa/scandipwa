@@ -18,7 +18,6 @@ import { ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { LocationType } from 'Type/Router.type';
 import { isSignedIn } from 'Util/Auth';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
@@ -54,7 +53,6 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Route/ConfirmAccountPage/Container */
 export class ConfirmAccountPageContainer extends PureComponent {
     static propTypes = {
-        location: LocationType.isRequired,
         signIn: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         confirmAccount: PropTypes.func.isRequired,
@@ -102,7 +100,7 @@ export class ConfirmAccountPageContainer extends PureComponent {
             location: {
                 search
             }
-        } = this.props;
+        } = history;
         const { email, key } = convertQueryStringToKeyValuePairs(search);
 
         return !(email && key);
@@ -113,10 +111,10 @@ export class ConfirmAccountPageContainer extends PureComponent {
 
     onConfirmSuccess(form, fields) {
         const {
-            location: { search },
             confirmAccount,
             signIn
         } = this.props;
+        const { location: { search } } = history;
 
         this.setState({ isLoading: true });
 

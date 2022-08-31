@@ -113,12 +113,15 @@
 
     ul,
     ol {
+        padding-inline-start: 40px;
+
         li {
+            font-family: 'Open Sans', sans-serif;
+            list-style-position: outside;
+            list-style-type: inherit;
+
             &::before {
-                position: relative;
-                margin-inline-start: 10px;
-                margin-inline-end: 5px;
-                inset-block-start: -1px;
+                display: none;
             }
         }
     }

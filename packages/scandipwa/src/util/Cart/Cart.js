@@ -42,8 +42,14 @@ export const getCartSubtotal = (state) => {
         } = {},
         CartReducer: {
             cartTotals: {
-                subtotal = 0,
-                subtotal_incl_tax = 0
+                prices: {
+                    subtotal_excluding_tax: {
+                        value: subtotal = 0
+                    } = {},
+                    subtotal_including_tax: {
+                        value: subtotal_incl_tax = 0
+                    } = {}
+                } = {}
             } = {}
         } = {}
     } = state;
@@ -65,7 +71,11 @@ export const getCartSubtotalSubPrice = (state) => {
         } = {},
         CartReducer: {
             cartTotals: {
-                subtotal = 0
+                prices: {
+                    subtotal_excluding_tax: {
+                        value: subtotal = 0
+                    } = {}
+                } = {}
             } = {}
         } = {}
     } = state;
@@ -125,16 +135,24 @@ export const getCartShippingPrice = (state) => {
     const {
         ConfigReducer: {
             cartDisplayConfig: {
-                display_tax_in_shipping_amount
+                display_tax_in_shipping_amount = ''
             } = {}
         } = {},
         CartReducer: {
             cartTotals: {
-                shipping_amount = 0,
-                shipping_incl_tax = 0
+                shipping_addresses: {
+                    selected_shipping_method = {}
+                } = []
             } = {}
         } = {}
     } = state;
+
+    const {
+        amount: {
+            value: shipping_amount = 0
+        } = {},
+        amount_incl_tax: shipping_incl_tax = 0
+    } = selected_shipping_method || {};
 
     if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING.EXCL_TAX) {
         return shipping_amount;
@@ -153,10 +171,18 @@ export const getCartShippingSubPrice = (state) => {
         } = {},
         CartReducer: {
             cartTotals: {
-                shipping_amount = 0
+                shipping_addresses: {
+                    selected_shipping_method = {}
+                } = []
             } = {}
         } = {}
     } = state;
+
+    const {
+        amount: {
+            value: shipping_amount = 0
+        } = {}
+    } = selected_shipping_method || {};
 
     if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING.BOTH) {
         return shipping_amount;
@@ -218,14 +244,18 @@ export const getCartTotalSubPrice = (state) => {
         } = {},
         CartReducer: {
             cartTotals: {
-                grand_total = 0,
-                tax_amount = 0
+                prices: {
+                    grand_total: {
+                        value: grand_total = 0
+                    } = {},
+                    applied_taxes = []
+                } = {}
             } = {}
         } = {}
     } = state;
 
     if (include_tax_in_order_total) {
-        return grand_total - tax_amount;
+        return applied_taxes.reduce((acc, { amount: { value: tax_amount = 0 } = {} }) => acc - tax_amount, grand_total);
     }
 
     return null;

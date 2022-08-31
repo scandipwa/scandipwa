@@ -18,24 +18,42 @@ export const CART_TOTALS = 'cart_totals';
 
 /** @namespace Store/Cart/Reducer/updateCartTotals */
 export const updateCartTotals = (action) => {
-    const { cartData: { items = [], ...rest } = {} } = action;
+    const { cartData: { items = [], shipping_addresses = {}, ...rest } = {} } = action;
 
     const cartTotals = {
         ...rest,
-        items: []
+        items: [],
+        shipping_addresses: {}
     };
 
     if (items.length) {
         const normalizedItemsProduct = items.map((item) => {
-            const { variants, ...normalizedItem } = item;
+            const {
+                variants,
+                bundle_customizable_options,
+                configurable_customizable_options,
+                downloadable_customizable_options,
+                virtual_customizable_options,
+                simple_customizable_options,
+                ...normalizedItem
+            } = item;
 
             normalizedItem.product = getIndexedProduct(item.product, item.sku);
+
+            normalizedItem.customizable_options = bundle_customizable_options
+                || configurable_customizable_options
+                || downloadable_customizable_options
+                || virtual_customizable_options
+                || simple_customizable_options
+                || [];
 
             return normalizedItem;
         });
 
         cartTotals.items = normalizedItemsProduct;
     }
+
+    cartTotals.shipping_addresses = shipping_addresses[0] || {};
 
     BrowserDatabase.setItem(
         cartTotals,
@@ -49,15 +67,64 @@ export const updateCartTotals = (action) => {
 export const updateShippingPrice = (action, state) => {
     const {
         data: {
-            items,
-            ...rest
+            discount_amount,
+            grand_total,
+            shipping_amount,
+            shipping_incl_tax,
+            shipping_tax_amount,
+            subtotal,
+            subtotal_incl_tax,
+            subtotal_with_discount,
+            tax_amount
         } = {}
     } = action;
+
+    const shipping = {
+        prices: {
+            ...state.cartTotals.prices,
+            applied_taxes: [
+                {
+                    ...state.cartTotals.prices?.applied_taxes[0],
+                    amount: {
+                        value: tax_amount
+                    }
+                }
+            ],
+            discount: {
+                ...state.cartTotals.prices?.discount,
+                amount: {
+                    value: discount_amount
+                }
+            },
+            grand_total: {
+                value: grand_total
+            },
+            subtotal_excluding_tax: {
+                value: subtotal
+            },
+            subtotal_including_tax: {
+                value: subtotal_incl_tax
+            },
+            subtotal_with_discount_excluding_tax: {
+                value: subtotal_with_discount
+            }
+        },
+        shipping_addresses: {
+            ...state.cartTotals.shipping_addresses,
+            selected_shipping_method: {
+                amount: {
+                    value: shipping_amount
+                },
+                amount_incl_tax: shipping_incl_tax,
+                tax_amount: shipping_tax_amount
+            }
+        }
+    };
 
     return {
         cartTotals: {
             ...state.cartTotals,
-            ...rest
+            ...shipping
         }
     };
 };

@@ -29,11 +29,10 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { Addresstype, CustomerType } from 'Type/Account.type';
 import { TotalsType } from 'Type/MiniCart.type';
-import { HistoryType } from 'Type/Router.type';
 import { removeEmptyStreets } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { deleteGuestQuoteId, getCartTotalSubPrice, getGuestQuoteId } from 'Util/Cart';
+import { deleteCartId, getCartId, getCartTotalSubPrice } from 'Util/Cart';
 import history from 'Util/History';
 import {
     debounce,
@@ -136,7 +135,6 @@ export class CheckoutContainer extends PureComponent {
         resetGuestCart: PropTypes.func.isRequired,
         guest_checkout: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired,
-        history: HistoryType.isRequired,
         customer: CustomerType.isRequired,
         countries: PropTypes.arrayOf(
             PropTypes.shape({
@@ -242,7 +240,6 @@ export class CheckoutContainer extends PureComponent {
 
     componentDidMount() {
         const {
-            history,
             guest_checkout,
             updateMeta,
             isGuestNotAllowDownloadable
@@ -287,8 +284,7 @@ export class CheckoutContainer extends PureComponent {
             totals: {
                 is_virtual
             },
-            showInfoNotification,
-            history
+            showInfoNotification
         } = this.props;
 
         const {
@@ -302,7 +298,7 @@ export class CheckoutContainer extends PureComponent {
 
         const { email, checkoutStep, isVisibleEmailRequired } = this.state;
         const { email: prevEmail, isVisibleEmailRequired: prevIsVisibleEmailRequired } = prevState;
-        const { pathname = '' } = location;
+        const { location: { pathname = '' } } = history;
 
         this.handleRedirectIfNoItemsInCart();
         this.handleRedirectIfLessThanMinAmountInCart();
@@ -423,9 +419,9 @@ export class CheckoutContainer extends PureComponent {
 
     onShippingEstimationFieldsChange(address) {
         const { requestsSent } = this.state;
-        const guestQuoteId = getGuestQuoteId();
+        const cartId = getCartId();
 
-        if (!guestQuoteId) {
+        if (!cartId) {
             return;
         }
 
@@ -437,7 +433,7 @@ export class CheckoutContainer extends PureComponent {
 
         fetchMutation(CheckoutQuery.getEstimateShippingCosts(
             address,
-            guestQuoteId
+            cartId
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/onShippingEstimationFieldsChange/fetchMutation/then */
             ({ estimateShippingCosts: shippingMethods }) => {
@@ -464,7 +460,7 @@ export class CheckoutContainer extends PureComponent {
                 is_virtual
             }
         } = this.props;
-        const { pathname = '' } = location;
+        const { location: { pathname = '' } } = history;
 
         if (urlStep.includes(DETAILS_URL_STEP)) {
             return DETAILS_STEP;
@@ -489,8 +485,7 @@ export class CheckoutContainer extends PureComponent {
                 items = []
             },
             isCartLoading,
-            showInfoNotification,
-            history
+            showInfoNotification
         } = this.props;
 
         const { checkoutStep, orderID } = this.state;
@@ -566,7 +561,7 @@ export class CheckoutContainer extends PureComponent {
     setDetailsStep(orderID) {
         const { resetCart, resetGuestCart, setNavigationState } = this.props;
 
-        deleteGuestQuoteId();
+        deleteCartId();
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
         if (isSignedIn()) {
@@ -618,7 +613,6 @@ export class CheckoutContainer extends PureComponent {
     containerProps() {
         const {
             cartTotalSubPrice,
-            history,
             isEmailAvailable,
             isMobile,
             setHeaderState,
@@ -654,7 +648,6 @@ export class CheckoutContainer extends PureComponent {
             checkoutTotals: this._getCheckoutTotals(),
             email,
             estimateAddress,
-            history,
             isCreateUser,
             isDeliveryOptionsLoading,
             isEmailAvailable,
@@ -693,7 +686,7 @@ export class CheckoutContainer extends PureComponent {
 
     _getPaymentMethods() {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
-            getGuestQuoteId()
+            getCartId()
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/_getPaymentMethods/fetchQuery/then */
             ({ getPaymentMethods: paymentMethods }) => {
@@ -715,7 +708,7 @@ export class CheckoutContainer extends PureComponent {
     saveGuestEmail() {
         const { email } = this.state;
         const { updateEmail } = this.props;
-        const guestCartId = getGuestQuoteId();
+        const guestCartId = getCartId();
 
         if (!email) {
             this.setState({ isVisibleEmailRequired: false }, this.onChangeEmailRequired);
@@ -832,7 +825,7 @@ export class CheckoutContainer extends PureComponent {
 
         fetchMutation(CheckoutQuery.getSaveAddressInformation(
             this.prepareAddressInformation(addressInformation),
-            getGuestQuoteId()
+            getCartId()
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/saveAddressInformation/fetchMutation/then */
             ({ saveAddressInformation: data }) => {
@@ -951,9 +944,9 @@ export class CheckoutContainer extends PureComponent {
 
     async saveBillingAddress(paymentInformation) {
         const isCustomerSignedIn = isSignedIn();
-        const guest_cart_id = !isCustomerSignedIn ? getGuestQuoteId() : '';
+        const guest_cart_id = getCartId();
 
-        if (!isCustomerSignedIn && !getGuestQuoteId) {
+        if (!isCustomerSignedIn && !getCartId) {
             return;
         }
 
@@ -972,8 +965,7 @@ export class CheckoutContainer extends PureComponent {
         }
 
         await fetchMutation(CheckoutQuery.getSetBillingAddressOnCart({
-            guest_cart_id,
-            same_as_shipping,
+            cart_id: guest_cart_id,
             billing_address: billingAddress
         }));
     }
@@ -981,7 +973,7 @@ export class CheckoutContainer extends PureComponent {
     async savePaymentMethodAndPlaceOrder(paymentInformation) {
         const { paymentMethod: { code, additional_data, purchase_order_number } } = paymentInformation;
         const isCustomerSignedIn = isSignedIn();
-        const guest_cart_id = !isCustomerSignedIn ? getGuestQuoteId() : '';
+        const guest_cart_id = getCartId();
 
         if (!isCustomerSignedIn && !guest_cart_id) {
             return;
@@ -989,7 +981,7 @@ export class CheckoutContainer extends PureComponent {
 
         try {
             await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
-                guest_cart_id,
+                cart_id: guest_cart_id,
                 payment_method: {
                     code,
                     [code]: additional_data,

@@ -11,10 +11,9 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
 
 import { MixType } from 'Type/Common.type';
-import { HistoryType, LocationType } from 'Type/Router.type';
+import history from 'Util/History';
 import { setQueryParams } from 'Util/Url';
 
 import ResetButton from './ResetButton.component';
@@ -22,8 +21,6 @@ import ResetButton from './ResetButton.component';
 /** @namespace Component/ResetButton/Container */
 export class ResetButtonContainer extends PureComponent {
     static propTypes = {
-        history: HistoryType.isRequired,
-        location: LocationType.isRequired,
         mix: MixType,
         onClick: PropTypes.func.isRequired
     };
@@ -47,7 +44,7 @@ export class ResetButtonContainer extends PureComponent {
     }
 
     resetFilters() {
-        const { location, history } = this.props;
+        const { location } = history;
 
         setQueryParams({
             customFilters: '',
@@ -64,7 +61,7 @@ export class ResetButtonContainer extends PureComponent {
     }
 
     urlStringToObject() {
-        const { location: { search = '' } } = this.props;
+        const { location: { search = '' } } = history;
 
         return search.substr(1).split('&').reduce((acc, part) => {
             const [key, value] = part.split('=');
@@ -83,6 +80,4 @@ export class ResetButtonContainer extends PureComponent {
     }
 }
 
-export default withRouter(
-    ResetButtonContainer
-);
+export default ResetButtonContainer;

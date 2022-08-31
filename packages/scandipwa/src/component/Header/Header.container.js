@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
@@ -38,7 +37,7 @@ import {
     CART_OVERLAY, CATEGORY,
     CHECKOUT, CHECKOUT_ACCOUNT, CHECKOUT_SUCCESS,
     CMS_PAGE, CONTACT_US, CUSTOMER_ACCOUNT,
-    CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT,
+    CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT, CUSTOMER_WISHLIST,
     MENU, PDP,
     SEARCH
 } from './Header.config';
@@ -108,7 +107,13 @@ export class HeaderContainer extends NavigationAbstractContainer {
         '/category': { name: CATEGORY },
         '/checkout/success': { name: CHECKOUT_SUCCESS },
         '/checkout': { name: CHECKOUT, onBackClick: () => history.push(appendWithStoreCode(CART_URL)) },
-        '/customer/account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push(appendWithStoreCode('/')) },
+        '/customer/account': { name: CUSTOMER_ACCOUNT_PAGE },
+        '/sales/order/history': { name: CUSTOMER_ACCOUNT_PAGE },
+        '/downloadable/customer/products': { name: CUSTOMER_ACCOUNT_PAGE },
+        '/wishlist': { name: CUSTOMER_WISHLIST },
+        '/customer/address': { name: CUSTOMER_ACCOUNT_PAGE },
+        '/customer/account/edit': { name: CUSTOMER_ACCOUNT_PAGE },
+        '/newsletter/manage': { name: CUSTOMER_ACCOUNT_PAGE },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
         '/menu': { name: MENU },
@@ -221,8 +226,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     getNavigationState() {
         const { navigationState } = this.props;
 
-        const { pathname } = location;
-        const { state: historyState } = window.history || {};
+        const { state: historyState, location: { pathname } } = history || {};
         const { state = {} } = historyState || {};
 
         // TODO: something here breaks /<STORE CODE> from being opened, and / when, the url-based stores are enabled.
@@ -520,4 +524,4 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);

@@ -255,9 +255,14 @@ export class RouterContainer extends PureComponent {
 
     containerProps() {
         const { isBigOffline, setBigOfflineNotice } = this.props;
-        const { isOnlyMainItems } = this.state;
+        const { isOnlyMainItems, currentUrl } = this.state;
 
-        return { isBigOffline, setBigOfflineNotice, isOnlyMainItems };
+        return {
+            isBigOffline,
+            setBigOfflineNotice,
+            isOnlyMainItems,
+            currentUrl
+        };
     }
 
     initializeApplication() {

@@ -16,8 +16,8 @@ import { connect } from 'react-redux';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { LocationType } from 'Type/Router.type';
 import transformToNameValuePair from 'Util/Form/Transform';
+import history from 'Util/History';
 import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 import SendConfirmationPage from './SendConfirmationPage.component';
@@ -47,7 +47,6 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Route/SendConfirmationPage/Container */
 export class SendConfirmationPageContainer extends PureComponent {
     static propTypes = {
-        location: LocationType.isRequired,
         updateMeta: PropTypes.func.isRequired,
         resendConfirmation: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
@@ -88,7 +87,7 @@ export class SendConfirmationPageContainer extends PureComponent {
     }
 
     shouldDisplayWarning() {
-        const { location: { search } } = this.props;
+        const { location: { search } } = history;
         const { email } = convertQueryStringToKeyValuePairs(search);
 
         if (email) {
