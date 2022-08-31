@@ -130,18 +130,22 @@ export const getCartShippingPrice = (state: RootState): number => {
         CartReducer: {
             cartTotals: {
                 shipping_addresses: {
-                    selected_shipping_method = {}
-                } = []
+                    selected_shipping_method
+                } = {}
             } = {}
         } = {}
     } = state;
+
+    if (!selected_shipping_method) {
+        return 0;
+    }
 
     const {
         amount: {
             value: shipping_amount = 0
         } = {},
         amount_incl_tax: shipping_incl_tax = 0
-    } = selected_shipping_method || {};
+    } = selected_shipping_method;
 
     if (display_tax_in_shipping_amount === DisplayCartTaxInShipping.EXCL_TAX) {
         return shipping_amount;
@@ -161,17 +165,21 @@ export const getCartShippingSubPrice = (state: RootState): number | null => {
         CartReducer: {
             cartTotals: {
                 shipping_addresses: {
-                    selected_shipping_method = {}
+                    selected_shipping_method
                 } = {}
             } = {}
         } = {}
     } = state;
 
+    if (!selected_shipping_method) {
+        return null;
+    }
+
     const {
         amount: {
             value: shipping_amount = 0
         } = {}
-    } = selected_shipping_method || {};
+    } = selected_shipping_method;
 
     if (display_tax_in_shipping_amount === DisplayCartTaxInShipping.BOTH) {
         return shipping_amount;
