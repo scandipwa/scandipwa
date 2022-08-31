@@ -41,6 +41,7 @@ export interface CategoryProductListContainerBaseProps {
     search: string;
     sort: CategorySortOptions;
     selectedFilters: Record<string, string[]>;
+    isPlp: boolean;
 }
 
 export type CategoryProductListContainerProps = CategoryProductListContainerMapStateProps
@@ -58,4 +59,5 @@ export type CategoryProductListContainerPropKeys =
     | 'totalPages'
     | 'isLoading'
     | 'isPreventRequest'
-    | 'mix';
+    | 'mix'
+    | 'isPlp';

@@ -13,8 +13,9 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { FormFields } from 'Component/Form/Form.type';
 import { ReactElement } from 'Type/Common.type';
+import { GQLContactForm } from 'Type/Graphql.type';
+import { FieldData } from 'Util/Form/Form.type';
 import { RootState } from 'Util/Store/Store.type';
 
 import ContactForm from './ContactForm.component';
@@ -50,12 +51,12 @@ export class ContactFormContainer extends PureComponent<ContactFormContainerProp
         onFormSubmit: this.onFormSubmit.bind(this)
     };
 
-    onFormSubmit(form: HTMLFormElement, fields: FormFields): void {
+    onFormSubmit(form: HTMLFormElement, fields: FieldData[]): void {
         const { sendMessage } = this.props;
-        const filteredFields = {};
+        const filteredFields: GQLContactForm = {};
 
         fields.forEach(({ name, value }) => {
-            filteredFields[name] = value;
+            filteredFields[name as keyof GQLContactForm] = String(value);
         });
 
         sendMessage({ form, fields: filteredFields });

@@ -64,13 +64,16 @@ export abstract class QueryDispatcher<Options, Data, Error = NetworkError | Netw
 
         try {
             this.promise = await executeGet(prepareQuery(queries), name, cacheTTL, this.controller.signal);
-            this.onSuccess(this.promise, dispatch, options);
+
+            if (this.promise) {
+                this.onSuccess(this.promise, dispatch, options);
+            }
         } catch (err) {
-            if (!err.message.includes('abort')) {
-                this.onError(err, dispatch, options);
+            if (!(err as NetworkError).message.includes('abort')) {
+                this.onError(err as NetworkError, dispatch, options);
             }
         }
-        const broadcast = await listenForBroadCast(name);
+        const broadcast = await listenForBroadCast<Data>(name);
 
         this.onUpdate(broadcast, dispatch, options);
     }
@@ -108,7 +111,7 @@ export abstract class QueryDispatcher<Options, Data, Error = NetworkError | Netw
      * @param  {any} dispatch
      * @return {void}@memberof QueryDispatcher
      */
-    abstract onSuccess(data: Data, dispatch: Dispatch, options: Options): void;
+    abstract onSuccess(data: Data | CancelablePromise<Data>, dispatch: Dispatch, options: Options): void;
 
     /**
      * Is triggered on error in fetch of GraphQL endpoint.
@@ -118,7 +121,7 @@ export abstract class QueryDispatcher<Options, Data, Error = NetworkError | Netw
      * @param  {any} dispatch
      * @return {void}@memberof QueryDispatcher
      */
-    abstract onError(error: Error, dispatch: Dispatch, options: Options): void;
+    abstract onError(error: Error | NetworkError, dispatch: Dispatch, options: Options): void;
 }
 
 export default QueryDispatcher;

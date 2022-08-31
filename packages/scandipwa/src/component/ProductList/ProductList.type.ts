@@ -48,6 +48,7 @@ export interface ProductListContainerBaseProps {
     mix: Mix;
     title?: string;
     totalPages: number;
+    isPlp: boolean;
 }
 
 export interface ProductListContainerFunctions {
@@ -77,6 +78,7 @@ export interface ProductListComponentProps {
     currentPage: number;
     isShowLoading: boolean;
     isVisible: boolean;
+    isPlp: boolean;
     requestPage: (currentPage?: number, isNext?: boolean) => void;
     isInfiniteLoaderEnabled: boolean;
     loadPrevPage: () => void;
@@ -98,7 +100,8 @@ export type ProductListComponentContainerPropKeys =
     | 'isShowLoading'
     | 'isVisible'
     | 'requestPage'
-    | 'isInfiniteLoaderEnabled';
+    | 'isInfiniteLoaderEnabled'
+    | 'isPlp';
 
 export interface PageBounds {
     maxPage: number;

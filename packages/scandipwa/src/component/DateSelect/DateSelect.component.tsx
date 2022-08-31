@@ -43,13 +43,13 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
 
         const yearRange = range(+minYear, +maxYear);
 
-        return yearRange.map((year) => ({ id: year, value: year, label: year }));
+        return yearRange.map((year) => ({ id: year.toString(), value: year.toString(), label: year.toString() }));
     }
 
     getMonthOptions(): OptionShape[] {
         const monthRange = range(1, +MONTHS_COUNT);
 
-        return monthRange.map((month) => ({ id: month, value: month, label: month }));
+        return monthRange.map((month) => ({ id: month.toString(), value: month.toString(), label: month.toString() }));
     }
 
     getDayOptions(): OptionShape[] {
@@ -57,7 +57,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
 
         const dayRange = range(1, +maxDay || DEFAULT_MONTH_DAYS);
 
-        return dayRange.map((day) => ({ id: day, value: day, label: day }));
+        return dayRange.map((day) => ({ id: day.toString(), value: day.toString(), label: day.toString() }));
     }
 
     getHoursOptions(): OptionShape[] {

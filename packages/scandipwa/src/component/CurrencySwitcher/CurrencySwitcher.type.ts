@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { CurrencyConfig } from 'Query/Config.type';
+import { CurrencyData } from 'Query/Config.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 
 export interface CurrencySwitcherMapStateProps {
-    currencyData: CurrencyConfig;
+    currencyData: CurrencyData;
 }
 
 export interface CurrencySwitcherMapDispatchProps {
@@ -27,6 +27,6 @@ export interface CurrencySwitcherContainerFunctions {
 export type CurrencySwitcherContainerProps = CurrencySwitcherMapStateProps & CurrencySwitcherMapDispatchProps;
 
 export interface CurrencySwitcherComponentProps {
-    currencyData: CurrencyConfig;
+    currencyData: CurrencyData;
     handleCurrencySelect: (currencyCode: GQLCurrencyEnum) => void;
 }

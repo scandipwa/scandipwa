@@ -17,6 +17,7 @@ export interface CategorySortContainerProps {
     onSortChange: (sortDirection: SortDirections, sortKey: string[]) => void;
     sortKey: string;
     sortDirection: SortDirections;
+    isCurrentCategoryLoaded: boolean;
 }
 
 export interface CategorySortComponentProps {
