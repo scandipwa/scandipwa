@@ -19,7 +19,7 @@ export enum StoreInPickUpActionType {
 
 export interface SetPickUpStoreAction extends AnyAction {
     type: StoreInPickUpActionType.SET_PICK_UP_STORE;
-    store: Store;
+    store: Store | null;
 }
 
 export interface ClearPickUpStoreAction extends AnyAction {

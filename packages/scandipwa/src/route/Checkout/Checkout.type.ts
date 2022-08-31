@@ -9,13 +9,14 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { History } from 'history';
 import { match as Match } from 'react-router-dom';
 
 import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.type';
+import { MinimumOrderAmount } from 'Query/Cart.type';
 import { PaymentMethod, ShippingMethod, TotalsObject } from 'Query/Checkout.type';
 import { CreateAccountOptions, Customer } from 'Query/MyAccount.type';
 import { Country } from 'Query/Region.type';
+import { Store } from 'Query/StoreInPickUp.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
@@ -25,6 +26,7 @@ import { GQLCountryCodeEnum, GQLEstimateShippingCostsAddress } from 'Type/Graphq
 import { CheckoutSteps } from './Checkout.config';
 
 export interface CheckoutContainerMapStateProps {
+    selectedStore: Store | null;
     totals: CartTotals;
     cartTotalSubPrice: number | null;
     customer: Partial<Customer>;
@@ -36,6 +38,9 @@ export interface CheckoutContainerMapStateProps {
     isGuestNotAllowDownloadable: boolean;
     savedEmail: string;
     isSignedIn: boolean;
+    isCartLoading: boolean;
+    shippingFields: Record<string, unknown>;
+    minimumOrderAmount?: MinimumOrderAmount;
 }
 
 export interface CheckoutContainerDispatchProps {
@@ -53,6 +58,7 @@ export interface CheckoutContainerDispatchProps {
     updateMeta: (meta: Partial<PageMeta>) => void;
     updateShippingFields: (fields: Record<string, unknown>) => void;
     updateShippingPrice: (data: TotalsObject) => void;
+    setPickUpStore: (store: Store | null) => void;
 }
 
 export interface CheckoutContainerFunctions {
@@ -68,6 +74,7 @@ export interface CheckoutContainerFunctions {
     savePaymentInformation: (paymentInformation: PaymentInformation) => Promise<void>;
     setDetailsStep: (orderID: string) => void;
     setLoading: (isLoading: boolean) => void;
+    onChangeEmailRequired: () => void;
 }
 
 export interface CheckoutContainerBaseProps {
@@ -97,6 +104,7 @@ export interface CheckoutContainerState {
     selectedStoreAddress: StoreWithCountryId | undefined;
     shippingAddress: Partial<CheckoutAddress> | undefined;
     shippingMethods: ShippingMethod[];
+    isVisibleEmailRequired: boolean;
 }
 
 export interface CheckoutComponentProps extends CheckoutContainerFunctions {
@@ -106,13 +114,13 @@ export interface CheckoutComponentProps extends CheckoutContainerFunctions {
     checkoutTotals: CartTotals;
     email: string;
     estimateAddress: GQLEstimateShippingCostsAddress | undefined;
-    history: History;
     isCreateUser: boolean;
     isDeliveryOptionsLoading: boolean;
     isEmailAvailable: boolean;
     isGuestEmailSaved: boolean;
     isInStoreActivated: boolean;
     isLoading: boolean;
+    isCartLoading: boolean;
     isMobile: boolean;
     isPickInStoreMethodSelected: boolean;
     isSignedIn: boolean;
@@ -125,6 +133,7 @@ export interface CheckoutComponentProps extends CheckoutContainerFunctions {
     shippingAddress: Partial<CheckoutAddress> | undefined;
     shippingMethods: ShippingMethod[];
     totals: CartTotals;
+    isVisibleEmailRequired: boolean;
 }
 
 export type CheckoutContainerPropsKeys =
@@ -134,7 +143,6 @@ export type CheckoutContainerPropsKeys =
 | 'checkoutTotals'
 | 'email'
 | 'estimateAddress'
-| 'history'
 | 'isCreateUser'
 | 'isDeliveryOptionsLoading'
 | 'isEmailAvailable'
@@ -142,6 +150,7 @@ export type CheckoutContainerPropsKeys =
 | 'isInStoreActivated'
 | 'isSignedIn'
 | 'isLoading'
+| 'isCartLoading'
 | 'isMobile'
 | 'orderID'
 | 'paymentMethods'
@@ -152,7 +161,8 @@ export type CheckoutContainerPropsKeys =
 | 'shippingMethods'
 | 'totals'
 | 'selectedStoreAddress'
-| 'isPickInStoreMethodSelected';
+| 'isPickInStoreMethodSelected'
+| 'isVisibleEmailRequired';
 
 export interface AddressInformation {
     billing_address: CheckoutAddress | Partial<StoreWithCountryId>;

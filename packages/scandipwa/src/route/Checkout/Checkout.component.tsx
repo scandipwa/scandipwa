@@ -9,21 +9,33 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
 import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
-import { Page } from 'Component/Header/Header.config';
+import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
-import { ReactElement } from 'Type/Common.type';
+import { Addresstype } from 'Type/Account.type';
+import {
+    CheckoutStepType,
+    PaymentMethodsType,
+    ShippingMethodsType,
+    StoreType
+} from 'Type/Checkout.type';
+import { TotalsType } from 'Type/MiniCart.type';
 import { scrollToTop } from 'Util/Browser';
+import { noopFn } from 'Util/Common';
+import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import {
-    CheckoutSteps,
-    CheckoutStepUrl
+    BILLING_STEP,
+    CHECKOUT_URL,
+    CHECKOUT_URL_REGEX,
+    DETAILS_STEP,
+    SHIPPING_STEP
 } from './Checkout.config';
-import { CheckoutComponentProps, CheckoutMapStep } from './Checkout.type';
 
 import './Checkout.style';
 
@@ -63,30 +75,74 @@ export const ExpandableContent = lazy(() => import(
 ));
 
 /** @namespace Route/Checkout/Component */
-export class Checkout extends PureComponent<CheckoutComponentProps> {
-    static defaultProps: Partial<CheckoutComponentProps> = {
-        paymentTotals: undefined,
-        selectedStoreAddress: undefined,
-        isLoading: false,
-        cartTotalSubPrice: null
+export class Checkout extends PureComponent {
+    static propTypes = {
+        setLoading: PropTypes.func.isRequired,
+        setDetailsStep: PropTypes.func.isRequired,
+        shippingMethods: ShippingMethodsType.isRequired,
+        onShippingEstimationFieldsChange: PropTypes.func.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        paymentMethods: PaymentMethodsType.isRequired,
+        saveAddressInformation: PropTypes.func.isRequired,
+        savePaymentInformation: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool,
+        isDeliveryOptionsLoading: PropTypes.bool.isRequired,
+        shippingAddress: Addresstype.isRequired,
+        billingAddress: Addresstype.isRequired,
+        estimateAddress: Addresstype.isRequired,
+        checkoutTotals: TotalsType.isRequired,
+        orderID: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        isEmailAvailable: PropTypes.bool.isRequired,
+        selectedShippingMethod: PropTypes.string.isRequired,
+        onEmailChange: PropTypes.func.isRequired,
+        paymentTotals: TotalsType,
+        checkoutStep: CheckoutStepType.isRequired,
+        isCreateUser: PropTypes.bool.isRequired,
+        onCreateUserChange: PropTypes.func.isRequired,
+        onPasswordChange: PropTypes.func.isRequired,
+        isGuestEmailSaved: PropTypes.bool.isRequired,
+        goBack: PropTypes.func.isRequired,
+        totals: TotalsType.isRequired,
+        isMobile: PropTypes.bool.isRequired,
+        isPickInStoreMethodSelected: PropTypes.bool.isRequired,
+        handleSelectDeliveryMethod: PropTypes.func.isRequired,
+        isInStoreActivated: PropTypes.bool.isRequired,
+        cartTotalSubPrice: PropTypes.number,
+        onShippingMethodSelect: PropTypes.func.isRequired,
+        onStoreSelect: PropTypes.func.isRequired,
+        selectedStoreAddress: StoreType,
+        onCouponCodeUpdate: PropTypes.func,
+        isSignedIn: PropTypes.bool.isRequired,
+        isCartLoading: PropTypes.bool.isRequired,
+        isVisibleEmailRequired: PropTypes.bool.isRequired,
+        onChangeEmailRequired: PropTypes.func.isRequired
     };
 
-    stepMap: Record<CheckoutSteps, CheckoutMapStep> = {
-        [ CheckoutSteps.SHIPPING_STEP ]: {
+    static defaultProps = {
+        paymentTotals: {},
+        selectedStoreAddress: {},
+        isLoading: false,
+        cartTotalSubPrice: null,
+        onCouponCodeUpdate: noopFn
+    };
+
+    stepMap = {
+        [SHIPPING_STEP]: {
             number: 1,
             title: __('Personal information'),
             url: '/shipping',
             render: this.renderShippingStep.bind(this),
             areTotalsVisible: true
         },
-        [ CheckoutSteps.BILLING_STEP ]: {
+        [BILLING_STEP]: {
             number: 2,
             title: __('Payment'),
             url: '/billing',
             render: this.renderBillingStep.bind(this),
             areTotalsVisible: true
         },
-        [ CheckoutSteps.DETAILS_STEP ]: {
+        [DETAILS_STEP]: {
             title: __('Thank you for your purchase!'),
             mobileTitle: __('Order details'),
             url: '/success',
@@ -95,18 +151,12 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
         }
     };
 
-    stepsCount = 2;
-
-    componentDidMount(): void {
-        const { checkoutStep, history } = this.props;
-        const { url } = this.stepMap[ checkoutStep ];
-
+    componentDidMount() {
         this.updateHeader();
-
-        history.replace(appendWithStoreCode(`${CheckoutStepUrl.CHECKOUT_URL}${url}`));
+        this.updateStepURL(true);
     }
 
-    componentDidUpdate(prevProps: CheckoutComponentProps): void {
+    componentDidUpdate(prevProps) {
         const { checkoutStep } = this.props;
         const { checkoutStep: prevCheckoutStep } = prevProps;
 
@@ -116,18 +166,18 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
         }
     }
 
-    updateHeader(): void {
+    updateHeader() {
         const { setHeaderState, checkoutStep, goBack } = this.props;
-        const { mobileTitle, title } = this.stepMap[ checkoutStep ];
+        const { mobileTitle, title } = this.stepMap[checkoutStep];
 
         setHeaderState({
-            name: checkoutStep === CheckoutSteps.DETAILS_STEP ? Page.CHECKOUT_SUCCESS : Page.CHECKOUT,
+            name: checkoutStep === DETAILS_STEP ? CHECKOUT_SUCCESS : CHECKOUT,
             title: mobileTitle || title,
             onBackClick: () => goBack()
         });
     }
 
-    updateStepURL(isMounting = false): void {
+    updateStepURL(isMounting = false) {
         const { checkoutStep, isCartLoading } = this.props;
         const { url } = this.stepMap[checkoutStep];
         const { location: { pathname = '' } } = history;
@@ -141,41 +191,42 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
         }
     }
 
-    updateStep(): void {
+    updateStep() {
         this.updateStepURL();
         scrollToTop({ behavior: 'smooth' });
     }
 
-    renderTitle(): ReactElement {
+    renderTitle() {
         const { checkoutStep, totals: { is_virtual } } = this.props;
-        const { title = '', number } = this.stepMap[ checkoutStep ];
+        const { title = '', number } = this.stepMap[checkoutStep];
 
         if (is_virtual || !number) {
             return (
-                <div block="Checkout" elem="Header">
-                    <div block="Checkout" elem="Title">{ title }</div>
-                </div>
+                 <div block="Checkout" elem="Header">
+                     <div block="Checkout" elem="Title">{ title }</div>
+                 </div>
             );
         }
 
         return (
-            <div block="Checkout" elem="ProgressSection">
-                <div block="Checkout" elem="Header">
-                    <div block="Checkout" elem="Title">{ title }</div>
-                    <div block="Checkout" elem="Step">
-                        <span block="Checkout" elem="SelectedStep">{ number }</span>
-                        <span block="Checkout" elem="StepsBorder">/</span>
-                        <span block="Checkout" elem="TotalSteps">{ Object.keys(this.stepMap).length - 1 }</span>
-                    </div>
-                </div>
-                <div block="Checkout" elem="StepBarTotal" />
-                <div block="Checkout" elem="StepBarActive" mods={ { isSecond: number === 2 } } />
-            </div>
+             <div block="Checkout" elem="ProgressSection">
+                 <div block="Checkout" elem="Header">
+                     <div block="Checkout" elem="Title">{ title }</div>
+                     <div block="Checkout" elem="Step">
+                         <span block="Checkout" elem="SelectedStep">{ number }</span>
+                         <span block="Checkout" elem="StepsBorder">/</span>
+                         <span block="Checkout" elem="TotalSteps">{ Object.keys(this.stepMap).length - 1 }</span>
+                     </div>
+                 </div>
+                 <div block="Checkout" elem="StepBarTotal" />
+                 <div block="Checkout" elem="StepBarActive" mods={ { isSecond: number === 2 } } />
+             </div>
         );
     }
 
-    renderGuestForm(): ReactElement {
+    renderGuestForm() {
         const {
+            checkoutStep,
             isCreateUser,
             onEmailChange,
             onCreateUserChange,
@@ -184,32 +235,39 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
             isSignedIn,
             isVisibleEmailRequired
         } = this.props;
+        const isBilling = checkoutStep === BILLING_STEP;
 
         if ((checkoutStep !== SHIPPING_STEP && !isBilling) || isSignedIn) {
             return null;
         }
 
         return (
-            <CheckoutGuestForm
-              isCreateUser={ isCreateUser }
-              onEmailChange={ onEmailChange }
-              onCreateUserChange={ onCreateUserChange }
-              onPasswordChange={ onPasswordChange }
-              isGuestEmailSaved={ isGuestEmailSaved }
-              isVisibleEmailRequired={ isVisibleEmailRequired }
-            />
+             <CheckoutGuestForm
+               isBilling={ isBilling }
+               isCreateUser={ isCreateUser }
+               onEmailChange={ onEmailChange }
+               onCreateUserChange={ onCreateUserChange }
+               onPasswordChange={ onPasswordChange }
+               isGuestEmailSaved={ isGuestEmailSaved }
+               isVisibleEmailRequired={ isVisibleEmailRequired }
+             />
         );
     }
 
-    renderShippingStep(): ReactElement {
+    renderShippingStep() {
         const {
             shippingMethods,
             onShippingEstimationFieldsChange,
             saveAddressInformation,
             isDeliveryOptionsLoading,
+            onPasswordChange,
+            onCreateUserChange,
+            onEmailChange,
+            isCreateUser,
             estimateAddress,
             isPickInStoreMethodSelected,
             handleSelectDeliveryMethod,
+            cartTotalSubPrice,
             onShippingMethodSelect,
             onStoreSelect,
             selectedStoreAddress,
@@ -217,25 +275,30 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> }>
-                <CheckoutShipping
-                  isLoading={ isDeliveryOptionsLoading }
-                  shippingMethods={ shippingMethods }
-                  saveAddressInformation={ saveAddressInformation }
-                  onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
-                  onShippingMethodSelect={ onShippingMethodSelect }
-                  estimateAddress={ estimateAddress }
-                  handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
-                  isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
-                  onStoreSelect={ onStoreSelect }
-                  selectedStoreAddress={ selectedStoreAddress }
-                  onChangeEmailRequired={ onChangeEmailRequired }
-                />
-            </Suspense>
+             <Suspense fallback={ <Loader /> }>
+                 <CheckoutShipping
+                   isLoading={ isDeliveryOptionsLoading }
+                   shippingMethods={ shippingMethods }
+                   cartTotalSubPrice={ cartTotalSubPrice }
+                   saveAddressInformation={ saveAddressInformation }
+                   onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
+                   onShippingMethodSelect={ onShippingMethodSelect }
+                   onPasswordChange={ onPasswordChange }
+                   onCreateUserChange={ onCreateUserChange }
+                   onEmailChange={ onEmailChange }
+                   isCreateUser={ isCreateUser }
+                   estimateAddress={ estimateAddress }
+                   handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
+                   isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
+                   onStoreSelect={ onStoreSelect }
+                   selectedStoreAddress={ selectedStoreAddress }
+                   onChangeEmailRequired={ onChangeEmailRequired }
+                 />
+             </Suspense>
         );
     }
 
-    renderBillingStep(): ReactElement {
+    renderBillingStep() {
         const {
             setLoading,
             setDetailsStep,
@@ -247,21 +310,21 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> }>
-                <CheckoutBilling
-                  setLoading={ setLoading }
-                  paymentMethods={ paymentMethods }
-                  setDetailsStep={ setDetailsStep }
-                  shippingAddress={ shippingAddress }
-                  savePaymentInformation={ savePaymentInformation }
-                  selectedShippingMethod={ selectedShippingMethod }
-                  onChangeEmailRequired={ onChangeEmailRequired }
-                />
-            </Suspense>
+             <Suspense fallback={ <Loader /> }>
+                 <CheckoutBilling
+                   setLoading={ setLoading }
+                   paymentMethods={ paymentMethods }
+                   setDetailsStep={ setDetailsStep }
+                   shippingAddress={ shippingAddress }
+                   savePaymentInformation={ savePaymentInformation }
+                   selectedShippingMethod={ selectedShippingMethod }
+                   onChangeEmailRequired={ onChangeEmailRequired }
+                 />
+             </Suspense>
         );
     }
 
-    renderDetailsStep(): ReactElement {
+    renderDetailsStep() {
         const {
             orderID,
             isEmailAvailable,
@@ -269,23 +332,23 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
             billingAddress: {
                 firstname,
                 lastname
-            } = {}
+            }
         } = this.props;
 
         return (
-            <Suspense fallback={ <Loader /> }>
-                <CheckoutSuccess
-                  email={ email }
-                  firstName={ firstname || '' }
-                  lastName={ lastname || '' }
-                  isEmailAvailable={ isEmailAvailable }
-                  orderID={ orderID }
-                />
-            </Suspense>
+             <Suspense fallback={ <Loader /> }>
+                 <CheckoutSuccess
+                   email={ email }
+                   firstName={ firstname }
+                   lastName={ lastname }
+                   isEmailAvailable={ isEmailAvailable }
+                   orderID={ orderID }
+                 />
+             </Suspense>
         );
     }
 
-    renderDiscountCode(): ReactElement {
+    renderDiscountCode() {
         const {
             checkoutStep,
             totals: {
@@ -296,24 +359,24 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
             }
         } = this.props;
 
-        if (!items || items.length < 1 || checkoutStep !== CheckoutSteps.BILLING_STEP) {
+        if (!items || items.length < 1 || checkoutStep !== BILLING_STEP) {
             return null;
         }
 
         return (
-            <ExpandableContent
-              heading={ __('Have a discount code?') }
-              mix={ { block: 'Checkout', elem: 'Discount' } }
-              isArrow
-            >
-                <CartCoupon couponCode={ coupon_code } />
-            </ExpandableContent>
+             <ExpandableContent
+               heading={ __('Have a discount code?') }
+               mix={ { block: 'Checkout', elem: 'Discount' } }
+               isArrow
+             >
+                 <CartCoupon couponCode={ coupon_code } />
+             </ExpandableContent>
         );
     }
 
-    renderStep(): ReactElement {
+    renderStep() {
         const { checkoutStep } = this.props;
-        const { render } = this.stepMap[ checkoutStep ];
+        const { render } = this.stepMap[checkoutStep];
 
         if (render) {
             return render();
@@ -322,77 +385,77 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
         return null;
     }
 
-    renderLoader(): ReactElement {
+    renderLoader() {
         const { isLoading } = this.props;
 
         return <Loader isLoading={ isLoading } />;
     }
 
-    renderFullPageLoader(): ReactElement {
+    renderFullPageLoader() {
         return (
-            <main block="Checkout" elem="FullPageLoader">
-                <Loader isLoading />
-            </main>
+             <main block="Checkout" elem="FullPageLoader">
+                 <Loader isLoading />
+             </main>
         );
     }
 
-    renderSummary(showOnMobile = false): ReactElement {
+    renderSummary(showOnMobile = false) {
         const {
+            checkoutTotals,
             checkoutStep,
             paymentTotals,
-            isMobile
+            isMobile,
+            onCouponCodeUpdate
         } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
+        const { renderPromo } = this.renderPromo(true) || {};
 
-        if (!areTotalsVisible
-            || (showOnMobile && !isMobile)
-            || (!showOnMobile && isMobile)
-            || !paymentTotals
-        ) {
+        if (!areTotalsVisible || (showOnMobile && !isMobile) || (!showOnMobile && isMobile)) {
             return null;
         }
 
         return (
             <>
-                <CheckoutOrderSummary
-                  checkoutStep={ checkoutStep }
-                  totals={ paymentTotals }
-                  isExpandable={ isMobile }
-                  // eslint-disable-next-line react/jsx-no-bind
-                  renderCmsBlock={ () => this.renderPromo(true) }
-                  showItems
-                />
-                { !showOnMobile && this.renderDiscountCode() }
+                 <CheckoutOrderSummary
+                   checkoutStep={ checkoutStep }
+                   totals={ checkoutTotals }
+                   paymentTotals={ paymentTotals }
+                   isExpandable={ isMobile }
+                   onCouponCodeUpdate={ onCouponCodeUpdate }
+                   renderCmsBlock={ renderPromo }
+                   showItems
+                 />
+                 { !showOnMobile && this.renderDiscountCode() }
             </>
         );
     }
 
-    renderPromo(showOnMobile = false): ReactElement {
+    renderPromo(showOnMobile = false) {
         const { checkoutStep, isMobile } = this.props;
-        const isBilling = checkoutStep === CheckoutSteps.BILLING_STEP;
+        const isBilling = checkoutStep === BILLING_STEP;
 
-        if ((!showOnMobile && isMobile) || checkoutStep === CheckoutSteps.DETAILS_STEP) {
+        if ((!showOnMobile && isMobile) || checkoutStep === DETAILS_STEP) {
             return null;
         }
 
         const {
             checkout_content: {
-                [ isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms' ]: promo
+                [isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms']: promo
             } = {}
-        } = window.contentConfiguration || {};
+        } = window.contentConfiguration;
 
         if (!promo) {
             return null;
         }
 
         return (
-            <div block="Checkout" elem="Promo">
-                <CmsBlock identifier={ promo } />
-            </div>
+             <div block="Checkout" elem="Promo">
+                 <CmsBlock identifier={ promo } />
+             </div>
         );
     }
 
-    renderStoreInPickUpMethod(): ReactElement {
+    renderStoreInPickUpMethod() {
         const {
             isPickInStoreMethodSelected,
             handleSelectDeliveryMethod,
@@ -404,7 +467,7 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
             }
         } = this.props;
 
-        if (checkoutStep !== CheckoutSteps.SHIPPING_STEP || !isInStoreActivated) {
+        if (checkoutStep !== SHIPPING_STEP || !isInStoreActivated) {
             return null;
         }
 
@@ -413,65 +476,65 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
         }
 
         return (
-            <div
-              block="Checkout"
-              elem="DeliverySelect"
-            >
-                <button
-                  block="Checkout"
-                  elem="ShippingButton"
-                  mix={ { block: 'Button', mods: { isHollow: !isPickInStoreMethodSelected } } }
-                  type="button"
-                  disabled={ !isPickInStoreMethodSelected }
-                  onClick={ handleSelectDeliveryMethod }
-                >
+             <div
+               block="Checkout"
+               elem="DeliverySelect"
+             >
+                 <button
+                   block="Checkout"
+                   elem="ShippingButton"
+                   mix={ { block: 'Button', mods: { isHollow: !isPickInStoreMethodSelected } } }
+                   type="button"
+                   disabled={ !isPickInStoreMethodSelected }
+                   onClick={ handleSelectDeliveryMethod }
+                 >
                     { __('Shipping') }
-                </button>
-                <button
-                  block="Checkout"
-                  elem="PickInStore"
-                  mix={ { block: 'Button', mods: { isHollow: isPickInStoreMethodSelected } } }
-                  type="button"
-                  disabled={ isPickInStoreMethodSelected || shippingMethods?.length < 1 }
-                  onClick={ handleSelectDeliveryMethod }
-                >
-                    { __('Pick in Store') }
-                </button>
-            </div>
+                 </button>
+                 <button
+                   block="Checkout"
+                   elem="PickInStore"
+                   mix={ { block: 'Button', mods: { isHollow: isPickInStoreMethodSelected } } }
+                   type="button"
+                   disabled={ isPickInStoreMethodSelected || shippingMethods?.length < 1 }
+                   onClick={ handleSelectDeliveryMethod }
+                 >
+                     { __('Pick in Store') }
+                 </button>
+             </div>
         );
     }
 
-    render(): ReactElement {
+    render() {
         const { totals, checkoutStep } = this.props;
 
-        if (totals.items.length < 1 && checkoutStep !== CheckoutSteps.DETAILS_STEP) {
+        if (totals.items.length < 1 && checkoutStep !== DETAILS_STEP) {
             return this.renderFullPageLoader();
         }
 
         return (
-            <main block="Checkout">
-                <ContentWrapper
-                  wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
-                  label={ __('Checkout page') }
-                >
-                    { this.renderSummary(true) }
-                    <div>
-                        <div block="Checkout" elem="Step">
-                            { this.renderTitle() }
-                            { this.renderStoreInPickUpMethod() }
-                            { this.renderGuestForm() }
-                            { this.renderStep() }
-                            { this.renderLoader() }
-                        </div>
-                    </div>
-                    <div>
-                        <Suspense fallback={ <Loader /> }>
-                            { this.renderSummary() }
-                            { this.renderPromo() }
-                        </Suspense>
-                    </div>
-                </ContentWrapper>
-            </main>
+             <main block="Checkout">
+                 <ContentWrapper
+                   wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
+                   label={ __('Checkout page') }
+                 >
+                     { this.renderSummary(true) }
+                     <div>
+                         <div block="Checkout" elem="Step">
+                             { this.renderTitle() }
+                             { this.renderStoreInPickUpMethod() }
+                             { this.renderGuestForm() }
+                             { this.renderStep() }
+                             { this.renderLoader() }
+                         </div>
+                     </div>
+                     <div>
+                         <Suspense fallback={ <Loader /> }>
+                             { this.renderSummary() }
+                             { this.renderPromo() }
+                         </Suspense>
+                     </div>
+                 </ContentWrapper>
+             </main>
         );
     }
 }

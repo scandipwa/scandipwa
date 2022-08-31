@@ -19,7 +19,7 @@ import {
 
 /** @namespace Store/StoreInPickUp/Action/setPickUpStore */
 export const setPickUpStore = (
-    store: Store
+    store: Store | null
 ): SetPickUpStoreAction => ({
     type: StoreInPickUpActionType.SET_PICK_UP_STORE,
     store
