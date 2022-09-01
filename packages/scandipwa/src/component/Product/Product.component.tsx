@@ -402,7 +402,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
         );
     }
 
-    renderStock() {
+    renderStock(): ReactElement {
         const { inStock } = this.props;
 
         const stockStatusLabel = inStock ? __('In stock') : __('Out of stock');

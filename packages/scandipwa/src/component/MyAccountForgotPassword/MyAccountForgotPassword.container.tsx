@@ -78,7 +78,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent<MyAccountFor
         const {
             forgotPassword, setSignInState, setLoadingState, forgotPasswordEmail, isOverlayVisible
         } = this.props;
-        const submittedEmail = form[0].value as string;
+        const submittedEmail = (form[0] as HTMLInputElement).value as string;
 
         setLoadingState(true);
 

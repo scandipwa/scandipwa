@@ -20,6 +20,7 @@ import MyAccountOrderTabs from 'Component/MyAccountOrderTabs';
 import { CreditMemo } from 'Query/Order.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { ReactElement } from 'Type/Common.type';
+import { decodeBase64 } from 'Util/Base64';
 import { noopFn } from 'Util/Common';
 import { convertStringToDate, getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 import { appendWithStoreCode } from 'Util/Url';
@@ -125,13 +126,28 @@ Props extends MyAccountOrderComponentProps = MyAccountOrderComponentProps
               items={ items }
               allOrderItems={ creditMemoItems }
               total={ total }
+              id={ id }
             />
         );
     }
 
     renderOrderItemsTable(items: OrderRenderItems, index: number): ReactElement {
         const { activeTab, order: { total: orderTotal, items: allOrderItems, id } } = this.props;
-        const { total: itemsTotal, id: itemId } = items;
+
+        if ('total' in items) {
+            const { total: itemsTotal, id: itemId } = items;
+
+            return (
+                <MyAccountOrderItemsTable
+                  key={ `${activeTab}-${id}-${index}` }
+                  activeTab={ activeTab }
+                  items={ items }
+                  allOrderItems={ allOrderItems }
+                  total={ itemsTotal }
+                  id={ decodeBase64(itemId) }
+                />
+            );
+        }
 
         return (
             <MyAccountOrderItemsTable
@@ -139,8 +155,8 @@ Props extends MyAccountOrderComponentProps = MyAccountOrderComponentProps
               activeTab={ activeTab }
               items={ items }
               allOrderItems={ allOrderItems }
-              total={ itemsTotal || orderTotal }
-              id={ activeTab === OrderTabs.ORDER_ITEMS ? id : atob(itemId) }
+              total={ orderTotal }
+              id={ id }
             />
         );
     }

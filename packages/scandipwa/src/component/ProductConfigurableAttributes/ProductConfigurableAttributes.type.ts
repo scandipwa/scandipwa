@@ -13,11 +13,10 @@ import { AnimationEvent } from 'react';
 
 import { StockStatus } from 'Component/Product/Stock.config';
 import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
-import { Merge, Mix, ReactElement } from 'Type/Common.type';
+import { Merge, Mix } from 'Type/Common.type';
 import { IndexedConfigurableOption, IndexedVariant } from 'Util/Product/Product.type';
 
 export interface ProductConfigurableAttributesContainerProps {
-    renderPlaceholder: (block: string) => ReactElement;
     getLink: (filterKey: string, value: string) => string;
     parameters: Record<string, string | string[]>;
     updateConfigurableVariant?: (requestVar: string, value: string | number | boolean) => void;
@@ -45,7 +44,6 @@ export interface ProductConfigurableAttributesComponentContainerFunctions {
 
 export interface ProductConfigurableAttributesComponentProps
     extends ProductConfigurableAttributesComponentContainerFunctions {
-    renderPlaceholder: (block: string) => ReactElement;
     configurable_options: Record<string, Partial<ProductConfigurableAttribute>>;
     isExpandable: boolean;
     isReady: boolean;
@@ -61,7 +59,6 @@ export interface ProductConfigurableAttributesComponentProps
 }
 
 export type ProductConfigurableAttributesComponentContainerPropsKeys =
-    | 'renderPlaceholder'
     | 'configurable_options'
     | 'isExpandable'
     | 'isReady'

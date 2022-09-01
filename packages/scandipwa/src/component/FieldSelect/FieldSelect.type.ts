@@ -64,6 +64,7 @@ export interface FieldSelectComponentProps {
     isDropdownOpenUpwards: boolean;
     isScrollable: boolean;
     isSortSelect: boolean;
+    isUpDirection: boolean;
 }
 
 export type FieldSelectContainerPropsKeys = 'attr'

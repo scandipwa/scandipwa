@@ -10,6 +10,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { MutableRefObject } from 'react';
+
 import { FieldContainerProps } from 'Component/Field/Field.type';
 import FieldForm from 'Component/FieldForm';
 import { FormContainerProps } from 'Component/Form/Form.type';
@@ -22,9 +24,13 @@ import './PasswordChangeForm.style';
 
 /** @namespace Component/PasswordChangeForm/Component */
 export class PasswordChangeForm extends FieldForm<PasswordChangeFormComponentProps> {
+    passwordRef: MutableRefObject<
+    HTMLInputElement
+    > = React.createRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;
+
     __construct(props: PasswordChangeFormComponentProps): void {
         super.__construct?.(props);
-        this.passwordRef = React.createRef('');
+        this.passwordRef = React.createRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;
     }
 
     fieldMap(): Partial<FieldContainerProps>[] {

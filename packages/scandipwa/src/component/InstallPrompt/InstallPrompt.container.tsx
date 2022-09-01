@@ -91,7 +91,7 @@ export class InstallPromptContainer extends PureComponent<InstallPromptContainer
 
     handleBannerClose(): void {
         this.setState({ isBannerClosed: true });
-        const THREE_DAYS_IN_SECONDS = '259200';
+        const THREE_DAYS_IN_SECONDS = 259200;
 
         BrowserDatabase.setItem(true, 'postpone_installation', THREE_DAYS_IN_SECONDS);
     }

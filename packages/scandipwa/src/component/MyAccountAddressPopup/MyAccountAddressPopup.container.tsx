@@ -26,7 +26,7 @@ import { fetchMutation, getErrorMessage } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountAddressPopup from './MyAccountAddressPopup.component';
-import { MyAccountAddressPopupAction } from './MyAccountAddressPopup.config';
+import { MyAccountAddressAfterActionOperation, MyAccountAddressPopupAction } from './MyAccountAddressPopup.config';
 import {
     MyAccountAddressPopupComponentProps,
     MyAccountAddressPopupContainerFunctions,
@@ -87,7 +87,7 @@ MyAccountAddressPopupContainerState
         return { isLoading, payload };
     }
 
-    async handleAfterAction(status, operation): Promise<void> {
+    async handleAfterAction(status: NotificationType, operation: MyAccountAddressAfterActionOperation): Promise<void> {
         const {
             hideActiveOverlay,
             updateCustomerDetails,
@@ -104,6 +104,22 @@ MyAccountAddressPopupContainerState
             this.showAddressNotification(status, operation);
         } catch (e) {
             showErrorNotification(e as NetworkError | NetworkError[]);
+        }
+    }
+
+    showAddressNotification(status: NotificationType, operation: MyAccountAddressAfterActionOperation): void {
+        const { showSuccessNotification, showErrorNotification } = this.props;
+        const message = __('You %s the address', operation).toString();
+
+        switch (status) {
+        case 'success':
+            showSuccessNotification(message);
+            break;
+        case 'error':
+            showErrorNotification({ message });
+            break;
+        default:
+            break;
         }
     }
 
@@ -126,7 +142,7 @@ MyAccountAddressPopupContainerState
         return this.handleCreateAddress(address);
     }
 
-    async handleEditAddress(address): Promise<void> {
+    async handleEditAddress(address: GQLCustomerAddressInput): Promise<void> {
         const { payload: { address: { id } } } = this.props;
 
         const query = MyAccountQuery.getUpdateAddressMutation(id, address);
@@ -137,7 +153,7 @@ MyAccountAddressPopupContainerState
 
         try {
             await fetchMutation(query);
-            this.handleAfterAction('success', 'edited');
+            this.handleAfterAction(NotificationType.SUCCESS, MyAccountAddressAfterActionOperation.EDITED);
         } catch (e) {
             this.handleError(e as NetworkError | NetworkError[]);
         }
@@ -155,7 +171,7 @@ MyAccountAddressPopupContainerState
 
         try {
             await fetchMutation(query);
-            this.handleAfterAction('success', 'deleted');
+            this.handleAfterAction(NotificationType.SUCCESS, MyAccountAddressAfterActionOperation.DELETED);
         } catch (e) {
             this.handleError(e as NetworkError | NetworkError[]);
         }
@@ -170,7 +186,7 @@ MyAccountAddressPopupContainerState
 
         try {
             await fetchMutation(query);
-            this.handleAfterAction('success', 'saved');
+            this.handleAfterAction(NotificationType.SUCCESS, MyAccountAddressAfterActionOperation.SAVED);
         } catch (e) {
             this.handleError(e as NetworkError | NetworkError[]);
         }

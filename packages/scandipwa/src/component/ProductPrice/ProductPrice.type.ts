@@ -46,7 +46,7 @@ export interface ProductPriceComponentProps {
     price: Partial<ProductExtractBasePrice>;
     originalPrice: Partial<ProductExtractOriginalPrice>;
     configuration: Partial<ProductExtractPriceConfiguration>;
-    tierPrice: string;
+    tierPrice: FormattedTierPrice;
     priceCurrency: GQLCurrencyEnum;
     discountPercentage: number;
     isPreview: boolean;
@@ -66,4 +66,10 @@ export interface CurrencySchema {
 export interface PriceSchema {
     itemProp: string;
     content: number;
+}
+
+export interface FormattedTierPrice {
+    currency: GQLCurrencyEnum;
+    value: string | number;
+    valueFormatted: string;
 }

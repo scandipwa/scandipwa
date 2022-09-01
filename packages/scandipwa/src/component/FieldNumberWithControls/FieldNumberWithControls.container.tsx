@@ -42,12 +42,14 @@ export class FieldNumberContainer extends PureComponent<FieldNumberContainerProp
     componentDidMount(): void {
         const { attr: { defaultValue = 0 } } = this.props;
 
-        this.handleInitialLoad(defaultValue);
+        if (typeof defaultValue !== 'object') {
+            this.handleInitialLoad(defaultValue);
+        }
     }
 
     componentDidUpdate(prevProps: FieldNumberContainerProps): void {
-        const { attr: { min, defaultValue = min } = {} } = this.props;
-        const { attr: { defaultValue: prevDefaultValue } = {} } = prevProps;
+        const { attr: { min = 0, defaultValue = min } = {} } = this.props;
+        const { attr: { defaultValue: prevDefaultValue = 0 } = {} } = prevProps;
 
         if (defaultValue <= 0 || prevDefaultValue <= 0) {
             // eslint-disable-next-line react/no-did-update-set-state
@@ -69,7 +71,7 @@ export class FieldNumberContainer extends PureComponent<FieldNumberContainerProp
         }
     }
 
-    setValue(value: number | string): number | string {
+    setValue(value: number | string): number | string | null {
         const {
             attr: { min = 0, max = DEFAULT_MAX_PRODUCTS } = {}
         } = this.props;
@@ -79,8 +81,8 @@ export class FieldNumberContainer extends PureComponent<FieldNumberContainerProp
         // eslint-disable-next-line no-nested-ternary
         const rangedValue = value <= min ? min : value > max ? max : value;
 
-        if (stateValue >= 0) {
-            this.fieldRef.value = value;
+        if (stateValue >= 0 && this.fieldRef) {
+            this.fieldRef.value = String(value);
             this.setState({ value: rangedValue });
 
             return rangedValue;
@@ -117,7 +119,6 @@ export class FieldNumberContainer extends PureComponent<FieldNumberContainerProp
         const {
             attr: {
                 autoComplete,
-                autocomplete,
                 defaultValue,
                 ...attr
             } = {},
@@ -131,7 +132,7 @@ export class FieldNumberContainer extends PureComponent<FieldNumberContainerProp
         return {
             attr: {
                 ...attr,
-                autoComplete: autoComplete || autocomplete
+                autoComplete
             },
             value,
             events,

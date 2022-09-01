@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 
 import ProductCard from 'Component/ProductCard';
-import { ProductLinksComponentProps } from 'Component/ProductLinks/ProductLinks.type';
+import { ProductCardContainerProps } from 'Component/ProductCard/ProductCard.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
@@ -40,12 +40,12 @@ ProductListPageComponentState
         mix: {}
     };
 
-    state: ProductListPageComponentState = {
-        siblingsHaveBrands: false,
-        siblingsHavePriceBadge: false,
-        siblingsHaveTierPrice: false,
-        siblingsHaveConfigurableOptions: false
-    };
+    // state: ProductListPageComponentState = {
+    //     siblingsHaveBrands: false,
+    //     siblingsHavePriceBadge: false,
+    //     siblingsHaveTierPrice: false,
+    //     siblingsHaveConfigurableOptions: false
+    // };
 
     observer?: IntersectionObserver;
 
@@ -63,29 +63,29 @@ ProductListPageComponentState
         this.stopObserving();
     }
 
-    containerProps(): Pick<ProductLinksComponentProps, 'productCardFunctions' | 'productCardProps'> {
-        const {
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions
-        } = this.state;
+    containerProps(): Pick<ProductCardContainerProps, 'isPlp'> {
+        // const {
+        //     siblingsHaveBrands,
+        //     siblingsHavePriceBadge,
+        //     siblingsHaveTierPrice,
+        //     siblingsHaveConfigurableOptions
+        // } = this.state;
 
         const { isPlp } = this.props;
 
         return {
-            productCardFunctions: {
-                setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
-                setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
-                setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
-                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
-            },
-            productCardProps: {
-                siblingsHaveBrands,
-                siblingsHavePriceBadge,
-                siblingsHaveTierPrice,
-                siblingsHaveConfigurableOptions
-            },
+            // productCardFunctions: {
+            //     setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
+            //     setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
+            //     setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
+            //     setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
+            // },
+            // productCardProps: {
+            //     siblingsHaveBrands,
+            //     siblingsHavePriceBadge,
+            //     siblingsHaveTierPrice,
+            //     siblingsHaveConfigurableOptions
+            // },
             isPlp
         };
     }

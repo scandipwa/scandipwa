@@ -31,6 +31,7 @@ declare global {
         dataCache?: Record<number, unknown>;
         contentConfiguration?: ContentConfiguration;
         prompt_event?: BeforeInstallPromptEvent;
+        website_code: string;
     }
 
     interface BeforeInstallPromptEvent extends Event {
@@ -101,6 +102,7 @@ declare global {
     interface ContentConfiguration {
         header_content?: {
             header_menu?: string;
+            contacts_cms?: string;
         };
         minicart_content?: {
             minicart_cms?: string;

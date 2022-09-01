@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { RouteComponentProps } from 'react-router';
-
 import { ShowNotificationAction } from 'Store/Notification/Notification.type';
 
 export interface NewsletterSubscriptionMapStateProps {
@@ -29,8 +27,7 @@ export interface NewsletterSubscriptionContainerFunctions {
 }
 
 export type NewsletterSubscriptionContainerProps = NewsletterSubscriptionMapStateProps
-& NewsletterSubscriptionMapDispatchProps
-& RouteComponentProps;
+& NewsletterSubscriptionMapDispatchProps;
 
 export interface NewsletterSubscriptionContainerState {
     isLoading: boolean;

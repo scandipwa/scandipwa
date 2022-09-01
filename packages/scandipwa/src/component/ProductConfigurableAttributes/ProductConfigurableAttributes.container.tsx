@@ -33,7 +33,6 @@ export class ProductConfigurableAttributesContainer<
     P extends ProductConfigurableAttributesContainerProps = ProductConfigurableAttributesContainerProps
 > extends PureComponent<P> {
     static defaultProps: Partial<ProductConfigurableAttributesContainerProps> = {
-        renderPlaceholder: noopFn as unknown as (block: string) => ReactElement,
         getLink: noopFn as unknown as (filterKey: string, value: string) => string,
         isExpandable: true,
         showProductAttributeAsLink: true,

@@ -83,7 +83,7 @@ MyAccountNewsletterSubscriptionContainerState
 
         if (Object.keys(prevCustomer).length === 0 && Object.keys(customer).length !== 0) {
             this.setState({
-                isSubscriptionSelected: is_subscribed,
+                isSubscriptionSelected: is_subscribed || false,
                 isLoading: false
             });
         }

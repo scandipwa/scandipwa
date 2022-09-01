@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 import { getProductInStock } from 'Util/Product/Extract';
+import { StockCheckProduct } from 'Util/Product/Product.type';
 
 import GroupedProductsItem from './GroupedProductsItem.component';
 import {
@@ -61,8 +62,8 @@ export class GroupedProductsItemContainer extends PureComponent<GroupedProductsI
     setQuantity(itemCount: number): void {
         const { setQuantity, product, product: { id } } = this.props;
 
-        if (getProductInStock(product)) {
-            setQuantity({ [id]: itemCount }, true);
+        if (getProductInStock(product as Partial<StockCheckProduct>)) {
+            setQuantity({ [id]: itemCount });
         }
     }
 

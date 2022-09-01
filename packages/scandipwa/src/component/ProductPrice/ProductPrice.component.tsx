@@ -39,7 +39,11 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
         isSchemaRequired: false,
         variantsCount: 0,
         mix: {},
-        tierPrice: {},
+        tierPrice: {
+            currency: GQLCurrencyEnum.USD,
+            value: '',
+            valueFormatted: ''
+        },
         label: '',
         configuration: {},
         displayTaxInPrice: DisplayProductPricesInCatalog.INCL_TAX
@@ -393,7 +397,7 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
             } = {}
         } = this.props;
 
-        if (!tierPriceFormatted || tierPriceValue >= value) {
+        if (!tierPriceFormatted || tierPriceValue >= (value || 0)) {
             return null;
         }
 

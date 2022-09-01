@@ -47,9 +47,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpPopupContai
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     clearPickUpStore: () => dispatch(clearPickUpStore()),
-    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(
-        NavigationType.TOP_NAVIGATION_TYPE,
-        state
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(
+        NavigationType.TOP_NAVIGATION_TYPE
     ))
 });
 
@@ -148,7 +147,7 @@ StoreInPickUpPopupContainerState
         this.setState({ stores: [] });
     }
 
-    closeOverlay() {
+    closeOverlay(): void {
         const {
             hideActiveOverlay,
             goToPreviousNavigationState,

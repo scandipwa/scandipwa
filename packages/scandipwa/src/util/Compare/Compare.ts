@@ -12,6 +12,7 @@
 import {
     isSignedIn, ONE_HOUR, ONE_HOUR_IN_SECONDS, TOKEN_REFRESH_DELAY
 } from 'Util/Auth';
+import { TokensByWebsite } from 'Util/Auth/Token.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { debounce } from 'Util/Request';
 import getStore from 'Util/Store';
@@ -37,7 +38,7 @@ export const ONE_DAY = 86400;
  */
 export const setUid = (uid: string | null): void => {
     const { website_code } = window;
-    const tokens: Record<string, string | null | undefined> = BrowserDatabase.getItem(COMPARE_UID) || {};
+    const tokens: TokensByWebsite = BrowserDatabase.getItem(COMPARE_UID) || {};
     const state = getStore().getState() as RootState;
     const {
         access_token_lifetime = ONE_HOUR
@@ -60,7 +61,7 @@ export const setUid = (uid: string | null): void => {
 export const getUid = (): string | null => {
     const { website_code } = window;
 
-    const tokens: Record<string, string | null | undefined> = BrowserDatabase.getItem(COMPARE_UID) || {};
+    const tokens: TokensByWebsite = BrowserDatabase.getItem(COMPARE_UID) || {};
     const uid = tokens[website_code];
 
     return (typeof uid === 'string') ? uid : null;

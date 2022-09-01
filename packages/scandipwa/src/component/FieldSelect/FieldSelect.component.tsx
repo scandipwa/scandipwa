@@ -17,6 +17,7 @@ import ClickOutside from 'Component/ClickOutside';
 import { FieldReactEvents } from 'Component/Field/Field.type';
 import { ReactElement } from 'Type/Common.type';
 import { Option } from 'Type/Field.type';
+import { noopFn } from 'Util/Common';
 
 import { FieldSelectComponentProps } from './FieldSelect.type';
 
@@ -189,8 +190,8 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
                   id={ `${ id }_wrapper` }
                   block="FieldSelect"
                   mods={ { isExpanded } }
-                  onClick={ !isDisabled && handleSelectExpand }
-                  onKeyPress={ !isDisabled && handleSelectListKeyPress }
+                  onClick={ !isDisabled ? handleSelectExpand : noopFn }
+                  onKeyPress={ !isDisabled ? handleSelectListKeyPress : noopFn }
                   role="button"
                   tabIndex={ 0 }
                   aria-label="Select dropdown"

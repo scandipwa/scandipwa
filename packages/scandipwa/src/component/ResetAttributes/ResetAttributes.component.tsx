@@ -23,7 +23,7 @@ import './ResetAttributes.style';
 
 /** @namespace Component/ResetAttributes/Component */
 export class ResetAttributes extends PureComponent<ResetAttributesComponentProps> {
-    renderSelectedOptionLabel(label): ReactElement {
+    renderSelectedOptionLabel(label: string): ReactElement {
         if (typeof label !== 'string') {
             return label;
         }

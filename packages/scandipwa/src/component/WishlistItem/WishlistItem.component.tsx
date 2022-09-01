@@ -176,8 +176,8 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
         );
     }
 
-    renderRemove() {
-        const { removeItem, product: { review_count } } = this.props;
+    renderRemove(): ReactElement {
+        const { removeItem, product: { review_count = 0 } } = this.props;
         const withReview = review_count >= 1;
 
         return (

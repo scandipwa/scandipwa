@@ -19,6 +19,8 @@ import { debounce } from 'Util/Request';
 import getStore from 'Util/Store';
 import { RootState } from 'Util/Store/Store.type';
 
+import { Token, TokensByWebsite } from './Token.type';
+
 export const AUTH_TOKEN = 'auth_token';
 
 export const ONE_HOUR_IN_SECONDS = 3600;
@@ -36,7 +38,7 @@ export const setAuthorizationToken = (token: string | null): void => {
             access_token_lifetime = ONE_HOUR
         } = state.ConfigReducer;
 
-        const tokens = BrowserDatabase.getItem(AUTH_TOKEN) || {};
+        const tokens: TokensByWebsite = BrowserDatabase.getItem(AUTH_TOKEN) || {};
         const { exp } = jwtDecode<{ exp: number }>(token) || {};
 
         tokens[ website_code ] = { token, exp: exp * MILLISECONDS_IN_SECOND };
@@ -45,10 +47,10 @@ export const setAuthorizationToken = (token: string | null): void => {
 };
 
 /** @namespace Util/Auth/Token/deleteAuthorizationToken */
-export const deleteAuthorizationToken = () => {
+export const deleteAuthorizationToken = (): void => {
     const { website_code } = window;
 
-    const tokens = BrowserDatabase.getItem(AUTH_TOKEN);
+    const tokens: TokensByWebsite = BrowserDatabase.getItem(AUTH_TOKEN) || {};
 
     tokens[ website_code ] = undefined;
     BrowserDatabase.setItem(tokens, AUTH_TOKEN);
@@ -57,16 +59,22 @@ export const deleteAuthorizationToken = () => {
 /** @namespace Util/Auth/Token/getAuthorizationToken */
 export const getAuthorizationToken = (): string | null => {
     const { website_code } = window;
-    const tokens = BrowserDatabase.getItem(AUTH_TOKEN) || {};
+    const tokens: TokensByWebsite = BrowserDatabase.getItem(AUTH_TOKEN) || {};
 
-    const { token, exp } = tokens[ website_code ] || {};
+    const token: Token | undefined = tokens[ website_code ];
+
+    if (!token) {
+        return null;
+    }
+
+    const { token: tokenString, exp } = token;
 
     // Magento now has two parameters to affect the auth token lifetime
     // 1. access_token_lifetime affects the session liftime, that can be prolonged every time you make an action to the backend
     // 2. JWT exp field affects JWT liftime and cannot be prolonged
     // Thus if you set access_token_lifetime 2h and JWT expires after the 1h, then you will get the "The current customer isn't authorized." error.
-    if (token && Date.now() < exp) {
-        return token;
+    if (tokenString && Date.now() < exp) {
+        return tokenString;
     }
 
     return null;

@@ -169,11 +169,11 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
                 return;
             }
 
-            const clickedItem = event.target;
+            const clickedItem = event.target as Element;
 
-            if (clickedItem === this.fieldRef.parentElement) {
+            if (clickedItem === this.fieldRef?.parentElement) {
                 this.setState(({ isExpanded }) => ({ isExpanded: !isExpanded }));
-            } else if (clickedItem.localName === 'li' || clickedItem.parentElement.localName === 'li') {
+            } else if (clickedItem.localName === 'li' || clickedItem?.parentElement?.localName === 'li') {
                 this.setState({ isExpanded: false });
             }
         }

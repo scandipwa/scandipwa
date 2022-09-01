@@ -19,11 +19,11 @@ import {
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { Device } from 'Type/Device.type';
+import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
 export interface HeaderContainerMapStateProps {
     navigationState: NavigationState;
     cartTotals: CartTotals;
-    totals: CartTotals;
     compareTotals: number;
     Loading: boolean;
     header_logo_src: string;
@@ -35,6 +35,7 @@ export interface HeaderContainerMapStateProps {
     device: Device;
     activeOverlay: string;
     isWishlistLoading: boolean;
+    productsInWishlist: Record<string, IndexedWishlistProduct>;
 }
 
 export interface HeaderMapDispatchToProps {
@@ -113,24 +114,26 @@ export interface HeaderComponentProps extends NavigationAbstractComponentProps {
     firstname?: string;
     shouldRenderCartOverlay?: boolean;
     activeOverlay: string;
+    productsInWishlist: Record<string, IndexedWishlistProduct>;
 }
 
 export type HeaderContainerPropsKeys =
-     'activeOverlay'
-     | 'navigationState'
-     | 'cartTotals'
-     | 'compareTotals'
-     | 'Loading'
-     | 'header_logo_src'
-     | 'logo_alt'
-     | 'logo_height'
-     | 'logo_width'
-     | 'isLoading'
-     | 'isClearEnabled'
-     | 'searchCriteria'
-     | 'isCheckout'
-     | 'showMyAccountLogin'
-     | 'device'
-     | 'isWishlistLoading'
-     | 'shouldRenderCartOverlay'
-     | 'firstname';
+'activeOverlay'
+| 'navigationState'
+| 'cartTotals'
+| 'compareTotals'
+| 'Loading'
+| 'header_logo_src'
+| 'logo_alt'
+| 'logo_height'
+| 'logo_width'
+| 'isLoading'
+| 'isClearEnabled'
+| 'searchCriteria'
+| 'isCheckout'
+| 'showMyAccountLogin'
+| 'device'
+| 'isWishlistLoading'
+| 'shouldRenderCartOverlay'
+| 'firstname'
+| 'productsInWishlist';

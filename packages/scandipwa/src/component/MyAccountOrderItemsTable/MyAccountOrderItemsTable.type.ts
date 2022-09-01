@@ -28,7 +28,7 @@ export type MyAccountOrderItemsTableContainerProps = MyAccountOrderItemsTableCon
     total: OrderTotal;
     allOrderItems: OrderItemProduct[];
     isPrintPage: boolean;
-    id: number;
+    id: string;
 };
 
 export interface MyAccountOrderItemsTableComponentProps {

@@ -671,10 +671,12 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
     }
 
     renderCMSBlock(): ReactElement {
-        const { header_content: { contacts_cms } = {} } = window.contentConfiguration;
+        if (window.contentConfiguration) {
+            const { header_content: { contacts_cms } = {} } = window.contentConfiguration;
 
-        if (contacts_cms) {
-            return <CmsBlock identifier={ contacts_cms } />;
+            if (contacts_cms) {
+                return <CmsBlock identifier={ contacts_cms } />;
+            }
         }
 
         return (

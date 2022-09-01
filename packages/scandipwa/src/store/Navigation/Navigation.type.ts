@@ -30,7 +30,7 @@ export interface NavigationState {
     name: string;
     onBackClick?: (e: MouseEvent) => void;
     onCancelClick?: (e?: MouseEvent) => void;
-    onCloseClick?: (e: MouseEvent) => void;
+    onCloseClick?: (e?: MouseEvent) => void;
     onEditClick?: (e?: MouseEvent) => void;
     onOkClick?: (e?: MouseEvent) => void;
     shouldNotGoToPrevState?: boolean;

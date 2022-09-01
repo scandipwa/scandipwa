@@ -71,12 +71,13 @@ export class ProductCard extends Product<ProductCardComponentProps> {
         this.handleLinkClick = this.handleLinkClick.bind(this);
     }
 
-    handleLinkClick() {
+    handleLinkClick(): void {
         const { registerSharedElement, isPlp } = this.props;
 
         if (!isPlp) {
             scrollToTop();
         }
+
         registerSharedElement(this.imageRef);
     }
 
@@ -118,20 +119,16 @@ export class ProductCard extends Product<ProductCardComponentProps> {
     renderPicture(mix = {}): ReactElement {
         const { product: { id, name }, thumbnail } = this.props;
 
-        this.sharedComponent = (
-            <Image
-              imageRef={ this.imageRef }
-              src={ thumbnail }
-              alt={ name }
-              ratio={ ImageRatio.IMG_CUSTOM }
-              mix={ { block: 'ProductCard', elem: 'Picture', mix } }
-              isPlaceholder={ !id }
-            />
-        );
-
         return (
             <>
-                { this.sharedComponent }
+                <Image
+                  imageRef={ this.imageRef }
+                  src={ thumbnail }
+                  alt={ name }
+                  ratio={ ImageRatio.IMG_CUSTOM }
+                  mix={ { block: 'ProductCard', elem: 'Picture', mix } }
+                  isPlaceholder={ !id }
+                />
                 <img
                   style={ { display: 'none' } }
                   alt={ name }

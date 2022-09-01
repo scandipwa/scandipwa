@@ -144,7 +144,7 @@ export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps,
         (Object.keys(events) as Array<keyof FieldGroupEvents>).forEach((eventName) => {
             const { [ eventName as keyof FieldGroupEvents]: event } = events;
 
-            newEvents[eventName] = this.surroundEvent.bind(this, event);
+            newEvents[eventName] = this.surroundEvent.bind(this, event) as any;
         });
 
         (validateOn as Array<keyof FieldGroupEvents>).forEach((eventName) => {

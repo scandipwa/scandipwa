@@ -79,7 +79,7 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
 
         CSS.setVariable(
             this.productsRef,
-            'myaccount-wihslist-products-margin-bottom',
+            'myaccount-wishlist-products-margin-bottom',
             isMobile ? `${ current.clientHeight }px` : 0
         );
     }

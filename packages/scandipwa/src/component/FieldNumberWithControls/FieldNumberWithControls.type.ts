@@ -22,6 +22,7 @@ export interface FieldNumberContainerProps {
     attr: InputHTMLAttributes<HTMLInputElement>;
     events: Omit<FieldEvents, 'onChange' | 'onLoad'> & FieldNumberCustomEvents;
     isDisabled: boolean;
+    value: number | string;
     setRef: (elem: HTMLInputElement | null) => void;
 }
 
@@ -34,6 +35,7 @@ export interface FieldNumberComponentProps {
     events: Omit<FieldEvents, 'onChange' | 'onLoad'> & FieldNumberCustomEvents;
     setRef: (elem: HTMLInputElement | null) => void;
     value: string | number;
+    stateValue: string | number;
     handleValueChange: (value: number) => void;
     isDisabled: boolean;
 }
@@ -41,4 +43,5 @@ export interface FieldNumberComponentProps {
 export type FieldNumberContainerPropsKeys = 'attr'
 | 'events'
 | 'isDisabled'
-| 'value';
+| 'value'
+| 'stateValue';

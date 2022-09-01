@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /* eslint-disable react/jsx-no-bind */
@@ -118,7 +119,7 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
 
     [RouterItemType.SWITCH_ITEMS_TYPE] = [
         {
-            component: <Route path={ withStoreRegex('/') } exact render={ () => <HomePage currentUrl={ this.props.currentUrl } /> } />,
+            component: <Route path={ withStoreRegex('/') } exact render={ ({ match }) => <HomePage match={ match } currentUrl={ this.props.currentUrl } /> } />,
             position: 10,
             name: RouterSwitchItemType.HOME
         },
@@ -143,21 +144,25 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
             name: RouterSwitchItemType.CHECKOUT
         },
         {
+            // @ts-ignore Due to problems with extended components
             component: <Route path={ withStoreRegex('/customer/account/createPassword/') } render={ () => <PasswordChangePage /> } />,
             position: 60,
             name: RouterSwitchItemType.CHANGE_PASSWORD
         },
         {
+            // @ts-ignore Due to problems with extended components
             component: <Route path={ withStoreRegex('/customer/account/create/') } render={ () => <CreateAccountPage /> } />,
             position: 61,
             name: RouterSwitchItemType.CREATE_ACCOUNT
         },
         {
+            // @ts-ignore Due to problems with extended components
             component: <Route path={ withStoreRegex('/customer/account/login/') } render={ () => <LoginAccountPage /> } />,
             position: 62,
             name: RouterSwitchItemType.LOGIN
         },
         {
+            // @ts-ignore Due to problems with extended components
             component: <Route path={ withStoreRegex('/customer/account/forgotpassword/') } render={ () => <ForgotPasswordPage /> } />,
             position: 63,
             name: RouterSwitchItemType.ACCOUNT_FORGOT_PASSWORD

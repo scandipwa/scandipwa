@@ -13,12 +13,14 @@ import { ChangeEvent } from 'react';
 
 import { ShippingMethod } from 'Query/Checkout.type';
 import { Store } from 'Query/StoreInPickUp.type';
+import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { Merge } from 'Type/Common.type';
 import { GQLCountryCodeEnum } from 'Type/Graphql.type';
 import { CountryOption } from 'Util/Address/Address.type';
 
 export interface StoreInPickUpPopupContainerMapStateProps {
+    navigationState: NavigationState;
     countries: CountryOption[];
     defaultCountry: string;
     selectedStore: Store | null;
@@ -28,6 +30,7 @@ export interface StoreInPickUpPopupContainerDispatchProps {
     hideActiveOverlay: () => void;
     showNotification: (type: NotificationType, message: string) => void;
     clearPickUpStore: () => void;
+    goToPreviousNavigationState: () => void;
 }
 
 export interface StoreInPickUpPopupContainerFunctions {

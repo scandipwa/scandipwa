@@ -25,6 +25,7 @@ export interface ProductListPageComponentBaseProps {
     pageNumber: number;
     items: IndexedProduct[];
     mix: Mix;
+    isPlp: boolean;
 }
 
 export type ProductListPageComponentProps = RouteComponentProps & ProductListPageComponentBaseProps;

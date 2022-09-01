@@ -290,7 +290,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         );
     }
 
-    renderCheckboxValue(value) {
+    renderCheckboxValue(value: string): ReactElement {
         if (typeof value !== 'string') {
             return value;
         }
@@ -331,7 +331,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         );
     }
 
-    renderValue(value) {
+    renderValue(value?: string): ReactElement | boolean {
         if (value) {
             return <Html content={ `${value}` } />;
         }

@@ -21,6 +21,7 @@ import { RootState } from 'Util/Store/Store.type';
 import ProductPrice from './ProductPrice.component';
 import { DisplayProductPricesInCatalog } from './ProductPrice.config';
 import {
+    FormattedTierPrice,
     ProductPriceComponentProps,
     ProductPriceContainerMapDispatchProps,
     ProductPriceContainerMapStateProps,
@@ -98,7 +99,7 @@ export class ProductPriceContainer extends PureComponent<ProductPriceContainerPr
         };
     }
 
-    getMinTierPrice(currency: GQLCurrencyEnum): string {
+    getMinTierPrice(currency: GQLCurrencyEnum): FormattedTierPrice {
         const { tierPrices } = this.props;
 
         if (tierPrices && tierPrices.length > 0) {

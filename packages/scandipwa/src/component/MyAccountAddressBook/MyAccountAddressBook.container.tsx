@@ -15,6 +15,7 @@ import { Dispatch } from 'redux';
 
 import { MyAccountAddressPopupAction } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
+import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -45,7 +46,7 @@ export class MyAccountAddressBookContainer extends PureComponent<MyAccountAddres
 
     componentDidMount(): void {
         const { changeTabName, tabMap } = this.props;
-        const { tabName } = tabMap[ADDRESS_BOOK];
+        const { tabName } = tabMap[MyAccountTabs.ADDRESS_BOOK];
 
         changeTabName(tabName);
     }

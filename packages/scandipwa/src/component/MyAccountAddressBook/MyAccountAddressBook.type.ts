@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 import { Customer } from 'Query/MyAccount.type';
+import { MyAccountTab } from 'Route/MyAccount/MyAccount.type';
 
 export interface MyAccountAddressBookContainerMapStateProps {
     customer: Partial<Customer>;
@@ -22,8 +23,14 @@ export interface MyAccountAddressBookContainerFunctions {
     showCreateNewPopup: () => void;
 }
 
+export interface MyAccountAddressBookContainerBaseProps {
+    tabMap: Record<string, MyAccountTab>;
+    changeTabName: (newTabName: string) => void;
+}
+
 export type MyAccountAddressBookContainerProps = MyAccountAddressBookContainerMapStateProps
-& MyAccountAddressBookContainerMapDispatchProps;
+& MyAccountAddressBookContainerMapDispatchProps
+& MyAccountAddressBookContainerBaseProps;
 
 export interface MyAccountAddressBookComponentProps {
     customer: Partial<Customer>;

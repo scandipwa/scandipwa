@@ -111,9 +111,9 @@ export class MyAccountAddressForm<
         }
 
         // Fixes region variable format
-        const { region_id = 0, region_string: region } = newAddress;
+        const { region_id = 0, region_string: region = '' } = newAddress;
 
-        newAddress.region = { region_id: +region_id, region };
+        newAddress.region = { region_id: +region_id, region, region_code: region };
 
         // Filters out non-required options and save address
         onSave(trimCustomerAddress(newAddress));

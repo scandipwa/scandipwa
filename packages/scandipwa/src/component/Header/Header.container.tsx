@@ -12,6 +12,7 @@
 import { Location } from 'history';
 import { ChangeEvent, MouseEvent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
@@ -217,8 +218,7 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     getNavigationState(): NavigationState {
         const { navigationState } = this.props;
 
-        const { state: historyState, location: { pathname } } = history || {};
-        const { state = {} } = historyState || {};
+        const { location: { pathname, state } } = history || {};
 
         // TODO: something here breaks /<STORE CODE> from being opened, and / when, the url-based stores are enabled.
 
@@ -438,6 +438,7 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     }
 
     onSignIn(): void {
+        const { goToPreviousNavigationState } = this.props;
         const { location: { pathname } } = history;
 
         goToPreviousNavigationState();

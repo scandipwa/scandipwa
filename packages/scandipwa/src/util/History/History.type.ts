@@ -12,6 +12,8 @@
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export interface HistoryState {
+    popupOpen?: boolean;
+    page?: number | Partial<IndexedProduct> | undefined;
     product?: Partial<IndexedProduct>;
     isForgotPassword?: boolean;
     isFromLocked?: boolean;

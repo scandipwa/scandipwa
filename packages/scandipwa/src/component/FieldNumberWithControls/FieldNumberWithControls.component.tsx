@@ -18,7 +18,7 @@ import MinusIcon from 'Component/MinusIcon';
 import { ReactElement } from 'Type/Common.type';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Product.type';
 
-import { FieldNumberComponentProps } from './FieldNumber.type';
+import { FieldNumberComponentProps } from './FieldNumberWithControls.type';
 
 import './FieldNumberWithControls.style.scss';
 /**

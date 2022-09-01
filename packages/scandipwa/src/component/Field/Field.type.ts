@@ -55,7 +55,8 @@ export interface FieldContainerProps {
     label: ReactElement | string | null;
     subLabel: ReactElement | string | null;
     addRequiredTag: boolean;
-    value: string | number;
+    updateSelectedValues: () => void;
+    value: number | string;
 }
 
 export interface FieldContainerState {

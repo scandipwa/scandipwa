@@ -33,7 +33,6 @@ export class Footer extends Component<FooterComponentProps> {
     static defaultProps: Partial<FooterComponentProps> = {
         copyright: '',
         isVisibleOnMobile: false,
-        isVisible: true,
         onItemClick: noopFn
     };
 
@@ -220,11 +219,7 @@ export class Footer extends Component<FooterComponentProps> {
     }
 
     render(): ReactElement {
-        const { isVisibleOnMobile, isVisible, device } = this.props;
-
-        if (!isVisible) {
-            return null;
-        }
+        const { isVisibleOnMobile, device } = this.props;
 
         if (!isVisibleOnMobile && device.isMobile) {
             return null;
