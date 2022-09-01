@@ -36,6 +36,10 @@ import {
     DETAILS_STEP,
     SHIPPING_STEP
 } from './Checkout.config';
+import {
+    CheckoutContainerProps,
+    CheckoutContainerState
+} from './Checkout.type';
 
 import './Checkout.style';
 
@@ -75,7 +79,7 @@ export const ExpandableContent = lazy(() => import(
 ));
 
 /** @namespace Route/Checkout/Component */
-export class Checkout extends PureComponent {
+export class Checkout extends PureComponent<CheckoutContainerProps, CheckoutContainerState> {
     static propTypes = {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
@@ -151,12 +155,12 @@ export class Checkout extends PureComponent {
         }
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.updateHeader();
         this.updateStepURL(true);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: CheckoutContainerProps): void {
         const { checkoutStep } = this.props;
         const { checkoutStep: prevCheckoutStep } = prevProps;
 
@@ -166,7 +170,7 @@ export class Checkout extends PureComponent {
         }
     }
 
-    updateHeader() {
+    updateHeader(): void {
         const { setHeaderState, checkoutStep, goBack } = this.props;
         const { mobileTitle, title } = this.stepMap[checkoutStep];
 
@@ -177,7 +181,7 @@ export class Checkout extends PureComponent {
         });
     }
 
-    updateStepURL(isMounting = false) {
+    updateStepURL(isMounting = false): void {
         const { checkoutStep, isCartLoading } = this.props;
         const { url } = this.stepMap[checkoutStep];
         const { location: { pathname = '' } } = history;
@@ -224,7 +228,7 @@ export class Checkout extends PureComponent {
         );
     }
 
-    renderGuestForm() {
+    renderGuestForm(): void {
         const {
             checkoutStep,
             isCreateUser,

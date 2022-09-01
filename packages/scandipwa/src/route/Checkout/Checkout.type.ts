@@ -96,12 +96,11 @@ export interface CheckoutContainerState {
     isLoading: boolean;
     isPickInStoreMethodSelected: boolean;
     orderID: string;
-    password: string;
     paymentMethods: PaymentMethod[];
     paymentTotals: TotalsObject | undefined;
     requestsSent: number;
     selectedShippingMethod: string;
-    selectedStoreAddress: StoreWithCountryId | undefined;
+    password: string;
     shippingAddress: Partial<CheckoutAddress> | undefined;
     shippingMethods: ShippingMethod[];
     isVisibleEmailRequired: boolean;

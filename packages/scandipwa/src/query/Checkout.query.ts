@@ -31,7 +31,7 @@ import {
 /** @namespace Query/Checkout/Query */
 export class CheckoutQuery {
     getPaymentMethodsQuery(guestCartId: string): Query<'getPaymentMethods', PaymentMethod, true> {
-        const query = new Query<'getPaymentMethods', PaymentMethod, true>('getPaymentMethods')
+        const query = new Query<'getPaymentMethods', PaymentMethod, true>('getPaymentMethods', true)
             .addFieldList(this._getPaymentMethodFields());
 
         this._addGuestCartId(guestCartId, query as Query<'getPaymentMethods', PaymentMethod, true>);
