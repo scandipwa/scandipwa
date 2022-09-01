@@ -204,6 +204,7 @@ export class RouterContainer extends PureComponent {
 
     updateCartOnRouteChange() {
         const { updateCartData } = this.props;
+
         updateCartData();
     }
 
