@@ -202,18 +202,20 @@ export const executeGet = async (queryObject, name, cacheTTL, signal) => {
     }
 
     // circumvention of the eslint rule that prohibits usage of let
-    const res = [];
+    const result = {
+        current: null
+    };
 
     try {
-        res[0] = await getFetch(uri, name, signal);
+        result.current = await getFetch(uri, name, signal);
     } catch (err) {
-        if (res.status === HTTP_410_GONE) {
+        if (result.current.status === HTTP_410_GONE) {
             const putResponse = await putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL);
 
             if (putResponse.status === HTTP_201_CREATED) {
-                res[0] = await getFetch(uri, name, signal);
+                result.current = await getFetch(uri, name, signal);
             }
-        } else if (res.status === HTTP_503_SERVICE_UNAVAILABLE) {
+        } else if (result.current.status === HTTP_503_SERVICE_UNAVAILABLE) {
             handleConnectionError(err, 'Service unavailable!...');
 
             throw new Error(err);
@@ -223,7 +225,7 @@ export const executeGet = async (queryObject, name, cacheTTL, signal) => {
         throw new Error(err);
     }
 
-    return parseResponse(res[0]);
+    return parseResponse(result.current);
 };
 
 /**
