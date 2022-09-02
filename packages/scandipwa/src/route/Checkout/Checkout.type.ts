@@ -103,6 +103,7 @@ export interface CheckoutContainerState {
     password: string;
     shippingAddress: Partial<CheckoutAddress> | undefined;
     shippingMethods: ShippingMethod[];
+    selectedStoreAddress: StoreWithCountryId | undefined;
     isVisibleEmailRequired: boolean;
 }
 

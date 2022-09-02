@@ -1814,7 +1814,7 @@ export interface GQLGiftMessageInput {
 
 export interface GQLSSetBillingAddressOnCartInput {
     billing_address: GQLBillingAddressInput;
-    guest_cart_id?: string;
+    cart_id?: string;
     same_as_shipping?: boolean;
 }
 
@@ -1853,7 +1853,7 @@ export interface GQLCartAddressInput {
 }
 
 export interface GQLSSetPaymentMethodOnCartInput {
-    guest_cart_id?: string;
+    cart_id?: string;
     payment_method: GQLPaymentMethodInput;
 }
 

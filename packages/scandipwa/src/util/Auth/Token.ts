@@ -61,9 +61,9 @@ export const getAuthorizationToken = (): string | null => {
     const { website_code } = window;
     const tokens: TokensByWebsite = BrowserDatabase.getItem(AUTH_TOKEN) || {};
 
-    const token: Token | undefined = tokens[ website_code ];
+    const token: Token | undefined | null | string = tokens[ website_code ];
 
-    if (!token) {
+    if (!token || typeof token === 'string') {
         return null;
     }
 
