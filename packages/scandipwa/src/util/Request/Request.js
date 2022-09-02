@@ -205,10 +205,6 @@ export const executeGet = async (queryObject, name, cacheTTL, signal) => {
     try {
         const result = await getFetch(uri, name, signal);
 
-        if (result.ok) {
-            return parseResponse(result);
-        }
-
         if (result.status === HTTP_410_GONE) {
             const putResponse = await putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL);
 
@@ -217,9 +213,13 @@ export const executeGet = async (queryObject, name, cacheTTL, signal) => {
             }
         }
 
-        // All other http errors
-        handleConnectionError(result.status, result.statusText);
-        throw new Error(result.statusText);
+        if (result.status === HTTP_503_SERVICE_UNAVAILABLE) {
+            handleConnectionError(result.status, result.statusText);
+            throw new Error(result.statusText);
+        }
+
+        // Successful and all other http responses go here:
+        return parseResponse(result);
     } catch (error) {
         // Network error
         handleConnectionError(error, 'executeGet failed');
