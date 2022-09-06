@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ComponentType, PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -91,5 +91,5 @@ export default
 connect(
     mapStateToProps, mapDispatchToProps
 )(
-    NoMatchHandlerContainer as unknown as ComponentType<NoMatchHandlerContainerProps>
+    NoMatchHandlerContainer
 );

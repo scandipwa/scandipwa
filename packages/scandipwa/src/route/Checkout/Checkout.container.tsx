@@ -62,6 +62,7 @@ import {
     CheckoutAddress,
     CheckoutComponentProps,
     CheckoutContainerDispatchProps,
+    CheckoutContainerFunctions,
     CheckoutContainerMapStateProps,
     CheckoutContainerProps,
     CheckoutContainerPropsKeys,
@@ -135,13 +136,13 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
 
 /** @namespace Route/Checkout/Container */
 export class CheckoutContainer extends PureComponent<CheckoutContainerProps, CheckoutContainerState> {
-    static defaultProps = {
+    static defaultProps: Partial<CheckoutContainerProps> = {
         cartTotalSubPrice: null,
-        minimumOrderAmount: {},
+        minimumOrderAmount: undefined,
         shippingFields: {}
     };
 
-    containerFunctions = {
+    containerFunctions: CheckoutContainerFunctions = {
         setLoading: this.setLoading.bind(this),
         setDetailsStep: this.setDetailsStep.bind(this),
         savePaymentInformation: this.savePaymentInformation.bind(this),
@@ -757,29 +758,38 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
     prepareAddressInformation(addressInformation: AddressInformation): GQLSaveAddressInformation {
         const {
-            shipping_address: {
-                id,
-                save_in_address_book,
-                guest_email,
-                ...shippingAddress
-            } = {},
-            billing_address: {
-                id: dropId,
-                save_in_address_book: dropSaveInAddressBook,
-                guest_email: dropGuestEmail,
-                ...billingAddress
-            } = {},
+            shipping_address,
+            billing_address,
             ...data
         } = addressInformation;
 
+        if ('save_in_address_book' in shipping_address && 'save_in_address_book' in billing_address) {
+            const {
+                id,
+                save_in_address_book,
+                ...shippingAddress
+            } = shipping_address;
+            const {
+                id: dropId,
+                save_in_address_book: dropSaveInBook,
+                ...billingAddress
+            } = billing_address;
+
+            return {
+                ...data,
+                shipping_address: shippingAddress,
+                billing_address: billingAddress
+            };
+        }
+
         return {
             ...data,
-            shipping_address: shippingAddress,
-            billing_address: billingAddress
+            shipping_address,
+            billing_address
         };
     }
 
-    async saveAddressInformation(addressInformation): Promise<void> {
+    async saveAddressInformation(addressInformation: AddressInformation): Promise<void> {
         const { updateShippingPrice } = this.props;
         const { shipping_address, shipping_method_code } = addressInformation;
 
@@ -977,7 +987,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
                 }
             }));
 
-            const orderData = await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
+            const orderData = await fetchMutation(CheckoutQuery.getPlaceOrderMutation(cart_id));
             const { placeOrder: { order: { order_id } } } = orderData;
 
             this.setDetailsStep(order_id);

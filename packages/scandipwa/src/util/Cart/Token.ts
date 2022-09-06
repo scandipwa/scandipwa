@@ -12,13 +12,15 @@
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
+import { CartTokensByWebsite } from './Cart.type';
+
 export const CART_ID = 'cart_id';
 
 /** @namespace Util/Cart/Token/setCartId */
 export const setCartId = (token: string): void => {
     const { website_code } = window;
 
-    const tokens = BrowserDatabase.getItem(CART_ID) || {};
+    const tokens: CartTokensByWebsite = BrowserDatabase.getItem(CART_ID) || {};
 
     tokens[website_code] = {
         token,
@@ -31,7 +33,7 @@ export const setCartId = (token: string): void => {
 export const getCartId = (): string | null => {
     const { website_code } = window;
 
-    const tokens = BrowserDatabase.getItem(CART_ID) || {};
+    const tokens: CartTokensByWebsite = BrowserDatabase.getItem(CART_ID) || {};
 
     const token = tokens[website_code];
 
@@ -50,7 +52,7 @@ export const getCartId = (): string | null => {
 export const deleteCartId = (): void => {
     const { website_code } = window;
 
-    const tokens = BrowserDatabase.getItem(CART_ID);
+    const tokens: CartTokensByWebsite = BrowserDatabase.getItem(CART_ID) || {};
 
     tokens[website_code] = undefined;
     BrowserDatabase.setItem(tokens, CART_ID);

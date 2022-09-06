@@ -13,7 +13,7 @@ import {
     DOMAttributes,
     FormEvent,
     FormHTMLAttributes,
-    MutableRefObject,
+    RefObject,
     SyntheticEvent
 } from 'react';
 
@@ -44,7 +44,7 @@ export interface FormContainerProps {
         validation: boolean | ValidationDOMOutput
     ) => void;
     returnAsObject: boolean;
-    elemRef: MutableRefObject<HTMLFormElement>;
+    elemRef: RefObject<HTMLFormElement>;
     validationRule: ValidationRule;
     validateOn: string[];
     showErrorAsLabel: boolean;

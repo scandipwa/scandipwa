@@ -12,12 +12,14 @@
 import {
     CheckoutTermsAndConditionsPopupPayload
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.component.type';
+import { FormFields } from 'Component/Form/Form.type';
 import { PaymentMethod } from 'Query/Checkout.type';
 import { CheckoutAgreement } from 'Query/Config.type';
 import { Customer } from 'Query/MyAccount.type';
 import { CheckoutAddress, PaymentInformation } from 'Route/Checkout/Checkout.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { FieldData } from 'Util/Form/Form.type';
+import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
 export interface CheckoutBillingContainerMapStateProps {
     customer: Partial<Customer>;
@@ -42,6 +44,7 @@ export interface CheckoutBillingContainerBaseProps {
     selectedShippingMethod: string;
     setDetailsStep: (orderID: string) => void;
     setLoading: (isLoading: boolean) => void;
+    onChangeEmailRequired: () => void;
 }
 
 export interface CheckoutBillingContainerFunctions {
@@ -50,6 +53,11 @@ export interface CheckoutBillingContainerFunctions {
     onBillingSuccess: (form: HTMLFormElement, fields: FieldData[]) => void ;
     onAddressSelect: (id: number) => void ;
     showPopup: () => void;
+    onBillingError(
+        _: HTMLFormElement,
+        fields: FormFields | null,
+        validation: boolean | ValidationDOMOutput
+    ): void;
 }
 
 export type CheckoutBillingContainerProps = CheckoutBillingContainerMapStateProps
@@ -61,18 +69,14 @@ export interface CheckoutBillingContainerState {
     selectedCustomerAddressId: number;
     prevPaymentMethods: PaymentMethod[];
     paymentMethod: string;
+    isMounted: boolean;
 }
 
-export interface CheckoutBillingComponentProps {
+export interface CheckoutBillingComponentProps extends CheckoutBillingContainerFunctions {
     setLoading: (isLoading: boolean) => void;
     setDetailsStep: (orderID: string) => void;
     isSameAsShipping: boolean;
     termsAreEnabled: boolean;
-    onSameAsShippingChange: () => void;
-    onPaymentMethodSelect: (code: string) => void;
-    onBillingSuccess: (form: HTMLFormElement, fields: FieldData[]) => void ;
-    onAddressSelect: (id: number) => void ;
-    showPopup: () => void;
     paymentMethods: PaymentMethod[];
     totals: CartTotals;
     cartTotalSubPrice: number | null;
@@ -85,12 +89,13 @@ export interface CheckoutBillingComponentProps {
 export interface CheckoutBillingComponentState {
     isOrderButtonVisible: boolean;
     isOrderButtonEnabled: boolean;
-    isTermsAndConditionsAccepted: boolean;
+    isTACAccepted: boolean;
 }
 
 export type CheckoutBillingContainerPropsKeys =
 | 'cartTotalSubPrice'
 | 'paymentMethods'
+| 'paymentMethod'
 | 'isSameAsShipping'
 | 'selectedShippingMethod'
 | 'setDetailsStep'

@@ -19,8 +19,8 @@ import {
 } from 'react';
 
 import FieldFile from 'Component/FieldFile';
-import FieldNumberWithControls from 'Component/FieldNumberWithControls';
-import FieldSelectContainer from 'Component/FieldSelect/FieldSelect.container';
+import { FieldNumberWithControlsContainer } from 'Component/FieldNumberWithControls/FieldNumberWithControls.container';
+import FieldSelectContainer from 'Component/FieldSelect';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
@@ -121,7 +121,7 @@ export class Field extends PureComponent<FieldComponentProps> {
         } = this.props;
 
         return (
-            <FieldNumberWithControls
+            <FieldNumberWithControlsContainer
               value={ value }
               attr={ attr as InputHTMLAttributes<HTMLInputElement> }
               events={ events as Omit<FieldEvents, 'onChange'> & FieldNumberCustomEvents }
@@ -195,7 +195,7 @@ export class Field extends PureComponent<FieldComponentProps> {
             onChange: onChange || noopFn
         };
         // if button value is "none" do not disable
-        const isButtonDisabled = (!value.match('none') && isDisabled);
+        const isButtonDisabled = (!String(value).match('none') && isDisabled);
         const isChecked = checked || (isButtonDisabled || defaultChecked ? !isDisabled : null);
 
         return (
@@ -207,7 +207,7 @@ export class Field extends PureComponent<FieldComponentProps> {
                   { ...newAttr as InputHTMLAttributes<HTMLInputElement> }
                   { ...inputEvents as FieldReactEvents<HTMLInputElement> }
                   // shipping options have checked attr assigned so prioritize its value
-                  defaultChecked={ isChecked }
+                  defaultChecked={ !!isChecked }
                 />
                 <div block="input-control" mods={ { disabled: { isDisabled } } } />
                 { label }

@@ -48,7 +48,7 @@ export interface ProductListContainerBaseProps {
     mix: Mix;
     title?: string;
     totalPages: number;
-    isPlp: boolean;
+    isPlp?: boolean;
 }
 
 export interface ProductListContainerFunctions {

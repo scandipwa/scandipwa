@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { MouseEvent, PureComponent } from 'react';
 
 import CompareIcon from 'Component/CompareIcon';
 import Loader from 'Component/Loader';
 import { ReactElement } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 
 import { ProductCompareButtonComponentProps } from './ProductCompareButton.type';
 
@@ -26,9 +27,14 @@ export class ProductCompareButton extends PureComponent<ProductCompareButtonComp
         isActive: false
     };
 
-    _handleClick = this._handleClick.bind(this);
+    handleClick: ((e: MouseEvent) => void) | (() => void) = noopFn;
 
-    _handleClick(e) {
+    __construct(props: ProductCompareButtonComponentProps): void {
+        super.__construct?.(props);
+        this.handleClick = this._handleClick.bind(this);
+    }
+
+    _handleClick(e: MouseEvent): void {
         const { handleClick } = this.props;
 
         e.stopPropagation();
@@ -51,7 +57,7 @@ export class ProductCompareButton extends PureComponent<ProductCompareButtonComp
                 <button
                   block="ProductCompareButton"
                   elem="Button"
-                  onClick={ this._handleClick }
+                  onClick={ this.handleClick }
                   mix={ { block: 'Button' } }
                   aria-label={ __('Compare') }
                 >

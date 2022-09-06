@@ -20,6 +20,7 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import fromCache from 'Util/Cache/Cache';
 import getFieldsData from 'Util/Form/Extract';
+import { FieldData } from 'Util/Form/Form.type';
 import { ADD_TO_CART, getNewParameters, getVariantIndex } from 'Util/Product';
 import {
     getAdjustedPrice,
@@ -319,7 +320,7 @@ S extends ProductContainerState = ProductContainerState
 
         const values = getFieldsData(current, true, [FieldType.NUMBER_WITH_CONTROLS]);
 
-        values?.forEach(({
+        (values as FieldData[])?.forEach(({
             field, name, value, type
         }) => {
             if (type === FieldType.SELECT) {
@@ -331,9 +332,9 @@ S extends ProductContainerState = ProductContainerState
             } else if (type !== FieldType.NUMBER_WITH_CONTROLS && type !== FieldType.FILE) {
                 enteredOptions.push({
                     uid: name,
-                    value
+                    value: String(value)
                 });
-            } else if (type === FieldType.FILE && field.value) {
+            } else if (type === FieldType.FILE && field?.value) {
                 enteredOptions.push({
                     uid: name,
                     value: String(value)

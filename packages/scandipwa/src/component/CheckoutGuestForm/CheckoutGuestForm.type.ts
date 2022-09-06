@@ -9,21 +9,22 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ChangeEvent, MouseEvent } from 'react';
+import { ChangeEvent, MouseEvent, RefObject } from 'react';
 
 import { EventFieldData } from 'Component/Field/Field.type';
+import { FormFields } from 'Component/Form/Form.type';
 import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { SignInOptions } from 'Query/MyAccount.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
-import { ValidationRule } from 'Util/Validator/Validator.type';
+import { ValidationDOMOutput, ValidationRule } from 'Util/Validator/Validator.type';
 
 export interface CheckoutGuestFormContainerMapStateProps {
     isEmailConfirmationRequired: boolean;
     emailValue: string;
     isEmailAvailable: boolean;
-    minimunPasswordLength: number;
-    minimunPasswordCharacter: string;
+    minimumPasswordLength: number;
+    minimumPasswordCharacter: string;
 }
 
 export interface CheckoutGuestFormContainerMapDispatchProps {
@@ -42,7 +43,11 @@ export interface CheckoutGuestFormContainerFunctions {
     handleForgotPassword: (e: MouseEvent) => void;
     handlePasswordInput: (password: string) => void;
     handleSignIn: (e: MouseEvent) => void;
-    onFormError: () => void;
+    onFormError: (
+        _: HTMLFormElement,
+        fields: FormFields | null,
+        validation: boolean | ValidationDOMOutput
+    ) => void;
     setLoadingState: (isLoading: boolean) => void;
     setSignInState: (signInState: MyAccountPageState | '') => void;
 }
@@ -50,6 +55,7 @@ export interface CheckoutGuestFormContainerFunctions {
 export interface CheckoutGuestFormContainerBaseProps {
     isCreateUser: boolean;
     isGuestEmailSaved: boolean;
+    isVisibleEmailRequired: boolean;
     onCreateUserChange: () => void;
     onPasswordChange: (password: string) => void ;
     onEmailChange: (email: string) => void;
@@ -65,25 +71,17 @@ export interface CheckoutGuestFormContainerState {
     signInState: MyAccountPageState | '';
 }
 
-export interface CheckoutGuestFormComponentProps {
+export interface CheckoutGuestFormComponentProps extends CheckoutGuestFormContainerFunctions {
     formId: string;
-    handleEmailInput: (event: ChangeEvent<HTMLInputElement>, field?: EventFieldData) => void;
-    handleCreateUser: () => void;
-    handlePasswordInput: (password: string) => void;
     isEmailAvailable: boolean;
     emailValue: string;
     signInState: MyAccountPageState | '';
-    setSignInState: (signInState: MyAccountPageState | '') => void;
     onSignIn: () => void;
     range: ValidationRule['range'];
-    minimunPasswordCharacter: string;
+    minimumPasswordCharacter: string;
     isLoading: boolean;
     isCreateUser: boolean;
-    handleForgotPassword: (e: MouseEvent) => void;
-    handleSignIn: (e: MouseEvent) => void;
-    handleCreateAccount: (e: MouseEvent) => void;
-    onFormError: () => void;
-    setLoadingState: (isLoading: boolean) => void;
+    formRef: RefObject<HTMLFormElement>;
 }
 
 export type CheckoutGuestFormContainerPropsKeys =
@@ -94,8 +92,9 @@ export type CheckoutGuestFormContainerPropsKeys =
 | 'signInState'
 | 'onSignIn'
 | 'range'
-| 'minimunPasswordCharacter'
-| 'isCreateUser';
+| 'minimumPasswordCharacter'
+| 'isCreateUser'
+| 'formRef';
 
 export interface CheckoutGuestFormRenderMapItem {
     render?: () => ReactElement;
@@ -105,7 +104,7 @@ export interface CheckoutGuestFormRenderMapItem {
 export interface CheckoutGuestFormProps {
     emailValue: string;
     range: ValidationRule['range'];
-    minimunPasswordCharacter: string;
+    minimumPasswordCharacter: string;
     isCreateUser: boolean;
 }
 
@@ -113,5 +112,5 @@ export interface CheckoutGuestFormEvents {
     handleEmailInput: (event: ChangeEvent<HTMLInputElement>, field?: EventFieldData) => void;
     handlePasswordInput: (password: string) => void;
     range: ValidationRule['range'];
-    minimunPasswordCharacter: string;
+    minimumPasswordCharacter: string;
 }

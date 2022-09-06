@@ -28,7 +28,7 @@ export const checkoutGuestForm = (
     events: CheckoutGuestFormEvents
 ): Partial<FieldContainerProps>[] => {
     const {
-        emailValue, range, isCreateUser, minimunPasswordCharacter
+        emailValue, range, isCreateUser, minimumPasswordCharacter
     } = props;
     const { handleEmailInput, handlePasswordInput } = events;
 
@@ -69,7 +69,7 @@ export const checkoutGuestForm = (
             validationRule: {
                 inputType: ValidationInputType.PASSWORD,
                 isRequired: true,
-                match: (value: string) => validatePassword(value, range, minimunPasswordCharacter)
+                match: (value: string) => validatePassword(value, range, minimumPasswordCharacter)
             }
         }] : [])
     ];

@@ -29,7 +29,7 @@ import './CheckoutBilling.style';
 
 /** @namespace Component/CheckoutBilling/Component */
 export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps, CheckoutBillingComponentState> {
-    state = {
+    state: CheckoutBillingComponentState = {
         isOrderButtonVisible: true,
         isOrderButtonEnabled: true,
         isTACAccepted: false
@@ -242,7 +242,7 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
             return null;
         }
 
-        if (selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE) {
+        if (selectedShippingMethod === StoreInPickUpCode.METHOD_CODE) {
             return null;
         }
 
@@ -261,7 +261,6 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
               mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
               label={ __('My billing and shipping are the same') }
               isDisabled={ selectedShippingMethod === StoreInPickUpCode.METHOD_CODE }
-              onChange={ onSameAsShippingChange }
             />
         );
     }

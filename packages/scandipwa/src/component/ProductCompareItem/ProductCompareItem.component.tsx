@@ -124,7 +124,6 @@ export class ProductCompareItem extends PureComponent<ProductCompareItemComponen
                   product={ {} }
                   mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
                   withLink
-                  disableHandler
                 />
             </Link>
         );

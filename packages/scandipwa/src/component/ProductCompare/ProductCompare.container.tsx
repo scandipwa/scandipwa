@@ -65,13 +65,13 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         attributes: []
     };
 
-    scrollerScroll = createRef(null);
+    scrollerScroll = createRef<HTMLDivElement>();
 
-    productCompare = createRef(null);
+    productCompare = createRef<HTMLDivElement>();
 
-    productCompareRow = createRef(null);
+    productCompareRow = createRef<HTMLDivElement>();
 
-    scrollerContent = createRef(null);
+    scrollerContent = createRef<HTMLDivElement>();
 
     containerFunctions: ProductCompareContainerFunctions = {
         getAttributes: this.getAttributes.bind(this),
@@ -95,7 +95,7 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         const productCompareRow = this.productCompareRow.current;
         const scrollerContent = this.scrollerContent.current;
 
-        if (this.productCompareRow.current && this.scrollerContent.current) {
+        if (productCompareRow && scrollerContent) {
             const width = device.isMobile
                 ? productCompareRow.offsetWidth
                 : productCompareRow.offsetWidth - PRODUCT_COMPARE_FIRST_COLUMN_WIDTH;
@@ -122,7 +122,7 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         };
     }
 
-    handleScroll() {
+    handleScroll(): void {
         /*
             This needs a little explaining:
 
@@ -154,11 +154,13 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
 
             this.scrollerTriggered = true;
 
-            this.productCompare.current.scrollLeft = this.scrollerScroll.current.scrollLeft;
+            if (this.productCompare.current && this.scrollerScroll.current) {
+                this.productCompare.current.scrollLeft = this.scrollerScroll.current.scrollLeft;
+            }
         }
     }
 
-    handleBlockScroll() {
+    handleBlockScroll(): void {
         const _scrollerTriggered = this.scrollerTriggered;
 
         this.scrollerTriggered = false;
@@ -166,7 +168,9 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         if (!_scrollerTriggered) {
             this.blockScrollTriggered = true;
 
-            this.scrollerScroll.current.scrollLeft = this.productCompare.current.scrollLeft;
+            if (this.scrollerScroll.current && this.productCompare.current) {
+                this.scrollerScroll.current.scrollLeft = this.productCompare.current.scrollLeft;
+            }
         }
     }
 

@@ -12,7 +12,8 @@
 import { CartDisplayConfig } from 'Query/Cart.type';
 import { TotalsObject } from 'Query/Checkout.type';
 import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
-import { Children, ReactElement } from 'Type/Common.type';
+import { CartTotals } from 'Store/Cart/Cart.type';
+import { Children } from 'Type/Common.type';
 
 export interface CheckoutOrderSummaryContainerMapStateProps {
     cartDisplayConfig: CartDisplayConfig;
@@ -29,12 +30,12 @@ export interface CheckoutOrderSummaryContainerMapStateProps {
 export interface CheckoutOrderSummaryContainerMapDispatchProps {}
 
 export interface CheckoutOrderSummaryComponentBaseProps {
-    totals: Partial<TotalsObject>;
+    totals: CartTotals;
     checkoutStep?: CheckoutSteps;
-    renderCmsBlock: () => ReactElement | void;
     isExpandable?: boolean;
     showItems: boolean;
     children?: Children;
+    paymentTotals?: TotalsObject;
 }
 export type CheckoutOrderSummaryComponentProps = CheckoutOrderSummaryContainerMapStateProps
 & CheckoutOrderSummaryContainerMapDispatchProps

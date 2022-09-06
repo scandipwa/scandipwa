@@ -13,6 +13,7 @@ import {
     ButtonHTMLAttributes,
     ChangeEvent,
     ClassAttributes,
+    Component,
     DOMAttributes,
     InputHTMLAttributes,
     MutableRefObject,
@@ -22,6 +23,7 @@ import {
 } from 'react';
 
 import { DateFieldAttr } from 'Component/DateSelect/DateSelect.config';
+import { FieldFileContainerProps, FieldFileContainerState } from 'Component/FieldFile/FieldFile.type';
 import { Mix, ReactElement } from 'Type/Common.type';
 import { FieldOptions, Option } from 'Type/Field.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
@@ -79,6 +81,12 @@ export interface FieldComponentProps {
     addRequiredTag: boolean;
     showErrorAsLabel: boolean;
     validationResponse: null | boolean | ValidationDOMOutput;
+    value: string | number;
+    resetFieldValue: (
+        fieldHandler: Component<FieldFileContainerProps, FieldFileContainerState>,
+        event: SyntheticEvent<Element, Event>
+    ) => void;
+    validate: (data?: (Event | SyntheticEvent) & ValidationOutput) => boolean | FieldValidationOutput;
 }
 
 export type FieldContainerPropsKeys =
@@ -93,9 +101,11 @@ export type FieldContainerPropsKeys =
 | 'addRequiredTag'
 | 'changeValueOnDoubleClick'
 | 'isSortSelect'
+| 'value'
 | 'validationResponse'
 | 'events'
-| 'setRef';
+| 'setRef'
+| 'resetFieldValue';
 
 export type FieldRef = HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement;
 export type FieldAttributes = (InputHTMLAttributes<HTMLInputElement>

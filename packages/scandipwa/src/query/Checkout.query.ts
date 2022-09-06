@@ -105,7 +105,7 @@ export class CheckoutQuery {
 
     _addGuestCartId(
         guestCartId: string,
-        mutation: Mutation<'saveAd dressInformation', PaymentDetails>
+        mutation: Mutation<'saveAddressInformation', PaymentDetails>
         | Mutation<'estimateShippingCosts', ShippingMethod, true>
         | Query<'getPaymentMethods', PaymentMethod, true>
     ): void {

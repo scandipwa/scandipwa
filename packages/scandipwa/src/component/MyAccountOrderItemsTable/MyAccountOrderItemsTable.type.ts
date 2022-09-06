@@ -37,7 +37,7 @@ export interface MyAccountOrderItemsTableComponentProps {
     items: OrderRenderItems | CreditMemo;
     total: OrderTotal;
     allOrderItems: OrderItemProduct[];
-    id: number;
+    id: string;
     isPrintPage: boolean;
 }
 

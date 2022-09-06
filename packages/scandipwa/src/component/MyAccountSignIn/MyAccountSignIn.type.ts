@@ -11,11 +11,13 @@
 
 import { ChangeEvent, MouseEvent } from 'react';
 
+import { FormFields } from 'Component/Form/Form.type';
 import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { SignInOptions } from 'Query/MyAccount.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { FieldData } from 'Util/Form/Form.type';
+import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
 export interface MyAccountSignInContainerMapStateProps {
     isEmailAvailable: boolean;
@@ -34,7 +36,11 @@ export interface MyAccountSignInContainerFunctions {
 
 export interface MyAccountSignInContainerBaseProps {
     state: MyAccountPageState | '';
-    onFormError: () => void;
+    onFormError: (() => void) | ((
+        _: HTMLFormElement,
+        fields: FormFields | null,
+        validation: boolean | ValidationDOMOutput
+    ) => void);
     handleForgotPassword: (e: MouseEvent) => void;
     handleCreateAccount: (e: MouseEvent) => void;
     setLoadingState: (isLoading: boolean) => void;
@@ -56,7 +62,11 @@ export interface MyAccountSignInContainerState {
 
 export interface MyAccountSignInComponentProps {
     onSignInSuccess: (form: HTMLFormElement, fields: FieldData[]) => Promise<void>;
-    onFormError: () => void;
+    onFormError: (() => void) | ((
+        _: HTMLFormElement,
+        fields: FormFields | null,
+        validation: boolean | ValidationDOMOutput
+    ) => void);
     handleForgotPassword: (e: MouseEvent) => void;
     handleCreateAccount: (e: MouseEvent) => void;
     isCheckout: boolean;

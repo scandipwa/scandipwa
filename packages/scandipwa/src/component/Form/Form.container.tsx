@@ -83,6 +83,8 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
             this.formRef = elem;
 
             if (elemRef) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 elemRef.current = elem;
             }
 

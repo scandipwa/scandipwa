@@ -293,7 +293,7 @@ export const getFieldsData = <AsObject extends boolean = false>(
                 name: field.name,
                 type,
                 value: formattedValue,
-                field
+                field: (field as HTMLInputElement)
             });
         }
     });

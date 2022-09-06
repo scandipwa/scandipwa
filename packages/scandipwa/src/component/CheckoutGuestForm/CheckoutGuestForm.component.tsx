@@ -11,6 +11,7 @@
 
 import { FieldContainerProps } from 'Component/Field/Field.type';
 import FieldForm from 'Component/FieldForm';
+import { FormContainerProps } from 'Component/Form/Form.type';
 import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
 import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
 import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuccess';
@@ -70,23 +71,23 @@ export class CheckoutGuestForm extends FieldForm<CheckoutGuestFormComponentProps
             isCreateUser,
             emailValue,
             range,
-            minimunPasswordCharacter
+            minimumPasswordCharacter
         } = this.props;
 
         return checkoutGuestForm({
             isCreateUser,
             emailValue,
             range,
-            minimunPasswordCharacter
+            minimumPasswordCharacter
         }, {
             handleEmailInput,
             handlePasswordInput,
             range,
-            minimunPasswordCharacter
+            minimumPasswordCharacter
         });
     }
 
-    getFormProps() {
+    getFormProps(): Partial<FormContainerProps> {
         const { formRef, onFormError } = this.props;
 
         return {

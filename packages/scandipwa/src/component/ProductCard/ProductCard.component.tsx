@@ -20,7 +20,7 @@ import { Product } from 'Component/Product/Product.component';
 import { ProductType } from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
-import { AttributeWithValueOption } from 'Query/ProductList.type';
+import { GroupedProductItem } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { Children, ReactElement } from 'Type/Common.type';
 import { IndexedConfigurableOption } from 'Util/Product/Product.type';
@@ -256,7 +256,7 @@ export class ProductCard extends Product<ProductCardComponentProps> {
         );
 
         const configureGrouped = type === ProductType.GROUPED
-            && items.every(({ qty }) => qty === 0);
+            && (items as GroupedProductItem[]).every(({ qty }) => qty === 0);
 
         const configureCustomize = options.some(({ required = false }) => required);
 
@@ -306,11 +306,12 @@ export class ProductCard extends Product<ProductCardComponentProps> {
     getConfigurableAttributes(): Record<string, IndexedConfigurableOption> {
         const filteredOptions = super.getConfigurableAttributes();
 
-        return Object.fromEntries(Object.entries(filteredOptions).filter(([, option]) => {
-            const { attribute_options: attributeOptions = {} as AttributeWithValueOption } = option;
-
-            return Object.values(attributeOptions).some(({ swatch_data: swatchData }) => swatchData);
-        }));
+        return Object.fromEntries(
+            Object.entries(filteredOptions).filter(
+                ([, option]) => Object.values(option.attribute_options)
+                    .some(({ swatch_data: swatchData }) => swatchData)
+            )
+        );
     }
 
     renderVisibleOnHover(): ReactElement {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,7 +12,12 @@
 
 import { Reducer } from 'redux';
 
-import { CheckoutAgreement, CurrencyConfig, StoreConfig } from 'Query/Config.type';
+import {
+    CheckoutAgreement,
+    Currencies,
+    CurrencyData,
+    StoreConfig
+} from 'Query/Config.type';
 import { Country } from 'Query/Region.type';
 import { ReviewRatingItem } from 'Query/Review.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -57,13 +63,16 @@ export const getIndexedRatings = (
 ): ReviewRatingItem[] => ((reviewRatings) ? reviewRatings.items || [] : []);
 
 /** @namespace Store/Config/Reducer/getCurrencyRates */
-export const getCurrencyRates = (base, state) => (base || state.currency || {});
+export const getCurrencyRates = (
+    base: Currencies,
+    state: Partial<ConfigStore>
+): Currencies => (base || state.currency || {});
 
 /** @namespace Store/Config/Reducer/getCurrencyData */
 export const getCurrencyData = (
-    base: CurrencyConfig,
+    base: CurrencyData,
     state: Partial<ConfigStore>
-): CurrencyConfig => (base || state.currencyData || {});
+): CurrencyData => (base || state.currencyData || {});
 
 /** @namespace Store/Config/Reducer/getCountryData */
 export const getCountryData = (
@@ -105,6 +114,7 @@ export const getInitialState = (): Partial<ConfigStore> => ({
 });
 
 /** @namespace Store/Config/Reducer/ConfigReducer */
+// @ts-ignore
 export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
     state = getInitialState(),
     action

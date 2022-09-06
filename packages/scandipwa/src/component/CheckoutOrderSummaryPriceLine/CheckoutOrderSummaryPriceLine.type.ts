@@ -18,6 +18,6 @@ export interface CheckoutOrderSummaryPriceLineProps {
     title: string;
     coupon_code: string;
     mods: Mods;
-    subPrice: number | null;
+    subPrice: string | number | null;
     children: Children;
 }

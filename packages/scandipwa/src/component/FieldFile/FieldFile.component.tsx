@@ -49,7 +49,9 @@ export class FieldFile extends PureComponent<FieldFileComponentProps> {
             return (
                 <label htmlFor={ id }>
                     <p>{ fileName }</p>
-                    <button onClick={ resetFieldValue }>{ __('Remove file') }</button>
+                    <button onClick={ resetFieldValue as any }>
+                    { __('Remove file') }
+                    </button>
                 </label>
             );
         }

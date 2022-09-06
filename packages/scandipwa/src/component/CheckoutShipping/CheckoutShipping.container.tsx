@@ -66,8 +66,6 @@ CheckoutShippingContainerState
 > {
     static defaultProps: Partial<CheckoutShippingContainerProps> = {
         selectedStoreAddress: undefined,
-        selectedShippingMethod: null,
-        setSelectedShippingMethodCode: null,
         isSubmitted: false,
         cartTotalSubPrice: null
     };
@@ -145,14 +143,14 @@ CheckoutShippingContainerState
         };
     }
 
-    returnInStorePickupMethod(): ShippingMethod {
+    returnInStorePickupMethod(): ShippingMethod | undefined {
         const { shippingMethods = [] } = this.props;
 
-        return shippingMethods.find((el) => el.method_code === STORE_IN_PICK_UP_METHOD_CODE);
+        return shippingMethods.find((el) => el?.method_code === StoreInPickUpCode.METHOD_CODE);
     }
 
     resetShippingMethod(): void {
-        this.onShippingMethodSelect({ method_code: '' });
+        this.onShippingMethodSelect({ method_code: '' } as ShippingMethod);
     }
 
     getStoreAddress(
@@ -203,8 +201,12 @@ CheckoutShippingContainerState
         this.setState({ selectedCustomerAddressId: id });
     }
 
-    onShippingMethodSelect(method: ShippingMethod): void {
+    onShippingMethodSelect(method?: ShippingMethod): void {
         const { onShippingMethodSelect } = this.props;
+
+        if (!method) {
+            return;
+        }
 
         this.setState({ selectedShippingMethod: method });
         onShippingMethodSelect(method);

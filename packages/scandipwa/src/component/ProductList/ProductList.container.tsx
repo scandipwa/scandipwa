@@ -241,7 +241,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             currentPage: this._getPageFromUrl(),
             isShowLoading: this._isShowLoading(),
             isVisible: this._isVisible(),
-            isPlp,
+            isPlp: !!isPlp,
             requestPage: this.requestPage,
             // disable this property to enable infinite scroll on desktop
             isInfiniteLoaderEnabled: this._getIsInfiniteLoaderEnabled()

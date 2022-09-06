@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -23,6 +21,7 @@ import { OrderItem } from 'Query/Order.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { ReactElement } from 'Type/Common.type';
+import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
@@ -59,6 +58,12 @@ export class MyAccountOrderPrintContainer extends MyAccountOrderContainer<
 MyAccountOrderPrintContainerProps,
 MyAccountOrderPrintContainerState
 > {
+    static defaultProps: Partial<MyAccountOrderPrintContainerProps> = {
+        is_allowed_reorder: false,
+        changeTabName: noopFn,
+        setTabSubheading: noopFn
+    };
+
     containerFunctions: MyAccountOrderPrintContainerFunctions = {
         ...this.containerFunctions,
         onLogoLoad: this.onLogoLoad.bind(this)
@@ -173,5 +178,5 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(
-    MyAccountOrderPrintContainer as unknown as ComponentType<MyAccountOrderPrintContainerProps>
+    MyAccountOrderPrintContainer
 );

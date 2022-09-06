@@ -243,3 +243,7 @@ export interface CartDisplayConfig {
     display_full_tax_summary: boolean;
     display_zero_tax_subtotal: boolean;
 }
+
+export interface AppliedTaxItem {
+    rates: AppliedTax[];
+}

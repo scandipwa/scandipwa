@@ -15,10 +15,10 @@ import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
 import Loader from 'Component/Loader';
-import { TotalsItem } from 'Query/Checkout.type';
 import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { IndexedCartItem } from 'Store/Cart/Cart.type';
 import { Mods, ReactElement } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { getItemsCountLabel } from 'Util/Cart';
 
 import { CmsBlock } from '../../route/Checkout/Checkout.component';
@@ -54,10 +54,14 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
         const {
             totals: {
                 prices: {
-                    quote_currency_code = null
+                    quote_currency_code
                 } = {}
             }
         } = this.props;
+
+        if (!quote_currency_code) {
+            return null;
+        }
 
         return (
             <CheckoutOrderSummaryPriceLine
@@ -69,20 +73,24 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
         );
     }
 
-    renderItem(item: TotalsItem): ReactElement {
+    renderItem(item: IndexedCartItem): ReactElement {
         const {
             totals: {
                 prices: {
-                    quote_currency_code = null
+                    quote_currency_code
                 } = {}
             }
         } = this.props;
 
-        const { item_id } = item;
+        const { id } = item;
+
+        if (!quote_currency_code) {
+            return null;
+        }
 
         return (
             <CartItem
-              key={ item_id }
+              key={ id }
               item={ item as unknown as IndexedCartItem }
               currency_code={ quote_currency_code }
             />
@@ -172,14 +180,14 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
             }
         } = this.props;
 
-        if (!showItems || !items_qty) {
+        if (!showItems || !total_quantity) {
             return null;
         }
 
         return (
             <>
                 <div block="CheckoutOrderSummary" elem="ItemsInCart">
-                    { getItemsCountLabel(total_quantity) }
+                    { getItemsCountLabel(total_quantity || 0) }
                 </div>
                 <div block="CheckoutOrderSummary" elem="OrderItems">
                     <div block="CheckoutOrderSummary" elem="CartItemList">
@@ -206,7 +214,7 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
         const {
             totals: {
                 prices: {
-                    quote_currency_code = null
+                    quote_currency_code = GQLCurrencyEnum.USD
                 } = {}
             },
             cartSubtotal,
@@ -239,7 +247,7 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
         const {
             totals: {
                 prices: {
-                    quote_currency_code = null
+                    quote_currency_code = GQLCurrencyEnum.USD
                 } = {}
             },
             cartShippingPrice,
@@ -270,7 +278,7 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
                     grand_total: {
                         value: grand_total = 0
                     } = {},
-                    quote_currency_code = null
+                    quote_currency_code = GQLCurrencyEnum.USD
                 } = {}
             },
             cartTotalSubPrice
@@ -339,7 +347,7 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
                   currency={ quote_currency_code }
                   itemsQty={ total_quantity }
                   title={ __('Tax') }
-                  mods={ { withAppendedContent: display_full_tax_summary } }
+                  mods={ { withAppendedContent: !!display_full_tax_summary } }
                 >
                     { this.renderTaxFullSummary() }
                 </CheckoutOrderSummaryPriceLine>
@@ -378,7 +386,7 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
             checkout_content: {
                 [isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms']: promo
             } = {}
-        } = window.contentConfiguration;
+        } = window.contentConfiguration || {};
 
         if (!promo) {
             return null;

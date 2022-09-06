@@ -10,10 +10,12 @@
  */
 import { MouseEvent } from 'react';
 
+import { FormFields } from 'Component/Form/Form.type';
 import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { UpdateCustomerPasswordForgotStatusAction } from 'Store/MyAccount/MyAccount.type';
 import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
 import { FieldData } from 'Util/Form/Form.type';
+import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MyAccountForgotPasswordContainerMapStateProps {}
@@ -34,7 +36,11 @@ export type MyAccountForgotPasswordContainerProps = MyAccountForgotPasswordConta
 & MyAccountForgotPasswordContainerMapDispatchProps
 & {
     state: MyAccountPageState | '';
-    onFormError: () => void;
+    onFormError: (() => void) | ((
+        _: HTMLFormElement,
+        fields: FormFields | null,
+        validation: boolean | ValidationDOMOutput
+    ) => void);
     handleSignIn: (e: MouseEvent) => void;
     handleCreateAccount: (e: MouseEvent) => void;
     isCheckout: boolean;
@@ -46,7 +52,11 @@ export type MyAccountForgotPasswordContainerProps = MyAccountForgotPasswordConta
 export interface MyAccountForgotPasswordComponentProps {
     state: MyAccountPageState | '';
     onForgotPasswordSuccess: (form: HTMLFormElement, fields: FieldData[]) => Promise<void>;
-    onFormError: () => void;
+    onFormError: (() => void) | ((
+        _: HTMLFormElement,
+        fields: FormFields | null,
+        validation: boolean | ValidationDOMOutput
+    ) => void);
     handleSignIn: (e: MouseEvent) => void;
     handleCreateAccount: (e: MouseEvent) => void;
     isCheckout: boolean;

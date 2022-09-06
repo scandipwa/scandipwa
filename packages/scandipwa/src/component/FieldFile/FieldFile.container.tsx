@@ -33,7 +33,8 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
 
     state: FieldFileContainerState = {
         isLoading: false,
-        fileName: ''
+        fileName: '',
+        value: ''
     };
 
     fieldRef: HTMLInputElement | null = null;
@@ -55,11 +56,12 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
             const { files } = this.fieldRef;
 
             this.setState({ isLoading: true });
-            const { name } = files[0] || {};
+            const file: File | undefined = files ? files[0] : undefined;
+            const { name = null } = file || {};
 
             validate();
 
-            if (!name) {
+            if (!name || !file) {
                 this.setState({
                     fileName: '',
                     isLoading: false
@@ -95,7 +97,7 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
                     onChange(value);
                 }
             };
-            reader.readAsDataURL(files[ 0 ]);
+            reader.readAsDataURL(file);
         }
     }
 
@@ -109,7 +111,7 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
             setRef,
             resetFieldValue
         } = this.props;
-        const { fileName, isLoading } = this.state;
+        const { fileName, isLoading, value } = this.state;
 
         return {
             attr,
@@ -118,9 +120,12 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
                 ...events,
                 onChange: this.onChange.bind(this)
             },
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             resetFieldValue: resetFieldValue.bind(this, { setState: (val) => this.setState(val) }),
             fileName,
-            isLoading
+            isLoading,
+            value
         };
     }
 

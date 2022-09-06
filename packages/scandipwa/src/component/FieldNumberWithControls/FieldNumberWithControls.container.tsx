@@ -16,23 +16,26 @@ import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Product.type';
 
 import FieldNumberWithControls from './FieldNumberWithControls.component';
 import {
-    FieldNumberComponentProps,
-    FieldNumberContainerFunctions,
-    FieldNumberContainerProps,
-    FieldNumberContainerPropsKeys,
-    FieldNumberContainerState
+    FieldNumberWitControlsComponentProps,
+    FieldNumberWitControlsContainerFunctions,
+    FieldNumberWitControlsContainerProps,
+    FieldNumberWitControlsContainerPropsKeys,
+    FieldNumberWitControlsContainerState
 } from './FieldNumberWithControls.type';
 
 /**
  * Field Number With Controls
  * @class FieldNumberWithControlsContainer
  * @namespace Component/FieldNumberWithControls/Container */
-export class FieldNumberContainer extends PureComponent<FieldNumberContainerProps, FieldNumberContainerState>{
-    state: FieldNumberContainerState = {
+export class FieldNumberWithControlsContainer extends PureComponent<
+FieldNumberWitControlsContainerProps,
+FieldNumberWitControlsContainerState
+>{
+    state: FieldNumberWitControlsContainerState = {
         value: 0
     };
 
-    containerFunctions: FieldNumberContainerFunctions = {
+    containerFunctions: FieldNumberWitControlsContainerFunctions = {
         handleValueChange: this.handleValueChange.bind(this),
         setRef: this.setRef.bind(this)
     };
@@ -47,7 +50,7 @@ export class FieldNumberContainer extends PureComponent<FieldNumberContainerProp
         }
     }
 
-    componentDidUpdate(prevProps: FieldNumberContainerProps): void {
+    componentDidUpdate(prevProps: FieldNumberWitControlsContainerProps): void {
         const { attr: { min = 0, defaultValue = min } = {} } = this.props;
         const { attr: { defaultValue: prevDefaultValue = 0 } = {} } = prevProps;
 
@@ -115,7 +118,7 @@ export class FieldNumberContainer extends PureComponent<FieldNumberContainerProp
         }
     }
 
-    containerProps(): Pick<FieldNumberComponentProps, FieldNumberContainerPropsKeys> {
+    containerProps(): Pick<FieldNumberWitControlsComponentProps, FieldNumberWitControlsContainerPropsKeys> {
         const {
             attr: {
                 autoComplete,

@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { EventFieldData } from 'Component/Field/Field.type';
+import { FormFields } from 'Component/Form/Form.type';
 import {
     MyAccountPageState
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
@@ -29,6 +30,7 @@ import { noopFn } from 'Util/Common';
 import scrollToError from 'Util/Form/Form';
 import { debounce, getErrorMessage } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
+import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
 import CheckoutGuestForm from './CheckoutGuestForm.component';
 import {
@@ -55,8 +57,8 @@ export const mapStateToProps = (state: RootState): CheckoutGuestFormContainerMap
     isEmailConfirmationRequired: state.ConfigReducer.is_email_confirmation_required,
     emailValue: state.CheckoutReducer.email,
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
-    minimunPasswordLength: state.ConfigReducer.minimun_password_length,
-    minimunPasswordCharacter: state.ConfigReducer.required_character_classes_number
+    minimumPasswordLength: state.ConfigReducer.minimun_password_length,
+    minimumPasswordCharacter: state.ConfigReducer.required_character_classes_number
 });
 
 /** @namespace Component/CheckoutGuestForm/Container/mapDispatchToProps */
@@ -101,7 +103,7 @@ CheckoutGuestFormContainerState
         setLoadingState: this.setLoadingState.bind(this)
     };
 
-    formRef = createRef();
+    formRef = createRef<HTMLFormElement>();
 
     checkEmailAvailability = debounce((email: string) => {
         const { checkEmailAvailability } = this.props;
@@ -135,7 +137,7 @@ CheckoutGuestFormContainerState
         const { isVisibleEmailRequired: prevIsVisibleEmailRequired } = prevProps;
 
         if (isVisibleEmailRequired && isVisibleEmailRequired !== prevIsVisibleEmailRequired) {
-            this.formRef.current.requestSubmit();
+            this.formRef?.current?.requestSubmit();
         }
     }
 
@@ -144,12 +146,13 @@ CheckoutGuestFormContainerState
             emailValue,
             isEmailAvailable,
             onSignIn,
-            minimunPasswordLength,
-            minimunPasswordCharacter
+            minimumPasswordLength,
+            minimumPasswordCharacter,
+            isCreateUser
         } = this.props;
         const { isLoading, signInState } = this.state;
 
-        const range = { min: minimunPasswordLength, max: 64 };
+        const range = { min: minimumPasswordLength, max: 64 };
 
         return ({
             formId: CheckoutSteps.SHIPPING_STEP,
@@ -159,12 +162,17 @@ CheckoutGuestFormContainerState
             signInState,
             onSignIn,
             range,
-            minimunPasswordCharacter,
+            minimumPasswordCharacter,
+            isCreateUser,
             formRef: this.formRef
         });
     }
 
-    onFormError(_, fields, validation) {
+    onFormError(
+        _: HTMLFormElement,
+        fields: FormFields | null,
+        validation: boolean | ValidationDOMOutput
+    ): void {
         this.setState({ isLoading: false });
         scrollToError(fields, validation);
     }

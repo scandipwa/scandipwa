@@ -10,10 +10,12 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent, SyntheticEvent } from 'react';
+import { Component, PureComponent, SyntheticEvent } from 'react';
 
+import { FieldFileContainerProps, FieldFileContainerState } from 'Component/FieldFile/FieldFile.type';
 import { ReactElement } from 'Type/Common.type';
 import { ValidationOutput } from 'Type/Field.type';
+import { noopFn } from 'Util/Common';
 import { validate } from 'Util/Validator';
 import { FieldValidationOutput, ValidationRule } from 'Util/Validator/Validator.type';
 
@@ -50,8 +52,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
         elemRef: undefined,
         changeValueOnDoubleClick: false,
         isSortSelect: false,
-        updateSelectedValues: null,
-        resetFieldValue: null
+        updateSelectedValues: noopFn
     };
 
     state: FieldContainerState = {
@@ -104,7 +105,10 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
         this.setState({ validationResponse: null });
     }
 
-    resetFieldValue(fieldHandler, event) {
+    resetFieldValue(
+        fieldHandler: Component<FieldFileContainerProps, FieldFileContainerState>,
+        event: SyntheticEvent<Element, Event>
+    ): void {
         const { updateSelectedValues } = this.props;
 
         event.preventDefault();
@@ -116,7 +120,14 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
             isLoading: false
         });
 
-        this.fieldRef.fileData = '';
+        if (!this.fieldRef) {
+            return;
+        }
+
+        if ('fileData' in this.fieldRef) {
+            this.fieldRef.fileData = '';
+        }
+
         this.fieldRef.value = '';
         this.validate();
         updateSelectedValues();
@@ -140,10 +151,19 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
         const { showLengthError } = this.state;
         const newValidRule = this.handleShowLengthError();
         const value = type === FieldType.CHECKBOX || type === FieldType.RADIO
-            ? !!this.fieldRef.checked
-            : this.fieldRef.value;
+            ? !!(this.fieldRef as HTMLInputElement)?.checked
+            : this.fieldRef?.value;
 
-        const response = validate(type === FieldType.FILE ? value.toLowerCase() : value, newValidRule);
+        if (!value) {
+            return false;
+        }
+
+        const response = validate(
+            type === FieldType.FILE
+            && typeof value === 'string'
+                ? value.toLowerCase()
+                : value, newValidRule
+        );
         const output = response !== true ? { ...response, type, name } : response;
 
         // If validation is called from different object you can pass object
@@ -220,17 +240,17 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
         const newEvents = { ...events };
 
         validateOn.forEach((eventName) => {
-            const { [eventName]: baseEvent } = events;
+            const { [ eventName as keyof typeof events]: baseEvent } = events;
 
-            newEvents[eventName] = baseEvent ? this.validateOnEvent.bind(this, baseEvent) : validate;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            newEvents[ eventName ] = baseEvent
+                ? this.validateOnEvent.bind(this, baseEvent) : validate;
         });
 
         return {
             type,
-            attr: {
-                ...attr,
-                autoComplete: autoComplete || autocomplete
-            },
+            attr,
             value,
             isDisabled,
             mix,

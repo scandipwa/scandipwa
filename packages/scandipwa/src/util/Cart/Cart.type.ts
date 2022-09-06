@@ -5,7 +5,7 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
@@ -67,3 +67,10 @@ export enum DisplayShippingPrices {
     EXCL_TAX = 'DISPLAY_SHIPPING_PRICES_EXCL_TAX',
     BOTH = 'DISPLAY_SHIPPING_PRICES_BOTH'
 }
+
+export interface CartToken {
+    token: string;
+    isCustomerToken: boolean;
+}
+
+export type CartTokensByWebsite = Record<string, CartToken | undefined>;

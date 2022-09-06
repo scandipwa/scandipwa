@@ -20,7 +20,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
 import ProductLinks from 'Component/ProductLinks';
-import { TotalsObject } from 'Query/Checkout.type';
+import { CartTotals } from 'Store/Cart/Cart.type';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
@@ -72,7 +72,7 @@ export class CartPage extends PureComponent<CartPageComponentProps> {
                 <div block="CartPage" elem="Items" aria-label="List of items in cart">
                     { items.map((item) => (
                         <CartItem
-                          key={ item.item_id }
+                          key={ item.id }
                           item={ item }
                           currency_code={ quote_currency_code }
                           onCartItemLoading={ onCartItemLoading }
@@ -157,10 +157,7 @@ export class CartPage extends PureComponent<CartPageComponentProps> {
 
         return (
             <CheckoutOrderSummary
-              totals={ totals as Partial<TotalsObject> }
-                // eslint-disable-next-line react/jsx-no-bind
-              renderCmsBlock={ () => this.renderPromo() }
-              onCouponCodeUpdate={ onCouponCodeUpdate }
+              totals={ totals as CartTotals }
               showItems={ false }
             >
                 { this.renderSecureCheckoutButton() }

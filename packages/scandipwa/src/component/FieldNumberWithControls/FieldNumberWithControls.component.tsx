@@ -18,14 +18,14 @@ import MinusIcon from 'Component/MinusIcon';
 import { ReactElement } from 'Type/Common.type';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Product.type';
 
-import { FieldNumberComponentProps } from './FieldNumberWithControls.type';
+import { FieldNumberWitControlsComponentProps } from './FieldNumberWithControls.type';
 
 import './FieldNumberWithControls.style.scss';
 /**
  * Field Number With Controls
  * @class FieldNumberWithControls
  * @namespace Component/FieldNumberWithControls/Component */
-export class FieldNumberWithControls extends PureComponent<FieldNumberComponentProps> {
+export class FieldNumberWithControls extends PureComponent<FieldNumberWitControlsComponentProps> {
     render(): ReactElement {
         const {
             attr,

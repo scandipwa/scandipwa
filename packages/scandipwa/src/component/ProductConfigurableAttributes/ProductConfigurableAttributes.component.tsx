@@ -33,7 +33,6 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
         isReady: true,
         mix: {},
         getIsConfigurableAttributeAvailable: (): boolean => true,
-        renderPlaceholder: noopFn as unknown as (block: string) => ReactElement,
         handleShakeAnimationEnd: noopFn,
         isExpandable: true,
         showProductAttributeAsLink: true
@@ -107,7 +106,7 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
         );
     }
 
-    renderPlaceholders() {
+    renderPlaceholders(): ReactElement {
         const { numberOfPlaceholders, isExpandable } = this.props;
         const numberOfPlaceholdersToRender = isExpandable ? numberOfPlaceholders : SMALL_PLACEHOLDER_CONFIG;
 

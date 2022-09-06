@@ -12,6 +12,7 @@
 export interface Token {
     token: string;
     exp: number;
+    isCustomerToken?: boolean;
 }
 
 export type TokensByWebsite = Record<string, Token | string | null | undefined>;

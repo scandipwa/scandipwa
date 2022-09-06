@@ -17,9 +17,10 @@ import { PaymentMethods } from 'Component/CheckoutPayments/CheckoutPayments.conf
 import {
     TERMS_AND_CONDITIONS_POPUP_ID
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
+import { FormFields } from 'Component/Form/Form.type';
 import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { Customer, CustomerAddress } from 'Query/MyAccount.type';
-import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
+import { CheckoutAddress, PaymentInformation } from 'Route/Checkout/Checkout.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
@@ -35,6 +36,7 @@ import scrollToError from 'Util/Form/Form';
 import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import { RootState } from 'Util/Store/Store.type';
+import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
 import CheckoutBilling from './CheckoutBilling.component';
 import {
@@ -119,10 +121,10 @@ CheckoutBillingContainerState
         };
     }
 
-    componentDidUpdate(prevState: CheckoutBillingContainerProps): void {
+    componentDidUpdate(_: CheckoutBillingContainerProps, prevState: CheckoutBillingContainerState): void {
         const { customer: { default_billing, default_shipping }, newShippingId } = this.props;
         const { isMounted, isSameAsShipping: currIsSameAsShipping } = this.state;
-        const { prevIsSameAsShipping } = prevState;
+        const { isSameAsShipping: prevIsSameAsShipping } = prevState;
         const isSameAsShipping = this.isSameShippingAddress({ default_billing, default_shipping });
 
         // default billing & shipping are undefined on initial mount
@@ -135,7 +137,7 @@ CheckoutBillingContainerState
         if (prevIsSameAsShipping !== currIsSameAsShipping && currIsSameAsShipping) {
             this.onAddressSelect(
                 // if the user selected a shipping address different from default
-                newShippingId > 0 ? newShippingId : default_shipping
+                newShippingId > 0 ? newShippingId : Number(default_shipping)
             );
         }
     }
@@ -187,7 +189,7 @@ CheckoutBillingContainerState
 
         // if the user selected a shipping address different from default
         if (newShippingId > 0) {
-            return newShippingId === parseInt(default_billing, 10);
+            return newShippingId === parseInt(default_billing || '0', 10);
         }
 
         // otherwise use the default values
@@ -206,7 +208,11 @@ CheckoutBillingContainerState
         this.setState({ paymentMethod: code });
     }
 
-    onBillingError(_, fields, validation) {
+    onBillingError(
+        _: HTMLFormElement,
+        fields: FormFields | null,
+        validation: boolean | ValidationDOMOutput
+    ): void {
         const { onChangeEmailRequired } = this.props;
 
         onChangeEmailRequired();
@@ -225,7 +231,7 @@ CheckoutBillingContainerState
         savePaymentInformation({
             billing_address: address,
             paymentMethod
-        });
+        } as unknown as PaymentInformation);
     }
 
     showPopup(): void {

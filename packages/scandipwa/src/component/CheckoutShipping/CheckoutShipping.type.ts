@@ -57,6 +57,7 @@ export interface CheckoutShippingContainerBaseProps {
     onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
     onStoreSelect: (address: StoreWithCountryId) => void;
     selectedStoreAddress: StoreWithCountryId;
+    onChangeEmailRequired: () => void;
 }
 
 export type CheckoutShippingContainerProps = CheckoutShippingContainerMapStateProps
@@ -87,6 +88,7 @@ export interface CheckoutShippingComponentProps {
     selectedShippingMethod: ShippingMethod | undefined;
     onAddressSelect: (id: number) => void;
     isLoading: boolean;
+    onChangeEmailRequired: () => void;
     isSubmitted: boolean;
     onStoreSelect: (address: StoreWithCountryId) => void;
     estimateAddress?: GQLEstimateShippingCostsAddress;

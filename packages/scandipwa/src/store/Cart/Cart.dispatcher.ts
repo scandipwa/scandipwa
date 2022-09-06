@@ -129,7 +129,7 @@ export class CartDispatcher {
             ...data,
             country_id,
             region,
-            region_id: getRegionIdOfRegionName(country_id, region),
+            region_id: getRegionIdOfRegionName(country_id || 'US', region as unknown as string),
             street,
             ...street_index
         };

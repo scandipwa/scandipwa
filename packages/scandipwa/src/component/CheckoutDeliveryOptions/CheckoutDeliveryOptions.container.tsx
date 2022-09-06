@@ -12,7 +12,6 @@
 import { PureComponent } from 'react';
 
 import { ShippingMethod } from 'Query/Checkout.type';
-import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { ReactElement } from 'Type/Common.type';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
@@ -38,52 +37,18 @@ CheckoutDeliveryOptionsContainerState
 
     dataMap = {};
 
-    componentDidMount(): void {
-        if (window.formPortalCollector) {
-            window.formPortalCollector.subscribe(
-                CheckoutSteps.SHIPPING_STEP,
-                this.collectAdditionalData,
-                'CheckoutDeliveryOptions'
-            );
-        }
-    }
-
-    componentWillUnmount(): void {
-        if (window.formPortalCollector) {
-            window.formPortalCollector.unsubscribe(CheckoutSteps.SHIPPING_STEP, 'CheckoutDeliveryOptions');
-        }
-    }
-
     containerProps(): Pick<CheckoutDeliveryOptionsComponent, CheckoutDeliveryOptionsContainerPropsKeys> {
         const {
-            estimateAddress,
-            onShippingMethodSelect,
-            onStoreSelect,
             shippingMethods,
             handleSelectDeliveryMethod,
             selectedShippingMethod
         } = this.props;
 
         return {
-            estimateAddress,
-            onShippingMethodSelect,
-            onStoreSelect,
             selectedShippingMethod,
             shippingMethods,
             handleSelectDeliveryMethod
         };
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    collectAdditionalData(): Record<string, any> {
-        const { selectedShippingMethod: { method_code } } = this.props;
-        const additionalDataGetter = this.dataMap[method_code];
-
-        if (!additionalDataGetter) {
-            return {};
-        }
-
-        return additionalDataGetter();
     }
 
     // eslint-disable-next-line consistent-return
