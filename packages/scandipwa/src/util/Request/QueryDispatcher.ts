@@ -70,7 +70,9 @@ export abstract class QueryDispatcher<Options, Data, Error = NetworkError | Netw
             }
         } catch (err) {
             if (!(err as NetworkError).message.includes('abort')) {
-                this.onError(err as NetworkError, dispatch, options);
+                if (!(err as NetworkError).message.includes('abort')) {
+                    this.onError(err as NetworkError, dispatch, options);
+                }
             }
         }
         const broadcast = await listenForBroadCast<Data>(name);

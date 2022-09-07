@@ -10,8 +10,10 @@ import {
     pluginNodeReferenceEntries
 } from './reference';
 import { Ctx } from './util/context';
+import { getAllExtensionsFiles } from './util/extension';
+import { getAllThemeFiles } from './util/parent-theme';
 
-function init() {
+function init(): ts.server.PluginModule {
     function create(info: ts.server.PluginCreateInfo) {
         const ctx = new Ctx(info);
         const cache = new Cache(ctx);
@@ -116,7 +118,23 @@ function init() {
         return proxy;
     }
 
-    return { create };
+    function getExternalFiles(project: ts.server.Project): string[] {
+        const themeFiles = getAllThemeFiles(project.getCurrentDirectory()).sort(
+            (a, b) => (a.length - b.length)
+            // ^^^ Sort by length to put index files first
+        );
+
+        const extensionFiles = getAllExtensionsFiles(project.getCurrentDirectory());
+
+        const allFiles = [
+            ...themeFiles,
+            ...extensionFiles
+        ];
+
+        return allFiles;
+    }
+
+    return { create, getExternalFiles };
 }
 
 export = init;

@@ -173,7 +173,10 @@ export const checkForErrors = <T>(res: ResponseBody<T>): Promise<T> => new Promi
  * @namespace Util/Request/handleConnectionError
  */
 // eslint-disable-next-line no-console
-export const handleConnectionError = (err: unknown): void => console.error(err); // TODO: Add to logs pool
+export const handleConnectionError = (err: unknown, msg: string): void => {
+    // eslint-disable-next-line no-console
+    console.error(msg, err);
+}; // TODO: Add to logs pool
 
 /**
  * Parse response and check wether it contains errors
@@ -181,27 +184,18 @@ export const handleConnectionError = (err: unknown): void => console.error(err);
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/parseResponse
  */
-export const parseResponse = <T>(promise: Promise<Response>): Promise<T> => new Promise((resolve, reject) => {
-    promise.then(
-        /** @namespace Util/Request/parseResponse/Promise/promise/then */
-        (res) => res.json().then(
-            /** @namespace Util/Request/parseResponse/Promise/promise/then/json/then/resolve */
-            (res) => resolve(checkForErrors(res)),
-            /** @namespace Util/Request/parseResponse/Promise/promise/then/json/then/catch */
-            () => {
-                handleConnectionError('Can not transform JSON!');
+export const parseResponse = async <T>(response: Response): Promise<T> => {
+    try {
+        const promiseResponse = await response;
+        const data = await promiseResponse.json();
 
-                return reject();
-            }
-        ),
-        /** @namespace Util/Request/parseResponse/Promise/promise/then/catch */
-        (err) => {
-            handleConnectionError('Can not establish connection!');
+        return await checkForErrors(data);
+    } catch (err) {
+        handleConnectionError(err, 'Can not parse JSON!');
 
-            return reject(err);
-        }
-    );
-});
+        throw err;
+    }
+};
 
 export const HTTP_503_SERVICE_UNAVAILABLE = 503;
 export const HTTP_410_GONE = 410;
@@ -223,7 +217,7 @@ export type QueryVariables = Record<string, string>;
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/executeGet
  */
-export const executeGet = <T>(
+export const executeGet = async <T>(
     queryObject: QueryObject,
     name: string,
     cacheTTL: number,
@@ -237,46 +231,37 @@ export const executeGet = <T>(
         refreshUid();
     }
 
-    return parseResponse(new Promise((resolve, reject): void => {
-        getFetch(uri, name, signal).then(
-            /** @namespace Util/Request/executeGet/parseResponse/getFetch/then */
-            (res) => {
-                if (res.status === HTTP_410_GONE) {
-                    putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL).then(
-                        /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/putPersistedQuery/then */
-                        (putResponse) => {
-                            if (putResponse.status === HTTP_201_CREATED) {
-                                getFetch(uri, name, signal).then(
-                                    /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/putPersistedQuery/then/getFetch/then/resolve */
-                                    (res) => resolve(res)
-                                );
-                            }
-                        }
-                    );
-                } else if (res.status === HTTP_503_SERVICE_UNAVAILABLE) {
-                    reject(res);
-                } else {
-                    resolve(res);
-                }
-            }, /** @namespace Util/Request/executeGet/parseResponse/getFetch/then/catch */
-            (err) => {
-                if (!signal?.aborted) {
-                    return err;
-                }
+    // circumvention of the eslint rule that prohibits usage of let
+    const res: Response[] = [];
 
-                return '';
+    try {
+        res[0] = await getFetch(uri, name, signal);
+    } catch (err) {
+        if (res[0].status === HTTP_410_GONE) {
+            const putResponse = await putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL);
+
+            if (putResponse.status === HTTP_201_CREATED) {
+                res[0] = await getFetch(uri, name, signal);
             }
-        );
-    }));
-};
+        } else if (res[0].status === HTTP_503_SERVICE_UNAVAILABLE) {
+            handleConnectionError(err, 'Service unavailable!...');
 
+            throw new Error(err as string);
+        }
+
+        handleConnectionError(err, 'executeGet failed');
+        throw new Error(err as string);
+    }
+
+    return parseResponse(res[0]);
+};
 /**
  * Make POST request to endpoint
  * @param  {{}} queryObject prepared with `prepareDocument()` from `Util/Query` request body object
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/executePost
  */
-export const executePost = <T>(queryObject: QueryObject): Promise<T> => {
+export const executePost = async <T>(queryObject: QueryObject): Promise<T> => {
     const { query, variables } = queryObject;
 
     if (isSignedIn()) {
@@ -284,7 +269,15 @@ export const executePost = <T>(queryObject: QueryObject): Promise<T> => {
         refreshUid();
     }
 
-    return parseResponse(postFetch(getGraphqlEndpoint(), query, variables));
+    try {
+        const response = await postFetch(getGraphqlEndpoint(), query, variables);
+
+        return await parseResponse(response);
+    } catch (err) {
+        handleConnectionError(err, 'executePost failed');
+
+        throw new Error(err as string);
+    }
 };
 
 /**

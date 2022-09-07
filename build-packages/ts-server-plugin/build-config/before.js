@@ -75,9 +75,9 @@ module.exports = () => {
         ...readJsonConfig(pathToConfig),
         // vvv Enables custom TS server
         'typescript.tsdk': getTsSdkPath(),
-        'typescript.enablePromptUseWorkspaceTsdk': true,
+        'typescript.enablePromptUseWorkspaceTsdk': true
         // vvv Required for inlineHints to work
-        ...INLINE_HINTS_CONFIG
+        // ...INLINE_HINTS_CONFIG
     };
 
     fs.writeFileSync(

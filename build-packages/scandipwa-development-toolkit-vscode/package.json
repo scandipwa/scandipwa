@@ -14,14 +14,14 @@
 	"homepage": "https://github.com/scandipwa/scandipwa/tree/master/build-packages/scandipwa-development-toolkit-vscode",
 	"scripts": {
 		"vscode:prepublish": "npm ci && npm run compile",
-		"compile": "rm -rf out && tsc --sourceMap false -p ./",
+		"compile": "rm -rf out && tsc --sourceMap false -p ./tsconfig.json",
 		"lint": "eslint src --ext ts",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
 		"test": "node ./out/test/runTest.js"
 	},
 	"engines": {
-		"vscode": "^1.63.1"
+		"vscode": "^1.45.0"
 	},
 	"categories": [
 		"Other"
@@ -121,7 +121,7 @@
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^7.0.2",
 		"@types/node": "^14.14.35",
-		"@types/vscode": "^1.63.1",
+		"@types/vscode": "^1.45.0",
 		"@typescript-eslint/eslint-plugin": "^2.30.0",
 		"@typescript-eslint/parser": "^2.30.0",
 		"eslint": "^6.8.0",
