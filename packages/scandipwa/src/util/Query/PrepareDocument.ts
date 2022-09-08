@@ -13,7 +13,7 @@ import { AbstractField, Mutation, Query } from '@tilework/opus';
 
 import { QueryObject, QueryVariables } from 'Util/Request';
 
-import { FieldArgument, FieldType } from './Query.type';
+import { FieldType } from './Query.type';
 
 /**
  * Prepare request body string from query list (all entries must be instances of Query).
@@ -104,8 +104,6 @@ export const prepareRequest = <T>(fields: AbstractField<string, T, boolean>[], t
             }
         );
     }
-
-    console.log(`${type}${formattedArgs}`, '***');
 
     return {
         // format like "query($var_1:String){test(arg: $var_1){id}}"
