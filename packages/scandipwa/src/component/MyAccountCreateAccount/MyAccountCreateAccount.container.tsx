@@ -125,7 +125,7 @@ export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCrea
             lastname,
             is_subscribed,
             taxvat
-        } = transformToNameValuePair(fields);
+        } = transformToNameValuePair<Record<string, string | number | boolean>>(fields);
 
         const customerData = {
             customer: {
@@ -139,7 +139,7 @@ export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCrea
         } as CreateAccountOptions;
 
         if (is_subscribed) {
-            customerData.customer.is_subscribed = is_subscribed;
+            customerData.customer.is_subscribed = !!is_subscribed;
         }
 
         if (isLoading) {

@@ -231,29 +231,29 @@ export const executeGet = async <T>(
         refreshUid();
     }
 
-    // circumvention of the eslint rule that prohibits usage of let
-    const res: Response[] = [];
-
     try {
-        res[0] = await getFetch(uri, name, signal);
-    } catch (err) {
-        if (res[0].status === HTTP_410_GONE) {
+        const result = await getFetch(uri, name, signal);
+
+        if (result.status === HTTP_410_GONE) {
             const putResponse = await putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL);
 
             if (putResponse.status === HTTP_201_CREATED) {
-                res[0] = await getFetch(uri, name, signal);
+                return await parseResponse(await getFetch(uri, name, signal));
             }
-        } else if (res[0].status === HTTP_503_SERVICE_UNAVAILABLE) {
-            handleConnectionError(err, 'Service unavailable!...');
-
-            throw new Error(err as string);
         }
 
-        handleConnectionError(err, 'executeGet failed');
-        throw new Error(err as string);
-    }
+        if (result.status === HTTP_503_SERVICE_UNAVAILABLE) {
+            handleConnectionError(result.status, result.statusText);
+            throw new Error(result.statusText);
+        }
 
-    return parseResponse(res[0]);
+        // Successful and all other http responses go here:
+        return await parseResponse(result);
+    } catch (error) {
+    // Network error
+        handleConnectionError(error, 'executeGet failed');
+        throw new Error(error as string);
+    }
 };
 /**
  * Make POST request to endpoint

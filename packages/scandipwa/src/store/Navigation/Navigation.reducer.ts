@@ -41,6 +41,10 @@ export const NavigationReducer: Reducer<NavigationStore, NavigationAction> = (
 ) => {
     const { navigationType, navigationState } = action;
 
+    if (!navigationType) {
+        return state;
+    }
+
     const {
         [navigationType]: {
             navigationStateHistory,

@@ -40,6 +40,7 @@ export const filterStoreConfig = (config: StoreConfig): Partial<StoreConfig> => 
 );
 
 export const {
+// @ts-ignore
     countries, reviewRatings, storeConfig, currencyData, currency, cartDisplayConfig
 } = BrowserDatabase.getItem('config') || {
     countries: [],

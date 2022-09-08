@@ -113,7 +113,7 @@ SendConfirmationPageContainerState
 
         this.setState({ isLoading: true });
 
-        const { email } = transformToNameValuePair(fields);
+        const { email } = transformToNameValuePair<Record<string, string>>(fields);
 
         try {
             const data = await resendConfirmation({ email });

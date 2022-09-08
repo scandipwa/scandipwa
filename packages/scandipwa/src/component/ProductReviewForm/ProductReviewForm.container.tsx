@@ -126,7 +126,7 @@ ProductReviewFormContainerState
             nickname,
             title,
             detail
-        } = transformToNameValuePair(fields as Record<string, FieldData>);
+        } = transformToNameValuePair<Record<string, string>>(fields as Record<string, FieldData>);
 
         const { sku: product_sku = '' } = product;
 

@@ -61,6 +61,7 @@ export type ConfigStore = StoreConfig & {
     category_url_suffix: string;
     device: Device;
     currency: Currencies;
+    storeConfig: StoreConfig;
 };
 
 declare module 'Util/Store/Store.type' {

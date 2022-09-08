@@ -608,5 +608,6 @@
     "The requested qty is not available!": null,
     "County": null,
     "State/Province": null,
-    "Region": null
+    "Region": null,
+    "You %s the address": null
 }

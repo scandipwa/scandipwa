@@ -80,11 +80,11 @@ export const prepareRequest = <T>(fields: AbstractField<string, T, boolean>[], t
     // go through argument accumulator collected in "prepareFieldString", join values
     // into the format "$var:Type" and append variable value to variables field
     const resolvedArgs = Object.entries(accArgs).reduce((acc, [name, dataArray]): string[] => {
-        (dataArray as Array<Omit<FieldArgument, 'name'>>).forEach((item, i: number) => {
+        (dataArray as Array<string[]>).forEach(([type, value], i: number) => {
             const variable = `${name}_${i + 1}`;
 
             acc.push(`$${variable}:${type}`);
-            variables[variable] = String(item.value);
+            variables[variable] = value;
         });
 
         return acc;
@@ -104,6 +104,8 @@ export const prepareRequest = <T>(fields: AbstractField<string, T, boolean>[], t
             }
         );
     }
+
+    console.log(`${type}${formattedArgs}`, '***');
 
     return {
         // format like "query($var_1:String){test(arg: $var_1){id}}"

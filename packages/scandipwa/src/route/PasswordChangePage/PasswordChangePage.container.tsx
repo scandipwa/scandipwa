@@ -162,7 +162,7 @@ PasswordChangePageContainerState
         this.setState({ isLoading: true }, () => {
             const { resetPassword } = this.props;
             const { location } = history;
-            const { password, password_confirmation } = transformToNameValuePair(fields);
+            const { password, password_confirmation } = transformToNameValuePair<Record<string, string>>(fields);
             const token = getQueryParam('token', location);
             const customer_id = getQueryParam('id', location);
 

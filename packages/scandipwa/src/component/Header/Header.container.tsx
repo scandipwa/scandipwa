@@ -218,7 +218,7 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     getNavigationState(): NavigationState {
         const { navigationState } = this.props;
 
-        const { location: { pathname, state } } = history || {};
+        const { location: { pathname, state = {} } } = history || {};
 
         // TODO: something here breaks /<STORE CODE> from being opened, and / when, the url-based stores are enabled.
 
@@ -241,7 +241,7 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     }
 
     getUserName(): string | undefined {
-        const { firstname } = BrowserDatabase.getItem(CUSTOMER) || {};
+        const { firstname }: { firstname?: string } = BrowserDatabase.getItem(CUSTOMER) || {};
 
         return firstname;
     }

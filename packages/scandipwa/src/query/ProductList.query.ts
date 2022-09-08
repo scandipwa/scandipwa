@@ -211,11 +211,11 @@ export class ProductListQuery {
                 type: 'ProductAttributeFilterInput!',
                 handler: (initialOptions = {}) => {
                     // add customer group by default to all requests
-                    const { group_id } = BrowserDatabase.getItem(CUSTOMER) || {};
+                    const { group_id }: { group_id?: number } = BrowserDatabase.getItem(CUSTOMER) || {};
 
                     const options: ProductAttributeFilterOptions = {
                         ...initialOptions,
-                        customerGroupId: group_id || '0'
+                        customerGroupId: group_id || 0
                     };
 
                     const {
