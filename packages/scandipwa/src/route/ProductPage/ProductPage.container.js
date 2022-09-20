@@ -531,7 +531,7 @@ export class ProductPageContainer extends PureComponent {
         changeHeaderState({
             name: PDP,
             title: name,
-            onBackClick: () => history.back()
+            onBackClick: () => history.goBack()
         });
     }
 

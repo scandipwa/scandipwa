@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.config';
 import { CATEGORY } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import {
@@ -174,7 +175,8 @@ export class CategoryPageContainer extends PureComponent {
     containerFunctions = {
         onSortChange: this.onSortChange.bind(this),
         onGridButtonClick: this.onGridButtonClick.bind(this),
-        onListButtonClick: this.onListButtonClick.bind(this)
+        onListButtonClick: this.onListButtonClick.bind(this),
+        onFilterButtonClick: this.onFilterButtonClick.bind(this)
     };
 
     setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
@@ -350,6 +352,12 @@ export class CategoryPageContainer extends PureComponent {
 
         setQueryParams({ sortKey, sortDirection, page: '' }, location, history);
         this.updateMeta();
+    }
+
+    onFilterButtonClick() {
+        const { toggleOverlayByKey } = this.props;
+
+        toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
     }
 
     setOfflineNoticeSize() {

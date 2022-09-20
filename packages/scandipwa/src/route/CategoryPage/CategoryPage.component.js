@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
 import CategoryDetails from 'Component/CategoryDetails';
-import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.config';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
@@ -59,7 +58,7 @@ export class CategoryPage extends PureComponent {
             sortKey: PropTypes.string
         }).isRequired,
         onSortChange: PropTypes.func.isRequired,
-        toggleOverlayByKey: PropTypes.func.isRequired,
+        onFilterButtonClick: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
         filter: FilterInputType.isRequired,
         search: PropTypes.string,
@@ -94,8 +93,6 @@ export class CategoryPage extends PureComponent {
 
     state = {};
 
-    onFilterButtonClick = this.onFilterButtonClick.bind(this);
-
     static getDerivedStateFromProps(props) {
         const {
             isMobile,
@@ -122,12 +119,6 @@ export class CategoryPage extends PureComponent {
             : selectedLayoutType || defaultPlpType;
 
         return { activeLayoutType };
-    }
-
-    onFilterButtonClick() {
-        const { toggleOverlayByKey } = this.props;
-
-        toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
     }
 
     displayProducts() {
@@ -184,8 +175,8 @@ export class CategoryPage extends PureComponent {
             category: { is_anchor },
             isSearchPage,
             isCurrentCategoryLoaded,
-            isMatchingInfoFilter
-
+            isMatchingInfoFilter,
+            onFilterButtonClick
         } = this.props;
 
         if (!isMatchingInfoFilter) {
@@ -200,7 +191,7 @@ export class CategoryPage extends PureComponent {
             <button
               block="CategoryPage"
               elem="Filter"
-              onClick={ this.onFilterButtonClick }
+              onClick={ onFilterButtonClick }
             >
                 <FilterIcon />
                 <span>{ __('Filters') }</span>
