@@ -429,7 +429,6 @@ export class CategoryPageContainer extends PureComponent {
             filters,
             isMobile,
             sortFields,
-            toggleOverlayByKey,
             totalPages,
             totalItems,
             isSearchPage
@@ -451,7 +450,6 @@ export class CategoryPageContainer extends PureComponent {
             selectedFilters: this.getSelectedFiltersFromUrl(),
             selectedSort: this.getSelectedSortFromUrl(),
             sortFields,
-            toggleOverlayByKey,
             totalPages,
             totalItems
         };
