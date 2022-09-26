@@ -153,7 +153,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
         return (
             <Popup
               id={ STORE_IN_PICK_UP_POPUP_ID }
-              clickOutside={ false }
+              isCloseOnOutsideClick={ false }
               mix={ { block: 'StoreInPickUpPopup' } }
             >
                 { this.renderContent() }
