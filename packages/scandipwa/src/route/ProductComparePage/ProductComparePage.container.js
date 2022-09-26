@@ -98,7 +98,7 @@ export class ProductComparePageContainer extends DataContainer {
         setHeaderState({
             name: PRODUCT_COMPARE,
             title: __('Compare'),
-            onBackClick: () => history.back()
+            onBackClick: () => history.goBack()
         });
     }
 

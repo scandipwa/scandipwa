@@ -188,10 +188,9 @@ export class CategoryFilterOverlayContainer extends PureComponent {
 
         window.addEventListener('popstate', this.historyBackHook);
 
-        history.pushState(
-            { overlayOpen: true },
-            '',
-            pathname + search
+        history.push(
+            pathname + search,
+            { overlayOpen: true }
         );
     }
 
