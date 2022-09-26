@@ -331,6 +331,8 @@ export class ProductListContainer extends PureComponent {
         setQueryParams({
             page: pageNumber === 1 ? '' : pageNumber
         }, location, history);
+
+        scrollToTop();
     }
 
     render() {
