@@ -43,7 +43,7 @@ export class ShareWishlistPopup extends PureComponent {
         return (
             <Popup
               id={ SHARE_WISHLIST_POPUP_ID }
-              clickOutside={ false }
+              isCloseOnOutsideClick={ false }
               mix={ { block: 'ShareWishlistPopup' } }
             >
                 { this.renderContent() }
