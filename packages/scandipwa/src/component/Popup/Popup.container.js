@@ -88,7 +88,7 @@ export class PopupContainer extends PureComponent {
             name: POPUP,
             title: this._getPopupTitle(),
             onCloseClick: () => {
-                history.goBack();
+                history.back();
             }
         });
 
