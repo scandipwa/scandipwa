@@ -49,6 +49,7 @@ export class PopupContainer extends PureComponent {
                 title: PropTypes.string
             })
         ).isRequired,
+        clickOutside: PropTypes.bool,
         activeOverlay: PropTypes.string.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
         areOtherOverlaysOpen: PropTypes.bool.isRequired,
@@ -72,7 +73,8 @@ export class PopupContainer extends PureComponent {
         mix: {},
         contentMix: {},
         children: [],
-        isStatic: false
+        isStatic: false,
+        clickOutside: true
     };
 
     containerFunctions = {
@@ -95,6 +97,7 @@ export class PopupContainer extends PureComponent {
 
     containerProps() {
         const {
+            clickOutside,
             activeOverlay,
             areOtherOverlaysOpen,
             changeHeaderState,
@@ -114,6 +117,7 @@ export class PopupContainer extends PureComponent {
         } = this.props;
 
         return {
+            clickOutside,
             activeOverlay,
             areOtherOverlaysOpen,
             changeHeaderState,

@@ -26,13 +26,12 @@ import './Popup.style';
 export class Popup extends Overlay {
     static propTypes = {
         ...Overlay.propTypes,
-        clickOutside: PropTypes.bool,
+        clickOutside: PropTypes.bool.isRequired,
         title: PropTypes.string
     };
 
     static defaultProps = {
         ...Overlay.defaultProps,
-        clickOutside: true,
         title: ''
     };
 
