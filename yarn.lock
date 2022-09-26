@@ -2706,6 +2706,11 @@
     semver "^7.3.2"
     validate-npm-package-name "^3.0.0"
 
+"@scandipwa/ts-server-plugin@link:build-packages/ts-server-plugin":
+  version "0.0.1"
+  dependencies:
+    "@scandipwa/scandipwa-dev-utils" "0.1.14"
+
 "@scandipwa/webpack-fallback-plugin@^1.2.5":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@scandipwa/webpack-fallback-plugin/-/webpack-fallback-plugin-1.2.5.tgz#325e5edeecf8a2c800cb6b64b6f02821382dbea5"
@@ -3046,6 +3051,11 @@
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@tilework/mosaic/-/mosaic-0.1.4.tgz#90b6f504abd0131fc5d4db315878a871e00988b0"
   integrity sha512-r4oIG5JC/hmI48l4FJB8O23jLB0eDlUtp1HMIEVpfihFLZTUqQcfPpZjftl/4Yd/CJS/Hx5Ca1RF7/cKlqvT7Q==
+
+"@tilework/mosaic@0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic/-/mosaic-0.1.7.tgz#a3c4bc4dcb4214c2163c069bfdf4582ea6cfc411"
+  integrity sha512-uBVrP8vscuTO8/lhJ/K02OuzQJRQxLdlyps8CI7bxHuxR0nhDdOBPbSS6naHh+bWvX+Z9JqsFh36OtrzdBloMw==
 
 "@tootallnate/once@1":
   version "1.1.2"

@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { withRouter } from 'react-router';
 
 import MyAccountOrderPrint from 'Component/MyAccountOrderPrint';
 import { OrderPrintMapType } from 'Type/Order.type';
@@ -54,4 +53,4 @@ export class OrderPrintPage extends PureComponent {
     }
 }
 
-export default withRouter(OrderPrintPage);
+export default OrderPrintPage;

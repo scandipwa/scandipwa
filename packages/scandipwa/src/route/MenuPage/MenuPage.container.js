@@ -12,14 +12,12 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import { MENU } from 'Component/Header/Header.config';
 import Menu from 'Component/Menu';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { HistoryType } from 'Type/Router.type';
 
 /** @namespace Route/MenuPage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -36,7 +34,6 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MenuPageContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
-        history: HistoryType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired
     };
@@ -60,7 +57,7 @@ export class MenuPageContainer extends PureComponent {
     }
 
     redirectIfNotOnMobile() {
-        const { history, isMobile } = this.props;
+        const { isMobile } = this.props;
 
         if (!isMobile) {
             history.push('/');
@@ -76,6 +73,4 @@ export class MenuPageContainer extends PureComponent {
     }
 }
 
-export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(MenuPageContainer)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuPageContainer);

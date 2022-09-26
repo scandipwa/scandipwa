@@ -118,7 +118,8 @@ export class Router extends PureComponent {
     static propTypes = {
         isBigOffline: PropTypes.bool,
         isOnlyMainItems: PropTypes.bool.isRequired,
-        setBigOfflineNotice: PropTypes.func.isRequired
+        setBigOfflineNotice: PropTypes.func.isRequired,
+        currentUrl: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -160,152 +161,152 @@ export class Router extends PureComponent {
 
     [SWITCH_ITEMS_TYPE] = [
         {
-            component: <Route path={ withStoreRegex('/') } exact render={ (props) => <HomePage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/') } exact render={ ({ currentUrl, match }) => <HomePage currentUrl={ currentUrl } match={ match } /> } />,
             position: 10,
             name: HOME
         },
         {
-            component: <Route path={ withStoreRegex('/search/:query/') } render={ (props) => <SearchPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/search/:query/') } render={ ({ match }) => <SearchPage match={ match } /> } />,
             position: 25,
             name: SEARCH
         },
         {
-            component: <Route path={ withStoreRegex('/page') } render={ (props) => <CmsPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/page') } render={ ({ currentUrl, match }) => <CmsPage match={ match } currentUrl={ currentUrl } /> } />,
             position: 40,
             name: CMS_PAGE
         },
         {
-            component: <Route path={ withStoreRegex('/cart') } exact render={ (props) => <CartPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/cart') } exact render={ () => <CartPage /> } />,
             position: 50,
             name: CART
         },
         {
-            component: <Route path={ withStoreRegex('/checkout/:step?') } render={ (props) => <Checkout { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/checkout/:step?') } render={ ({ match }) => <Checkout match={ match } /> } />,
             position: 55,
             name: CHECKOUT
         },
         {
-            component: <Route path={ withStoreRegex('/customer/account/createPassword/') } render={ (props) => <PasswordChangePage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/createPassword/') } render={ () => <PasswordChangePage /> } />,
             position: 60,
             name: CHANGE_PASSWORD
         },
         {
-            component: <Route path={ withStoreRegex('/customer/account/create/') } render={ (props) => <CreateAccountPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/create/') } render={ () => <CreateAccountPage /> } />,
             position: 61,
             name: CREATE_ACCOUNT
         },
         {
-            component: <Route path={ withStoreRegex('/customer/account/login/') } render={ (props) => <LoginAccountPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/login/') } render={ () => <LoginAccountPage /> } />,
             position: 62,
             name: LOGIN
         },
         {
-            component: <Route path={ withStoreRegex('/customer/account/forgotpassword/') } render={ (props) => <ForgotPasswordPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/forgotpassword/') } render={ () => <ForgotPasswordPage /> } />,
             position: 63,
             name: ACCOUNT_FORGOT_PASSWORD
         },
         {
-            component: <Route path={ withStoreRegex('/customer/account/confirmation') } render={ (props) => <SendConfirmationPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/confirmation') } render={ () => <SendConfirmationPage /> } />,
             position: 64,
             name: CONFIRM_ACCOUNT
         },
         {
-            component: <Route path={ withStoreRegex('/customer/account/confirm') } render={ (props) => <ConfirmAccountPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/confirm') } render={ () => <ConfirmAccountPage /> } />,
             position: 65,
             name: CONFIRM_ACCOUNT
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/view/order_id/:orderId?') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_ORDERS } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/view/order_id/:orderId?') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MY_ORDERS } /> } />,
             position: 70,
             name: MY_ACCOUNT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/history') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_ORDERS } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/history') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MY_ORDERS } /> } />,
             position: 71,
             name: MY_ACCOUNT_ORDERS
         },
         {
-            component: <Route path={ withStoreRegex('/downloadable/customer/products') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_DOWNLOADABLE } /> } />,
+            component: <Route path={ withStoreRegex('/downloadable/customer/products') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MY_DOWNLOADABLE } /> } />,
             position: 72,
             name: MY_ACCOUNT_DOWNLOADABLE
         },
         {
-            component: <Route path={ withStoreRegex('/wishlist') } render={ (props) => <MyAccount { ...props } selectedTab={ MY_WISHLIST } /> } />,
+            component: <Route path={ withStoreRegex('/wishlist') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MY_WISHLIST } /> } />,
             position: 73,
             name: MY_ACCOUNT_WISHLIST
         },
         {
-            component: <Route path={ withStoreRegex('/customer/address') } render={ (props) => <MyAccount { ...props } selectedTab={ ADDRESS_BOOK } /> } />,
+            component: <Route path={ withStoreRegex('/customer/address') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ ADDRESS_BOOK } /> } />,
             position: 74,
             name: MY_ACCOUNT_ADDRESS
         },
         {
-            component: <Route path={ withStoreRegex('/newsletter/manage') } render={ (props) => <MyAccount { ...props } selectedTab={ NEWSLETTER_SUBSCRIPTION } /> } />,
+            component: <Route path={ withStoreRegex('/newsletter/manage') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ NEWSLETTER_SUBSCRIPTION } /> } />,
             position: 75,
             name: MY_ACCOUNT_NEWSLETTER
         },
         {
-            component: <Route path={ withStoreRegex('/customer/account/:tab?') } render={ (props) => <MyAccount { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/customer/account/:tab?') } render={ ({ match }) => <MyAccount match={ match } /> } />,
             position: 76,
             name: MY_ACCOUNT
         },
         {
-            component: <Route path={ withStoreRegex('/menu') } render={ (props) => <MenuPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/menu') } render={ () => <MenuPage /> } />,
             position: 80,
             name: MENU
         },
         {
-            component: <Route path={ withStoreRegex('/wishlist/shared/:code') } render={ (props) => <WishlistShared { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/wishlist/shared/:code') } render={ ({ match }) => <WishlistShared match={ match } /> } />,
             position: 81,
             name: SHARED_WISHLIST
         },
         {
-            component: <Route path={ withStoreRegex('/contact') } render={ (props) => <ContactPage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/contact') } render={ () => <ContactPage /> } />,
             position: 82,
             name: CONTACT_PAGE
         },
         {
-            component: <Route path={ withStoreRegex('/compare') } render={ (props) => <ProductComparePage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/compare') } render={ () => <ProductComparePage /> } />,
             position: 83,
             name: COMPARE
         },
         {
-            component: <Route path={ withStoreRegex('/styleguide') } render={ (props) => <StyleGuidePage { ...props } /> } />,
+            component: <Route path={ withStoreRegex('/styleguide') } render={ () => <StyleGuidePage /> } />,
             position: 84,
             name: STYLE_GUIDE
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/print/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_ORDER_REQUEST } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/print/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_ORDER_REQUEST } /> } />,
             position: 90,
             name: PRINT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/printInvoice/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_ALL_INVOICES } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/printInvoice/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_ALL_INVOICES } /> } />,
             position: 91,
             name: PRINT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/printShipment/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_ALL_SHIPMENT } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/printShipment/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_ALL_SHIPMENT } /> } />,
             position: 92,
             name: PRINT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/order_id/:orderId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_ALL_REFUNDS } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_ALL_REFUNDS } /> } />,
             position: 93,
             name: PRINT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/printInvoice/invoice_id/:invoiceId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_INVOICE } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/printInvoice/invoice_id/:invoiceId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_INVOICE } /> } />,
             position: 94,
             name: PRINT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/printShipment/shipment_id/:shipmentId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_SHIPMENT } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/printShipment/shipment_id/:shipmentId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_SHIPMENT } /> } />,
             position: 95,
             name: PRINT_ORDER
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/creditmemo_id/:refundId?') } render={ (props) => <OrderPrintPage { ...props } orderPrintRequest={ PRINT_REFUND } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/creditmemo_id/:refundId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PRINT_REFUND } /> } />,
             position: 95,
             name: PRINT_ORDER
         },

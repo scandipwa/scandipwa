@@ -293,10 +293,6 @@ export const magentoProductTransform = (
     const productData = [];
 
     if (typeId === PRODUCT_TYPE.grouped && action === ADD_TO_CART) {
-        if (Object.keys(quantity).length === 0) {
-            return productData;
-        }
-
         const { items } = product;
         const groupedProducts = [];
 

@@ -19,7 +19,7 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
 import CmsPage from 'Route/CmsPage';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { LocationType, MatchType } from 'Type/Router.type';
+import { MatchType } from 'Type/Router.type';
 
 import './HomePage.style';
 
@@ -38,7 +38,7 @@ export class HomePageContainer extends PureComponent {
     static propTypes = {
         changeHeaderState: PropTypes.func.isRequired,
         pageIdentifiers: PropTypes.string.isRequired,
-        location: LocationType.isRequired,
+        currentUrl: PropTypes.string.isRequired,
         match: MatchType.isRequired
     };
 
@@ -54,14 +54,14 @@ export class HomePageContainer extends PureComponent {
     containerProps() {
         const {
             changeHeaderState,
-            location,
+            currentUrl,
             match,
             pageIdentifiers
         } = this.props;
 
         return {
             changeHeaderState,
-            location,
+            currentUrl,
             match,
             pageIdentifiers
         };

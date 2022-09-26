@@ -1,0 +1,6 @@
+{
+    "name": "example-tsc-codebase",
+    "dependencies": {
+        "@scandipwa/ts-server-plugin": "link:.."
+    }
+}

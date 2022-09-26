@@ -1,20 +1,20 @@
 {
 	"private": true,
 	"version": "1.0.27",
-	"name": "scandipwa-development-toolkit-vscode",
-	"publisher": "ScandiPWA",
-	"displayName": "ScandiPWA devtools",
-	"description": "ScandiPWA development tools for Visual Studio Code",
+	"name": "scandipwa-vscode-tools",
+	"publisher": "scandipwa-new",
+	"displayName": "ScandiPWA tools for VSCode",
+	"description": "Become more productive working with ScandiPWA. Create ScandiPWA extensions, go to overrides from source files, generate override files, and more.",
 	"icon": "icon.png",
 	"license": "SEE LICENSE IN LICENSE",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/scandipwa/create-scandipwa-app"
+		"url": "https://github.com/scandipwa/scandipwa"
 	},
-	"homepage": "https://github.com/scandipwa/create-scandipwa-app",
+	"homepage": "https://github.com/scandipwa/scandipwa/tree/master/build-packages/scandipwa-development-toolkit-vscode",
 	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
+		"vscode:prepublish": "npm ci && npm run compile",
+		"compile": "rm -rf out && tsc --sourceMap false -p ./tsconfig.json",
 		"lint": "eslint src --ext ts",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
@@ -112,7 +112,7 @@
 		"@babel/parser": "^7.9.6",
 		"@babel/traverse": "^7.9.6",
 		"@babel/types": "^7.9.6",
-		"@scandipwa/scandipwa-development-toolkit-core": "1.0.26",
+		"@scandipwa/scandipwa-development-toolkit-core": "^1.0.26",
 		"@tilework/mosaic-dev-utils": "0.0.5"
 	},
 	"devDependencies": {

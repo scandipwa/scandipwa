@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import PRODUCT_TYPE from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { MixType } from 'Type/Common.type';
-import { OriginalPriceType, ProductPriceType } from 'Type/Price.type';
+import { OriginalPriceType, ProductPriceType, TierPriceType } from 'Type/Price.type';
 import { PriceConfiguration } from 'Type/ProductList.type';
 
 import {
@@ -35,7 +35,7 @@ export class ProductPrice extends PureComponent {
         price: ProductPriceType,
         priceType: PropTypes.oneOf(Object.values(PRODUCT_TYPE)),
         originalPrice: OriginalPriceType,
-        tierPrice: PropTypes.string,
+        tierPrice: TierPriceType,
         configuration: PriceConfiguration,
         priceCurrency: PropTypes.string,
         discountPercentage: PropTypes.number,
@@ -57,7 +57,7 @@ export class ProductPrice extends PureComponent {
         isSchemaRequired: false,
         variantsCount: 0,
         mix: {},
-        tierPrice: '',
+        tierPrice: {},
         label: '',
         configuration: {},
         displayTaxInPrice: DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX
@@ -393,22 +393,25 @@ export class ProductPrice extends PureComponent {
 
     renderTierPrice() {
         const {
-            tierPrice,
+            tierPrice: {
+                valueFormatted: tierPriceFormatted,
+                value: tierPriceValue
+            },
             price: {
                 finalPrice: {
-                    valueFormatted = 0
+                    value
                 } = {}
             } = {}
         } = this.props;
 
-        if (!tierPrice || tierPrice === valueFormatted) {
+        if (!tierPriceFormatted || tierPriceValue >= value) {
             return null;
         }
 
         return (
             <p block="ProductPrice" elem="TierPrice">
                 { __('As low as') }
-                <strong>{ ` ${tierPrice}` }</strong>
+                <strong>{ ` ${tierPriceFormatted}` }</strong>
             </p>
         );
     }

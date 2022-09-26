@@ -289,7 +289,9 @@ export class StyleGuidePageComponent extends PureComponent {
                   addRequiredTag
                 />
                 <div block="Field" elem="ErrorMessages">
-                This field is required!
+                    <div block="Field" elem="ErrorMessage">
+                        This field is required!
+                    </div>
                 </div>
                 <Field
                   type={ FIELD_TYPE.select }
@@ -353,7 +355,9 @@ export class StyleGuidePageComponent extends PureComponent {
                   addRequiredTag
                 />
                 <div block="Field" elem="ErrorMessages">
-                This field is required!
+                    <div block="Field" elem="ErrorMessage">
+                        This field is required!
+                    </div>
                 </div>
                 <Field
                   type={ FIELD_TYPE.text }
@@ -423,7 +427,9 @@ export class StyleGuidePageComponent extends PureComponent {
                   addRequiredTag
                 />
                 <div block="Field" elem="ErrorMessages">
-                This field is required!
+                    <div block="Field" elem="ErrorMessage">
+                        This field is required!
+                    </div>
                 </div>
                 <Field
                   type={ FIELD_TYPE.number }
@@ -485,7 +491,9 @@ export class StyleGuidePageComponent extends PureComponent {
                   addRequiredTag
                 />
                 <div block="Field" elem="ErrorMessages">
-                This field is required!
+                    <div block="Field" elem="ErrorMessage">
+                        This field is required!
+                    </div>
                 </div>
                 <Field
                   type={ FIELD_TYPE.tel }
@@ -520,7 +528,9 @@ export class StyleGuidePageComponent extends PureComponent {
                   attr={ { block: 'StyleGuidePage', elem: 'ErrorInput', id: 'errorCheckbox' } }
                 />
                 <div block="Field" elem="ErrorMessages">
-                    This is an error message
+                    <div block="Field" elem="ErrorMessage">
+                        This is an error message
+                    </div>
                 </div>
                 <Field
                   type="checkbox"
@@ -551,7 +561,9 @@ export class StyleGuidePageComponent extends PureComponent {
                   attr={ { block: 'StyleGuidePage', elem: 'ErrorInput', id: 'errorRadio' } }
                 />
                 <div block="Field" elem="ErrorMessages">
-                    This is an error message
+                    <div block="Field" elem="ErrorMessage">
+                        This is an error message
+                    </div>
                 </div>
                 <Field
                   type="radio"

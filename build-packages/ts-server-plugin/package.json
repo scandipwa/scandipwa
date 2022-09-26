@@ -1,0 +1,22 @@
+{
+    "name": "@scandipwa/ts-server-plugin",
+    "version": "0.0.2",
+    "license": "OSL-3.0",
+    "main": "./out",
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "build": "tsc --outDir ./out",
+        "start": "tsc --watch --sourceMap --outDir ./out"
+    },
+    "dependencies": {
+        "@scandipwa/scandipwa-dev-utils": "0.1.14"
+    },
+    "scandipwa": {
+        "type": "extension",
+        "build": {
+            "before": "build-config/before.js"
+        }
+    }
+}

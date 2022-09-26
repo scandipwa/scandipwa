@@ -10,7 +10,6 @@
  */
 
 import { Redirect } from 'react-router';
-import { withRouter } from 'react-router-dom';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
@@ -121,6 +120,5 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
         );
     }
 }
-export default withRouter(
-    ForgotPasswordComponent
-);
+
+export default ForgotPasswordComponent;
