@@ -20,6 +20,9 @@ import { hash } from './Hash';
 export const GRAPHQL_URI = '/graphql';
 export const WINDOW_ID = 'WINDOW_ID';
 
+/** @namespace Util/Request/delay */
+export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 /** @namespace Util/Request/getWindowId */
 export const getWindowId = () => {
     const result = sessionStorage.getItem(WINDOW_ID);
@@ -210,7 +213,9 @@ export const executeGet = async (queryObject, name, cacheTTL, signal) => {
 
             if (putResponse.status === HTTP_201_CREATED) {
                 // eslint-disable-next-line no-magic-numbers
-                setTimeout(async () => parseResponse(await getFetch(uri, name, signal)), 200);
+                await delay(300);
+
+                return parseResponse(await getFetch(uri, name, signal));
             }
         }
 
