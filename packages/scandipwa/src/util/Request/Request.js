@@ -209,7 +209,8 @@ export const executeGet = async (queryObject, name, cacheTTL, signal) => {
             const putResponse = await putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL);
 
             if (putResponse.status === HTTP_201_CREATED) {
-                return parseResponse(await getFetch(uri, name, signal));
+                // eslint-disable-next-line no-magic-numbers
+                setTimeout(async () => parseResponse(await getFetch(uri, name, signal)), 200);
             }
         }
 
