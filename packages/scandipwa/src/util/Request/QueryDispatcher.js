@@ -57,9 +57,7 @@ export class QueryDispatcher {
             this.promise = await executeGet(prepareQuery(queries), name, cacheTTL, this.controller.signal);
             this.onSuccess(this.promise, dispatch, options);
         } catch (err) {
-            if (!err.message.includes('abort')) {
-                this.onError(err, dispatch, options);
-            }
+            this.onError(err, dispatch, options);
         }
         const broadcast = await listenForBroadCast(name);
 
