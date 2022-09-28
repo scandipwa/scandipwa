@@ -107,11 +107,13 @@ export class Notification extends PureComponent<NotificationComponentProps, Noti
             is: isNotificationVisible ? 'opening' : 'closing'
         };
 
+        const message = msgText.toString();
+
         return (
             <div block="Notification" mods={ mods } ref={ this.notification } id={ id }>
                 <button block="Notification" elem="Button" onClick={ this.hideNotification }> Close </button>
                 <p block="Notification" elem="Text">
-                    <Html content={ msgText } />
+                    <Html content={ message } />
                 </p>
                 { this.renderDebug() }
             </div>
