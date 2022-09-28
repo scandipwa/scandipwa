@@ -10,3 +10,13 @@
  */
 
 export const STRING_ONLY_ATTRIBUTE_CODES = ['category_id'];
+
+export enum AttributeType {
+    SELECT = 'select',
+    BOOLEAN = 'boolean',
+    TEXT = 'text',
+    MULTISELECT = 'multiselect',
+    MEDIA_IMAGE = 'media_image',
+    TEXTAREA = 'textarea',
+    WEIGHT = 'weight'
+}

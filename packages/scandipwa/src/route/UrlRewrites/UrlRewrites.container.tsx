@@ -135,13 +135,13 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
                  */
             if (isLoading) {
                 // TODO: history.state.state looks like undefined all the time.
-                // const product = history?.state?.state?.product;
+                const product = history?.location?.state?.product;
 
-                // if (product) {
-                //     const { sku: historySKU, id } = product;
+                if (product) {
+                    const { sku: historySKU, id } = product;
 
-                //     return { productSKU: historySKU, id };
-                // }
+                    return { productSKU: historySKU, id };
+                }
 
                 return {};
             }
@@ -161,11 +161,11 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
                  */
             if (isLoading) {
                 // TODO: history.state.state looks like undefined all the time.
-                // const category = history?.state?.state?.category;
+                const category = history?.location?.state?.category;
 
-                // if (category && category !== true) {
-                //     return { categoryIds: category };
-                // }
+                if (category && category !== true) {
+                    return { categoryIds: category };
+                }
 
                 return {};
             }
@@ -216,12 +216,12 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
          */
         if (this.getIsLoading()) {
             // TODO: history.state.state looks like undefined all the time.
-            // const state = history?.state?.state || {};
-            // const typeKey = Object.keys(state).find((key) => key in UrlRewritesContainer.stateMapping);
+            const state = history?.location?.state || {};
+            const typeKey = Object.keys(state).find((key) => key in UrlRewritesContainer.stateMapping);
 
-            // if (typeKey) {
-            //     return UrlRewritesContainer.stateMapping[ typeKey as keyof typeof UrlRewritesContainer.stateMapping];
-            // }
+            if (typeKey) {
+                return UrlRewritesContainer.stateMapping[ typeKey as keyof typeof UrlRewritesContainer.stateMapping];
+            }
 
             /**
              * Otherwise fallback to other guessed types - from window i.e.

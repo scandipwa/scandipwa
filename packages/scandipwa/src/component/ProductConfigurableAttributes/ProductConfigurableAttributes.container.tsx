@@ -149,7 +149,7 @@ export class ProductConfigurableAttributesContainer<
         const { parameters, variants } = this.props;
 
         // skip out of stock check, if variants data has not been provided
-        if (!variants) {
+        if (!variants.length) {
             return true;
         }
 

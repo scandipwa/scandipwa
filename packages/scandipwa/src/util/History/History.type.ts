@@ -18,7 +18,7 @@ export interface HistoryState {
     isForgotPassword?: boolean;
     isFromLocked?: boolean;
     editPassword?: boolean;
-    category?: number;
+    category?: number | boolean;
     isFromEmailChange?: boolean;
     prevCategoryId?: number;
     stack?: string[];
