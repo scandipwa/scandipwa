@@ -25,11 +25,11 @@ export const FIVE_MINUTES_IN_SECONDS = 300;
  */
 export class QueryDispatcher {
     /**
-      * Creates an instance of QueryDispatcher.
-      * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
-      * @param  {Number} cacheTTL Cache TTL (in seconds) for ServiceWorker to cache responses
-      * @memberof QueryDispatcher
-      */
+     * Creates an instance of QueryDispatcher.
+     * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
+     * @param  {Number} cacheTTL Cache TTL (in seconds) for ServiceWorker to cache responses
+     * @memberof QueryDispatcher
+     */
     __construct(name, cacheTTL = ONE_MONTH_IN_SECONDS) {
         super.__construct();
         this.name = name;
