@@ -308,8 +308,16 @@ export class ProductCard extends Product<ProductCardComponentProps> {
 
         return Object.fromEntries(
             Object.entries(filteredOptions).filter(
-                ([, option]) => Object.values(option.attribute_options)
-                    .some(({ swatch_data: swatchData }) => swatchData)
+                ([, option]) => {
+                    const { attribute_options } = option;
+
+                    if (!attribute_options) {
+                        return false;
+                    }
+
+                    return Object.values(attribute_options)
+                        .some(({ swatch_data: swatchData }) => swatchData);
+                }
             )
         );
     }
