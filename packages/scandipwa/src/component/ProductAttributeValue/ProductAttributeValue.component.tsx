@@ -22,7 +22,7 @@ import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import { getBooleanLabel } from 'Util/Product';
 
-import { STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
+import { AttributeType, STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
 import { ProductAttributeValueComponentProps, ProductAttributeValueOption } from './ProductAttributeValue.type';
 
 import './ProductAttributeValue.style';
@@ -373,19 +373,19 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         const { attribute: { attribute_type } } = this.props;
 
         switch (attribute_type) {
-        case 'select':
+        case AttributeType.SELECT:
             return this.renderSelectAttribute();
-        case 'boolean':
+        case AttributeType.BOOLEAN:
             return this.renderBooleanAttribute();
-        case 'text':
+        case AttributeType.TEXT:
             return this.renderTextAttribute();
-        case 'multiselect':
+        case AttributeType.MULTISELECT:
             return this.renderMultiSelectAttribute();
-        case 'media_image':
+        case AttributeType.MEDIA_IMAGE:
             return this.renderImageAttribute();
-        case 'textarea':
+        case AttributeType.TEXTAREA:
             return this.renderTextAreaAttribute();
-        case 'weight':
+        case AttributeType.WEIGHT:
             return this.renderNumericAttribute();
         default:
             return this.renderPlaceholder();
@@ -434,7 +434,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
                   aria-hidden={ isNotAvailable }
                   mix={ mix }
                 >
-                { this.renderAttributeByType() }
+                    { this.renderAttributeByType() }
                 </span>
             );
         }

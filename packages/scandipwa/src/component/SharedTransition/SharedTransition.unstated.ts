@@ -34,9 +34,10 @@ export class SharedTransitionUnstated extends Container<SharedTransitionState> {
         return JSON.parse(JSON.stringify(val));
     }
 
-    cleanUpTransition(): void {
+    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/no-arrow-functions-in-class
+    cleanUpTransition = (): void => {
         this.setState(sharedTransitionInitialState);
-    }
+    };
 
     registerSharedElementDestination({ current }: RefObject<HTMLElement>): void {
         if (current) {
