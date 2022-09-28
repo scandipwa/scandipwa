@@ -318,7 +318,7 @@ export const getIndexedProduct = (product, itemSku) => {
 };
 
 /** @namespace Util/Product/getIndexedProducts */
-export const getIndexedProducts = (products) => products.map((product) => getIndexedProduct(product));
+export const getIndexedProducts = (products = []) => products.map((product) => getIndexedProduct(product));
 
 /** @namespace Util/Product/getIndexedParameteredProducts */
 export const getIndexedParameteredProducts = (products) => Object.entries(products)
