@@ -12,12 +12,12 @@
 import { RefObject } from 'react';
 
 import {
-    ProductComponentContainerFunctions,
-    ProductComponentContainerPropKeys,
     ProductComponentProps,
     ProductContainerBaseProps,
+    ProductContainerFunctions,
     ProductContainerMapDispatchProps,
-    ProductContainerMapStateProps
+    ProductContainerMapStateProps,
+    ProductContainerPropKeys
 } from 'Component/Product/Product.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -51,7 +51,7 @@ export type ProductCardContainerProps = ProductCardContainerMapStateProps
 & ProductCardContainerMapDispatchProps
 & ProductCartContainerBaseProps;
 
-export interface ProductCartComponentContainerFunctions extends ProductComponentContainerFunctions {
+export interface ProductCardContainerFunctions extends ProductContainerFunctions {
     showSelectOptionsNotification: () => void;
 }
 
@@ -70,7 +70,7 @@ export interface ProductCardComponentProps extends ProductComponentProps {
     isPlp: boolean;
 }
 
-export type ProductCardComponentContainerPropKeys = ProductComponentContainerPropKeys
+export type ProductCardContainerPropKeys = ProductContainerPropKeys
 | 'children'
 | 'hideCompareButton'
 | 'hideWishlistButton'
