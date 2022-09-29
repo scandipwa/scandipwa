@@ -467,8 +467,8 @@ S extends ProductContainerState = ProductContainerState
         const { showError } = this.props;
 
         if (
-            errorFields
-            || errorMessages
+            errorFields.length
+            || errorMessages.length
             || this.validateConfigurableProduct()
             || this.filterAddToCartFileErrors(values)
         ) {
@@ -496,7 +496,7 @@ S extends ProductContainerState = ProductContainerState
      * @param key
      * @param value
      */
-    updateConfigurableVariant(key: string, value: string, checkEmptyValue = false): void {
+    updateConfigurableVariant(key: string, value: string | number | boolean, checkEmptyValue = false): void {
         const { parameters: prevParameters } = this.state;
 
         const newParameters = getNewParameters(prevParameters, key, value);

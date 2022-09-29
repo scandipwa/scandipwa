@@ -157,7 +157,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
 
     renderConfigurableOptions(): ReactElement {
         const {
-            // setActiveProduct,
+            setActiveProduct,
             parameters,
             product: { type_id: type, variants = [] },
             inStock,
@@ -182,7 +182,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
                   mix={ { block: this.className, elem: 'Attributes' } }
                   parameters={ parameters }
                   variants={ variants }
-                //   updateConfigurableVariant={ setActiveProduct }
+                  updateConfigurableVariant={ setActiveProduct }
                   configurable_options={ this.getConfigurableAttributes() }
                   isContentExpanded
                   inStock={ inStock }

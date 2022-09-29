@@ -64,7 +64,7 @@ export interface ProductComponentContainerFunctions {
     setDownloadableLinks: (links: string[]) => void;
     updateAddToCartTriggeredWithError: () => void;
     getActiveProduct: () => IndexedProduct;
-    setActiveProduct: (key: string, value: string, checkEmptyValue?: boolean) => void;
+    setActiveProduct: (key: string, value: string | number | boolean, checkEmptyValue?: boolean) => void;
     getMagentoProduct: () => ProductTransformData[];
     setValidator: (elem: HTMLElement) => void;
     scrollOptionsIntoView: () => void;
