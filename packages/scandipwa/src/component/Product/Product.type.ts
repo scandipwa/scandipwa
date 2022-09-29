@@ -56,7 +56,7 @@ export interface ProductContainerState {
     activeProduct: IndexedProduct | null;
 }
 
-export interface ProductComponentContainerFunctions {
+export interface ProductContainerFunctions {
     setQuantity: (quantity: ProductQuantity) => void;
     addToCart: (options?: AddProductToCartOptions) => Promise<void>;
     updateSelectedValues: (data?: Partial<ProductOption>) => void;
@@ -64,13 +64,13 @@ export interface ProductComponentContainerFunctions {
     setDownloadableLinks: (links: string[]) => void;
     updateAddToCartTriggeredWithError: () => void;
     getActiveProduct: () => IndexedProduct;
-    setActiveProduct: (key: string, value: string, checkEmptyValue?: boolean) => void;
+    setActiveProduct: (key: string, value: ConfigurableProductSelectedVariantValue, checkEmptyValue?: boolean) => void;
     getMagentoProduct: () => ProductTransformData[];
     setValidator: (elem: HTMLElement) => void;
     scrollOptionsIntoView: () => void;
 }
 
-export interface ProductComponentProps extends ProductComponentContainerFunctions {
+export interface ProductComponentProps extends ProductContainerFunctions {
     isWishlistEnabled: boolean;
     unselectedOptions: string[];
     quantity: ProductQuantity;
@@ -87,7 +87,7 @@ export interface ProductComponentProps extends ProductComponentContainerFunction
     productPrice: Partial<ProductExtractPrice>;
 }
 
-export type ProductComponentContainerPropKeys =
+export type ProductContainerPropKeys =
     | 'isWishlistEnabled'
     | 'unselectedOptions'
     | 'quantity'
@@ -127,3 +127,5 @@ export interface ProductPrice {
     minimum_price: Partial<PriceRange>;
     maximum_price: Partial<PriceRange>;
 }
+
+export type ConfigurableProductSelectedVariantValue = string | number | boolean;
