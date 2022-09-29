@@ -33,8 +33,13 @@ export class CheckoutAddressBook extends PureComponent {
         selectedAddressId: PropTypes.number.isRequired,
         isBilling: PropTypes.bool.isRequired,
         isSubmitted: PropTypes.bool.isRequired,
-        is_virtual: PropTypes.bool.isRequired
+        is_virtual: PropTypes.bool.isRequired,
+        shouldRender: PropTypes.bool
     };
+
+     static defaultProps = {
+         shouldRender: true
+     };
 
     state = {
         isCustomAddressExpanded: false
@@ -190,12 +195,14 @@ export class CheckoutAddressBook extends PureComponent {
     }
 
     render() {
-        return (
+        const { shouldRender } = this.props;
+
+        return shouldRender ? (
             <div block="CheckoutAddressBook">
                 { this.renderHeading() }
                 { this.renderContent() }
             </div>
-        );
+        ) : null;
     }
 }
 

@@ -241,13 +241,12 @@ export class CheckoutBilling extends PureComponent {
             totals: { is_virtual }
         } = this.props;
 
-        if (isSameAsShipping && !is_virtual) {
-            return null;
-        }
+        const shouldRender = !(isSameAsShipping && !is_virtual);
 
         return (
             <CheckoutAddressBook
               onAddressSelect={ onAddressSelect }
+              shouldRender={ shouldRender }
               isBilling
               is_virtual
             />

@@ -117,7 +117,7 @@ export class CheckoutBillingContainer extends PureComponent {
         const { paymentMethods } = props;
 
         this.state = {
-            isSameAsShipping: false,
+            isSameAsShipping: true,
             isMounted: false,
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
