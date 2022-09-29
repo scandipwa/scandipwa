@@ -429,7 +429,7 @@ export const sortBySortOrder = <T>(options: T[], sortKey?: keyof T): T[] => opti
 export const getIsConfigurableParameterSelected = (
     parameters: Record<string, string>,
     key: string,
-    value: string
+    value: string | number | boolean
 ): boolean => Object.hasOwnProperty.call(parameters, key) && parameters[key] === value;
 
 /** @namespace Util/Product/getNewParameters */
@@ -437,7 +437,7 @@ export const getIsConfigurableParameterSelected = (
 export const getNewParameters = (
     parameters: Record<string, string>,
     key: string,
-    value = ''
+    value: string | number | boolean = ''
 ): Record<string, string> => {
     // If value is already selected, than we remove the key to achieve deselection
     if (getIsConfigurableParameterSelected(parameters, key, value)) {
