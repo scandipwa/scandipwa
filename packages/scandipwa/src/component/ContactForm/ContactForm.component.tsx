@@ -23,7 +23,7 @@ import './ContactForm.style';
 /** @namespace Component/ContactForm/Component */
 export class ContactForm extends FieldForm<ContactFormComponentProps> {
     static defaultProps: Partial<ContactFormComponentProps> = {
-        isLoading: false
+        isLoading: false,
     };
 
     fieldMap(): Partial<FieldContainerProps>[] {
@@ -34,7 +34,7 @@ export class ContactForm extends FieldForm<ContactFormComponentProps> {
         const { onFormSubmit } = this.props;
 
         return {
-            onSubmit: onFormSubmit
+            onSubmit: onFormSubmit,
         };
     }
 

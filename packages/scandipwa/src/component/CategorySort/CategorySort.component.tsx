@@ -55,7 +55,7 @@ export class CategorySort extends PureComponent<CategorySortComponentProps> {
             sortDirection,
             selectOptions,
             isMatchingInfoFilter,
-            isCurrentCategoryLoaded
+            isCurrentCategoryLoaded,
         } = this.props;
 
         if (!isMatchingInfoFilter || !isCurrentCategoryLoaded) {
@@ -69,10 +69,10 @@ export class CategorySort extends PureComponent<CategorySortComponentProps> {
                   id: 'category-sort',
                   name: 'category-sort',
                   value: `${sortDirection} ${sortKey}`,
-                  noPlaceholder: true
+                  noPlaceholder: true,
               } }
               events={ {
-                  onChange: this.onChange
+                  onChange: this.onChange,
               } }
               isSortSelect
               options={ selectOptions }

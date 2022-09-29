@@ -25,7 +25,7 @@ import {
     GQLCurrencyEnum,
     GQLSelectedBundleOptionValue,
     GQLSelectedCustomizableOption,
-    GQLSelectedDownloadableLinks
+    GQLSelectedDownloadableLinks,
 } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
 import { ValidationInputType } from 'Util/Validator/Config';
@@ -43,7 +43,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
     static defaultProps: Partial<CartItemComponentProps> = {
         isCartOverlay: false,
         isMobileLayout: false,
-        showLoader: true
+        showLoader: true,
     };
 
     renderProductOption = this._renderProductOption.bind(this);
@@ -95,8 +95,8 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
             item: {
                 customizable_options,
                 bundle_options,
-                links
-            } = {}
+                links,
+            } = {},
         } = this.props;
 
         return (
@@ -170,7 +170,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
     }
 
     renderProductOptionLabel(
-        option: CartItemComponentProductOption
+        option: CartItemComponentProductOption,
     ): ReactElement {
         const { label, title, values = [] } = option;
 
@@ -192,7 +192,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
 
     renderBundleProductOptionValue(value: GQLSelectedBundleOptionValue, index: number): ReactElement {
         const {
-            label, quantity, price, id
+            label, quantity, price, id,
         } = value;
         const { currency_code: currencyCode } = this.props;
         const formattedPrice = formatPrice(price, currencyCode as GQLCurrencyEnum);
@@ -255,7 +255,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
     }
 
     _renderProductOption(
-        option: GQLSelectedCustomizableOption | GQLSelectedDownloadableLinks
+        option: GQLSelectedCustomizableOption | GQLSelectedDownloadableLinks,
     ): ReactElement {
         const { id } = option;
 
@@ -315,9 +315,9 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
         const {
             item: {
                 product: {
-                    name = ''
-                } = {}
-            }
+                    name = '',
+                } = {},
+            },
         } = this.props;
 
         return (
@@ -336,15 +336,15 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
             item: {
                 prices: {
                     row_total: {
-                        value: row_total = 0
+                        value: row_total = 0,
                     } = {},
                     row_total_including_tax: {
-                        value: row_total_incl_tax = 0
-                    } = {}
-                } = {}
+                        value: row_total_incl_tax = 0,
+                    } = {},
+                } = {},
             },
             isCartOverlay,
-            isMobileLayout
+            isMobileLayout,
         } = this.props;
 
         return (
@@ -355,7 +355,7 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
               mix={ {
                   block: 'CartItem',
                   elem: 'Price',
-                  mods: { isCartOverlay, isMobileLayout }
+                  mods: { isCartOverlay, isMobileLayout },
               } }
             />
         );
@@ -386,15 +386,15 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
                 quantity = 0,
                 product: {
                     stock_item: {
-                        qty_increments: qtyIncrement = 1
-                    } = {}
-                } = {}
+                        qty_increments: qtyIncrement = 1,
+                    } = {},
+                } = {},
             } = {},
             minSaleQuantity,
             maxSaleQuantity,
             handleChangeQuantity,
             isProductInStock,
-            isCartOverlay
+            isCartOverlay,
         } = this.props;
 
         if (!isProductInStock) {
@@ -420,18 +420,18 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
                       defaultValue: quantity,
                       min: minSaleQuantity,
                       max: maxSaleQuantity,
-                      step: qtyIncrement
+                      step: qtyIncrement,
                   } }
                   value={ quantity }
                   events={ {
-                      onChange: handleChangeQuantity
+                      onChange: handleChangeQuantity,
                   } }
                   validationRule={ {
                       inputType: ValidationInputType.NUMERIC,
                       range: {
                           min: minSaleQuantity,
-                          max: maxSaleQuantity
-                      }
+                          max: maxSaleQuantity,
+                      },
                   } }
                   validateOn={ ['onChange'] }
                   mix={ { block: 'CartItem', elem: 'Qty' } }
@@ -464,11 +464,11 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
     renderImageElement(): ReactElement {
         const {
             item: {
-                product: { name = '' } = {}
+                product: { name = '' } = {},
             },
             thumbnail,
             isProductInStock,
-            isMobileLayout
+            isMobileLayout,
         } = this.props;
         const isNotAvailable = !isProductInStock;
 
@@ -480,8 +480,8 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
                   block: 'CartItem',
                   elem: 'Picture',
                   mods: {
-                      isNotAvailable, isMobileLayout
-                  }
+                      isNotAvailable, isMobileLayout,
+                  },
               } }
               ratio={ ImageRatio.IMG_CUSTOM }
               alt={ `Product ${name} thumbnail.` }

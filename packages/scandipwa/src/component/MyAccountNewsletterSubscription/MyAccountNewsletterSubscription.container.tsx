@@ -34,20 +34,20 @@ import {
     MyAccountNewsletterSubscriptionContainerMapStateProps,
     MyAccountNewsletterSubscriptionContainerProps,
     MyAccountNewsletterSubscriptionContainerPropsKeys,
-    MyAccountNewsletterSubscriptionContainerState
+    MyAccountNewsletterSubscriptionContainerState,
 } from './MyAccountNewsletterSubscription.type';
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountNewsletterSubscriptionContainerMapStateProps => ({
     customer: state.MyAccountReducer.customer,
-    newsletterConfirmStatus: state.ConfigReducer.newsletter_subscription_confirm
+    newsletterConfirmStatus: state.ConfigReducer.newsletter_subscription_confirm,
 });
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountNewsletterSubscriptionContainerMapDispatchProps => ({
     updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
     showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
-    showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message))
+    showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
 });
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container */
@@ -58,7 +58,7 @@ MyAccountNewsletterSubscriptionContainerState
     containerFunctions: MyAccountNewsletterSubscriptionContainerFunctions = {
         onError: this.onError,
         setSubscriptionStatus: this.setSubscriptionStatus.bind(this),
-        onCustomerSave: this.onCustomerSave.bind(this)
+        onCustomerSave: this.onCustomerSave.bind(this),
     };
 
     __construct(props: MyAccountNewsletterSubscriptionContainerProps): void {
@@ -67,24 +67,24 @@ MyAccountNewsletterSubscriptionContainerState
         super.__construct?.(props);
         this.state = {
             isLoading: Object.keys(customer).length === 0,
-            isSubscriptionSelected: is_subscribed || false
+            isSubscriptionSelected: is_subscribed || false,
         };
     }
 
     componentDidUpdate(prevProps: MyAccountNewsletterSubscriptionContainerProps): void {
         const {
-            customer: prevCustomer
+            customer: prevCustomer,
         } = prevProps;
 
         const {
             customer,
-            customer: { is_subscribed } = {}
+            customer: { is_subscribed } = {},
         } = this.props;
 
         if (Object.keys(prevCustomer).length === 0 && Object.keys(customer).length !== 0) {
             this.setState({
                 isSubscriptionSelected: is_subscribed || false,
-                isLoading: false
+                isLoading: false,
             });
         }
     }
@@ -106,7 +106,7 @@ MyAccountNewsletterSubscriptionContainerState
     showSubscriptionUpdateNotification(isSubscribed: boolean, wasSubscribed?: boolean): void {
         const {
             showSuccessNotification,
-            newsletterConfirmStatus
+            newsletterConfirmStatus,
         } = this.props;
         const { isSubscriptionSelected } = this.state;
 
@@ -133,14 +133,14 @@ MyAccountNewsletterSubscriptionContainerState
         const {
             updateCustomer,
             customer: {
-                is_subscribed: wasSubscribed
-            }
+                is_subscribed: wasSubscribed,
+            },
         } = this.props;
 
         const {
             isSubscribed: {
-                value = false
-            }
+                value = false,
+            },
         } = fields;
 
         const customer = { is_subscribed: value };

@@ -27,7 +27,7 @@ export class ProductWishlistButton extends PureComponent<ProductWishlistButtonCo
         // !FIXME: isLoading is never set
         isLoading: false,
         isDisabled: false,
-        isInWishlist: false
+        isInWishlist: false,
     };
 
     __construct(props: ProductWishlistButtonComponentProps): void {
@@ -54,7 +54,7 @@ export class ProductWishlistButton extends PureComponent<ProductWishlistButtonCo
         const {
             isInWishlist,
             addToWishlist,
-            removeFromWishlist
+            removeFromWishlist,
         } = this.props;
 
         e.preventDefault();

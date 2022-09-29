@@ -27,24 +27,24 @@ export class Link extends PureComponent<LinkComponentProps> {
         className: '',
         onClick: noopFn,
         isOpenInNewTab: false,
-        id: ''
+        id: '',
     };
 
     scrollToElement(e: MouseEvent): void {
         const {
             to: cssIdentifier,
-            onClick
+            onClick,
         } = this.props;
 
         const elem = document.querySelector<HTMLElement>(
-            cssIdentifier !== '#' ? cssIdentifier as string : 'body'
+            cssIdentifier !== '#' ? cssIdentifier as string : 'body',
         );
 
         e.preventDefault();
 
         window.scrollTo({
             top: elem?.offsetTop || 0,
-            behavior: 'smooth'
+            behavior: 'smooth',
         });
 
         elem?.focus();

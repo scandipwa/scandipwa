@@ -14,7 +14,7 @@ import { AnyAction } from 'redux';
 import { GQLContactForm } from 'Type/Graphql.type';
 
 export enum ContactFormActionType {
-    UPDATE_CONTACT_FORM = 'UPDATE_CONTACT_FORM'
+    UPDATE_CONTACT_FORM = 'UPDATE_CONTACT_FORM',
 }
 
 export interface UpdateContactFormAction extends AnyAction {

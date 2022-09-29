@@ -30,12 +30,12 @@ export class CarouselScroll extends PureComponent<CarouselScrollComponentProps, 
         showedItemCount: 1,
         onChange: noopFn,
         activeItemId: undefined,
-        isImageZoomPopupActive: false
+        isImageZoomPopupActive: false,
     };
 
     state: CarouselScrollComponentState = {
         activeItemId: 0,
-        firstCarouselItemId: 0
+        firstCarouselItemId: 0,
     };
 
     itemRef = createRef<HTMLDivElement>();
@@ -61,13 +61,13 @@ export class CarouselScroll extends PureComponent<CarouselScrollComponentProps, 
     componentDidUpdate(prevProps: CarouselScrollComponentProps): void {
         const {
             children: { length: prevChildrenLength },
-            showedItemCount: prevShowedItemCount
+            showedItemCount: prevShowedItemCount,
         } = prevProps;
 
         const {
             activeItemId,
             children: { length: childrenLength },
-            showedItemCount
+            showedItemCount,
         } = this.props;
 
         const { activeItemId: prevActiveItemId } = this.state;

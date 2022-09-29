@@ -44,7 +44,7 @@ export class PasswordChangeForm extends FieldForm<PasswordChangeFormComponentPro
 
         return {
             onSubmit: onFormSubmit,
-            onError: onFormError
+            onError: onFormError,
         };
     }
 

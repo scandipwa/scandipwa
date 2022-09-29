@@ -31,7 +31,7 @@ export class ProductGalleryBaseImage extends PureComponent<ProductGalleryCompone
                   mix={ {
                       block: 'ProductGallery',
                       elem: 'SliderImage',
-                      mods: { isPlaceholder: !src }
+                      mods: { isPlaceholder: !src },
                   } }
                   isPlaceholder={ !src }
                   alt={ alt }

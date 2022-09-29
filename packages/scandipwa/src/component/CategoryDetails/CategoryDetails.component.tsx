@@ -29,13 +29,13 @@ import './CategoryDetails.style';
  */
 export class CategoryDetails extends PureComponent<CategoryDetailsComponentProps> {
     static defaultProps: Partial<CategoryDetailsComponentProps> = {
-        isCurrentCategoryLoaded: true
+        isCurrentCategoryLoaded: true,
     };
 
     renderCategoryText(): ReactElement {
         const {
             category: { name },
-            isCurrentCategoryLoaded
+            isCurrentCategoryLoaded,
         } = this.props;
 
         if (isCurrentCategoryLoaded) {
@@ -51,7 +51,7 @@ export class CategoryDetails extends PureComponent<CategoryDetailsComponentProps
 
     renderCategoryName(): ReactElement {
         const {
-            category: { name, id }
+            category: { name, id },
         } = this.props;
 
         if (id && !name) {
@@ -68,7 +68,7 @@ export class CategoryDetails extends PureComponent<CategoryDetailsComponentProps
     renderCategoryDescription(): ReactElement {
         const {
             category: { description, id },
-            isCurrentCategoryLoaded
+            isCurrentCategoryLoaded,
         } = this.props;
 
         if (!id || !isCurrentCategoryLoaded) {
@@ -103,7 +103,7 @@ export class CategoryDetails extends PureComponent<CategoryDetailsComponentProps
     renderCategoryImage(): ReactElement {
         const {
             category: { image, id },
-            isCurrentCategoryLoaded
+            isCurrentCategoryLoaded,
         } = this.props;
 
         if (!id || !isCurrentCategoryLoaded) {

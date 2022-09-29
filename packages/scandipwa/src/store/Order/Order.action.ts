@@ -14,18 +14,18 @@ import { CustomerOrders } from 'Query/Order.type';
 import {
     GetOrderListAction,
     OrderActionType,
-    SetLoadingStatusAction
+    SetLoadingStatusAction,
 } from './Order.type';
 
 /** @namespace Store/Order/Action/getOrderList */
 export const getOrderList = (orderList: CustomerOrders, status: boolean): GetOrderListAction => ({
     type: OrderActionType.GET_ORDER_LIST,
     orderList,
-    status
+    status,
 });
 
 /** @namespace Store/Order/Action/setLoadingStatus */
 export const setLoadingStatus = (status: boolean): SetLoadingStatusAction => ({
     type: OrderActionType.SET_ORDER_LOADING_STATUS,
-    status
+    status,
 });

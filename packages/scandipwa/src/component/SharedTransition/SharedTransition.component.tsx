@@ -50,9 +50,9 @@ export class SharedTransition extends PureComponent<SharedTransitionComponentPro
                     width,
                     height,
                     left,
-                    top
-                }
-            }
+                    top,
+                },
+            },
         } = this.props;
 
         if (this.sharedContainer.current) {
@@ -85,8 +85,8 @@ export class SharedTransition extends PureComponent<SharedTransitionComponentPro
         const {
             state: {
                 sharedElementDestination,
-                sharedElement
-            }
+                sharedElement,
+            },
         } = this.props;
 
         const { current: wrapper } = this.sharedContainer;

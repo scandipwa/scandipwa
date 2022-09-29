@@ -19,7 +19,7 @@ export type UrlRewrite = Merge<Partial<UrlRewritesOutput>, {
 
 export enum UrlRewritesActionType {
     UPDATE_URL_REWRITE = 'UPDATE_URL_REWRITE',
-    IS_LOADING_URL_REWRITE = 'IS_LOADING_URL_REWRITE'
+    IS_LOADING_URL_REWRITE = 'IS_LOADING_URL_REWRITE',
 }
 
 export interface UpdateUrlRewriteAction extends AnyAction {

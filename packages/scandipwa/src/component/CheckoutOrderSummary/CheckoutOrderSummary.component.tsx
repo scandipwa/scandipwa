@@ -47,16 +47,16 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
         cartSubtotalSubPrice: null,
         showItems: true,
         children: [],
-        checkoutStep: undefined
+        checkoutStep: undefined,
     };
 
     renderPriceLine(price: number, title: string, mods?: Mods): ReactElement {
         const {
             totals: {
                 prices: {
-                    quote_currency_code
-                } = {}
-            }
+                    quote_currency_code,
+                } = {},
+            },
         } = this.props;
 
         if (!quote_currency_code) {
@@ -77,9 +77,9 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
         const {
             totals: {
                 prices: {
-                    quote_currency_code
-                } = {}
-            }
+                    quote_currency_code,
+                } = {},
+            },
         } = this.props;
 
         const { id } = item;
@@ -103,9 +103,9 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
                 prices: {
                     applied_rule_ids,
                     coupon_code,
-                    discount
-                } = {}
-            }
+                    discount,
+                } = {},
+            },
         } = this.props;
 
         if (!applied_rule_ids) {
@@ -144,12 +144,12 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
         const {
             totals: {
                 prices: {
-                    coupon_code = ''
+                    coupon_code = '',
                 } = {},
-                items = []
+                items = [],
             },
             checkoutStep,
-            isMobile
+            isMobile,
         } = this.props;
 
         if (!items || items.length < 1 || checkoutStep !== CheckoutSteps.BILLING_STEP) {
@@ -176,8 +176,8 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
             showItems,
             totals: {
                 total_quantity,
-                items = []
-            }
+                items = [],
+            },
         } = this.props;
 
         if (!showItems || !total_quantity) {
@@ -214,11 +214,11 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
         const {
             totals: {
                 prices: {
-                    quote_currency_code = GQLCurrencyEnum.USD
-                } = {}
+                    quote_currency_code = GQLCurrencyEnum.USD,
+                } = {},
             },
             cartSubtotal,
-            cartSubtotalSubPrice
+            cartSubtotalSubPrice,
         } = this.props;
 
         const title = __('Subtotal');
@@ -247,11 +247,11 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
         const {
             totals: {
                 prices: {
-                    quote_currency_code = GQLCurrencyEnum.USD
-                } = {}
+                    quote_currency_code = GQLCurrencyEnum.USD,
+                } = {},
             },
             cartShippingPrice,
-            cartShippingSubPrice
+            cartShippingSubPrice,
         } = this.props;
         const title = this.getShippingLabel();
         const mods = { divider: true };
@@ -276,12 +276,12 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
             totals: {
                 prices: {
                     grand_total: {
-                        value: grand_total = 0
+                        value: grand_total = 0,
                     } = {},
-                    quote_currency_code = GQLCurrencyEnum.USD
-                } = {}
+                    quote_currency_code = GQLCurrencyEnum.USD,
+                } = {},
             },
-            cartTotalSubPrice
+            cartTotalSubPrice,
         } = this.props;
         const title = __('Order total');
 
@@ -300,12 +300,12 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
         const {
             totals: {
                 prices: {
-                    applied_taxes = []
-                } = {}
+                    applied_taxes = [],
+                } = {},
             },
             cartDisplayConfig: {
-                display_full_tax_summary
-            } = {}
+                display_full_tax_summary,
+            } = {},
         } = this.props;
 
         if (!display_full_tax_summary || !applied_taxes.length) {
@@ -326,14 +326,14 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
             totals: {
                 prices: {
                     applied_taxes = [],
-                    quote_currency_code = null
+                    quote_currency_code = null,
                 } = {},
-                total_quantity
+                total_quantity,
             },
             cartDisplayConfig: {
                 display_full_tax_summary,
-                display_zero_tax_subtotal
-            } = {}
+                display_zero_tax_subtotal,
+            } = {},
         } = this.props;
 
         return applied_taxes.map(({ amount: { value: tax_amount = 0 } = {} }) => {
@@ -384,8 +384,8 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
 
         const {
             checkout_content: {
-                [isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms']: promo
-            } = {}
+                [isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms']: promo,
+            } = {},
         } = window.contentConfiguration || {};
 
         if (!promo) {

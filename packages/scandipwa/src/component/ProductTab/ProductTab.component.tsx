@@ -22,7 +22,7 @@ import './ProductTab.style';
 export class ProductTab extends PureComponent<ProductTabComponentProps> {
     static defaultProps: Partial<ProductTabComponentProps> = {
         onClick: noopFn,
-        isActive: false
+        isActive: false,
     };
 
     __construct(props: ProductTabComponentProps): void {

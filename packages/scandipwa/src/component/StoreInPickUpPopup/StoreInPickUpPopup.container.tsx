@@ -39,7 +39,7 @@ import {
     StoreInPickUpPopupContainerMapStateProps,
     StoreInPickUpPopupContainerProps,
     StoreInPickUpPopupContainerState,
-    StoreWithCountryId
+    StoreWithCountryId,
 } from './StoreInPickUpPopup.type';
 
 /** @namespace Component/StoreInPickUpPopup/Container/mapDispatchToProps */
@@ -48,8 +48,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpPopupContai
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     clearPickUpStore: () => dispatch(clearPickUpStore()),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(
-        NavigationType.TOP_NAVIGATION_TYPE
-    ))
+        NavigationType.TOP_NAVIGATION_TYPE,
+    )),
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container/mapStateToProps */
@@ -59,7 +59,7 @@ export const mapStateToProps = (state: RootState): StoreInPickUpPopupContainerMa
     ].navigationState,
     countries: transformCountriesToOptions(state.ConfigReducer.countries),
     defaultCountry: state.ConfigReducer.default_country,
-    selectedStore: state.StoreInPickUpReducer.store
+    selectedStore: state.StoreInPickUpReducer.store,
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container */
@@ -68,7 +68,7 @@ StoreInPickUpPopupContainerProps,
 StoreInPickUpPopupContainerState
 > {
     static defaultProps: Partial<StoreInPickUpPopupContainerProps> = {
-        selectedStore: null
+        selectedStore: null,
     };
 
     timeout: NodeJS.Timeout | null = null;
@@ -77,25 +77,25 @@ StoreInPickUpPopupContainerState
         stores: [],
         storeSearchCriteria: '',
         isLoading: true,
-        selectedCountryId: ''
+        selectedCountryId: '',
     };
 
     containerFunctions: StoreInPickUpPopupContainerFunctions = {
         handleStoresSearch: this.handleStoresSearch.bind(this),
         selectStore: this.selectStore.bind(this),
         setStoreSearchCriteria: this.setStoreSearchCriteria.bind(this),
-        handleChangeCountry: this.handleChangeCountry.bind(this)
+        handleChangeCountry: this.handleChangeCountry.bind(this),
     };
 
     __construct(props: StoreInPickUpPopupContainerProps): void {
         const {
             countryId,
-            defaultCountry
+            defaultCountry,
         } = props;
 
         this.state = {
             ...this.state,
-            selectedCountryId: countryId || defaultCountry
+            selectedCountryId: countryId || defaultCountry,
         };
     }
 
@@ -105,10 +105,10 @@ StoreInPickUpPopupContainerState
 
     componentDidUpdate(
         _: StoreInPickUpPopupContainerProps,
-        prevState: StoreInPickUpPopupContainerState
+        prevState: StoreInPickUpPopupContainerState,
     ): void {
         const {
-            storeSearchCriteria: prevStoreSearchCriteria
+            storeSearchCriteria: prevStoreSearchCriteria,
         } = prevState;
         const { storeSearchCriteria } = this.state;
 
@@ -131,7 +131,7 @@ StoreInPickUpPopupContainerState
             isLoading,
             selectedCountryId,
             stores,
-            storeSearchCriteria
+            storeSearchCriteria,
         } = this.state;
 
         return {
@@ -139,7 +139,7 @@ StoreInPickUpPopupContainerState
             isLoading,
             selectedCountryId,
             stores,
-            storeSearchCriteria
+            storeSearchCriteria,
         };
     }
 
@@ -151,7 +151,7 @@ StoreInPickUpPopupContainerState
         const {
             hideActiveOverlay,
             goToPreviousNavigationState,
-            navigationState: { onCloseClick } = {}
+            navigationState: { onCloseClick } = {},
         } = this.props;
 
         if (onCloseClick) {
@@ -167,7 +167,7 @@ StoreInPickUpPopupContainerState
             onStoreSelect,
             onShippingMethodSelect,
             setSelectedStore,
-            countryId
+            countryId,
         } = this.props;
         const method = this.getShippingMethod();
 
@@ -204,15 +204,15 @@ StoreInPickUpPopupContainerState
             showNotification,
             cartItemsSku,
             selectedStore,
-            clearPickUpStore
+            clearPickUpStore,
         } = this.props;
         const { storeSearchCriteria, selectedCountryId } = this.state;
 
         try {
             const {
                 getStores: {
-                    stores = null
-                } = {}
+                    stores = null,
+                } = {},
             } = await fetchQuery(StoreInPickUpQuery.getStores(selectedCountryId, storeSearchCriteria, cartItemsSku));
 
             if (stores) {

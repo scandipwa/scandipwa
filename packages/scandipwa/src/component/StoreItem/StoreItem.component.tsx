@@ -22,7 +22,7 @@ export class StoreItem extends PureComponent<StoreItemComponentProps> {
     render(): ReactElement {
         const {
             item: { label },
-            getStoreCode
+            getStoreCode,
         } = this.props;
 
         return (

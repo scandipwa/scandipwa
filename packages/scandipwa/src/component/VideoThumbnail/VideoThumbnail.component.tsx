@@ -41,9 +41,9 @@ export class VideoThumbnail extends PureComponent<VideoThumbnailComponent> {
         const {
             media: {
                 thumbnail: { url },
-                video_content: { video_title }
+                video_content: { video_title },
             },
-            onPlayClick
+            onPlayClick,
         } = this.props;
 
         return (
@@ -60,7 +60,7 @@ export class VideoThumbnail extends PureComponent<VideoThumbnailComponent> {
                       mix={ {
                           block: 'VideoThumbnail',
                           elem: 'Thumbnail',
-                          mods: { isPlaceholder: !url }
+                          mods: { isPlaceholder: !url },
                       } }
                       isPlaceholder={ !url }
                       alt={ video_title }

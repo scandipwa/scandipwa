@@ -30,7 +30,7 @@ export class Overlay<P extends OverlayComponentProps = OverlayComponentProps> ex
         isStatic: false,
         onHide: noopFn,
         onClose: noopFn,
-        isRenderInPortal: true
+        isRenderInPortal: true,
     };
 
     overlayRef = createRef<HTMLDivElement>();
@@ -116,7 +116,7 @@ export class Overlay<P extends OverlayComponentProps = OverlayComponentProps> ex
             children,
             mix,
             areOtherOverlaysOpen,
-            isStatic
+            isStatic,
         } = this.props;
 
         const isVisible = this.getIsVisible();
@@ -129,7 +129,7 @@ export class Overlay<P extends OverlayComponentProps = OverlayComponentProps> ex
               mix={ { ...mix, mods: { ...(mix?.mods || {}), isVisible } } }
             >
                 { children && children }
-            </div>
+            </div>,
         );
     }
 }

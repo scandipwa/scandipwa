@@ -4,20 +4,21 @@ const fs = require('fs-extra');
 const CONFIG_TO_MERGE = {
     'stylelint.validate': [
         'css',
-        'scss'
+        'scss',
     ],
     'editor.codeActionsOnSave': {
         'source.fixAll.eslint': true,
-        'source.fixAll.stylelint': true
+        'source.fixAll.stylelint': true,
     },
     'stylelint.enable': true,
     'css.validate': false,
-    'scss.validate': false
+    'scss.validate': false,
 };
 
 const readJsonConfig = (pathToConfig) => {
     try {
         const rawConfigData = fs.readFileSync(pathToConfig);
+
         return JSON.parse(rawConfigData.toString());
     } catch (e) {
         return {};
@@ -32,7 +33,7 @@ module.exports = () => {
 
     const newConfig = {
         ...readJsonConfig(pathToConfig),
-        ...CONFIG_TO_MERGE
+        ...CONFIG_TO_MERGE,
     };
 
     fs.writeFileSync(

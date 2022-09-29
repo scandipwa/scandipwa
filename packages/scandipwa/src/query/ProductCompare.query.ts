@@ -20,7 +20,7 @@ import {
     ComparableItemAttribute,
     ComparableProduct,
     CompareList,
-    ProductId
+    ProductId,
 } from './ProductCompare.type';
 
 /** @namespace Query/ProductCompare/Query */
@@ -45,7 +45,7 @@ export class ProductCompareQuery extends ProductListQuery {
 
     getAddProductsToCompareList(
         uid: string,
-        products: string[]
+        products: string[],
     ): Mutation<'addProductsToCompareList', CompareList> {
         return new Mutation<'addProductsToCompareList', CompareList>('addProductsToCompareList')
             .addArgument('input', 'AddProductsToCompareListInput', { uid, products })
@@ -54,7 +54,7 @@ export class ProductCompareQuery extends ProductListQuery {
 
     getRemoveProductsFromCompareList(
         uid: string,
-        products: string[]
+        products: string[],
     ): Mutation<'removeProductsFromCompareList', CompareList> {
         return new Mutation<'removeProductsFromCompareList', CompareList>('removeProductsFromCompareList')
             .addArgument('input', 'RemoveProductsFromCompareListInput', { uid, products })
@@ -63,7 +63,7 @@ export class ProductCompareQuery extends ProductListQuery {
 
     getAssignCompareList(uid: string): Mutation<'assignCompareListToCustomer', AssignCompareListToCustomerOutput> {
         return new Mutation<'assignCompareListToCustomer', AssignCompareListToCustomerOutput>(
-            'assignCompareListToCustomer'
+            'assignCompareListToCustomer',
         )
             .addArgument('uid', 'ID!', uid)
             .addFieldList(this._getAssignFields());
@@ -75,7 +75,7 @@ export class ProductCompareQuery extends ProductListQuery {
     > {
         return [
             new Field<'result', boolean>('result'),
-            this._getAssignCompareListField()
+            this._getAssignCompareListField(),
         ];
     }
 
@@ -106,7 +106,7 @@ export class ProductCompareQuery extends ProductListQuery {
             new Field<'uid', string>('uid'),
             new Field<'item_count', number>('item_count'),
             this._getCompareAttributeField(),
-            this._getComparableItemField()
+            this._getComparableItemField(),
         ];
     }
 
@@ -121,7 +121,7 @@ export class ProductCompareQuery extends ProductListQuery {
     > {
         return [
             new Field<'label', string>('label'),
-            new Field<'code', string>('code')
+            new Field<'code', string>('code'),
         ];
     }
 
@@ -136,7 +136,7 @@ export class ProductCompareQuery extends ProductListQuery {
     > {
         return [
             new Field<'value', string>('value'),
-            new Field<'code', string>('code')
+            new Field<'code', string>('code'),
         ];
     }
 
@@ -146,13 +146,13 @@ export class ProductCompareQuery extends ProductListQuery {
     > {
         return [
             this._getCompareProductField(),
-            this._getComparableItemAttributeField()
+            this._getComparableItemAttributeField(),
         ];
     }
 
     _getComparableItemIdsFields(): Field<'product', { id: number }>[] {
         return [
-            this._getProductIdsField()
+            this._getProductIdsField(),
         ];
     }
 
@@ -183,7 +183,7 @@ export class ProductCompareQuery extends ProductListQuery {
 
     _getProductIdsFields(): Field<'id', number>[] {
         return [
-            new Field<'id', number>('id')
+            new Field<'id', number>('id'),
         ];
     }
 }

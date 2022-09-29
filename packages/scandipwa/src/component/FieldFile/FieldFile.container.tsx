@@ -19,7 +19,7 @@ import {
     FieldFileComponentProps,
     FieldFileContainerFunctions,
     FieldFileContainerProps,
-    FieldFileContainerState
+    FieldFileContainerState,
 } from './FieldFile.type';
 
 /**
@@ -28,13 +28,13 @@ import {
  * @namespace Component/FieldFile/Container */
 export class FieldFileContainer extends PureComponent<FieldFileContainerProps, FieldFileContainerState> {
     containerFunctions: FieldFileContainerFunctions = {
-        setRef: this.setRef.bind(this)
+        setRef: this.setRef.bind(this),
     };
 
     state: FieldFileContainerState = {
         isLoading: false,
         fileName: '',
-        value: ''
+        value: '',
     };
 
     fieldRef: HTMLInputElement | null = null;
@@ -64,7 +64,7 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
             if (!name || !file) {
                 this.setState({
                     fileName: '',
-                    isLoading: false
+                    isLoading: false,
                 });
 
                 return;
@@ -75,13 +75,13 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
             reader.onload = () => {
                 this.setState({
                     fileName: name,
-                    isLoading: false
+                    isLoading: false,
                 });
 
                 if (this.fieldRef) {
                     this.fieldRef.fileData = JSON.stringify({
                         file_data: reader.result,
-                        file_name: name
+                        file_name: name,
                     });
                 }
 
@@ -109,7 +109,7 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
                 ...attr
             } = {},
             setRef,
-            resetFieldValue
+            resetFieldValue,
         } = this.props;
         const { fileName, isLoading, value } = this.state;
 
@@ -118,14 +118,14 @@ export class FieldFileContainer extends PureComponent<FieldFileContainerProps, F
             setRef,
             events: {
                 ...events,
-                onChange: this.onChange.bind(this)
+                onChange: this.onChange.bind(this),
             },
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             resetFieldValue: resetFieldValue.bind(this, { setState: (val) => this.setState(val) }),
             fileName,
             isLoading,
-            value
+            value,
         };
     }
 

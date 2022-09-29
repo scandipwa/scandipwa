@@ -33,7 +33,7 @@ import './CartPage.style';
 export class CartPage extends PureComponent<CartPageComponentProps> {
     static defaultProps: Partial<CartPageComponentProps> = {
         hasOutOfStockProductsInCart: false,
-        onCartItemLoading: noopFn
+        onCartItemLoading: noopFn,
     };
 
     renderCartItems(): ReactElement {
@@ -41,11 +41,11 @@ export class CartPage extends PureComponent<CartPageComponentProps> {
             totals: {
                 items = [],
                 prices: {
-                    quote_currency_code = ''
-                } = {}
+                    quote_currency_code = '',
+                } = {},
             },
             onCartItemLoading,
-            isInitialLoad
+            isInitialLoad,
         } = this.props;
 
         if (!items || isInitialLoad) {
@@ -91,9 +91,9 @@ export class CartPage extends PureComponent<CartPageComponentProps> {
             totals: {
                 items = [],
                 prices: {
-                    coupon_code
-                } = {}
-            }
+                    coupon_code,
+                } = {},
+            },
         } = this.props;
 
         if (!items || items.length < 1) {
@@ -116,7 +116,7 @@ export class CartPage extends PureComponent<CartPageComponentProps> {
             onCheckoutButtonClick,
             minimumOrderDescription,
             minimumOrderAmountReached,
-            hasOutOfStockProductsInCart
+            hasOutOfStockProductsInCart,
         } = this.props;
 
         if (hasOutOfStockProductsInCart) {
@@ -152,7 +152,7 @@ export class CartPage extends PureComponent<CartPageComponentProps> {
 
     renderSummary(): ReactElement {
         const {
-            totals
+            totals,
         } = this.props;
 
         return (

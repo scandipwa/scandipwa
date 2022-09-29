@@ -12,7 +12,7 @@
 import {
     NavigationAbstractComponentProps,
     NavigationAbstractContainerProps,
-    NavigationAbstractContainerState
+    NavigationAbstractContainerState,
 } from 'Component/NavigationAbstract/NavigationAbstract.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';

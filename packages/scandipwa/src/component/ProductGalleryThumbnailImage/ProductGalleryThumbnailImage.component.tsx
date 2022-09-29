@@ -52,8 +52,8 @@ export class ProductGalleryThumbnailImage extends PureComponent<ProductGalleryTh
         const {
             media: {
                 thumbnail: { url },
-                label
-            }
+                label,
+            },
         } = this.props;
 
         return (
@@ -72,8 +72,8 @@ export class ProductGalleryThumbnailImage extends PureComponent<ProductGalleryTh
                 label: alt,
                 file,
                 thumbnail: { url: thumbnailUrl } = {},
-                id
-            }
+                id,
+            },
         } = this.props;
 
         // !FIXME: Possible dead code. Id is number and cannot be comparable to the 'thumbnail' value.

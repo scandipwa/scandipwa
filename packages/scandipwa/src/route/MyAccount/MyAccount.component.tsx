@@ -10,7 +10,7 @@
  */
 
 import {
-    Component, ElementType, lazy, Suspense
+    Component, ElementType, lazy, Suspense,
 } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
@@ -58,7 +58,7 @@ export const MyAccountNewsletterSubscription = lazy(() => import(
 export class MyAccount extends Component<MyAccountComponentProps> {
     static defaultProps: Partial<MyAccountComponentProps> = {
         subHeading: '',
-        tabName: ''
+        tabName: '',
     };
 
     renderMap = {
@@ -69,7 +69,7 @@ export class MyAccount extends Component<MyAccountComponentProps> {
         [ MyAccountTabs.ADDRESS_BOOK ]: MyAccountAddressBook,
         [ MyAccountTabs.NEWSLETTER_SUBSCRIPTION ]: MyAccountNewsletterSubscription,
         [ MyAccountTabs.MY_DOWNLOADABLE ]: MyAccountDownloadable,
-        [ MyAccountTabs.ACCOUNT_INFORMATION ]: MyAccountInformation
+        [ MyAccountTabs.ACCOUNT_INFORMATION ]: MyAccountInformation,
     } as unknown as Record<string, ElementType>;
 
     shouldComponentUpdate(nextProps: MyAccountComponentProps): boolean {
@@ -77,15 +77,15 @@ export class MyAccount extends Component<MyAccountComponentProps> {
             activeTab,
             location: { pathname },
             tabName,
-            subHeading
+            subHeading,
         } = this.props;
         const {
             activeTab: nextActiveTab,
             location: {
-                pathname: nextPathname
+                pathname: nextPathname,
             },
             tabName: nextTabName,
-            subHeading: nextSubHeading
+            subHeading: nextSubHeading,
         } = nextProps;
 
         return (
@@ -138,7 +138,7 @@ export class MyAccount extends Component<MyAccountComponentProps> {
             changeTabName,
             tabName,
             setTabSubheading,
-            isTabEnabled
+            isTabEnabled,
         } = this.props;
 
         if (!isSignedIn()) {

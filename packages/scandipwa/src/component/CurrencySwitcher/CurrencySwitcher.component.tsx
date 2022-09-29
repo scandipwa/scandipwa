@@ -26,8 +26,8 @@ export class CurrencySwitcher extends PureComponent<CurrencySwitcherComponentPro
         const {
             currencyData: {
                 available_currencies_data: availableCurrencies,
-                current_currency_code: currentCurrencyCode
-            } = {}
+                current_currency_code: currentCurrencyCode,
+            } = {},
         } = this.props;
 
         // check whether user’s selected currency is among available currencies for current store,
@@ -40,9 +40,9 @@ export class CurrencySwitcher extends PureComponent<CurrencySwitcherComponentPro
     render(): ReactElement {
         const {
             currencyData: {
-                available_currencies_data: availableCurrencies
+                available_currencies_data: availableCurrencies,
             } = {},
-            handleCurrencySelect
+            handleCurrencySelect,
         } = this.props;
 
         if (availableCurrencies && availableCurrencies.length > 1) {
@@ -54,10 +54,10 @@ export class CurrencySwitcher extends PureComponent<CurrencySwitcherComponentPro
                           id: 'CurrencySwitcherList',
                           name: 'CurrencySwitcherList',
                           defaultValue: this.getCurrencyValue(),
-                          noPlaceholder: true
+                          noPlaceholder: true,
                       } }
                       events={ {
-                          onChange: handleCurrencySelect
+                          onChange: handleCurrencySelect,
                       } }
                       options={ availableCurrencies }
                     />

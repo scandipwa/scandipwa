@@ -31,5 +31,5 @@ Omit<MenuItem, 'cms_page_identifier' | 'url_type' | 'category_id' >,
 export enum MenuItemType {
     TYPE_CUSTOM_URL,
     TYPE_CMS_PAGE,
-    TYPE_CATEGORY
+    TYPE_CATEGORY,
 }

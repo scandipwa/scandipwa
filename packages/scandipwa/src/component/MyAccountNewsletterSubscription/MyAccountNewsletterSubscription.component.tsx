@@ -29,13 +29,13 @@ export class MyAccountNewsletterSubscription extends FieldForm<MyAccountNewslett
                 type: FieldType.CHECKBOX,
                 attr: {
                     name: 'isSubscribed',
-                    defaultChecked: isSubscriptionSelected
+                    defaultChecked: isSubscriptionSelected,
                 },
                 events: {
-                    onChange: setSubscriptionStatus
+                    onChange: setSubscriptionStatus,
                 },
-                label: __('General subscription')
-            }
+                label: __('General subscription'),
+            },
         ];
     }
 
@@ -59,7 +59,7 @@ export class MyAccountNewsletterSubscription extends FieldForm<MyAccountNewslett
             // @ts-ignore
             onSubmit: onCustomerSave,
             onError,
-            returnAsObject: true
+            returnAsObject: true,
         };
     }
 

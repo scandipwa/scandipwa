@@ -14,7 +14,7 @@ import { withRouter } from 'react-router-dom';
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import {
-    MyAccountOverlay
+    MyAccountOverlay,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { ReactElement } from 'Type/Common.type';
 
@@ -87,13 +87,13 @@ export class LoginAccountComponent extends MyAccountOverlay<LoginAccountComponen
 
     render(): ReactElement {
         const {
-            isLoading
+            isLoading,
         } = this.props;
 
         return (
             <ContentWrapper
               mix={ {
-                  block: 'LoginAccount'
+                  block: 'LoginAccount',
               } }
               label="Login page"
             >
@@ -106,5 +106,5 @@ export class LoginAccountComponent extends MyAccountOverlay<LoginAccountComponen
     }
 }
 export default withRouter(
-    LoginAccountComponent
+    LoginAccountComponent,
 );

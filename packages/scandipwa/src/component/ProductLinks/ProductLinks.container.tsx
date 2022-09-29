@@ -22,12 +22,12 @@ import {
     ProductLinksContainerMapDispatchProps,
     ProductLinksContainerMapStateProps,
     ProductLinksContainerProps,
-    ProductLinksContainerState
+    ProductLinksContainerState,
 } from './ProductLinks.type';
 
 /** @namespace Component/ProductLinks/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductLinksContainerMapStateProps => ({
-    linkedProducts: state.LinkedProductsReducer.linkedProducts
+    linkedProducts: state.LinkedProductsReducer.linkedProducts,
 });
 
 /** @namespace Component/ProductLinks/Container/mapDispatchToProps */
@@ -37,14 +37,14 @@ export const mapDispatchToProps = (): ProductLinksContainerMapDispatchProps => (
 export class ProductLinksContainer extends PureComponent<ProductLinksContainerProps, ProductLinksContainerState> {
     static defaultProps: Partial<ProductLinksContainerProps> = {
         numberOfProductsToDisplay: 4,
-        areDetailsLoaded: true
+        areDetailsLoaded: true,
     };
 
     state: ProductLinksContainerState = {
         siblingsHaveBrands: false,
         siblingsHavePriceBadge: false,
         siblingsHaveTierPrice: false,
-        siblingsHaveConfigurableOptions: false
+        siblingsHaveConfigurableOptions: false,
     };
 
     containerProps(): ProductLinksComponentProps {
@@ -53,13 +53,13 @@ export class ProductLinksContainer extends PureComponent<ProductLinksContainerPr
             linkType,
             linkedProducts,
             numberOfProductsToDisplay,
-            title
+            title,
         } = this.props;
         const {
             siblingsHaveBrands,
             siblingsHavePriceBadge,
             siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions
+            siblingsHaveConfigurableOptions,
         } = this.state;
 
         return {
@@ -72,14 +72,14 @@ export class ProductLinksContainer extends PureComponent<ProductLinksContainerPr
                 setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
                 setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
                 setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
-                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
+                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true }),
             },
             productCardProps: {
                 siblingsHaveBrands,
                 siblingsHavePriceBadge,
                 siblingsHaveTierPrice,
-                siblingsHaveConfigurableOptions
-            }
+                siblingsHaveConfigurableOptions,
+            },
         };
     }
 
@@ -88,9 +88,9 @@ export class ProductLinksContainer extends PureComponent<ProductLinksContainerPr
             linkType,
             linkedProducts: {
                 [ linkType ]: {
-                    items = []
-                } = {}
-            }
+                    items = [],
+                } = {},
+            },
         } = this.props;
 
         if (items.length === 0) {
@@ -106,5 +106,5 @@ export class ProductLinksContainer extends PureComponent<ProductLinksContainerPr
 }
 
 export default withReducers({
-    LinkedProductsReducer
+    LinkedProductsReducer,
 })(connect(mapStateToProps, mapDispatchToProps)(ProductLinksContainer));

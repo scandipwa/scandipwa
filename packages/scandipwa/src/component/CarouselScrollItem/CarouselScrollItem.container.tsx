@@ -18,7 +18,7 @@ import CarouselScrollItem from './CarouselScrollItem.component';
 import {
     CarouselScrollItemComponentContainerPropKeys,
     CarouselScrollItemComponentProps,
-    CarouselScrollItemContainerProps
+    CarouselScrollItemContainerProps,
 } from './CarouselScrollItem.type';
 
 /** @namespace Component/CarouselScrollItem/Container */
@@ -27,24 +27,24 @@ export class CarouselScrollItemContainer extends PureComponent<CarouselScrollIte
         isActive: false,
         itemRef: createRef<HTMLDivElement>(),
         onClick: noopFn,
-        children: []
+        children: [],
     };
 
     containerFunctions = {
-        onClick: this.onClick.bind(this)
+        onClick: this.onClick.bind(this),
     };
 
     containerProps(): Pick<CarouselScrollItemComponentProps, CarouselScrollItemComponentContainerPropKeys> {
         const {
             isActive,
             itemRef,
-            children
+            children,
         } = this.props;
 
         return {
             isActive,
             itemRef,
-            children
+            children,
         };
     }
 

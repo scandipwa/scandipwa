@@ -24,7 +24,7 @@ import { MenuItemComponentProps } from './MenuItem.type';
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent<MenuItemComponentProps> {
     static defaultProps: Partial<MenuItemComponentProps> = {
-        onItemClick: noopFn
+        onItemClick: noopFn,
     };
 
     renderPlusMinusIcon(): ReactElement {
@@ -78,12 +78,12 @@ export class MenuItem extends PureComponent<MenuItemComponentProps> {
             itemMods,
             handleCategoryHover,
             handleLinkLeave,
-            onItemClick
+            onItemClick,
         } = this.props;
 
         const {
             url,
-            item_id
+            item_id,
         } = item;
 
         const isHovered = activeMenuItemsStack.includes(item_id);

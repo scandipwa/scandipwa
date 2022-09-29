@@ -39,11 +39,11 @@ export class MyAccountCreateAccount extends PureComponent<MyAccountCreateAccount
               attr={ {
                   id: 'taxvat',
                   name: 'taxvat',
-                  placeholder: __('Your Tax/VAT Number')
+                  placeholder: __('Your Tax/VAT Number'),
               } }
               validateOn={ ['onChange'] }
               validationRule={ {
-                  isRequired: vatNumberRequired
+                  isRequired: vatNumberRequired,
               } }
               addRequiredTag={ vatNumberRequired }
             />
@@ -58,7 +58,7 @@ export class MyAccountCreateAccount extends PureComponent<MyAccountCreateAccount
               attr={ {
                   id: 'is_subscribed',
                   name: 'is_subscribed',
-                  placeholder: __('Your Tax/VAT Number')
+                  placeholder: __('Your Tax/VAT Number'),
               } }
               mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
             />
@@ -80,12 +80,12 @@ export class MyAccountCreateAccount extends PureComponent<MyAccountCreateAccount
                       name: 'firstname',
                       defaultValue: firstName,
                       placeholder: __('Your first name'),
-                      autoComplete: 'given-name'
+                      autoComplete: 'given-name',
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       inputType: ValidationInputType.ALPHASPACE,
-                      isRequired: true
+                      isRequired: true,
                   } }
                   addRequiredTag
                 />
@@ -97,12 +97,12 @@ export class MyAccountCreateAccount extends PureComponent<MyAccountCreateAccount
                       name: 'lastname',
                       defaultValue: lastName,
                       placeholder: __('Your last name'),
-                      autoComplete: 'family-name'
+                      autoComplete: 'family-name',
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       inputType: ValidationInputType.ALPHASPACE,
-                      isRequired: true
+                      isRequired: true,
                   } }
                   addRequiredTag
                 />
@@ -127,12 +127,12 @@ export class MyAccountCreateAccount extends PureComponent<MyAccountCreateAccount
                       name: 'email',
                       defaultValue: email,
                       placeholder: __('Your email name'),
-                      autoComplete: 'email'
+                      autoComplete: 'email',
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: ValidationInputType.EMAIL
+                      inputType: ValidationInputType.EMAIL,
                   } }
                   addRequiredTag
                 />
@@ -144,7 +144,7 @@ export class MyAccountCreateAccount extends PureComponent<MyAccountCreateAccount
                           id: 'password',
                           name: 'password',
                           placeholder: __('Enter your password'),
-                          autoComplete: 'new-password'
+                          autoComplete: 'new-password',
                       } }
                       validateOn={ ['onChange'] }
                       validationRule={ {
@@ -158,7 +158,7 @@ export class MyAccountCreateAccount extends PureComponent<MyAccountCreateAccount
                               }
 
                               return validatePassword(value, range, minimunPasswordCharacter);
-                          }
+                          },
                       } }
                       addRequiredTag
                     />
@@ -169,7 +169,7 @@ export class MyAccountCreateAccount extends PureComponent<MyAccountCreateAccount
                           id: 'confirm_password',
                           name: 'confirm_password',
                           placeholder: __('Retype your password'),
-                          autoComplete: 'new-password'
+                          autoComplete: 'new-password',
                       } }
                       validateOn={ ['onChange'] }
                       validationRule={ {
@@ -181,8 +181,8 @@ export class MyAccountCreateAccount extends PureComponent<MyAccountCreateAccount
                               return value && password.value === value;
                           },
                           customErrorMessages: {
-                              onMatchFail: __('Passwords do not match!')
-                          }
+                              onMatchFail: __('Passwords do not match!'),
+                          },
                       } }
                       addRequiredTag
                     />

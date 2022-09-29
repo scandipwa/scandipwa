@@ -23,7 +23,7 @@ export class ImageZoomPopup extends PureComponent<ImageZoomPopupComponentProps> 
     render(): ReactElement {
         const {
             children,
-            activeImageId
+            activeImageId,
         } = this.props;
 
         return (

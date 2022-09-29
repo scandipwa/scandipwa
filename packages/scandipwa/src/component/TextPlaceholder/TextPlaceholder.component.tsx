@@ -27,7 +27,7 @@ export class TextPlaceholder extends PureComponent<TextPlaceholderComponentProps
     static defaultProps: Partial<TextPlaceholderComponentProps> = {
         content: '',
         length: TextPlaceHolderLength.SHORT,
-        mix: {}
+        mix: {},
     };
 
     render(): ReactElement {

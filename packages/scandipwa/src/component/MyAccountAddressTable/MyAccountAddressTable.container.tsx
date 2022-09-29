@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import {
-    MyAccountAddressPopupAction
+    MyAccountAddressPopupAction,
 } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { ReactElement } from 'Type/Common.type';
@@ -27,32 +27,32 @@ import {
     MyAccountAddressTableContainerMapDispatchProps,
     MyAccountAddressTableContainerMapStateProps,
     MyAccountAddressTableContainerProps,
-    MyAccountAddressTableContainerPropsKeys
+    MyAccountAddressTableContainerPropsKeys,
 } from './MyAccountAddressTable.type';
 
 /** @namespace Component/MyAccountAddressTable/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountAddressTableContainerMapStateProps => ({
-    countries: state.ConfigReducer.countries
+    countries: state.ConfigReducer.countries,
 });
 
 /** @namespace Component/MyAccountAddressTable/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressTableContainerMapDispatchProps => ({
-    showEditPopup: (payload) => dispatch(showPopup(MyAccountAddressPopupAction.ADDRESS_POPUP_ID, payload))
+    showEditPopup: (payload) => dispatch(showPopup(MyAccountAddressPopupAction.ADDRESS_POPUP_ID, payload)),
 });
 
 /** @namespace Component/MyAccountAddressTable/Container */
 export class MyAccountAddressTableContainer<
-    Props extends MyAccountAddressTableContainerProps = MyAccountAddressTableContainerProps
+    Props extends MyAccountAddressTableContainerProps = MyAccountAddressTableContainerProps,
 > extends PureComponent<Props> {
     static defaultProps: Partial<MyAccountAddressTableContainerProps> = {
         showActions: false,
         mix: {},
-        title: ''
+        title: '',
     };
 
     containerFunctions: MyAccountAddressTableContainerFunctions = {
         onEditClick: this.onEditClick.bind(this),
-        onDeleteClick: this.onDeleteClick.bind(this)
+        onDeleteClick: this.onDeleteClick.bind(this),
     };
 
     containerProps(): Pick<
@@ -64,7 +64,7 @@ export class MyAccountAddressTableContainer<
             countries,
             mix,
             showActions,
-            title
+            title,
         } = this.props;
 
         return {
@@ -72,7 +72,7 @@ export class MyAccountAddressTableContainer<
             countries,
             mix,
             showActions,
-            title
+            title,
         };
     }
 
@@ -82,7 +82,7 @@ export class MyAccountAddressTableContainer<
         showEditPopup({
             action: MyAccountAddressPopupAction.EDIT_ADDRESS,
             title: __('Edit address'),
-            address
+            address,
         });
     }
 
@@ -92,7 +92,7 @@ export class MyAccountAddressTableContainer<
         showEditPopup({
             action: MyAccountAddressPopupAction.DELETE_ADDRESS,
             title: __('Confirm delete'),
-            address
+            address,
         });
     }
 
@@ -108,7 +108,7 @@ export class MyAccountAddressTableContainer<
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(
-    MyAccountAddressTableContainer as unknown as ComponentType<MyAccountAddressTableContainerProps>
+    MyAccountAddressTableContainer as unknown as ComponentType<MyAccountAddressTableContainerProps>,
 );

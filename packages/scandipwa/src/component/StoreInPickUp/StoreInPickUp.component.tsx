@@ -24,7 +24,7 @@ import './StoreInPickUp.style';
 export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponentProps> {
     static defaultProps: Partial<StoreInPickUpComponentProps> = {
         selectedStore: null,
-        selectStore: noopFn
+        selectStore: noopFn,
     };
 
     renderEmptyResult(): ReactElement {
@@ -82,7 +82,7 @@ export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponent
             onStoreSelect,
             onShippingMethodSelect,
             setSelectedStore,
-            cartItemsSku
+            cartItemsSku,
         } = this.props;
 
         return (

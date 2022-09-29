@@ -3,14 +3,14 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 module.exports = {
     plugin: {
         overrideCracoConfig: ({
-            cracoConfig
+            cracoConfig,
         }) => {
             cracoConfig.webpack.plugins.push(new StylelintPlugin({
                 threads: true,
-                files: ['src']
+                files: ['src'],
             }));
 
             return cracoConfig;
-        }
-    }
+        },
+    },
 };

@@ -23,53 +23,53 @@ export const contactForm = (): Partial<FieldContainerProps>[] => [
         label: __('Name'),
         attr: {
             name: 'name',
-            placeholder: __('Your name')
+            placeholder: __('Your name'),
         },
         addRequiredTag: true,
         validateOn: ['onChange'],
         validationRule: {
-            isRequired: true
-        }
+            isRequired: true,
+        },
     },
     {
         type: FieldType.EMAIL,
         label: __('Email'),
         attr: {
             name: 'email',
-            placeholder: __('Your email')
+            placeholder: __('Your email'),
         },
         addRequiredTag: true,
         validateOn: ['onChange'],
         validationRule: {
             inputType: ValidationInputType.EMAIL,
-            isRequired: true
-        }
+            isRequired: true,
+        },
     },
     {
         type: FieldType.TEXT,
         label: __('Phone number'),
         attr: {
             name: 'telephone',
-            placeholder: __('Phone number')
+            placeholder: __('Phone number'),
         },
         validateOn: ['onChange'],
         validationRule: {
-            inputType: ValidationInputType.PHONE
-        }
+            inputType: ValidationInputType.PHONE,
+        },
     },
     {
         type: FieldType.TEXTAREA,
         label: __('What\'s on your mind?'),
         attr: {
             name: 'message',
-            placeholder: __('Message')
+            placeholder: __('Message'),
         },
         addRequiredTag: true,
         validateOn: ['onChange'],
         validationRule: {
-            isRequired: true
-        }
-    }
+            isRequired: true,
+        },
+    },
 ];
 
 export default contactForm;

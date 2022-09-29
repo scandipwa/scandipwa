@@ -23,14 +23,14 @@ import {
     FooterContainerMapDispatchProps,
     FooterContainerMapStateProps,
     FooterContainerProps,
-    FooterContainerPropsKeys
+    FooterContainerPropsKeys,
 } from './Footer.type';
 
 /** @namespace Component/Footer/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): FooterContainerMapStateProps => ({
     copyright: state.ConfigReducer.copyright,
     device: state.ConfigReducer.device,
-    newsletterActive: state.ConfigReducer.newsletter_general_active
+    newsletterActive: state.ConfigReducer.newsletter_general_active,
 });
 
 /** @namespace Component/Footer/Container/mapDispatchToProps */
@@ -40,11 +40,11 @@ export const mapDispatchToProps = (): FooterContainerMapDispatchProps => ({});
 export class FooterContainer extends PureComponent<FooterContainerProps> {
     static defaultProps: Partial<FooterContainerProps> = {
         copyright: '',
-        isVisibleOnMobile: false
+        isVisibleOnMobile: false,
     };
 
     containerFunctions: FooterContainerFunctions = {
-        onItemClick: this.onItemClick.bind(this)
+        onItemClick: this.onItemClick.bind(this),
     };
 
     containerProps(): Pick<FooterComponentProps, FooterContainerPropsKeys> {
@@ -52,14 +52,14 @@ export class FooterContainer extends PureComponent<FooterContainerProps> {
             copyright,
             isVisibleOnMobile,
             device,
-            newsletterActive
+            newsletterActive,
         } = this.props;
 
         return {
             copyright,
             isVisibleOnMobile,
             device,
-            newsletterActive
+            newsletterActive,
         };
     }
 

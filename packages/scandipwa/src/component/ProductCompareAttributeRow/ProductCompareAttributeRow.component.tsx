@@ -45,7 +45,7 @@ export class ProductCompareAttributeRow extends PureComponent<ProductCompareAttr
     renderValues(): ReactElement {
         const {
             device: { isMobile },
-            values = []
+            values = [],
         } = this.props;
         const renderableValues = values.map(this.renderValue);
 

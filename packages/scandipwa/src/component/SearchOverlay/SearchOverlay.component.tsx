@@ -18,7 +18,7 @@ import { IndexedProduct } from 'Util/Product/Product.type';
 
 import {
     AMOUNT_OF_PLACEHOLDERS,
-    SEARCH_TIMEOUT
+    SEARCH_TIMEOUT,
 } from './SearchOverlay.config';
 import { SearchOverlayComponentProps } from './SearchOverlay.type';
 
@@ -27,7 +27,7 @@ import './SearchOverlay.style';
 /** @namespace Component/SearchOverlay/Component */
 export class SearchOverlay extends PureComponent<SearchOverlayComponentProps> {
     static defaultProps: Partial<SearchOverlayComponentProps> = {
-        searchCriteria: ''
+        searchCriteria: '',
     };
 
     timeout: NodeJS.Timeout | null = null;

@@ -15,5 +15,5 @@ export enum ProductType {
     SIMPLE = 'simple',
     BUNDLE = 'bundle',
     DOWNLOADABLE = 'downloadable',
-    VIRTUAL = 'virtual'
+    VIRTUAL = 'virtual',
 }

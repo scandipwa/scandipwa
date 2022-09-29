@@ -22,10 +22,10 @@ import { FieldType } from './Query.type';
  * @namespace Util/Query/PrepareDocument/prepareFieldString */
 export const prepareFieldString = <T>(
     rootField: AbstractField<string, T, boolean>,
-    accArgs: Record<string, [string, unknown]> = {}
+    accArgs: Record<string, [string, unknown]> = {},
 ): string => {
     const {
-        alias, name, args, children
+        alias, name, args, children,
     } = rootField;
 
     const resolvedArgs = args.reduce<string[]>((
@@ -34,7 +34,7 @@ export const prepareFieldString = <T>(
             name: string;
             type: string;
             value: unknown;
-        }
+        },
     ): string[] => {
         if (!accArgs[arg.name]) {
             // eslint-disable-next-line no-param-reassign
@@ -100,24 +100,24 @@ export const prepareRequest = <T>(fields: AbstractField<string, T, boolean>[], t
             'background-color: #ff00ff; color: #ffffff; font-weight: bold; border-radius: 5px; padding: 2px 5px',
             {
                 query: `${type}${formattedArgs}{${fieldStrings}}`,
-                variables
-            }
+                variables,
+            },
         );
     }
 
     return {
         // format like "query($var_1:String){test(arg: $var_1){id}}"
         query: `${type}${formattedArgs}{${fieldStrings}}`,
-        variables
+        variables,
     };
 };
 
 /** @namespace Util/Query/PrepareDocument/prepareMutation */
 export const prepareMutation = <T>(
-    mutations: Mutation<string, T, boolean>[]
+    mutations: Mutation<string, T, boolean>[],
 ): QueryObject => prepareRequest(mutations, FieldType.MUTATION);
 
 /** @namespace Util/Query/PrepareDocument/prepareQuery */
 export const prepareQuery = <T>(
-    queries: Query<string, T, boolean>[]
+    queries: Query<string, T, boolean>[],
 ): QueryObject => prepareRequest(queries, FieldType.QUERY);

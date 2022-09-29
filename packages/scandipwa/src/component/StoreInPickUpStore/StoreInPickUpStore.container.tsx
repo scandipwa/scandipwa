@@ -19,7 +19,7 @@ import {
     StoreInPickUpStoreComponentProps,
     StoreInPickUpStoreContainerFunctions,
     StoreInPickUpStoreContainerProps,
-    StoreInPickUpStoreContainerPropsKeys
+    StoreInPickUpStoreContainerPropsKeys,
 } from './StoreInPickUpStore.type';
 
 /** @namespace Component/StoreInPickUpStore/Container */
@@ -27,11 +27,11 @@ export class StoreInPickUpStoreContainer extends PureComponent<StoreInPickUpStor
     static defaultProps: Partial<StoreInPickUpStoreContainerProps> = {
         selectStore: noopFn,
         isSelectedStore: false,
-        store: null
+        store: null,
     };
 
     containerFunctions: StoreInPickUpStoreContainerFunctions = {
-        handleSelectStore: this.handleSelectStore.bind(this)
+        handleSelectStore: this.handleSelectStore.bind(this),
     };
 
     containerProps(): Pick<StoreInPickUpStoreComponentProps, StoreInPickUpStoreContainerPropsKeys> {

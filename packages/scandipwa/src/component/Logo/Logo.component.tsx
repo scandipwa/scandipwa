@@ -13,7 +13,7 @@
 
 import Image from 'Component/Image/Image.component';
 import {
-    ImageState
+    ImageState,
 } from 'Component/Image/Image.config';
 import { ImageRatio } from 'Component/Image/Image.type';
 import logo from 'Style/icons/logos/mainLogo.svg';

@@ -27,13 +27,13 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
     static defaultProps: Partial<CheckoutDeliveryOptionComponentProps> = {
         isSelected: false,
         optionPrice: 0,
-        optionSubPrice: 0
+        optionSubPrice: 0,
     };
 
     renderSubPrice(): ReactElement {
         const {
             currency,
-            optionSubPrice
+            optionSubPrice,
         } = this.props;
 
         if (!optionSubPrice) {
@@ -53,7 +53,7 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
     getOptionPrice(): string {
         const {
             currency,
-            optionPrice
+            optionPrice,
         } = this.props;
 
         return formatPrice(optionPrice, currency as GQLCurrencyEnum);
@@ -62,8 +62,8 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
     renderPrice(): ReactElement {
         const {
             option: {
-                available
-            } = {}
+                available,
+            } = {},
         } = this.props;
 
         if (!available) {
@@ -81,8 +81,8 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
         const {
             option: {
                 method_title,
-                available
-            } = {}
+                available,
+            } = {},
         } = this.props;
 
         if (!available) {
@@ -101,8 +101,8 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
     renderAvailabilityMessage(): ReactElement {
         const {
             option: {
-                available
-            } = {}
+                available,
+            } = {},
         } = this.props;
 
         if (available) {
@@ -123,8 +123,8 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
         const {
             option: {
                 carrier_title,
-                available
-            } = {}
+                available,
+            } = {},
         } = this.props;
 
         return (
@@ -147,10 +147,10 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
         const {
             option: {
                 carrier_title,
-                available
+                available,
             } = {},
             onOptionClick,
-            isSelected
+            isSelected,
         } = this.props;
 
         return (
@@ -159,7 +159,7 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
               mods={ {
                   isDisabled: !available,
                   isActive: isSelected,
-                  isHoverExcluded: !available || isSelected
+                  isHoverExcluded: !available || isSelected,
               } }
             >
                 <button
@@ -175,7 +175,7 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
                       attr={ {
                           id: `option-${ carrier_title }`,
                           name: `option-${ carrier_title }`,
-                          checked: !!isSelected
+                          checked: !!isSelected,
                       } }
                     />
                     { this.renderRow() }

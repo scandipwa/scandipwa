@@ -27,7 +27,7 @@ export class MyAccountMyOrders extends Component<MyAccountMyOrdersComponentProps
         const {
             device: nextDevice,
             orderList: nextOrderList,
-            isLoading: nextIsLoading
+            isLoading: nextIsLoading,
         } = nextProps;
 
         return device !== nextDevice || orderList !== nextOrderList || isLoading !== nextIsLoading;
@@ -90,7 +90,7 @@ export class MyAccountMyOrders extends Component<MyAccountMyOrdersComponentProps
 
         return orders.reduceRight(
             (acc: ReactElement[], e: OrderRow) => [...acc, this.renderOrderRow(e)],
-            []
+            [],
         );
     }
 
@@ -99,9 +99,9 @@ export class MyAccountMyOrders extends Component<MyAccountMyOrdersComponentProps
             isLoading,
             orderList: {
                 pageInfo: {
-                    total_pages = 0
-                } = {}
-            }
+                    total_pages = 0,
+                } = {},
+            },
         } = this.props;
 
         return (

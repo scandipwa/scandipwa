@@ -42,11 +42,11 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
         tierPrice: {
             currency: GQLCurrencyEnum.USD,
             value: '',
-            valueFormatted: ''
+            valueFormatted: '',
         },
         label: '',
         configuration: {},
-        displayTaxInPrice: DisplayProductPricesInCatalog.INCL_TAX
+        displayTaxInPrice: DisplayProductPricesInCatalog.INCL_TAX,
     };
 
     pricePreviewRenderMap = {
@@ -55,7 +55,7 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
         [ProductType.BUNDLE]: this.renderBundlePrice.bind(this),
         [ProductType.GROUPED]: this.renderGroupedPrice.bind(this),
         [ProductType.DOWNLOADABLE]: this.renderDefaultPrice.bind(this),
-        [ProductType.CONFIGURABLE]: this.renderConfigurablePrice.bind(this)
+        [ProductType.CONFIGURABLE]: this.renderConfigurablePrice.bind(this),
     };
 
     priceLabelTypeMap = {
@@ -64,7 +64,7 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
         [ProductType.BUNDLE]: __('Starting at'),
         [ProductType.GROUPED]: __('Starting at'),
         [ProductType.DOWNLOADABLE]: __('Starting at'),
-        [ProductType.CONFIGURABLE]: __('As Low as')
+        [ProductType.CONFIGURABLE]: __('As Low as'),
     };
 
     renderPlaceholder(): ReactElement {
@@ -92,9 +92,9 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
             variantsCount,
             price: {
                 finalPrice: {
-                    value: contentPrice = 0
-                } = {}
-            } = {}
+                    value: contentPrice = 0,
+                } = {},
+            } = {},
         } = this.props;
 
         if (variantsCount > 1) {
@@ -106,12 +106,12 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
 
     renderPrice(price: Partial<FormattedMoney>, label: string | ReactElement): ReactElement {
         const {
-            discountPercentage
+            discountPercentage,
         } = this.props;
 
         const {
             value: priceValue,
-            valueFormatted: priceFormatted = 0
+            valueFormatted: priceFormatted = 0,
         } = price;
 
         const { itemProp, content } = this.getCurrentPriceSchema();
@@ -149,7 +149,7 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
     renderSubPrice(price: Partial<FormattedMoney>): ReactElement {
         const {
             value: priceExclTax = 0,
-            valueFormatted: priceExclTaxFormatted = 0
+            valueFormatted: priceExclTaxFormatted = 0,
         } = price;
 
         if (!priceExclTax && priceExclTax !== 0) {
@@ -172,12 +172,12 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
             price: {
                 originalPrice: {
                     value: originalPriceValue,
-                    valueFormatted: originalPriceFormatted
-                } = {}
+                    valueFormatted: originalPriceFormatted,
+                } = {},
             } = {},
             discountPercentage,
             isSchemaRequired,
-            variantsCount
+            variantsCount,
         } = this.props;
 
         if (discountPercentage === 0 || originalPriceValue === 0) {
@@ -213,9 +213,9 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
     renderRequiredWithChangePrice(): ReactElement {
         const {
             configuration: {
-                containsRequiredOptionsWithPrice = false
+                containsRequiredOptionsWithPrice = false,
             } = {},
-            priceType
+            priceType,
         } = this.props;
 
         const { [priceType]: label } = this.priceLabelTypeMap;
@@ -240,8 +240,8 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
                 minRegularPrice = {} as FormattedMoney,
                 maxRegularPrice = {} as FormattedMoney,
                 minRegularPrice: { value: minRegularValue = 0 } = {},
-                maxRegularPrice: { value: maxRegularValue = 0 } = {}
-            }
+                maxRegularPrice: { value: maxRegularValue = 0 } = {},
+            },
         } = this.props;
 
         if (minValue === maxValue) {
@@ -276,7 +276,7 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
     renderRegularPrice(price: FormattedMoney): ReactElement {
         const {
             value,
-            valueFormatted
+            valueFormatted,
         } = price;
 
         if (!value || value <= 0 || !valueFormatted) {
@@ -292,9 +292,9 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
         const {
             originalPrice: {
                 minFinalPrice = {},
-                minFinalPriceExclTax = {}
+                minFinalPriceExclTax = {},
             },
-            priceType
+            priceType,
         } = this.props;
         const { [priceType]: label } = this.priceLabelTypeMap;
 
@@ -307,9 +307,9 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
                 minFinalPrice = {},
                 minFinalPriceExclTax = {},
                 minFinalPrice: { value: minValue = 0 } = {},
-                maxFinalPrice: { value: maxValue = 0 } = {}
+                maxFinalPrice: { value: maxValue = 0 } = {},
             },
-            priceType
+            priceType,
         } = this.props;
 
         if (minValue === maxValue) {
@@ -325,16 +325,16 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
         const {
             originalPrice: {
                 minFinalPrice: { value: minValue = 0 } = {},
-                maxFinalPrice: { value: maxValue = 0 } = {}
+                maxFinalPrice: { value: maxValue = 0 } = {},
             },
             configuration: {
-                containsOptions = false
+                containsOptions = false,
             } = {},
             price: {
                 finalPriceExclTax = {},
-                finalPrice = {}
+                finalPrice = {},
             },
-            priceType
+            priceType,
         } = this.props;
 
         if (minValue === maxValue && !containsOptions) {
@@ -349,7 +349,7 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
     renderDefaultPrice(defaultLabel: string | null = null): ReactElement {
         const {
             price: { finalPrice = {}, finalPriceExclTax = {} } = {},
-            label
+            label,
         } = this.props;
 
         return (
@@ -364,7 +364,7 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
     renderPriceWithOrWithoutTax(
         basePrice: Partial<FormattedMoney>,
         taxPrice: Partial<FormattedMoney>,
-        label?: string | ReactElement
+        label?: string | ReactElement,
     ): ReactElement {
         const { displayTaxInPrice } = this.props;
 
@@ -388,13 +388,13 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
         const {
             tierPrice: {
                 valueFormatted: tierPriceFormatted,
-                value: tierPriceValue
+                value: tierPriceValue,
             },
             price: {
                 finalPrice: {
-                    value
-                } = {}
-            } = {}
+                    value,
+                } = {},
+            } = {},
         } = this.props;
 
         if (!tierPriceFormatted || tierPriceValue >= (value || 0)) {
@@ -415,13 +415,13 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
                 finalPrice,
                 originalPrice,
                 finalPrice: {
-                    value: finalPriceValue = 0
-                } = {}
+                    value: finalPriceValue = 0,
+                } = {},
             } = {},
             priceType,
             isPreview,
             discountPercentage,
-            mix
+            mix,
         } = this.props;
 
         if (!finalPrice || !originalPrice) {

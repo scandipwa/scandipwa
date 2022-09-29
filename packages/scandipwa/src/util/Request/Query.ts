@@ -17,7 +17,7 @@ import { executePost } from 'Util/Request/Request';
 
 /** @namespace Util/Request/Query/fetchQuery */
 export const fetchQuery = <S extends string, T, IsArray extends boolean = false>(
-    rawQueries: Query<S, T, boolean> | Query<S, T, boolean>[]
+    rawQueries: Query<S, T, boolean> | Query<S, T, boolean>[],
 ): Promise<Record<S, IsArray extends false ? T : T[]>> => {
     const queries = rawQueries instanceof Query ? [rawQueries] : rawQueries;
 

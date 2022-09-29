@@ -43,7 +43,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
         currentPage: 1,
         isShowLoading: false,
         isVisible: true,
-        isWidget: false
+        isWidget: false,
     };
 
     observer: IntersectionObserver | null = null;
@@ -111,7 +111,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
                 }
             }, {
                 rootMargin: '0px',
-                threshold
+                threshold,
             });
         }
 
@@ -148,7 +148,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
 
         return Array.from(
             { length: (hundredPercent / OBSERVER_THRESHOLD) + 1 },
-            (_, i) => i * (OBSERVER_THRESHOLD / hundredPercent)
+            (_, i) => i * (OBSERVER_THRESHOLD / hundredPercent),
         );
     }
 
@@ -156,7 +156,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
         const {
             isShowLoading,
             isInfiniteLoaderEnabled,
-            loadPrevPage
+            loadPrevPage,
         } = this.props;
 
         if (!isShowLoading || !isInfiniteLoaderEnabled) {
@@ -197,7 +197,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
             pages,
             isVisible,
             isLoading,
-            isInfiniteLoaderEnabled
+            isInfiniteLoaderEnabled,
         } = this.props;
 
         if (isLoading) {
@@ -236,7 +236,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
             isLoading,
             isVisible,
             mix,
-            isPlp
+            isPlp,
         } = this.props;
         const {
             items = [],
@@ -244,7 +244,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
             pageNumber = 0,
             selectedFilters = {},
             wrapperRef,
-            key
+            key,
         } = this._processProps(props);
 
         return (
@@ -278,7 +278,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
             key,
             wrapperRef: (node: HTMLElement | null) => {
                 this.nodes[ pageNumber ] = node;
-            }
+            },
         });
     }
 
@@ -286,7 +286,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
         const {
             isLoading,
             totalPages,
-            isPaginationEnabled
+            isPaginationEnabled,
         } = this.props;
 
         if (!isPaginationEnabled) {
@@ -317,7 +317,7 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
         const {
             totalPages,
             isLoading,
-            mix
+            mix,
         } = this.props;
 
         if (!isLoading && totalPages === 0) {

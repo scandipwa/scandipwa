@@ -24,7 +24,7 @@ import {
     CustomerAddressRegion,
     CustomerFields,
     ResetPasswordOptions,
-    SignInOptions
+    SignInOptions,
 } from './MyAccount.type';
 
 /**
@@ -43,7 +43,7 @@ export class MyAccountQuery {
             customer_id,
             token,
             password,
-            password_confirmation
+            password_confirmation,
         } = options;
 
         return new Mutation<'s_resetPassword', { status: string }>('s_resetPassword')
@@ -70,7 +70,7 @@ export class MyAccountQuery {
     }
 
     getUpdateInformationMutation(
-        options: GQLCustomerUpdateInput
+        options: GQLCustomerUpdateInput,
     ): Mutation<'updateCustomerV2', { customer: Customer }> {
         return new Mutation<'updateCustomerV2', { customer: Customer }>('updateCustomerV2')
             .addArgument('input', 'CustomerUpdateInput!', options)
@@ -87,7 +87,7 @@ export class MyAccountQuery {
     }
 
     getChangeCustomerPasswordMutation(
-        options: ChangeCustomerPasswordOptions
+        options: ChangeCustomerPasswordOptions,
     ): Mutation<'changeCustomerPassword', Customer> {
         const { password, newPassword } = options;
 
@@ -111,7 +111,7 @@ export class MyAccountQuery {
 
     getUpdateAddressMutation(
         id: number,
-        options: GQLCustomerAddressInput
+        options: GQLCustomerAddressInput,
     ): Mutation<'updateCustomerAddress', CustomerAddress> {
         return new Mutation<'updateCustomerAddress', CustomerAddress>('updateCustomerAddress')
             .addArgument('id', 'Int!', id)
@@ -137,7 +137,7 @@ export class MyAccountQuery {
 
     _getResendConfirmationFields(): Array<Field<'status', string>> {
         return [
-            new Field<'status', string>('status')
+            new Field<'status', string>('status'),
         ];
     }
 
@@ -169,13 +169,13 @@ export class MyAccountQuery {
         return [
             new Field<'status', string>('status'),
             new Field<'token', string>('token'),
-            this._getCustomerField()
+            this._getCustomerField(),
         ];
     }
 
     getRevokeAccountTokenFields(): Field<'result', boolean>[] {
         return [
-            new Field<'result', boolean>('result')
+            new Field<'result', boolean>('result'),
         ];
     }
 
@@ -201,7 +201,7 @@ export class MyAccountQuery {
             new Field<'taxvat', string>('taxvat'),
             new Field<'id', number>('id'),
             new Field<'is_subscribed', boolean>('is_subscribed'),
-            this._getAddressesField()
+            this._getAddressesField(),
         ];
     }
 
@@ -223,7 +223,7 @@ export class MyAccountQuery {
         return [
             new Field<'region_code', string>('region_code'),
             new Field<'region', string>('region'),
-            new Field<'region_id', number>('region_id')
+            new Field<'region_id', number>('region_id'),
         ];
     }
 
@@ -244,7 +244,7 @@ export class MyAccountQuery {
             new Field<'default_shipping', boolean>('default_shipping'),
             new Field<'default_billing', boolean>('default_billing'),
             new Field<'vat_id', string>('vat_id'),
-            this._getRegionField()
+            this._getRegionField(),
         ];
     }
 
@@ -255,7 +255,7 @@ export class MyAccountQuery {
      * @memberof MyAccount
      */
     getForgotPasswordMutation(
-        options: { email: string }
+        options: { email: string },
     ): Mutation<'forgotPassword', { status: string }> {
         const { email } = options;
 

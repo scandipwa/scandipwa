@@ -20,14 +20,14 @@ import { noopFn } from 'Util/Common';
 
 import {
     ProductConfigurableAttribute,
-    ProductConfigurableAttributesComponentProps
+    ProductConfigurableAttributesComponentProps,
 } from './ProductConfigurableAttributes.type';
 
 import './ProductConfigurableAttributes.style';
 
 /** @namespace Component/ProductConfigurableAttributes/Component */
 export class ProductConfigurableAttributes<
-P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttributesComponentProps
+P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttributesComponentProps,
 > extends PureComponent<P> {
     static defaultProps: Partial<ProductConfigurableAttributesComponentProps> = {
         isReady: true,
@@ -35,7 +35,7 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
         getIsConfigurableAttributeAvailable: (): boolean => true,
         handleShakeAnimationEnd: noopFn,
         isExpandable: true,
-        showProductAttributeAsLink: true
+        showProductAttributeAsLink: true,
     };
 
     renderConfigurableAttributeValue(attribute: Partial<ProductConfigurableAttribute>): ReactElement {
@@ -45,7 +45,7 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
             getLink,
             isSelected,
             showProductAttributeAsLink,
-            inStock
+            inStock,
         } = this.props;
 
         const { attribute_value } = attribute;
@@ -65,7 +65,7 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
 
     renderSwatch(option: Partial<ProductConfigurableAttribute>, isUnselected = false): ReactElement {
         const {
-            handleShakeAnimationEnd
+            handleShakeAnimationEnd,
         } = this.props;
         const { attribute_values = [], attribute_code } = option;
 
@@ -79,7 +79,7 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
             >
                 { attribute_values.map((attribute_value) => (
                     this.renderConfigurableAttributeValue(
-                        { ...option, attribute_value } as unknown as Partial<ProductConfigurableAttribute>
+                        { ...option, attribute_value } as unknown as Partial<ProductConfigurableAttribute>,
                     )
                 )) }
             </div>
@@ -91,7 +91,7 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
             updateConfigurableVariant,
             getIsConfigurableAttributeAvailable,
             parameters,
-            handleShakeAnimationEnd
+            handleShakeAnimationEnd,
         } = this.props;
 
         return (
@@ -136,7 +136,7 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
             inStock,
             handleShakeAnimationEnd,
             addToCartTriggeredWithError,
-            parameters
+            parameters,
         } = this.props;
 
         return Object.values(configurable_options).map((option) => {
@@ -144,7 +144,7 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
                 attribute_code = '',
                 attribute_label,
                 attribute_options = {},
-                attribute_id
+                attribute_id,
             } = option;
             const isUnselected = addToCartTriggeredWithError ? !parameters[attribute_code] : false;
             const [{ swatch_data }] = attribute_options

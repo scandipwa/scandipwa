@@ -37,7 +37,7 @@ ProductListPageComponentState
         selectedFilters: {},
         pageNumber: undefined,
         items: [],
-        mix: {}
+        mix: {},
     };
 
     // state: ProductListPageComponentState = {
@@ -86,7 +86,7 @@ ProductListPageComponentState
             //     siblingsHaveTierPrice,
             //     siblingsHaveConfigurableOptions
             // },
-            isPlp
+            isPlp,
         };
     }
 
@@ -94,7 +94,7 @@ ProductListPageComponentState
         const {
             items,
             updatePages,
-            isInfiniteLoaderEnabled
+            isInfiniteLoaderEnabled,
         } = this.props;
 
         if (!isInfiniteLoaderEnabled || items.length) {
@@ -104,7 +104,7 @@ ProductListPageComponentState
         if (this.node && !this.observer && 'IntersectionObserver' in window) {
             const options = {
                 rootMargin: '0px',
-                threshold: 0.1
+                threshold: 0.1,
             };
 
             this.observer = new IntersectionObserver(([{ intersectionRatio }]) => {
@@ -140,9 +140,9 @@ ProductListPageComponentState
             numberOfPlaceholders = DEFAULT_PLACEHOLDER_COUNT,
             mix: {
                 mods: {
-                    layout = CategoryPageLayout.GRID
-                } = {}
-            }
+                    layout = CategoryPageLayout.GRID,
+                } = {},
+            },
         } = this.props;
 
         return Array.from(
@@ -153,7 +153,7 @@ ProductListPageComponentState
                   product={ {} }
                   layout={ layout as CategoryPageLayout }
                 />
-            )
+            ),
         );
     }
 
@@ -175,9 +175,9 @@ ProductListPageComponentState
             selectedFilters,
             mix: {
                 mods: {
-                    layout = CategoryPageLayout.GRID
-                } = {}
-            }
+                    layout = CategoryPageLayout.GRID,
+                } = {},
+            },
         } = this.props;
 
         return items.map((product, i) => (
@@ -219,7 +219,7 @@ ProductListPageComponentState
         const {
             pageNumber,
             wrapperRef,
-            mix
+            mix,
         } = this.props;
 
         return (

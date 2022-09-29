@@ -24,18 +24,18 @@ import './Breadcrumb.style';
 export class Breadcrumb extends PureComponent<BreadcrumbComponentProps> {
     static defaultProps: Partial<BreadcrumbComponentProps> = {
         url: '',
-        name: ''
+        name: '',
     };
 
     getLinkUrl(): Url {
         const {
-            url = ''
+            url = '',
         } = this.props;
 
         if (typeof url === 'string' || !url) {
             return {
                 pathname: url || '',
-                search: ''
+                search: '',
             };
         }
 
@@ -46,7 +46,7 @@ export class Breadcrumb extends PureComponent<BreadcrumbComponentProps> {
         const {
             index,
             isDisabled,
-            name
+            name,
         } = this.props;
 
         const url = this.getLinkUrl();

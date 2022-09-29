@@ -28,10 +28,10 @@ export class SharedWishlistItem extends SourceWishlistItem<SharedWishlistItemCom
         const {
             product,
             product: {
-                id
+                id,
             },
             quantity,
-            changeQuantity
+            changeQuantity,
         } = this.props;
 
         const min = getMinQuantity(product);
@@ -52,16 +52,16 @@ export class SharedWishlistItem extends SourceWishlistItem<SharedWishlistItemCom
                       value: quantity,
                       defaultValue: quantity,
                       min,
-                      max
+                      max,
                   } }
                   events={ {
-                      onChange: changeQuantity
+                      onChange: changeQuantity,
                   } }
                   validationRule={ {
                       range: {
                           min,
-                          max
-                      }
+                          max,
+                      },
                   } }
                   validateOn={ ['onChange'] }
                   mix={ { block: 'WishlistItem', elem: 'Quantity' } }

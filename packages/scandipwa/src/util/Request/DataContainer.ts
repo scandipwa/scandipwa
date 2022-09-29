@@ -25,7 +25,7 @@ import { ONE_MONTH_IN_SECONDS } from './QueryDispatcher';
 /** @namespace Util/Request/DataContainer */
 export class DataContainer<
 P = Record<string, unknown>,
-S = Record<string, unknown>
+S = Record<string, unknown>,
 > extends PureComponent<P, S> {
     protected dataModelName = '';
 
@@ -39,7 +39,7 @@ S = Record<string, unknown>
         props: P,
         dataModelName = '',
         isShouldListenForBroadcast = true,
-        cacheTTL = ONE_MONTH_IN_SECONDS
+        cacheTTL = ONE_MONTH_IN_SECONDS,
     ): void {
         super.__construct?.(props);
 
@@ -60,7 +60,7 @@ S = Record<string, unknown>
         rawQueries: Query<string, any, boolean>[],
         onSuccess: (x: T) => void = noopFn,
         onError: (x: E) => void = noopFn,
-        takeFromWindowCache = true
+        takeFromWindowCache = true,
     ): void {
         const preparedQuery = prepareQuery(rawQueries);
         const { query, variables } = preparedQuery;
@@ -77,7 +77,7 @@ S = Record<string, unknown>
         }
 
         this.promise = makeCancelable(
-            executeGet(preparedQuery, this.dataModelName, this.cacheTTL)
+            executeGet(preparedQuery, this.dataModelName, this.cacheTTL),
         );
 
         this.promise.promise.then(
@@ -87,13 +87,13 @@ S = Record<string, unknown>
                 onSuccess(response as T);
             },
             /** @namespace Util/Request/DataContainer/DataContainer/fetchData/then/onError/catch */
-            (err) => onError(err)
+            (err) => onError(err),
         );
 
         if (this.isShouldListenForBroadcast) {
             listenForBroadCast<T>(this.dataModelName).then(
                 /** @namespace Util/Request/DataContainer/DataContainer/fetchData/listenForBroadCast/then/onSuccess */
-                onSuccess
+                onSuccess,
             );
         }
     }

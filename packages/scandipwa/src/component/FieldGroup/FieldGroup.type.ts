@@ -16,7 +16,7 @@ import {
     MutableRefObject,
     ReactEventHandler,
     RefObject,
-    SyntheticEvent
+    SyntheticEvent,
 } from 'react';
 
 import { FieldRef } from 'Component/Field/Field.type';

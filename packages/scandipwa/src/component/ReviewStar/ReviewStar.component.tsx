@@ -29,7 +29,7 @@ export class ReviewStar extends PureComponent<ReviewStarComponentProps> {
         const {
             rating_id,
             option_id,
-            onStarRatingClick
+            onStarRatingClick,
         } = this.props;
 
         onStarRatingClick(rating_id, option_id);
@@ -42,7 +42,7 @@ export class ReviewStar extends PureComponent<ReviewStarComponentProps> {
             title,
             isChecked,
             rating_id,
-            option_id
+            option_id,
         } = this.props;
 
         return (

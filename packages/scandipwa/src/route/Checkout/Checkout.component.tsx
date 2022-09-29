@@ -23,7 +23,7 @@ import { appendWithStoreCode } from 'Util/Url';
 import {
     CHECKOUT_URL_REGEX,
     CheckoutSteps,
-    CheckoutStepUrl
+    CheckoutStepUrl,
 } from './Checkout.config';
 import { CheckoutComponentProps, CheckoutMapStep } from './Checkout.type';
 
@@ -69,7 +69,7 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
     static defaultProps: Partial<CheckoutComponentProps> = {
         paymentTotals: undefined,
         selectedStoreAddress: undefined,
-        isLoading: false
+        isLoading: false,
     };
 
     stepMap: Record<CheckoutSteps, CheckoutMapStep> = {
@@ -78,22 +78,22 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
             title: __('Personal information'),
             url: '/shipping',
             render: this.renderShippingStep.bind(this),
-            areTotalsVisible: true
+            areTotalsVisible: true,
         },
         [CheckoutSteps.BILLING_STEP]: {
             number: 2,
             title: __('Payment'),
             url: '/billing',
             render: this.renderBillingStep.bind(this),
-            areTotalsVisible: true
+            areTotalsVisible: true,
         },
         [CheckoutSteps.DETAILS_STEP]: {
             title: __('Thank you for your purchase!'),
             mobileTitle: __('Order details'),
             url: '/success',
             render: this.renderDetailsStep.bind(this),
-            areTotalsVisible: false
-        }
+            areTotalsVisible: false,
+        },
     };
 
     componentDidMount(): void {
@@ -120,7 +120,7 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
                 ? Page.CHECKOUT_SUCCESS
                 : Page.CHECKOUT,
             title: mobileTitle || title,
-            onBackClick: () => goBack()
+            onBackClick: () => goBack(),
         });
     }
 
@@ -180,7 +180,7 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
             onPasswordChange,
             isGuestEmailSaved,
             isSignedIn,
-            isVisibleEmailRequired
+            isVisibleEmailRequired,
         } = this.props;
         const isBilling = checkoutStep === CheckoutSteps.BILLING_STEP;
 
@@ -212,7 +212,7 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
             onShippingMethodSelect,
             onStoreSelect,
             selectedStoreAddress,
-            onChangeEmailRequired
+            onChangeEmailRequired,
         } = this.props;
 
         return (
@@ -242,7 +242,7 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
             paymentMethods = [],
             savePaymentInformation,
             selectedShippingMethod,
-            onChangeEmailRequired
+            onChangeEmailRequired,
         } = this.props;
 
         return (
@@ -267,8 +267,8 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
             email,
             billingAddress: {
                 firstname,
-                lastname
-            } = {}
+                lastname,
+            } = {},
         } = this.props;
 
         return (
@@ -290,9 +290,9 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
             totals: {
                 items = [],
                 prices: {
-                    coupon_code
-                } = {}
-            }
+                    coupon_code,
+                } = {},
+            },
         } = this.props;
 
         if (!items || items.length < 1 || checkoutStep !== CheckoutSteps.BILLING_STEP) {
@@ -340,7 +340,7 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
             checkoutTotals,
             checkoutStep,
             paymentTotals,
-            isMobile
+            isMobile,
         } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
@@ -372,8 +372,8 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
 
         const {
             checkout_content: {
-                [isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms']: promo
-            } = {}
+                [isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms']: promo,
+            } = {},
         } = window.contentConfiguration || {};
 
         if (!promo) {
@@ -395,8 +395,8 @@ export class Checkout extends PureComponent<CheckoutComponentProps> {
             isInStoreActivated,
             shippingMethods,
             totals: {
-                is_in_store_pickup_available: isInStorePickupAvailable
-            }
+                is_in_store_pickup_available: isInStorePickupAvailable,
+            },
         } = this.props;
 
         if (checkoutStep !== CheckoutSteps.SHIPPING_STEP || !isInStoreActivated) {

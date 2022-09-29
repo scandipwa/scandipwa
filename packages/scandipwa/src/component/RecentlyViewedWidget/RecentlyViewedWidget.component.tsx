@@ -31,7 +31,7 @@ export class RecentlyViewedWidget extends Component<RecentlyViewedWidgetComponen
         const { products, pageSize } = this.props;
         const {
             products: nextProducts,
-            pageSize: nextPageSize
+            pageSize: nextPageSize,
         } = nextProps;
 
         return products !== nextProducts || pageSize !== nextPageSize;
@@ -69,7 +69,7 @@ export class RecentlyViewedWidget extends Component<RecentlyViewedWidgetComponen
             // !FIXME: Possible obsolete code. selectedFilters is always undefined and doesn't exist in type.
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            selectedFilters
+            selectedFilters,
         } = product;
 
         return (

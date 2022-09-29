@@ -16,12 +16,12 @@ import { RootState } from 'Util/Store/Store.type';
 import TranslateOnCursorMove from './TranslateOnCursorMove.component';
 import {
     TranslateOnCursorMoveMapDispatchProps,
-    TranslateOnCursorMoveMapStateProps
+    TranslateOnCursorMoveMapStateProps,
 } from './TranslateOnCursorMove.type';
 
 /** @namespace Component/TranslateOnCursorMove/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): TranslateOnCursorMoveMapStateProps => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/TranslateOnCursorMove/Container/mapDispatchToProps */

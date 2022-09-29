@@ -15,7 +15,7 @@ import {
     createRef,
     KeyboardEvent,
     MouseEvent,
-    PureComponent
+    PureComponent,
 } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
@@ -39,7 +39,7 @@ export class SearchField extends PureComponent<SearchFieldComponentProps> {
         isVisible: true,
         isActive: true,
         searchCriteria: '',
-        hideActiveOverlay: noopFn
+        hideActiveOverlay: noopFn,
     };
 
     searchBarRef = createRef<HTMLInputElement>();
@@ -108,7 +108,7 @@ export class SearchField extends PureComponent<SearchFieldComponentProps> {
               onClick={ this.onClearSearchButtonClick }
               mods={ {
                   type: 'searchClear',
-                  isVisible
+                  isVisible,
               } }
               aria-label="Clear search"
             />
@@ -124,7 +124,7 @@ export class SearchField extends PureComponent<SearchFieldComponentProps> {
             searchCriteria,
             onSearchBarFocus,
             isActive,
-            device
+            device,
         } = this.props;
 
         return (
@@ -190,7 +190,7 @@ export class SearchField extends PureComponent<SearchFieldComponentProps> {
     render(): ReactElement {
         const {
             isVisible,
-            isActive
+            isActive,
         } = this.props;
 
         return (

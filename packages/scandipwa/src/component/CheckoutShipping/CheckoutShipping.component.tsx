@@ -30,13 +30,13 @@ import './CheckoutShipping.style';
 /** @namespace Component/CheckoutShipping/Component */
 export class CheckoutShipping extends PureComponent<CheckoutShippingComponentProps> {
     static defaultProps: Partial<CheckoutShippingComponentProps> = {
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
     };
 
     renderOrderTotalExclTax(): ReactElement {
         const {
             cartTotalSubPrice,
-            totals: { prices: { quote_currency_code = null } = {} }
+            totals: { prices: { quote_currency_code = null } = {} },
         } = this.props;
 
         if (!cartTotalSubPrice) {
@@ -63,11 +63,11 @@ export class CheckoutShipping extends PureComponent<CheckoutShippingComponentPro
             totals: {
                 prices: {
                     grand_total: {
-                        value: grand_total = 0
+                        value: grand_total = 0,
                     } = {},
-                    quote_currency_code = null
-                } = {}
-            }
+                    quote_currency_code = null,
+                } = {},
+            },
         } = this.props;
 
         if (!grand_total) {
@@ -116,7 +116,7 @@ export class CheckoutShipping extends PureComponent<CheckoutShippingComponentPro
             shippingMethods,
             onStoreSelect,
             onShippingMethodSelect,
-            totals: { items }
+            totals: { items },
         } = this.props;
 
         return (
@@ -135,7 +135,7 @@ export class CheckoutShipping extends PureComponent<CheckoutShippingComponentPro
             shippingMethods,
             onShippingMethodSelect,
             handleSelectDeliveryMethod,
-            selectedShippingMethod
+            selectedShippingMethod,
         } = this.props;
 
         return (
@@ -152,7 +152,7 @@ export class CheckoutShipping extends PureComponent<CheckoutShippingComponentPro
         const {
             onAddressSelect,
             onShippingEstimationFieldsChange,
-            isSubmitted
+            isSubmitted,
         } = this.props;
 
         return (
@@ -186,13 +186,13 @@ export class CheckoutShipping extends PureComponent<CheckoutShippingComponentPro
     render(): ReactElement {
         const {
             onShippingSuccess,
-            onShippingError
+            onShippingError,
         } = this.props;
 
         return (
             <Form
               attr={ {
-                  id: CheckoutSteps.SHIPPING_STEP
+                  id: CheckoutSteps.SHIPPING_STEP,
               } }
               onSubmit={ onShippingSuccess }
               onError={ onShippingError }

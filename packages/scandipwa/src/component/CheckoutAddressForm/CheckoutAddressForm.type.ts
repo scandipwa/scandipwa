@@ -12,7 +12,7 @@
 import {
     MyAccountAddressFormComponentProps,
     MyAccountAddressFormContainerProps,
-    MyAccountAddressFormContainerPropsKeys
+    MyAccountAddressFormContainerPropsKeys,
 } from 'Component/MyAccountAddressForm/MyAccountAddressForm.type';
 import { EstimateAddress } from 'Route/Checkout/Checkout.type';
 

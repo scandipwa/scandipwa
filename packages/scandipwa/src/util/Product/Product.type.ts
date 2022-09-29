@@ -26,7 +26,7 @@ import {
     ProductReview,
     ProductStockItem,
     RatingsBreakdown,
-    SwatchData
+    SwatchData,
 } from 'Query/ProductList.type';
 import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { Merge } from 'Type/Common.type';
@@ -36,7 +36,7 @@ import { DateRangeAttribute, YearRangeAttribute } from 'Util/Form/Form.type';
 export enum QtyFields {
     SALABLE_QTY = 'salable_qty',
     MIN_SALE_QTY = 'min_sale_qty',
-    MAX_SALE_QTY = 'max_sale_qty'
+    MAX_SALE_QTY = 'max_sale_qty',
 }
 
 export const DEFAULT_MIN_PRODUCTS = 1;

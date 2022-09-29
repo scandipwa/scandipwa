@@ -20,7 +20,7 @@ import './CartIcon.style';
 /** @namespace Component/CartIcon/Component */
 export class CartIcon extends PureComponent<CartIconComponentProps> {
     static defaultProps: Partial<CartIconComponentProps> = {
-        isActive: false
+        isActive: false,
     };
 
     render(): ReactElement {

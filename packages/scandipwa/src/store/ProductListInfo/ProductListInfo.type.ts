@@ -12,12 +12,12 @@
 import { AnyAction } from 'redux';
 
 import {
-    AggregationOption, ProductAttributeFilterOptions, ProductsQueryOutput, SortFields
+    AggregationOption, ProductAttributeFilterOptions, ProductsQueryOutput, SortFields,
 } from 'Query/ProductList.type';
 
 export enum ProductListInfoActionType {
     UPDATE_PRODUCT_LIST_INFO = 'UPDATE_PRODUCT_LIST_INFO',
-    UPDATE_INFO_LOAD_STATUS = 'UPDATE_INFO_LOAD_STATUS'
+    UPDATE_INFO_LOAD_STATUS = 'UPDATE_INFO_LOAD_STATUS',
 }
 
 export interface UpdateProductListInfoAction extends AnyAction {

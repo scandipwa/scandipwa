@@ -20,7 +20,7 @@ import './MenuIcon.style';
 /** @namespace Component/MenuIcon/Component */
 export class MenuIcon extends PureComponent<MenuIconComponentProps> {
     static defaultProps: Partial<MenuIconComponentProps> = {
-        isActive: false
+        isActive: false,
     };
 
     render(): ReactElement {

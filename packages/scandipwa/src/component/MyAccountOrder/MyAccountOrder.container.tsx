@@ -35,7 +35,7 @@ import {
     MyAccountOrderContainerMapStateProps,
     MyAccountOrderContainerProps,
     MyAccountOrderContainerPropsKeys,
-    MyAccountOrderContainerState
+    MyAccountOrderContainerState,
 } from './MyAccountOrder.type';
 
 export const OrderDispatcher = import(
@@ -48,42 +48,42 @@ export const mapStateToProps = (state: RootState): MyAccountOrderContainerMapSta
     display_tax_in_shipping_amount: state.ConfigReducer.cartDisplayConfig.display_tax_in_shipping_amount,
     is_allowed_reorder: state.ConfigReducer.is_allowed_reorder,
     rss_order_subscribe_allow: state.ConfigReducer.rss_order_subscribe_allow,
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/MyAccountOrder/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     getOrderById: (orderId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getOrderById(dispatch, orderId)
+        ({ default: dispatcher }) => dispatcher.getOrderById(dispatch, orderId),
     ),
     reorder: (incrementId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.reorder(dispatch, incrementId)
+        ({ default: dispatcher }) => dispatcher.reorder(dispatch, incrementId),
     ),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE))
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE)),
 });
 
 /** @namespace Component/MyAccountOrder/Container */
 export class MyAccountOrderContainer<
 Props extends MyAccountOrderContainerProps = MyAccountOrderContainerProps,
-State extends MyAccountOrderContainerState = MyAccountOrderContainerState
+State extends MyAccountOrderContainerState = MyAccountOrderContainerState,
 > extends PureComponent<Props, State> {
     static defaultProps: Partial<MyAccountOrderContainerProps> = {
         is_allowed_reorder: false,
         changeTabName: noopFn,
-        setTabSubheading: noopFn
+        setTabSubheading: noopFn,
     };
 
     public state: State = {
         order: {},
         isLoading: true,
-        activeTab: OrderTabs.ORDER_ITEMS
+        activeTab: OrderTabs.ORDER_ITEMS,
     } as State;
 
     containerFunctions: MyAccountOrderContainerFunctions = {
         handleReorder: this.handleReorder.bind(this),
-        handleChangeActiveTab: this.handleChangeActiveTab.bind(this)
+        handleChangeActiveTab: this.handleChangeActiveTab.bind(this),
     };
 
     __construct(props: MyAccountOrderContainerProps): void {
@@ -113,7 +113,7 @@ State extends MyAccountOrderContainerState = MyAccountOrderContainerState
             is_allowed_reorder,
             rss_order_subscribe_allow,
             setTabSubheading,
-            isMobile
+            isMobile,
         } = this.props;
 
         return {
@@ -125,8 +125,8 @@ State extends MyAccountOrderContainerState = MyAccountOrderContainerState
             setTabSubheading,
             isMobile,
             order: {
-                ...stateOrder
-            } as OrderItem
+                ...stateOrder,
+            } as OrderItem,
         };
     }
 
@@ -153,7 +153,7 @@ State extends MyAccountOrderContainerState = MyAccountOrderContainerState
         changeHeaderState({
             name: Page.CUSTOMER_ORDER,
             title: __('Order'),
-            onBackClick: () => history.goBack()
+            onBackClick: () => history.goBack(),
         });
     }
 
@@ -161,7 +161,7 @@ State extends MyAccountOrderContainerState = MyAccountOrderContainerState
         const {
             getOrderById,
             changeTabName,
-            setTabSubheading
+            setTabSubheading,
         } = this.props;
 
         if (!isSignedIn()) {

@@ -34,7 +34,7 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
         onCartItemLoading: undefined,
         currencyCode: undefined,
         cartTotalSubPrice: null,
-        minimumOrderAmountReached: true
+        minimumOrderAmountReached: true,
     };
 
     componentDidMount(): void {
@@ -56,10 +56,10 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
             totals: {
                 items = [],
                 prices: {
-                    quote_currency_code
-                } = {}
+                    quote_currency_code,
+                } = {},
             },
-            onCartItemLoading
+            onCartItemLoading,
         } = this.props;
 
         if (items.length < 1) {
@@ -109,10 +109,10 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
             totals: {
                 prices: {
                     grand_total: {
-                        value: grand_total = 0
-                    } = {}
-                } = {}
-            }
+                        value: grand_total = 0,
+                    } = {},
+                } = {},
+            },
         } = this.props;
 
         return (
@@ -133,12 +133,12 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
         const {
             totals: {
                 prices: {
-                    applied_taxes = []
-                } = {}
+                    applied_taxes = [],
+                } = {},
             },
             cartDisplaySettings: {
-                display_zero_tax_subtotal
-            } = {}
+                display_zero_tax_subtotal,
+            } = {},
         } = this.props;
 
         if (!applied_taxes[0]?.amount?.value && !display_zero_tax_subtotal) {
@@ -170,9 +170,9 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
                 prices: {
                     applied_rule_ids,
                     coupon_code = '',
-                    discount
-                } = {}
-            }
+                    discount,
+                } = {},
+            },
         } = this.props;
 
         const { amount: { value: discount_amount = 0 } = {} } = discount || {};
@@ -201,7 +201,7 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
         const {
             handleCheckoutClick,
             minimumOrderAmountReached,
-            hasOutOfStockProductsInCart
+            hasOutOfStockProductsInCart,
         } = this.props;
 
         return (
@@ -258,8 +258,8 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
     renderPromo(): ReactElement {
         const {
             minicart_content: {
-                minicart_cms = ''
-            } = {}
+                minicart_cms = '',
+            } = {},
         } = window.contentConfiguration || {};
 
         if (minicart_cms) {

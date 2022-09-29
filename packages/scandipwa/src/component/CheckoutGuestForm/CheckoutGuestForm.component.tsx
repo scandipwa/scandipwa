@@ -16,7 +16,7 @@ import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
 import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
 import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuccess';
 import {
-    MyAccountPageState
+    MyAccountPageState,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import MyAccountSignIn from 'Component/MyAccountSignIn';
 import { ReactElement } from 'Type/Common.type';
@@ -40,28 +40,28 @@ export class CheckoutGuestForm extends FieldForm<CheckoutGuestFormComponentProps
     renderMap: Record<MyAccountPageState | '', CheckoutGuestFormRenderMapItem> = {
         [MyAccountPageState.STATE_SIGN_IN]: {
             render: (): ReactElement => this.renderSignIn(),
-            title: __('Sign in to your account')
+            title: __('Sign in to your account'),
         },
         [MyAccountPageState.STATE_FORGOT_PASSWORD]: {
             render: (): ReactElement => this.renderForgotPassword(),
-            title: __('Get password link')
+            title: __('Get password link'),
         },
         [MyAccountPageState.STATE_FORGOT_PASSWORD_SUCCESS]: {
-            render: (): ReactElement => this.renderForgotPasswordSuccess()
+            render: (): ReactElement => this.renderForgotPasswordSuccess(),
         },
         [MyAccountPageState.STATE_LOGGED_IN]: {
-            render: () => null
+            render: () => null,
         },
         [MyAccountPageState.STATE_CONFIRM_EMAIL]: {
             render: (): ReactElement => this.renderConfirmEmail(),
-            title: __('Confirm the email')
+            title: __('Confirm the email'),
         },
         [MyAccountPageState.STATE_CREATE_ACCOUNT]: {
-            render: () => null
+            render: () => null,
         },
         '': {
-            title: __('Enter personal information')
-        }
+            title: __('Enter personal information'),
+        },
     };
 
     fieldMap(): Partial<FieldContainerProps>[] {
@@ -71,19 +71,19 @@ export class CheckoutGuestForm extends FieldForm<CheckoutGuestFormComponentProps
             isCreateUser,
             emailValue,
             range,
-            minimumPasswordCharacter
+            minimumPasswordCharacter,
         } = this.props;
 
         return checkoutGuestForm({
             isCreateUser,
             emailValue,
             range,
-            minimumPasswordCharacter
+            minimumPasswordCharacter,
         }, {
             handleEmailInput,
             handlePasswordInput,
             range,
-            minimumPasswordCharacter
+            minimumPasswordCharacter,
         });
     }
 
@@ -92,7 +92,7 @@ export class CheckoutGuestForm extends FieldForm<CheckoutGuestFormComponentProps
 
         return {
             elemRef: formRef,
-            onError: onFormError
+            onError: onFormError,
         };
     }
 
@@ -115,7 +115,7 @@ export class CheckoutGuestForm extends FieldForm<CheckoutGuestFormComponentProps
             emailValue,
             handleEmailInput,
             setSignInState,
-            isLoading
+            isLoading,
         } = this.props;
 
         return (
@@ -153,7 +153,7 @@ export class CheckoutGuestForm extends FieldForm<CheckoutGuestFormComponentProps
             handleSignIn,
             handleCreateAccount,
             setSignInState,
-            setLoadingState
+            setLoadingState,
         } = this.props;
 
         return (
@@ -188,7 +188,7 @@ export class CheckoutGuestForm extends FieldForm<CheckoutGuestFormComponentProps
             handleForgotPassword,
             handleCreateAccount,
             setLoadingState,
-            onSignIn
+            onSignIn,
         } = this.props;
 
         return (

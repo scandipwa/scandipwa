@@ -14,21 +14,21 @@ import { Reducer } from 'redux';
 import {
     ContactFormActionType,
     ContactFormStore,
-    UpdateContactFormAction
+    UpdateContactFormAction,
 } from './ContactForm.type';
 
 export const initialState = {
-    isLoading: false
+    isLoading: false,
 };
 
 /** @namespace Store/ContactForm/Reducer/ContactFormReducer */
 export const ContactFormReducer: Reducer<ContactFormStore, UpdateContactFormAction> = (
     state = initialState,
-    action
+    action,
 ) => {
     const {
         type,
-        data
+        data,
     } = action;
 
     switch (type) {

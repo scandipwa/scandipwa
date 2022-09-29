@@ -32,7 +32,7 @@ export class ContactFormQuery {
 
     _addSendContactFormMutationArguments(
         mutation: Mutation<'contactForm', NetworkError>,
-        options: GQLContactForm
+        options: GQLContactForm,
     ): Mutation<'contactForm', NetworkError> {
         return mutation.addArgument('contact', 'ContactForm!', options);
     }

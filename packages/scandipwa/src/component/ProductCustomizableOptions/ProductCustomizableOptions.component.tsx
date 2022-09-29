@@ -28,7 +28,7 @@ import './ProductCustomizableOptions.style';
  */
 export class ProductCustomizableOptions extends PureComponent<ProductCustomizableOptionsComponentProps> {
     static defaultProps: Partial<ProductCustomizableOptionsComponentProps> = {
-        options: []
+        options: [],
     };
 
     renderOptionGroup(group: IndexedCustomOption): ReactElement {
@@ -37,7 +37,7 @@ export class ProductCustomizableOptions extends PureComponent<ProductCustomizabl
             value,
             type,
             required,
-            uid
+            uid,
         } = group;
 
         const { updateSelectedValues } = this.props;

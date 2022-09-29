@@ -24,7 +24,7 @@ export class CarouselScrollItem extends PureComponent<CarouselScrollItemComponen
             isActive,
             itemRef,
             onClick,
-            children
+            children,
         } = this.props;
 
         return (

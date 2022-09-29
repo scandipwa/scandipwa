@@ -61,7 +61,7 @@ export class Field {
         this.args.push({
             name,
             type,
-            value
+            value,
         });
 
         return this;

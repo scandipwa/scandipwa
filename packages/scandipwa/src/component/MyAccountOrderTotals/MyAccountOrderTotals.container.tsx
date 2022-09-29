@@ -24,14 +24,14 @@ import {
     MyAccountOrderTotalsContainerMapStateProps,
     MyAccountOrderTotalsContainerProps,
     MyAccountOrderTotalsContainerPropsKeys,
-    MyAccountOrderTotalsContainerState
+    MyAccountOrderTotalsContainerState,
 } from './MyAccountOrderTotals.type';
 
 import './MyAccountOrderTotals.style';
 
 /** @namespace Component/MyAccountOrderTotals/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountOrderTotalsContainerMapStateProps => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/MyAccountOrderTotals/Container/mapDispatchToProps */
@@ -65,12 +65,12 @@ MyAccountOrderTotalsContainerProps, MyAccountOrderTotalsContainerState
 
     getColSpanCounts(
         activeTab: OrderTabs,
-        isMobile: boolean
+        isMobile: boolean,
     ): Pick<MyAccountOrderTotalsContainerState, 'colSpanLabelCount' | 'colSpanPriceCount'> {
         if (isMobile) {
             const defaultSpanCount = {
                 colSpanPriceCount: 2,
-                colSpanLabelCount: 3
+                colSpanLabelCount: 3,
             };
 
             if (activeTab !== OrderTabs.ORDER_REFUNDS) {
@@ -82,7 +82,7 @@ MyAccountOrderTotalsContainerProps, MyAccountOrderTotalsContainerState
 
         const defaultSpanCount = {
             colSpanPriceCount: 1,
-            colSpanLabelCount: 4
+            colSpanLabelCount: 4,
         };
 
         if (activeTab !== OrderTabs.ORDER_REFUNDS) {
@@ -100,7 +100,7 @@ MyAccountOrderTotalsContainerProps, MyAccountOrderTotalsContainerState
             total,
             activeTab,
             colSpanPriceCount,
-            colSpanLabelCount
+            colSpanLabelCount,
         };
     }
 

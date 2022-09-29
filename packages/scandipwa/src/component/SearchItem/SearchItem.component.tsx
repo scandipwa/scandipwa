@@ -28,7 +28,7 @@ export class SearchItem extends PureComponent<SearchItemComponentProps> {
         linkTo: { pathname: '' },
         imgSrc: '',
         customAttribute: null,
-        product: {}
+        product: {},
     };
 
     renderCustomAttribute(): ReactElement {
@@ -67,7 +67,7 @@ export class SearchItem extends PureComponent<SearchItemComponentProps> {
     renderImage(): ReactElement {
         const {
             product: { name },
-            imgSrc
+            imgSrc,
         } = this.props;
 
         if (name && !imgSrc) {

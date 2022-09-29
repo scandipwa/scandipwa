@@ -37,11 +37,11 @@ export class CategoryDispatcher extends QueryDispatcher<CategoryQueryOptions, Ca
     onSuccess(
         data: CategoryDispatcherData,
         dispatch: Dispatch,
-        { isSearchPage }: CategoryQueryOptions
+        { isSearchPage }: CategoryQueryOptions,
     ): void {
         const {
             category,
-            category: { id }
+            category: { id },
         } = data;
 
         if (!id && !isSearchPage) {
@@ -57,13 +57,13 @@ export class CategoryDispatcher extends QueryDispatcher<CategoryQueryOptions, Ca
             dispatch(showNotification(NotificationType.ERROR, __('Error fetching Category!'), error));
         } else {
             dispatch(updateCurrentCategory({
-                id: 'all-products'
+                id: 'all-products',
             }));
         }
     }
 
     prepareRequest(
-        options: CategoryQueryOptions
+        options: CategoryQueryOptions,
     ): Query<'category', Category, false> {
         return CategoryQuery.getQuery(options);
     }

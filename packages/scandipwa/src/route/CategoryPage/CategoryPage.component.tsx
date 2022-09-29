@@ -33,7 +33,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import {
     CategoryDisplayMode,
     CategoryPageLayout,
-    LAYOUT_KEY
+    LAYOUT_KEY,
 } from './CategoryPage.config';
 import { CategoryPageComponentProps, CategoryPageComponentState } from './CategoryPage.type';
 
@@ -46,7 +46,7 @@ export const CategoryFilterOverlay = lazy(() => import(
 /** @namespace Route/CategoryPage/Component */
 export class CategoryPage<
 P extends CategoryPageComponentProps = CategoryPageComponentProps,
-S extends CategoryPageComponentState = CategoryPageComponentState
+S extends CategoryPageComponentState = CategoryPageComponentState,
 > extends PureComponent<P, S> {
     static defaultProps: Partial<CategoryPageComponentProps> = {
         isContentFiltered: true,
@@ -58,7 +58,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
         plpTypes: [],
         search: '',
         appliedFiltersCount: 0,
-        selectedLayoutType: undefined
+        selectedLayoutType: undefined,
     };
 
     __construct(props: CategoryPageComponentProps): void {
@@ -66,7 +66,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
         this.onFilterButtonClick = this.onFilterButtonClick.bind(this);
 
         this.state = {
-            activeLayoutType: undefined
+            activeLayoutType: undefined,
         } as S;
     }
 
@@ -74,7 +74,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
         const {
             isMobile,
             defaultPlpType,
-            selectedLayoutType
+            selectedLayoutType,
         } = props;
 
         /*
@@ -107,8 +107,8 @@ S extends CategoryPageComponentState = CategoryPageComponentState
     displayProducts(): boolean {
         const {
             category: {
-                display_mode = CategoryDisplayMode.PRODUCTS
-            } = {}
+                display_mode = CategoryDisplayMode.PRODUCTS,
+            } = {},
         } = this.props;
 
         return display_mode === null
@@ -126,7 +126,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
     renderCategoryDetails(): ReactElement {
         const {
             category,
-            isCurrentCategoryLoaded
+            isCurrentCategoryLoaded,
         } = this.props;
 
         return (
@@ -158,7 +158,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
             category: { is_anchor },
             isSearchPage,
             isCurrentCategoryLoaded,
-            isMatchingInfoFilter
+            isMatchingInfoFilter,
 
         } = this.props;
 
@@ -227,7 +227,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
             filters,
             selectedFilters,
             isMatchingInfoFilter,
-            isSearchPage
+            isSearchPage,
         } = this.props;
 
         const { category: { is_anchor } } = this.props;
@@ -257,7 +257,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
             onSortChange,
             isMatchingInfoFilter,
             isCurrentCategoryLoaded,
-            isMobile
+            isMobile,
         } = this.props;
 
         const { options = [] } = sortFields;
@@ -283,7 +283,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
     renderLayoutButton(type: CategoryPageLayout): ReactElement {
         const {
             onGridButtonClick,
-            onListButtonClick
+            onListButtonClick,
         } = this.props;
 
         const { activeLayoutType } = this.state;
@@ -296,7 +296,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
                       onClick={ onGridButtonClick }
                       mix={ {
                           block: CategoryPageLayout.GRID,
-                          mods: { isActive: activeLayoutType === CategoryPageLayout.GRID }
+                          mods: { isActive: activeLayoutType === CategoryPageLayout.GRID },
                       } }
                       aria-label="grid"
                     >
@@ -310,7 +310,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
                       onClick={ onListButtonClick }
                       mix={ {
                           block: CategoryPageLayout.LIST,
-                          mods: { isActive: activeLayoutType === CategoryPageLayout.LIST }
+                          mods: { isActive: activeLayoutType === CategoryPageLayout.LIST },
                       } }
                       aria-label="list"
                     >
@@ -362,7 +362,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
             selectedFilters,
             isMatchingListFilter,
             isCurrentCategoryLoaded,
-            isMatchingInfoFilter
+            isMatchingInfoFilter,
         } = this.props;
 
         const { activeLayoutType } = this.state;
@@ -471,7 +471,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState
                   wrapperMix={ {
                       block: 'CategoryPage',
                       elem: 'Wrapper',
-                      mods: { hideProducts }
+                      mods: { hideProducts },
                   } }
                   label="Category page"
                 >

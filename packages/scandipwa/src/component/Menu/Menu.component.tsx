@@ -72,7 +72,7 @@ export class Menu extends PureComponent<MenuComponentProps> {
 
         const isLogo = item_class === 'Menu-ItemFigure_type_logo';
         const mods = {
-            isLogo: !!isLogo
+            isLogo: !!isLogo,
         };
 
         return (
@@ -102,7 +102,7 @@ export class Menu extends PureComponent<MenuComponentProps> {
             activeMenuItemsStack,
             onCategoryHover,
             closeMenu,
-            device
+            device,
         } = this.props;
 
         const { item_id, children } = item;
@@ -265,7 +265,7 @@ export class Menu extends PureComponent<MenuComponentProps> {
             handleSubcategoryClick,
             onCategoryHover,
             closeMenu,
-            device
+            device,
         } = this.props;
 
         const { children, item_id } = item;

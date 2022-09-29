@@ -25,7 +25,7 @@ Props
     defaultStateName = DEFAULT_STATE_NAME;
 
     stateMap: Record<string, Record<string, boolean>> = {
-        [DEFAULT_STATE_NAME]: {}
+        [DEFAULT_STATE_NAME]: {},
     };
 
     renderMap: Record<string, (isVisible?: boolean, key?: string) => ReactElement> = {};
@@ -43,7 +43,7 @@ Props
         // Return defined render methods for current page/state
         // * Don't render methods which ids are passed inside hiddenElements
         return renderMapEntries.map(
-            ([key, renderFunction]) => renderFunction(source[key] && !hiddenElements.includes(key), key)
+            ([key, renderFunction]) => renderFunction(source[key] && !hiddenElements.includes(key), key),
         );
     }
 

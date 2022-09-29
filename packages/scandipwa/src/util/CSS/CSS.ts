@@ -27,12 +27,12 @@ export class CSS {
     static setVariable(
         ref: React.RefObject<HTMLElement>,
         name: string,
-        value: string | number | null
+        value: string | number | null,
     ): void {
         if (ref && ref.current) {
             ref.current.style.setProperty(
                 `--${name}`,
-                value === null ? null : String(value)
+                value === null ? null : String(value),
             );
         }
     }
@@ -40,7 +40,7 @@ export class CSS {
 
 /** @namespace Util/CSS/getElementHeight */
 export const getElementHeight = (id: string): number => Array.from(
-    document.getElementsByClassName(id)
+    document.getElementsByClassName(id),
 ).reduce((acc, item) => {
     const { offsetHeight } = item as HTMLElement;
 
@@ -55,7 +55,7 @@ export const getFixedElementHeight = (): Record<string, number> => {
     return {
         total: top + bottom,
         top,
-        bottom
+        bottom,
     };
 };
 

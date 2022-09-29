@@ -48,7 +48,7 @@ export class PasswordChangePage extends PureComponent<PasswordChangePageComponen
             isMobile,
             onPasswordSuccess,
             shouldDisplayWarning,
-            minimunPasswordCharacter
+            minimunPasswordCharacter,
         } = this.props;
 
         if (shouldDisplayWarning) {

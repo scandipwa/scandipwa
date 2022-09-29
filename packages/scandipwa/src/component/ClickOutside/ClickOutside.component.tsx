@@ -15,7 +15,7 @@ import {
     createRef,
     PureComponent,
     ReactElement as RReactElement,
-    RefObject
+    RefObject,
 } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
@@ -29,7 +29,7 @@ export class ClickOutside extends PureComponent<ClickOutsideComponentProps> {
 
     static defaultProps: Partial<ClickOutsideComponentProps> = {
         onClick: noopFn,
-        children: []
+        children: [],
     };
 
     __construct(props: ClickOutsideComponentProps): void {
@@ -41,7 +41,7 @@ export class ClickOutside extends PureComponent<ClickOutsideComponentProps> {
 
         this.childrenRefs = Children.map(
             children,
-            () => createRef<HTMLElement>()
+            () => createRef<HTMLElement>(),
         ) || [];
     }
 
@@ -63,7 +63,7 @@ export class ClickOutside extends PureComponent<ClickOutsideComponentProps> {
                 )?.overlayRef?.current || ref.current;
 
                 return !elementRef?.contains(target as HTMLElement);
-            }
+            },
         )) {
             onClick();
         }

@@ -29,7 +29,7 @@ export class StoreInPickUpPopupComponent extends PureComponent<StoreInPickUpPopu
     static defaultProps: Partial<StoreInPickUpPopupComponentProps> = {
         stores: [],
         storeSearchCriteria: '',
-        isLoading: true
+        isLoading: true,
     };
 
     renderNoResult(): ReactElement {
@@ -49,7 +49,7 @@ export class StoreInPickUpPopupComponent extends PureComponent<StoreInPickUpPopu
             selectedCountryId,
             handleChangeCountry,
             setStoreSearchCriteria,
-            storeSearchCriteria
+            storeSearchCriteria,
         } = this.props;
 
         return (
@@ -59,10 +59,10 @@ export class StoreInPickUpPopupComponent extends PureComponent<StoreInPickUpPopu
                   attr={ {
                       id: 'country_id',
                       name: 'country_id',
-                      defaultValue: selectedCountryId
+                      defaultValue: selectedCountryId,
                   } }
                   events={ {
-                      onChange: handleChangeCountry
+                      onChange: handleChangeCountry,
                   } }
                   options={ countries.map(({ id, label }) => ({ id, label, value: id })) }
                   mix={ { block: 'StoreInPickUpPopup', elem: 'Input' } }
@@ -73,10 +73,10 @@ export class StoreInPickUpPopupComponent extends PureComponent<StoreInPickUpPopu
                       id: 'store-finder',
                       name: 'store-finder',
                       defaultValue: storeSearchCriteria,
-                      placeholder: __('City or Postcode')
+                      placeholder: __('City or Postcode'),
                   } }
                   events={ {
-                      onChange: setStoreSearchCriteria
+                      onChange: setStoreSearchCriteria,
                   } }
                   mix={ { block: 'StoreInPickUpPopup', elem: 'Input' } }
                 />

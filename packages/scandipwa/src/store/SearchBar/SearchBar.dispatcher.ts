@@ -52,7 +52,7 @@ SearchBarDispatcherData
         return ProductListQuery.getQuery({
             ...options,
             notRequireInfo: true,
-            noVariants: true
+            noVariants: true,
         });
     }
 }

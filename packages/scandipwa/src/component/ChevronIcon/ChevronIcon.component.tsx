@@ -21,7 +21,7 @@ import './ChevronIcon.style';
 /** @namespace Component/ChevronIcon/Component */
 export class ChevronIcon extends PureComponent<ChevronIconComponentProps> {
     static defaultProps: Partial<ChevronIconComponentProps> = {
-        direction: Directions.RIGHT
+        direction: Directions.RIGHT,
     };
 
     render(): ReactElement {

@@ -26,7 +26,7 @@ import './ContactPage.style';
 /** @namespace Route/ContactPage/Component */
 export class ContactPage extends PureComponent<ContactPageComponentProps> {
     static defaultProps: Partial<ContactPageComponentProps> = {
-        isLoading: false
+        isLoading: false,
     };
 
     renderHeading(): ReactElement {
@@ -46,8 +46,8 @@ export class ContactPage extends PureComponent<ContactPageComponentProps> {
     renderCmsBlock(): ReactElement {
         const {
             contact_us_content: {
-                contact_us_cms_block = DEFAULT_CONTACT_US_CMS_BLOCK
-            } = {}
+                contact_us_cms_block = DEFAULT_CONTACT_US_CMS_BLOCK,
+            } = {},
         } = window.contentConfiguration || {};
 
         return <CmsBlock identifier={ contact_us_cms_block } />;

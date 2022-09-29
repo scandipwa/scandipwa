@@ -54,7 +54,7 @@ export class ShareWishlistForm extends FieldForm<ShareWishlistFormComponentProps
 
     getFormProps(): Partial<FormContainerProps> {
         return {
-            onSubmit: this.onFormSuccess
+            onSubmit: this.onFormSuccess,
         };
     }
 }

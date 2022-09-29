@@ -36,7 +36,7 @@ import {
     CmsPageContainerMapStateProps,
     CmsPageContainerProps,
     CmsPageContainerPropsKeys,
-    CmsPageContainerState
+    CmsPageContainerState,
 } from './CmsPage.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -46,23 +46,23 @@ export const BreadcrumbsDispatcher = import(
 
 /** @namespace Route/CmsPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CmsPageContainerMapStateProps => ({
-    isOffline: state.OfflineReducer.isOffline
+    isOffline: state.OfflineReducer.isOffline,
 });
 
 /** @namespace Route/CmsPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CmsPageContainerDispatchStateProps => ({
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs, dispatch)
+        ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs, dispatch),
     ),
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (isActive) => {
         BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update([], dispatch)
+            ({ default: dispatcher }) => dispatcher.update([], dispatch),
         );
         dispatch(toggleBreadcrumbs(isActive));
-    }
+    },
 });
 
 /** @namespace Route/CmsPage/Container */
@@ -71,13 +71,13 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
         pageIds: -1,
         pageIdentifiers: '',
         isOnlyPlaceholder: false,
-        isBreadcrumbsActive: true
+        isBreadcrumbsActive: true,
     };
 
     state: CmsPageContainerState = {
         page: {},
         isLoading: true,
-        isPageLoaded: false
+        isPageLoaded: false,
     };
 
     __construct(props: CmsPageContainerProps): void {
@@ -94,7 +94,7 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
     updateBreadcrumbs(): void {
         const {
             toggleBreadcrumbs,
-            isBreadcrumbsActive
+            isBreadcrumbsActive,
         } = this.props;
 
         toggleBreadcrumbs(isBreadcrumbsActive);
@@ -111,14 +111,14 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
             isBreadcrumbsActive,
             isLoading,
             isPageLoaded,
-            page
+            page,
         };
     }
 
     componentDidMount(): void {
         const {
             isOffline,
-            isOnlyPlaceholder
+            isOnlyPlaceholder,
         } = this.props;
 
         scrollToTop();
@@ -138,13 +138,13 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
         const {
             currentUrl,
             pageIdentifiers,
-            pageIds
+            pageIds,
         } = this.props;
 
         const {
             currentUrl: prevCurrentUrl,
             pageIdentifiers: prevPageIdentifiers,
-            pageIds: prevPageIds
+            pageIds: prevPageIds,
         } = prevProps;
 
         if (
@@ -171,7 +171,7 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
         const {
             updateMeta,
             setHeaderState,
-            updateBreadcrumbs
+            updateBreadcrumbs,
         } = this.props;
         const { location: { pathname } } = history;
         const {
@@ -179,7 +179,7 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
             meta_title,
             title,
             meta_description,
-            meta_keywords
+            meta_keywords,
         } = page;
 
         debounce(this.setOfflineNoticeSize, LOADING_TIME)();
@@ -189,14 +189,14 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
             title: meta_title || title,
             description: meta_description,
             keywords: meta_keywords,
-            canonical_url: window.location.href
+            canonical_url: window.location.href,
         });
 
         if (!isHomePageUrl(pathname)) {
             setHeaderState({
                 name: Page.CMS_PAGE,
                 title: content_heading,
-                onBackClick: () => history.goBack()
+                onBackClick: () => history.goBack(),
             });
         }
 
@@ -207,7 +207,7 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
         const {
             match,
             pageIdentifiers: identifier,
-            pageIds: id
+            pageIds: id,
         } = this.props;
         const { location } = history;
 
@@ -222,7 +222,7 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
         const urlKey = getUrlParam(match, location);
 
         return {
-            identifier: urlKey
+            identifier: urlKey,
         };
     }
 
@@ -241,7 +241,7 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
             [CmsPageQuery.getQuery(params)],
             this.onPageLoad.bind(this),
             () => this.setState({ isLoading: false }),
-            isOffline
+            isOffline,
         );
     }
 

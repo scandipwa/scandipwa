@@ -26,7 +26,7 @@ export class GroupedProductList extends PureComponent<GroupedProductListComponen
     renderProductList(items: GroupedProductItem[]): ReactElement {
         const {
             quantity,
-            setQuantity
+            setQuantity,
         } = this.props;
 
         const sortedItems = items.sort(({ position }, { position: cmpPosition }) => position - cmpPosition);
@@ -48,7 +48,7 @@ export class GroupedProductList extends PureComponent<GroupedProductListComponen
 
     render(): ReactElement {
         const {
-            product: { items, type_id }
+            product: { items, type_id },
         } = this.props;
 
         if (type_id !== ProductType.GROUPED) {

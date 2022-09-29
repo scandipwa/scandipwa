@@ -18,5 +18,5 @@ export enum AttributeType {
     MULTISELECT = 'multiselect',
     MEDIA_IMAGE = 'media_image',
     TEXTAREA = 'textarea',
-    WEIGHT = 'weight'
+    WEIGHT = 'weight',
 }

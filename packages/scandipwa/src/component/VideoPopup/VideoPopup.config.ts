@@ -15,5 +15,5 @@ export const VIDEO_POPUP_ID = 'VIDEO_POPUP_ID';
  * An expression that checks for vimeo URLs described in https://developer.vimeo.com/api/oembed/videos#table-1 and matches the video id
  * @type {RegExp}
  */
-export const VIMEO_FORMAT = new RegExp('(?:https?//)?vimeo.com[\\w/]*/(\\d+)$');
-export const YOUTUBE_FORMAT = new RegExp('(?:https?//)?www.youtube.com/watch\\?v=([\\w\\-]+)');
+export const VIMEO_FORMAT = /(?:https?\/\/)?vimeo.com[\w/]*\/(\d+)$/;
+export const YOUTUBE_FORMAT = /(?:https?\/\/)?www.youtube.com\/watch\?v=([\w-]+)/;

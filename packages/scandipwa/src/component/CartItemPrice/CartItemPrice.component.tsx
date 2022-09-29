@@ -20,7 +20,7 @@ import { CartItemPriceComponentProps } from './CartItemPrice.type';
 /** @namespace Component/CartItemPrice/Component */
 export class CartItemPrice extends PureComponent<CartItemPriceComponentProps> {
     static defaultProps: Partial<CartItemPriceComponentProps> = {
-        subPrice: null
+        subPrice: null,
     };
 
     renderPrice(): ReactElement {

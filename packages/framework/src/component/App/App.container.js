@@ -6,24 +6,30 @@ import App from './App.component';
 export class AppContainer extends PureComponent {
     productionFunctions = [
         this.disableReactDevTools.bind(this),
-        this.injectComment.bind(this)
+        this.injectComment.bind(this),
     ];
 
     developmentFunctions = [];
 
     state = {
         isSomethingWentWrong: false,
-        errorDetails: {}
+        errorDetails: {},
     };
 
     containerFunctions = {
-        handleErrorReset: this.handleErrorReset.bind(this)
+        handleErrorReset: this.handleErrorReset.bind(this),
     };
+
+    __construct(props) {
+        super.__construct(props);
+
+        this.configureAppBasedOnEnvironment();
+    }
 
     componentDidCatch(err, info) {
         this.setState({
             isSomethingWentWrong: true,
-            errorDetails: { err, info }
+            errorDetails: { err, info },
         });
     }
 
@@ -34,19 +40,13 @@ export class AppContainer extends PureComponent {
     containerProps() {
         const {
             isSomethingWentWrong,
-            errorDetails
+            errorDetails,
         } = this.state;
 
         return {
             isSomethingWentWrong,
-            errorDetails
+            errorDetails,
         };
-    }
-
-    __construct(props) {
-        super.__construct(props);
-
-        this.configureAppBasedOnEnvironment();
     }
 
     injectComment() {

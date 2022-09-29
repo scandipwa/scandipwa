@@ -27,12 +27,12 @@ export class ContentWrapper extends PureComponent<ContentWrapperComponentProps> 
         mix: {},
         wrapperMix: {},
         children: null,
-        isNotSection: false
+        isNotSection: false,
     };
 
     renderContentWrapper(): ReactElement {
         const {
-            children, wrapperMix
+            children, wrapperMix,
         } = this.props;
 
         return (
@@ -46,7 +46,7 @@ export class ContentWrapper extends PureComponent<ContentWrapperComponentProps> 
         const {
             mix,
             label,
-            isNotSection
+            isNotSection,
         } = this.props;
 
         if (isNotSection) {

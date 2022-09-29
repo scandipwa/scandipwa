@@ -22,7 +22,7 @@ import './CheckoutAddressTable.style';
 export class CheckoutAddressTable extends MyAccountAddressTable<CheckoutAddressTableComponentProps> {
     static defaultProps: Partial<CheckoutAddressTableComponentProps> = {
         ...MyAccountAddressTable.defaultProps,
-        isSelected: false
+        isSelected: false,
     };
 
     __construct(props: CheckoutAddressTableComponentProps): void {

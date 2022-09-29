@@ -27,23 +27,23 @@ export class MyAccountCustomerTable extends KeyValueTable<MyAccountCustomerTable
             {
                 key: 'firstname',
                 label: __('First name'),
-                source: customer
+                source: customer,
             },
             {
                 key: 'lastname',
                 label: __('Last name'),
-                source: customer
+                source: customer,
             },
             {
                 key: 'taxvat',
                 label: __('Tax/VAT Number'),
-                source: customer
+                source: customer,
             },
             {
                 key: 'email',
                 label: __('Email'),
-                source: customer
-            }
+                source: customer,
+            },
         ];
     }
 

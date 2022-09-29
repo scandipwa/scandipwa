@@ -22,7 +22,7 @@ import './MyAccountTabListItem.style';
 export class MyAccountTabListItem extends PureComponent<MyAccountTabListItemComponentProps> {
     static defaultProps: Partial<MyAccountTabListItemComponentProps> = {
         isActive: false,
-        children: []
+        children: [],
     };
 
     __construct(props: MyAccountTabListItemComponentProps): void {

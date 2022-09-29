@@ -54,7 +54,7 @@ export class WishlistSharedPage extends SourceWishlist<WishlistSharedPageCompone
         const {
             isWishlistLoading,
             isWishlistEmpty,
-            isLoading
+            isLoading,
         } = this.props;
 
         if (isWishlistEmpty && !isWishlistLoading) {

@@ -38,7 +38,7 @@ export class FieldFile extends PureComponent<FieldFileComponentProps> {
             attr: { id = '', multiple = false } = {},
             fileName = '',
             isLoading = false,
-            resetFieldValue
+            resetFieldValue,
         } = this.props;
 
         if (isLoading) {
@@ -73,7 +73,7 @@ export class FieldFile extends PureComponent<FieldFileComponentProps> {
             attr = {},
             attr: { accept = '' } = {},
             events = {},
-            setRef
+            setRef,
         } = this.props;
 
         const allowedFieldTypes = (accept || '')

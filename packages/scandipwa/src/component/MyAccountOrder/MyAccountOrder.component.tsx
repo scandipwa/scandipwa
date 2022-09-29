@@ -26,7 +26,7 @@ import { convertStringToDate, getTimeInCurrentTimezone } from 'Util/Manipulation
 import { appendWithStoreCode } from 'Util/Url';
 
 import {
-    OrderTabs
+    OrderTabs,
 } from './MyAccountOrder.config';
 import { MyAccountOrderComponentProps, OrderRenderItems, OrderTab } from './MyAccountOrder.type';
 
@@ -34,17 +34,17 @@ import './MyAccountOrder.style';
 
 /** @namespace Component/MyAccountOrder/Component */
 export class MyAccountOrder<
-Props extends MyAccountOrderComponentProps = MyAccountOrderComponentProps
+Props extends MyAccountOrderComponentProps = MyAccountOrderComponentProps,
 > extends PureComponent<Props> {
     static defaultProps = {
         isLoading: true,
         handleReorder: noopFn,
-        handleChangeActiveTab: noopFn
+        handleChangeActiveTab: noopFn,
     };
 
     renderMap = {
         renderOrderItemsTable: this.renderOrderItemsTable.bind(this),
-        renderOrderCreditMemoTable: this.renderOrderCreditMemoTable.bind(this)
+        renderOrderCreditMemoTable: this.renderOrderCreditMemoTable.bind(this),
     };
 
     tabMap: Record<OrderTabs, OrderTab> = {
@@ -62,7 +62,7 @@ Props extends MyAccountOrderComponentProps = MyAccountOrderComponentProps
                 const { renderOrderItemsTable } = this.renderMap;
 
                 return renderArray.map(renderOrderItemsTable);
-            }
+            },
         },
         [OrderTabs.ORDER_INVOICES]: {
             tabName: OrderTabs.ORDER_INVOICES,
@@ -77,7 +77,7 @@ Props extends MyAccountOrderComponentProps = MyAccountOrderComponentProps
                 const { renderOrderItemsTable } = this.renderMap;
 
                 return invoices.map(renderOrderItemsTable);
-            }
+            },
         },
         [OrderTabs.ORDER_SHIPMENTS]: {
             tabName: OrderTabs.ORDER_SHIPMENTS,
@@ -92,7 +92,7 @@ Props extends MyAccountOrderComponentProps = MyAccountOrderComponentProps
                 const { renderOrderItemsTable } = this.renderMap;
 
                 return shipments.map(renderOrderItemsTable);
-            }
+            },
         },
         [OrderTabs.ORDER_REFUNDS]: {
             tabName: OrderTabs.ORDER_REFUNDS,
@@ -107,8 +107,8 @@ Props extends MyAccountOrderComponentProps = MyAccountOrderComponentProps
                 const { renderOrderCreditMemoTable } = this.renderMap;
 
                 return credit_memos.map(renderOrderCreditMemoTable);
-            }
-        }
+            },
+        },
     };
 
     shouldTabsRender(): OrderTab[] {
@@ -213,7 +213,7 @@ Props extends MyAccountOrderComponentProps = MyAccountOrderComponentProps
     renderActions(): ReactElement {
         const {
             handleChangeActiveTab,
-            activeTab
+            activeTab,
         } = this.props;
 
         return (

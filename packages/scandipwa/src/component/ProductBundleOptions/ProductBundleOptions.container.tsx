@@ -23,7 +23,7 @@ import { ProductBundleOptionsComponentProps, ProductBundleOptionsContainerProps 
  */
 export class ProductBundleOptionsContainer extends PureComponent<ProductBundleOptionsContainerProps> {
     static defaultProps: Partial<ProductBundleOptionsContainerProps> = {
-        options: []
+        options: [],
     };
 
     containerProps(): ProductBundleOptionsComponentProps {
@@ -31,7 +31,7 @@ export class ProductBundleOptionsContainer extends PureComponent<ProductBundleOp
 
         return {
             options,
-            updateSelectedValues
+            updateSelectedValues,
         };
     }
 

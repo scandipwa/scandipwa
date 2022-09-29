@@ -33,5 +33,5 @@ export enum Page {
     MY_ACCOUNT = 'my-account',
     NO_MATCH = 'no-match',
     CONTACT_US = 'contact-us',
-    PRODUCT_COMPARE = 'product-compare'
+    PRODUCT_COMPARE = 'product-compare',
 }

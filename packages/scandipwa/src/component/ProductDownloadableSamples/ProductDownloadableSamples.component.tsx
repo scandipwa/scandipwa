@@ -22,13 +22,13 @@ import './ProductDownloadableSamples.style';
 /** @namespace Component/ProductDownloadableSamples/Component */
 export class ProductDownloadableSamples extends PureComponent<ProductDownloadableSamplesComponentProps> {
     static defaultProps: Partial<ProductDownloadableSamplesComponentProps> = {
-        isOpenInNewTab: false
+        isOpenInNewTab: false,
     };
 
     renderDownloadableProductSampleItems(): ReactElement {
         const {
             samples,
-            isOpenInNewTab
+            isOpenInNewTab,
         } = this.props;
 
         return samples.map((item, i) => {

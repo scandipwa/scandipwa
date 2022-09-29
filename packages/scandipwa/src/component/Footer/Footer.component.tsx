@@ -33,32 +33,32 @@ export class Footer extends Component<FooterComponentProps> {
     static defaultProps: Partial<FooterComponentProps> = {
         copyright: '',
         isVisibleOnMobile: false,
-        onItemClick: noopFn
+        onItemClick: noopFn,
     };
 
     renderMap = {
         [RENDER_NEWSLETTER]: {
-            render: this.renderNewsletterSubscriptionBlock.bind(this)
-        }
+            render: this.renderNewsletterSubscriptionBlock.bind(this),
+        },
     };
 
     shouldComponentUpdate(nextProps: FooterComponentProps):boolean {
         const {
             device: {
-                isMobile
+                isMobile,
             },
             isVisibleOnMobile,
             copyright,
-            newsletterActive
+            newsletterActive,
         } = this.props;
 
         const {
             device: {
-                isMobile: nextIsMobile
+                isMobile: nextIsMobile,
             },
             isVisibleOnMobile: nextIsVisibleOnMobile,
             copyright: nextCopyright,
-            newsletterActive: nextNewsletterActive
+            newsletterActive: nextNewsletterActive,
         } = nextProps;
 
         return isMobile !== nextIsMobile
@@ -82,7 +82,7 @@ export class Footer extends Component<FooterComponentProps> {
 
     renderColumnItemLink(
         item: FooterRenderColumnItem,
-        i: number
+        i: number,
     ): ReactElement {
         const { onItemClick } = this.props;
         const { href = '/', src, title } = item;
@@ -118,7 +118,7 @@ export class Footer extends Component<FooterComponentProps> {
             columnActiveKey,
             items,
             isItemsHorizontal,
-            mods = {}
+            mods = {},
         } = column;
 
         const contentMods = isItemsHorizontal ? { direction: 'horizontal' } : {};
@@ -176,7 +176,7 @@ export class Footer extends Component<FooterComponentProps> {
                     <CmsBlock identifier={ footer_cms } />
                     { this.renderColumn({
                         ...NEWSLETTER_COLUMN,
-                        mods: { isNewsletter: true }
+                        mods: { isNewsletter: true },
                     }) }
                 </div>
             </div>

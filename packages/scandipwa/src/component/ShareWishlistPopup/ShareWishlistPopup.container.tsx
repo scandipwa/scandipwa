@@ -32,7 +32,7 @@ import {
     ShareWishlistPopupContainerMapStateProps,
     ShareWishlistPopupContainerProps,
     ShareWishlistPopupContainerPropsKeys,
-    ShareWishlistPopupContainerState
+    ShareWishlistPopupContainerState,
 } from './ShareWishlistPopup.type';
 
 /** @namespace Component/ShareWishlistPopup/Container/mapDispatchToProps */
@@ -40,7 +40,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): ShareWishlistPopupContai
     showNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     hidePopup: () => dispatch(showPopup('', {})),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE))
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
 });
 
 /** @namespace Component/ShareWishlistPopup/Container/mapStateToProps */
@@ -52,18 +52,18 @@ ShareWishlistPopupContainerProps,
 ShareWishlistPopupContainerState
 > {
     state: ShareWishlistPopupContainerState = {
-        isLoading: false
+        isLoading: false,
     };
 
     containerFunctions: ShareWishlistPopupContainerFunctions = {
-        handleFormData: this.handleFormData.bind(this)
+        handleFormData: this.handleFormData.bind(this),
     };
 
     containerProps(): Pick<ShareWishlistPopupComponentProps, ShareWishlistPopupContainerPropsKeys> {
         const { isLoading } = this.state;
 
         return {
-            isFormLoading: isLoading
+            isFormLoading: isLoading,
         };
     }
 
@@ -72,7 +72,7 @@ ShareWishlistPopupContainerState
             hidePopup,
             showError,
             showNotification,
-            goToPreviousNavigationState
+            goToPreviousNavigationState,
         } = this.props;
         const { message, emails: initialEmails } = fields;
         const emails = initialEmails.toString().split(',').map((email) => email.trim());
@@ -95,7 +95,7 @@ ShareWishlistPopupContainerState
             (error) => {
                 showError(getErrorMessage(error));
                 this.setState({ isLoading: false });
-            }
+            },
         );
     }
 

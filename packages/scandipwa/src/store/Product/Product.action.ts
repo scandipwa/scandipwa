@@ -23,5 +23,5 @@ import { ProductActionType, UpdateProductDetailsAction } from './Product.type';
  */
 export const updateProductDetails = (product: ProductItem): UpdateProductDetailsAction => ({
     type: ProductActionType.UPDATE_PRODUCT_DETAILS,
-    product
+    product,
 });

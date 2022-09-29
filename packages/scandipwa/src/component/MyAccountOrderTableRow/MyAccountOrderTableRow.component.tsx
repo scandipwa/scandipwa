@@ -47,9 +47,9 @@ export class MyAccountOrderTableRow extends PureComponent<MyAccountOrderTableRow
             total: {
                 grand_total: {
                     value,
-                    currency
-                } = {}
-            } = {}
+                    currency,
+                } = {},
+            } = {},
         } = order;
 
         return (

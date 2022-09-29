@@ -18,7 +18,7 @@ export const convertStringToDate = (stringDate: string, options?: Intl.DateTimeF
     const defaultOptions: Intl.DateTimeFormatOptions = {
         year: 'numeric',
         month: 'long',
-        day: 'numeric'
+        day: 'numeric',
     };
     const date = new Date(stringDate.replace(/\s/, 'T'));
     const language = navigator.languages ? navigator.languages[0] : navigator.language;

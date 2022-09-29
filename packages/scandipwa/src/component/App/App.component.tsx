@@ -30,30 +30,30 @@ export class App extends PureComponent<unknown, AppComponentState> {
 
     productionFunctions = [
         this.disableReactDevTools.bind(this),
-        this.injectComment.bind(this)
+        this.injectComment.bind(this),
     ];
 
     developmentFunctions = [
-        this.enableHotReload.bind(this)
+        this.enableHotReload.bind(this),
     ];
 
     commonFunctions = [
-        this.configureStore.bind(this)
+        this.configureStore.bind(this),
     ];
 
     rootComponents = [
         this.renderRouter.bind(this),
-        this.renderSharedTransition.bind(this)
+        this.renderSharedTransition.bind(this),
     ];
 
     contextProviders = [
         this.renderRedux.bind(this),
-        this.renderUnStated.bind(this)
+        this.renderUnStated.bind(this),
     ];
 
     state: AppComponentState = {
         isSomethingWentWrong: false,
-        errorDetails: undefined
+        errorDetails: undefined,
     };
 
     __construct(props: unknown): void {
@@ -66,7 +66,7 @@ export class App extends PureComponent<unknown, AppComponentState> {
     componentDidCatch(err: Error, info: unknown): void {
         this.setState({
             isSomethingWentWrong: true,
-            errorDetails: { err, info }
+            errorDetails: { err, info },
         });
     }
 
@@ -164,7 +164,7 @@ export class App extends PureComponent<unknown, AppComponentState> {
 
         return this.contextProviders.reduce(
             (acc, render) => render(acc),
-            [child()] as ReactElement
+            [child()] as ReactElement,
         );
     }
 

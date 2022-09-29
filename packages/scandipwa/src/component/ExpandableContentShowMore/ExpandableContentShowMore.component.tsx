@@ -15,7 +15,7 @@ import { ReactElement } from 'Type/Common.type';
 
 import {
     ExpandableContentShowMoreComponentProps,
-    ExpandableContentShowMoreComponentState
+    ExpandableContentShowMoreComponentState,
 } from './ExpandableContentShowMore.type';
 
 import './ExpandableContentShowMore.style';
@@ -26,7 +26,7 @@ ExpandableContentShowMoreComponentProps,
 ExpandableContentShowMoreComponentState
 > {
     static defaultProps: Partial<ExpandableContentShowMoreComponentProps> = {
-        showElemCount: 3
+        showElemCount: 3,
     };
 
     ref = createRef<HTMLDivElement>();
@@ -43,7 +43,7 @@ ExpandableContentShowMoreComponentState
         this.handleShowAllButtonClick = this.handleShowAllButtonClick.bind(this);
         this.state = {
             isOpen: length > showElemCount,
-            isExpanding: false
+            isExpanding: false,
         };
     }
 
@@ -82,8 +82,10 @@ ExpandableContentShowMoreComponentState
                 .getPropertyValue('transition-duration')
                 .slice(0, -1)) * ONE_SECOND_IN_MS;
 
-            setTimeout(() => this.setState({ isExpanding: false }),
-                transitionDurationCSStoMS);
+            setTimeout(
+                () => this.setState({ isExpanding: false }),
+                transitionDurationCSStoMS,
+            );
         }
 
         if (nextChildren !== prevChildren) {
@@ -148,7 +150,7 @@ ExpandableContentShowMoreComponentState
 
         const child = (isOpen || isExpanding) ? children.slice(showElemCount) : null;
         const style = {
-            height: isOpen ? this.expandableContentHeight : 0
+            height: isOpen ? this.expandableContentHeight : 0,
         };
 
         return (

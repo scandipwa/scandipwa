@@ -26,12 +26,12 @@ import {
     ResetAttributesContainerMapDispatchProps,
     ResetAttributesContainerMapStateProps,
     ResetAttributesContainerProps,
-    ResetItem
+    ResetItem,
 } from './ResetAttributes.type';
 
 /** @namespace Component/ResetAttributes/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ResetAttributesContainerMapStateProps => ({
-    currency_code: state.ConfigReducer.currencyData.current_currency_code
+    currency_code: state.ConfigReducer.currencyData.current_currency_code,
 });
 
 /** @namespace Component/ResetAttributes/Container/mapDispatchToProps */
@@ -44,7 +44,7 @@ export class ResetAttributesContainer extends PureComponent<ResetAttributesConta
 
         return {
             toggleCustomFilter,
-            filtersData: this.filterResetItems()
+            filtersData: this.filterResetItems(),
         };
     }
 
@@ -83,7 +83,7 @@ export class ResetAttributesContainer extends PureComponent<ResetAttributesConta
             is_boolean,
             attribute_label,
             attribute_options,
-            attribute_code
+            attribute_code,
         } = filterData;
 
         const func = attribute_code === 'price'
@@ -97,23 +97,21 @@ export class ResetAttributesContainer extends PureComponent<ResetAttributesConta
                         ...option,
                         attribute_code,
                         attribute_label,
-                        label: getBooleanLabel(option.label, is_boolean)
-                    })
-                )
+                        label: getBooleanLabel(option.label, is_boolean),
+                    }),
+                ),
         };
     }
 
     filterResetItems(): Record<string, ResetItem[]> {
         const { customFiltersValues } = this.props;
 
-        return Object.entries(customFiltersValues).reduce(
-            (prev: Record<string, ResetItem[]>, [attrCode, attrValues]) => (
-                {
-                    ...prev,
-                    ...this.getResetData(attrCode, attrValues)
-                }
-            ), {}
-        );
+        return Object.entries(customFiltersValues).reduce((prev: Record<string, ResetItem[]>, [attrCode, attrValues]) => (
+            {
+                ...prev,
+                ...this.getResetData(attrCode, attrValues),
+            }
+        ), {});
     }
 
     render(): ReactElement {

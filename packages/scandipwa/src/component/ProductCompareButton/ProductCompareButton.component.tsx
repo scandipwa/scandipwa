@@ -24,7 +24,7 @@ import './ProductCompareButton.style';
 export class ProductCompareButton extends PureComponent<ProductCompareButtonComponentProps> {
     static defaultProps: Partial<ProductCompareButtonComponentProps> = {
         isLoading: false,
-        isActive: false
+        isActive: false,
     };
 
     handleClick: ((e: MouseEvent) => void) | (() => void) = noopFn;
@@ -45,7 +45,7 @@ export class ProductCompareButton extends PureComponent<ProductCompareButtonComp
         const {
             isLoading,
             isActive,
-            mix
+            mix,
         } = this.props;
 
         return (

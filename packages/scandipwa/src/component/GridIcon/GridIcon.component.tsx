@@ -20,7 +20,7 @@ import './GridIcon.style';
 /** @namespace Component/GridIcon/Component */
 export class GridIcon extends PureComponent<GridIconComponentProps> {
     static defaultProps: Partial<GridIconComponentProps> = {
-        isActive: false
+        isActive: false,
     };
 
     render(): ReactElement {

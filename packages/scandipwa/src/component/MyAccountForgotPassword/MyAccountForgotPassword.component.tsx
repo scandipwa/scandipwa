@@ -38,12 +38,12 @@ export class MyAccountForgotPassword extends PureComponent<MyAccountForgotPasswo
                       name: 'email',
                       className: 'ForgotPassword-Input_type_email',
                       placeholder: __('Your email address'),
-                      autoComplete: 'email'
+                      autoComplete: 'email',
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: ValidationInputType.EMAIL
+                      inputType: ValidationInputType.EMAIL,
                   } }
                   addRequiredTag
                 />

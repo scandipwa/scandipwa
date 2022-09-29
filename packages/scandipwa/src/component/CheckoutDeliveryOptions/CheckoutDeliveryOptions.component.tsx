@@ -22,7 +22,7 @@ import './CheckoutDeliveryOptions.style';
 /** @namespace Component/CheckoutDeliveryOptions/Component */
 export class CheckoutDeliveryOptions extends PureComponent<CheckoutDeliveryOptionsComponent> {
     static defaultProps: Partial<CheckoutDeliveryOptionsComponent> = {
-        selectedShippingMethod: {}
+        selectedShippingMethod: {},
     };
 
     renderHeading(): ReactElement {
@@ -36,7 +36,7 @@ export class CheckoutDeliveryOptions extends PureComponent<CheckoutDeliveryOptio
     renderDeliveryOption(option: ShippingMethod): ReactElement {
         const {
             selectShippingMethod,
-            selectedShippingMethod: { method_code: selectedMethodCode = '' } = {}
+            selectedShippingMethod: { method_code: selectedMethodCode = '' } = {},
         } = this.props;
 
         const { carrier_code, method_code } = option;

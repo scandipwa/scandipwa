@@ -15,7 +15,7 @@ import {
     UpdateAllProductsInWishlistAction,
     UpdateIsLoadingAction,
     WishlistActionType,
-    WishlistProduct
+    WishlistProduct,
 } from './Wishlist.type';
 
 /**
@@ -25,10 +25,10 @@ import {
  * @namespace Store/Wishlist/Action/removeItemFromWishlist
  */
 export const removeItemFromWishlist = (
-    item_id: string
+    item_id: string,
 ): RemoveItemFromWishlistAction => ({
     type: WishlistActionType.REMOVE_ITEM_FROM_WISHLIST,
-    item_id
+    item_id,
 });
 
 /**
@@ -38,21 +38,21 @@ export const removeItemFromWishlist = (
  * @namespace Store/Wishlist/Action/updateAllProductsInWishlist
  */
 export const updateAllProductsInWishlist = (
-    products: Record<string, WishlistProduct>
+    products: Record<string, WishlistProduct>,
 ): UpdateAllProductsInWishlistAction => ({
     type: WishlistActionType.UPDATE_ALL_PRODUCTS_IN_WISHLIST,
-    products
+    products,
 });
 
 /** @namespace Store/Wishlist/Action/updateIsLoading */
 export const updateIsLoading = (
-    isLoading: boolean
+    isLoading: boolean,
 ): UpdateIsLoadingAction => ({
     type: WishlistActionType.UPDATE_IS_LOADING_IN_WISHLIST,
-    isLoading
+    isLoading,
 });
 
 /** @namespace Store/Wishlist/Action/clearWishlist */
 export const clearWishlist = (): ClearWishlistAction => ({
-    type: WishlistActionType.CLEAR_WISHLIST
+    type: WishlistActionType.CLEAR_WISHLIST,
 });

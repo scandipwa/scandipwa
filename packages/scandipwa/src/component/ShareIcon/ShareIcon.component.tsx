@@ -20,7 +20,7 @@ import './ShareIcon.style';
 /** @namespace Component/ShareIcon/Component */
 export class ShareIcon extends PureComponent<ShareIconComponentProps> {
     static defaultProps: Partial<ShareIconComponentProps> = {
-        isPrimary: false
+        isPrimary: false,
     };
 
     render(): ReactElement {

@@ -43,10 +43,10 @@ export class VideoPopup extends PureComponent<VideoPopupComponentProps> {
 
         Promise.all([
             this.vimeoPromise,
-            this.youTubePromise
+            this.youTubePromise,
         ]).then(
             /** @namespace Component/VideoPopup/Component/VideoPopup/componentDidMount/all/then */
-            () => this.forceUpdate()
+            () => this.forceUpdate(),
         );
     }
 
@@ -112,7 +112,7 @@ export class VideoPopup extends PureComponent<VideoPopupComponentProps> {
             /** @namespace Component/VideoPopup/Component/VideoPopup/loadVimeoLibrary/then */
             ({ default: vimeo }) => {
                 this.vimeoComponent = vimeo;
-            }
+            },
         );
     }
 
@@ -123,7 +123,7 @@ export class VideoPopup extends PureComponent<VideoPopupComponentProps> {
             /** @namespace Component/VideoPopup/Component/VideoPopup/loadYouTubeLibrary/then */
             ({ default: youTube }) => {
                 this.youTubeComponent = youTube;
-            }
+            },
         );
     }
 
@@ -136,9 +136,9 @@ export class VideoPopup extends PureComponent<VideoPopupComponentProps> {
         const {
             payload: {
                 media: {
-                    video_content: { video_url } = {}
-                } = {}
-            }
+                    video_content: { video_url } = {},
+                } = {},
+            },
         } = this.props;
 
         if (!video_url) {

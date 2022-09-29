@@ -37,11 +37,11 @@ export const trimCustomerAddress = (customerAddress: Partial<CustomerAddress>): 
         region: {
             region_code,
             region,
-            region_id = 1
+            region_id = 1,
         } = {},
         prefix = '',
         suffix = '',
-        vat_id
+        vat_id,
     } = customerAddress;
 
     return {
@@ -59,11 +59,11 @@ export const trimCustomerAddress = (customerAddress: Partial<CustomerAddress>): 
         region: {
             region_code,
             region,
-            region_id
+            region_id,
         },
         prefix,
         suffix,
-        vat_id
+        vat_id,
     };
 };
 
@@ -81,9 +81,9 @@ export const trimCheckoutCustomerAddress = (customerAddress: CustomerAddress): C
         region: {
             region_code,
             region,
-            region_id = 1
+            region_id = 1,
         } = {},
-        vat_id
+        vat_id,
     } = customerAddress;
 
     return {
@@ -98,7 +98,7 @@ export const trimCheckoutCustomerAddress = (customerAddress: CustomerAddress): C
         region,
         region_id,
         region_code,
-        vat_id
+        vat_id,
     };
 };
 
@@ -116,7 +116,7 @@ export const trimCheckoutAddress = (customerAddress: CheckoutAddress & Record<st
         region_string = '',
         region_id = 0,
         region_code,
-        vat_id
+        vat_id,
     } = customerAddress;
 
     return {
@@ -131,7 +131,7 @@ export const trimCheckoutAddress = (customerAddress: CheckoutAddress & Record<st
         region: region_string,
         region_id,
         region_code,
-        vat_id
+        vat_id,
     };
 };
 
@@ -151,7 +151,7 @@ export const removeEmptyStreets = (street: Array<string | null>): Array<string |
 export const setAddressesInFormObject = (
     fields: Record<string, unknown>,
     numberOfLines: number,
-    prefix = 'street'
+    prefix = 'street',
 ): CheckoutAddress & Record<string, unknown> => {
     const addressKeys = new Array(numberOfLines)
         .fill('')
@@ -162,13 +162,11 @@ export const setAddressesInFormObject = (
     // removing street related fields from the form object
     const newFields = Object.keys(fields)
         .filter((key) => !addressKeys.includes(key))
-        .reduce(
-            (acc, key) => {
-                acc[key] = fields[key];
+        .reduce((acc, key) => {
+            acc[key] = fields[key];
 
-                return acc;
-            }, {} as CheckoutAddress & Record<string, unknown>
-        );
+            return acc;
+        }, {} as CheckoutAddress & Record<string, unknown>);
 
     // setting single street entry to the form object
     newFields.street = removeEmptyStreets(addressValues);
@@ -180,7 +178,7 @@ export const setAddressesInFormObject = (
 /** @namespace Util/Address/Index/getFormFields */
 export const getFormFields = (
     fields: Record<string, unknown>,
-    addressLinesQty: number
+    addressLinesQty: number,
 ): Record<string, unknown> | CheckoutAddress & Record<string, unknown> => {
     if (addressLinesQty === 1) {
         return fields;
@@ -192,7 +190,7 @@ export const getFormFields = (
 /** @namespace Util/Address/Index/getCityAndRegionFromZipcode */
 export const getCityAndRegionFromZipcode = async (
     countryId: string,
-    value: string
+    value: string,
 ): Promise<ZippopotamResponseResult | null> => {
     const response = await fetch(`https://api.zippopotam.us/${countryId}/${value}`);
     const data = await response.json();
@@ -201,7 +199,7 @@ export const getCityAndRegionFromZipcode = async (
         ? {
             city: data.places[0]['place name'],
             region: data.places[0].state,
-            regionAbbr: data.places[0]['state abbreviation']
+            regionAbbr: data.places[0]['state abbreviation'],
         }
         : null;
 };
@@ -237,7 +235,7 @@ export const getAvailableRegions = (country_id: string, countries: Country[]): R
 /** @namespace Util/Address/Index/getFormattedRegion */
 export const getFormattedRegion = (
     address: CustomerAddress | OrderAddress,
-    countries: Country[]
+    countries: Country[],
 ): FormattedRegion => {
     const { country_id, region: regionData } = address;
 
@@ -256,7 +254,7 @@ export const getFormattedRegion = (
     if (typeof regionData === 'string') {
         return {
             country: label,
-            region: regionData
+            region: regionData,
         };
     }
 
@@ -266,18 +264,18 @@ export const getFormattedRegion = (
 
     return {
         country: label,
-        region: name
+        region: name,
     };
 };
 
 /** @namespace Util/Address/Index/getRegionIdFromAvailableRegions */
 export const getRegionIdFromAvailableRegions = (
     availableRegions: Region[],
-    cityAndRegion: ZippopotamResponseResult
+    cityAndRegion: ZippopotamResponseResult,
 ): number => {
     const { region, regionAbbr } = cityAndRegion;
     const { id: regionId = 1 } = availableRegions.find(
-        ({ name, code }) => name === region || code === regionAbbr
+        ({ name, code }) => name === region || code === regionAbbr,
     ) || {};
 
     return regionId;
@@ -288,7 +286,7 @@ export const getRegionIdOfRegionName = (countryId: string, region: string): numb
     const countries = (getStore().getState() as RootState).ConfigReducer.countries || [];
     const availableRegions = getAvailableRegions(countryId, countries) || [];
     const { id: regionId = 0 } = availableRegions.find(
-        ({ name }) => name === region
+        ({ name }) => name === region,
     ) || {};
 
     return regionId;
@@ -312,14 +310,14 @@ export const transformCountriesToOptions = (countries: Country[]): CountryOption
         return {
             value: id,
             name: id,
-            ...country
+            ...country,
         };
     });
 
     const filtered = options.filter(({ label }) => label);
 
     const sorted = filtered.sort(
-        ({ label }, { label: labelCompare }) => label.localeCompare(labelCompare)
+        ({ label }, { label: labelCompare }) => label.localeCompare(labelCompare),
     );
 
     return sorted;

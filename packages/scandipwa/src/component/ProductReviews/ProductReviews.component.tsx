@@ -71,9 +71,9 @@ export class ProductReviews extends PureComponent<ProductReviewsComponentProps> 
             product: {
                 review_summary: {
                     rating_summary = 0,
-                    review_count
-                } = {}
-            }
+                    review_count,
+                } = {},
+            },
         } = this.props;
 
         const STARS_COUNT = 5;
@@ -104,9 +104,9 @@ export class ProductReviews extends PureComponent<ProductReviewsComponentProps> 
         const {
             product: {
                 review_summary: {
-                    review_count
-                } = {}
-            }
+                    review_count,
+                } = {},
+            },
         } = this.props;
 
         return (

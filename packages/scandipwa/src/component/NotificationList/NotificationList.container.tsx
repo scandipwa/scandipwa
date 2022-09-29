@@ -20,21 +20,21 @@ import { RootState } from 'Util/Store/Store.type';
 import NotificationList from './NotificationList.component';
 import {
     NotificationListContainerMapDispatchProps,
-    NotificationListContainerMapStateProps
+    NotificationListContainerMapStateProps,
 } from './NotificationList.type';
 
 /** @namespace Component/NotificationList/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): NotificationListContainerMapStateProps => ({
-    notifications: state.NotificationReducer.notifications
+    notifications: state.NotificationReducer.notifications,
 });
 
 /** @namespace Component/NotificationList/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): NotificationListContainerMapDispatchProps => ({
     onHideNotification: (id) => {
         dispatch(hideNotification(id));
-    }
+    },
 });
 
 export default withReducers({
-    NotificationReducer
+    NotificationReducer,
 })(connect(mapStateToProps, mapDispatchToProps)(NotificationList));

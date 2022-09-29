@@ -25,14 +25,14 @@ import { MyAccountAddressFormComponentProps, MyAccountAddressFormFields } from '
 
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm<
-    Props extends MyAccountAddressFormComponentProps = MyAccountAddressFormComponentProps
+    Props extends MyAccountAddressFormComponentProps = MyAccountAddressFormComponentProps,
 > extends FieldForm<Props> {
     static defaultProps: Partial<MyAccountAddressFormComponentProps> = {
         currentZipcode: undefined,
         currentCity: undefined,
         currentRegion: undefined,
         currentRegionId: undefined,
-        isStateRequired: false
+        isStateRequired: false,
     };
 
     //#region GETTERS
@@ -55,7 +55,7 @@ export class MyAccountAddressForm<
             onZipcodeChange,
             onCityChange,
             onRegionChange,
-            onRegionIdChange
+            onRegionIdChange,
         } = this.props;
 
         return myAccountAddressForm({
@@ -72,19 +72,19 @@ export class MyAccountAddressForm<
             currentCity,
             currentRegionId,
             currentZipcode,
-            ...address
+            ...address,
         }, {
             onCountryChange,
             onZipcodeChange,
             onCityChange,
             onRegionChange,
-            onRegionIdChange
+            onRegionIdChange,
         });
     }
 
     getFormProps(): Partial<FormContainerProps> {
         return {
-            onSubmit: this.onSubmit.bind(this)
+            onSubmit: this.onSubmit.bind(this),
         };
     }
 

@@ -44,7 +44,7 @@ import { ProductComponentProps } from './Product.type';
  */
 export class Product<P extends ProductComponentProps = ProductComponentProps> extends PureComponent<P> {
     static defaultProps: Partial<ProductComponentProps> = {
-        configFormRef: createRef<HTMLFormElement>()
+        configFormRef: createRef<HTMLFormElement>(),
     };
 
     className = this.constructor.name.slice(0, -1) || 'Product';
@@ -68,9 +68,9 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
     renderBundleOptions(): ReactElement {
         const {
             product: {
-                items = []
+                items = [],
             } = {},
-            updateSelectedValues
+            updateSelectedValues,
         } = this.props;
 
         return (
@@ -84,10 +84,10 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
     renderCustomizableOptions(): ReactElement {
         const {
             product: {
-                options
+                options,
             },
 
-            updateSelectedValues
+            updateSelectedValues,
         } = this.props;
 
         return (
@@ -106,8 +106,8 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
                 type_id,
                 downloadable_product_links: links,
                 links_title,
-                links_purchased_separately
-            }
+                links_purchased_separately,
+            },
         } = this.props;
 
         if (type_id !== ProductType.DOWNLOADABLE || (Array.isArray(links) && !links.length)) {
@@ -131,8 +131,8 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
             product: {
                 type_id,
                 samples_title = '',
-                downloadable_product_samples: samples
-            }
+                downloadable_product_samples: samples,
+            },
         } = this.props;
 
         if (type_id !== ProductType.DOWNLOADABLE || !samples || (Array.isArray(samples) && !samples.length)) {
@@ -149,7 +149,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
 
     getConfigurableAttributes(): Record<string, IndexedConfigurableOption> {
         const {
-            product: { configurable_options: configurableOptions = {}, variants = [] }
+            product: { configurable_options: configurableOptions = {}, variants = [] },
         } = this.props;
 
         return filterConfigurableOptions(configurableOptions, variants);
@@ -162,7 +162,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
             product: { type_id: type, variants = [] },
             inStock,
             addToCartTriggeredWithError,
-            updateAddToCartTriggeredWithError
+            updateAddToCartTriggeredWithError,
         } = this.props;
 
         if (type !== ProductType.CONFIGURABLE) {
@@ -196,10 +196,10 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
         const {
             product,
             product: {
-                type_id: typeId
+                type_id: typeId,
             },
             setQuantity,
-            quantity
+            quantity,
         } = this.props;
 
         if (typeId !== ProductType.GROUPED) {
@@ -239,7 +239,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
             inStock,
             quantity,
             getActiveProduct,
-            updateSelectedValues
+            updateSelectedValues,
         } = this.props;
 
         return (
@@ -268,7 +268,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
               magentoProduct={ magentoProduct }
               mix={ {
                   block: this.className,
-                  elem: 'WishListButton'
+                  elem: 'WishListButton',
               } }
             />
         );
@@ -287,7 +287,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
               mix={ {
                   block: this.className,
                   elem: 'ProductCompareButton',
-                  mods: { isGrey: true }
+                  mods: { isGrey: true },
               } }
             />
         );
@@ -300,7 +300,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
             maxQuantity,
             setQuantity,
             inStock,
-            product: { type_id }
+            product: { type_id },
         } = this.props;
 
         if (type_id === ProductType.GROUPED) {
@@ -315,15 +315,15 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
                   name: 'item_qty',
                   defaultValue: quantity as number,
                   max: maxQuantity,
-                  min: minQuantity
+                  min: minQuantity,
               } }
               validationRule={ {
                   inputType: ValidationInputTypeNumber.NUMERIC,
                   isRequired: true,
                   range: {
                       min: minQuantity,
-                      max: maxQuantity
-                  }
+                      max: maxQuantity,
+                  },
               } }
               isDisabled={ !inStock }
               mix={ { block: this.className, elem: 'Qty' } }
@@ -340,9 +340,9 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
             product: {
                 review_summary: {
                     rating_summary,
-                    review_count
-                } = {}
-            }
+                    review_count,
+                } = {},
+            },
         } = this.props;
 
         if (!rating_summary) {
@@ -355,8 +355,8 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
     renderBrand(withMeta = false): ReactElement {
         const {
             product: {
-                attributes: { brand: { attribute_value: brand = '' } = {} } = {}
-            }
+                attributes: { brand: { attribute_value: brand = '' } = {} } = {},
+            },
         } = this.props;
 
         if (!brand) {
@@ -379,7 +379,7 @@ export class Product<P extends ProductComponentProps = ProductComponentProps> ex
 
         const {
             type_id: type,
-            price_tiers: priceTiers
+            price_tiers: priceTiers,
         } = product;
 
         if (!productPrice) {

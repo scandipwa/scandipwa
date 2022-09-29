@@ -28,11 +28,11 @@ import './CheckoutPayments.style';
 export class CheckoutPayments extends PureComponent<CheckoutPaymentsComponentProps> {
     paymentRenderMap: Record<string, () => ReactElement> = {
         // [KLARNA]: this.renderKlarnaPayment.bind(this),
-        [PaymentMethods.PURCHASE_ORDER]: this.renderPurchaseOrderPayment.bind(this)
+        [PaymentMethods.PURCHASE_ORDER]: this.renderPurchaseOrderPayment.bind(this),
     };
 
     state = {
-        hasError: false
+        hasError: false,
     };
 
     __construct(props: CheckoutPaymentsComponentProps): void {
@@ -52,7 +52,7 @@ export class CheckoutPayments extends PureComponent<CheckoutPaymentsComponentPro
             () => {
                 setOrderButtonEnableStatus(false);
                 showError(`${error} Please try again later`);
-            }
+            },
         );
     }
 
@@ -75,7 +75,7 @@ export class CheckoutPayments extends PureComponent<CheckoutPaymentsComponentPro
     renderPayment(method: PaymentMethod): ReactElement {
         const {
             selectPaymentMethod,
-            selectedPaymentCode
+            selectedPaymentCode,
         } = this.props;
 
         const { code } = method;

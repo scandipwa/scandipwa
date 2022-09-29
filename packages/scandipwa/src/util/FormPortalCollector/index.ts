@@ -13,7 +13,7 @@
 export class FormPortalCollector <
     T extends string,
     U extends () => void,
-    S extends string
+    S extends string,
 > {
     portalsObservers: Record<string, Record<string, U>> = {};
 

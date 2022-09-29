@@ -40,7 +40,7 @@ export class AddToCart extends PureComponent<AddToCartComponentProps> {
             layout,
             isDisabled,
             isAdding,
-            handleButtonClick
+            handleButtonClick,
         } = this.props;
 
         return (

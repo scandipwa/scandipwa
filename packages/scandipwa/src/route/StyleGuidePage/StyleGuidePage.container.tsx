@@ -27,7 +27,7 @@ import {
     StyleGuidePageComponentProps,
     StyleGuidePageContainerMapDispatchProps,
     StyleGuidePageContainerMapStateProps,
-    StyleGuidePageContainerProps
+    StyleGuidePageContainerProps,
 } from './StyleGuidePage.type';
 
 export const ProductDispatcher = import(
@@ -37,18 +37,18 @@ export const ProductDispatcher = import(
 
 /** @namespace Route/StyleGuidePage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): StyleGuidePageContainerMapStateProps => ({
-    product: state.ProductReducer.product
+    product: state.ProductReducer.product,
 });
 
 /** @namespace Route/StyleGuidePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): StyleGuidePageContainerMapDispatchProps => ({
-    updateProductDetails: (product) => dispatch(updateProductDetails(product))
+    updateProductDetails: (product) => dispatch(updateProductDetails(product)),
 });
 
 /** @namespace Route/StyleGuidePage/Container */
 export class StyleGuidePageContainer extends PureComponent<StyleGuidePageContainerProps> {
     containerFunctions = {
-        fakeFunction: this.fakeFunction.bind(this)
+        fakeFunction: this.fakeFunction.bind(this),
     };
 
     componentDidMount(): void {
@@ -61,7 +61,7 @@ export class StyleGuidePageContainer extends PureComponent<StyleGuidePageContain
         const { product } = this.props;
 
         return {
-            product
+            product,
         };
     }
 
@@ -81,10 +81,10 @@ export class StyleGuidePageContainer extends PureComponent<StyleGuidePageContain
 
 export default withReducers({
     CategoryReducer,
-    ProductReducer
+    ProductReducer,
 })(
     connect(
         mapStateToProps,
-        mapDispatchToProps
-    )(StyleGuidePageContainer)
+        mapDispatchToProps,
+    )(StyleGuidePageContainer),
 );

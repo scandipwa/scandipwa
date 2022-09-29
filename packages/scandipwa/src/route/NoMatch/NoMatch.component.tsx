@@ -39,8 +39,8 @@ export class NoMatch extends PureComponent<NoMatchComponentProps> {
         const breadcrumbs = [
             {
                 url: '',
-                name: __('Not Found')
-            }
+                name: __('Not Found'),
+            },
         ];
 
         updateBreadcrumbs(breadcrumbs);

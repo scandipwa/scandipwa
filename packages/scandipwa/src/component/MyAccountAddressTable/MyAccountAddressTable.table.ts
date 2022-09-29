@@ -21,7 +21,7 @@ import { MyAccountAddressTableComponentProps } from './MyAccountAddressTable.typ
 /** @namespace Component/MyAccountAddressTable/Table/getAddressAdditionalTableFields */
 export const getAddressAdditionalTableFields = (
     address: CustomerAddress | OrderAddress,
-    countries: Country[]
+    countries: Country[],
 ): DataPair<CustomerAddress | FormattedRegion>[] => {
     const regionData = getFormattedRegion(address, countries);
 
@@ -29,29 +29,29 @@ export const getAddressAdditionalTableFields = (
         {
             key: 'country',
             label: __('County'),
-            source: regionData
+            source: regionData,
         },
         {
             key: 'region',
             label: __('State/Province'),
-            source: regionData
+            source: regionData,
         },
         {
             key: 'city',
             label: __('City'),
-            source: address
+            source: address,
         },
         {
             key: 'vat_id',
             label: __('VAT Number'),
-            source: address
-        }
+            source: address,
+        },
     ];
 };
 
 /** @namespace Component/MyAccountAddressTable/Table/getAddressTablePairArray */
 export const getAddressTablePairArray = (
-    props: MyAccountAddressTableComponentProps
+    props: MyAccountAddressTableComponentProps,
 ): DataPair<CustomerAddress | FormattedRegion>[] => {
     const { address, countries } = props;
     const regionData = getFormattedRegion(address, countries);
@@ -64,33 +64,33 @@ export const getAddressTablePairArray = (
         {
             key: 'firstname',
             label: __('First name'),
-            source: address
+            source: address,
         },
         {
             key: 'lastname',
             label: __('Last name'),
-            source: address
+            source: address,
         },
         {
             key: 'street',
             label: __('Street'),
-            source: address
+            source: address,
         },
         {
             key: 'region',
             label: __('Region'),
-            source: { region: constructRegion }
+            source: { region: constructRegion },
         },
         {
             key: 'country',
             label: __('Country'),
-            source: regionData
+            source: regionData,
         },
         {
             key: 'telephone',
             label: __('Phone number'),
-            source: address
-        }
+            source: address,
+        },
     ];
 };
 

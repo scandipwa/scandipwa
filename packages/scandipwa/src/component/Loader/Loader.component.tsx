@@ -26,7 +26,7 @@ import './Loader.style';
 export class Loader extends PureComponent<LoaderComponentProps> {
     static defaultProps: Partial<LoaderComponentProps> = {
         isLoading: true,
-        mix: {}
+        mix: {},
     };
 
     renderMain(): ReactElement {

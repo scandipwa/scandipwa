@@ -33,7 +33,7 @@ export class ProductBundleOptions extends PureComponent<ProductBundleOptionsComp
             type,
             required,
             uid,
-            option_id
+            option_id,
         } = group;
 
         const { updateSelectedValues } = this.props;

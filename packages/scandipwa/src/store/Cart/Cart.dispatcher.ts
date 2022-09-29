@@ -43,7 +43,7 @@ export class CartDispatcher {
     async updateInitialCartData(
         dispatch: Dispatch,
         isForCustomer = false,
-        disableLoader = false
+        disableLoader = false,
     ): Promise<string | null> {
         // Need to get current cart from BE, update cart
         try {
@@ -63,16 +63,16 @@ export class CartDispatcher {
                             address,
                             address: {
                                 street = null,
-                                email = ''
+                                email = '',
                             } = {},
-                            method_code = ''
-                        } = {}
-                    }] = []
-                } = {}
+                            method_code = '',
+                        } = {},
+                    }] = [],
+                } = {},
             } = await fetchQuery(
                 CartQuery.getCartQuery(
-                    quoteId || ''
-                )
+                    quoteId || '',
+                ),
             );
 
             if (address && street) {
@@ -80,8 +80,8 @@ export class CartDispatcher {
                     await dispatch(
                         updateShippingFields({
                             ...this.prepareCheckoutAddressFormat(address as CartAddress),
-                            method_code
-                        })
+                            method_code,
+                        }),
                     );
                 }
 
@@ -131,7 +131,7 @@ export class CartDispatcher {
             region,
             region_id: getRegionIdOfRegionName(country_id || 'US', region as unknown as string),
             street,
-            ...street_index
+            ...street_index,
         };
     }
 
@@ -154,15 +154,15 @@ export class CartDispatcher {
     async mergeCarts(
         sourceCartId: string,
         destinationCartId: string,
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ): Promise<string | null> {
         try {
             const {
                 mergeCarts: {
-                    id = ''
-                } = {}
+                    id = '',
+                } = {},
             } = await fetchMutation(
-                CartQuery.getMergeCartQuery(sourceCartId, destinationCartId)
+                CartQuery.getMergeCartQuery(sourceCartId, destinationCartId),
             );
 
             return id;
@@ -193,10 +193,10 @@ export class CartDispatcher {
                     cart_items: [
                         {
                             cart_item_uid: uid,
-                            quantity
-                        }
-                    ]
-                })
+                            quantity,
+                        },
+                    ],
+                }),
             );
 
             return await this.updateInitialCartData(dispatch);
@@ -209,7 +209,7 @@ export class CartDispatcher {
 
     async addProductToCart(
         dispatch: Dispatch,
-        options: AddProductToCartOptions
+        options: AddProductToCartOptions,
     ): Promise<void> {
         const { products = [], cartId: userCartId } = options;
 
@@ -227,7 +227,7 @@ export class CartDispatcher {
             }
 
             const { addProductsToCart: { user_errors: errors = [] } = {} } = await fetchMutation(
-                CartQuery.getAddProductToCartMutation(cartId, products)
+                CartQuery.getAddProductToCartMutation(cartId, products),
             );
 
             if (Array.isArray(errors) && errors.length > 0) {
@@ -265,7 +265,7 @@ export class CartDispatcher {
             }
 
             const { removeItemFromCart: { cartData = {} } = {} } = await fetchMutation(
-                CartQuery.getRemoveCartItemMutation(item_id, cartId)
+                CartQuery.getRemoveCartItemMutation(item_id, cartId),
             );
 
             this._updateCartData(cartData, dispatch);
@@ -288,7 +288,7 @@ export class CartDispatcher {
             }
 
             const { applyCouponToCart: { cartData = {} } = {} } = await fetchMutation(
-                CartQuery.getApplyCouponMutation(couponCode, cartId)
+                CartQuery.getApplyCouponMutation(couponCode, cartId),
             );
 
             this._updateCartData(cartData, dispatch);
@@ -308,7 +308,7 @@ export class CartDispatcher {
             }
 
             const { removeCouponFromCart: { cartData = {} } = {} } = await fetchMutation(
-                CartQuery.getRemoveCouponMutation(cartId)
+                CartQuery.getRemoveCouponMutation(cartId),
             );
 
             this._updateCartData(cartData, dispatch);
@@ -325,22 +325,22 @@ export class CartDispatcher {
 
                 const {
                     product: {
-                        product_links: childProductLinks = []
-                    } = {}
+                        product_links: childProductLinks = [],
+                    } = {},
                 } = variants.find(
-                    ({ product: { sku } = {} }) => sku === variantSku
+                    ({ product: { sku } = {} }) => sku === variantSku,
                 ) || {};
 
                 if (childProductLinks) {
                     Object.values(childProductLinks).filter(
-                        ({ link_type }) => link_type === LinkedProductType.CROSS_SELL
+                        ({ link_type }) => link_type === LinkedProductType.CROSS_SELL,
                     )
                         .map((item) => links.push(item));
                 }
 
                 if (product_links) {
                     (Object.values(product_links)).filter(
-                        ({ link_type }) => link_type === LinkedProductType.CROSS_SELL
+                        ({ link_type }) => link_type === LinkedProductType.CROSS_SELL,
                     )
                         .map((item) => links.push(item));
                 }
@@ -350,16 +350,16 @@ export class CartDispatcher {
 
             if (product_links.length !== 0) {
                 LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.fetchCrossSellProducts(dispatch, product_links)
+                    ({ default: dispatcher }) => dispatcher.fetchCrossSellProducts(dispatch, product_links),
                 );
             } else {
                 LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(dispatch)
+                    ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(dispatch),
                 );
             }
         } else {
             LinkedProductsDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(dispatch)
+                ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(dispatch),
             );
         }
     }
@@ -385,7 +385,7 @@ export class CartDispatcher {
 
     async _getNewQuoteId(): Promise<string> {
         const { createEmptyCart: quoteId = '' } = (await fetchMutation(
-            CartQuery.getCreateEmptyCartMutation()
+            CartQuery.getCreateEmptyCartMutation(),
         ) || {}) as unknown as { createEmptyCart: string };
 
         return quoteId;

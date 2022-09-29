@@ -13,5 +13,5 @@ export enum UrlRewritePageType {
     PRODUCT = 'PRODUCT',
     CMS_PAGE = 'CMS_PAGE',
     CATEGORY = 'CATEGORY',
-    NOTFOUND = 'NOT_FOUND'
+    NOTFOUND = 'NOT_FOUND',
 }

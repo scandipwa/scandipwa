@@ -24,13 +24,13 @@ import { MetaComponentProps } from './Meta.type';
 export class Meta extends PureComponent<MetaComponentProps> {
     static defaultProps: Partial<MetaComponentProps> = {
         title: '',
-        canonical_url: ''
+        canonical_url: '',
     };
 
     componentDidMount(): void {
         // Remove prerendered meta tags so dynamic meta tags can take effect
         Array.prototype.slice.call(
-            document.head.querySelectorAll('title[data-prerendered], meta[data-prerendered]')
+            document.head.querySelectorAll('title[data-prerendered], meta[data-prerendered]'),
         ).forEach((tag) => {
             document.head.removeChild(tag);
         });
@@ -41,7 +41,7 @@ export class Meta extends PureComponent<MetaComponentProps> {
             default_title,
             title_prefix,
             title_suffix,
-            title
+            title,
         } = this.props;
 
         const titlePrefix = title_prefix ? `${ title_prefix } | ` : '';
@@ -77,7 +77,7 @@ export class Meta extends PureComponent<MetaComponentProps> {
                     const {
                         name,
                         property = null,
-                        content
+                        content,
                     } = tag;
 
                     return (
@@ -88,14 +88,14 @@ export class Meta extends PureComponent<MetaComponentProps> {
                         />
                     );
                 }) }
-            </>
+            </>,
         ];
     }
 
     render(): ReactPortal {
         return createPortal(
             this.renderMeta(),
-            document.head
+            document.head,
         );
     }
 }

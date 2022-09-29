@@ -53,7 +53,7 @@ export class BrowserDatabase {
         localStorage.setItem(location, JSON.stringify({
             data,
             expiration,
-            createdAt: Date.now()
+            createdAt: Date.now(),
         }));
     }
 

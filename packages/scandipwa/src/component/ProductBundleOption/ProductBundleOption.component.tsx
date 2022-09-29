@@ -20,13 +20,13 @@ import {
     getBundleOption,
     getMaxQuantity,
     getMinQuantity,
-    getProductInStock
+    getProductInStock,
 } from 'Util/Product/Extract';
 import {
     DEFAULT_MAX_PRODUCTS,
     DEFAULT_MIN_PRODUCTS,
     IndexedBundleOption,
-    IndexedProduct
+    IndexedProduct,
 } from 'Util/Product/Product.type';
 import { bundleOptionToLabel, getEncodedBundleUid } from 'Util/Product/Transform';
 import { ValidationInputTypeNumber } from 'Util/Validator/Config';
@@ -40,14 +40,14 @@ import { ProductBundleOptionComponentProps } from './ProductBundleOption.type';
  */
 export class ProductBundleOption extends PureComponent<ProductBundleOptionComponentProps> {
     static defaultProps: Partial<ProductBundleOptionComponentProps> = {
-        activeSelectUid: null
+        activeSelectUid: null,
     };
 
     renderMap = {
         [FieldType.CHECKBOX]: this.renderCheckBoxValues.bind(this),
         [FieldType.MULTI]: this.renderCheckBoxValues.bind(this),
         [FieldType.RADIO]: this.renderRadioValues.bind(this),
-        [FieldType.SELECT]: this.renderSelectValue.bind(this)
+        [FieldType.SELECT]: this.renderSelectValue.bind(this),
     };
 
     componentDidMount(): void {
@@ -104,15 +104,15 @@ export class ProductBundleOption extends PureComponent<ProductBundleOptionCompon
                   defaultValue: rangedQty,
                   value: rangedQty,
                   min,
-                  max
+                  max,
               } }
               validationRule={ {
                   inputType: ValidationInputTypeNumber.NUMERIC,
                   isRequired: true,
                   range: {
                       min,
-                      max
-                  }
+                      max,
+                  },
               } }
               events={ { onChange: this.setQuantity.bind(this, uid) } }
               validateOn={ ['onChange'] }
@@ -128,12 +128,12 @@ export class ProductBundleOption extends PureComponent<ProductBundleOptionCompon
             can_change_quantity: canChangeQuantity,
             product = {},
             quantity: defaultQuantity = 1,
-            is_default
+            is_default,
         } = option;
 
         const {
             updateSelectedValues,
-            quantity: { [uid]: quantity = defaultQuantity }
+            quantity: { [uid]: quantity = defaultQuantity },
         } = this.props;
 
         const label = this.getLabel(option);
@@ -150,13 +150,13 @@ export class ProductBundleOption extends PureComponent<ProductBundleOptionCompon
                       id: `option-${ uid }`,
                       value: canChangeQuantity ? getEncodedBundleUid(uid, quantity) : uid,
                       name: `option-${ uid }`,
-                      defaultChecked: is_default
+                      defaultChecked: is_default,
                   } }
                   events={ {
-                      onChange: updateSelectedValues
+                      onChange: updateSelectedValues,
                   } }
                   validationRule={ {
-                      match: this.getError.bind(this, quantity, stock, min, max)
+                      match: this.getError.bind(this, quantity, stock, min, max),
                   } }
                   validateOn={ ['onChange'] }
                   isDisabled={ !stock }
@@ -173,7 +173,7 @@ export class ProductBundleOption extends PureComponent<ProductBundleOptionCompon
             <FieldGroup
               validationRule={ {
                   isRequired,
-                  selector: '[type="checkbox"]'
+                  selector: '[type="checkbox"]',
               } }
               validateOn={ ['onChange'] }
             >
@@ -190,12 +190,12 @@ export class ProductBundleOption extends PureComponent<ProductBundleOptionCompon
             can_change_quantity: canChangeQuantity,
             quantity: defaultQuantity = 1,
             product = {},
-            is_default
+            is_default,
         } = option;
 
         const {
             updateSelectedValues,
-            quantity: { [uid]: quantity = defaultQuantity }
+            quantity: { [uid]: quantity = defaultQuantity },
         } = this.props;
 
         const label = this.getLabel(option);
@@ -210,13 +210,13 @@ export class ProductBundleOption extends PureComponent<ProductBundleOptionCompon
                       id: `option-${ uid }`,
                       value: canChangeQuantity ? getEncodedBundleUid(uid, quantity) : uid,
                       name: `option-${ name }`,
-                      defaultChecked: is_default
+                      defaultChecked: is_default,
                   } }
                   events={ {
-                      onChange: updateSelectedValues
+                      onChange: updateSelectedValues,
                   } }
                   validationRule={ {
-                      match: this.getError.bind(this, quantity, stock)
+                      match: this.getError.bind(this, quantity, stock),
                   } }
                   validateOn={ ['onChange'] }
                   isDisabled={ !stock }
@@ -233,7 +233,7 @@ export class ProductBundleOption extends PureComponent<ProductBundleOptionCompon
             <FieldGroup
               validationRule={ {
                   isRequired,
-                  selector: '[type="radio"]'
+                  selector: '[type="radio"]',
               } }
               validateOn={ ['onChange'] }
             >
@@ -258,7 +258,7 @@ export class ProductBundleOption extends PureComponent<ProductBundleOptionCompon
             isRequired,
             uid,
             activeSelectUid,
-            options
+            options,
         } = this.props;
 
         const activeOption = getBundleOption(activeSelectUid || '', options);
@@ -267,11 +267,11 @@ export class ProductBundleOption extends PureComponent<ProductBundleOptionCompon
             uid: optionUid = '',
             quantity: defaultQuantity = 1,
             can_change_quantity: canChangeQuantity = false,
-            product = {}
+            product = {},
         } = activeOption || {};
 
         const {
-            quantity: { [optionUid]: quantity = defaultQuantity }
+            quantity: { [optionUid]: quantity = defaultQuantity },
         } = this.props;
 
         const stock = !Object.keys(product).length ? true : getProductInStock(product);
@@ -286,16 +286,16 @@ export class ProductBundleOption extends PureComponent<ProductBundleOptionCompon
                       id: `bundle-options-dropdown-${ uid }`,
                       name: `bundle-options-dropdown-${ uid }`,
                       selectPlaceholder: __('Select product...'),
-                      value: activeOption ? getEncodedBundleUid(optionUid, quantity) : ''
+                      value: activeOption ? getEncodedBundleUid(optionUid, quantity) : '',
                   } }
                   mix={ { block: 'ProductBundleItem', elem: 'Select' } }
                   options={ getDropdownOptions() }
                   events={ {
-                      onChange: this.updateSelect.bind(this) as ChangeEventHandler
+                      onChange: this.updateSelect.bind(this) as ChangeEventHandler,
                   } }
                   validationRule={ {
                       isRequired,
-                      match: this.getError.bind(this, quantity, stock, min, max)
+                      match: this.getError.bind(this, quantity, stock, min, max),
                   } }
                   validateOn={ ['onChange'] }
                 />
@@ -321,7 +321,7 @@ export class ProductBundleOption extends PureComponent<ProductBundleOptionCompon
         const { currencyCode } = this.props;
         const {
             baseLabel,
-            priceLabel
+            priceLabel,
         } = bundleOptionToLabel(option, currencyCode);
 
         return (

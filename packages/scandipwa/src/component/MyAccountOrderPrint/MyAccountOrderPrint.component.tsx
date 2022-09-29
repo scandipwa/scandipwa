@@ -34,7 +34,7 @@ export class MyAccountOrderPrint extends MyAccountOrder<MyAccountOrderPrintCompo
     logoRef = createRef<HTMLDivElement>();
 
     state = {
-        isPrintShown: false
+        isPrintShown: false,
     };
 
     componentDidUpdate(): void {
@@ -87,7 +87,7 @@ export class MyAccountOrderPrint extends MyAccountOrder<MyAccountOrderPrintCompo
             logo_alt,
             logo_height,
             logo_width,
-            onLogoLoad
+            onLogoLoad,
         } = this.props;
 
         const logoSrc = logo_src ? media(logo_src, LOGO_MEDIA) : null;

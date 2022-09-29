@@ -57,17 +57,17 @@ export const ICONS_LIST = {
     HomeIcon,
     ListIcon,
     ShareIcon,
-    EditIcon
+    EditIcon,
 };
 export const NOTIFICATION_SUCCESS_DATA = {
     msgText: 'Product was added to cart!',
-    msgType: NotificationType.SUCCESS
+    msgType: NotificationType.SUCCESS,
 };
 export const NOTIFICATION_ERROR_DATA = {
     msgText: 'Product was not added to cart!',
-    msgType: NotificationType.ERROR
+    msgType: NotificationType.ERROR,
 };
 export const NOTIFICATION_INFO_DATA = {
     msgText: 'Please correct all errors.',
-    msgType: NotificationType.INFO
+    msgType: NotificationType.INFO,
 };

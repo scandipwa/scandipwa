@@ -47,12 +47,10 @@ export class Breadcrumbs extends PureComponent<BreadcrumbsComponentProps> {
         const breadcrumbsWithHome = [
             ...breadcrumbs,
             // Looks like a browser bug, temporary fixed with .toString()
-            { url: '/', name: __('Home').toString() }
+            { url: '/', name: __('Home').toString() },
         ];
 
-        return breadcrumbsWithHome.map((_, i) => this.renderBreadcrumb(
-            breadcrumbsWithHome[breadcrumbsWithHome.length - 1 - i], i
-        ));
+        return breadcrumbsWithHome.map((_, i) => this.renderBreadcrumb(breadcrumbsWithHome[breadcrumbsWithHome.length - 1 - i], i));
     }
 
     shouldHideBreadcrumbs(): boolean {

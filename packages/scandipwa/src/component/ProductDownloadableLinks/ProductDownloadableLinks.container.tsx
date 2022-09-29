@@ -23,13 +23,13 @@ import {
     ProductDownloadableLinksContainerMapDispatchProps,
     ProductDownloadableLinksContainerMapStateProps,
     ProductDownloadableLinksContainerProps,
-    ProductDownloadableLinksContainerState
+    ProductDownloadableLinksContainerState,
 } from './ProductDownloadableLinks.type';
 
 /** @namespace Component/ProductDownloadableLinks/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductDownloadableLinksContainerMapStateProps => ({
     isOpenInNewTab: state.ConfigReducer.downloadable_links_target_new_window,
-    currencyCode: state.ConfigReducer.currencyData.current_currency_code
+    currencyCode: state.ConfigReducer.currencyData.current_currency_code,
 });
 
 /** @namespace Component/ProductDownloadableLinks/Container/mapDispatchToProps */
@@ -43,17 +43,17 @@ ProductDownloadableLinksContainerState
     static defaultProps: Partial<ProductDownloadableLinksContainerProps> = {
         title: '',
         links: [],
-        isRequired: false
+        isRequired: false,
     };
 
     state: ProductDownloadableLinksContainerState = {
         isLoading: true,
-        selectedLinks: []
+        selectedLinks: [],
     };
 
     containerFunctions: ProductDownloadableLinksContainerFunctions = {
         setSelectedCheckboxValues: this.setSelectedCheckboxValues.bind(this),
-        setRef: this.setRef.bind(this)
+        setRef: this.setRef.bind(this),
     };
 
     formRef: HTMLElement | null = null;
@@ -68,16 +68,16 @@ ProductDownloadableLinksContainerState
 
     componentDidUpdate(
         _: ProductDownloadableLinksContainerProps,
-        prevState: ProductDownloadableLinksContainerState
+        prevState: ProductDownloadableLinksContainerState,
     ): void {
         const { links } = this.props;
         const {
             selectedLinks,
-            isLoading
+            isLoading,
         } = this.state;
 
         const {
-            selectedLinks: prevSelectedLinks
+            selectedLinks: prevSelectedLinks,
         } = prevState;
 
         if (links && isLoading) {
@@ -101,7 +101,7 @@ ProductDownloadableLinksContainerState
             isRequired,
             links,
             title,
-            currencyCode
+            currencyCode,
         } = this.props;
         const { isLoading, selectedLinks } = this.state;
 
@@ -112,7 +112,7 @@ ProductDownloadableLinksContainerState
             title,
             isLoading,
             selectedLinks,
-            currencyCode
+            currencyCode,
         };
     }
 

@@ -31,17 +31,17 @@ import {
     ProductListContainerMapDispatchProps,
     ProductListContainerMapStateProps,
     ProductListContainerProps,
-    ProductListContainerState
+    ProductListContainerState,
 } from './ProductList.type';
 
 /** @namespace Component/ProductList/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductListContainerMapStateProps => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/ProductList/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductListContainerMapDispatchProps => ({
-    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options)
+    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options),
 });
 
 /** @namespace Component/ProductList/Container */
@@ -63,17 +63,17 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
         isWidget: false,
         title: '',
         totalPages: 1,
-        isPlp: false
+        isPlp: false,
     };
 
     state: ProductListContainerState = {
-        pagesCount: 1
+        pagesCount: 1,
     };
 
     containerFunctions: ProductListContainerFunctions = {
         loadPrevPage: this.loadPage.bind(this, false),
         loadPage: this.loadPage.bind(this),
-        updatePage: this.updatePage.bind(this)
+        updatePage: this.updatePage.bind(this),
     };
 
     componentDidMount(): void {
@@ -96,14 +96,14 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             sort,
             search,
             filter,
-            pages
+            pages,
         } = this.props;
 
         const {
             sort: prevSort,
             search: prevSearch,
             filter: prevFilter,
-            location: prevLocation
+            location: prevLocation,
         } = prevProps;
 
         const { pagesCount } = this.state;
@@ -158,7 +158,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             noAttributes,
             noVariants,
             isWidget,
-            device
+            device,
         } = this.props;
 
         /**
@@ -189,15 +189,15 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
                 filter,
                 search,
                 pageSize,
-                currentPage
-            }
+                currentPage,
+            },
         };
 
         const infoOptions = {
             args: {
                 filter,
-                search
-            }
+                search,
+            },
         };
 
         requestProductList(options);
@@ -213,7 +213,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
 
     containerProps(): Pick<ProductListComponentProps, ProductListComponentContainerPropKeys> {
         const {
-            isPaginationEnabled: defaultIsPaginationEnabled = false
+            isPaginationEnabled: defaultIsPaginationEnabled = false,
         } = ProductListContainer.defaultProps;
         const {
             device,
@@ -225,7 +225,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             selectedFilters,
             title = '',
             totalPages,
-            isPlp
+            isPlp,
         } = this.props;
 
         return {
@@ -244,14 +244,14 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             isPlp: !!isPlp,
             requestPage: this.requestPage,
             // disable this property to enable infinite scroll on desktop
-            isInfiniteLoaderEnabled: this._getIsInfiniteLoaderEnabled()
+            isInfiniteLoaderEnabled: this._getIsInfiniteLoaderEnabled(),
         };
     }
 
     _getIsInfiniteLoaderEnabled(): boolean { // disable infinite scroll on mobile
         const { isInfiniteLoaderEnabled = false, device } = this.props;
         const {
-            isInfiniteLoaderEnabled: defaultIsInfiniteLoaderEnabled = false
+            isInfiniteLoaderEnabled: defaultIsInfiniteLoaderEnabled = false,
         } = ProductListContainer.defaultProps;
 
         // allow scroll and mobile
@@ -271,12 +271,12 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
 
     _getPagesBounds(): PageBounds {
         const {
-            pageSize: defaultPageSize
+            pageSize: defaultPageSize,
         } = ProductListContainer.defaultProps;
         const {
             pages,
             totalItems,
-            pageSize = defaultPageSize || 0
+            pageSize = defaultPageSize || 0,
         } = this.props;
         const keys: number[] = Object.keys(pages) as unknown as number[];
 
@@ -284,7 +284,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             maxPage: Math.max(...keys),
             minPage: Math.min(...keys),
             totalPages: Math.ceil(totalItems / pageSize),
-            loadedPagesCount: keys.length
+            loadedPagesCount: keys.length,
         };
     }
 
@@ -309,7 +309,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             minPage,
             maxPage,
             totalPages,
-            loadedPagesCount
+            loadedPagesCount,
         } = this._getPagesBounds();
 
         const isUpdatable = totalPages > 0 && pagesCount === loadedPagesCount;
@@ -325,7 +325,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
         const { location, history } = this.props;
 
         setQueryParams({
-            page: pageNumber === 1 ? '' : String(pageNumber)
+            page: pageNumber === 1 ? '' : String(pageNumber),
         }, location, history);
     }
 
@@ -343,6 +343,6 @@ export default withRouter(
     connect(mapStateToProps, mapDispatchToProps)(
         ProductListContainer as unknown as React.ComponentType<
         RouteComponentProps & ProductListContainerProps
-        >
-    )
+        >,
+    ),
 );

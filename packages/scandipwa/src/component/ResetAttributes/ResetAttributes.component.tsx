@@ -100,7 +100,7 @@ export class ResetAttributes extends PureComponent<ResetAttributesComponentProps
                 { this.renderMobileTitle() }
                 <div block="ResetAttributes">
                     { Object.entries(filtersData).map(
-                        ([attrName, attrData]) => this.renderResetItem(attrName, attrData)
+                        ([attrName, attrData]) => this.renderResetItem(attrName, attrData),
                     ) }
                 </div>
             </>

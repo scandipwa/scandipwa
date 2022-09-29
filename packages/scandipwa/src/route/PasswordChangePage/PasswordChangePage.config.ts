@@ -11,5 +11,5 @@
 
 export enum PasswordPageStatus {
     UPDATED = 'password_updated',
-    MISS_MATCH = 'passwords_miss_match'
+    MISS_MATCH = 'passwords_miss_match',
 }

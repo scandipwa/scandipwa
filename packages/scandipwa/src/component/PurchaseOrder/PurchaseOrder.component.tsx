@@ -30,7 +30,7 @@ export class PurchaseOrder extends PureComponent<PurchaseOrderComponentProps> {
             <FieldGroup
               attr={ {
                   id,
-                  name: 'PurchaseOrder'
+                  name: 'PurchaseOrder',
               } }
             >
                 <Field
@@ -39,11 +39,11 @@ export class PurchaseOrder extends PureComponent<PurchaseOrderComponentProps> {
                       id: 'purchaseOrderNumber',
                       name: 'purchaseOrderNumber',
                       placeholder: __('Purchase Order Number'),
-                      'aria-label': __('Purchase Order Number')
+                      'aria-label': __('Purchase Order Number'),
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
-                      isRequired: true
+                      isRequired: true,
                   } }
                   addRequiredTag
                   mix={ { block: 'PurchaseOrderNumber', elem: 'Input' } }

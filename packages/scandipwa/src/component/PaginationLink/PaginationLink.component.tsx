@@ -21,7 +21,7 @@ import './PaginationLink.style';
 /** @namespace Component/PaginationLink/Component */
 export class PaginationLink extends PureComponent<PaginationLinkComponentProps> {
     static defaultProps: Partial<PaginationLinkComponentProps> = {
-        children: []
+        children: [],
     };
 
     getSearchQueryForPage(): string {
@@ -35,7 +35,7 @@ export class PaginationLink extends PureComponent<PaginationLinkComponentProps> 
             label,
             url_path: pathname,
             isCurrent,
-            children
+            children,
         } = this.props;
 
         const search = this.getSearchQueryForPage();
@@ -47,7 +47,7 @@ export class PaginationLink extends PureComponent<PaginationLinkComponentProps> 
               to={ {
                   search,
                   pathname,
-                  state
+                  state,
               } }
               aria-label={ label }
               block="PaginationLink"

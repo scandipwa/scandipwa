@@ -16,7 +16,7 @@ import ProductListQuery from 'Query/ProductList.query';
 import {
     GQLShareWishlistInput,
     GQLWishlistItemInput,
-    GQLWishlistItemUpdateInput
+    GQLWishlistItemUpdateInput,
 } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
 import { getCartId } from 'Util/Cart';
@@ -26,7 +26,7 @@ import {
     ItemOption,
     Wishlist,
     WishlistItem,
-    WishListUserInputError
+    WishListUserInputError,
 } from './Wishlist.type';
 
 /** @namespace Query/Wishlist/Query */
@@ -34,7 +34,7 @@ export class WishlistQuery {
     //#region MUTATION
     addProductsToWishlist(
         wishlistId: string,
-        wishlistItems: GQLWishlistItemInput[]
+        wishlistItems: GQLWishlistItemInput[],
     ): Mutation<'addProductsToWishlist', { user_errors: WishListUserInputError[] }> {
         return new Mutation<'addProductsToWishlist', { user_errors: WishListUserInputError[] }>('addProductsToWishlist')
             .addArgument('wishlistId', 'ID!', wishlistId)
@@ -44,10 +44,10 @@ export class WishlistQuery {
 
     updateProductsInWishlist(
         wishlistId: string,
-        wishlistItems: GQLWishlistItemUpdateInput[]
+        wishlistItems: GQLWishlistItemUpdateInput[],
     ): Mutation<'updateProductsInWishlist', { user_errors: WishListUserInputError[] }> {
         return new Mutation<'updateProductsInWishlist', { user_errors: WishListUserInputError[] }>(
-            'updateProductsInWishlist'
+            'updateProductsInWishlist',
         )
             .addArgument('wishlistId', 'ID!', wishlistId)
             .addArgument('wishlistItems', '[WishlistItemUpdateInput!]!', wishlistItems)
@@ -62,7 +62,7 @@ export class WishlistQuery {
     > {
         return [
             new Field<'message', string>('message'),
-            new Field<'code', string>('code')
+            new Field<'code', string>('code'),
         ];
     }
 
@@ -130,7 +130,7 @@ export class WishlistQuery {
             new Field<'updated_at', string>('updated_at'),
             new Field<'items_count', number>('items_count'),
             new Field<'creators_name', string>('creators_name'),
-            this._getItemsField()
+            this._getItemsField(),
         ];
     }
 
@@ -140,7 +140,7 @@ export class WishlistQuery {
     > {
         return [
             new Field<'label', string>('label'),
-            new Field<'value', string>('value')
+            new Field<'value', string>('value'),
         ];
     }
 
@@ -167,7 +167,7 @@ export class WishlistQuery {
             new Field<'price', number>('price'),
             new Field<'price_without_tax', number>('price_without_tax'),
             new Field<'buy_request', string>('buy_request'),
-            this._getItemOptionsField()
+            this._getItemOptionsField(),
         ];
     }
 
@@ -184,7 +184,7 @@ export class WishlistQuery {
     > {
         return [
             ...this._getWishlistItemsFields(),
-            this._getProductField()
+            this._getProductField(),
         ];
     }
 

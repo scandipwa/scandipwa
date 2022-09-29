@@ -33,11 +33,11 @@ export class ProductTabs extends PureComponent<ProductTabsComponentProps, Produc
             const { tabs: [{ id }] } = this.props;
 
             this.state = {
-                activeTab: id
+                activeTab: id,
             };
         } else {
             this.state = {
-                activeTab: ''
+                activeTab: '',
             };
         }
     }

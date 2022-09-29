@@ -18,14 +18,14 @@ import { VIDEO_POPUP_ID } from './VideoPopup.config';
 import {
     VideoPopupContainerMapDispatchProps,
     VideoPopupContainerMapStateProps,
-    VideoPopupPayload
+    VideoPopupPayload,
 } from './VideoPopup.type';
 
 /** @namespace Component/VideoPopup/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): VideoPopupContainerMapStateProps => ({
     payload: (state.PopupReducer.popupPayload as {
         [VIDEO_POPUP_ID]: VideoPopupPayload;
-    })[VIDEO_POPUP_ID] || {}
+    })[VIDEO_POPUP_ID] || {},
 });
 
 /** @namespace Component/VideoPopup/Container/mapDispatchToProps */

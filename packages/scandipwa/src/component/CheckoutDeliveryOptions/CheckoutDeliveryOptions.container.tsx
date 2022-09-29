@@ -19,7 +19,7 @@ import {
     CheckoutDeliveryOptionsComponent,
     CheckoutDeliveryOptionsContainerProps,
     CheckoutDeliveryOptionsContainerPropsKeys,
-    CheckoutDeliveryOptionsContainerState
+    CheckoutDeliveryOptionsContainerState,
 } from './CheckoutDeliveryOptions.type';
 
 /** @namespace Component/CheckoutDeliveryOptions/Container */
@@ -28,11 +28,11 @@ CheckoutDeliveryOptionsContainerProps,
 CheckoutDeliveryOptionsContainerState
 > {
     static defaultProps: Partial<CheckoutDeliveryOptionsContainerProps> = {
-        selectedShippingMethod: {}
+        selectedShippingMethod: {},
     };
 
     containerFunctions = {
-        selectShippingMethod: this.selectShippingMethod.bind(this)
+        selectShippingMethod: this.selectShippingMethod.bind(this),
     };
 
     dataMap = {};
@@ -41,13 +41,13 @@ CheckoutDeliveryOptionsContainerState
         const {
             shippingMethods,
             handleSelectDeliveryMethod,
-            selectedShippingMethod
+            selectedShippingMethod,
         } = this.props;
 
         return {
             selectedShippingMethod,
             shippingMethods,
-            handleSelectDeliveryMethod
+            handleSelectDeliveryMethod,
         };
     }
 

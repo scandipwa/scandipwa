@@ -16,7 +16,7 @@ import { ProductType } from 'Component/Product/Product.config';
 import {
     mapDispatchToProps,
     mapStateToProps as sourceMapStateToProps,
-    ProductContainer
+    ProductContainer,
 } from 'Component/Product/Product.container';
 import { ReactElement } from 'Type/Common.type';
 import { GQLProductStockStatus } from 'Type/Graphql.type';
@@ -29,7 +29,7 @@ import {
     ProductActionsComponentProps,
     ProductActionsContainerMapStateProps,
     ProductActionsContainerProps,
-    ProductActionsContainerState
+    ProductActionsContainerState,
 } from './ProductActions.type';
 
 /** @namespace Component/ProductActions/Container/mapStateToProps */
@@ -38,7 +38,7 @@ export const mapStateToProps = (state: RootState): ProductActionsContainerMapSta
     isPriceAlertEnabled: state.ConfigReducer.product_alert_allow_price,
     isInStockAlertEnabled: state.ConfigReducer.product_alert_allow_stock,
     displayProductStockStatus: state.ConfigReducer.display_product_stock_status,
-    areReviewsEnabled: state.ConfigReducer.reviews_are_enabled
+    areReviewsEnabled: state.ConfigReducer.reviews_are_enabled,
 });
 
 /** @namespace Component/ProductActions/Container */
@@ -50,7 +50,7 @@ ProductActionsContainerState
 
     containerFunctions: ProductActionsComponentContainerFunctions = {
         ...this.containerFunctions,
-        showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this)
+        showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
     };
 
     containerProps(): Pick<ProductActionsComponentProps, ProductActionsComponentContainerPropKeys> {
@@ -60,7 +60,7 @@ ProductActionsContainerState
             displayProductStockStatus,
             getLink,
             isInStockAlertEnabled,
-            isPriceAlertEnabled
+            isPriceAlertEnabled,
         } = this.props;
 
         return {
@@ -75,7 +75,7 @@ ProductActionsContainerState
             offerCount: this.getOfferCount(),
             offerType: this.getOfferType(),
             stockMeta: this.getStockMeta(),
-            metaLink: this.getMetaLink()
+            metaLink: this.getMetaLink(),
         };
     }
 
@@ -105,11 +105,11 @@ ProductActionsContainerState
             product,
             product: { variants = [] },
             // !FIXME: This prop is always undefined. We must fix it later.
-            configurableVariantIndex
+            configurableVariantIndex,
         } = this.props;
 
         const {
-            stock_status
+            stock_status,
         } = variants[ configurableVariantIndex ] || product;
 
         if (stock_status === GQLProductStockStatus.IN_STOCK) {
@@ -159,8 +159,8 @@ ProductActionsContainerState
         const {
             product: {
                 type_id: type,
-                dynamic_price: dynamicPrice
-            } = {}
+                dynamic_price: dynamicPrice,
+            } = {},
         } = this.props;
 
         const { enteredOptions = [], selectedOptions = [] } = this.state;

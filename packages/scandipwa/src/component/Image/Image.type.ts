@@ -19,7 +19,7 @@ export enum ImageRatio {
     IMG_4X3 = '4x3',
     IMG_16X9 = '16x9',
     IMG_SQUARE = 'square',
-    IMG_CUSTOM = 'custom'
+    IMG_CUSTOM = 'custom',
 }
 
 export interface ImageContainerProps {

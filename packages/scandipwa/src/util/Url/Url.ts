@@ -26,7 +26,7 @@ export const updateQueryParamWithoutHistory = (
     name: string,
     value: string,
     history: History,
-    location: Location
+    location: Location,
 ): void => {
     const { search, pathname } = location;
 
@@ -131,7 +131,7 @@ export const getQueryParam = (variable: string, location: Location): string | fa
  * @namespace Util/Url/convertQueryStringToKeyValuePairs
  */
 export const convertQueryStringToKeyValuePairs = <T extends Record<string, string> = Record<string, string>>(
-    queryString: string
+    queryString: string,
 ): T => {
     const keyValuePairs: Record<string, string> = {};
     const params = queryString.substring(1).split('&');
@@ -159,7 +159,7 @@ export const convertQueryStringToKeyValuePairs = <T extends Record<string, strin
 export const updateKeyValuePairs = (
     keyValuePairs: Record<string, string | number>,
     currentKey: string,
-    currentValue: string | number
+    currentValue: string | number,
 ): Record<string, string | number> => {
     const updatedKeyValuePairs: Record<string, string | number> = {};
 
@@ -183,7 +183,7 @@ export const updateKeyValuePairs = (
  * @namespace Util/Url/convertKeyValuesToQueryString
  */
 export const convertKeyValuesToQueryString = (
-    keyValuePairs: Record<string, string | number>
+    keyValuePairs: Record<string, string | number>,
 ): string => Object.entries(keyValuePairs)
     .map((pair) => {
         const [key, value] = pair;
@@ -203,7 +203,7 @@ export const convertKeyValuesToQueryString = (
 export const generateQuery = (
     keyValueObject: Record<string, string | number>,
     location: Location,
-    history: History
+    history: History,
 ): string => Object.entries(keyValueObject)
     .reduce((acc, pair) => {
         const [key, value] = pair;

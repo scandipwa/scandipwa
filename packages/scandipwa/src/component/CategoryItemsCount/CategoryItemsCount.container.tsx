@@ -16,12 +16,12 @@ import { RootState } from 'Util/Store/Store.type';
 import CategoryItemsCount from './CategoryItemsCount.component';
 import {
     CategoryItemsCountContainerMapDispatchProps,
-    CategoryItemsCountContainerMapStateProps
+    CategoryItemsCountContainerMapStateProps,
 } from './CategoryItemsCount.type';
 
 /** @namespace Component/CategoryItemsCount/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CategoryItemsCountContainerMapStateProps => ({
-    totalItems: state.ProductListReducer.totalItems
+    totalItems: state.ProductListReducer.totalItems,
 });
 
 /** @namespace Component/CategoryItemsCount/Container/mapDispatchToProps */

@@ -13,7 +13,7 @@ import { AnyAction } from 'redux';
 export enum CheckoutActionType {
     UPDATE_SHIPPING_FIELDS = 'UPDATE_SHIPPING_FIELDS',
     UPDATE_EMAIL = 'UPDATE_EMAIL',
-    UPDATE_EMAIL_AVAILABLE = 'UPDATE_EMAIL_AVAILABLE'
+    UPDATE_EMAIL_AVAILABLE = 'UPDATE_EMAIL_AVAILABLE',
 }
 
 export interface UpdateShippingFieldsAction extends AnyAction {

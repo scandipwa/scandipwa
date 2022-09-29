@@ -17,7 +17,7 @@ import { Page } from 'Component/Header/Header.config';
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps,
-    MyAccountOverlayContainer
+    MyAccountOverlayContainer,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
 import { MyAccountOverlayContainerState } from 'Component/MyAccountOverlay/MyAccountOverlay.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
@@ -33,21 +33,21 @@ import LoginAccount from './LoginAccount.component';
 import {
     LoginAccountContainerFunctions,
     LoginAccountContainerMapDispatchProps,
-    LoginAccountContainerProps
+    LoginAccountContainerProps,
 } from './LoginAccount.type';
 
 /** @namespace Route/LoginAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): LoginAccountContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
     toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
 });
 
 /** @namespace Route/LoginAccount/Container */
 export class LoginAccountContainer extends MyAccountOverlayContainer<LoginAccountContainerProps> {
     containerFunctions: LoginAccountContainerFunctions = {
         ...this.containerFunctions,
-        onCreateAccountClick: this.onCreateAccountClick.bind(this)
+        onCreateAccountClick: this.onCreateAccountClick.bind(this),
     };
 
     onCreateAccountClick(): void {
@@ -61,15 +61,15 @@ export class LoginAccountContainer extends MyAccountOverlayContainer<LoginAccoun
     componentDidMount(): void {
         const {
             setHeaderState,
-            toggleBreadcrumbs
+            toggleBreadcrumbs,
         } = this.props;
         const {
             location: {
                 state: {
                     isFromEmailChange = false,
-                    isFromLocked = false
-                } = {}
-            }
+                    isFromLocked = false,
+                } = {},
+            },
         } = history;
 
         if (isSignedIn() && (!isFromEmailChange && !isFromLocked)) {
@@ -105,7 +105,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer<LoginAccoun
 export default
 connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(
-    LoginAccountContainer as unknown as ComponentType<LoginAccountContainerProps>
+    LoginAccountContainer as unknown as ComponentType<LoginAccountContainerProps>,
 );

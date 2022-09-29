@@ -28,7 +28,7 @@ import './ProductDownloadableLinks.style';
 /** @namespace Component/ProductDownloadableLinks/Component */
 export class ProductDownloadableLinks extends PureComponent<ProductDownloadableLinksComponentProps> {
     static defaultProps: Partial<ProductDownloadableLinksComponentProps> = {
-        links: []
+        links: [],
     };
 
     renderLabel(link: DownloadableProductLinks): ReactElement {
@@ -67,10 +67,10 @@ export class ProductDownloadableLinks extends PureComponent<ProductDownloadableL
                   id: `link-${ uid }`,
                   value: uid,
                   name: `link-${ uid }`,
-                  key: uid
+                  key: uid,
               } }
               events={ {
-                  onChange: setSelectedCheckboxValues
+                  onChange: setSelectedCheckboxValues,
               } }
               label={ label }
             />
@@ -115,7 +115,7 @@ export class ProductDownloadableLinks extends PureComponent<ProductDownloadableL
         return (
             <FieldGroup
               validationRule={ {
-                  isRequired
+                  isRequired,
               } }
               validateOn={ ['onSubmit', 'onChange'] }
             >

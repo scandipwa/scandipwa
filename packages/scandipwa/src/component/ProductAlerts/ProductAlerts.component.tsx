@@ -23,7 +23,7 @@ export class ProductAlerts extends PureComponent<ProductAlertsComponentProps> {
     static defaultProps: Partial<ProductAlertsComponentProps> = {
         isInStockAlertEnabled: false,
         isPriceAlertEnabled: false,
-        stockStatus: null
+        stockStatus: null,
     };
 
     renderPriceDropSubscribeButton(): ReactElement {
@@ -48,7 +48,7 @@ export class ProductAlerts extends PureComponent<ProductAlertsComponentProps> {
         const {
             handlePriceDropSubscribeAlertInStock,
             isInStockAlertEnabled,
-            stockStatus
+            stockStatus,
         } = this.props;
 
         if (!isInStockAlertEnabled) {

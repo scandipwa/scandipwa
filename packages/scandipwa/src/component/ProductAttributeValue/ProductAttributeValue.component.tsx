@@ -12,7 +12,7 @@
  */
 
 import {
-    CSSProperties, KeyboardEvent, MouseEvent, PureComponent
+    CSSProperties, KeyboardEvent, MouseEvent, PureComponent,
 } from 'react';
 
 import Field from 'Component/Field';
@@ -37,7 +37,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         isAvailable: true,
         isFormattedAsText: false,
         isProductCountVisible: false,
-        showProductAttributeAsLink: true
+        showProductAttributeAsLink: true,
     };
 
     __construct(props: ProductAttributeValueComponentProps): void {
@@ -62,9 +62,9 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         const {
             attribute: {
                 attribute_options,
-                is_boolean
+                is_boolean,
             },
-            isProductCountVisible
+            isProductCountVisible,
         } = this.props;
 
         if (attribute_options) {
@@ -85,7 +85,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
                     ...optionValues,
                     label: `${adjustedLabel} (${count})`,
                     labelText: adjustedLabel.trim(),
-                    count
+                    count,
                 };
             }
         }
@@ -139,12 +139,12 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
             attribute: {
                 attribute_value = '',
                 attribute_code = '',
-                has_swatch
-            }
+                has_swatch,
+            },
         } = this.props;
         const attributeOption = this.getOptionLabel(attribute_value);
         const {
-            label, labelText, count, swatch_data
+            label, labelText, count, swatch_data,
         } = attributeOption;
 
         // skip attributes without valid swatches
@@ -174,8 +174,8 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         const {
             attribute: {
                 attribute_label,
-                attribute_value
-            }
+                attribute_value,
+            },
         } = this.props;
 
         if (!attribute_value || attribute_value === 'no_selection') {
@@ -194,7 +194,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
 
     renderTextAreaAttribute(): ReactElement {
         const {
-            attribute: { attribute_value = '' }
+            attribute: { attribute_value = '' },
         } = this.props;
 
         return (
@@ -229,7 +229,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
             '--option-border-color': isLight ? '#dddddd' : color,
             '--option-check-mark-background': isLight ? '#000' : '#fff',
             // stylelint-disable-next-line value-keyword-case
-            '--option-is-selected': isSelected ? 1 : 0
+            '--option-is-selected': isSelected ? 1 : 0,
         } as CSSProperties;
 
         return (
@@ -251,7 +251,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         }
 
         const style = {
-            '--option-is-selected': isSelected ? 1 : 0
+            '--option-is-selected': isSelected ? 1 : 0,
         } as CSSProperties;
 
         return (
@@ -319,13 +319,13 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
               attr={ {
                   id: value,
                   name: value,
-                  checked: isSelected
+                  checked: isSelected,
               } }
               label={ this.getCheckboxLabel(value, subLabel) }
               mix={ {
                   block: 'ProductAttributeValue',
                   elem: 'Text',
-                  mods: { isSelected }
+                  mods: { isSelected },
               } }
             />
         );
@@ -400,7 +400,7 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
             attribute: { attribute_code, attribute_value },
             mix,
             isFormattedAsText,
-            showProductAttributeAsLink
+            showProductAttributeAsLink,
         } = this.props;
 
         if (attribute_code && !attribute_value) {

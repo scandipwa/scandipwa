@@ -28,7 +28,7 @@ export class MyAccountInformation extends PureComponent<MyAccountInformationComp
             showEmailChangeField,
             showPasswordChangeField,
             handleChangeEmailCheckbox,
-            handleChangePasswordCheckbox
+            handleChangePasswordCheckbox,
         } = this.props;
 
         return (

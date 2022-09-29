@@ -18,7 +18,7 @@ import {
     ConfigurableVariant,
     OptimizedProductImage,
     ProductLink,
-    ProductStockItem
+    ProductStockItem,
 } from './ProductList.type';
 
 export interface UserErrors {

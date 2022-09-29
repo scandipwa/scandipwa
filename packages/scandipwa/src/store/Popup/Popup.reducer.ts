@@ -15,14 +15,14 @@ import { OverlayActionType } from 'Store/Overlay/Overlay.type';
 import {
     PopupActionType,
     PopupStore,
-    PopupType
+    PopupType,
 } from './Popup.type';
 
 /** @namespace Store/Popup/Reducer/getInitialState */
 export const getInitialState = (): PopupStore => ({
     popupPayload: {},
     shouldPopupClose: false,
-    payload: {}
+    payload: {},
 });
 
 /** @namespace Store/Popup/Reducer/PopupReducer */
@@ -31,7 +31,7 @@ PopupStore,
 PopupType
 > = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     const { payload, type } = action;
 

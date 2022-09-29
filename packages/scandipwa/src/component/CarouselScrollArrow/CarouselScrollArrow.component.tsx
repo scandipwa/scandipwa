@@ -23,7 +23,7 @@ import './CarouselScrollArrow.style';
 export class CarouselScrollArrow extends PureComponent<CarouselScrollArrowComponentProps> {
     static defaultProps: Partial<CarouselScrollArrowComponentProps> = {
         mods: {},
-        onClick: noopFn
+        onClick: noopFn,
     };
 
     render(): ReactElement {

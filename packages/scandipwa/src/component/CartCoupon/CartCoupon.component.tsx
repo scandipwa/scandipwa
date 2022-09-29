@@ -25,12 +25,12 @@ import './CartCoupon.style';
 /** @namespace Component/CartCoupon/Component */
 export class CartCoupon extends PureComponent<CartCouponComponentProps, CartCouponComponentState> {
     static defaultProps: Partial<CartCouponComponentProps> = {
-        couponCode: ''
+        couponCode: '',
     };
 
     state: CartCouponComponentState = {
         enteredCouponCode: '',
-        isFieldWithError: false
+        isFieldWithError: false,
     };
 
     __construct(props: CartCouponComponentProps): void {
@@ -54,7 +54,7 @@ export class CartCoupon extends PureComponent<CartCouponComponentProps, CartCoup
 
     toggleIsFieldWithError(value: boolean): void {
         this.setState({
-            isFieldWithError: value
+            isFieldWithError: value,
         });
     }
 
@@ -63,7 +63,7 @@ export class CartCoupon extends PureComponent<CartCouponComponentProps, CartCoup
 
         this.setState({
             enteredCouponCode: value,
-            isFieldWithError: false
+            isFieldWithError: false,
         });
     }
 
@@ -82,7 +82,7 @@ export class CartCoupon extends PureComponent<CartCouponComponentProps, CartCoup
         // We need to reset input field. If we do it in applyCouponCode,
         // then it will disappear if code is incorrect. We want to avoid it
         this.setState({
-            enteredCouponCode: ''
+            enteredCouponCode: '',
         });
     }
 
@@ -111,10 +111,10 @@ export class CartCoupon extends PureComponent<CartCouponComponentProps, CartCoup
                           name: 'couponCode',
                           defaultValue: enteredCouponCode,
                           placeholder: __('Your discount code'),
-                          'aria-label': __('Your discount code')
+                          'aria-label': __('Your discount code'),
                       } }
                       events={ {
-                          onChange: this.handleCouponCodeChange
+                          onChange: this.handleCouponCodeChange,
                       } }
                       validateOn={ ['onChange'] }
                       mix={ { mods: { hasError: isFieldWithError }, block: 'Field' } }

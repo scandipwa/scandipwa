@@ -29,7 +29,7 @@ import {
     NoMatchContainerMapDispatchProps,
     NoMatchContainerMapStateProps,
     NoMatchContainerProps,
-    NoMatchContainerPropsKeys
+    NoMatchContainerPropsKeys,
 } from './NoMatch.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -41,17 +41,17 @@ export const BreadcrumbsDispatcher = import(
 export const mapDispatchToProps = (dispatch: Dispatch): NoMatchContainerMapDispatchProps => ({
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
         );
     },
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
-    updateNoMatch: (options) => dispatch(updateNoMatch(options))
+    updateNoMatch: (options) => dispatch(updateNoMatch(options)),
 });
 
 /** @namespace Route/NoMatch/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): NoMatchContainerMapStateProps => ({
-    urlRewrite: state.UrlRewritesReducer.urlRewrite
+    urlRewrite: state.UrlRewritesReducer.urlRewrite,
 });
 
 /** @namespace Route/NoMatch/Container */
@@ -80,7 +80,7 @@ export class NoMatchContainer extends PureComponent<NoMatchContainerProps> {
         changeHeaderState({
             name: Page.NO_MATCH,
             title: __('Page not found'),
-            isHiddenOnMobile: true
+            isHiddenOnMobile: true,
         });
     }
 

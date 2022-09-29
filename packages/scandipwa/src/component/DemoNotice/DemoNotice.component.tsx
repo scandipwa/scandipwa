@@ -20,7 +20,7 @@ import './DemoNotice.style';
 /** @namespace Component/DemoNotice/Component */
 export class DemoNotice extends PureComponent<DemoNoticeComponentProps> {
     static defaultProps: Partial<DemoNoticeComponentProps> = {
-        isDemoNoticeEnabled: false
+        isDemoNoticeEnabled: false,
     };
 
     componentDidMount(): void {

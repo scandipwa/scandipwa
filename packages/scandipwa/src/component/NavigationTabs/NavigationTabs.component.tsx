@@ -27,40 +27,40 @@ export class NavigationTabs extends NavigationAbstract<NavigationTabsComponentPr
 
     stateMap: Record<string, Record<string, boolean>> = {
         [NavigationTabsMap.HOME_TAB]: {
-            home: true
+            home: true,
         },
         [NavigationTabsMap.MENU_TAB]: {
-            menu: true
+            menu: true,
         },
         [NavigationTabsMap.CART_TAB]: {
-            minicart: true
+            minicart: true,
         },
         [NavigationTabsMap.ACCOUNT_TAB]: {
-            account: true
+            account: true,
         },
         [NavigationTabsMap.CHECKOUT_TAB]: {
-            minicart: true
-        }
+            minicart: true,
+        },
     };
 
     renderMap = {
         home: this.renderHomeButton.bind(this),
         menu: this.renderMenuButton.bind(this),
         account: this.renderAccountButton.bind(this),
-        minicart: this.renderMinicartButton.bind(this)
+        minicart: this.renderMinicartButton.bind(this),
     };
 
     shouldComponentUpdate(nextProps: NavigationTabsComponentProps): boolean {
         const {
             navigationState: { name: prevName },
             cartTotals: { total_quantity: prevQty },
-            device: prevDevice
+            device: prevDevice,
         } = this.props;
 
         const {
             navigationState: { name: nextName },
             cartTotals: { total_quantity: nextQty },
-            device: nextDevice
+            device: nextDevice,
         } = nextProps;
 
         return prevName !== nextName || nextQty !== prevQty || prevDevice !== nextDevice;

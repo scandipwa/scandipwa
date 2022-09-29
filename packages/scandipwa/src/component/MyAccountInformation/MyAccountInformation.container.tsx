@@ -38,7 +38,7 @@ import {
     MyAccountInformationContainerMapStateProps,
     MyAccountInformationContainerProps,
     MyAccountInformationContainerPropsKeys,
-    MyAccountInformationContainerState
+    MyAccountInformationContainerState,
 } from './MyAccountInformation.type';
 
 export const MyAccountDispatcher = import(
@@ -52,7 +52,7 @@ export const mapStateToProps = (state: RootState): MyAccountInformationContainer
     customer: state.MyAccountReducer.customer,
     isLoading: state.MyAccountReducer.isLoading,
     isLocked: state.MyAccountReducer.isLocked,
-    baseLinkUrl: state.ConfigReducer.base_link_url
+    baseLinkUrl: state.ConfigReducer.base_link_url,
 });
 
 /** @namespace Component/MyAccountInformation/Container/mapDispatchToProps */
@@ -60,14 +60,14 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountInformationCont
     updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
     showErrorNotification: (error) => dispatch(showNotification(
         NotificationType.ERROR,
-        typeof error === 'string' ? error : getErrorMessage(error)
+        typeof error === 'string' ? error : getErrorMessage(error),
     )),
     showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status)),
     logout: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.logout(false, false, dispatch)
+        ({ default: dispatcher }) => dispatcher.logout(false, false, dispatch),
     ),
-    updateIsLocked: (isLocked) => dispatch(updateIsLocked(isLocked))
+    updateIsLocked: (isLocked) => dispatch(updateIsLocked(isLocked)),
 });
 
 /** @namespace Component/MyAccountInformation/Container */
@@ -78,7 +78,7 @@ MyAccountInformationContainerState
     containerFunctions: MyAccountInformationContainerFunctions = {
         onCustomerSave: this.onCustomerSave.bind(this),
         handleChangeEmailCheckbox: this.handleChangeEmailCheckbox.bind(this),
-        handleChangePasswordCheckbox: this.handleChangePasswordCheckbox.bind(this)
+        handleChangePasswordCheckbox: this.handleChangePasswordCheckbox.bind(this),
     };
 
     __construct(props: MyAccountInformationContainerProps): void {
@@ -87,15 +87,15 @@ MyAccountInformationContainerState
         const {
             location: {
                 state: {
-                    editPassword = false
-                } = {}
-            }
+                    editPassword = false,
+                } = {},
+            },
         } = history;
 
         this.state = {
             showEmailChangeField: false,
             showPasswordChangeField: editPassword,
-            isErrorShow: false
+            isErrorShow: false,
         };
 
         this.onError = this.onError.bind(this);
@@ -112,7 +112,7 @@ MyAccountInformationContainerState
             isLoading,
             customer,
             showEmailChangeField,
-            showPasswordChangeField
+            showPasswordChangeField,
         };
     }
 
@@ -134,7 +134,7 @@ MyAccountInformationContainerState
             taxvat = '',
             password = '',
             newPassword = '',
-            email = ''
+            email = '',
         } = fields;
 
         if (!isSignedIn()) {
@@ -161,10 +161,10 @@ MyAccountInformationContainerState
 
     handleSuccessChange(): void {
         const {
-            showSuccessNotification, updateCustomerLoadingStatus
+            showSuccessNotification, updateCustomerLoadingStatus,
         } = this.props;
         const {
-            showEmailChangeField, showPasswordChangeField
+            showEmailChangeField, showPasswordChangeField,
         } = this.state;
 
         updateCustomerLoadingStatus(false);
@@ -187,7 +187,7 @@ MyAccountInformationContainerState
 
         history.push({
             pathname: path,
-            state: { isFromEmailChange: true }
+            state: { isFromEmailChange: true },
         });
 
         logout();
@@ -201,7 +201,7 @@ MyAccountInformationContainerState
 
     async handleInformationChange(options: GQLCustomerUpdateInput): Promise<void> {
         const {
-            updateCustomer
+            updateCustomer,
         } = this.props;
 
         const mutation = MyAccountQuery.getUpdateInformationMutation(options);

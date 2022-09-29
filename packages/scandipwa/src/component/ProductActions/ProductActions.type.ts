@@ -17,7 +17,7 @@ import {
     ProductContainerMapDispatchProps,
     ProductContainerMapStateProps,
     ProductContainerProps,
-    ProductContainerState
+    ProductContainerState,
 } from 'Component/Product/Product.type';
 import { ReactElement } from 'Type/Common.type';
 import { IndexedProduct } from 'Util/Product/Product.type';

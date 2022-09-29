@@ -29,7 +29,7 @@ import './FieldSelect.style';
  * @namespace Component/FieldSelect/Component */
 export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
     static defaultProps: Partial<FieldSelectComponentProps> = {
-        isUpDirection: false
+        isUpDirection: false,
     };
 
     renderNativeOption(option: Option): ReactElement {
@@ -40,7 +40,7 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
             label,
             subLabel = '',
             isAvailable = true,
-            isPlaceholder
+            isPlaceholder,
         } = option;
 
         const { isDisabled } = this.props;
@@ -60,7 +60,7 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
 
     renderNativeSelect(): ReactElement {
         const {
-            setRef, attr, events, isDisabled, options, handleSelectListOptionClick, isSelectedOptionAvailable
+            setRef, attr, events, isDisabled, options, handleSelectListOptionClick, isSelectedOptionAvailable,
         } = this.props;
 
         return (
@@ -88,12 +88,12 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
             subLabel,
             isPlaceholder = false,
             isHovered,
-            isAvailable = true
+            isAvailable = true,
         } = option;
 
         const {
             isExpanded,
-            handleSelectListOptionClick
+            handleSelectListOptionClick,
         } = this.props;
 
         return (
@@ -104,7 +104,7 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
                   isDisabled: !isAvailable,
                   isExpanded,
                   isPlaceholder,
-                  isHovered
+                  isHovered,
               } }
               key={ id }
               /**
@@ -136,7 +136,7 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
             options,
             isExpanded,
             isDropdownOpenUpwards,
-            isScrollable
+            isScrollable,
         } = this.props;
 
         return (
@@ -147,7 +147,7 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
               mods={ {
                   isExpanded,
                   isDropdownOpenUpwards,
-                  isNotScrollable: !isScrollable
+                  isNotScrollable: !isScrollable,
               } }
             >
                 <div
@@ -181,7 +181,7 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
             handleSelectExpand,
             handleSelectListKeyPress,
             handleSelectExpandedExpand,
-            isDisabled
+            isDisabled,
         } = this.props;
 
         return (

@@ -14,22 +14,22 @@ import {
     SearchBarActionType,
     SearchBarDispatcherData,
     UpdateLoadStatusAction,
-    UpdateSearchBarAction
+    UpdateSearchBarAction,
 } from './SearchBar.type';
 
 /** @namespace Store/SearchBar/Action/updateSearchBar */
 export const updateSearchBar = (result: SearchBarDispatcherData): UpdateSearchBarAction => ({
     type: SearchBarActionType.UPDATE_SEARCH_BAR,
-    result
+    result,
 });
 
 /** @namespace Store/SearchBar/Action/updateLoadStatus */
 export const updateLoadStatus = (status: boolean): UpdateLoadStatusAction => ({
     type: SearchBarActionType.UPDATE_SEARCH_LOAD_STATUS,
-    isLoading: status
+    isLoading: status,
 });
 
 /** @namespace Store/SearchBar/Action/clearSearchResults */
 export const clearSearchResults = (): ClearSearchResultsAction => ({
-    type: SearchBarActionType.CLEAR_SEARCH_RESULTS
+    type: SearchBarActionType.CLEAR_SEARCH_RESULTS,
 });

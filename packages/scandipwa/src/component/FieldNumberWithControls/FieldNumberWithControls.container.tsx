@@ -20,7 +20,7 @@ import {
     FieldNumberWitControlsContainerFunctions,
     FieldNumberWitControlsContainerProps,
     FieldNumberWitControlsContainerPropsKeys,
-    FieldNumberWitControlsContainerState
+    FieldNumberWitControlsContainerState,
 } from './FieldNumberWithControls.type';
 
 /**
@@ -32,12 +32,12 @@ FieldNumberWitControlsContainerProps,
 FieldNumberWitControlsContainerState
 >{
     state: FieldNumberWitControlsContainerState = {
-        value: 0
+        value: 0,
     };
 
     containerFunctions: FieldNumberWitControlsContainerFunctions = {
         handleValueChange: this.handleValueChange.bind(this),
-        setRef: this.setRef.bind(this)
+        setRef: this.setRef.bind(this),
     };
 
     fieldRef: HTMLInputElement | null = null;
@@ -76,7 +76,7 @@ FieldNumberWitControlsContainerState
 
     setValue(value: number | string): number | string | null {
         const {
-            attr: { min = 0, max = DEFAULT_MAX_PRODUCTS } = {}
+            attr: { min = 0, max = DEFAULT_MAX_PRODUCTS } = {},
         } = this.props;
 
         const { value: stateValue } = this.state;
@@ -96,7 +96,7 @@ FieldNumberWitControlsContainerState
 
     handleInitialLoad(value: number | string): void {
         const {
-            events: { onLoad } = {}
+            events: { onLoad } = {},
         } = this.props;
 
         const newValue = this.setValue(value);
@@ -108,7 +108,7 @@ FieldNumberWitControlsContainerState
 
     handleValueChange(value: number | string): void {
         const {
-            events: { onChange } = {}
+            events: { onChange } = {},
         } = this.props;
 
         const newValue = this.setValue(value);
@@ -127,7 +127,7 @@ FieldNumberWitControlsContainerState
             } = {},
             value,
             events,
-            isDisabled
+            isDisabled,
         } = this.props;
 
         const { value: stateValue } = this.state;
@@ -135,12 +135,12 @@ FieldNumberWitControlsContainerState
         return {
             attr: {
                 ...attr,
-                autoComplete
+                autoComplete,
             },
             value,
             events,
             isDisabled,
-            stateValue
+            stateValue,
         };
     }
 

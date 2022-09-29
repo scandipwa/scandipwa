@@ -57,7 +57,7 @@ export class NewsletterSubscription extends FieldForm<NewsletterSubscriptionComp
         const { onFormSubmit } = this.props;
 
         return {
-            onSubmit: onFormSubmit
+            onSubmit: onFormSubmit,
         };
     }
 

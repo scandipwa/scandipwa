@@ -19,13 +19,13 @@ import { CategoryItemsCountComponentProps } from './CategoryItemsCount.type';
 /** @namespace Component/CategoryItemsCount/Component */
 export class CategoryItemsCount extends PureComponent<CategoryItemsCountComponentProps> {
     static defaultProps: Partial<CategoryItemsCountComponentProps> = {
-        isMatchingListFilter: false
+        isMatchingListFilter: false,
     };
 
     render(): ReactElement {
         const {
             totalItems,
-            isMatchingListFilter
+            isMatchingListFilter,
         } = this.props;
 
         return (

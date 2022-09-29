@@ -17,7 +17,7 @@ import { UrlRewritesAction, UrlRewritesActionType, UrlRewritesStore } from './Ur
 export const getInitialState = (): UrlRewritesStore => ({
     urlRewrite: {},
     isLoading: false,
-    requestedUrl: ''
+    requestedUrl: '',
 });
 
 /** @namespace Store/UrlRewrites/Reducer/UrlRewritesReducer */
@@ -26,20 +26,20 @@ UrlRewritesStore,
 UrlRewritesAction
 > = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     switch (action.type) {
     case UrlRewritesActionType.UPDATE_URL_REWRITE:
         const {
             urlRewrite,
-            requestedUrl
+            requestedUrl,
         } = action;
 
         return {
             ...state,
             isLoading: false,
             urlRewrite,
-            requestedUrl
+            requestedUrl,
         };
 
     case UrlRewritesActionType.IS_LOADING_URL_REWRITE:
@@ -47,7 +47,7 @@ UrlRewritesAction
 
         return {
             ...state,
-            isLoading
+            isLoading,
         };
     default:
         return state;

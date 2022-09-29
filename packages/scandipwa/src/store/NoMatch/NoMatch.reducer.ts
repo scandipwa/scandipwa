@@ -14,18 +14,18 @@ import { Reducer } from 'redux';
 import {
     NoMatchActionType,
     NoMatchStore,
-    UpdateNoMatchAction
+    UpdateNoMatchAction,
 } from './NoMatch.type';
 
 /** @namespace Store/NoMatch/Reducer/getInitialState */
 export const getInitialState = (): NoMatchStore => ({
-    noMatch: false
+    noMatch: false,
 });
 
 /** @namespace Store/NoMatch/Reducer/NoMatchReducer */
 export const NoMatchReducer: Reducer<NoMatchStore, UpdateNoMatchAction> = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     switch (action.type) {
     case NoMatchActionType.UPDATE_NOMATCH:

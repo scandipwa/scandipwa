@@ -22,7 +22,7 @@ import { FormComponentProps } from './Form.type';
  * @namespace Component/Form/Component */
 export class Form extends PureComponent<FormComponentProps> {
     static defaultProps: Partial<FormComponentProps> = {
-        validationResponse: null
+        validationResponse: null,
     };
 
     //#region LABEL/TEXT RENDER
@@ -34,7 +34,7 @@ export class Form extends PureComponent<FormComponentProps> {
     renderErrorMessages(): ReactElement {
         const {
             showErrorAsLabel,
-            validationResponse
+            validationResponse,
         } = this.props;
 
         if (!showErrorAsLabel || !validationResponse || validationResponse === true) {
@@ -84,7 +84,7 @@ export class Form extends PureComponent<FormComponentProps> {
             setRef,
             attr,
             events,
-            mix
+            mix,
         } = this.props;
 
         return (
@@ -100,7 +100,7 @@ export class Form extends PureComponent<FormComponentProps> {
                   mix={ mix }
                   mods={ {
                       isValid: validationResponse === true,
-                      hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
+                      hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0,
                   } }
                   noValidate
                 >

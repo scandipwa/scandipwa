@@ -20,7 +20,7 @@ import './HeartIcon.style';
 /** @namespace Component/HeartIcon/Component */
 export class HeartIcon extends PureComponent<HeartIconComponentProps> {
     static defaultProps: Partial<HeartIconComponentProps> = {
-        isActive: false
+        isActive: false,
     };
 
     render(): ReactElement {

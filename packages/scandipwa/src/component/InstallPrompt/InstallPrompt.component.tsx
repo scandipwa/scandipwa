@@ -34,7 +34,7 @@ export class InstallPrompt extends PureComponent<InstallPromptComponentProps> {
             android,
             ios,
             safari,
-            standaloneMode
+            standaloneMode,
         } = device;
         const isAndroid = android && hasInstallPromptEvent;
         const isIos = ios && safari;
@@ -48,7 +48,7 @@ export class InstallPrompt extends PureComponent<InstallPromptComponentProps> {
         const {
             device,
             handleAppInstall,
-            handleBannerClose
+            handleBannerClose,
         } = this.props;
 
         if (device.ios) {

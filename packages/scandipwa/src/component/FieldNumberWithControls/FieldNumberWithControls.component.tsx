@@ -35,7 +35,7 @@ export class FieldNumberWithControls extends PureComponent<FieldNumberWitControl
             setRef,
             stateValue,
             handleValueChange,
-            isDisabled
+            isDisabled,
         } = this.props;
 
         const numberValue = +value || +stateValue;

@@ -31,7 +31,7 @@ SearchPageComponentState
               elem="Heading"
               mix={ {
                   block: 'SearchPage',
-                  elem: 'Heading'
+                  elem: 'Heading',
               } }
             >
                 { __('Search results for: ') }

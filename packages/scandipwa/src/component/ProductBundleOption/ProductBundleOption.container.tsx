@@ -19,7 +19,7 @@ import { IndexedBundleOption, TransformedBundleOption } from 'Util/Product/Produ
 import {
     bundleOptionsToSelectTransform,
     getEncodedBundleUid,
-    nonRequiredRadioOptions
+    nonRequiredRadioOptions,
 } from 'Util/Product/Transform';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -32,12 +32,12 @@ import {
     ProductBundleOptionContainerMapDispatchProps,
     ProductBundleOptionContainerMapStateProps,
     ProductBundleOptionContainerProps,
-    ProductBundleOptionContainerState
+    ProductBundleOptionContainerState,
 } from './ProductBundleOption.type';
 
 /** @namespace Component/ProductBundleOption/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductBundleOptionContainerMapStateProps => ({
-    currencyCode: state.ConfigReducer.currencyData.current_currency_code
+    currencyCode: state.ConfigReducer.currencyData.current_currency_code,
 });
 
 /** @namespace Component/ProductBundleOption/Container/mapDispatchToProps */
@@ -55,7 +55,7 @@ ProductBundleOptionContainerState
     state: ProductBundleOptionContainerState = {
         // Is different from UID, due to quantity changing encoding
         activeSelectUid: null,
-        quantity: {}
+        quantity: {},
     };
 
     containerFunctions: ProductBundleOptionContainerFunctions = {
@@ -63,7 +63,7 @@ ProductBundleOptionContainerState
         setActiveSelectUid: this.setActiveSelectUid.bind(this),
         getUidWithQuantity: this.getUidWithQuantity.bind(this),
         getDropdownOptions: this.getDropdownOptions.bind(this),
-        setDefaultOption: this.setDefaultOption.bind(this)
+        setDefaultOption: this.setDefaultOption.bind(this),
     };
 
     componentDidMount(): void {
@@ -72,7 +72,7 @@ ProductBundleOptionContainerState
 
     componentDidUpdate(
         prevProps: ProductBundleOptionContainerProps,
-        prevState: ProductBundleOptionContainerState
+        prevState: ProductBundleOptionContainerState,
     ): void {
         const { quantity } = this.state;
         const { quantity: prevQuantity } = prevState;
@@ -97,14 +97,14 @@ ProductBundleOptionContainerState
         this.setState({
             quantity: {
                 ...quantity,
-                [ uid ]: rangedValue
-            }
+                [ uid ]: rangedValue,
+            },
         });
     }
 
     setActiveSelectUid(uid: string): void {
         this.setState({
-            activeSelectUid: uid
+            activeSelectUid: uid,
         });
     }
 
@@ -143,12 +143,12 @@ ProductBundleOptionContainerState
             isRequired,
             type,
             updateSelectedValues,
-            currencyCode
+            currencyCode,
         } = this.props;
 
         const {
             activeSelectUid,
-            quantity
+            quantity,
         } = this.state;
 
         return {
@@ -159,12 +159,12 @@ ProductBundleOptionContainerState
             options: nonRequiredRadioOptions(
                 this.getSortedOptions(),
                 isRequired,
-                type
+                type,
             ) as Partial<IndexedBundleOption>[],
             updateSelectedValues,
             currencyCode: currencyCode as GQLCurrencyEnum,
             activeSelectUid,
-            quantity
+            quantity,
         };
     }
 

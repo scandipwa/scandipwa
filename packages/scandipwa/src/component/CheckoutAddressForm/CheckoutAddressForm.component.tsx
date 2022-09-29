@@ -27,7 +27,7 @@ import { CheckoutAddressFormComponentProps, EstimateAddressFields } from './Chec
 export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFormComponentProps> {
     static defaultProps: Partial<CheckoutAddressFormComponentProps> = {
         ...MyAccountAddressForm.defaultProps,
-        onShippingEstimationFieldsChange: noopFn
+        onShippingEstimationFieldsChange: noopFn,
     };
 
     lastRequest: EstimateAddress | null = null;
@@ -57,7 +57,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFor
             onZipcodeChange,
             onCityChange,
             onRegionChange,
-            onRegionIdChange
+            onRegionIdChange,
         } = this.props;
 
         const fieldMap = myAccountAddressForm({
@@ -74,13 +74,13 @@ export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFor
             currentCity,
             currentRegionId,
             currentZipcode,
-            ...address
+            ...address,
         }, {
             onCountryChange,
             onZipcodeChange,
             onCityChange,
             onRegionChange,
-            onRegionIdChange
+            onRegionIdChange,
         });
 
         const addressGroup = fieldMap.find((element) => {
@@ -98,7 +98,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFor
                 // Updates shipping methods on address blurt
                 onBlur: this.onAddressChange,
                 // Updates shipping methods on start
-                onLoad: this.onAddressChange
+                onLoad: this.onAddressChange,
             };
         }
 
@@ -114,7 +114,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFor
             region_id: regionId,
             region_string: region,
             city,
-            postcode
+            postcode,
         } = transformToNameValuePair<EstimateAddressFields>(fields);
 
         const { onShippingEstimationFieldsChange } = this.props;
@@ -123,7 +123,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFor
             region_id: regionId !== '' ? Number(regionId) : undefined,
             region,
             city,
-            postcode
+            postcode,
         };
 
         // If request hasn't changed, then ignore.

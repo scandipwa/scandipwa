@@ -19,7 +19,7 @@ import {
     MutableRefObject,
     SelectHTMLAttributes,
     SyntheticEvent,
-    TextareaHTMLAttributes
+    TextareaHTMLAttributes,
 } from 'react';
 
 import { DateFieldAttr } from 'Component/DateSelect/DateSelect.config';
@@ -31,7 +31,7 @@ import {
     FieldValidationOutput,
     ValidationDOMOutput,
     ValidationOutput,
-    ValidationRule
+    ValidationRule,
 } from 'Util/Validator/Validator.type';
 
 import { FieldType } from './Field.config';

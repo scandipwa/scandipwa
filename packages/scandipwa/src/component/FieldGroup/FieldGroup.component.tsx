@@ -24,7 +24,7 @@ import './FieldGroup.style';
  * @namespace Component/FieldGroup/Component */
 export class FieldGroup extends PureComponent<FieldGroupComponentProps> {
     static defaultProps: Partial<FieldGroupComponentProps> = {
-        validationResponse: null
+        validationResponse: null,
     };
 
     //#region LABEL/TEXT RENDER
@@ -36,7 +36,7 @@ export class FieldGroup extends PureComponent<FieldGroupComponentProps> {
     renderErrorMessages(): ReactElement {
         const {
             showErrorAsLabel,
-            validationResponse
+            validationResponse,
         } = this.props;
 
         if (!showErrorAsLabel || !validationResponse || validationResponse === true) {
@@ -86,7 +86,7 @@ export class FieldGroup extends PureComponent<FieldGroupComponentProps> {
             setRef,
             attr,
             events,
-            mods
+            mods,
         } = this.props;
 
         return (
@@ -101,7 +101,7 @@ export class FieldGroup extends PureComponent<FieldGroupComponentProps> {
                   block="FieldGroup"
                   mods={ {
                       isValid: validationResponse === true,
-                      hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
+                      hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0,
                   } }
                 >
                     { children }

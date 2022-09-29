@@ -25,7 +25,7 @@ export class MyAccountTabList extends PureComponent<MyAccountTabListComponentPro
     renderTabListItem(
         tabEntry: ObjectEntries<Record<string, MyAccountTab>>,
         index: number,
-        tabArray: ObjectEntries<Record<string, MyAccountTab>>[]
+        tabArray: ObjectEntries<Record<string, MyAccountTab>>[],
     ): ReactElement {
         const { activeTab, onTabClick } = this.props;
         const [key, tab] = tabEntry;
@@ -76,13 +76,13 @@ export class MyAccountTabList extends PureComponent<MyAccountTabListComponentPro
             activeTab,
             isContentExpanded,
             tabMap,
-            toggleExpandableContent
+            toggleExpandableContent,
         } = this.props;
         const { tabName } = tabMap[activeTab];
 
         const tabs = [
             ...Object.entries(tabMap).map(this.renderTabListItem.bind(this)),
-            this.renderLogoutTab()
+            this.renderLogoutTab(),
         ];
 
         return (
