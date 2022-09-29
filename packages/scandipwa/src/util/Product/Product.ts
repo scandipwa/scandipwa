@@ -430,7 +430,7 @@ export const sortBySortOrder = <T>(options: T[], sortKey?: keyof T): T[] => opti
 export const getIsConfigurableParameterSelected = (
     parameters: Record<string, string>,
     key: string,
-    value: string | number | boolean
+    value: ConfigurableProductSelectedVariantValue
 ): boolean => Object.hasOwnProperty.call(parameters, key) && parameters[key] === value;
 
 /** @namespace Util/Product/getNewParameters */
