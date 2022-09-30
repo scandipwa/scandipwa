@@ -20,3 +20,9 @@ export enum AttributeType {
     TEXTAREA = 'textarea',
     WEIGHT = 'weight',
 }
+
+export enum SelectAttributeType {
+    STRING = '0',
+    COLOR = '1',
+    IMAGE = '2',
+}

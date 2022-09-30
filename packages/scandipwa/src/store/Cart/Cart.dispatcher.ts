@@ -67,7 +67,7 @@ export class CartDispatcher {
                             } = {},
                             method_code = '',
                         } = {},
-                    }] = [],
+                    } = {}] = [],
                 } = {},
             } = await fetchQuery(
                 CartQuery.getCartQuery(

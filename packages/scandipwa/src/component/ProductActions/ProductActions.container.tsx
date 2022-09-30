@@ -24,10 +24,10 @@ import { RootState } from 'Util/Store/Store.type';
 
 import ProductActions from './ProductActions.component';
 import {
-    ProductActionsComponentContainerFunctions,
-    ProductActionsComponentContainerPropKeys,
     ProductActionsComponentProps,
+    ProductActionsContainerFunctions,
     ProductActionsContainerMapStateProps,
+    ProductActionsContainerPropKeys,
     ProductActionsContainerProps,
     ProductActionsContainerState,
 } from './ProductActions.type';
@@ -48,12 +48,12 @@ ProductActionsContainerState
 > {
     static defaultProps: Partial<ProductActionsContainerProps> = ProductContainer.defaultProps;
 
-    containerFunctions: ProductActionsComponentContainerFunctions = {
+    containerFunctions: ProductActionsContainerFunctions = {
         ...this.containerFunctions,
         showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
     };
 
-    containerProps(): Pick<ProductActionsComponentProps, ProductActionsComponentContainerPropKeys> {
+    containerProps(): Pick<ProductActionsComponentProps, ProductActionsContainerPropKeys> {
         const {
             areDetailsLoaded,
             areReviewsEnabled,

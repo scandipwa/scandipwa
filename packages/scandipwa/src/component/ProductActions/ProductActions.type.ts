@@ -10,12 +10,12 @@
  */
 
 import {
-    ProductComponentContainerFunctions,
-    ProductComponentContainerPropKeys,
     ProductComponentProps,
     ProductContainerBaseProps,
+    ProductContainerFunctions,
     ProductContainerMapDispatchProps,
     ProductContainerMapStateProps,
+    ProductContainerPropKeys,
     ProductContainerProps,
     ProductContainerState,
 } from 'Component/Product/Product.type';
@@ -49,7 +49,7 @@ export type ProductActionsContainerProps = ProductContainerProps
 
 export type ProductActionsContainerState = ProductContainerState;
 
-export interface ProductActionsComponentContainerFunctions extends ProductComponentContainerFunctions {
+export interface ProductActionsContainerFunctions extends ProductContainerFunctions {
     showOnlyIfLoaded: (expression: boolean, content: ReactElement, placeholder?: ReactElement) => ReactElement;
 }
 
@@ -69,7 +69,7 @@ export interface ProductActionsComponentProps extends ProductComponentProps {
     isPricePreview: boolean;
 }
 
-export type ProductActionsComponentContainerPropKeys = ProductComponentContainerPropKeys
+export type ProductActionsContainerPropKeys = ProductContainerPropKeys
 | 'areDetailsLoaded'
 | 'areReviewsEnabled'
 | 'displayProductStockStatus'

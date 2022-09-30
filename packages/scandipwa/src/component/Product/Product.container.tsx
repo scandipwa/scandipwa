@@ -38,11 +38,12 @@ import { validateGroup } from 'Util/Validator';
 
 import {
     AdjustedPriceMap,
-    ProductComponentContainerFunctions,
-    ProductComponentContainerPropKeys,
+    ConfigurableProductSelectedVariantValue,
     ProductComponentProps,
+    ProductContainerFunctions,
     ProductContainerMapDispatchProps,
     ProductContainerMapStateProps,
+    ProductContainerPropKeys,
     ProductContainerProps,
     ProductContainerState,
     ProductOption,
@@ -87,7 +88,7 @@ S extends ProductContainerState = ProductContainerState,
         cartId: '',
     };
 
-    containerFunctions: ProductComponentContainerFunctions = {
+    containerFunctions: ProductContainerFunctions = {
         addToCart: this.addToCart.bind(this),
 
         // Used to update entered and selected state values
@@ -225,7 +226,7 @@ S extends ProductContainerState = ProductContainerState,
         }
     }
 
-    containerProps(): Pick<ProductComponentProps, ProductComponentContainerPropKeys> {
+    containerProps(): Pick<ProductComponentProps, ProductContainerPropKeys> {
         const {
             quantity,
             parameters,
@@ -467,8 +468,8 @@ S extends ProductContainerState = ProductContainerState,
         const { showError } = this.props;
 
         if (
-            errorFields
-            || errorMessages
+            errorFields.length
+            || errorMessages.length
             || this.validateConfigurableProduct()
             || this.filterAddToCartFileErrors(values)
         ) {
@@ -496,7 +497,11 @@ S extends ProductContainerState = ProductContainerState,
      * @param key
      * @param value
      */
-    updateConfigurableVariant(key: string, value: string, checkEmptyValue = false): void {
+    updateConfigurableVariant(
+        key: string,
+        value: ConfigurableProductSelectedVariantValue,
+        checkEmptyValue = false,
+    ): void {
         const { parameters: prevParameters } = this.state;
 
         const newParameters = getNewParameters(prevParameters, key, value);

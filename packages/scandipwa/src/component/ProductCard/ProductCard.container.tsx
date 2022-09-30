@@ -33,12 +33,12 @@ import { appendWithStoreCode, objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 import {
-    ProductCardComponentContainerPropKeys,
     ProductCardComponentProps,
+    ProductCardContainerFunctions,
     ProductCardContainerMapDispatchProps,
     ProductCardContainerMapStateProps,
+    ProductCardContainerPropKeys,
     ProductCardContainerProps,
-    ProductCartComponentContainerFunctions,
 } from './ProductCard.type';
 
 export const CartDispatcher = import(
@@ -73,12 +73,12 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
         layout: CategoryPageLayout.GRID,
     };
 
-    containerFunctions: ProductCartComponentContainerFunctions = {
+    containerFunctions: ProductCardContainerFunctions = {
         ...this.containerFunctions,
         showSelectOptionsNotification: this.showSelectOptionsNotification.bind(this),
     };
 
-    containerProps(): Pick<ProductCardComponentProps, ProductCardComponentContainerPropKeys> {
+    containerProps(): Pick<ProductCardComponentProps, ProductCardContainerPropKeys> {
         const {
             children,
             mix,
