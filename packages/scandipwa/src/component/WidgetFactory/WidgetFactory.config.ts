@@ -13,5 +13,5 @@ export enum Widget {
     SLIDER = 'Slider',
     NEW_PRODUCTS = 'NewProducts',
     CATALOG_PRODUCT_LIST = 'CatalogProductList',
-    RECENTLY_VIEWED = 'RecentlyViewed'
+    RECENTLY_VIEWED = 'RecentlyViewed',
 }

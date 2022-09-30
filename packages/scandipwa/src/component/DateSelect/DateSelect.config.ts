@@ -12,17 +12,17 @@
 
 export const AMPM_FORMAT = {
     AM: __('AM'),
-    PM: __('PM')
+    PM: __('PM'),
 };
 
 export enum HourFormat {
     H12 = 12,
-    H24 = 24
+    H24 = 24,
 }
 
 export enum DateFieldAttr {
     NAME = 'data-field',
-    TYPE = 'data-type'
+    TYPE = 'data-type',
 }
 
 export const DEFAULT_MONTH_DAYS = 31;

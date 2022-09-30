@@ -18,7 +18,7 @@ import { InstallPromptIOSComponentProps } from './InstallPromptIOS.type';
 import './InstallPromptIOS.style';
 
 /** @namespace Component/InstallPromptIOS/Component */
-export class InstallPromptIOS extends PureComponent<InstallPromptIOSComponentProps> {
+export class InstallPromptIOSComponent extends PureComponent<InstallPromptIOSComponentProps> {
     renderCloseButton(): ReactElement {
         const { handleBannerClose } = this.props;
 
@@ -64,4 +64,4 @@ export class InstallPromptIOS extends PureComponent<InstallPromptIOSComponentPro
     }
 }
 
-export default InstallPromptIOS;
+export default InstallPromptIOSComponent;

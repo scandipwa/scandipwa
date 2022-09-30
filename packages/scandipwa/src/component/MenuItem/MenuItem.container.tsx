@@ -27,7 +27,7 @@ import {
     MenuItemContainerFunctions,
     MenuItemContainerProps,
     MenuItemMapDispatchProps,
-    MenuItemMapStateProps
+    MenuItemMapStateProps,
 } from './MenuItem.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -37,14 +37,14 @@ export const BreadcrumbsDispatcher = import(
 
 /** @namespace Component/MenuItem/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MenuItemMapStateProps => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/MenuItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MenuItemMapDispatchProps => ({
     updateBreadcrumbs: () => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update([], dispatch)
-    )
+        ({ default: dispatcher }) => dispatcher.update([], dispatch),
+    ),
 });
 
 /** @namespace Component/MenuItem/Container */
@@ -54,13 +54,13 @@ export class MenuItemContainer extends PureComponent<MenuItemContainerProps> {
         onCategoryHover: noopFn,
         itemMods: {},
         isLink: false,
-        isExpandable: false
+        isExpandable: false,
     };
 
     containerFunctions: MenuItemContainerFunctions = {
         handleCategoryHover: this.handleCategoryHover.bind(this),
         handleLinkLeave: this.handleLinkLeave.bind(this),
-        onItemClick: this.onItemClick.bind(this)
+        onItemClick: this.onItemClick.bind(this),
     };
 
     menuHoverTimeout?: NodeJS.Timeout;
@@ -74,7 +74,7 @@ export class MenuItemContainer extends PureComponent<MenuItemContainerProps> {
             isExpandable,
             isLink,
             item,
-            itemMods
+            itemMods,
         } = this.props;
 
         return {
@@ -82,7 +82,7 @@ export class MenuItemContainer extends PureComponent<MenuItemContainerProps> {
             isExpandable,
             isLink,
             item,
-            itemMods
+            itemMods,
         };
     }
 
@@ -102,8 +102,8 @@ export class MenuItemContainer extends PureComponent<MenuItemContainerProps> {
             updateBreadcrumbs,
             activeMenuItemsStack,
             item: {
-                url
-            } = {}
+                url,
+            } = {},
         } = this.props;
 
         const newPathname = this.getPathname(url || '');

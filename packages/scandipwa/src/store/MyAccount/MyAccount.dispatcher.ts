@@ -16,11 +16,11 @@ import { CONFIRMATION_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccoun
 import { ORDER_ID } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import MyAccountQuery from 'Query/MyAccount.query';
 import {
-    ConfirmAccountOptions, CreateAccountOptions, Customer, ResetPasswordOptions, SignInOptions
+    ConfirmAccountOptions, CreateAccountOptions, Customer, ResetPasswordOptions, SignInOptions,
 } from 'Query/MyAccount.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import {
-    SendConfirmationStatus
+    SendConfirmationStatus,
 } from 'Route/SendConfirmationPage/SendConfirmationPage.config';
 import {
     updateCustomerDetails,
@@ -28,7 +28,7 @@ import {
     updateCustomerPasswordResetStatus,
     updateCustomerSignInStatus,
     updateIsLoading,
-    updateIsLocked
+    updateIsLocked,
 } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
@@ -39,7 +39,7 @@ import {
     getAuthorizationToken,
     GRAPHQL_AUTH,
     isSignedIn,
-    setAuthorizationToken
+    setAuthorizationToken,
 } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteCartId, getCartId, setCartId } from 'Util/Cart';
@@ -77,7 +77,7 @@ export const ONE_MONTH_IN_SECONDS = 2628000;
 export class MyAccountDispatcher {
     forceLogoutRedirectPages = [
         Page.CHECKOUT,
-        Page.MY_ACCOUNT
+        Page.MY_ACCOUNT,
     ];
 
     requestCustomerData(dispatch: Dispatch): Promise<void> {
@@ -104,7 +104,7 @@ export class MyAccountDispatcher {
                     dispatch(updateIsLocked(true));
                 }
                 dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
-            }
+            },
         );
     }
 
@@ -139,10 +139,10 @@ export class MyAccountDispatcher {
             ({ default: dispatcher }) => {
                 dispatcher.resetGuestCart(dispatch);
                 dispatcher.createGuestEmptyCart(dispatch);
-            }
+            },
         );
         WishlistDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.resetWishlist(dispatch)
+            ({ default: dispatcher }) => dispatcher.resetWishlist(dispatch),
         );
 
         dispatch(clearComparedProducts());
@@ -157,7 +157,7 @@ export class MyAccountDispatcher {
      */
     forgotPassword(
         options: { email: string },
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ): Promise<UpdateCustomerPasswordForgotStatusAction | ShowNotificationAction> {
         const mutation = MyAccountQuery.getForgotPasswordMutation(options);
 
@@ -165,7 +165,7 @@ export class MyAccountDispatcher {
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/forgotPassword/fetchMutation/then/dispatch */
             () => dispatch(updateCustomerPasswordForgotStatus()),
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/forgotPassword/fetchMutation/then/dispatch/catch */
-            (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)))
+            (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
         );
     }
 
@@ -182,7 +182,7 @@ export class MyAccountDispatcher {
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/resetPassword/fetchMutation/then/dispatch */
             ({ s_resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status, '')),
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/resetPassword/fetchMutation/then/dispatch/catch */
-            (errors) => dispatch(updateCustomerPasswordResetStatus(NotificationType.ERROR, getErrorMessage(errors)))
+            (errors) => dispatch(updateCustomerPasswordResetStatus(NotificationType.ERROR, getErrorMessage(errors))),
         );
     }
 
@@ -245,7 +245,7 @@ export class MyAccountDispatcher {
             case SendConfirmationStatus.CONFIRMATION_SENT:
                 dispatch(showNotification(
                     NotificationType.SUCCESS,
-                    __('Please check your email for confirmation key.')
+                    __('Please check your email for confirmation key.'),
                 ));
 
                 return true;
@@ -278,9 +278,9 @@ export class MyAccountDispatcher {
             (error) => dispatch(
                 showNotification(
                     NotificationType.ERROR,
-                    getErrorMessage(error, __('Something went wrong! Please, try again!'))
-                )
-            )
+                    getErrorMessage(error, __('Something went wrong! Please, try again!')),
+                ),
+            ),
         );
     }
 
@@ -298,7 +298,7 @@ export class MyAccountDispatcher {
         setAuthorizationToken(token);
 
         ProductCompareDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.assignCompareList(dispatch)
+            ({ default: dispatcher }) => dispatcher.assignCompareList(dispatch),
         );
 
         const cartDispatcher = (await CartDispatcher).default;
@@ -315,7 +315,7 @@ export class MyAccountDispatcher {
         cartDispatcher.updateInitialCartData(dispatch, true);
 
         WishlistDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
+            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch),
         );
 
         await this.requestCustomerData(dispatch);
@@ -350,7 +350,7 @@ export class MyAccountDispatcher {
 
         BrowserDatabase.deleteItem(CUSTOMER);
         CartDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.resetGuestCart(dispatch)
+            ({ default: dispatcher }) => dispatcher.resetGuestCart(dispatch),
         );
     }
 }

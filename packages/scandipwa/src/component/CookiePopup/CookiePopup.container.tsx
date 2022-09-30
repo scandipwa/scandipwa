@@ -20,14 +20,14 @@ import {
     CookiePopupComponentProps,
     CookiePopupContainerMapDispatchProps,
     CookiePopupContainerMapStateProps,
-    CookiePopupContainerProps
+    CookiePopupContainerProps,
 } from './CookiePopup.type';
 
 /** @namespace Component/CookiePopup/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CookiePopupContainerMapStateProps => ({
     cookieText: state.ConfigReducer.cookie_text,
     cookieLink: state.ConfigReducer.cookie_link,
-    code: state.ConfigReducer.code
+    code: state.ConfigReducer.code,
 });
 
 /** @namespace Component/CookiePopup/Container/mapDispatchToProps */
@@ -38,7 +38,7 @@ export class CookiePopupContainer extends PureComponent<CookiePopupContainerProp
     static defaultProps: Partial<CookiePopupContainerProps> = {
         cookieText: '',
         cookieLink: '',
-        code: ''
+        code: '',
     };
 
     containerProps(): CookiePopupComponentProps {

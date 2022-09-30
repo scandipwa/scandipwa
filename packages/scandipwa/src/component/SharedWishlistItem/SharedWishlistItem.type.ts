@@ -15,7 +15,7 @@ import {
     WishlistItemContainerBaseProps,
     WishlistItemContainerMapDispatchProps,
     WishlistItemContainerMapStateProps,
-    WishlistItemContainerState
+    WishlistItemContainerState,
 } from 'Component/WishlistItem/WishlistItem.type';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

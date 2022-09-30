@@ -15,7 +15,7 @@ import { ProductItem, ProductsQueryOutput } from 'Query/ProductList.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export enum ProductActionType {
-    UPDATE_PRODUCT_DETAILS = 'UPDATE_PRODUCT_DETAILS'
+    UPDATE_PRODUCT_DETAILS = 'UPDATE_PRODUCT_DETAILS',
 }
 
 export interface UpdateProductDetailsAction extends AnyAction {

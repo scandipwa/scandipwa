@@ -9,5 +9,5 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 export {
-    default, WYSIWYG_MEDIA, PRODUCT_MEDIA, CATEGORY_MEDIA
+    default, WYSIWYG_MEDIA, PRODUCT_MEDIA, CATEGORY_MEDIA,
 } from './Media';

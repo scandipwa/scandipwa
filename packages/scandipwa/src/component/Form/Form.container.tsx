@@ -25,7 +25,7 @@ import {
     FormContainerProps,
     FormContainerPropsKeys,
     FormContainerState,
-    FormValidationOutput
+    FormValidationOutput,
 } from './Form.type';
 
 /**
@@ -46,17 +46,17 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
         children: [],
         returnAsObject: false,
         mix: {},
-        elemRef: undefined
+        elemRef: undefined,
     };
 
     state: FormContainerState = {
-        validationResponse: null
+        validationResponse: null,
     };
 
     containerFunctions: FormContainerFunctions = {
         validate: this.validate.bind(this),
         setRef: this.setRef.bind(this),
-        onSubmit: this.onSubmit.bind(this)
+        onSubmit: this.onSubmit.bind(this),
     };
 
     formRef: HTMLFormElement | null = null;
@@ -137,7 +137,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
             this.formRef,
             false,
             [FieldType.NUMBER, FieldType.BUTTON],
-            returnAsObject
+            returnAsObject,
         );
 
         hook(...[...args, { ...attr, formRef: this.formRef, fields }]);
@@ -155,12 +155,10 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
             onSubmit,
             onError,
             returnAsObject = false,
-            validationRule
+            validationRule,
         } = this.props;
 
-        const fields = getFieldsData(
-            this.formRef, false, [FieldType.NUMBER, FieldType.BUTTON], returnAsObject
-        );
+        const fields = getFieldsData(this.formRef, false, [FieldType.NUMBER, FieldType.BUTTON], returnAsObject);
         const isValid = validateGroup(this.formRef, validationRule);
 
         if (isValid !== true) {
@@ -185,7 +183,7 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
             showErrorAsLabel,
             label,
             subLabel,
-            mix
+            mix,
         } = this.props;
         const { validate, onSubmit } = this.containerFunctions;
         const { validationResponse } = this.state;
@@ -214,8 +212,8 @@ export class FormContainer extends PureComponent<FormContainerProps, FormContain
             mix,
             events: {
                 ...newEvents,
-                onSubmit
-            }
+                onSubmit,
+            },
         };
     }
 

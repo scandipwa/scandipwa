@@ -22,11 +22,11 @@ import { GroupedProductListComponentProps } from './GroupedProductList.type';
  * Product description
  * @class GroupedProductList
  * @namespace Component/GroupedProductList/Component */
-export class GroupedProductList extends PureComponent<GroupedProductListComponentProps> {
+export class GroupedProductListComponent extends PureComponent<GroupedProductListComponentProps> {
     renderProductList(items: GroupedProductItem[]): ReactElement {
         const {
             quantity,
-            setQuantity
+            setQuantity,
         } = this.props;
 
         const sortedItems = items.sort(({ position }, { position: cmpPosition }) => position - cmpPosition);
@@ -48,7 +48,7 @@ export class GroupedProductList extends PureComponent<GroupedProductListComponen
 
     render(): ReactElement {
         const {
-            product: { items, type_id }
+            product: { items, type_id },
         } = this.props;
 
         if (type_id !== ProductType.GROUPED) {
@@ -63,4 +63,4 @@ export class GroupedProductList extends PureComponent<GroupedProductListComponen
     }
 }
 
-export default GroupedProductList;
+export default GroupedProductListComponent;

@@ -19,5 +19,5 @@ import { ContactFormActionType, UpdateContactFormAction } from './ContactForm.ty
  */
 export const updateContactForm = (data: { isLoading: boolean }): UpdateContactFormAction => ({
     type: ContactFormActionType.UPDATE_CONTACT_FORM,
-    data
+    data,
 });

@@ -44,7 +44,7 @@ export interface GQLCartItemSelectedOptionValuePrice {
 export enum GQLPriceTypeEnum {
     FIXED = 'FIXED',
     PERCENT = 'PERCENT',
-    DYNAMIC = 'DYNAMIC'
+    DYNAMIC = 'DYNAMIC',
 }
 
 export interface GQLSelectedDownloadableLinks {
@@ -222,7 +222,7 @@ export enum GQLCurrencyEnum {
     AZM = 'AZM',
     ROL = 'ROL',
     TRL = 'TRL',
-    XPF = 'XPF'
+    XPF = 'XPF',
 }
 
 export interface GQLEstimateShippingCostsAddress {
@@ -1487,7 +1487,7 @@ export enum GQLCountryCodeEnum {
     /**
      * Zimbabwe
      */
-    ZW = 'ZW'
+    ZW = 'ZW',
 }
 
 export interface GQLCustomerAddressAttributeInput {
@@ -1581,7 +1581,7 @@ export interface GQLCustomerUpdateInput {
 
 export enum GQLProductStockStatus {
     IN_STOCK = 'IN_STOCK',
-    OUT_OF_STOCK = 'OUT_OF_STOCK'
+    OUT_OF_STOCK = 'OUT_OF_STOCK',
 }
 
 export interface GQLWishlistItemInput {
@@ -1753,7 +1753,7 @@ export enum GQLCartUserInputErrorType {
     PRODUCT_NOT_FOUND = 'PRODUCT_NOT_FOUND',
     NOT_SALABLE = 'NOT_SALABLE',
     INSUFFICIENT_STOCK = 'INSUFFICIENT_STOCK',
-    UNDEFINED = 'UNDEFINED'
+    UNDEFINED = 'UNDEFINED',
 }
 
 export interface GQLUpdateCartItemsInput {
@@ -2115,7 +2115,7 @@ export interface GQLAddressExtensionAttributes {
 
 export enum GQLCheckoutAgreementMode {
     AUTO = 'AUTO',
-    MANUAL = 'MANUAL'
+    MANUAL = 'MANUAL',
 }
 
 export interface GQLContactForm {
@@ -2200,12 +2200,12 @@ export enum GQLSubscriptionStatusesEnum {
     NOT_ACTIVE = 'NOT_ACTIVE',
     SUBSCRIBED = 'SUBSCRIBED',
     UNSUBSCRIBED = 'UNSUBSCRIBED',
-    UNCONFIRMED = 'UNCONFIRMED'
+    UNCONFIRMED = 'UNCONFIRMED',
 }
 
 export enum GQLShipBundleItemsEnum {
     TOGETHER = 'TOGETHER',
-    SEPARATELY = 'SEPARATELY'
+    SEPARATELY = 'SEPARATELY',
 }
 
 export interface GQLCreateProductReviewInput {
@@ -2260,7 +2260,7 @@ export interface GQLProductInfoInput {
 export enum GQLUrlRewriteEntityTypeEnum {
     CMS_PAGE = 'CMS_PAGE',
     PRODUCT = 'PRODUCT',
-    CATEGORY = 'CATEGORY'
+    CATEGORY = 'CATEGORY',
 }
 
 export interface GQLCartDisplayConfig {
@@ -4238,7 +4238,7 @@ export enum GQLPriceAdjustmentCodesEnum {
      *
      * @deprecated Use fixed_product_taxes. PriceAdjustmentCodesEnum is deprecated. Tax is included or excluded in price. Tax is not shown separtely in Catalog
      */
-    WEEE_TAX = 'WEEE_TAX'
+    WEEE_TAX = 'WEEE_TAX',
 }
 
 export interface GQLSearchResultPageInfo {
@@ -4319,7 +4319,7 @@ export interface GQLConfigurableProductOptionValue {
 
 export enum GQLPriceAdjustmentDescriptionEnum {
     INCLUDED = 'INCLUDED',
-    EXCLUDED = 'EXCLUDED'
+    EXCLUDED = 'EXCLUDED',
 }
 
 export interface GQLFixedProductTax {

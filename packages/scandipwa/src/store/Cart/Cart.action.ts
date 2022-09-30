@@ -21,7 +21,7 @@ import {
     RemoveProductFromCartAction,
     UpdateIsLoadingCartAction,
     UpdateShippingPriceAction,
-    UpdateTotalsAction
+    UpdateTotalsAction,
 } from './Cart.type';
 
 /**
@@ -33,7 +33,7 @@ import {
  */
 export const addProductToCart = (newProduct: ProductItem): AddProductToCartAction => ({
     type: CartActionType.ADD_PRODUCT_TO_CART,
-    newProduct
+    newProduct,
 });
 
 /**
@@ -44,7 +44,7 @@ export const addProductToCart = (newProduct: ProductItem): AddProductToCartActio
  */
 export const removeProductFromCart = (product: ProductItem): RemoveProductFromCartAction => ({
     type: CartActionType.REMOVE_PRODUCT_FROM_CART,
-    product
+    product,
 });
 
 /**
@@ -55,7 +55,7 @@ export const removeProductFromCart = (product: ProductItem): RemoveProductFromCa
  */
 export const updateTotals = (cartData: Partial<QuoteData>): UpdateTotalsAction => ({
     type: CartActionType.UPDATE_TOTALS,
-    cartData
+    cartData,
 });
 
 /**
@@ -66,7 +66,7 @@ export const updateTotals = (cartData: Partial<QuoteData>): UpdateTotalsAction =
  */
 export const updateShippingPrice = (data: TotalsObject): UpdateShippingPriceAction => ({
     type: CartActionType.UPDATE_SHIPPING_PRICE,
-    data
+    data,
 });
 
 /**
@@ -77,7 +77,7 @@ export const updateShippingPrice = (data: TotalsObject): UpdateShippingPriceActi
  */
 export const applyCouponToCart = (couponCode: string): ApplyCouponToCartAction => ({
     type: CartActionType.APPLY_COUPON_TO_CART,
-    couponCode
+    couponCode,
 });
 
 /**
@@ -86,11 +86,11 @@ export const applyCouponToCart = (couponCode: string): ApplyCouponToCartAction =
  * @namespace Store/Cart/Action/removeCouponFromCart
  */
 export const removeCouponFromCart = (): RemoveCouponFromCartAction => ({
-    type: CartActionType.REMOVE_COUPON_FROM_CART
+    type: CartActionType.REMOVE_COUPON_FROM_CART,
 });
 
 /** @namespace Store/Cart/Action/updateIsLoadingCart */
 export const updateIsLoadingCart = (isLoading: boolean): UpdateIsLoadingCartAction => ({
     type: CartActionType.UPDATE_IS_LOADING_CART,
-    isLoading
+    isLoading,
 });

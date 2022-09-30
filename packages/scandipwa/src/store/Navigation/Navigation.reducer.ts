@@ -12,32 +12,32 @@
 import { Reducer } from 'redux';
 
 import {
-    DEFAULT_STATE
+    DEFAULT_STATE,
 } from 'Component/NavigationAbstract/NavigationAbstract.container';
 
 import {
     NavigationAction,
     NavigationActionType,
     NavigationStore,
-    NavigationType
+    NavigationType,
 } from './Navigation.type';
 
 /** @namespace Store/Navigation/Reducer/getInitialState */
 export const getInitialState = (): NavigationStore => ({
     [NavigationType.TOP_NAVIGATION_TYPE]: {
         navigationState: DEFAULT_STATE,
-        navigationStateHistory: [DEFAULT_STATE]
+        navigationStateHistory: [DEFAULT_STATE],
     },
     [NavigationType.BOTTOM_NAVIGATION_TYPE]: {
         navigationState: DEFAULT_STATE,
-        navigationStateHistory: [DEFAULT_STATE]
-    }
+        navigationStateHistory: [DEFAULT_STATE],
+    },
 });
 
 /** @namespace Store/Navigation/Reducer/NavigationReducer */
 export const NavigationReducer: Reducer<NavigationStore, NavigationAction> = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     const { navigationType, navigationState } = action;
 
@@ -48,8 +48,8 @@ export const NavigationReducer: Reducer<NavigationStore, NavigationAction> = (
     const {
         [navigationType]: {
             navigationStateHistory,
-            navigationState: prevNavigationState
-        }
+            navigationState: prevNavigationState,
+        },
     } = state;
 
     switch (action.type) {
@@ -67,8 +67,8 @@ export const NavigationReducer: Reducer<NavigationStore, NavigationAction> = (
             ...state,
             [navigationType]: {
                 navigationStateHistory,
-                navigationState
-            }
+                navigationState,
+            },
         };
 
     case NavigationActionType.GOTO_PREVIOUS_NAVIGATION_STATE:
@@ -83,8 +83,8 @@ export const NavigationReducer: Reducer<NavigationStore, NavigationAction> = (
             ...state,
             [navigationType]: {
                 navigationStateHistory,
-                navigationState: newNavigationState
-            }
+                navigationState: newNavigationState,
+            },
         };
 
     default:

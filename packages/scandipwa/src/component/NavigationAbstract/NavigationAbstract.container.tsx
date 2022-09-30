@@ -26,14 +26,14 @@ import {
     NavigationAbstractContainerMapDispatchProps,
     NavigationAbstractContainerMapStateProps,
     NavigationAbstractContainerProps,
-    NavigationAbstractContainerState
+    NavigationAbstractContainerState,
 } from './NavigationAbstract.type';
 
 export const DEFAULT_STATE = { name: DEFAULT_STATE_NAME };
 
 /** @namespace Component/NavigationAbstract/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): NavigationAbstractContainerMapStateProps => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/NavigationAbstract/Container/mapDispatchToProps */
@@ -42,16 +42,16 @@ export const mapDispatchToProps = (): NavigationAbstractContainerMapDispatchProp
 /** @namespace Component/NavigationAbstract/Container */
 export class NavigationAbstractContainer<
 Props extends NavigationAbstractContainerProps,
-State extends NavigationAbstractContainerState
+State extends NavigationAbstractContainerState,
 > extends PureComponent<Props, State> {
     default_state = DEFAULT_STATE;
 
     routeMap: Record<string, NavigationState> = {
-        '/': this.default_state
+        '/': this.default_state,
     };
 
     state: State = {
-        prevPathname: ''
+        prevPathname: '',
     } as unknown as State;
 
     componentDidMount(): void {
@@ -112,7 +112,7 @@ State extends NavigationAbstractContainerState
         const {
             // hideActiveOverlay,
             setNavigationState,
-            navigationState: { name }
+            navigationState: { name },
         } = this.props;
 
         const { pathname } = history;
@@ -131,7 +131,7 @@ State extends NavigationAbstractContainerState
     handleDesktopRouteChange(): { prevPathname?: string } {
         const {
             hideActiveOverlay,
-            setNavigationState
+            setNavigationState,
         } = this.props;
 
         setNavigationState(this.routeMap[ '/' ]);
@@ -154,5 +154,5 @@ State extends NavigationAbstractContainerState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    NavigationAbstractContainer as unknown as ComponentType<never>
+    NavigationAbstractContainer as unknown as ComponentType<never>,
 );

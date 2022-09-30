@@ -21,7 +21,7 @@ export enum ConfigFieldType {
     DATE = 'date',
     DATETIME = 'date_time',
     TIME = 'time',
-    MULTI = 'multiple'
+    MULTI = 'multiple',
 }
 
 export const NONE_RADIO_OPTION: NoneRadioOption = {
@@ -32,5 +32,5 @@ export const NONE_RADIO_OPTION: NoneRadioOption = {
     finalOptionPrice: 0,
     can_change_quantity: false,
     priceInclTax: 0,
-    is_default: false
+    is_default: false,
 };

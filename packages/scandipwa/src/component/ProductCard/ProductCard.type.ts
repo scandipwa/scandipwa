@@ -17,12 +17,12 @@ import {
     ProductContainerFunctions,
     ProductContainerMapDispatchProps,
     ProductContainerMapStateProps,
-    ProductContainerPropKeys
+    ProductContainerPropKeys,
 } from 'Component/Product/Product.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import {
-    Children, Mix, ReactElement, Url
+    Children, Mix, ReactElement, Url,
 } from 'Type/Common.type';
 
 export interface ProductCardContainerMapStateProps extends ProductContainerMapStateProps {

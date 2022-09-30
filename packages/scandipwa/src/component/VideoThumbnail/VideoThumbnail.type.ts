@@ -35,7 +35,7 @@ export type VideoThumbnailContainerProps = VideoThumbnailContainerMapStateProps
 & VideoThumbnailContainerMapDispatchProps
 & VideoThumbnailContainerBaseProps;
 
-export interface VideoThumbnailComponent extends VideoThumbnailContainerFunctions {
+export interface VideoThumbnailComponentProps extends VideoThumbnailContainerFunctions {
     media: MediaGalleryEntry;
 }
 

@@ -26,7 +26,7 @@ import { SendConfirmationPageComponentProps } from './SendConfirmationPage.type'
 import './SendConfirmationPage.style';
 
 /** @namespace Route/SendConfirmationPage/Component */
-export class SendConfirmationPage extends PureComponent<SendConfirmationPageComponentProps> {
+export class SendConfirmationPageComponent extends PureComponent<SendConfirmationPageComponentProps> {
     renderWarningMessage(): ReactElement {
         const { shouldDisplayWarning } = this.props;
 
@@ -50,7 +50,7 @@ export class SendConfirmationPage extends PureComponent<SendConfirmationPageComp
         const {
             email,
             onConfirmSuccess,
-            onFormError
+            onFormError,
         } = this.props;
 
         return (
@@ -67,12 +67,12 @@ export class SendConfirmationPage extends PureComponent<SendConfirmationPageComp
                       id: 'email',
                       name: 'email',
                       defaultValue: email,
-                      placeholder: __('Your email name')
+                      placeholder: __('Your email name'),
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: ValidationInputTypeInput.EMAIL
+                      inputType: ValidationInputTypeInput.EMAIL,
                   } }
                   addRequiredTag
                 />
@@ -110,7 +110,7 @@ export class SendConfirmationPage extends PureComponent<SendConfirmationPageComp
     render(): ReactElement {
         const {
             redirect,
-            isLoading
+            isLoading,
         } = this.props;
 
         if (redirect || isSignedIn()) {
@@ -132,4 +132,4 @@ export class SendConfirmationPage extends PureComponent<SendConfirmationPageComp
     }
 }
 
-export default SendConfirmationPage;
+export default SendConfirmationPageComponent;

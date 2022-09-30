@@ -22,7 +22,7 @@ import { MyAccountAddressBookComponentProps } from './MyAccountAddressBook.type'
 import './MyAccountAddressBook.style';
 
 /** @namespace Component/MyAccountAddressBook/Component */
-export class MyAccountAddressBook extends Component<MyAccountAddressBookComponentProps> {
+export class MyAccountAddressBookComponent extends Component<MyAccountAddressBookComponentProps> {
     shouldComponentUpdate(nextProps: MyAccountAddressBookComponentProps): boolean {
         const { customer } = this.props;
         const { customer: nextCustomer } = nextProps;
@@ -92,4 +92,4 @@ export class MyAccountAddressBook extends Component<MyAccountAddressBookComponen
     }
 }
 
-export default MyAccountAddressBook;
+export default MyAccountAddressBookComponent;

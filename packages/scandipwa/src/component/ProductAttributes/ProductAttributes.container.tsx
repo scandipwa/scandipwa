@@ -24,7 +24,7 @@ export class ProductAttributesContainer extends PureComponent<ProductAttributesC
 
         return {
             areDetailsLoaded,
-            attributesWithValues: getAttributesWithValues(product)
+            attributesWithValues: getAttributesWithValues(product),
         };
     }
 

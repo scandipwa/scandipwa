@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 
 import { PaymentMethods } from 'Component/CheckoutPayments/CheckoutPayments.config';
 import {
-    TERMS_AND_CONDITIONS_POPUP_ID
+    TERMS_AND_CONDITIONS_POPUP_ID,
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
 import { FormFields } from 'Component/Form/Form.type';
 import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config';
@@ -29,7 +29,7 @@ import {
     getFormFields,
     setAddressesInFormObject,
     trimCheckoutAddress,
-    trimCheckoutCustomerAddress
+    trimCheckoutCustomerAddress,
 } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
 import scrollToError from 'Util/Form/Form';
@@ -46,7 +46,7 @@ import {
     CheckoutBillingContainerMapStateProps,
     CheckoutBillingContainerProps,
     CheckoutBillingContainerPropsKeys,
-    CheckoutBillingContainerState
+    CheckoutBillingContainerState,
 } from './CheckoutBilling.type';
 
 /** @namespace Component/CheckoutBilling/Container/mapStateToProps */
@@ -58,13 +58,13 @@ export const mapStateToProps = (state: RootState): CheckoutBillingContainerMapSt
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
     cartTotalSubPrice: getCartTotalSubPrice(state),
     newShippingId: state.CheckoutReducer.shippingFields.id as number,
-    newShippingStreet: state.CheckoutReducer.shippingFields.street as string[]
+    newShippingStreet: state.CheckoutReducer.shippingFields.street as string[],
 });
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutBillingContainerMapDispatchProps => ({
     showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
-    showPopup: (payload) => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
+    showPopup: (payload) => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload)),
 });
 
 /** @namespace Component/CheckoutBilling/Container */
@@ -75,12 +75,12 @@ CheckoutBillingContainerState
     static defaultProps = {
         newShippingId: 0,
         termsAreEnabled: false,
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
     };
 
     static getDerivedStateFromProps(
         props: CheckoutBillingContainerProps,
-        state: CheckoutBillingContainerState
+        state: CheckoutBillingContainerState,
     ): Partial<CheckoutBillingContainerState> | null {
         const { paymentMethod, prevPaymentMethods } = state;
         const { paymentMethods } = props;
@@ -91,7 +91,7 @@ CheckoutBillingContainerState
 
             return {
                 prevPaymentMethods: paymentMethods,
-                paymentMethod
+                paymentMethod,
             };
         }
 
@@ -104,7 +104,7 @@ CheckoutBillingContainerState
         onAddressSelect: this.onAddressSelect.bind(this),
         onSameAsShippingChange: this.onSameAsShippingChange.bind(this),
         onPaymentMethodSelect: this.onPaymentMethodSelect.bind(this),
-        showPopup: this.showPopup.bind(this)
+        showPopup: this.showPopup.bind(this),
     };
 
     __construct(props: CheckoutBillingContainerProps): void {
@@ -117,7 +117,7 @@ CheckoutBillingContainerState
             isMounted: false,
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
-            paymentMethod: ''
+            paymentMethod: '',
         };
     }
 
@@ -137,7 +137,7 @@ CheckoutBillingContainerState
         if (prevIsSameAsShipping !== currIsSameAsShipping && currIsSameAsShipping) {
             this.onAddressSelect(
                 // if the user selected a shipping address different from default
-                newShippingId > 0 ? newShippingId : Number(default_shipping)
+                newShippingId > 0 ? newShippingId : Number(default_shipping),
             );
         }
     }
@@ -151,7 +151,7 @@ CheckoutBillingContainerState
             setLoading,
             termsAndConditions,
             termsAreEnabled,
-            totals
+            totals,
         } = this.props;
         const { isSameAsShipping, paymentMethod } = this.state;
 
@@ -165,18 +165,18 @@ CheckoutBillingContainerState
             termsAndConditions,
             termsAreEnabled,
             totals,
-            paymentMethod
+            paymentMethod,
         };
     }
 
     isSameShippingAddress({
         default_shipping,
-        default_billing
+        default_billing,
     }: Partial<Customer>): boolean {
         const {
             totals: { is_virtual },
             selectedShippingMethod,
-            newShippingId
+            newShippingId,
         } = this.props;
 
         if (is_virtual) {
@@ -211,7 +211,7 @@ CheckoutBillingContainerState
     onBillingError(
         _: HTMLFormElement,
         fields: FormFields | null,
-        validation: boolean | ValidationDOMOutput
+        validation: boolean | ValidationDOMOutput,
     ): void {
         const { onChangeEmailRequired } = this.props;
 
@@ -230,7 +230,7 @@ CheckoutBillingContainerState
 
         savePaymentInformation({
             billing_address: address,
-            paymentMethod
+            paymentMethod,
         } as unknown as PaymentInformation);
     }
 
@@ -238,11 +238,11 @@ CheckoutBillingContainerState
         const { showPopup, termsAndConditions } = this.props;
         const {
             name: title = __('Terms and Conditions'),
-            content: text = __('There are no Terms and Conditions configured.')
+            content: text = __('There are no Terms and Conditions configured.'),
         } = termsAndConditions[ 0 ] || {};
 
         return showPopup({
-            title, text
+            title, text,
         });
     }
 
@@ -255,7 +255,7 @@ CheckoutBillingContainerState
 
             return {
                 code,
-                purchase_order_number: purchaseOrderNumber
+                purchase_order_number: purchaseOrderNumber,
             };
 
         default:
@@ -280,7 +280,7 @@ CheckoutBillingContainerState
 
         const {
             isSameAsShipping,
-            selectedCustomerAddressId
+            selectedCustomerAddressId,
         } = this.state;
 
         const formFields = getFormFields(fields, addressLinesQty);
@@ -300,7 +300,7 @@ CheckoutBillingContainerState
 
         return {
             ...trimCheckoutCustomerAddress(address),
-            save_in_address_book: false
+            save_in_address_book: false,
         };
     }
 

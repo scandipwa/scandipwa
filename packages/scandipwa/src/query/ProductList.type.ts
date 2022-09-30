@@ -18,7 +18,7 @@ import {
     GQLCurrencyEnum,
     GQLPriceTypeEnum,
     GQLProductStockStatus,
-    GQLShipBundleItemsEnum
+    GQLShipBundleItemsEnum,
 } from 'Type/Graphql.type';
 
 export interface ProductStockItem {

@@ -20,9 +20,9 @@ import { CheckoutPaymentComponentProps } from './CheckoutPayment.type';
 import './CheckoutPayment.style';
 
 /** @namespace Component/CheckoutPayment/Component */
-export class CheckoutPayment extends PureComponent<CheckoutPaymentComponentProps> {
+export class CheckoutPaymentComponent extends PureComponent<CheckoutPaymentComponentProps> {
     static defaultProps = {
-        isSelected: false
+        isSelected: false,
     };
 
     __construct(props: CheckoutPaymentComponentProps): void {
@@ -34,7 +34,7 @@ export class CheckoutPayment extends PureComponent<CheckoutPaymentComponentProps
     onClick(): void {
         const {
             onClick,
-            method
+            method,
         } = this.props;
 
         onClick(method);
@@ -43,7 +43,7 @@ export class CheckoutPayment extends PureComponent<CheckoutPaymentComponentProps
     render(): ReactElement {
         const {
             isSelected,
-            method: { title }
+            method: { title },
         } = this.props;
 
         // disable checkbox in order to skip direct clicks on checkbox and handle clicks on entire button instead
@@ -61,7 +61,7 @@ export class CheckoutPayment extends PureComponent<CheckoutPaymentComponentProps
                       attr={ {
                           id: `option-${ title }`,
                           name: `option-${ title }`,
-                          checked: isSelected
+                          checked: isSelected,
                       } }
                       label={ title }
                       isDisabled={ false }
@@ -72,4 +72,4 @@ export class CheckoutPayment extends PureComponent<CheckoutPaymentComponentProps
     }
 }
 
-export default CheckoutPayment;
+export default CheckoutPaymentComponent;

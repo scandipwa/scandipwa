@@ -25,14 +25,14 @@ import { ExpandableContentComponentProps, ExpandableContentComponentState } from
 import './ExpandableContent.style';
 
 /** @namespace Component/ExpandableContent/Component */
-export class ExpandableContent extends PureComponent<ExpandableContentComponentProps, ExpandableContentComponentState> {
+export class ExpandableContentComponent extends PureComponent<ExpandableContentComponentProps, ExpandableContentComponentState> {
     static defaultProps: Partial<ExpandableContentComponentProps> = {
         heading: '',
         isContentExpanded: false,
         onClick: undefined,
         children: [],
         isArrow: false,
-        mods: {}
+        mods: {},
     };
 
     expandableContentRef = createRef<HTMLElement>();
@@ -48,18 +48,18 @@ export class ExpandableContent extends PureComponent<ExpandableContentComponentP
         this.state = {
             isContentExpanded: isForceExpanded || isContentExpanded,
             // eslint-disable-next-line react/no-unused-state
-            prevIsContentExpanded: isContentExpanded
+            prevIsContentExpanded: isContentExpanded,
         };
     }
 
     static getDerivedStateFromProps(
         { isContentExpanded }: Pick<ExpandableContentComponentProps, 'isContentExpanded'>,
-        { prevIsContentExpanded }: Pick<ExpandableContentComponentState, 'prevIsContentExpanded'>
+        { prevIsContentExpanded }: Pick<ExpandableContentComponentState, 'prevIsContentExpanded'>,
     ): ExpandableContentComponentState | null {
         if (isContentExpanded !== prevIsContentExpanded) {
             return {
                 prevIsContentExpanded: isContentExpanded,
-                isContentExpanded
+                isContentExpanded,
             };
         }
 
@@ -79,7 +79,7 @@ export class ExpandableContent extends PureComponent<ExpandableContentComponentP
         const topToElemDistance: number = elemToWindowTopDist - windowToPageTopDist;
         const {
             total: totalFixedElementHeight,
-            bottom: bottomFixedElementHeight
+            bottom: bottomFixedElementHeight,
         } = getFixedElementHeight();
 
         const elemMaxOffsetHeight = screen.height > elem.offsetHeight + bottomFixedElementHeight
@@ -105,7 +105,7 @@ export class ExpandableContent extends PureComponent<ExpandableContentComponentP
         }
         this.setState(
             ({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }),
-            () => this.scrollToExpandedContent()
+            () => this.scrollToExpandedContent(),
         );
     }
 
@@ -198,4 +198,4 @@ export class ExpandableContent extends PureComponent<ExpandableContentComponentP
         );
     }
 }
-export default ExpandableContent;
+export default ExpandableContentComponent;

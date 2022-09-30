@@ -27,9 +27,9 @@ import './Image.style';
  * @class Image
  * @namespace Component/Image/Component
  */
-export class Image<
+export class ImageComponent<
 P extends ImageComponentProps = ImageComponentProps,
-S extends ImageComponentState = ImageComponentState
+S extends ImageComponentState = ImageComponentState,
 > extends PureComponent<P, S> {
     static defaultProps: Partial<ImageComponentProps> = {
         src: '',
@@ -45,7 +45,7 @@ S extends ImageComponentState = ImageComponentState
         mix: {},
         showIsLoading: false,
         imageRef: undefined,
-        onImageLoad: noopFn
+        onImageLoad: noopFn,
     };
 
     image = createRef();
@@ -56,7 +56,7 @@ S extends ImageComponentState = ImageComponentState
         [ImageState.IMAGE_NOT_FOUND]: this.renderImageNotFound.bind(this),
         [ImageState.IMAGE_NOT_SPECIFIED]: this.renderImageNotSpecified.bind(this),
         [ImageState.IMAGE_LOADING]: this.renderLoadedImage.bind(this),
-        [ImageState.IMAGE_LOADED]: this.renderLoadedImage.bind(this)
+        [ImageState.IMAGE_LOADED]: this.renderLoadedImage.bind(this),
     };
 
     __construct(props: ImageComponentProps): void {
@@ -121,7 +121,7 @@ S extends ImageComponentState = ImageComponentState
             alt,
             src,
             style,
-            title
+            title,
         } = this.props;
         const { imageStatus } = this.state;
 
@@ -147,7 +147,7 @@ S extends ImageComponentState = ImageComponentState
             src,
             style,
             title,
-            className
+            className,
         } = this.props;
 
         return (
@@ -219,7 +219,7 @@ S extends ImageComponentState = ImageComponentState
             src,
             imageRef,
             className,
-            isPlain
+            isPlain,
         } = this.props;
 
         const { imageStatus } = this.state;
@@ -237,7 +237,7 @@ S extends ImageComponentState = ImageComponentState
                   ratio,
                   imageStatus: imageStatus.toLowerCase(),
                   isPlaceholder,
-                  hasSrc: !!src
+                  hasSrc: !!src,
               } }
               mix={ mix }
               style={ wrapperSize }
@@ -251,4 +251,4 @@ S extends ImageComponentState = ImageComponentState
     }
 }
 
-export default Image;
+export default ImageComponent;

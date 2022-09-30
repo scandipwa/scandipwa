@@ -26,7 +26,7 @@ import {
     AMOUNT_OF_PLACEHOLDERS,
     MediaType,
     PRODUCT_GALLERY_POPUP_ID,
-    THUMBNAIL_KEY
+    THUMBNAIL_KEY,
 } from './ProductGallery.config';
 import {
     ProductGalleryComponentContainerPropKeys,
@@ -37,12 +37,12 @@ import {
     ProductGalleryContainerProps,
     ProductGalleryContainerState,
     SharedTransitionContainerRenderFnProps,
-    SliderWithDraggableRef
+    SliderWithDraggableRef,
 } from './ProductGallery.type';
 
 /** @namespace Component/ProductGallery/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductGalleryContainerMapStateProps => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/ProductGallery/Container/mapDispatchToProps */
@@ -54,7 +54,7 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
         areDetailsLoaded: false,
         isZoomEnabled: false,
         isWithEmptySwitcher: false,
-        showLoader: false
+        showLoader: false,
     };
 
     sliderRef = createRef<SliderWithDraggableRef>();
@@ -63,7 +63,7 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
         onActiveImageChange: this.onActiveImageChange.bind(this),
         handleZoomChange: this.handleZoomChange.bind(this),
         disableZoom: this.disableZoom.bind(this),
-        handleImageZoomPopupActiveChange: this.handleImageZoomPopupActiveChange.bind(this)
+        handleImageZoomPopupActiveChange: this.handleImageZoomPopupActiveChange.bind(this),
     };
 
     __construct(props: ProductGalleryContainerProps): void {
@@ -77,13 +77,13 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
             activeImage: this.getBaseImage(),
             isZoomEnabled: false,
             prevProdId: id,
-            isImageZoomPopupActive: false
+            isImageZoomPopupActive: false,
         };
     }
 
     static getDerivedStateFromProps(
         props: ProductGalleryContainerProps,
-        state: ProductGalleryContainerState
+        state: ProductGalleryContainerState,
     ): Partial<ProductGalleryContainerState> | null {
         const { product: { id } } = props;
         const { prevProdId, activeImage } = state;
@@ -103,7 +103,7 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
         const {
             product: { media_gallery_entries: mediaGallery = [] },
             isZoomEnabled,
-            areDetailsLoaded
+            areDetailsLoaded,
         } = this.props;
         const { product: { media_gallery_entries: prevMediaGallery = [] }, isZoomEnabled: prevZoomEnabled } = prevProps;
 
@@ -120,8 +120,8 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
         const {
             product: {
                 type_id: type,
-                variants = []
-            }
+                variants = [],
+            },
         } = this.props;
 
         if (type !== ProductType.CONFIGURABLE) {
@@ -154,15 +154,15 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
     onActiveImageChange(activeImage: number): void {
         this.setState({
             activeImage: Math.abs(activeImage),
-            isZoomEnabled: false
+            isZoomEnabled: false,
         });
     }
 
     getBaseImage(): number {
         const {
             product: {
-                media_gallery_entries: mediaGallery = []
-            }
+                media_gallery_entries: mediaGallery = [],
+            },
         } = this.props;
 
         const baseImage = mediaGallery.find((value) => value.types.includes(MediaType.IMAGE));
@@ -196,8 +196,8 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
                 media_gallery_entries: mediaGallery = [],
                 [ THUMBNAIL_KEY ]: { url: thumbnailUrl = '' } = {},
                 [ MediaType.IMAGE ]: { url: imageTypeUrl = '' } = {},
-                name
-            }
+                name,
+            },
         } = this.props;
 
         const url = imageTypeUrl || thumbnailUrl;
@@ -221,9 +221,9 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
                 base: { url },
                 id: THUMBNAIL_KEY,
                 label: name,
-                media_type: MediaType.IMAGE
+                media_type: MediaType.IMAGE,
             },
-            ...placeholders
+            ...placeholders,
         ];
     }
 
@@ -233,7 +233,7 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
             product: { id },
             isMobile,
             isWithEmptySwitcher,
-            showLoader
+            showLoader,
         } = this.props;
 
         return {
@@ -246,7 +246,7 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
             isImageZoomPopupActive,
             sliderRef: this.sliderRef,
             isWithEmptySwitcher,
-            showLoader
+            showLoader,
         };
     }
 
@@ -294,7 +294,7 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
                 <Subscribe to={ [SharedTransitionContainer] }>
                     { (props) => {
                         const {
-                            registerSharedElementDestination
+                            registerSharedElementDestination,
                         } = props as unknown as SharedTransitionContainerRenderFnProps;
 
                         return (

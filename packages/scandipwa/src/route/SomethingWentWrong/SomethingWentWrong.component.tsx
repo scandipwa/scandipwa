@@ -19,7 +19,7 @@ import { SomethingWentWrongComponentProps } from './SomethingWentWrong.type';
 import './SomethingWentWrong.style';
 
 /** @namespace Route/SomethingWentWrong/Component */
-export class SomethingWentWrong extends PureComponent<SomethingWentWrongComponentProps> {
+export class SomethingWentWrongComponent extends PureComponent<SomethingWentWrongComponentProps> {
     renderErrorDetails(): ReactElement {
         const { errorDetails: { err, info: { componentStack } = {} } } = this.props;
         const errorString = err.toString();
@@ -68,4 +68,4 @@ export class SomethingWentWrong extends PureComponent<SomethingWentWrongComponen
     }
 }
 
-export default SomethingWentWrong;
+export default SomethingWentWrongComponent;

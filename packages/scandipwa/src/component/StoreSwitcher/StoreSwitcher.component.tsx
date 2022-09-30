@@ -24,9 +24,9 @@ import { FormattedStore, StoreSwitcherComponentProps } from './StoreSwitcher.typ
 import './StoreSwitcher.style';
 
 /** @namespace Component/StoreSwitcher/Component */
-export class StoreSwitcher extends PureComponent<StoreSwitcherComponentProps> {
+export class StoreSwitcherComponent extends PureComponent<StoreSwitcherComponentProps> {
     static defaultProps: Partial<StoreSwitcherComponentProps> = {
-        storeLabel: ''
+        storeLabel: '',
     };
 
     renderStore(item: FormattedStore): ReactElement {
@@ -46,7 +46,7 @@ export class StoreSwitcher extends PureComponent<StoreSwitcherComponentProps> {
         const {
             storeList,
             handleStoreSelect,
-            currentStoreCode
+            currentStoreCode,
         } = this.props;
 
         return (
@@ -57,10 +57,10 @@ export class StoreSwitcher extends PureComponent<StoreSwitcherComponentProps> {
                       id: 'StoreSwitcher',
                       name: 'StoreSwitcher',
                       defaultValue: currentStoreCode,
-                      noPlaceholder: true
+                      noPlaceholder: true,
                   } }
                   events={ {
-                      onChange: handleStoreSelect
+                      onChange: handleStoreSelect,
                   } }
                   options={ storeList }
                 />
@@ -74,7 +74,7 @@ export class StoreSwitcher extends PureComponent<StoreSwitcherComponentProps> {
             onStoreSwitcherOutsideClick,
             onStoreSwitcherClick,
             isOpened,
-            storeLabel
+            storeLabel,
         } = this.props;
 
         const mods = { isOpen: isOpened };
@@ -115,4 +115,4 @@ export class StoreSwitcher extends PureComponent<StoreSwitcherComponentProps> {
     }
 }
 
-export default StoreSwitcher;
+export default StoreSwitcherComponent;

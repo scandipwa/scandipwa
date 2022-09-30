@@ -17,7 +17,7 @@ import {
     getCartShippingSubPrice,
     getCartSubtotal,
     getCartSubtotalSubPrice,
-    getCartTotalSubPrice
+    getCartTotalSubPrice,
 } from 'Util/Cart';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -25,7 +25,7 @@ import CheckoutOrderSummary from './CheckoutOrderSummary.component';
 import {
     CheckoutOrderSummaryComponentProps,
     CheckoutOrderSummaryContainerMapDispatchProps,
-    CheckoutOrderSummaryContainerMapStateProps
+    CheckoutOrderSummaryContainerMapStateProps,
 } from './CheckoutOrderSummary.type';
 
 /** @namespace Component/CheckoutOrderSummary/Container/mapStateToProps */
@@ -37,7 +37,7 @@ export const mapStateToProps = (state: RootState): CheckoutOrderSummaryContainer
     cartShippingSubPrice: getCartShippingSubPrice(state),
     cartTotalSubPrice: getCartTotalSubPrice(state),
     isLoading: state.CartReducer.isLoading,
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/CheckoutOrderSummary/Container/mapDispatchToProps */
@@ -45,7 +45,7 @@ export const mapDispatchToProps = (): CheckoutOrderSummaryContainerMapDispatchPr
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(
-    CheckoutOrderSummary as unknown as ComponentType<CheckoutOrderSummaryComponentProps>
+    CheckoutOrderSummary as unknown as ComponentType<CheckoutOrderSummaryComponentProps>,
 );

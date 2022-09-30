@@ -18,9 +18,9 @@ import { GridIconComponentProps } from './GridIcon.type';
 import './GridIcon.style';
 
 /** @namespace Component/GridIcon/Component */
-export class GridIcon extends PureComponent<GridIconComponentProps> {
+export class GridIconComponent extends PureComponent<GridIconComponentProps> {
     static defaultProps: Partial<GridIconComponentProps> = {
-        isActive: false
+        isActive: false,
     };
 
     render(): ReactElement {
@@ -42,4 +42,4 @@ export class GridIcon extends PureComponent<GridIconComponentProps> {
     }
 }
 
-export default GridIcon;
+export default GridIconComponent;

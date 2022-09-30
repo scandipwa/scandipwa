@@ -16,7 +16,7 @@ import { CurrencyMap, HUNDRED_PERCENT } from './Price.config';
 
 /** @namespace Util/Price/formatCurrency */
 export const formatCurrency = (
-    currency = GQLCurrencyEnum.USD
+    currency = GQLCurrencyEnum.USD,
 ): string | null => (Object.keys(CurrencyMap).includes(currency) ? currency : null);
 
 /** @namespace Util/Price/formatPrice */

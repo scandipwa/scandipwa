@@ -17,7 +17,7 @@ import { IndexedProduct } from 'Util/Product/Product.type';
 export enum RecentlyViewedProductsActionType {
     UPDATE_RECENTLY_VIEWED_PRODUCTS = 'UPDATE_RECENTLY_VIEWED_PRODUCTS',
     ADD_RECENTLY_VIEWED_PRODUCT = 'ADD_RECENTLY_VIEWED_PRODUCT',
-    UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS'
+    UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS',
 }
 
 export interface AddRecentlyViewedProductAction extends AnyAction {

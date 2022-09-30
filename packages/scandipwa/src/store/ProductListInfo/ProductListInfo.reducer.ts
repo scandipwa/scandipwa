@@ -17,13 +17,13 @@ import {
     ProductListFilter,
     ProductListInfoAction,
     ProductListInfoActionType,
-    ProductListInfoStore
+    ProductListInfoStore,
 } from './ProductListInfo.type';
 
 /** @namespace Store/ProductListInfo/Reducer/reduceFilters */
 export const reduceFilters = (filters: Aggregation[]): Record<string, ProductListFilter> => filters.reduce((
     co,
-    item
+    item,
 ) => {
     const {
         request_var: attribute_code,
@@ -31,13 +31,13 @@ export const reduceFilters = (filters: Aggregation[]): Record<string, ProductLis
         position: attribute_position,
         filter_items,
         is_boolean,
-        has_swatch
+        has_swatch,
     } = item;
 
     const { attribute_values, attribute_options } = filter_items.reduce(
         (
             attribute: { attribute_values: string[]; attribute_options: Record<string, AggregationOption> },
-            option
+            option,
         ) => {
             const { value_string } = option;
             const { attribute_values, attribute_options } = attribute;
@@ -48,11 +48,11 @@ export const reduceFilters = (filters: Aggregation[]): Record<string, ProductLis
                 ...attribute,
                 attribute_options: {
                     ...attribute_options,
-                    [value_string]: option
-                }
+                    [value_string]: option,
+                },
             };
         },
-        { attribute_values: [], attribute_options: {} }
+        { attribute_values: [], attribute_options: {} },
     );
 
     return {
@@ -65,8 +65,8 @@ export const reduceFilters = (filters: Aggregation[]): Record<string, ProductLis
             attribute_type: 'select',
             attribute_options,
             is_boolean,
-            has_swatch
-        }
+            has_swatch,
+        },
     };
 }, {});
 
@@ -77,13 +77,13 @@ export const getInitialState = (): ProductListInfoStore => ({
     sortFields: {},
     filters: {},
     isLoading: true,
-    selectedFilter: {}
+    selectedFilter: {},
 });
 
 /** @namespace Store/ProductListInfo/Reducer/ProductListReducer */
 export const ProductListReducer: Reducer<ProductListInfoStore, ProductListInfoAction> = (
     state: ProductListInfoStore = getInitialState(),
-    action
+    action,
 ) => {
     const { type } = action;
 
@@ -93,8 +93,8 @@ export const ProductListReducer: Reducer<ProductListInfoStore, ProductListInfoAc
             selectedFilter,
             products: {
                 filters: availableFilters = [],
-                sort_fields: sortFields = {}
-            } = {}
+                sort_fields: sortFields = {},
+            } = {},
         } = action;
 
         return {
@@ -102,7 +102,7 @@ export const ProductListReducer: Reducer<ProductListInfoStore, ProductListInfoAc
             filters: reduceFilters(availableFilters),
             sortFields,
             isLoading: false,
-            selectedFilter
+            selectedFilter,
         };
     }
 
@@ -111,7 +111,7 @@ export const ProductListReducer: Reducer<ProductListInfoStore, ProductListInfoAc
 
         return {
             ...state,
-            isLoading
+            isLoading,
         };
     }
 

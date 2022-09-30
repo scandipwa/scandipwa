@@ -15,15 +15,15 @@ export const LAYOUT_KEY = 'layout';
 export enum CategoryDisplayMode {
     PRODUCTS = 'PRODUCTS',
     CMS_BLOCK = 'PAGE',
-    BOTH = 'PRODUCTS_AND_PAGE'
+    BOTH = 'PRODUCTS_AND_PAGE',
 }
 
 export enum CategoryPageLayout {
     GRID = 'grid',
-    LIST = 'list'
+    LIST = 'list',
 }
 
 export enum SortDirections {
     ASC = 'ASC',
-    DESC = 'DESC'
+    DESC = 'DESC',
 }

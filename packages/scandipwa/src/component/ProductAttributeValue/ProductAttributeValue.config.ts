@@ -18,11 +18,11 @@ export enum AttributeType {
     MULTISELECT = 'multiselect',
     MEDIA_IMAGE = 'media_image',
     TEXTAREA = 'textarea',
-    WEIGHT = 'weight'
+    WEIGHT = 'weight',
 }
 
 export enum SelectAttributeType {
     STRING = '0',
     COLOR = '1',
-    IMAGE = '2'
+    IMAGE = '2',
 }

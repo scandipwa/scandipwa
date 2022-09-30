@@ -18,7 +18,7 @@ import { ReactElement } from 'Type/Common.type';
 import {
     getDateTimeFormat,
     getTimeFormat,
-    getYearRangeAttributes
+    getYearRangeAttributes,
 } from 'Util/Form/Extract';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -29,14 +29,14 @@ import {
     DatePickerContainerMapDispatchProps,
     DatePickerContainerMapStateProps,
     DatePickerContainerProps,
-    DatePickerContainerState
+    DatePickerContainerState,
 } from './DatePicker.type';
 
 /** @namespace Component/DatePicker/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): DatePickerContainerMapStateProps => ({
     yearRange: state.ConfigReducer.year_range,
     dateFieldsOrder: state.ConfigReducer.date_fields_order,
-    timeFormat: state.ConfigReducer.time_format
+    timeFormat: state.ConfigReducer.time_format,
 });
 
 /** @namespace Component/DatePicker/Container/mapDispatchToProps */
@@ -45,11 +45,11 @@ export const mapDispatchToProps = (): DatePickerContainerMapDispatchProps => ({}
 /** @namespace Component/DatePicker/Container */
 export class DatePickerContainer extends PureComponent<DatePickerContainerProps, DatePickerContainerState> {
     static defaultProps: Partial<DatePickerContainerProps> = {
-        isRequired: false
+        isRequired: false,
     };
 
     containerFunctions: DatePickerContainerFunctions = {
-        onSetDate: this.onSetDate.bind(this)
+        onSetDate: this.onSetDate.bind(this),
     };
 
     __construct(props: DatePickerContainerProps): void {
@@ -72,7 +72,7 @@ export class DatePickerContainer extends PureComponent<DatePickerContainerProps,
             timeFormat: magentoTimeFormat,
             dateFieldsOrder,
             uid,
-            isRequired
+            isRequired,
         } = this.props;
 
         const showTimeSelect = type === FieldDateType.DATETIME || type === FieldDateType.TIME;
@@ -89,7 +89,7 @@ export class DatePickerContainer extends PureComponent<DatePickerContainerProps,
             timeFormat,
             uid,
             isClearable: !isRequired,
-            type
+            type,
         };
     }
 

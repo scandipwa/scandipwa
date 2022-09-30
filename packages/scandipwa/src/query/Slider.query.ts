@@ -37,7 +37,7 @@ export class SliderQuery {
             this._getSlidesField(),
             this._getSlideSpeedField(),
             new Field<'slider_id', number>('slider_id'),
-            new Field<'title', string>('title')
+            new Field<'title', string>('title'),
         ];
     }
 
@@ -55,7 +55,7 @@ export class SliderQuery {
             new Field<'mobile_image', string>('mobile_image'),
             new Field<'desktop_image', string>('desktop_image'),
             new Field<'title', string>('title'),
-            new Field<'is_active', boolean>('is_active')
+            new Field<'is_active', boolean>('is_active'),
         ];
     }
 

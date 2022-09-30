@@ -24,11 +24,11 @@ import { PopupComponentProps } from './Popup.type';
 import './Popup.style';
 
 /** @namespace Component/Popup/Component */
-export class Popup extends Overlay<PopupComponentProps> {
+export class PopupComponent extends Overlay<PopupComponentProps> {
     static defaultProps: Partial<PopupComponentProps> = {
         ...Overlay.defaultProps,
         clickOutside: true,
-        title: ''
+        title: '',
     };
 
     __construct(props: PopupComponentProps): void {
@@ -69,7 +69,7 @@ export class Popup extends Overlay<PopupComponentProps> {
 
         history.push(
             `${location.pathname}${location.search}${location.hash}`,
-            { popupOpen: true }
+            { popupOpen: true },
         );
 
         onVisible?.();
@@ -199,9 +199,9 @@ export class Popup extends Overlay<PopupComponentProps> {
             >
                 { this.renderContent() }
             </div>,
-            document.body
+            document.body,
         );
     }
 }
 
-export default Popup;
+export default PopupComponent;

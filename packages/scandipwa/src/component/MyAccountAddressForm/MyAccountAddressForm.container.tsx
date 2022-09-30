@@ -19,7 +19,7 @@ import {
     getAvailableRegions,
     getCityAndRegionFromZipcode,
     getRegionIdFromAvailableRegions,
-    transformCountriesToOptions
+    transformCountriesToOptions,
 } from 'Util/Address';
 import { CountryOption } from 'Util/Address/Address.type';
 import { debounce } from 'Util/Request';
@@ -35,7 +35,7 @@ import {
     MyAccountAddressFormContainerMapStateProps,
     MyAccountAddressFormContainerProps,
     MyAccountAddressFormContainerPropsKeys,
-    MyAccountAddressFormContainerState
+    MyAccountAddressFormContainerState,
 } from './MyAccountAddressForm.type';
 
 /** @namespace Component/MyAccountAddressForm/Container/mapStateToProps */
@@ -44,7 +44,7 @@ export const mapStateToProps = (state: RootState): MyAccountAddressFormContainer
     defaultCountry: state.ConfigReducer.default_country,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
     showVatNumber: state.ConfigReducer.show_vat_number_on_storefront,
-    regionDisplayAll: state.ConfigReducer.region_display_all
+    regionDisplayAll: state.ConfigReducer.region_display_all,
 });
 
 /** @namespace Component/MyAccountAddressForm/Container/mapDispatchToProps */
@@ -53,10 +53,10 @@ export const mapDispatchToProps = (): MyAccountAddressFormContainerMapDispatchPr
 /** @namespace Component/MyAccountAddressForm/Container */
 export class MyAccountAddressFormContainer <
     Props extends MyAccountAddressFormContainerProps = MyAccountAddressFormContainerProps,
-    State extends MyAccountAddressFormContainerState = MyAccountAddressFormContainerState
+    State extends MyAccountAddressFormContainerState = MyAccountAddressFormContainerState,
 > extends PureComponent<Props, State> {
     static defaultProps: Partial<MyAccountAddressFormContainerProps> = {
-        defaultCountry: 'US'
+        defaultCountry: 'US',
     };
 
     containerFunctions: MyAccountAddressFormContainerFunctions = {
@@ -64,7 +64,7 @@ export class MyAccountAddressFormContainer <
         onZipcodeChange: this.onZipcodeChange.bind(this),
         onCityChange: this.onCityChange.bind(this),
         onRegionChange: this.onRegionChange.bind(this),
-        onRegionIdChange: this.onRegionIdChange.bind(this)
+        onRegionIdChange: this.onRegionIdChange.bind(this),
     };
 
     __construct(props: Props): void {
@@ -77,7 +77,7 @@ export class MyAccountAddressFormContainer <
             currentCity: this.getCurrentAddress().city,
             currentRegion: this.getCurrentAddress().region,
             currentZipcode: this.getCurrentAddress().postcode,
-            currentRegionId: this.getCurrentAddress().regionId
+            currentRegionId: this.getCurrentAddress().regionId,
         } as State;
     }
 
@@ -89,7 +89,7 @@ export class MyAccountAddressFormContainer <
             addressLinesQty,
             showVatNumber,
             regionDisplayAll,
-            onSave
+            onSave,
         } = this.props;
         const {
             countryId,
@@ -98,7 +98,7 @@ export class MyAccountAddressFormContainer <
             currentCity,
             currentRegion,
             currentZipcode,
-            currentRegionId
+            currentRegionId,
         } = this.state;
 
         return {
@@ -115,7 +115,7 @@ export class MyAccountAddressFormContainer <
             currentCity,
             currentRegion,
             currentZipcode,
-            currentRegionId
+            currentRegionId,
         };
     }
 
@@ -135,7 +135,7 @@ export class MyAccountAddressFormContainer <
                 region: '',
                 regionId: 1,
                 postcode: '',
-                city: ''
+                city: '',
             };
         }
 
@@ -145,7 +145,7 @@ export class MyAccountAddressFormContainer <
             region,
             regionId,
             postcode,
-            city
+            city,
         };
     }
 
@@ -191,7 +191,7 @@ export class MyAccountAddressFormContainer <
                 currentRegion: '',
                 currentRegionId: 1,
                 countryId: '',
-                availableRegions: []
+                availableRegions: [],
             });
 
             return;
@@ -200,7 +200,7 @@ export class MyAccountAddressFormContainer <
         const {
             available_regions: availableRegions = [],
             is_state_required: isStateRequired = true,
-            value: countryId
+            value: countryId,
         } = country;
 
         this.getAvailableRegions(countryId, currentZipcode);
@@ -209,7 +209,7 @@ export class MyAccountAddressFormContainer <
             isStateRequired: isStateRequired || false,
             countryId,
             currentRegionId: 1,
-            currentRegion: ''
+            currentRegion: '',
         });
     }
 
@@ -218,12 +218,10 @@ export class MyAccountAddressFormContainer <
         const { countryId } = this.state;
 
         this.setState({ currentZipcode: zipCode });
-        debounce(
-            this.handleSetCityAndRegionDependingOnZipcode(
-                zipCode,
-                countryId
-            ) as unknown as (...args: unknown[]) => Promise<void>, UPDATE_ZIPCODE_FREQUENCY
-        );
+        debounce(this.handleSetCityAndRegionDependingOnZipcode(
+            zipCode,
+            countryId,
+        ) as unknown as (...args: unknown[]) => Promise<void>, UPDATE_ZIPCODE_FREQUENCY);
     }
 
     async handleSetCityAndRegionDependingOnZipcode(zipCode: string, countryId?: string): Promise<void> {
@@ -240,13 +238,13 @@ export class MyAccountAddressFormContainer <
             this.setState({
                 currentCity: city,
                 currentRegionId: getRegionIdFromAvailableRegions(availableRegions, cityAndRegion),
-                currentRegion: ''
+                currentRegion: '',
             });
         } else {
             this.setState({
                 currentCity: city,
                 currentRegion: region,
-                currentRegionId: 1
+                currentRegionId: 1,
             });
         }
     }
@@ -264,7 +262,7 @@ export class MyAccountAddressFormContainer <
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(
-    MyAccountAddressFormContainer as unknown as ComponentType<MyAccountAddressFormContainerProps>
+    MyAccountAddressFormContainer as unknown as ComponentType<MyAccountAddressFormContainerProps>,
 );

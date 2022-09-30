@@ -15,7 +15,7 @@ import {
     MyAccountOverlayComponentProps,
     MyAccountOverlayContainerFunctions,
     MyAccountOverlayContainerMapDispatchProps,
-    MyAccountOverlayContainerProps
+    MyAccountOverlayContainerProps,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.type';
 import { Device } from 'Type/Device.type';
 

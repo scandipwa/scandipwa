@@ -28,7 +28,7 @@ import {
     ProductWishlistButtonContainerMapDispatchProps,
     ProductWishlistButtonContainerMapStateProps,
     ProductWishlistButtonContainerProps,
-    ProductWishlistButtonContainerState
+    ProductWishlistButtonContainerState,
 } from './ProductWishlistButton.type';
 
 export const WishlistDispatcher = import(
@@ -42,18 +42,18 @@ export const mapStateToProps = (state: RootState): ProductWishlistButtonContaine
     isAddingWishlistItem: state.WishlistReducer.isLoading,
     // !FIXME: state.WishlistReducer.id doesn't exist. wishilistId is '0' by default. This must be fixed!
     // wishlistId: state.WishlistReducer.id
-    wishlistId: '0'
+    wishlistId: '0',
 });
 
 /** @namespace Component/ProductWishlistButton/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductWishlistButtonContainerMapDispatchProps => ({
     addProductToWishlist: (wishlistItem) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addItemToWishlist(dispatch, wishlistItem)
+        ({ default: dispatcher }) => dispatcher.addItemToWishlist(dispatch, wishlistItem),
     ),
     removeProductFromWishlist: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options),
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
 });
 
 /** @namespace Component/ProductWishlistButton/Container */
@@ -62,17 +62,17 @@ ProductWishlistButtonContainerProps,
 ProductWishlistButtonContainerState
 > {
     static defaultProps: Partial<ProductWishlistButtonContainerProps> = {
-        mix: {}
+        mix: {},
     };
 
     state: ProductWishlistButtonContainerState = {
         isWishlistButtonLoading: false,
-        isWishListToggle: false
+        isWishListToggle: false,
     };
 
     containerFunctions: ProductWishlistButtonContainerFunctions = {
         addToWishlist: this.toggleProductInWishlist.bind(this, true),
-        removeFromWishlist: this.toggleProductInWishlist.bind(this, false)
+        removeFromWishlist: this.toggleProductInWishlist.bind(this, false),
     };
 
     componentDidUpdate(prevProps: ProductWishlistButtonContainerProps): void {
@@ -95,7 +95,7 @@ ProductWishlistButtonContainerState
             magentoProduct,
             isDisabled: this.isDisabled(),
             isInWishlist: this.isInWishlist(),
-            isSignedIn: isSignedIn()
+            isSignedIn: isSignedIn(),
         };
     }
 
@@ -110,17 +110,17 @@ ProductWishlistButtonContainerState
             showNotification,
             addProductToWishlist,
             removeProductFromWishlist,
-            wishlistId
+            wishlistId,
         } = this.props;
 
         const {
-            isWishListToggle
+            isWishListToggle,
         } = this.state;
 
         if (!isSignedIn()) {
             return showNotification(
                 NotificationType.INFO,
-                __('You must login or register to add items to your wishlist.')
+                __('You must login or register to add items to your wishlist.'),
             );
         }
 
@@ -135,7 +135,7 @@ ProductWishlistButtonContainerState
         if (add) {
             await addProductToWishlist({
                 items: magentoProduct,
-                wishlistId
+                wishlistId,
             });
 
             this.setState({ isWishListToggle: false });
@@ -153,8 +153,8 @@ ProductWishlistButtonContainerState
 
         const {
             wishlist: {
-                id: itemId
-            } = {}
+                id: itemId,
+            } = {},
         } = wishlistItem;
 
         this.setState({ isWishListToggle: false });
@@ -177,7 +177,7 @@ ProductWishlistButtonContainerState
 
         // TODO: After new graphql will need to check by options
         return Object.values(productsInWishlist).find(
-            ({ sku: wishlistSku }) => sku === wishlistSku
+            ({ sku: wishlistSku }) => sku === wishlistSku,
         );
     }
 

@@ -9,13 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import 'react-datepicker/dist/react-datepicker.css';
-
 import {
     ForwardedRef,
     forwardRef,
     MouseEvent,
-    PureComponent
+    PureComponent,
 } from 'react';
 import DatePicker from 'react-datepicker';
 
@@ -25,6 +23,7 @@ import { noopFn } from 'Util/Common';
 
 import { DatePickerComponentPlaceholderMap, DatePickerComponentProps } from './DatePicker.type';
 
+import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.style.scss';
 
 /** @namespace Component/DatePicker/Component */
@@ -32,7 +31,7 @@ export class DatePickerComponent extends PureComponent<DatePickerComponentProps>
     placeholderMap: DatePickerComponentPlaceholderMap = {
         [FieldType.DATE]: __('Select date'),
         [FieldType.DATETIME]: __('Select date & time'),
-        [FieldType.TIME]: __('Select time')
+        [FieldType.TIME]: __('Select time'),
     };
 
     getPlaceholder(): string {
@@ -73,7 +72,7 @@ export class DatePickerComponent extends PureComponent<DatePickerComponentProps>
             maxDate,
             dateFormat,
             timeFormat,
-            isClearable
+            isClearable,
         } = this.props;
 
         const DateInput = forwardRef(this.renderCustomInput.bind(this));

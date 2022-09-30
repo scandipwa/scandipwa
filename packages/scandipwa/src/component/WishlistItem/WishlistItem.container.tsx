@@ -40,7 +40,7 @@ import {
     WishlistItemContainerMapDispatchProps,
     WishlistItemContainerMapStateProps,
     WishlistItemContainerProps,
-    WishlistItemContainerState
+    WishlistItemContainerState,
 } from './WishlistItem.type';
 
 export const CartDispatcher = import(
@@ -54,7 +54,7 @@ export const WishlistDispatcher = import(
 
 /** @namespace Component/WishlistItem/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): WishlistItemContainerMapStateProps => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
     // wishlistId: state.WishlistReducer.id
 });
 
@@ -62,33 +62,33 @@ export const mapStateToProps = (state: RootState): WishlistItemContainerMapState
 export const mapDispatchToProps = (dispatch: Dispatch): WishlistItemContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     addProductToCart: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
     ),
     updateWishlistItem: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options),
     ),
     removeFromWishlist: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options),
     ),
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state))
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
 });
 
 /** @namespace Component/WishlistItem/Container */
 export class WishlistItemContainer<
 P extends WishlistItemContainerProps = WishlistItemContainerProps,
-S extends WishlistItemContainerState = WishlistItemContainerState
+S extends WishlistItemContainerState = WishlistItemContainerState,
 > extends PureComponent<P, S> {
     static defaultProps: Partial<WishlistItemContainerProps> = {
         isRemoving: false,
         setIsQtyUpdateInProgress: noopFn,
-        wishlistId: '0'
+        wishlistId: '0',
     };
 
     containerFunctions: WishlistItemContainerFunctions = {
         addToCart: this.addItemToCart.bind(this),
         removeItem: this.removeItem.bind(this, false, true),
         redirectToProductPage: this.redirectToProductPage.bind(this),
-        setQuantity: this.setQuantity.bind(this)
+        setQuantity: this.setQuantity.bind(this),
     };
 
     changeQuantityDebouncer = new Debouncer();
@@ -106,8 +106,8 @@ S extends WishlistItemContainerState = WishlistItemContainerState
             wishlistId,
             wishlistItems: [{
                 wishlist_item_id: item_id,
-                description
-            }]
+                description,
+            }],
         });
     }, UPDATE_WISHLIST_FREQUENCY);
 
@@ -116,11 +116,11 @@ S extends WishlistItemContainerState = WishlistItemContainerState
             wishlistId,
             product: {
                 wishlist: {
-                    id: item_id
-                } = {}
+                    id: item_id,
+                } = {},
             },
             updateWishlistItem,
-            setIsQtyUpdateInProgress
+            setIsQtyUpdateInProgress,
         } = this.props;
 
         if (!isSignedIn() || !item_id) {
@@ -131,8 +131,8 @@ S extends WishlistItemContainerState = WishlistItemContainerState
             wishlistId,
             wishlistItems: [{
                 wishlist_item_id: item_id,
-                quantity
-            }]
+                quantity,
+            }],
         });
 
         setIsQtyUpdateInProgress(false);
@@ -143,7 +143,7 @@ S extends WishlistItemContainerState = WishlistItemContainerState
 
         this.state = {
             isLoading: false,
-            currentQty: this.getQuantity()
+            currentQty: this.getQuantity(),
         } as S;
 
         this.renderRightSideContent = this.renderRightSideContent.bind(this);
@@ -156,7 +156,7 @@ S extends WishlistItemContainerState = WishlistItemContainerState
             isEditingActive,
             isMobile,
             isRemoving,
-            product
+            product,
         } = this.props;
         const { isLoading } = this.state;
 
@@ -172,7 +172,7 @@ S extends WishlistItemContainerState = WishlistItemContainerState
             isEditingActive,
             isMobile,
             isRemoving,
-            product
+            product,
         };
     }
 
@@ -201,15 +201,15 @@ S extends WishlistItemContainerState = WishlistItemContainerState
 
         return attributes ? Object.values(attributes).reduce((
             acc: string[],
-            { attribute_code, attribute_value }
+            { attribute_code, attribute_value },
         ) => {
             const {
                 attribute_options: {
                     [ attribute_value ]: {
                         value = '',
-                        label = ''
-                    } = {}
-                } = {}
+                        label = '',
+                    } = {},
+                } = {},
             } = configurable_options[ attribute_code ] || {};
 
             if (value === attribute_value) {
@@ -226,10 +226,10 @@ S extends WishlistItemContainerState = WishlistItemContainerState
         const {
             product: {
                 wishlist: {
-                    buy_request
-                } = {}
+                    buy_request,
+                } = {},
             },
-            product: item
+            product: item,
         } = this.props;
 
         const { currentQty } = this.state;
@@ -248,9 +248,9 @@ S extends WishlistItemContainerState = WishlistItemContainerState
                 type_id: typeId,
                 wishlist: {
                     quantity = 0,
-                    buy_request: buyRequest
-                } = {}
-            }
+                    buy_request: buyRequest,
+                } = {},
+            },
         } = this.props;
 
         if (typeId !== ProductType.GROUPED || !buyRequest) {
@@ -266,7 +266,7 @@ S extends WishlistItemContainerState = WishlistItemContainerState
         const {
             product: item,
             addProductToCart,
-            showNotification
+            showNotification,
         } = this.props;
 
         const {
@@ -275,8 +275,8 @@ S extends WishlistItemContainerState = WishlistItemContainerState
             url = '',
             wishlist: {
                 id,
-                sku = ''
-            } = {}
+                sku = '',
+            } = {},
         } = item;
 
         if (!isSignedIn()) {

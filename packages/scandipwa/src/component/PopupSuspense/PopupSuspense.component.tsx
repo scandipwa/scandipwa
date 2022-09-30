@@ -27,14 +27,14 @@ import 'Component/CartOverlay/CartOverlay.style';
 import 'Component/MyAccountOverlay/MyAccountOverlay.style';
 
 /** @namespace Component/PopupSuspense/Component */
-export class PopupSuspense extends PureComponent<PopupSuspenseComponentProps> {
+export class PopupSuspenseComponent extends PureComponent<PopupSuspenseComponentProps> {
     static defaultProps: Partial<PopupSuspenseComponentProps> = {
-        onVisible: noopFn
+        onVisible: noopFn,
     };
 
     styleMap: Record<string, string> = {
         [Page.CART_OVERLAY]: 'CartOverlay',
-        [CUSTOMER_ACCOUNT_OVERLAY_KEY]: 'MyAccountOverlay'
+        [CUSTOMER_ACCOUNT_OVERLAY_KEY]: 'MyAccountOverlay',
     };
 
     componentDidMount(): void {
@@ -47,14 +47,14 @@ export class PopupSuspense extends PureComponent<PopupSuspenseComponentProps> {
         const { actualOverlayKey } = this.props;
 
         throw new Error(
-            `Please, provide a class in the style map for overlay ${actualOverlayKey} and import its style here.`
+            `Please, provide a class in the style map for overlay ${actualOverlayKey} and import its style here.`,
         );
     }
 
     render(): ReactElement {
         const {
             onVisible,
-            actualOverlayKey
+            actualOverlayKey,
         } = this.props;
 
         const block = this.styleMap[actualOverlayKey];
@@ -75,4 +75,4 @@ export class PopupSuspense extends PureComponent<PopupSuspenseComponentProps> {
     }
 }
 
-export default PopupSuspense;
+export default PopupSuspenseComponent;

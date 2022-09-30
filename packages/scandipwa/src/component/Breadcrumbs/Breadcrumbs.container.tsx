@@ -21,12 +21,12 @@ import { BreadcrumbsContainerMapDispatchProps, BreadcrumbsContainerMapStateProps
 /** @namespace Component/Breadcrumbs/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): BreadcrumbsContainerMapStateProps => ({
     breadcrumbs: state.BreadcrumbsReducer.breadcrumbs,
-    areBreadcrumbsVisible: state.BreadcrumbsReducer.areBreadcrumbsVisible
+    areBreadcrumbsVisible: state.BreadcrumbsReducer.areBreadcrumbsVisible,
 });
 
 /** @namespace Component/Breadcrumbs/Container/mapDispatchToProps */
 export const mapDispatchToProps = (): BreadcrumbsContainerMapDispatchProps => ({});
 
 export default withReducers({
-    BreadcrumbsReducer
+    BreadcrumbsReducer,
 })(connect(mapStateToProps, mapDispatchToProps)(Breadcrumbs));

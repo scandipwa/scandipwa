@@ -16,18 +16,18 @@ import { getIndexedProduct } from 'Util/Product';
 import {
     ProductActionType,
     ProductStore,
-    UpdateProductDetailsAction
+    UpdateProductDetailsAction,
 } from './Product.type';
 
 /** @namespace Store/Product/Reducer/getInitialState */
 export const getInitialState = (): ProductStore => ({
-    product: {}
+    product: {},
 });
 
 /** @namespace Store/Product/Reducer/ProductReducer */
 export const ProductReducer: Reducer<ProductStore, UpdateProductDetailsAction> = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     switch (action.type) {
     case ProductActionType.UPDATE_PRODUCT_DETAILS: {
@@ -35,7 +35,7 @@ export const ProductReducer: Reducer<ProductStore, UpdateProductDetailsAction> =
 
         return {
             ...state,
-            product: getIndexedProduct(product)
+            product: getIndexedProduct(product),
         };
     }
 

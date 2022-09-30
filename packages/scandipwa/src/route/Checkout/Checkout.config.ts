@@ -14,19 +14,19 @@ import { appendWithStoreCode } from 'Util/Url';
 export enum CheckoutSteps {
     SHIPPING_STEP = 'SHIPPING_STEP',
     BILLING_STEP = 'BILLING_STEP',
-    DETAILS_STEP = 'DETAILS_STEP'
+    DETAILS_STEP = 'DETAILS_STEP',
 }
 
 export enum CheckoutUrlSteps {
     BILLING_URL_STEP = 'billing',
     SHIPPING_URL_STEP = 'shipping',
-    DETAILS_URL_STEP = 'success'
+    DETAILS_URL_STEP = 'success',
 }
 
 export enum CheckoutStepUrl {
     CHECKOUT_URL = '/checkout',
     BILLING_URL = '/checkout/billing',
-    SHIPPING_URL = '/checkout/shipping'
+    SHIPPING_URL = '/checkout/shipping',
 }
 
 export const CHECKOUT_URL_REGEX = new RegExp(`^(${appendWithStoreCode('')})?${CheckoutStepUrl.CHECKOUT_URL}(/)?$`);

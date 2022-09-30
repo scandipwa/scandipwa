@@ -29,17 +29,17 @@ import {
     NewProductsContainerMapDispatchProps,
     NewProductsContainerMapStateProps,
     NewProductsContainerProps,
-    NewProductsContainerState
+    NewProductsContainerState,
 } from './NewProducts.type';
 
 /** @namespace Component/NewProducts/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): NewProductsContainerMapStateProps => ({
-    timezone: state.ConfigReducer.timezone
+    timezone: state.ConfigReducer.timezone,
 });
 
 /** @namespace Component/NewProducts/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): NewProductsContainerMapDispatchProps => ({
-    showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
+    showNotification: (type, title, error) => dispatch(showNotification(type, title, error)),
 });
 
 /** @namespace Component/NewProducts/Container */
@@ -48,7 +48,7 @@ export class NewProductsContainer extends PureComponent<NewProductsContainerProp
         category: '',
         productsCount: 10,
         cacheLifetime: 86400,
-        productsPerPage: 6
+        productsPerPage: 6,
     };
 
     state: NewProductsContainerState = {
@@ -56,7 +56,7 @@ export class NewProductsContainer extends PureComponent<NewProductsContainerProp
         siblingsHaveBrands: false,
         siblingsHavePriceBadge: false,
         siblingsHaveTierPrice: false,
-        siblingsHaveConfigurableOptions: false
+        siblingsHaveConfigurableOptions: false,
     };
 
     componentDidMount(): void {
@@ -68,13 +68,13 @@ export class NewProductsContainer extends PureComponent<NewProductsContainerProp
             category,
             productsCount,
             cacheLifetime,
-            timezone
+            timezone,
         } = this.props;
         const {
             category: pCategory,
             productsCount: pProductsCount,
             cacheLifetime: pCacheLifetime,
-            timezone: pTimezone
+            timezone: pTimezone,
         } = prevProps;
 
         if (category !== pCategory
@@ -92,7 +92,7 @@ export class NewProductsContainer extends PureComponent<NewProductsContainerProp
             siblingsHaveBrands,
             siblingsHavePriceBadge,
             siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions
+            siblingsHaveConfigurableOptions,
         } = this.state;
 
         return {
@@ -102,14 +102,14 @@ export class NewProductsContainer extends PureComponent<NewProductsContainerProp
                 setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
                 setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
                 setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
-                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
+                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true }),
             },
             productCardProps: {
                 siblingsHaveBrands,
                 siblingsHavePriceBadge,
                 siblingsHaveTierPrice,
-                siblingsHaveConfigurableOptions
-            }
+                siblingsHaveConfigurableOptions,
+            },
         };
     }
 
@@ -143,7 +143,7 @@ export class NewProductsContainer extends PureComponent<NewProductsContainerProp
             category: categoryUrlPath,
             productsCount: pageSize,
             cacheLifetime,
-            showNotification
+            showNotification,
         } = this.props;
 
         if (!timezone) {
@@ -156,11 +156,11 @@ export class NewProductsContainer extends PureComponent<NewProductsContainerProp
             args: {
                 filter: {
                     categoryUrlPath,
-                    newToDate
+                    newToDate,
                 },
                 currentPage: 1,
-                pageSize
-            }
+                pageSize,
+            },
         };
 
         const query = [ProductListQuery.getQuery(options)];
@@ -168,11 +168,11 @@ export class NewProductsContainer extends PureComponent<NewProductsContainerProp
         executeGet<{ products: ProductsQueryOutput }>(prepareQuery(query), 'NewProducts', cacheLifetime)
             .then(
                 /** @namespace Component/NewProducts/Container/NewProductsContainer/requestProducts/then/catch/executeGet/then */
-                ({ products: { items } }) => this.setState({ products: getIndexedProducts(items) })
+                ({ products: { items } }) => this.setState({ products: getIndexedProducts(items) }),
             )
             .catch(
                 /** @namespace Component/NewProducts/Container/NewProductsContainer/requestProducts/then/catch/showNotification */
-                (e) => showNotification(NotificationType.ERROR, __('Error fetching NewProducts!'), e)
+                (e) => showNotification(NotificationType.ERROR, __('Error fetching NewProducts!'), e),
             );
     }
 

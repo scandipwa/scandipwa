@@ -20,7 +20,7 @@ import {
     CategoryPageContainerMapDispatchProps,
     CategoryPageContainerMapStateProps,
     CategoryPageContainerPropsKeys,
-    CategoryPageContainerState
+    CategoryPageContainerState,
 } from 'Route/CategoryPage/CategoryPage.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 

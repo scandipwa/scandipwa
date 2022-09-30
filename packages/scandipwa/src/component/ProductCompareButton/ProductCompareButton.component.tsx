@@ -21,10 +21,10 @@ import { ProductCompareButtonComponentProps } from './ProductCompareButton.type'
 import './ProductCompareButton.style';
 
 /** @namespace Component/ProductCompareButton/Component */
-export class ProductCompareButton extends PureComponent<ProductCompareButtonComponentProps> {
+export class ProductCompareButtonComponent extends PureComponent<ProductCompareButtonComponentProps> {
     static defaultProps: Partial<ProductCompareButtonComponentProps> = {
         isLoading: false,
-        isActive: false
+        isActive: false,
     };
 
     handleClick: ((e: MouseEvent) => void) | (() => void) = noopFn;
@@ -45,7 +45,7 @@ export class ProductCompareButton extends PureComponent<ProductCompareButtonComp
         const {
             isLoading,
             isActive,
-            mix
+            mix,
         } = this.props;
 
         return (
@@ -69,4 +69,4 @@ export class ProductCompareButton extends PureComponent<ProductCompareButtonComp
     }
 }
 
-export default ProductCompareButton;
+export default ProductCompareButtonComponent;

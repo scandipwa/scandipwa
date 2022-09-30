@@ -14,7 +14,7 @@ import { Store } from 'Query/StoreInPickUp.type';
 
 export enum StoreInPickUpActionType {
     SET_PICK_UP_STORE = 'SET_PICK_UP_STORE',
-    CLEAR_PICK_UP_STORE = 'CLEAR_PICK_UP_STORE'
+    CLEAR_PICK_UP_STORE = 'CLEAR_PICK_UP_STORE',
 }
 
 export interface SetPickUpStoreAction extends AnyAction {

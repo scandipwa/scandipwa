@@ -11,7 +11,7 @@
  */
 
 import {
-    InvoiceItem, OrderItem, OrderItemProduct, RefundItem, ShipmentItemInterface
+    InvoiceItem, OrderItem, OrderItemProduct, RefundItem, ShipmentItemInterface,
 } from 'Query/Order.type';
 import { decodeBase64 } from 'Util/Base64';
 
@@ -40,8 +40,8 @@ export const formatOrders = (orders: OrderItem[]): OrderItem[] => orders.reduceR
         {
             ...order,
             id: decodeBase64(uid),
-            created_at: formattedDate
-        }
+            created_at: formattedDate,
+        },
     ];
 }, []);
 
@@ -50,20 +50,20 @@ export const getOrderItemQtyToArray = (
     product: OrderItemProduct
     | ShipmentItemInterface
     | InvoiceItem
-    | RefundItem
+    | RefundItem,
 ): OrderItemQtyArray => ({
     quantity_ordered: 'quantity_ordered' in product ? product.quantity_ordered : 0,
     quantity_canceled: 'quantity_canceled' in product ? product.quantity_canceled : 0,
     quantity_invoiced: 'quantity_invoiced' in product ? product.quantity_invoiced : 0,
     quantity_refunded: 'quantity_refunded' in product ? product.quantity_refunded : 0,
     quantity_returned: 'quantity_returned' in product ? product.quantity_returned : 0,
-    quantity_shipped: 'quantity_shipped' in product ? product.quantity_shipped : 0
+    quantity_shipped: 'quantity_shipped' in product ? product.quantity_shipped : 0,
 });
 
 /** @namespace Util/Orders/getProductFromOrder */
 export const getProductFromOrder = (
     allProducts: OrderItemProduct[],
-    requiredProductSku: string
+    requiredProductSku: string,
 ): OrderItemProduct | undefined => allProducts.find(({ product_sku }) => product_sku === requiredProductSku);
 
 /** @namespace Util/Orders/getOrderItemRowDiscount */

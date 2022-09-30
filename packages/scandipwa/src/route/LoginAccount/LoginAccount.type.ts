@@ -15,7 +15,7 @@ import {
     MyAccountOverlayComponentProps,
     MyAccountOverlayContainerFunctions,
     MyAccountOverlayContainerMapDispatchProps,
-    MyAccountOverlayContainerProps
+    MyAccountOverlayContainerProps,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { HistoryState } from 'Util/History/History.type';

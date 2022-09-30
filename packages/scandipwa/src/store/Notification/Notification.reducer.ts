@@ -15,18 +15,18 @@ import {
     NotificationAction,
     NotificationActionType,
     NotificationStore,
-    NotificationType
+    NotificationType,
 } from './Notification.type';
 
 /** @namespace Store/Notification/Reducer/getInitialState */
 export const getInitialState = (): NotificationStore => ({
-    notifications: {}
+    notifications: {},
 });
 
 /** @namespace Store/Notification/Reducer/NotificationReducer */
 export const NotificationReducer: Reducer<NotificationStore, NotificationAction> = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     const notifications = { ...state.notifications };
 
@@ -38,7 +38,7 @@ export const NotificationReducer: Reducer<NotificationStore, NotificationAction>
 
         return {
             ...state,
-            notifications
+            notifications,
         };
 
     case NotificationActionType.HIDE_NOTIFICATION: {
@@ -47,7 +47,7 @@ export const NotificationReducer: Reducer<NotificationStore, NotificationAction>
 
         return {
             ...state,
-            notifications: shownNotifications
+            notifications: shownNotifications,
         };
     }
     default:

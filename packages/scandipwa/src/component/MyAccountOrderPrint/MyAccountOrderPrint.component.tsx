@@ -30,11 +30,11 @@ import { MyAccountOrderPrintComponentProps } from './MyAccountOrderPrint.type';
 import './MyAccountOrderPrint.style';
 
 /** @namespace Component/MyAccountOrderPrint/Component */
-export class MyAccountOrderPrint extends MyAccountOrder<MyAccountOrderPrintComponentProps> {
+export class MyAccountOrderPrintComponent extends MyAccountOrder<MyAccountOrderPrintComponentProps> {
     logoRef = createRef<HTMLDivElement>();
 
     state = {
-        isPrintShown: false
+        isPrintShown: false,
     };
 
     componentDidUpdate(): void {
@@ -87,7 +87,7 @@ export class MyAccountOrderPrint extends MyAccountOrder<MyAccountOrderPrintCompo
             logo_alt,
             logo_height,
             logo_width,
-            onLogoLoad
+            onLogoLoad,
         } = this.props;
 
         const logoSrc = logo_src ? media(logo_src, LOGO_MEDIA) : null;
@@ -161,4 +161,4 @@ export class MyAccountOrderPrint extends MyAccountOrder<MyAccountOrderPrintCompo
     }
 }
 
-export default MyAccountOrderPrint;
+export default MyAccountOrderPrintComponent;

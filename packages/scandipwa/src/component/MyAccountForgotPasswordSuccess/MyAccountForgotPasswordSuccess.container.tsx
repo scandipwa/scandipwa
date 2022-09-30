@@ -20,12 +20,12 @@ import {
     MyAccountForgotPasswordSuccessContainerMapDispatchProps,
     MyAccountForgotPasswordSuccessContainerMapStateProps,
     MyAccountForgotPasswordSuccessContainerProps,
-    MyAccountForgotPasswordSuccessContainerPropsKeys
+    MyAccountForgotPasswordSuccessContainerPropsKeys,
 } from './MyAccountForgotPasswordSuccess.type';
 
 /** @namespace Component/MyAccountForgotPasswordSuccess/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountForgotPasswordSuccessContainerMapStateProps => ({
-    submittedEmail: state.MyAccountReducer.email
+    submittedEmail: state.MyAccountReducer.email,
 });
 
 /** @namespace Component/MyAccountForgotPasswordSuccess/Container/mapDispatchToProps */
@@ -42,13 +42,13 @@ MyAccountForgotPasswordSuccessContainerProps
         const {
             state,
             handleSignIn,
-            submittedEmail
+            submittedEmail,
         } = this.props;
 
         return {
             state,
             handleSignIn,
-            submittedEmail
+            submittedEmail,
         };
     }
 

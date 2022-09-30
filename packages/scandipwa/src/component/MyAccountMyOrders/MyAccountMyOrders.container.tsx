@@ -27,7 +27,7 @@ import {
     MyAccountMyOrdersContainerMapDispatchProps,
     MyAccountMyOrdersContainerMapStateProps,
     MyAccountMyOrdersContainerProps,
-    MyAccountMyOrdersContainerPropsKeys
+    MyAccountMyOrdersContainerPropsKeys,
 } from './MyAccountMyOrders.type';
 
 export const OrderDispatcher = import(
@@ -39,14 +39,14 @@ export const OrderDispatcher = import(
 export const mapStateToProps = (state: RootState): MyAccountMyOrdersContainerMapStateProps => ({
     orderList: state.OrderReducer.orderList,
     isLoading: state.OrderReducer.isLoading || false,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/MyAccountMyOrders/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyOrdersContainerMapDispatchProps => ({
     getOrderList: (page) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch, page)
-    )
+        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch, page),
+    ),
 });
 
 /** @namespace Component/MyAccountMyOrders/Container */
@@ -95,8 +95,8 @@ export class MyAccountMyOrdersContainer extends PureComponent<MyAccountMyOrdersC
 export default withRouter(
     connect(
         mapStateToProps,
-        mapDispatchToProps
+        mapDispatchToProps,
     )(
-        MyAccountMyOrdersContainer as unknown as ComponentType<RouteComponentProps & MyAccountContainerProps>
-    )
+        MyAccountMyOrdersContainer as unknown as ComponentType<RouteComponentProps & MyAccountContainerProps>,
+    ),
 );

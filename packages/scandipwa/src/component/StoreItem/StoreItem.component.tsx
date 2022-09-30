@@ -18,11 +18,11 @@ import { StoreItemComponentProps } from './StoreItem.type';
 import './StoreItem.style';
 
 /** @namespace Component/StoreItem/Component */
-export class StoreItem extends PureComponent<StoreItemComponentProps> {
+export class StoreItemComponent extends PureComponent<StoreItemComponentProps> {
     render(): ReactElement {
         const {
             item: { label },
-            getStoreCode
+            getStoreCode,
         } = this.props;
 
         return (
@@ -37,4 +37,4 @@ export class StoreItem extends PureComponent<StoreItemComponentProps> {
     }
 }
 
-export default StoreItem;
+export default StoreItemComponent;

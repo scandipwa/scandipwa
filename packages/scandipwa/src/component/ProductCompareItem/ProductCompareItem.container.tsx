@@ -33,7 +33,7 @@ import {
     ProductCompareItemContainerMapDispatchProps,
     ProductCompareItemContainerMapStateProps,
     ProductCompareItemContainerProps,
-    ProductCompareItemContainerState
+    ProductCompareItemContainerState,
 } from './ProductCompareItem.type';
 
 export const ProductCompareDispatcher = import(
@@ -48,18 +48,18 @@ export const CartDispatcher = import(
 /** @namespace Component/ProductCompareItem/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductCompareItemContainerMapStateProps => ({
     device: state.ConfigReducer.device,
-    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
 });
 
 /** @namespace Component/ProductCompareItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareItemContainerMapDispatchProps => ({
     removeComparedProduct: (productId) => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch)
+        ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch),
     ),
     addProductToCart: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
 });
 
 /** @namespace Component/ProductCompareItem/Container */
@@ -69,7 +69,7 @@ ProductCompareItemContainerState
 > {
     state: ProductCompareItemContainerState = {
         isLoading: false,
-        currentQty: 0
+        currentQty: 0,
     };
 
     containerFunctions: ProductCompareItemContainerFunctions = {
@@ -77,7 +77,7 @@ ProductCompareItemContainerState
         getGroupedProductQuantity: this.getGroupedProductQuantity.bind(this),
         getProductOptionsData: this.getProductOptionsData.bind(this),
         overriddenAddToCartBtnHandler: this.overriddenAddToCartBtnHandler.bind(this),
-        addItemToCart: this.addItemToCart.bind(this)
+        addItemToCart: this.addItemToCart.bind(this),
     };
 
     containerProps(): Pick<ProductCompareItemComponentProps, ProductCompareItemComponentContainerPropKeys> {
@@ -91,14 +91,14 @@ ProductCompareItemContainerState
             overrideAddToCartBtnBehavior: this.getOverrideAddToCartBtnBehavior(),
             linkTo: this.getLinkTo(),
             isInStock,
-            isWishlistEnabled
+            isWishlistEnabled,
         };
     }
 
     async removeComparedProduct(): Promise<void> {
         const {
             product: { id } = {},
-            removeComparedProduct
+            removeComparedProduct,
         } = this.props;
 
         this.setState({ isLoading: true });
@@ -134,7 +134,7 @@ ProductCompareItemContainerState
                 required: boolean;
             }>)
                 .map(({ option_id, required }) => (required ? option_id : null))
-                .filter((item) => !!item)
+                .filter((item) => !!item),
         };
     }
 
@@ -142,11 +142,11 @@ ProductCompareItemContainerState
         const {
             product: {
                 thumbnail,
-                small_image
+                small_image,
             } = {},
             device: {
-                isMobile
-            } = {}
+                isMobile,
+            } = {},
         } = this.props;
 
         if (isMobile) {
@@ -161,7 +161,7 @@ ProductCompareItemContainerState
 
         return {
             pathname: url,
-            state: { product }
+            state: { product },
         };
     }
 
@@ -186,7 +186,7 @@ ProductCompareItemContainerState
 
     getProducts(): ProductTransformData[] {
         const {
-            product: item
+            product: item,
         } = this.props;
         const { currentQty } = this.state;
 
@@ -195,7 +195,7 @@ ProductCompareItemContainerState
 
     async addItemToCart(): Promise<void> {
         const {
-            addProductToCart
+            addProductToCart,
         } = this.props;
 
         this.setState({ isLoading: true });

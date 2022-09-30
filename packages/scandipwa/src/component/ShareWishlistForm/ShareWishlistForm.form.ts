@@ -25,14 +25,14 @@ export const shareWishlistForm = (): Partial<FieldContainerProps>[] => [
         attr: {
             name: 'emails',
             placeholder: __('Email addresses, separated by commas'),
-            'aria-label': __('Email address')
+            'aria-label': __('Email address'),
         },
         validateOn: ['onChange'],
         validationRule: {
             inputType: ValidationInputType.EMAILLIST,
-            isRequired: true
+            isRequired: true,
         },
-        addRequiredTag: true
+        addRequiredTag: true,
     },
     {
         label: __('Message'),
@@ -41,12 +41,12 @@ export const shareWishlistForm = (): Partial<FieldContainerProps>[] => [
         attr: {
             name: 'message',
             placeholder: __('Message'),
-            'aria-label': __('Message')
+            'aria-label': __('Message'),
         },
         validationRule: {
-            isRequired: false
-        }
-    }
+            isRequired: false,
+        },
+    },
 ];
 
 export default shareWishlistForm;

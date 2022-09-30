@@ -27,7 +27,7 @@ import {
     NOTIFICATION_ERROR_DATA,
     NOTIFICATION_INFO_DATA,
     NOTIFICATION_SUCCESS_DATA,
-    TEXT_STYLES
+    TEXT_STYLES,
 } from './StyleGuidePage.config';
 import { StyleGuidePageComponentProps } from './StyleGuidePage.type';
 
@@ -40,7 +40,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
         [ BUTTONS ]: (): ReactElement => this.renderButtons(),
         [ TEXT_STYLES ]: (): ReactElement => this.renderTextStyles(),
         [ INPUTS ]: (): ReactElement => this.renderInputs(),
-        [ ADDITIONAL_ELEMENTS ]: (): ReactElement => this.renderAdditionalElements()
+        [ ADDITIONAL_ELEMENTS ]: (): ReactElement => this.renderAdditionalElements(),
     };
 
     renderContentWrapper(): ReactElement {
@@ -235,7 +235,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   type={ FieldType.SELECT }
                   label="Color"
                   attr={ {
-                      selectPlaceholder: __('Select color')
+                      selectPlaceholder: __('Select color'),
                   } }
                   addRequiredTag
                   options={ [{ label: 'Yellow', value: 'yellow' }, { label: 'Orange', value: 'Orange' }] }
@@ -244,7 +244,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   type={ FieldType.SELECT }
                   label="Color"
                   attr={ {
-                      selectPlaceholder: __('Select color')
+                      selectPlaceholder: __('Select color'),
                   } }
                   isDisabled
                 />
@@ -252,7 +252,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   type={ FieldType.SELECT }
                   label="Color"
                   attr={ {
-                      selectPlaceholder: __('Select color')
+                      selectPlaceholder: __('Select color'),
                   } }
                   options={ [{ label: 'Yellow', value: 'yellow' }, { label: 'Orange', value: 'Orange' }] }
                 />
@@ -262,11 +262,11 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   label="Color"
                   attr={ {
                       selectPlaceholder: __('Select color'),
-                      isExpanded: true
+                      isExpanded: true,
                   } }
                   options={ [
                       { label: 'Yellow', value: 'yellow', isHovered: true },
-                      { label: 'Orange', value: 'Orange' }
+                      { label: 'Orange', value: 'Orange' },
                   ] }
                 />
                 <div block="StyleGuidePage" elem="Mt150" />
@@ -277,11 +277,11 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                       selectPlaceholder: __('Select color'),
                       block: 'StyleGuidePage',
                       elem: 'Select',
-                      mods: { hasError: true }
+                      mods: { hasError: true },
                   } }
                   options={ [
                       { label: 'Yellow', value: 'yellow' },
-                      { label: 'Orange', value: 'Orange' }
+                      { label: 'Orange', value: 'Orange' },
                   ] }
                   addRequiredTag
                 />
@@ -298,11 +298,11 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                       value: 'orange',
                       block: 'StyleGuidePage',
                       elem: 'Select',
-                      mods: { isValid: true }
+                      mods: { isValid: true },
                   } }
                   options={ [
                       { label: 'Yellow', value: 'yellow' },
-                      { label: 'Orange', value: 'orange' }
+                      { label: 'Orange', value: 'orange' },
                   ] }
                 />
 
@@ -311,7 +311,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   type={ FieldType.TEXT }
                   label="Email"
                   attr={ {
-                      placeholder: __('Your email address')
+                      placeholder: __('Your email address'),
                   } }
                   addRequiredTag
                 />
@@ -319,7 +319,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   type={ FieldType.TEXT }
                   label="Email"
                   attr={ {
-                      placeholder: __('Your email address')
+                      placeholder: __('Your email address'),
                   } }
                   isDisabled
                 />
@@ -327,7 +327,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   type={ FieldType.TEXT }
                   label="Email"
                   attr={ {
-                      placeholder: __('Your email address')
+                      placeholder: __('Your email address'),
                   } }
                 />
                 <Field
@@ -337,7 +337,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                       placeholder: __('Your email address'),
                       block: 'StyleGuidePage',
                       elem: 'Text',
-                      mods: { isFocused: true }
+                      mods: { isFocused: true },
                   } }
                 />
                 <Field
@@ -347,7 +347,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                       placeholder: __('Your email address'),
                       block: 'StyleGuidePage',
                       elem: 'Text',
-                      mods: { hasError: true }
+                      mods: { hasError: true },
                   } }
                   addRequiredTag
                 />
@@ -364,7 +364,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                       block: 'StyleGuidePage',
                       elem: 'Text',
                       mods: { isValid: true },
-                      value: 'email@example.com'
+                      value: 'email@example.com',
                   } }
                 />
 
@@ -375,7 +375,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   attr={ {
                       placeholder: __('Number'),
                       step: 5,
-                      min: 0
+                      min: 0,
                   } }
                   addRequiredTag
                 />
@@ -385,7 +385,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   attr={ {
                       placeholder: __('Number'),
                       step: 5,
-                      min: 0
+                      min: 0,
                   } }
                   isDisabled
                 />
@@ -395,7 +395,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   attr={ {
                       placeholder: __('Number'),
                       step: 5,
-                      min: 0
+                      min: 0,
                   } }
                 />
                 <Field
@@ -407,7 +407,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                       elem: 'Text',
                       mods: { isFocused: true },
                       step: 5,
-                      min: 0
+                      min: 0,
                   } }
                 />
                 <Field
@@ -419,7 +419,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                       elem: 'Text',
                       mods: { hasError: true },
                       step: 5,
-                      min: 0
+                      min: 0,
                   } }
                   addRequiredTag
                 />
@@ -438,7 +438,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                       mods: { isValid: true },
                       value: 56,
                       step: 5,
-                      min: 0
+                      min: 0,
                   } }
                 />
 
@@ -447,7 +447,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   type={ FieldType.TEL }
                   label="Telephone"
                   attr={ {
-                      placeholder: __('Telephone')
+                      placeholder: __('Telephone'),
                   } }
                   addRequiredTag
                 />
@@ -455,7 +455,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   type={ FieldType.TEL }
                   label="Telephone"
                   attr={ {
-                      placeholder: __('Telephone')
+                      placeholder: __('Telephone'),
                   } }
                   isDisabled
                 />
@@ -463,7 +463,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   type={ FieldType.TEL }
                   label="Telephone"
                   attr={ {
-                      placeholder: __('Telephone')
+                      placeholder: __('Telephone'),
                   } }
                 />
                 <Field
@@ -473,7 +473,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                       placeholder: __('Telephone'),
                       block: 'StyleGuidePage',
                       elem: 'Text',
-                      mods: { isFocused: true }
+                      mods: { isFocused: true },
                   } }
                 />
                 <Field
@@ -483,7 +483,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                       placeholder: __('Telephone'),
                       block: 'StyleGuidePage',
                       elem: 'Text',
-                      mods: { hasError: true }
+                      mods: { hasError: true },
                   } }
                   addRequiredTag
                 />
@@ -500,7 +500,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                       block: 'StyleGuidePage',
                       elem: 'Text',
                       mods: { isValid: true },
-                      value: '998901234567'
+                      value: '998901234567',
                   } }
                 />
 
@@ -533,7 +533,7 @@ export class StyleGuidePageComponent extends PureComponent<StyleGuidePageCompone
                   type={ FieldType.CHECKBOX }
                   label="Remember me"
                   attr={ {
-                      checked: true
+                      checked: true,
                   } }
                 />
 

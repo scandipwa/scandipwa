@@ -24,7 +24,7 @@ import {
     NoMatchHandlerContainerMapDispatchProps,
     NoMatchHandlerContainerMapStateProps,
     NoMatchHandlerContainerProps,
-    NoMatchHandlerContainerPropsKeys
+    NoMatchHandlerContainerPropsKeys,
 } from './NoMatchHandler.type';
 
 export const NoMatchDispatcher = import(
@@ -34,7 +34,7 @@ export const NoMatchDispatcher = import(
 
 /** @namespace Route/NoMatchHandler/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): NoMatchHandlerContainerMapStateProps => ({
-    noMatch: state.NoMatchReducer.noMatch
+    noMatch: state.NoMatchReducer.noMatch,
 });
 
 /** @namespace Route/NoMatchHandler/Container/mapDispatchToProps */
@@ -42,15 +42,15 @@ export const mapDispatchToProps = (dispatch: Dispatch): NoMatchHandlerContainerM
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateNoMatch: (options) => {
         NoMatchDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
+            ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options),
         );
-    }
+    },
 });
 
 /** @namespace Route/NoMatchHandler/Container */
 export class NoMatchHandlerContainer extends PureComponent<NoMatchHandlerContainerProps> {
     static defaultProps: Partial<NoMatchHandlerContainerProps> = {
-        noMatch: false
+        noMatch: false,
     };
 
     componentDidUpdate(prevProps: NoMatchHandlerContainerProps): void {
@@ -66,7 +66,7 @@ export class NoMatchHandlerContainer extends PureComponent<NoMatchHandlerContain
         const {
             children,
             noMatch,
-            updateNoMatch
+            updateNoMatch,
         } = this.props;
         const { location } = history;
 
@@ -74,7 +74,7 @@ export class NoMatchHandlerContainer extends PureComponent<NoMatchHandlerContain
             children,
             location,
             noMatch,
-            updateNoMatch
+            updateNoMatch,
         };
     }
 
@@ -88,8 +88,6 @@ export class NoMatchHandlerContainer extends PureComponent<NoMatchHandlerContain
 }
 
 export default
-connect(
-    mapStateToProps, mapDispatchToProps
-)(
-    NoMatchHandlerContainer
+connect(mapStateToProps, mapDispatchToProps)(
+    NoMatchHandlerContainer,
 );

@@ -18,7 +18,7 @@ import { FieldData, FieldValue } from './Form.type';
  * @namespace Util/Form/Transform/transformToNameValuePair
  */
 export const transformToNameValuePair = <T>(
-    fields: Record<string, FieldData> | FieldData[]
+    fields: Record<string, FieldData> | FieldData[],
 ): T => {
     const filteredFields: Record<string, FieldValue> = {};
     const arrayFormat = !Array.isArray(fields) ? Object.values(fields) : fields;

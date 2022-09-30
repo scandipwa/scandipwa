@@ -2,8 +2,10 @@
 
 const fetchModuleParent = (issuer) => {
     const { type } = issuer;
+
     if (type === 'css/mini-extract') {
         const { issuer: parent } = issuer;
+
         return fetchModuleParent(parent);
     }
 
@@ -29,7 +31,7 @@ const isPlugin = (module) => {
     }
 
     const {
-        _chunks: chunks
+        _chunks: chunks,
     } = fetchModuleParent(module);
 
     // Check if plugin need to go to the main chunk.
@@ -61,9 +63,9 @@ const isChunkOptimizationDisabled = (module) => {
         _chunks: chunks,
         issuer: {
             _source: {
-                _value: value
-            } = {}
-        }
+                _value: value,
+            } = {},
+        },
     } = fetchModuleParent(module);
 
     if (!rawRequest || !chunks || !value) {
@@ -103,7 +105,7 @@ module.exports = {
                         filename: 'vendors.[contenthash].js',
                         priority: 1,
                         maxInitialRequests: 2, // create only one vendor
-                        minChunks: 1
+                        minChunks: 1,
                     },
                     react: {
                         test(module) {
@@ -116,39 +118,39 @@ module.exports = {
                         filename: 'react.[contenthash].js',
                         priority: 1,
                         maxInitialRequests: 2,
-                        minChunks: 1
-                    }
-                }
+                        minChunks: 1,
+                    },
+                },
             };
 
             // Style chunks (SCSS/CSS):
             const styleChunks = [{
                 name: 'main',
-                match: /\.s?css$/
+                match: /\.s?css$/,
             }, {
                 name: 'products',
-                match: /((p|P)roduct).*\.s?css$/
+                match: /((p|P)roduct).*\.s?css$/,
             }, {
                 name: 'checkout',
-                match: /((c|C)heckout).*\.s?css$/
+                match: /((c|C)heckout).*\.s?css$/,
             }, {
                 name: 'cart',
-                match: /((c|C)art).*\.s?css$/
+                match: /((c|C)art).*\.s?css$/,
             }, {
                 name: 'widget',
-                match: /((w|W)idget).*\.s?css$/
+                match: /((w|W)idget).*\.s?css$/,
             }, {
                 name: 'account',
-                match: /((a|A)ccount).*\.s?css$/
+                match: /((a|A)ccount).*\.s?css$/,
             }, {
                 name: 'category',
-                match: /((c|C)ategory).*\.s?css$/
+                match: /((c|C)ategory).*\.s?css$/,
             }, {
                 name: 'misc',
-                match: /(store|query|util)[\\/].*\.s?css$/
+                match: /(store|query|util)[\\/].*\.s?css$/,
             }, {
                 name: 'wishlist',
-                match: /((w|W)ish).*\.s?css$/
+                match: /((w|W)ish).*\.s?css$/,
             }];
 
             styleChunks.forEach(({ name, match }, index) => {
@@ -175,11 +177,11 @@ module.exports = {
                     chunks: 'all',
                     priority: styleChunks.length - index,
                     reuseExistingChunk: true,
-                    enforce: true
+                    enforce: true,
                 };
             });
 
             return webpackConfig;
-        }
-    }
+        },
+    },
 };

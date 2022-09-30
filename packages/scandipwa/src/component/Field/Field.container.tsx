@@ -27,7 +27,7 @@ import {
     FieldContainerProps,
     FieldContainerPropsKeys,
     FieldContainerState,
-    FieldRef
+    FieldRef,
 } from './Field.type';
 
 /**
@@ -52,16 +52,16 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
         elemRef: undefined,
         changeValueOnDoubleClick: false,
         isSortSelect: false,
-        updateSelectedValues: noopFn
+        updateSelectedValues: noopFn,
     };
 
     state: FieldContainerState = {
         validationResponse: null,
-        showLengthError: false
+        showLengthError: false,
     };
 
     containerFunctions: FieldContainerFunctions = {
-        validate: this.validate.bind(this)
+        validate: this.validate.bind(this),
     };
 
     fieldRef: FieldRef | null = null;
@@ -107,7 +107,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
 
     resetFieldValue(
         fieldHandler: Component<FieldFileContainerProps, FieldFileContainerState>,
-        event: SyntheticEvent<Element, Event>
+        event: SyntheticEvent<Element, Event>,
     ): void {
         const { updateSelectedValues } = this.props;
 
@@ -117,7 +117,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
         fieldHandler.setState({
             value: '',
             fileName: '',
-            isLoading: false
+            isLoading: false,
         });
 
         if (!this.fieldRef) {
@@ -146,7 +146,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
 
     validate(data?: (Event | SyntheticEvent) & ValidationOutput): boolean | FieldValidationOutput {
         const {
-            validationRule: { range: { max: maxValidLength = 0 } = {} }, type, attr: { name } = {}
+            validationRule: { range: { max: maxValidLength = 0 } = {} }, type, attr: { name } = {},
         } = this.props;
         const { showLengthError } = this.state;
         const newValidRule = this.handleShowLengthError();
@@ -158,12 +158,10 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
             return false;
         }
 
-        const response = validate(
-            type === FieldType.FILE
+        const response = validate(type === FieldType.FILE
             && typeof value === 'string'
-                ? value.toLowerCase()
-                : value, newValidRule
-        );
+            ? value.toLowerCase()
+            : value, newValidRule);
         const output = response !== true ? { ...response, type, name } : response;
 
         // If validation is called from different object you can pass object
@@ -208,7 +206,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
             const { value } = this.fieldRef;
 
             hook(...[...args, {
-                ...attr, fieldRef: this.fieldRef, value, type
+                ...attr, fieldRef: this.fieldRef, value, type,
             }]);
         }
 
@@ -231,7 +229,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
             subLabel,
             addRequiredTag,
             changeValueOnDoubleClick,
-            isSortSelect
+            isSortSelect,
         } = this.props;
         const { validationResponse } = this.state;
         const { validate } = this.containerFunctions;
@@ -264,7 +262,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
             validationResponse,
             resetFieldValue: this.resetFieldValue.bind(this),
             events: newEvents,
-            setRef: this.setRef.bind(this)
+            setRef: this.setRef.bind(this),
         };
     }
 

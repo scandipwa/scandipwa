@@ -21,7 +21,7 @@ import { NoMatchComponentProps } from './NoMatch.type';
 import './NoMatch.style';
 
 /** @namespace Route/NoMatch/Component */
-export class NoMatch extends PureComponent<NoMatchComponentProps> {
+export class NoMatchComponent extends PureComponent<NoMatchComponentProps> {
     componentDidMount(): void {
         this.updateBreadcrumbs();
         this.cleanUpTransition();
@@ -39,8 +39,8 @@ export class NoMatch extends PureComponent<NoMatchComponentProps> {
         const breadcrumbs = [
             {
                 url: '',
-                name: __('Not Found')
-            }
+                name: __('Not Found'),
+            },
         ];
 
         updateBreadcrumbs(breadcrumbs);
@@ -78,4 +78,4 @@ export class NoMatch extends PureComponent<NoMatchComponentProps> {
     }
 }
 
-export default NoMatch;
+export default NoMatchComponent;

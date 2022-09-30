@@ -10,13 +10,13 @@
  */
 
 import {
-    Field, InlineFragment, Mutation, Query
+    Field, InlineFragment, Mutation, Query,
 } from '@tilework/opus';
 
 import ProductListQuery from 'Query/ProductList.query';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import {
-    GQLCartItemInput, GQLCurrencyEnum, GQLUpdateCartItemsInput
+    GQLCartItemInput, GQLCurrencyEnum, GQLUpdateCartItemsInput,
 } from 'Type/Graphql.type';
 
 import {
@@ -47,7 +47,7 @@ import {
     Money,
     Region,
     SelectedShippingMethod,
-    UserErrors
+    UserErrors,
 } from './Cart.type';
 
 /** @namespace Query/Cart/Query */
@@ -81,7 +81,7 @@ export class CartQuery {
     > {
         return [
             new Field<'message', string>('message'),
-            new Field<'code', string>('code')
+            new Field<'code', string>('code'),
         ];
     }
 
@@ -98,11 +98,11 @@ export class CartQuery {
 
     getRemoveCartItemMutation(
         item_id: number,
-        quoteId: string
+        quoteId: string,
     ): Mutation<'removeItemFromCart', { cartData: CartTotals }> {
         const input = {
             cart_id: quoteId,
-            cart_item_id: item_id
+            cart_item_id: item_id,
         };
 
         return new Mutation<'removeItemFromCart', { cartData: CartTotals }>('removeItemFromCart')
@@ -139,7 +139,7 @@ export class CartQuery {
             new Field<'display_tax_in_shipping_amount', string>('display_tax_in_shipping_amount'),
             new Field<'include_tax_in_order_total', boolean>('include_tax_in_order_total'),
             new Field<'display_full_tax_summary', boolean>('display_full_tax_summary'),
-            new Field<'display_zero_tax_subtotal', boolean>('display_zero_tax_subtotal')
+            new Field<'display_zero_tax_subtotal', boolean>('display_zero_tax_subtotal'),
         ];
     }
 
@@ -172,7 +172,7 @@ export class CartQuery {
             this._getCartItemsField(),
             new Field<'total_quantity', number>('total_quantity'),
             new Field<'is_virtual', boolean>('is_virtual'),
-            new Field<'is_in_store_pickup_available', boolean>('is_in_store_pickup_available')
+            new Field<'is_in_store_pickup_available', boolean>('is_in_store_pickup_available'),
         ];
     }
 
@@ -182,7 +182,7 @@ export class CartQuery {
     > {
         return [
             new Field<'value', number>('value'),
-            new Field<'currency', GQLCurrencyEnum>('currency')
+            new Field<'currency', GQLCurrencyEnum>('currency'),
         ];
     }
 
@@ -225,7 +225,7 @@ export class CartQuery {
             this._getCartBundleProductFragment(),
             this._getCartConfigurableProductFragment(),
             this._getCartVirtualProductFragments(),
-            this._getCartSimpleProductFragments()
+            this._getCartSimpleProductFragments(),
         ];
     }
 
@@ -245,7 +245,7 @@ export class CartQuery {
             .addFieldList([
                 this._getDownloadableLinkField(),
                 this._getDownloadableSamplesField(),
-                this._getCustomizableOptionsField('downloadable_customizable_options')
+                this._getCustomizableOptionsField('downloadable_customizable_options'),
             ]);
     }
 
@@ -264,7 +264,7 @@ export class CartQuery {
             new Field<'id', number>('id'),
             new Field<'title', string>('title'),
             new Field<'sort_order', number>('sort_order'),
-            new Field<'price', number>('price')
+            new Field<'price', number>('price'),
         ];
     }
 
@@ -279,7 +279,7 @@ export class CartQuery {
     > {
         return [
             new Field<'id', number>('id'),
-            new Field<'title', string>('title')
+            new Field<'title', string>('title'),
         ];
     }
 
@@ -287,7 +287,7 @@ export class CartQuery {
         return new InlineFragment<'BundleCartItem', CartBundleItem>('BundleCartItem')
             .addFieldList([
                 this._getBundleOptionsField(),
-                this._getCustomizableOptionsField('bundle_customizable_options')
+                this._getCustomizableOptionsField('bundle_customizable_options'),
             ]);
     }
 
@@ -306,7 +306,7 @@ export class CartQuery {
             new Field<'id', number>('id'),
             new Field<'label', string>('label'),
             new Field<'type', string>('type'),
-            this._getBundleOptionValuesField()
+            this._getBundleOptionValuesField(),
         ];
     }
 
@@ -325,7 +325,7 @@ export class CartQuery {
             new Field<'id', number>('id'),
             new Field<'label', string>('label'),
             new Field<'quantity', number>('quantity'),
-            new Field<'price', number>('price')
+            new Field<'price', number>('price'),
         ];
     }
 
@@ -333,7 +333,7 @@ export class CartQuery {
         return new InlineFragment<'ConfigurableCartItem', CartConfigurableItem>('ConfigurableCartItem')
             .addFieldList([
                 this._getConfigurableOptionsField(),
-                this._getCustomizableOptionsField('configurable_customizable_options')
+                this._getCustomizableOptionsField('configurable_customizable_options'),
             ]);
     }
 
@@ -350,7 +350,7 @@ export class CartQuery {
         return [
             new Field<'id', number>('id'),
             new Field<'option_label', string>('option_label'),
-            new Field<'value_label', string>('value_label')
+            new Field<'value_label', string>('value_label'),
         ];
     }
 
@@ -363,7 +363,7 @@ export class CartQuery {
         CartSimpleItem
         >('SimpleCartItem')
             .addFieldList([
-                this._getCustomizableOptionsField('simple_customizable_options')
+                this._getCustomizableOptionsField('simple_customizable_options'),
             ]);
     }
 
@@ -376,12 +376,12 @@ export class CartQuery {
         CartVirtualItem
         >('VirtualCartItem')
             .addFieldList([
-                this._getCustomizableOptionsField('virtual_customizable_options')
+                this._getCustomizableOptionsField('virtual_customizable_options'),
             ]);
     }
 
     _getCustomizableOptionsField<A extends string>(
-        alias: A
+        alias: A,
     ): Field<A, CartCustomizableOption, true> {
         return new Field<'customizable_options', CartCustomizableOption, true>('customizable_options', true)
             .setAlias(alias)
@@ -402,7 +402,7 @@ export class CartQuery {
             new Field<'type', string>('type'),
             new Field<'sort_order', number>('sort_order'),
             new Field<'is_required', boolean>('is_required'),
-            this._getCustomizableOptionValueField()
+            this._getCustomizableOptionValueField(),
         ];
     }
 
@@ -419,7 +419,7 @@ export class CartQuery {
         return [
             new Field<'id', number>('id'),
             new Field<'label', string>('label'),
-            new Field<'value', string>('value')
+            new Field<'value', string>('value'),
         ];
     }
 
@@ -439,7 +439,7 @@ export class CartQuery {
             this._getCartItemPriceField(),
             this._getCartItemRowTotalField(),
             this._getCartItemRowTotalInclTaxField(),
-            this._getCartItemTotalDiscountField()
+            this._getCartItemTotalDiscountField(),
         ];
     }
 
@@ -493,7 +493,7 @@ export class CartQuery {
             this._getSubtotalExclTaxField(),
             this._getSubtotalWithDiscountExclTaxField(),
             this._getDiscountField(),
-            this._getAppliedTaxesField()
+            this._getAppliedTaxesField(),
         ];
     }
 
@@ -528,7 +528,7 @@ export class CartQuery {
     > {
         return [
             new Field<'label', string>('label'),
-            this._getAmountField()
+            this._getAmountField(),
         ];
     }
 
@@ -545,7 +545,7 @@ export class CartQuery {
         return [
             new Field<'label', string>('label'),
             new Field<'percent', number>('percent'),
-            this._getAmountField()
+            this._getAmountField(),
         ];
     }
 
@@ -562,7 +562,7 @@ export class CartQuery {
         return [
             this._getAvailableShippingMethodField(),
             this._getSelectedShippingMethodField(),
-            new Field<'customer_notes', string>('customer_notes')
+            new Field<'customer_notes', string>('customer_notes'),
         ];
     }
 
@@ -587,7 +587,7 @@ export class CartQuery {
             new Field<'method_code', string>('method_code'),
             new Field<'carrier_code', string>('carrier_code'),
             new Field<'carrier_title', string>('carrier_title'),
-            new Field<'error_message', string>('error_message')
+            new Field<'error_message', string>('error_message'),
         ];
     }
 
@@ -621,7 +621,7 @@ export class CartQuery {
             new Field<'method_title', string>('method_title'),
             new Field<'tax_amount', number>('tax_amount'),
             this._getAmountField(),
-            ...checkoutData
+            ...checkoutData,
         ];
     }
 
@@ -652,7 +652,7 @@ export class CartQuery {
             new Field<'telephone', string>('telephone'),
             new Field<'vat_id', string>('vat_id'),
             new Field<'email', string>('email'),
-            new Field<'street', string>('street')
+            new Field<'street', string>('street'),
         ];
     }
 
@@ -663,7 +663,7 @@ export class CartQuery {
 
     _getCountryFields(): Array<Field<'code', string>> {
         return [
-            new Field<'code', string>('code')
+            new Field<'code', string>('code'),
         ];
     }
 
@@ -678,7 +678,7 @@ export class CartQuery {
     > {
         return [
             new Field<'label', string>('label'),
-            new Field<'region_id', number>('region_id')
+            new Field<'region_id', number>('region_id'),
         ];
     }
 
@@ -693,7 +693,7 @@ export class CartQuery {
     > {
         return [
             new Field<'minimum_order_amount_reached', boolean>('minimum_order_amount_reached'),
-            new Field<'minimum_order_description', string>('minimum_order_description')
+            new Field<'minimum_order_description', string>('minimum_order_description'),
         ];
     }
 
@@ -707,11 +707,11 @@ export class CartQuery {
 
     getApplyCouponMutation(
         couponCode: string,
-        quoteId: string
+        quoteId: string,
     ): Mutation<'applyCouponToCart', { cartData: CartTotals }> {
         const input = {
             cart_id: quoteId,
-            coupon_code: couponCode
+            coupon_code: couponCode,
         };
 
         return new Mutation<'applyCouponToCart', { cartData: CartTotals }>('applyCouponToCart')

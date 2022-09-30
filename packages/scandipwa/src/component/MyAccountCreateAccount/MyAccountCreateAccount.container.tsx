@@ -33,7 +33,7 @@ import {
     MyAccountCreateAccountContainerMapDispatchProps,
     MyAccountCreateAccountContainerMapStateProps,
     MyAccountCreateAccountContainerProps,
-    MyAccountCreateAccountContainerPropsKeys
+    MyAccountCreateAccountContainerPropsKeys,
 } from './MyAccountCreateAccount.type';
 
 export const MyAccountDispatcher = import(
@@ -48,27 +48,27 @@ export const mapStateToProps = (state: RootState): MyAccountCreateAccountContain
     newsletterActive: state.ConfigReducer.newsletter_general_active,
     isMobile: state.ConfigReducer.device.isMobile,
     minimunPasswordLength: state.ConfigReducer.minimun_password_length,
-    minimunPasswordCharacter: state.ConfigReducer.required_character_classes_number
+    minimunPasswordCharacter: state.ConfigReducer.required_character_classes_number,
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountCreateAccountContainerMapDispatchProps => ({
     createAccount: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
+        ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch),
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container */
 export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCreateAccountContainerProps> {
     static defaultProps: Partial<MyAccountCreateAccountContainerProps> = {
         isLandingPage: false,
-        onSignIn: noopFn
+        onSignIn: noopFn,
     };
 
     containerFunctions: MyAccountCreateAccountContainerFunctions = {
         onSuccess: this.onSuccess.bind(this),
-        onError: this.onError.bind(this)
+        onError: this.onError.bind(this),
     };
 
     containerProps(): Pick<MyAccountCreateAccountComponentProps, MyAccountCreateAccountContainerPropsKeys> {
@@ -78,7 +78,7 @@ export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCrea
             showTaxVatNumber,
             newsletterActive,
             minimunPasswordLength,
-            minimunPasswordCharacter
+            minimunPasswordCharacter,
         } = this.props;
 
         const range = { min: minimunPasswordLength, max: 64 };
@@ -90,7 +90,7 @@ export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCrea
             newsletterActive,
             vatNumberRequired: this.getVatNumberRequired(),
             range,
-            minimunPasswordCharacter
+            minimunPasswordCharacter,
         };
     }
 
@@ -115,7 +115,7 @@ export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCrea
             isLoading,
             isLandingPage,
             showNotification,
-            isMobile
+            isMobile,
         } = this.props;
 
         const {
@@ -124,7 +124,7 @@ export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCrea
             firstname,
             lastname,
             is_subscribed,
-            taxvat
+            taxvat,
         } = transformToNameValuePair<Record<string, string | number | boolean>>(fields);
 
         const customerData = {
@@ -132,10 +132,10 @@ export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCrea
                 firstname,
                 lastname,
                 email,
-                taxvat
+                taxvat,
             },
             password,
-            orderID: sessionStorage.getItem(ORDER_ID)
+            orderID: sessionStorage.getItem(ORDER_ID),
         } as CreateAccountOptions;
 
         if (is_subscribed) {
@@ -149,7 +149,7 @@ export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCrea
         try {
             const code = await createAccount(customerData).catch(
                 /** @namespace Component/MyAccountCreateAccount/Container/MyAccountCreateAccountContainer/onSuccess/code/createAccount/catch */
-                () => process.exit(1)
+                () => process.exit(1),
             );
 
             // if user needs confirmation
@@ -160,7 +160,7 @@ export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCrea
                     showNotification(
                         NotificationType.SUCCESS,
                         // eslint-disable-next-line max-len
-                        __('The email confirmation link has been sent to your email. Please confirm your account to proceed.')
+                        __('The email confirmation link has been sent to your email. Please confirm your account to proceed.'),
                     );
                     history.push('/default/customer/account/login');
                 }

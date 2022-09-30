@@ -19,7 +19,7 @@ import {
     MyAccountOrderContainerMapDispatchProps,
     MyAccountOrderContainerMapStateProps,
     MyAccountOrderContainerPropsKeys,
-    MyAccountOrderContainerState
+    MyAccountOrderContainerState,
 } from 'Component/MyAccountOrder/MyAccountOrder.type';
 import { OrderPrintMapItems } from 'Route/OrderPrintPage/OrderPrintPage.type';
 import { PageMeta } from 'Store/Meta/Meta.type';

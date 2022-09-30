@@ -21,10 +21,10 @@ import { FormattedMenuItem, MenuItemType, MenuLocation } from './Menu.type';
  * @namespace Util/Menu/getSortedItems
  */
 export const getSortedItems = <T extends MenuItem | FormattedMenuItem>(
-    unsortedItems: T[]
+    unsortedItems: T[],
 ): T[] => Array.from(unsortedItems).sort((
         { parent_id: PID, position: P },
-        { parent_id: prevPID, position: prevP }
+        { parent_id: prevPID, position: prevP },
     ) => (PID - prevPID) || (P - prevP));
 
 /** @namespace Util/Menu */
@@ -34,20 +34,20 @@ export class Menu {
     menuPositionReference: Record<string, number[]> = {};
 
     getMenuUrl(
-        { url, url_type, category_id }: Pick<MenuItem, 'url' | 'url_type' | 'category_id'>
+        { url, url_type, category_id }: Pick<MenuItem, 'url' | 'url_type' | 'category_id'>,
     ): MenuLocation | string {
         switch (url_type) {
         case MenuItemType.TYPE_CATEGORY:
             return {
                 pathname: url,
                 search: '',
-                state: { category: category_id }
+                state: { category: category_id },
             };
         case MenuItemType.TYPE_CMS_PAGE:
             return {
                 pathname: url,
                 search: '',
-                state: { page: true }
+                state: { page: true },
             };
         default:
             return url;
@@ -64,7 +64,7 @@ export class Menu {
         return {
             ...item,
             url: this.getMenuUrl({ url, url_type, category_id }),
-            children: {}
+            children: {},
         };
     }
 
@@ -94,13 +94,13 @@ export class Menu {
         } else if (this.menuPositionReference[parent_id] !== undefined) {
             this.menuPositionReference[item_id] = [
                 ...this.menuPositionReference[parent_id],
-                parent_id
+                parent_id,
             ];
 
             this.setToValue(
                 this.menu,
                 `${this.menuPositionReference[item_id].join('.children.')}.children.${item_id}`,
-                this.getMenuData(data)
+                this.getMenuData(data),
             );
         }
     }

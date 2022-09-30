@@ -19,7 +19,7 @@ import {
     ProductConfigurableAttributeDropdownComponentProps,
     ProductConfigurableAttributeDropdownContainerFunctions,
     ProductConfigurableAttributeDropdownContainerProps,
-    ProductConfigurableAttributeDropdownOption
+    ProductConfigurableAttributeDropdownOption,
 } from './ProductConfigurableAttributeDropdown.type';
 
 /** @namespace Component/ProductConfigurableAttributeDropdown/Container */
@@ -27,17 +27,17 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
 ProductConfigurableAttributeDropdownContainerProps
 > {
     static defaultProps: Partial<ProductConfigurableAttributeDropdownContainerProps> = {
-        isUnselected: false
+        isUnselected: false,
     };
 
     containerFunctions: ProductConfigurableAttributeDropdownContainerFunctions = {
-        onChange: this.onChange.bind(this)
+        onChange: this.onChange.bind(this),
     };
 
     onChange(value: string): void {
         const {
             updateConfigurableVariant,
-            option: { attribute_code = '' }
+            option: { attribute_code = '' },
         } = this.props;
 
         if (updateConfigurableVariant) {
@@ -52,7 +52,7 @@ ProductConfigurableAttributeDropdownContainerProps
         const {
             option: { attribute_code = '', attribute_label = '' },
             isUnselected,
-            handleShakeAnimationEnd
+            handleShakeAnimationEnd,
         } = this.props;
 
         return {
@@ -61,7 +61,7 @@ ProductConfigurableAttributeDropdownContainerProps
             selectName: attribute_code,
             selectLabel: attribute_label,
             isUnselected,
-            handleShakeAnimationEnd
+            handleShakeAnimationEnd,
         };
     }
 
@@ -69,9 +69,9 @@ ProductConfigurableAttributeDropdownContainerProps
         const {
             option: {
                 attribute_options = {},
-                attribute_code
+                attribute_code,
             },
-            getIsConfigurableAttributeAvailable
+            getIsConfigurableAttributeAvailable,
         } = this.props;
 
         if (!attribute_options) {
@@ -87,13 +87,13 @@ ProductConfigurableAttributeDropdownContainerProps
 
                 const isAvailable = getIsConfigurableAttributeAvailable({
                     attribute_code,
-                    attribute_value: value
+                    attribute_value: value,
                 });
 
                 return [...acc, {
                     ...option,
                     id: value,
-                    isAvailable
+                    isAvailable,
                 }];
             }, []);
     }

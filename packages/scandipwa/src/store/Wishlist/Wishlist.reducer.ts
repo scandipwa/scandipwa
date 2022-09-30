@@ -17,7 +17,7 @@ import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
 import {
     UpdateAllProductsInWishlistAction,
-    WishlistAction, WishlistActionType, WishlistStore
+    WishlistAction, WishlistActionType, WishlistStore,
 } from './Wishlist.type';
 
 export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
@@ -25,24 +25,22 @@ export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
 /** @namespace Store/Wishlist/Reducer/getInitialState */
 export const getInitialState = (): WishlistStore => ({
     productsInWishlist: BrowserDatabase.getItem(PRODUCTS_IN_WISHLIST) || {},
-    isLoading: true
+    isLoading: true,
 });
 
 /** @namespace Store/Wishlist/Reducer/deleteProperty */
-export const deleteProperty = (
-    key: string, { [key]: _, ...newObj }: Record<string, IndexedWishlistProduct>
-): Record<string, IndexedWishlistProduct> => newObj;
+export const deleteProperty = (key: string, { [key]: _, ...newObj }: Record<string, IndexedWishlistProduct>): Record<string, IndexedWishlistProduct> => newObj;
 
 /** @namespace Store/Wishlist/Reducer/removeItemFromWishlist */
 export const removeItemFromWishlist = (
     item_id: string,
-    { productsInWishlist: initialProducts }: WishlistStore
+    { productsInWishlist: initialProducts }: WishlistStore,
 ): { productsInWishlist: Record<string, IndexedWishlistProduct> } => {
     const productsInWishlist = deleteProperty(item_id, initialProducts) || {};
 
     BrowserDatabase.setItem(
         productsInWishlist,
-        PRODUCTS_IN_WISHLIST
+        PRODUCTS_IN_WISHLIST,
     );
 
     return { productsInWishlist };
@@ -65,7 +63,7 @@ export const updateAllProductsInWishlist = (action: UpdateAllProductsInWishlistA
 
     BrowserDatabase.setItem(
         products,
-        PRODUCTS_IN_WISHLIST
+        PRODUCTS_IN_WISHLIST,
     );
 
     return { productsInWishlist: products, isLoading: false };
@@ -77,7 +75,7 @@ WishlistStore,
 WishlistAction
 > = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     const { type } = action;
 
@@ -88,19 +86,19 @@ WishlistAction
         return {
             ...state,
             isLoading: false,
-            ...removeItemFromWishlist(item_id, state)
+            ...removeItemFromWishlist(item_id, state),
         };
 
     case WishlistActionType.CLEAR_WISHLIST:
         return {
             ...state,
-            ...clearWishlist()
+            ...clearWishlist(),
         };
 
     case WishlistActionType.UPDATE_ALL_PRODUCTS_IN_WISHLIST:
         return {
             ...state,
-            ...updateAllProductsInWishlist(action)
+            ...updateAllProductsInWishlist(action),
         };
 
     case WishlistActionType.UPDATE_IS_LOADING_IN_WISHLIST:
@@ -108,7 +106,7 @@ WishlistAction
 
         return {
             ...state,
-            isLoading
+            isLoading,
         };
 
     default:

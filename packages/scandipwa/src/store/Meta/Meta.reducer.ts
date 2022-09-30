@@ -15,7 +15,7 @@ import {
     MetaActionType,
     MetaStore,
     PageMeta,
-    UpdateMetaAction
+    UpdateMetaAction,
 } from './Meta.type';
 
 export const updateEveryTime: Array<keyof PageMeta> = [
@@ -24,7 +24,7 @@ export const updateEveryTime: Array<keyof PageMeta> = [
     'keywords',
     'canonical_url',
     'robots',
-    'status_code'
+    'status_code',
 ];
 
 /** @namespace Store/Meta/Reducer/filterData */
@@ -47,13 +47,13 @@ export const getInitialState = (): MetaStore => ({
     keywords: '',
     canonical_url: '',
     robots: '',
-    status_code: ''
+    status_code: '',
 });
 
 /** @namespace Store/Meta/Reducer/MetaReducer */
 export const MetaReducer: Reducer<MetaStore, UpdateMetaAction> = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     const { payload = {}, type } = action;
 
@@ -63,7 +63,7 @@ export const MetaReducer: Reducer<MetaStore, UpdateMetaAction> = (
 
         return {
             ...state,
-            ...filteredData
+            ...filteredData,
         };
 
     default:

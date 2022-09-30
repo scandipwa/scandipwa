@@ -36,7 +36,7 @@ import {
     getCartSubtotalSubPrice,
     getCartTotalSubPrice,
     getItemsCountLabel,
-    trimCrossSellDuplicateItems
+    trimCrossSellDuplicateItems,
 } from 'Util/Cart';
 import history from 'Util/History';
 import { getProductInStock } from 'Util/Product/Extract';
@@ -53,7 +53,7 @@ import {
     CartPageContainerMapDispatchProps,
     CartPageContainerMapStateProps,
     CartPageContainerProps,
-    CartPageContainerState
+    CartPageContainerState,
 } from './CartPage.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -79,34 +79,34 @@ export const mapStateToProps = (state: RootState): CartPageContainerMapStateProp
     cartShippingPrice: getCartShippingPrice(state),
     cartShippingSubPrice: getCartShippingSubPrice(state),
     isLoading: state.CartReducer.isLoading,
-    minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount
+    minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount,
 });
 
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDispatchProps => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
     ),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateCrossSellProducts: (items) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items as unknown as CartItem[], dispatch)
-    )
+        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items as unknown as CartItem[], dispatch),
+    ),
 });
 
 /** @namespace Route/CartPage/Container */
 export class CartPageContainer extends PureComponent<CartPageContainerProps, CartPageContainerState> {
     containerFunctions: CartPageContainerFunctions = {
         onCheckoutButtonClick: this.onCheckoutButtonClick.bind(this),
-        onCartItemLoading: this.onCartItemLoading.bind(this)
+        onCartItemLoading: this.onCartItemLoading.bind(this),
     };
 
     state: CartPageContainerState = {
         areDetailsLoaded: false,
         isCartItemLoading: false,
-        isInitialLoad: true
+        isInitialLoad: true,
     };
 
     componentDidMount(): void {
@@ -125,12 +125,12 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
             totals: { total_quantity = 0 },
             headerState,
             headerState: { name },
-            isLoading
+            isLoading,
         } = this.props;
 
         const {
             totals: { total_quantity: prevItemsQty = 0 },
-            headerState: { name: prevName }
+            headerState: { name: prevName },
         } = prevProps;
 
         const { isInitialLoad } = this.state;
@@ -146,7 +146,7 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
 
             changeHeaderState({
                 ...headerState,
-                title
+                title,
             });
         }
 
@@ -163,13 +163,13 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
         const {
             totals,
             totals: {
-                items = []
+                items = [],
             } = {},
             device,
             minimumOrderAmount: {
                 minimum_order_amount_reached: minimumOrderAmountReached = true,
-                minimum_order_description: minimumOrderDescription = ''
-            } = {}
+                minimum_order_description: minimumOrderDescription = '',
+            } = {},
         } = this.props;
 
         const { areDetailsLoaded, isCartItemLoading, isInitialLoad } = this.state;
@@ -182,7 +182,7 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
             isInitialLoad,
             minimumOrderAmountReached,
             minimumOrderDescription,
-            areDetailsLoaded
+            areDetailsLoaded,
         };
     }
 
@@ -200,7 +200,7 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
             showOverlay,
             showNotification,
             device,
-            totals: { items = [] } = {}
+            totals: { items = [] } = {},
         } = this.props;
 
         // to prevent outside-click handler trigger
@@ -212,7 +212,7 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
 
         if (guest_checkout) {
             history.push({
-                pathname: appendWithStoreCode(CheckoutStepUrl.CHECKOUT_URL)
+                pathname: appendWithStoreCode(CheckoutStepUrl.CHECKOUT_URL),
             });
             scrollToTop();
 
@@ -221,7 +221,7 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
 
         if (isSignedIn()) {
             history.push({
-                pathname: appendWithStoreCode(CheckoutStepUrl.CHECKOUT_URL)
+                pathname: appendWithStoreCode(CheckoutStepUrl.CHECKOUT_URL),
             });
             scrollToTop();
 
@@ -248,7 +248,7 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
     _updateBreadcrumbs(): void {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
-            { url: CART_URL, name: __('Shopping cart') }
+            { url: CART_URL, name: __('Shopping cart') },
         ];
 
         updateBreadcrumbs(breadcrumbs);
@@ -261,7 +261,7 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
         changeHeaderState({
             name: Page.CART,
             title,
-            onCloseClick: () => history.goBack()
+            onCloseClick: () => history.goBack(),
         });
     }
 
@@ -269,8 +269,8 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
         const {
             updateCrossSellProducts,
             totals: {
-                items = []
-            } = {}
+                items = [],
+            } = {},
         } = this.props;
 
         const list = trimCrossSellDuplicateItems(items);

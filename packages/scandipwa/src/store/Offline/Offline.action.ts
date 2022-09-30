@@ -12,7 +12,7 @@
 import {
     OfflineActionType,
     SetBigOfflineNoticeAction,
-    ShowOfflineNoticeAction
+    ShowOfflineNoticeAction,
 } from './Offline.type';
 
 /**
@@ -23,7 +23,7 @@ import {
  */
 export const showOfflineNotice = (isOffline: boolean): ShowOfflineNoticeAction => ({
     type: OfflineActionType.SHOW_OFFLINE_NOTICE,
-    isOffline
+    isOffline,
 });
 
 /**
@@ -34,5 +34,5 @@ export const showOfflineNotice = (isOffline: boolean): ShowOfflineNoticeAction =
  */
 export const setBigOfflineNotice = (isBig: boolean): SetBigOfflineNoticeAction => ({
     type: OfflineActionType.SET_BIG_OFFLINE_NOTICE,
-    isBig
+    isBig,
 });

@@ -18,7 +18,7 @@ export enum AccountPageUrl {
     ACCOUNT_URL = '/customer/account',
     ORDER_URL = '/sales/order/view/order_id',
     ORDER_PRINT_URL = '/sales/order/print/order_id',
-    ORDER_HISTORY = '/sales/order/history'
+    ORDER_HISTORY = '/sales/order/history',
 }
 
 // eslint-disable-next-line max-len

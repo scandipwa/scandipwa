@@ -13,22 +13,22 @@ import {
     HideActiveOverlayAction,
     HideActivePopupAction,
     OverlayActionType,
-    ToggleOverlayByKeyAction
+    ToggleOverlayByKeyAction,
 } from './Overlay.type';
 
 /** @namespace Store/Overlay/Action/toggleOverlayByKey */
 export const toggleOverlayByKey = (overlayKey: string): ToggleOverlayByKeyAction => ({
     type: OverlayActionType.TOGGLE_OVERLAY,
-    overlayKey
+    overlayKey,
 });
 
 /** @namespace Store/Overlay/Action/hideActiveOverlay */
 export const hideActiveOverlay = (): HideActiveOverlayAction => ({
-    type: OverlayActionType.HIDE_ACTIVE_OVERLAY
+    type: OverlayActionType.HIDE_ACTIVE_OVERLAY,
 });
 
 /** @namespace Store/Overlay/Action/hideActivePopup */
 export const hideActivePopup = (shouldPopupClose = true): HideActivePopupAction => ({
     type: OverlayActionType.HIDE_ACTIVE_POPUP,
-    payload: shouldPopupClose
+    payload: shouldPopupClose,
 });

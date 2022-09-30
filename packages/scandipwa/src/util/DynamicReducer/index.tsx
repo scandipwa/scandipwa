@@ -19,7 +19,7 @@ import { Props, WithReducersResult } from './DynamicReducer.type';
 
 /** @namespace Util/DynamicReducer/Index/withReducers */
 export const withReducers = (reducers: Record<string, Reducer>) => (
-    WrappedComponent: ElementType
+    WrappedComponent: ElementType,
 ): WithReducersResult => {
     const injectAndExecute = (props: Props) => {
         injectReducers(getStore(), reducers);

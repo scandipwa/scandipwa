@@ -16,7 +16,7 @@ import {
     OrderProductSelectedOption,
     RefundItem,
     SalesCommentItem,
-    ShipmentItemInterface
+    ShipmentItemInterface,
 } from 'Query/Order.type';
 
 export interface MyAccountOrderItemsTableRowContainerMapStateProps {

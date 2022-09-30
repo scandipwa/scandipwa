@@ -16,11 +16,11 @@ export const ORDER_STATUS_TRANSLATION_MAP = {
     quantity_invoiced: __('Invoiced'),
     quantity_refunded: __('Refunded'),
     quantity_returned: __('Returned'),
-    quantity_shipped: __('Shipped')
+    quantity_shipped: __('Shipped'),
 };
 
 export enum OrderColumnSpanCount {
     ORDER_REFUNDS = 7,
     ORDER_SHIPMENTS = 3,
-    DEFAULT = 5
+    DEFAULT = 5,
 }

@@ -25,7 +25,7 @@ import {
     ContactFormContainerFunctions,
     ContactFormContainerMapDispatchProps,
     ContactFormContainerMapStateProps,
-    ContactFormContainerProps
+    ContactFormContainerProps,
 } from './ContactForm.type';
 
 export const ContactFormDispatcher = import(
@@ -35,20 +35,20 @@ export const ContactFormDispatcher = import(
 
 /** @namespace Component/ContactForm/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ContactFormContainerMapStateProps => ({
-    isLoading: state.ContactFormReducer.isLoading
+    isLoading: state.ContactFormReducer.isLoading,
 });
 
 /** @namespace Component/ContactForm/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ContactFormContainerMapDispatchProps => ({
     sendMessage: (data) => ContactFormDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.prepareRequest(data, dispatch)
-    )
+        ({ default: dispatcher }) => dispatcher.prepareRequest(data, dispatch),
+    ),
 });
 
 /** @namespace Component/ContactForm/Container */
 export class ContactFormContainer extends PureComponent<ContactFormContainerProps> {
     containerFunctions: ContactFormContainerFunctions = {
-        onFormSubmit: this.onFormSubmit.bind(this)
+        onFormSubmit: this.onFormSubmit.bind(this),
     };
 
     onFormSubmit(form: HTMLFormElement, fields: FieldData[]): void {

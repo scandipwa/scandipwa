@@ -27,7 +27,7 @@ import {
     ProductComparePageComponentProps,
     ProductComparePageContainerMapDispatchProps,
     ProductComparePageContainerMapStateProps,
-    ProductComparePageContainerProps
+    ProductComparePageContainerProps,
 } from './ProductComparePage.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -38,7 +38,7 @@ export const BreadcrumbsDispatcher = import(
 /** @namespace Route/ProductComparePage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductComparePageContainerMapStateProps => ({
     device: state.ConfigReducer.device,
-    isLoading: state.ProductCompareReducer.isLoading
+    isLoading: state.ProductCompareReducer.isLoading,
 });
 
 /** @namespace Route/ProductComparePage/Container/mapDispatchToProps */
@@ -48,15 +48,15 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductComparePageContai
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
         );
-    }
+    },
 });
 
 /** @namespace Route/ProductComparePage/Container */
 export class ProductComparePageContainer extends DataContainer<ProductComparePageContainerProps> {
     static defaultProps: Partial<ProductComparePageContainerProps> = {
-        isLoading: false
+        isLoading: false,
     };
 
     __construct(props: ProductComparePageContainerProps): void {
@@ -87,8 +87,8 @@ export class ProductComparePageContainer extends DataContainer<ProductComparePag
         const breadcrumbs = [
             {
                 url: '/compare',
-                name: __('Product Compare')
-            }
+                name: __('Product Compare'),
+            },
         ];
 
         updateBreadcrumbs(breadcrumbs);
@@ -100,7 +100,7 @@ export class ProductComparePageContainer extends DataContainer<ProductComparePag
         setHeaderState({
             name: Page.PRODUCT_COMPARE,
             title: __('Compare'),
-            onBackClick: () => history.back()
+            onBackClick: () => history.back(),
         });
     }
 

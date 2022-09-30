@@ -27,19 +27,19 @@ import {
     HomePageContainerMapDispatchProps,
     HomePageContainerMapStateProps,
     HomePageContainerProps,
-    HomePageContainerPropsKeys
+    HomePageContainerPropsKeys,
 } from './HomePage.type';
 
 import './HomePage.style';
 
 /** @namespace Route/HomePage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): HomePageContainerMapStateProps => ({
-    pageIdentifiers: state.ConfigReducer.cms_home_page
+    pageIdentifiers: state.ConfigReducer.cms_home_page,
 });
 
 /** @namespace Route/HomePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): HomePageContainerMapDispatchProps => ({
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state))
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
 });
 
 /** @namespace Route/HomePage/Container */
@@ -49,7 +49,7 @@ export class HomePageContainer extends PureComponent<HomePageContainerProps> {
 
         changeHeaderState({
             name: DEFAULT_STATE_NAME,
-            isHiddenOnMobile: false
+            isHiddenOnMobile: false,
         });
     }
 
@@ -58,14 +58,14 @@ export class HomePageContainer extends PureComponent<HomePageContainerProps> {
             changeHeaderState,
             currentUrl,
             match,
-            pageIdentifiers
+            pageIdentifiers,
         } = this.props;
 
         return {
             changeHeaderState,
             currentUrl,
             match,
-            pageIdentifiers
+            pageIdentifiers,
         };
     }
 

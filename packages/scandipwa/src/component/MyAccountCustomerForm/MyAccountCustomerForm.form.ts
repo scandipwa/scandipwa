@@ -17,7 +17,7 @@ import { ValidationInputType } from 'Util/Validator/Config';
 import {
     MyAccountCustomerFormComponentProps,
     MyAccountCustomerFormEmailAndPasswordProps,
-    MyAccountCustomerFormInformationProps
+    MyAccountCustomerFormInformationProps,
 } from './MyAccountCustomerForm.type';
 
 /**
@@ -26,20 +26,20 @@ import {
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/MyAccountCustomerForm/Form/customerInformationFields */
 export const customerInformationFields = (
-    props: Pick<MyAccountCustomerFormComponentProps, MyAccountCustomerFormInformationProps>
+    props: Pick<MyAccountCustomerFormComponentProps, MyAccountCustomerFormInformationProps>,
 ): Partial<FieldContainerProps>[] => {
     const {
         customer: {
             firstname = '',
             lastname = '',
-            taxvat = ''
+            taxvat = '',
         },
         showTaxVatNumber,
         handleChangeEmailCheckbox,
         handleChangePasswordCheckbox,
         showEmailChangeField,
         showPasswordChangeField,
-        vatNumberRequired
+        vatNumberRequired,
     } = props;
 
     return [
@@ -49,13 +49,13 @@ export const customerInformationFields = (
             attr: {
                 name: 'firstname',
                 defaultValue: firstname,
-                placeholder: __('Your first name')
+                placeholder: __('Your first name'),
             },
             addRequiredTag: true,
             validateOn: ['onChange'],
             validationRule: {
-                isRequired: true
-            }
+                isRequired: true,
+            },
         },
         {
             type: FieldType.TEXT,
@@ -63,13 +63,13 @@ export const customerInformationFields = (
             attr: {
                 name: 'lastname',
                 defaultValue: lastname,
-                placeholder: __('Your last name')
+                placeholder: __('Your last name'),
             },
             addRequiredTag: true,
             validateOn: ['onChange'],
             validationRule: {
-                isRequired: true
-            }
+                isRequired: true,
+            },
         },
         ...(showTaxVatNumber ? [
             {
@@ -78,37 +78,37 @@ export const customerInformationFields = (
                 attr: {
                     name: 'taxvat',
                     defaultValue: taxvat,
-                    placeholder: __('Your tax/VAT number')
+                    placeholder: __('Your tax/VAT number'),
                 },
                 addRequiredTag: vatNumberRequired,
                 validateOn: ['onChange'],
                 validationRule: {
-                    isRequired: vatNumberRequired
-                }
-            }
+                    isRequired: vatNumberRequired,
+                },
+            },
         ] : []),
         {
             type: FieldType.CHECKBOX,
             attr: {
                 name: 'showEmailChangeField',
-                defaultChecked: showEmailChangeField
+                defaultChecked: showEmailChangeField,
             },
             events: {
-                onChange: handleChangeEmailCheckbox
+                onChange: handleChangeEmailCheckbox,
             },
-            label: __('Change Email')
+            label: __('Change Email'),
         },
         {
             type: FieldType.CHECKBOX,
             attr: {
                 name: 'showPasswordChangeField',
-                defaultChecked: showPasswordChangeField
+                defaultChecked: showPasswordChangeField,
             },
             events: {
-                onChange: handleChangePasswordCheckbox
+                onChange: handleChangePasswordCheckbox,
             },
-            label: __('Change Password')
-        }
+            label: __('Change Password'),
+        },
     ];
 };
 
@@ -118,7 +118,7 @@ export const customerInformationFields = (
  * @returns {[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, {addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}, ...[{addRequiredTag: boolean, validateOn: string[], validationRule: {isRequired: boolean}, label: *, type: string, attr: {defaultValue, name: string, placeholder: *}}]|*[]]}
  * @namespace Component/MyAccountCustomerForm/Form/customerEmailAndPasswordFields */
 export const customerEmailAndPasswordFields = (
-    props: Pick<MyAccountCustomerFormComponentProps, MyAccountCustomerFormEmailAndPasswordProps>
+    props: Pick<MyAccountCustomerFormComponentProps, MyAccountCustomerFormEmailAndPasswordProps>,
 ): Partial<FieldContainerProps>[] => {
     const {
         minimunPasswordCharacter,
@@ -128,7 +128,7 @@ export const customerEmailAndPasswordFields = (
         handlePasswordInput,
         currentPassword,
         email,
-        range
+        range,
     } = props;
 
     return [
@@ -140,18 +140,18 @@ export const customerEmailAndPasswordFields = (
                     name: 'email',
                     value: email,
                     placeholder: __('Your new email'),
-                    'aria-label': __('Current password')
+                    'aria-label': __('Current password'),
                 },
                 events: {
-                    onChange: handleEmailInput
+                    onChange: handleEmailInput,
                 },
                 addRequiredTag: true,
                 validateOn: ['onChange'],
                 validationRule: {
                     inputType: ValidationInputType.EMAIL,
-                    isRequired: true
-                }
-            }
+                    isRequired: true,
+                },
+            },
         ] : []),
         ...(showPasswordChangeField || showEmailChangeField ? [
             {
@@ -162,18 +162,18 @@ export const customerEmailAndPasswordFields = (
                     name: 'password',
                     placeholder: __('Your current password'),
                     'aria-label': __('Current password'),
-                    value: currentPassword
+                    value: currentPassword,
                 },
                 events: {
-                    onChange: handlePasswordInput
+                    onChange: handlePasswordInput,
                 },
                 addRequiredTag: true,
                 validateOn: ['onChange'],
                 validationRule: {
                     inputType: ValidationInputType.PASSWORD,
-                    isRequired: true
-                }
-            }
+                    isRequired: true,
+                },
+            },
         ] : []),
         ...(showPasswordChangeField ? [
             {
@@ -183,7 +183,7 @@ export const customerEmailAndPasswordFields = (
                     id: 'newPassword',
                     name: 'newPassword',
                     placeholder: __('Your new password'),
-                    'aria-label': __('New password')
+                    'aria-label': __('New password'),
                 },
                 addRequiredTag: true,
                 validateOn: ['onChange'],
@@ -198,8 +198,8 @@ export const customerEmailAndPasswordFields = (
                         }
 
                         return validatePassword(value, range, minimunPasswordCharacter);
-                    }
-                }
+                    },
+                },
             },
             {
                 type: FieldType.PASSWORD,
@@ -207,7 +207,7 @@ export const customerEmailAndPasswordFields = (
                 attr: {
                     name: 'confirmNewPassword',
                     placeholder: __('Confirm New password'),
-                    'aria-label': __('Confirm New password')
+                    'aria-label': __('Confirm New password'),
                 },
                 addRequiredTag: true,
                 validateOn: ['onChange'],
@@ -220,10 +220,10 @@ export const customerEmailAndPasswordFields = (
                         return password.value === value;
                     },
                     customErrorMessages: {
-                        onMatchFail: __('Passwords do not match!')
-                    }
-                }
-            }
-        ] : [])
+                        onMatchFail: __('Passwords do not match!'),
+                    },
+                },
+            },
+        ] : []),
     ];
 };

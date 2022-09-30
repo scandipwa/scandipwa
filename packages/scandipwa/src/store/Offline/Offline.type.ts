@@ -12,7 +12,7 @@ import { AnyAction } from 'redux';
 
 export enum OfflineActionType {
     SHOW_OFFLINE_NOTICE = 'SHOW_OFFLINE_NOTICE',
-    SET_BIG_OFFLINE_NOTICE = 'SET_BIG_OFFLINE_NOTICE'
+    SET_BIG_OFFLINE_NOTICE = 'SET_BIG_OFFLINE_NOTICE',
 }
 
 export interface ShowOfflineNoticeAction extends AnyAction {

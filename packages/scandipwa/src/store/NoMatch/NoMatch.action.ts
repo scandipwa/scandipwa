@@ -20,5 +20,5 @@ import { NoMatchActionType, UpdateNoMatchAction } from './NoMatch.type';
  */
 export const updateNoMatch = (noMatch: boolean): UpdateNoMatchAction => ({
     type: NoMatchActionType.UPDATE_NOMATCH,
-    noMatch
+    noMatch,
 });

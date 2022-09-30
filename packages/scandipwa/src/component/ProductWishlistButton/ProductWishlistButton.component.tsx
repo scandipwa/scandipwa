@@ -21,13 +21,13 @@ import { ProductWishlistButtonComponentProps } from './ProductWishlistButton.typ
 import './ProductWishlistButton.style';
 
 /** @namespace Component/ProductWishlistButton/Component */
-export class ProductWishlistButton extends PureComponent<ProductWishlistButtonComponentProps> {
+export class ProductWishlistButtonComponent extends PureComponent<ProductWishlistButtonComponentProps> {
     static defaultProps: Partial<ProductWishlistButtonComponentProps> = {
         mix: {},
         // !FIXME: isLoading is never set
         isLoading: false,
         isDisabled: false,
-        isInWishlist: false
+        isInWishlist: false,
     };
 
     __construct(props: ProductWishlistButtonComponentProps): void {
@@ -54,7 +54,7 @@ export class ProductWishlistButton extends PureComponent<ProductWishlistButtonCo
         const {
             isInWishlist,
             addToWishlist,
-            removeFromWishlist
+            removeFromWishlist,
         } = this.props;
 
         e.preventDefault();
@@ -114,4 +114,4 @@ export class ProductWishlistButton extends PureComponent<ProductWishlistButtonCo
     }
 }
 
-export default ProductWishlistButton;
+export default ProductWishlistButtonComponent;

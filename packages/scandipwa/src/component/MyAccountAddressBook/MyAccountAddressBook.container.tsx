@@ -25,23 +25,23 @@ import {
     MyAccountAddressBookContainerFunctions,
     MyAccountAddressBookContainerMapDispatchProps,
     MyAccountAddressBookContainerMapStateProps,
-    MyAccountAddressBookContainerProps
+    MyAccountAddressBookContainerProps,
 } from './MyAccountAddressBook.type';
 
 /** @namespace Component/MyAccountAddressBook/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountAddressBookContainerMapStateProps => ({
-    customer: state.MyAccountReducer.customer
+    customer: state.MyAccountReducer.customer,
 });
 
 /** @namespace Component/MyAccountAddressBook/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressBookContainerMapDispatchProps => ({
-    showPopup: (payload) => dispatch(showPopup(MyAccountAddressPopupAction.ADDRESS_POPUP_ID, payload))
+    showPopup: (payload) => dispatch(showPopup(MyAccountAddressPopupAction.ADDRESS_POPUP_ID, payload)),
 });
 
 /** @namespace Component/MyAccountAddressBook/Container */
 export class MyAccountAddressBookContainer extends PureComponent<MyAccountAddressBookContainerProps> {
     containerFunctions: MyAccountAddressBookContainerFunctions = {
-        showCreateNewPopup: this.showCreateNewPopup.bind(this)
+        showCreateNewPopup: this.showCreateNewPopup.bind(this),
     };
 
     componentDidMount(): void {
@@ -63,7 +63,7 @@ export class MyAccountAddressBookContainer extends PureComponent<MyAccountAddres
         showPopup({
             action: MyAccountAddressPopupAction.ADD_ADDRESS,
             title: __('Add new address'),
-            address: {}
+            address: {},
         });
     }
 

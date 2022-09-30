@@ -23,7 +23,7 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import OrderReducer from 'Store/Order/Order.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
-    MyAccountTabs, MyAccountTabsSection
+    MyAccountTabs, MyAccountTabsSection,
 } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
@@ -42,7 +42,7 @@ import {
     MyAccountContainerMapStateProps,
     MyAccountContainerProps,
     MyAccountContainerState,
-    MyAccountTab
+    MyAccountTab,
 } from './MyAccount.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -64,25 +64,25 @@ export const mapStateToProps = (state: RootState): MyAccountContainerMapStatePro
     newsletterActive: state.ConfigReducer.newsletter_general_active,
     baseLinkUrl: state.ConfigReducer.base_link_url,
     activeOverlay: state.OverlayReducer.activeOverlay,
-    headerState: state.NavigationReducer[NavigationType.TOP_NAVIGATION_TYPE].navigationState
+    headerState: state.NavigationReducer[NavigationType.TOP_NAVIGATION_TYPE].navigationState,
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountContainerMapDispatchProps => ({
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
     ),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     requestCustomerData: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
+        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch),
     ),
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     logout: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.logout(false, false, dispatch)
+        ({ default: dispatcher }) => dispatcher.logout(false, false, dispatch),
     ),
-    updateIsLocked: (isLocked) => dispatch(updateIsLocked(isLocked))
+    updateIsLocked: (isLocked) => dispatch(updateIsLocked(isLocked)),
 });
 
 /** @namespace Route/MyAccount/Container */
@@ -92,51 +92,51 @@ MyAccountContainerState
 > {
     static defaultProps: Partial<MyAccountContainerProps> = {
         wishlistItems: {},
-        selectedTab: undefined
+        selectedTab: undefined,
     };
 
     static tabMap: Record<string, MyAccountTab> = {
         [ MyAccountTabs.MY_ACCOUNT ]: {
             url: '',
             tabName: __('My Account'),
-            section: MyAccountTabsSection.FIRST_SECTION
+            section: MyAccountTabsSection.FIRST_SECTION,
         },
         [ MyAccountTabs.MY_ORDERS ]: {
             url: '/sales/order/history',
             tabName: __('My Orders'),
             section: MyAccountTabsSection.FIRST_SECTION,
-            isFullUrl: true
+            isFullUrl: true,
         },
         [ MyAccountTabs.MY_DOWNLOADABLE ]: {
             url: '/downloadable/customer/products',
             tabName: __('My Downloadable'),
             section: MyAccountTabsSection.FIRST_SECTION,
-            isFullUrl: true
+            isFullUrl: true,
         },
         [ MyAccountTabs.MY_WISHLIST ]: {
             url: '/wishlist',
             tabName: __('My Wish List'),
             section: MyAccountTabsSection.FIRST_SECTION,
-            isFullUrl: true
+            isFullUrl: true,
         },
         [ MyAccountTabs.ADDRESS_BOOK ]: {
             url: '/customer/address',
             tabName: __('Address Book'),
             section: MyAccountTabsSection.SECOND_SECTION,
-            isFullUrl: true
+            isFullUrl: true,
         },
         [ MyAccountTabs.ACCOUNT_INFORMATION ]: {
             url: '/edit',
             tabName: __('Account Information'),
             title: __('Edit Account Information'),
-            section: MyAccountTabsSection.SECOND_SECTION
+            section: MyAccountTabsSection.SECOND_SECTION,
         },
         [ MyAccountTabs.NEWSLETTER_SUBSCRIPTION ]: {
             url: '/newsletter/manage',
             tabName: __('Newsletter Subscription'),
             section: MyAccountTabsSection.THIRD_SECTION,
-            isFullUrl: true
-        }
+            isFullUrl: true,
+        },
     };
 
     static isTabEnabled(props: MyAccountContainerProps, tabName: string): boolean {
@@ -154,16 +154,16 @@ MyAccountContainerState
 
     static navigateToSelectedTab(
         props: MyAccountContainerProps,
-        state: Partial<MyAccountContainerState> = {}
+        state: Partial<MyAccountContainerState> = {},
     ): { activeTab: string } {
         const {
             match: {
                 params: {
-                    tab: historyActiveTab = ''
-                } = {}
+                    tab: historyActiveTab = '',
+                } = {},
             } = {},
             isMobile,
-            selectedTab
+            selectedTab,
         } = props;
         const { activeTab } = state;
 
@@ -195,11 +195,11 @@ MyAccountContainerState
         onSignOut: this.onSignOut.bind(this),
         getMyWishlistSubHeading: this.getMyWishlistSubHeading.bind(this),
         setTabSubheading: this.setTabSubheading.bind(this),
-        isTabEnabled: this.isTabEnabled.bind(this)
+        isTabEnabled: this.isTabEnabled.bind(this),
     };
 
     subHeadingRenderMap: Record<string, () => string> = {
-        [ MyAccountTabs.MY_WISHLIST ]: this.getMyWishlistSubHeading.bind(this)
+        [ MyAccountTabs.MY_WISHLIST ]: this.getMyWishlistSubHeading.bind(this),
     };
 
     __construct(props: MyAccountContainerProps): void {
@@ -207,14 +207,14 @@ MyAccountContainerState
 
         const {
             updateMeta,
-            toggleOverlayByKey
+            toggleOverlayByKey,
         } = this.props;
 
         this.state = {
             ...MyAccountContainer.navigateToSelectedTab(this.props),
             isEditingActive: false,
             tabName: '',
-            stateSubHeading: ''
+            stateSubHeading: '',
         };
 
         if (!isSignedIn()) {
@@ -231,7 +231,7 @@ MyAccountContainerState
 
     static getDerivedStateFromProps(
         props: MyAccountContainerProps,
-        state: MyAccountContainerState
+        state: MyAccountContainerState,
     ): { activeTab: string } {
         return MyAccountContainer.navigateToSelectedTab(props, state);
     }
@@ -240,7 +240,7 @@ MyAccountContainerState
         const {
             wishlistItems: prevWishlistItems,
             IsSignedInFromState: prevIsSignedInFromState,
-            headerState: { name: prevName }
+            headerState: { name: prevName },
         } = prevProps;
 
         const {
@@ -248,7 +248,7 @@ MyAccountContainerState
             IsSignedInFromState: currIsSignedInFromState,
             isLocked,
             activeOverlay,
-            headerState: { name }
+            headerState: { name },
         } = this.props;
 
         const { activeTab: prevActiveTab } = prevState;
@@ -305,7 +305,7 @@ MyAccountContainerState
             match,
             tabName: this.getTabName(),
             subHeading: this.getSubHeading(),
-            tabMap: this.tabsFilterEnabled()
+            tabMap: this.tabsFilterEnabled(),
         };
     }
 
@@ -382,8 +382,8 @@ MyAccountContainerState
         const {
             [ activeTab ]: {
                 url,
-                isFullUrl = false
-            }
+                isFullUrl = false,
+            },
         } = this.tabsFilterEnabled();
 
         if (isFullUrl) {
@@ -397,7 +397,7 @@ MyAccountContainerState
 
     handleCheckIfSelectedTab(): boolean | MyAccountTab | undefined {
         const {
-            selectedTab
+            selectedTab,
         } = this.props;
         const { location: { pathname = '' } } = history;
 
@@ -421,7 +421,7 @@ MyAccountContainerState
 
     onSignIn(): void {
         const {
-            requestCustomerData
+            requestCustomerData,
         } = this.props;
 
         if (isSignedIn()) {
@@ -441,7 +441,7 @@ MyAccountContainerState
             name: isActiveTabWishList ? Page.CUSTOMER_WISHLIST : Page.CUSTOMER_ACCOUNT_PAGE,
             onBackClick: () => {
                 history.push(appendWithStoreCode('/'));
-            }
+            },
         });
     }
 
@@ -458,7 +458,7 @@ MyAccountContainerState
         if (activeTab !== MyAccountTabs.MY_ACCOUNT) {
             breadcrumbs.push({
                 url: isFullUrl ? url : `${AccountPageUrl.ACCOUNT_URL}${url}`,
-                name: tabName
+                name: tabName,
             });
         }
 
@@ -470,7 +470,7 @@ MyAccountContainerState
     redirectIfNotSignedIn(): void {
         const {
             baseLinkUrl,
-            showNotification
+            showNotification,
         } = this.props;
 
         if (isSignedIn()) { // do nothing for signed-in users
@@ -491,7 +491,7 @@ MyAccountContainerState
 
     handleLocked(): void {
         const {
-            logout, updateIsLocked, baseLinkUrl, showNotification
+            logout, updateIsLocked, baseLinkUrl, showNotification,
         } = this.props;
 
         const path = baseLinkUrl
@@ -516,5 +516,5 @@ MyAccountContainerState
 }
 
 export default withReducers({
-    OrderReducer
+    OrderReducer,
 })(connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer));

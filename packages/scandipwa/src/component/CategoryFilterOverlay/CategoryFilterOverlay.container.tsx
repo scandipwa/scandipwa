@@ -31,14 +31,14 @@ import {
     CategoryFilterOverlayContainerFunctions,
     CategoryFilterOverlayContainerMapDispatchProps,
     CategoryFilterOverlayContainerMapStateProps,
-    CategoryFilterOverlayContainerProps
+    CategoryFilterOverlayContainerProps,
 } from './CategoryFilterOverlay.type';
 
 /** @namespace Component/CategoryFilterOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CategoryFilterOverlayContainerMapStateProps => ({
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     isProductsLoading: state.ProductListReducer.isLoading,
-    totalPages: state.ProductListReducer.totalPages
+    totalPages: state.ProductListReducer.totalPages,
 });
 
 /** @namespace Component/CategoryFilterOverlay/Container/mapDispatchToProps */
@@ -47,14 +47,14 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryFilterOverlayCon
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE)),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state))
+    changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
 });
 
 /** @namespace Component/CategoryFilterOverlay/Container */
 export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilterOverlayContainerProps> {
     static defaultProps: Partial<CategoryFilterOverlayContainerProps> = {
         isCategoryAnchor: true,
-        isMatchingInfoFilter: false
+        isMatchingInfoFilter: false,
     };
 
     containerFunctions: CategoryFilterOverlayContainerFunctions = {
@@ -62,7 +62,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
         toggleCustomFilter: this.toggleCustomFilter.bind(this),
         getFilterUrl: this.getCustomFilterUrl.bind(this),
         onVisible: this.onVisible.bind(this),
-        onHide: this.onHide.bind(this)
+        onHide: this.onHide.bind(this),
     };
 
     updateFilter(filterName: string, filterArray: string[]): void {
@@ -70,7 +70,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
 
         setQueryParams({
             customFilters: this.getFilterUrl(filterName, filterArray, false),
-            page: ''
+            page: '',
         }, location, history);
     }
 
@@ -109,7 +109,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
         const prevCustomFilters = this._getSelectedFiltersFromUrl();
         const customFilers = {
             ...prevCustomFilters,
-            [ filterName ]: filterArray
+            [ filterName ]: filterArray,
         };
 
         return Object.entries(customFilers)
@@ -145,7 +145,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
         const {
             hideActiveOverlay,
             goToPreviousHeaderState,
-            goToPreviousNavigationState
+            goToPreviousNavigationState,
         } = this.props;
 
         hideActiveOverlay();
@@ -158,7 +158,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
             hideActiveOverlay,
             changeHeaderState,
             changeNavigationState,
-            goToPreviousNavigationState
+            goToPreviousNavigationState,
         } = this.props;
         const { location: { pathname, search } } = history;
 
@@ -168,12 +168,12 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
             onCloseClick: () => {
                 hideActiveOverlay();
                 goToPreviousNavigationState();
-            }
+            },
         });
 
         changeNavigationState({
             name: Page.FILTER,
-            isHidden: true
+            isHidden: true,
         });
 
         window.addEventListener('popstate', this.historyBackHook);
@@ -189,7 +189,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
             goToPreviousNavigationState,
             customFiltersValues,
             hideActiveOverlay,
-            goToPreviousHeaderState
+            goToPreviousHeaderState,
         } = this.props;
 
         goToPreviousNavigationState();
@@ -223,7 +223,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
             isMatchingInfoFilter,
             isProductsLoading,
             isSearchPage,
-            totalPages
+            totalPages,
         } = this.props;
 
         return {
@@ -236,7 +236,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
             totalPages,
             customFiltersValues,
             areFiltersEmpty: this.getAreFiltersEmpty(),
-            isContentFiltered: this.isContentFiltered()
+            isContentFiltered: this.isContentFiltered(),
         };
     }
 

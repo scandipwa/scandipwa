@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 import {
     ProductCustomizableOptionsComponentProps,
-    ProductCustomizableOptionsContainerProps
+    ProductCustomizableOptionsContainerProps,
 } from './ProductCustomizableOptions.type';
 
 /**
@@ -26,7 +26,7 @@ import {
  */
 export class ProductCustomizableOptionsContainer extends PureComponent<ProductCustomizableOptionsContainerProps> {
     static defaultProps: Partial<ProductCustomizableOptionsContainerProps> = {
-        options: []
+        options: [],
     };
 
     containerProps(): ProductCustomizableOptionsComponentProps {
@@ -34,7 +34,7 @@ export class ProductCustomizableOptionsContainer extends PureComponent<ProductCu
 
         return {
             options,
-            updateSelectedValues
+            updateSelectedValues,
         };
     }
 

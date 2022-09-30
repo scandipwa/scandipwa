@@ -16,10 +16,10 @@ import { Subscribe } from 'unstated';
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps as sourceMapStateToProps,
-    ProductContainer
+    ProductContainer,
 } from 'Component/Product/Product.container';
 import SharedTransitionContainer, {
-    SharedTransitionUnstated
+    SharedTransitionUnstated,
 } from 'Component/SharedTransition/SharedTransition.unstated';
 import { UrlRewrite } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
@@ -38,7 +38,7 @@ import {
     ProductCardContainerMapDispatchProps,
     ProductCardContainerMapStateProps,
     ProductCardContainerPropKeys,
-    ProductCardContainerProps
+    ProductCardContainerProps,
 } from './ProductCard.type';
 
 export const CartDispatcher = import(
@@ -51,13 +51,13 @@ export const mapStateToProps = (state: RootState): ProductCardContainerMapStateP
     ...sourceMapStateToProps(state),
     baseLinkUrl: state.ConfigReducer.base_link_url || '',
     productUsesCategories: state.ConfigReducer.product_use_categories || false,
-    categoryUrlSuffix: state.ConfigReducer.category_url_suffix
+    categoryUrlSuffix: state.ConfigReducer.category_url_suffix,
 });
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductCardContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
 });
 
 /** @namespace Component/ProductCard/Container */
@@ -70,12 +70,12 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
         isLoading: false,
         children: null,
         mix: {},
-        layout: CategoryPageLayout.GRID
+        layout: CategoryPageLayout.GRID,
     };
 
     containerFunctions: ProductCardContainerFunctions = {
         ...this.containerFunctions,
-        showSelectOptionsNotification: this.showSelectOptionsNotification.bind(this)
+        showSelectOptionsNotification: this.showSelectOptionsNotification.bind(this),
     };
 
     containerProps(): Pick<ProductCardComponentProps, ProductCardContainerPropKeys> {
@@ -88,7 +88,7 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
             isLoading,
             renderContent,
             product,
-            isPlp
+            isPlp,
         } = this.props;
 
         return {
@@ -102,7 +102,7 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
             renderContent,
             isPlp,
             thumbnail: getSmallImage(this.getActiveProduct()) || getSmallImage(product),
-            linkTo: this.getLinkTo()
+            linkTo: this.getLinkTo(),
         };
     }
 
@@ -112,7 +112,7 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
             productUsesCategories,
             categoryUrlSuffix,
             product: { url, url_rewrites = [] },
-            product
+            product,
         } = this.props;
         const { pathname: storePrefix } = new URL(baseLinkUrl || window.location.origin);
         const { location: { pathname } } = history;
@@ -136,7 +136,7 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
         return {
             pathname: rewriteUrlPath,
             state: { product, prevCategoryId: category },
-            search: objectToUri(parameters)
+            search: objectToUri(parameters),
         };
     }
 

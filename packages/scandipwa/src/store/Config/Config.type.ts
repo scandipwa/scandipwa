@@ -17,7 +17,7 @@ import {
     Currencies,
     CurrencyData,
     PriceTaxDisplay,
-    StoreConfig
+    StoreConfig,
 } from 'Query/Config.type';
 import { Country } from 'Query/Region.type';
 import { ReviewRatingItem } from 'Query/Review.type';
@@ -26,7 +26,7 @@ import { Device } from 'Type/Device.type';
 export enum ConfigActionType {
     UPDATE_CONFIG = 'UPDATE_CONFIG',
     UPDATE_CONFIG_DEVICE = 'UPDATE_CONFIG_DEVICE',
-    UPDATE_CURRENT_CURRENCY = 'UPDATE_CURRENT_CURRENCY'
+    UPDATE_CURRENT_CURRENCY = 'UPDATE_CURRENT_CURRENCY',
 }
 
 export interface UpdateConfigAction extends AnyAction {

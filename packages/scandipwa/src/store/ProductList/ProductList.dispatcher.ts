@@ -21,7 +21,7 @@ import {
     appendPage,
     updateLoadStatus,
     updatePageLoadingStatus,
-    updateProductListItems
+    updateProductListItems,
 } from 'Store/ProductList/ProductList.action';
 import { NetworkError } from 'Type/Common.type';
 import { QueryDispatcher } from 'Util/Request';
@@ -29,7 +29,7 @@ import { QueryDispatcher } from 'Util/Request';
 import {
     AppendPageAction,
     ProductListDispatcherData,
-    UpdateProductListItemsAction
+    UpdateProductListItemsAction,
 } from './ProductList.type';
 
 /**
@@ -49,14 +49,14 @@ ProductListDispatcherData
     onSuccess(
         data: ProductListDispatcherData,
         dispatch: Dispatch,
-        options: Partial<ProductListOptions>
+        options: Partial<ProductListOptions>,
     ): AppendPageAction | UpdateProductListItemsAction {
         const {
             products: {
                 items = [],
                 total_count = 0,
-                page_info: { total_pages = 0 } = {}
-            } = {}
+                page_info: { total_pages = 0 } = {},
+            } = {},
         } = data;
 
         const { args = {}, isNext } = options;
@@ -66,8 +66,8 @@ ProductListDispatcherData
             return dispatch(
                 appendPage(
                     items,
-                    currentPage
-                )
+                    currentPage,
+                ),
             );
         }
 
@@ -77,8 +77,8 @@ ProductListDispatcherData
                 currentPage,
                 total_count,
                 total_pages,
-                args
-            )
+                args,
+            ),
         );
     }
 
@@ -89,7 +89,7 @@ ProductListDispatcherData
 
     prepareRequest(
         options: Partial<ProductListOptions>,
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ): Query<'products', ProductsQueryOutput> {
         const { isNext } = options;
 

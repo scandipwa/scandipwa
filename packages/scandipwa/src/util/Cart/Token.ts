@@ -24,7 +24,7 @@ export const setCartId = (token: string): void => {
 
     tokens[website_code] = {
         token,
-        isCustomerToken: isSignedIn()
+        isCustomerToken: isSignedIn(),
     };
     BrowserDatabase.setItem(tokens, CART_ID);
 };

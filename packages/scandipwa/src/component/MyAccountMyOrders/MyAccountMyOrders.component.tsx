@@ -21,13 +21,13 @@ import { MyAccountMyOrdersComponentProps, OrderRow } from './MyAccountMyOrders.t
 import './MyAccountMyOrders.style';
 
 /** @namespace Component/MyAccountMyOrders/Component */
-export class MyAccountMyOrders extends Component<MyAccountMyOrdersComponentProps> {
+export class MyAccountMyOrdersComponent extends Component<MyAccountMyOrdersComponentProps> {
     shouldComponentUpdate(nextProps: MyAccountMyOrdersComponentProps): boolean {
         const { device, orderList, isLoading } = this.props;
         const {
             device: nextDevice,
             orderList: nextOrderList,
-            isLoading: nextIsLoading
+            isLoading: nextIsLoading,
         } = nextProps;
 
         return device !== nextDevice || orderList !== nextOrderList || isLoading !== nextIsLoading;
@@ -90,7 +90,7 @@ export class MyAccountMyOrders extends Component<MyAccountMyOrdersComponentProps
 
         return orders.reduceRight(
             (acc: ReactElement[], e: OrderRow) => [...acc, this.renderOrderRow(e)],
-            []
+            [],
         );
     }
 
@@ -99,9 +99,9 @@ export class MyAccountMyOrders extends Component<MyAccountMyOrdersComponentProps
             isLoading,
             orderList: {
                 pageInfo: {
-                    total_pages = 0
-                } = {}
-            }
+                    total_pages = 0,
+                } = {},
+            },
         } = this.props;
 
         return (
@@ -126,4 +126,4 @@ export class MyAccountMyOrders extends Component<MyAccountMyOrdersComponentProps
     }
 }
 
-export default MyAccountMyOrders;
+export default MyAccountMyOrdersComponent;

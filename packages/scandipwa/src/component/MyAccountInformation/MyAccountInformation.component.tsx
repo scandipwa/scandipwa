@@ -20,7 +20,7 @@ import { MyAccountInformationComponentProps } from './MyAccountInformation.type'
 import './MyAccountInformation.style';
 
 /** @namespace Component/MyAccountInformation/Component */
-export class MyAccountInformation extends PureComponent<MyAccountInformationComponentProps> {
+export class MyAccountInformationComponent extends PureComponent<MyAccountInformationComponentProps> {
     renderCustomerForm(): ReactElement {
         const {
             customer,
@@ -28,7 +28,7 @@ export class MyAccountInformation extends PureComponent<MyAccountInformationComp
             showEmailChangeField,
             showPasswordChangeField,
             handleChangeEmailCheckbox,
-            handleChangePasswordCheckbox
+            handleChangePasswordCheckbox,
         } = this.props;
 
         return (
@@ -58,4 +58,4 @@ export class MyAccountInformation extends PureComponent<MyAccountInformationComp
     }
 }
 
-export default MyAccountInformation;
+export default MyAccountInformationComponent;

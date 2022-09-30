@@ -23,15 +23,15 @@ import { SharedWishlistItemComponentProps } from './SharedWishlistItem.type';
 import './SharedWishlistItem.style';
 
 /** @namespace Component/SharedWishlistItem/Component */
-export class SharedWishlistItem extends SourceWishlistItem<SharedWishlistItemComponentProps> {
+export class SharedWishlistItemComponent extends SourceWishlistItem<SharedWishlistItemComponentProps> {
     renderAddToCart(): ReactElement {
         const {
             product,
             product: {
-                id
+                id,
             },
             quantity,
-            changeQuantity
+            changeQuantity,
         } = this.props;
 
         const min = getMinQuantity(product);
@@ -52,16 +52,16 @@ export class SharedWishlistItem extends SourceWishlistItem<SharedWishlistItemCom
                       value: quantity,
                       defaultValue: quantity,
                       min,
-                      max
+                      max,
                   } }
                   events={ {
-                      onChange: changeQuantity
+                      onChange: changeQuantity,
                   } }
                   validationRule={ {
                       range: {
                           min,
-                          max
-                      }
+                          max,
+                      },
                   } }
                   validateOn={ ['onChange'] }
                   mix={ { block: 'WishlistItem', elem: 'Quantity' } }
@@ -93,4 +93,4 @@ export class SharedWishlistItem extends SourceWishlistItem<SharedWishlistItemCom
     }
 }
 
-export default SharedWishlistItem;
+export default SharedWishlistItemComponent;

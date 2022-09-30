@@ -22,7 +22,7 @@ import { ReactElement, Url } from 'Type/Common.type';
 import { encodeBase64 } from 'Util/Base64';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 import {
-    IndexedAttributeWithValue, IndexedProduct, IndexedVariant, StockCheckProduct
+    IndexedAttributeWithValue, IndexedProduct, IndexedVariant, StockCheckProduct,
 } from 'Util/Product/Product.type';
 import { makeCancelable } from 'Util/Promise';
 import { CancelablePromise } from 'Util/Promise/Promise.type';
@@ -36,7 +36,7 @@ import {
     CartItemContainerMapDispatchProps,
     CartItemContainerMapStateProps,
     CartItemContainerProps,
-    CartItemContainerState
+    CartItemContainerState,
 } from './CartItem.type';
 
 export const CartDispatcher = import(
@@ -47,24 +47,24 @@ export const CartDispatcher = import(
 /** @namespace Component/CartItem/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CartItemContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile,
-    cartId: state.CartReducer.cartTotals?.id || ''
+    cartId: state.CartReducer.cartTotals?.id || '',
 });
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CartItemContainerMapDispatchProps => ({
     addProduct: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
     ),
     changeItemQty: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.changeItemQty(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.changeItemQty(dispatch, options),
     ),
     removeProduct: (itemId) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, itemId)
+        ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, itemId),
     ),
     updateCrossSellProducts: (items) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items, dispatch)
+        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items, dispatch),
     ),
-    showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
+    showNotification: (type, title, error) => dispatch(showNotification(type, title, error)),
 });
 
 /** @namespace Component/CartItem/Container */
@@ -75,7 +75,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         isEditing: false,
         cartId: '',
         onCartItemLoading: undefined,
-        showLoader: true
+        showLoader: true,
     };
 
     state: CartItemContainerState = { isLoading: false };
@@ -86,7 +86,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         handleChangeQuantity: this.handleChangeQuantity.bind(this),
         handleRemoveItem: this.handleRemoveItem.bind(this),
         getCurrentProduct: this.getCurrentProduct.bind(this),
-        getProductVariant: this.getProductVariant.bind(this)
+        getProductVariant: this.getProductVariant.bind(this),
     };
 
     __construct(props: CartItemContainerProps): void {
@@ -139,7 +139,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             isEditing,
             isCartOverlay,
             isMobile,
-            showLoader
+            showLoader,
         } = this.props;
         const { isLoading } = this.state;
 
@@ -157,7 +157,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             maxSaleQuantity: getMaxQuantity(this.getCurrentProduct() as IndexedProduct),
             isProductInStock: this.productIsInStock(),
             optionsLabels: this.getConfigurableOptionsLabels(),
-            isMobileLayout: this.getIsMobileLayout()
+            isMobileLayout: this.getIsMobileLayout(),
         };
     }
 
@@ -179,7 +179,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             this.hideLoaderAfterPromise(changeItemQty({
                 uid: encodeBase64(String(id)),
                 quantity,
-                cartId
+                cartId,
             }));
         });
         this.notifyAboutLoadingStateChange(true);
@@ -216,7 +216,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             removeProduct,
             updateCrossSellProducts,
             updateCrossSellsOnRemove,
-            item: { id = 0 }
+            item: { id = 0 },
         } = this.props;
 
         const result = await removeProduct(id);
@@ -253,9 +253,9 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         const {
             item: {
                 product: {
-                    variants = []
-                } = {}
-            }
+                    variants = [],
+                } = {},
+            },
         } = this.props;
 
         return variants[ this._getVariantIndex() ];
@@ -268,8 +268,8 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         const {
             item: {
                 sku: itemSku,
-                product: { variants = [] } = {}
-            }
+                product: { variants = [] } = {},
+            },
         } = this.props;
 
         return variants.findIndex(({ sku }) => sku === itemSku || itemSku?.includes(sku));
@@ -288,15 +288,15 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
                     type_id,
                     configurable_options = {},
                     parent,
-                    url = ''
-                } = {}
-            } = {}
+                    url = '',
+                } = {},
+            } = {},
         } = this.props;
 
         if (type_id !== ProductType.CONFIGURABLE) {
             return {
                 pathname: url,
-                state: { product }
+                state: { product },
             };
         }
 
@@ -307,22 +307,20 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         }
         const { attributes } = variant;
 
-        const parameters = Object.entries(attributes).reduce(
-            (parameters, [code, { attribute_value }]) => {
-                if (Object.keys(configurable_options).includes(code)) {
-                    return { ...parameters, [ code ]: attribute_value };
-                }
+        const parameters = Object.entries(attributes).reduce((parameters, [code, { attribute_value }]) => {
+            if (Object.keys(configurable_options).includes(code)) {
+                return { ...parameters, [ code ]: attribute_value };
+            }
 
-                return parameters;
-            }, {}
-        );
+            return parameters;
+        }, {});
 
         const stateProduct = parent || product;
 
         return {
             pathname: url,
             state: { product: stateProduct },
-            search: objectToUri(parameters)
+            search: objectToUri(parameters),
         };
     }
 
@@ -337,9 +335,9 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         const {
             item: {
                 product: {
-                    configurable_options = {}
-                } = {}
-            }
+                    configurable_options = {},
+                } = {},
+            },
         } = this.props;
 
         const { attribute_code, attribute_value } = attribute;
@@ -352,10 +350,10 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             [ attribute_code ]: { // configurable option attribute
                 attribute_options: {
                     [ attribute_value ]: { // attribute option value label
-                        label
-                    }
-                }
-            }
+                        label,
+                    },
+                },
+            },
         } = configurable_options;
 
         return label;
@@ -366,9 +364,9 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
             item: {
                 configurable_options = [],
                 product: {
-                    variants
-                } = {}
-            } = {}
+                    variants,
+                } = {},
+            } = {},
         } = this.props;
 
         if (!variants || !configurable_options) {

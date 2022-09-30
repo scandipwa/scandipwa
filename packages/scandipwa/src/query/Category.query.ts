@@ -16,7 +16,7 @@ import {
     Category,
     CategoryQueryOptions,
     CategoryTree,
-    CmsBlock
+    CmsBlock,
 } from './Category.type';
 
 /**
@@ -32,7 +32,7 @@ export class CategoryQuery {
         const {
             name,
             type,
-            value
+            value,
         } = this._getConditionalArguments();
 
         return new Query<'category', Category>('category')
@@ -49,7 +49,7 @@ export class CategoryQuery {
             return {
                 name: 'id',
                 type: 'Int!',
-                value: String(categoryIds)
+                value: String(categoryIds),
             };
         }
 
@@ -76,7 +76,7 @@ export class CategoryQuery {
             new Field<'category_name', string>('category_name'),
             new Field<'category_level', number>('category_level'),
             new Field<'category_url', string>('category_url'),
-            new Field<'category_is_active', boolean>('category_is_active')
+            new Field<'category_is_active', boolean>('category_is_active'),
         ];
     }
 
@@ -90,7 +90,7 @@ export class CategoryQuery {
             new Field<'content', string>('content'),
             new Field<'disabled', boolean>('disabled'),
             new Field<'title', string>('title'),
-            new Field<'identifier', string>('identifier')
+            new Field<'identifier', string>('identifier'),
         ];
     }
 
@@ -139,7 +139,7 @@ export class CategoryQuery {
             new Field<'display_mode', string>('display_mode'),
             new Field<'is_anchor', boolean>('is_anchor'),
             this._getCmsBlockField(),
-            this._getBreadcrumbsField()
+            this._getBreadcrumbsField(),
         ];
     }
 }

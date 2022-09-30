@@ -20,7 +20,7 @@ import { OrderPrintPageComponentProps } from './OrderPrintPage.type';
 import './OrderPrintPage.style';
 
 /** @namespace Route/OrderPrintPage/Component */
-export class OrderPrintPage extends PureComponent<OrderPrintPageComponentProps> {
+export class OrderPrintPageComponent extends PureComponent<OrderPrintPageComponentProps> {
     componentDidMount(): void {
         document.body.classList.add(ORDER_PRINT_PAGE_BODY_CLS);
     }
@@ -46,4 +46,4 @@ export class OrderPrintPage extends PureComponent<OrderPrintPageComponentProps> 
     }
 }
 
-export default OrderPrintPage;
+export default OrderPrintPageComponent;

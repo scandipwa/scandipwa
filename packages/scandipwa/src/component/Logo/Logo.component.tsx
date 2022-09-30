@@ -13,7 +13,7 @@
 
 import Image from 'Component/Image/Image.component';
 import {
-    ImageState
+    ImageState,
 } from 'Component/Image/Image.config';
 import { ImageRatio } from 'Component/Image/Image.type';
 import logo from 'Style/icons/logos/mainLogo.svg';
@@ -24,7 +24,7 @@ import { LogoComponentProps } from './Logo.type';
 import './Logo.style';
 
 /** @namespace Component/Logo/Component */
-export class Logo extends Image<LogoComponentProps> {
+export class LogoComponent extends Image<LogoComponentProps> {
     renderPlaceholderLogo(): ReactElement {
         const { onImageLoad } = this.props;
 
@@ -75,4 +75,4 @@ export class Logo extends Image<LogoComponentProps> {
     }
 }
 
-export default Logo;
+export default LogoComponent;

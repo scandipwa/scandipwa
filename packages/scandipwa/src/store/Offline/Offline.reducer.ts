@@ -13,13 +13,13 @@ import { Reducer } from 'redux';
 import {
     OfflineAction,
     OfflineActionType,
-    OfflineStore
+    OfflineStore,
 } from './Offline.type';
 
 /** @namespace Store/Offline/Reducer/getInitialState */
 export const getInitialState = (): OfflineStore => ({
     isOffline: true,
-    isBig: false
+    isBig: false,
 });
 
 /** @namespace Store/Offline/Reducer/OfflineReducer */
@@ -28,7 +28,7 @@ OfflineStore,
 OfflineAction
 > = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     switch (action.type) {
     case OfflineActionType.SHOW_OFFLINE_NOTICE:
@@ -36,14 +36,14 @@ OfflineAction
 
         return {
             ...state,
-            isOffline
+            isOffline,
         };
     case OfflineActionType.SET_BIG_OFFLINE_NOTICE:
         const { isBig } = action;
 
         return {
             ...state,
-            isBig
+            isBig,
         };
     default:
         return state;

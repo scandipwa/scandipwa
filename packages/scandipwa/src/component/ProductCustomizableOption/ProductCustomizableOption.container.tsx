@@ -29,12 +29,12 @@ import {
     ProductCustomizableOptionContainerFunctions,
     ProductCustomizableOptionContainerMapDispatchProps,
     ProductCustomizableOptionContainerMapStateProps,
-    ProductCustomizableOptionContainerProps
+    ProductCustomizableOptionContainerProps,
 } from './ProductCustomizableOption.type';
 
 /** @namespace Component/ProductCustomizableOption/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductCustomizableOptionContainerMapStateProps => ({
-    currencyCode: state.ConfigReducer.currencyData.current_currency_code
+    currencyCode: state.ConfigReducer.currencyData.current_currency_code,
 });
 
 /** @namespace Component/ProductCustomizableOption/Container/mapDispatchToProps */
@@ -47,18 +47,18 @@ export const mapDispatchToProps = (): ProductCustomizableOptionContainerMapDispa
  */
 export class ProductCustomizableOptionContainer extends PureComponent<ProductCustomizableOptionContainerProps> {
     static defaultProps: Partial<ProductCustomizableOptionContainerProps> = {
-        options: []
+        options: [],
     };
 
     containerFunctions: ProductCustomizableOptionContainerFunctions = {
         getDropdownOptions: this.getDropdownOptions.bind(this),
-        updateSelectedValues: this.updateSelectedValues.bind(this)
+        updateSelectedValues: this.updateSelectedValues.bind(this),
     };
 
     getFieldType(): FieldType {
         const { type } = this.props;
         const typeKey = Object.keys(ConfigFieldType).find(
-            (key) => ConfigFieldType[ key as keyof typeof ConfigFieldType ] === type
+            (key) => ConfigFieldType[ key as keyof typeof ConfigFieldType ] === type,
         ) || '';
 
         return FieldType[ typeKey as keyof typeof FieldType ];
@@ -73,7 +73,7 @@ export class ProductCustomizableOptionContainer extends PureComponent<ProductCus
 
         return sortBySortOrder(customizableOptionsToSelectTransform(
             options as CustomizableSelectionValue[],
-            currencyCode
+            currencyCode,
         )) as unknown as IndexedCustomOptionValue[];
     }
 
@@ -102,7 +102,7 @@ export class ProductCustomizableOptionContainer extends PureComponent<ProductCus
             title,
             isRequired,
             type,
-            currencyCode
+            currencyCode,
         } = this.props;
 
         return {
@@ -112,7 +112,7 @@ export class ProductCustomizableOptionContainer extends PureComponent<ProductCus
             type,
             options: nonRequiredRadioOptions(this.getSortedOptions(), isRequired, type),
             currencyCode,
-            fieldType: this.getFieldType()
+            fieldType: this.getFieldType(),
         };
     }
 

@@ -22,17 +22,17 @@ export const getInitialState = (): ProductListStore => ({
     totalPages: 0,
     isLoading: true,
     isPageLoading: false,
-    currentArgs: {}
+    currentArgs: {},
 });
 
 export const defaultConfig = {
-    itemsPerPageCount: 12
+    itemsPerPageCount: 12,
 };
 
 /** @namespace Store/ProductList/Reducer/ProductListReducer */
 export const ProductListReducer: Reducer<ProductListStore, ProductListAction> = (
     state: ProductListStore = getInitialState(),
-    action: ProductListAction
+    action: ProductListAction,
 ) => {
     const {
         type,
@@ -41,7 +41,7 @@ export const ProductListReducer: Reducer<ProductListStore, ProductListAction> = 
         total_count: totalItems,
         currentPage,
         isLoading,
-        args: currentArgs
+        args: currentArgs,
     } = action;
 
     switch (type) {
@@ -51,8 +51,8 @@ export const ProductListReducer: Reducer<ProductListStore, ProductListAction> = 
             isPageLoading: false,
             pages: {
                 ...state.pages,
-                [currentPage]: getIndexedProducts(initialItems)
-            }
+                [currentPage]: getIndexedProducts(initialItems),
+            },
         };
 
     case ProductListActionType.UPDATE_PRODUCT_LIST_ITEMS:
@@ -62,19 +62,19 @@ export const ProductListReducer: Reducer<ProductListStore, ProductListAction> = 
             isLoading: false,
             totalItems,
             totalPages,
-            pages: { [currentPage]: getIndexedProducts(initialItems) }
+            pages: { [currentPage]: getIndexedProducts(initialItems) },
         };
 
     case ProductListActionType.UPDATE_PAGE_LOAD_STATUS:
         return {
             ...state,
-            isPageLoading: true
+            isPageLoading: true,
         };
 
     case ProductListActionType.UPDATE_LOAD_STATUS:
         return {
             ...state,
-            isLoading
+            isLoading,
         };
 
     default:

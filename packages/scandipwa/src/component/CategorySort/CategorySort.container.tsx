@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import CategorySort from './CategorySort.component';
 import {
     CategorySortComponentProps,
-    CategorySortContainerProps, CategorySortField, CategorySortOption, CategorySortOptionLabelMap
+    CategorySortContainerProps, CategorySortField, CategorySortOption, CategorySortOptionLabelMap,
 } from './CategorySort.type';
 
 /** @namespace Component/CategorySort/Container */
@@ -24,7 +24,7 @@ export class CategorySortContainer extends PureComponent<CategorySortContainerPr
     static defaultProps: Partial<CategorySortContainerProps> = {
         sortFields: [],
         isMatchingInfoFilter: false,
-        isCurrentCategoryLoaded: false
+        isCurrentCategoryLoaded: false,
     };
 
     containerProps(): CategorySortComponentProps {
@@ -33,7 +33,7 @@ export class CategorySortContainer extends PureComponent<CategorySortContainerPr
             isMatchingInfoFilter,
             onSortChange,
             sortDirection,
-            sortKey
+            sortKey,
         } = this.props;
 
         return {
@@ -42,7 +42,7 @@ export class CategorySortContainer extends PureComponent<CategorySortContainerPr
             onSortChange,
             sortDirection,
             sortKey,
-            selectOptions: this._prepareOptions()
+            selectOptions: this._prepareOptions(),
         };
     }
 
@@ -58,25 +58,25 @@ export class CategorySortContainer extends PureComponent<CategorySortContainerPr
         case 'name':
             return {
                 asc: __('Name: A to Z', label),
-                desc: __('Name: Z to A', label)
+                desc: __('Name: Z to A', label),
             };
         case 'position':
             return {
-                asc: __('Best match')
+                asc: __('Best match'),
             };
         case 'price':
             return {
                 asc: __('%s: Low to High', label),
-                desc: __('%s: High to Low', label)
+                desc: __('%s: High to Low', label),
             };
         case 'none':
             return {
-                asc: __('Best match')
+                asc: __('Best match'),
             };
         default:
             return {
                 asc: __('%s: Ascending', label),
-                desc: __('%s: Descending', label)
+                desc: __('%s: Descending', label),
             };
         }
     }
@@ -98,7 +98,7 @@ export class CategorySortContainer extends PureComponent<CategorySortContainerPr
                     id: `ASC ${id}`,
                     name: id,
                     value: `ASC ${id}`,
-                    label: asc
+                    label: asc,
                 });
             }
 
@@ -107,7 +107,7 @@ export class CategorySortContainer extends PureComponent<CategorySortContainerPr
                     id: `DESC ${id}`,
                     name: id,
                     value: `DESC ${id}`,
-                    label: desc
+                    label: desc,
                 });
             }
 

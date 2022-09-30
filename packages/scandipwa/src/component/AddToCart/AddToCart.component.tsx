@@ -23,7 +23,7 @@ import './AddToCart.style';
  * @class AddToCart
  * @namespace Component/AddToCart/Component
  */
-export class AddToCart extends PureComponent<AddToCartComponentProps> {
+export class AddToCartComponent extends PureComponent<AddToCartComponentProps> {
     renderCartIcon(): ReactElement {
         const { isIconEnabled } = this.props;
 
@@ -40,7 +40,7 @@ export class AddToCart extends PureComponent<AddToCartComponentProps> {
             layout,
             isDisabled,
             isAdding,
-            handleButtonClick
+            handleButtonClick,
         } = this.props;
 
         return (
@@ -58,4 +58,4 @@ export class AddToCart extends PureComponent<AddToCartComponentProps> {
     }
 }
 
-export default AddToCart;
+export default AddToCartComponent;

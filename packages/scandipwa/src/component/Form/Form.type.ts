@@ -14,7 +14,7 @@ import {
     FormEvent,
     FormHTMLAttributes,
     RefObject,
-    SyntheticEvent
+    SyntheticEvent,
 } from 'react';
 
 import { Children, Mix } from 'Type/Common.type';

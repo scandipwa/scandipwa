@@ -21,14 +21,14 @@ import { ProductConfigurableAttributeDropdownComponentProps } from './ProductCon
 import './ProductConfigurableAttributeDropdown.style';
 
 /** @namespace Component/ProductConfigurableAttributeDropdown/Component */
-export class ProductConfigurableAttributeDropdown extends PureComponent<
+export class ProductConfigurableAttributeDropdownComponent extends PureComponent<
 ProductConfigurableAttributeDropdownComponentProps
 > {
     static defaultProps: Partial<ProductConfigurableAttributeDropdownComponentProps> = {
         selectValue: '',
         selectLabel: 'attribute',
         handleShakeAnimationEnd: noopFn,
-        isUnselected: false
+        isUnselected: false,
     };
 
     render(): ReactElement {
@@ -39,7 +39,7 @@ ProductConfigurableAttributeDropdownComponentProps
             selectLabel,
             onChange,
             handleShakeAnimationEnd,
-            isUnselected
+            isUnselected,
         } = this.props;
 
         return (
@@ -50,10 +50,10 @@ ProductConfigurableAttributeDropdownComponentProps
                   name: selectName,
                   defaultValue: selectValue,
                   selectPlaceholder: __('Choose %s...', selectLabel.toLowerCase()),
-                  onAnimationEnd: handleShakeAnimationEnd
+                  onAnimationEnd: handleShakeAnimationEnd,
               } }
               events={ {
-                  onChange
+                  onChange,
               } }
               mix={ { block: 'ProductConfigurableAttributeDropdown', mods: { isUnselected } } }
               options={ selectOptions }
@@ -63,4 +63,4 @@ ProductConfigurableAttributeDropdownComponentProps
     }
 }
 
-export default ProductConfigurableAttributeDropdown;
+export default ProductConfigurableAttributeDropdownComponent;

@@ -21,7 +21,7 @@ import { TERMS_AND_CONDITIONS_POPUP_ID } from './CheckoutTermsAndConditionsPopup
 import './CheckoutTermsAndConditionsPopup.style';
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Component */
-export class CheckoutTermsAndConditionsPopup extends PureComponent<CheckoutTermsAndConditionsPopupComponentProps> {
+export class CheckoutTermsAndConditionsPopupComponent extends PureComponent<CheckoutTermsAndConditionsPopupComponentProps> {
     renderContent(): ReactElement {
         const { payload: { text = 'No text was passed' } } = this.props;
 
@@ -43,4 +43,4 @@ export class CheckoutTermsAndConditionsPopup extends PureComponent<CheckoutTerms
     }
 }
 
-export default CheckoutTermsAndConditionsPopup;
+export default CheckoutTermsAndConditionsPopupComponent;

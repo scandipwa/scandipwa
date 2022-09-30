@@ -16,5 +16,5 @@ import { PopupActionType, ShowPopupAction } from './Popup.type';
 export const showPopup = <T>(overlayKey: string, payload: T): ShowPopupAction<string, T> => ({
     type: PopupActionType.SHOW_POPUP,
     overlayKey,
-    payload: { [overlayKey]: payload }
+    payload: { [overlayKey]: payload },
 });

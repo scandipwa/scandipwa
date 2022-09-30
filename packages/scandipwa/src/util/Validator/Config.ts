@@ -16,7 +16,7 @@ export enum ValidationInputTypeText {
     ALPHASPACE = 'alphaSpace',
     ALPHANUMERIC = 'alphaNumeric',
     ALPHADASH = 'alphaDash',
-    URL = 'url'
+    URL = 'url',
 }
 
 export enum ValidationInputTypeNumber {
@@ -25,7 +25,7 @@ export enum ValidationInputTypeNumber {
     INTEGER = 'integer',
     DECIMAL = 'decimal',
     NATURAL = 'natural',
-    NATURALNOZERO = 'naturalNoZero'
+    NATURALNOZERO = 'naturalNoZero',
 }
 
 export enum ValidationInputTypeInput {
@@ -33,13 +33,13 @@ export enum ValidationInputTypeInput {
     PASSWORD = 'password',
     DATE = 'date',
     PHONE = 'phone',
-    EMAILLIST = 'emailList'
+    EMAILLIST = 'emailList',
 }
 
 export const ValidationInputType = {
     ...ValidationInputTypeInput,
     ...ValidationInputTypeNumber,
-    ...ValidationInputTypeText
+    ...ValidationInputTypeText,
 };
 
 export const VALIDATION_MESSAGES = {
@@ -66,7 +66,7 @@ export const VALIDATION_MESSAGES = {
     [ValidationInputType.EMAILLIST]: __('Incorrect list of emails!'),
     [ValidationInputType.DATE]: __('Incorrect date input!'),
     [ValidationInputType.PASSWORD]: __('Incorrect password input!'),
-    [ValidationInputType.PHONE]: __('Incorrect phone input!')
+    [ValidationInputType.PHONE]: __('Incorrect phone input!'),
     //#endregion
 };
 
@@ -92,5 +92,5 @@ export const VALIDATION_RULES = {
     [ValidationInputType.DATE]: /\d{4}-\d{1,2}-\d{1,2}/,
     [ValidationInputType.PHONE]: /^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/im,
     // eslint-disable-next-line max-len
-    [ValidationInputType.EMAILLIST]: /^(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+([,\s]+(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$/
+    [ValidationInputType.EMAILLIST]: /^(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+([,\s]+(([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$/,
 };

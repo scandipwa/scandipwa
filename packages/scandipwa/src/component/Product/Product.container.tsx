@@ -29,7 +29,7 @@ import {
     getMinQuantity,
     getName,
     getPrice,
-    getProductInStock
+    getProductInStock,
 } from 'Util/Product/Extract';
 import { IndexedProduct, ProductTransformData } from 'Util/Product/Product.type';
 import { magentoProductTransform, transformParameters } from 'Util/Product/Transform';
@@ -47,7 +47,7 @@ import {
     ProductContainerProps,
     ProductContainerState,
     ProductOption,
-    ProductQuantity
+    ProductQuantity,
 } from './Product.type';
 
 export const CartDispatcher = import(
@@ -58,16 +58,16 @@ export const CartDispatcher = import(
 /** @namespace Component/Product/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductContainerMapDispatchProps => ({
     addProductToCart: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
     ),
-    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message))
+    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
 });
 
 /** @namespace Component/Product/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductContainerMapStateProps => ({
     cartId: state.CartReducer.cartTotals.id || '',
     device: state.ConfigReducer.device,
-    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
 });
 
 /**
@@ -78,14 +78,14 @@ export const mapStateToProps = (state: RootState): ProductContainerMapStateProps
 */
 export class ProductContainer<
 P extends ProductContainerProps = ProductContainerProps,
-S extends ProductContainerState = ProductContainerState
+S extends ProductContainerState = ProductContainerState,
 > extends PureComponent <P, S> {
     static defaultProps: Partial<ProductContainerProps> = {
         configFormRef: createRef<HTMLFormElement>(),
         parameters: {},
         defaultSelectedOptions: [],
         defaultEnteredOptions: [],
-        cartId: ''
+        cartId: '',
     };
 
     containerFunctions: ProductContainerFunctions = {
@@ -102,7 +102,7 @@ S extends ProductContainerState = ProductContainerState
         getMagentoProduct: this.getMagentoProduct.bind(this),
         setValidator: this.setValidator.bind(this),
         scrollOptionsIntoView: this.scrollOptionsIntoView.bind(this),
-        updateAddToCartTriggeredWithError: this.updateAddToCartTriggeredWithError.bind(this)
+        updateAddToCartTriggeredWithError: this.updateAddToCartTriggeredWithError.bind(this),
     };
 
     validator: HTMLElement | null = null;
@@ -135,13 +135,13 @@ S extends ProductContainerState = ProductContainerState
             parameters,
             unselectedOptions: [],
             currentProductSKU: '',
-            activeProduct: null
+            activeProduct: null,
         };
     }
 
     static getDerivedStateFromProps(
         props: ProductContainerProps,
-        state: ProductContainerState
+        state: ProductContainerState,
     ): { quantity: ProductQuantity } | null {
         const { quantity: quantityState } = state;
         const quantity = ProductContainer.getDefaultQuantity(props, state);
@@ -156,7 +156,7 @@ S extends ProductContainerState = ProductContainerState
     // eslint-disable-next-line react/sort-comp
     static getDefaultQuantity(
         props: ProductContainerProps,
-        state: ProductContainerState
+        state: ProductContainerState,
     ): ProductQuantity | null {
         const { quantity, selectedProduct } = state;
         const { product, product: { type_id: typeId } = {} } = props;
@@ -191,17 +191,17 @@ S extends ProductContainerState = ProductContainerState
 
     componentDidUpdate(
         prevProps: ProductContainerProps,
-        prevState: ProductContainerState
+        prevState: ProductContainerState,
     ): void {
         const {
             enteredOptions,
             selectedOptions,
-            downloadableLinks
+            downloadableLinks,
         } = this.state;
         const {
             enteredOptions: prevEnteredOptions,
             selectedOptions: prevSelectedOptions,
-            downloadableLinks: prevDownloadableLinks
+            downloadableLinks: prevDownloadableLinks,
         } = prevState;
 
         if (
@@ -232,14 +232,14 @@ S extends ProductContainerState = ProductContainerState
             parameters,
             adjustedPrice,
             unselectedOptions,
-            addToCartTriggeredWithError
+            addToCartTriggeredWithError,
         } = this.state;
         const {
             product,
             product: { options = [] } = {},
             configFormRef,
             device,
-            isWishlistEnabled
+            isWishlistEnabled,
         } = this.props;
 
         const activeProduct = this.getActiveProduct();
@@ -247,7 +247,7 @@ S extends ProductContainerState = ProductContainerState
         const {
             price_range: priceRange = {},
             dynamic_price: dynamicPrice = false,
-            type_id: type
+            type_id: type,
         } = activeProduct || {};
 
         const output = {
@@ -255,7 +255,7 @@ S extends ProductContainerState = ProductContainerState
             maxQuantity: getMaxQuantity(activeProduct),
             minQuantity: getMinQuantity(activeProduct),
             productName: getName(product),
-            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type, options])
+            productPrice: fromCache(getPrice, [priceRange, dynamicPrice, adjustedPrice, type, options]),
         };
 
         return {
@@ -268,7 +268,7 @@ S extends ProductContainerState = ProductContainerState
             device,
             magentoProduct,
             addToCartTriggeredWithError,
-            ...output
+            ...output,
         };
     }
 
@@ -280,7 +280,7 @@ S extends ProductContainerState = ProductContainerState
 
     setDefaultProductOptions<T>(
         keyProp: 'defaultEnteredOptions' | 'defaultSelectedOptions',
-        keyState: 'enteredOptions' | 'selectedOptions'
+        keyState: 'enteredOptions' | 'selectedOptions',
     ): T {
         const { [keyProp]: value } = this.props;
 
@@ -289,7 +289,7 @@ S extends ProductContainerState = ProductContainerState
                 { [keyState]: value || [] } as unknown as ProductContainerState,
                 () => {
                     this.updateAdjustedPrice();
-                }
+                },
             );
         }
 
@@ -315,14 +315,14 @@ S extends ProductContainerState = ProductContainerState
         if (uid && value) {
             enteredOptions.push({
                 uid,
-                value
+                value,
             });
         }
 
         const values = getFieldsData(current, true, [FieldType.NUMBER_WITH_CONTROLS]);
 
         (values as FieldData[])?.forEach(({
-            field, name, value, type
+            field, name, value, type,
         }) => {
             if (type === FieldType.SELECT) {
                 selectedOptions.push(String(value));
@@ -333,19 +333,19 @@ S extends ProductContainerState = ProductContainerState
             } else if (type !== FieldType.NUMBER_WITH_CONTROLS && type !== FieldType.FILE) {
                 enteredOptions.push({
                     uid: name,
-                    value: String(value)
+                    value: String(value),
                 });
             } else if (type === FieldType.FILE && field?.value) {
                 enteredOptions.push({
                     uid: name,
-                    value: String(value)
+                    value: String(value),
                 });
             }
         });
 
         this.setState({
             enteredOptions,
-            selectedOptions
+            selectedOptions,
         });
     }
 
@@ -360,7 +360,7 @@ S extends ProductContainerState = ProductContainerState
             product,
             downloadableLinks,
             enteredOptions,
-            selectedOptions
+            selectedOptions,
         );
 
         this.setState({ adjustedPrice });
@@ -372,8 +372,8 @@ S extends ProductContainerState = ProductContainerState
         this.setState({
             adjustedPrice: {
                 ...adjustedPrice,
-                [ type ]: amount
-            }
+                [ type ]: amount,
+            },
         });
     }
 
@@ -383,7 +383,7 @@ S extends ProductContainerState = ProductContainerState
     */
     validateConfigurableProduct(): boolean {
         const {
-            parameters
+            parameters,
         } = this.state;
 
         const { product: { configurable_options = {} } } = this.props;
@@ -445,7 +445,7 @@ S extends ProductContainerState = ProductContainerState
                     if (error) {
                         showError(error);
                     }
-                }
+                },
             );
     }
 
@@ -463,7 +463,7 @@ S extends ProductContainerState = ProductContainerState
         const {
             errorMessages = [],
             errorFields = [],
-            values = []
+            values = [],
         } = validationOutput !== true ? validationOutput : {};
         const { showError } = this.props;
 
@@ -500,7 +500,7 @@ S extends ProductContainerState = ProductContainerState
     updateConfigurableVariant(
         key: string,
         value: ConfigurableProductSelectedVariantValue,
-        checkEmptyValue = false
+        checkEmptyValue = false,
     ): void {
         const { parameters: prevParameters } = this.state;
 
@@ -524,7 +524,7 @@ S extends ProductContainerState = ProductContainerState
         if (newProduct !== selectedProduct) {
             this.setState({
                 selectedProduct: newProduct,
-                parameters
+                parameters,
             });
         }
     }
@@ -551,7 +551,7 @@ S extends ProductContainerState = ProductContainerState
      */
     setStateOptions(
         type: keyof ProductContainerState,
-        options: ProductContainerState[keyof ProductContainerState]
+        options: ProductContainerState[keyof ProductContainerState],
     ): void {
         this.setState({ [ type ]: options } as unknown as ProductContainerState);
     }
@@ -566,7 +566,7 @@ S extends ProductContainerState = ProductContainerState
             enteredOptions,
             selectedOptions,
             downloadableLinks,
-            parameters
+            parameters,
         } = this.state;
 
         const { product, product: { attributes = {} } } = this.props;
@@ -600,5 +600,5 @@ S extends ProductContainerState = ProductContainerState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    ProductContainer as unknown as ComponentType<ProductContainerProps>
+    ProductContainer as unknown as ComponentType<ProductContainerProps>,
 );

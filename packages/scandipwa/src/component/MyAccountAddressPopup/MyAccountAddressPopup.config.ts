@@ -13,11 +13,11 @@ export enum MyAccountAddressPopupAction {
     ADDRESS_POPUP_ID = 'MyAccountAddressPopup',
     EDIT_ADDRESS = 'EDIT_ADDRESS',
     DELETE_ADDRESS = 'DELETE_ADDRESS',
-    ADD_ADDRESS = 'ADD_ADDRESS'
+    ADD_ADDRESS = 'ADD_ADDRESS',
 }
 
 export enum MyAccountAddressAfterActionOperation {
     EDITED = 'edited',
     DELETED = 'deleted',
-    SAVED = 'saved'
+    SAVED = 'saved',
 }

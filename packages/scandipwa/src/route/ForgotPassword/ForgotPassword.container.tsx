@@ -18,7 +18,7 @@ import { Page } from 'Component/Header/Header.config';
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps,
-    MyAccountOverlayContainer
+    MyAccountOverlayContainer,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
@@ -31,13 +31,13 @@ import ForgotPassword from './ForgotPassword.component';
 import {
     ForgotPasswordContainerFunctions,
     ForgotPasswordContainerMapDispatchProps,
-    ForgotPasswordContainerProps
+    ForgotPasswordContainerProps,
 } from './ForgotPassword.type';
 
 /** @namespace Route/ForgotPassword/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ForgotPasswordContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
-    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible))
+    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
 });
 
 /** @namespace Route/ForgotPassword/Container */
@@ -45,7 +45,7 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer<ForgotPas
     containerFunctions: ForgotPasswordContainerFunctions = {
         ...this.containerFunctions,
         onLoginClick: this.onLoginClick.bind(this),
-        onCreateAccountClick: this.onCreateAccountClick.bind(this)
+        onCreateAccountClick: this.onCreateAccountClick.bind(this),
     };
 
     componentDidMount(): void {
@@ -58,7 +58,7 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer<ForgotPas
             onBackClick: (e) => {
                 history.push({ pathname: appendWithStoreCode(`${AccountPageUrl.LOGIN_URL}`) });
                 this.handleSignIn(e);
-            }
+            },
         });
         scrollToTop({ behavior: 'smooth' });
     }
@@ -83,7 +83,7 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer<ForgotPas
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(
-    ForgotPasswordContainer as unknown as ComponentType<ForgotPasswordContainerProps>
+    ForgotPasswordContainer as unknown as ComponentType<ForgotPasswordContainerProps>,
 );

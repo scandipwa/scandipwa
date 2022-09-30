@@ -16,7 +16,7 @@ import {
     Children,
     Mix,
     Mods,
-    Url
+    Url,
 } from 'Type/Common.type';
 
 export interface LinkContainerMapStateProps {

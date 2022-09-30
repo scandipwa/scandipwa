@@ -25,13 +25,13 @@ import Menu from './Menu.component';
 import {
     MenuComponentProps,
     MenuContainerFunctions,
-    MenuContainerMapDispatchProps, MenuContainerMapStateProps, MenuContainerProps, MenuContainerState
+    MenuContainerMapDispatchProps, MenuContainerMapStateProps, MenuContainerProps, MenuContainerState,
 } from './Menu.type';
 
 /** @namespace Component/Menu/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MenuContainerMapStateProps => ({
     device: state.ConfigReducer.device,
-    compareTotals: state.ProductCompareReducer.count
+    compareTotals: state.ProductCompareReducer.count,
 });
 
 /** @namespace Component/Menu/Container/mapDispatchToProps */
@@ -42,19 +42,19 @@ export class MenuContainer extends DataContainer<MenuContainerProps, MenuContain
     containerFunctions: MenuContainerFunctions = {
         handleSubcategoryClick: this.handleSubcategoryClick.bind(this),
         closeMenu: this.closeMenu.bind(this),
-        onCategoryHover: this.onCategoryHover.bind(this)
+        onCategoryHover: this.onCategoryHover.bind(this),
     };
 
     __construct(props: MenuContainerProps): void {
         super.__construct(props, 'MenuContainer');
 
         const {
-            stack: activeMenuItemsStack = []
+            stack: activeMenuItemsStack = [],
         } = (history.location.state || {}) as { stack: string[] };
 
         this.state = {
             activeMenuItemsStack,
-            menu: {}
+            menu: {},
         };
     }
 
@@ -83,7 +83,7 @@ export class MenuContainer extends DataContainer<MenuContainerProps, MenuContain
     containerProps(): Pick<MenuComponentProps, 'activeMenuItemsStack' | 'menu' | 'device' | 'compareTotals'> {
         const {
             device,
-            compareTotals
+            compareTotals,
         } = this.props;
         const { activeMenuItemsStack, menu } = this.state;
 
@@ -91,19 +91,19 @@ export class MenuContainer extends DataContainer<MenuContainerProps, MenuContain
             activeMenuItemsStack,
             menu,
             device,
-            compareTotals
+            compareTotals,
         };
     }
 
     _getMenuOptions(): { identifier: string } {
         const {
             header_content: {
-                header_menu = ''
-            } = {}
+                header_menu = '',
+            } = {},
         } = window.contentConfiguration || {};
 
         return {
-            identifier: header_menu || 'new-main-menu'
+            identifier: header_menu || 'new-main-menu',
         };
     }
 
@@ -111,8 +111,8 @@ export class MenuContainer extends DataContainer<MenuContainerProps, MenuContain
         this.fetchData<{ menu: MenuData }>(
             [MenuQuery.getQuery(this._getMenuOptions())],
             ({ menu }) => this.setState({
-                menu: MenuHelper.reduce(menu)
-            })
+                menu: MenuHelper.reduce(menu),
+            }),
         );
     }
 

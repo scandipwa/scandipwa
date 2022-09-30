@@ -26,14 +26,14 @@ import {
     DateSelectContainerMapDispatchProps,
     DateSelectContainerMapStateProps,
     DateSelectContainerProps,
-    DateSelectContainerState
+    DateSelectContainerState,
 } from './DateSelect.type';
 
 /** @namespace Component/DateSelect/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): DateSelectContainerMapStateProps => ({
     yearRange: state.ConfigReducer.year_range,
     dateFieldsOrder: state.ConfigReducer.date_fields_order,
-    timeFormat: state.ConfigReducer.time_format
+    timeFormat: state.ConfigReducer.time_format,
 });
 
 /** @namespace Component/DateSelect/Container/mapDispatchToProps */
@@ -45,7 +45,7 @@ DateSelectContainerProps,
 DateSelectContainerState
 > {
     static defaultProps: Partial<DateSelectContainerProps> = {
-        isRequired: false
+        isRequired: false,
     };
 
     containerFunctions: DateSelectContainerFunctions = {
@@ -54,7 +54,7 @@ DateSelectContainerState
         onSetDay: this.onSetDay.bind(this),
         onSetHours: this.onSetHours.bind(this),
         onSetMinutes: this.onSetMinutes.bind(this),
-        onSetAMPM: this.onSetAMPM.bind(this)
+        onSetAMPM: this.onSetAMPM.bind(this),
     };
 
     __construct(props: DateSelectContainerProps): void {
@@ -81,7 +81,7 @@ DateSelectContainerState
             selectedHours,
             selectedMinutes,
             selectedAMPM,
-            maxDay: DEFAULT_MONTH_DAYS
+            maxDay: DEFAULT_MONTH_DAYS,
         };
     }
 
@@ -93,7 +93,7 @@ DateSelectContainerState
             selectedHours,
             selectedMinutes,
             selectedAMPM,
-            maxDay
+            maxDay,
         } = this.state;
 
         const {
@@ -102,7 +102,7 @@ DateSelectContainerState
             timeFormat,
             dateFieldsOrder,
             uid,
-            isRequired
+            isRequired,
         } = this.props;
 
         const showTimeSelect = type === FieldDateType.DATETIME || type === FieldDateType.TIME;
@@ -123,7 +123,7 @@ DateSelectContainerState
             timeFormat,
             uid,
             isRequired,
-            type
+            type,
         };
     }
 

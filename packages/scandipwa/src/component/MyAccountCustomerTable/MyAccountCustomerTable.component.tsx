@@ -17,7 +17,7 @@ import { ReactElement } from 'Type/Common.type';
 import { MyAccountCustomerTableComponentProps } from './MyAccountCustomerTable.type';
 
 /** @namespace Component/MyAccountCustomerTable/Component */
-export class MyAccountCustomerTable extends KeyValueTable<MyAccountCustomerTableComponentProps> {
+export class MyAccountCustomerTableComponent extends KeyValueTable<MyAccountCustomerTableComponentProps> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     dataPairArray(): DataPair<Partial<Customer>>[] {
@@ -27,23 +27,23 @@ export class MyAccountCustomerTable extends KeyValueTable<MyAccountCustomerTable
             {
                 key: 'firstname',
                 label: __('First name'),
-                source: customer
+                source: customer,
             },
             {
                 key: 'lastname',
                 label: __('Last name'),
-                source: customer
+                source: customer,
             },
             {
                 key: 'taxvat',
                 label: __('Tax/VAT Number'),
-                source: customer
+                source: customer,
             },
             {
                 key: 'email',
                 label: __('Email'),
-                source: customer
-            }
+                source: customer,
+            },
         ];
     }
 
@@ -80,4 +80,4 @@ export class MyAccountCustomerTable extends KeyValueTable<MyAccountCustomerTable
     }
 }
 
-export default MyAccountCustomerTable;
+export default MyAccountCustomerTableComponent;

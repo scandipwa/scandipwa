@@ -18,9 +18,9 @@ import { MinusIconComponentProps } from './MinusIcon.type';
 import './MinusIcon.style';
 
 /** @namespace Component/MinusIcon/Component */
-export class MinusIcon extends PureComponent<MinusIconComponentProps> {
+export class MinusIconComponent extends PureComponent<MinusIconComponentProps> {
     static defaultProps: Partial<MinusIconComponentProps> = {
-        isPrimary: false
+        isPrimary: false,
     };
 
     render(): ReactElement {
@@ -42,4 +42,4 @@ export class MinusIcon extends PureComponent<MinusIconComponentProps> {
     }
 }
 
-export default MinusIcon;
+export default MinusIconComponent;

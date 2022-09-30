@@ -18,7 +18,7 @@ import { SliderContainerMapDispatchProps, SliderContainerMapStateProps } from '.
 
 /** @namespace Component/Slider/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): SliderContainerMapStateProps => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/Slider/Container/mapDispatchToProps */

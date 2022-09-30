@@ -12,7 +12,7 @@
 import { AnyAction } from 'redux';
 
 export enum NewsletterSubscriptionActionType {
-    SUBSCRIBE_TO_NEWSLETTER = 'SUBSCRIBE_TO_NEWSLETTER'
+    SUBSCRIBE_TO_NEWSLETTER = 'SUBSCRIBE_TO_NEWSLETTER',
 }
 
 export interface SubscribeToNewsletterAction extends AnyAction {

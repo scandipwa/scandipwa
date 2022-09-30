@@ -20,7 +20,7 @@ import { MyAccountOrderTabsComponentProps } from './MyAccountOrderTabs.type';
 import './MyAccountOrderTabs.style';
 
 /** @namespace Component/MyAccountOrderTabs/Component */
-export class MyAccountOrderTabs extends PureComponent<MyAccountOrderTabsComponentProps> {
+export class MyAccountOrderTabsComponent extends PureComponent<MyAccountOrderTabsComponentProps> {
     renderTab(item: OrderTab, i: number): ReactElement {
         const { handleChangeActiveTab, activeTab } = this.props;
         const { title, tabName } = item;
@@ -58,4 +58,4 @@ export class MyAccountOrderTabs extends PureComponent<MyAccountOrderTabsComponen
     }
 }
 
-export default MyAccountOrderTabs;
+export default MyAccountOrderTabsComponent;

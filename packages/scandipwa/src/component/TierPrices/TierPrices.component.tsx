@@ -23,35 +23,35 @@ import { TierPricesComponentProps } from './TierPrices.type';
 import './TierPrices.style';
 
 /** @namespace Component/TierPrices/Component */
-export class TierPrices extends PureComponent<TierPricesComponentProps> {
+export class TierPricesComponent extends PureComponent<TierPricesComponentProps> {
     static defaultProps: Partial<TierPricesComponentProps> = {
-        isLowestPrice: false
+        isLowestPrice: false,
     };
 
     renderDetailedTierPrice({
         discount: {
-            percent_off: tierDiscount
+            percent_off: tierDiscount,
         },
         final_price: {
             value,
-            currency
+            currency,
         },
-        quantity
+        quantity,
     }: TierPrice): ReactElement {
         const {
             product: {
                 price_range: {
                     minimum_price: {
                         final_price: {
-                            value: minPriceForOneUnit = 0
+                            value: minPriceForOneUnit = 0,
                         } = {},
                         discount: {
-                            percent_off: discountForOneUnit = 0
-                        } = {}
-                    } = {}
+                            percent_off: discountForOneUnit = 0,
+                        } = {},
+                    } = {},
                 } = {},
-                type_id
-            }
+                type_id,
+            },
         } = this.props;
 
         // Don't show offers that make no sense
@@ -82,12 +82,12 @@ export class TierPrices extends PureComponent<TierPricesComponentProps> {
                 { __(
                     'Buy %s for %s each and ',
                     quantity,
-                    formattedPrice
+                    formattedPrice,
                 ) }
                 <strong>
                     { __(
                         'save %s%',
-                        Math.round(percentOff)
+                        Math.round(percentOff),
                     ) }
                 </strong>
             </>
@@ -99,7 +99,7 @@ export class TierPrices extends PureComponent<TierPricesComponentProps> {
             <>
                 { __(
                     'Buy %s with ',
-                    quantity
+                    quantity,
                 ) }
                 <strong>
                     { Math.round(percentOff) }
@@ -117,11 +117,11 @@ export class TierPrices extends PureComponent<TierPricesComponentProps> {
                 price_range: {
                     minimum_price: {
                         final_price: {
-                            currency = GQLCurrencyEnum.USD
-                        } = {}
-                    } = {}
-                } = {}
-            } = {}
+                            currency = GQLCurrencyEnum.USD,
+                        } = {},
+                    } = {},
+                } = {},
+            } = {},
         } = this.props;
 
         const formattedPrice = getLowestPriceTiersPrice(price_tiers, currency);
@@ -167,4 +167,4 @@ export class TierPrices extends PureComponent<TierPricesComponentProps> {
     }
 }
 
-export default TierPrices;
+export default TierPricesComponent;

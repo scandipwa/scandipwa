@@ -19,10 +19,10 @@ import { ProductTabComponentProps } from './ProductTab.type';
 import './ProductTab.style';
 
 /** @namespace Component/ProductTab/Component */
-export class ProductTab extends PureComponent<ProductTabComponentProps> {
+export class ProductTabComponent extends PureComponent<ProductTabComponentProps> {
     static defaultProps: Partial<ProductTabComponentProps> = {
         onClick: noopFn,
-        isActive: false
+        isActive: false,
     };
 
     __construct(props: ProductTabComponentProps): void {
@@ -57,4 +57,4 @@ export class ProductTab extends PureComponent<ProductTabComponentProps> {
     }
 }
 
-export default ProductTab;
+export default ProductTabComponent;

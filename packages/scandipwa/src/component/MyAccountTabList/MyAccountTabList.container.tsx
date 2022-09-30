@@ -24,7 +24,7 @@ import {
     MyAccountTabListContainerFunctions,
     MyAccountTabListContainerMapStateProps,
     MyAccountTabListContainerProps,
-    MyAccountTabListContainerState
+    MyAccountTabListContainerState,
 } from './MyAccountTabList.type';
 
 export const MyAccountDispatcher = import(
@@ -38,8 +38,8 @@ export const mapStateToProps = (): MyAccountTabListContainerMapStateProps => ({}
 /** @namespace Component/MyAccountTabList/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountTabListContainerDispatchProps => ({
     logout: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.logout(false, true, dispatch)
-    )
+        ({ default: dispatcher }) => dispatcher.logout(false, true, dispatch),
+    ),
 });
 
 /** @namespace Component/MyAccountTabList/Container */
@@ -48,30 +48,30 @@ MyAccountTabListContainerProps,
 MyAccountTabListContainerState
 > {
     static defaultProps: Partial<MyAccountTabListContainerProps> = {
-        onSignOut: noopFn
+        onSignOut: noopFn,
     };
 
     state: MyAccountTabListContainerState = {
-        isContentExpanded: false
+        isContentExpanded: false,
     };
 
     containerFunctions: MyAccountTabListContainerFunctions = {
         handleLogout: this.handleLogout.bind(this),
         onTabClick: this.onTabClick.bind(this),
-        toggleExpandableContent: this.toggleExpandableContent.bind(this)
+        toggleExpandableContent: this.toggleExpandableContent.bind(this),
     };
 
     containerProps(): Pick<MyAccountTabListComponentProps, 'tabMap' | 'activeTab' | 'isContentExpanded'> {
         const {
             tabMap,
-            activeTab
+            activeTab,
         } = this.props;
         const { isContentExpanded } = this.state;
 
         return {
             tabMap,
             activeTab,
-            isContentExpanded
+            isContentExpanded,
         };
     }
 

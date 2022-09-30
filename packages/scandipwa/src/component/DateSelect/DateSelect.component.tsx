@@ -17,7 +17,7 @@ import {
     DEFAULT_MONTH_DAYS,
     HourFormat,
     MINUTES_COUNT,
-    MONTHS_COUNT
+    MONTHS_COUNT,
 } from 'Component/DateSelect/DateSelect.config';
 import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
@@ -35,7 +35,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
     dateMap: DateSelectComponentDateMap = {
         d: this.renderDay.bind(this),
         m: this.renderMonth.bind(this),
-        y: this.renderYear.bind(this)
+        y: this.renderYear.bind(this),
     };
 
     getYearOptions(): OptionShape[] {
@@ -69,7 +69,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
         return hoursRange.map((hours) => ({
             id: String(hours),
             value: zeroBasedValue(hours),
-            label: zeroBasedValue(hours)
+            label: zeroBasedValue(hours),
         }));
     }
 
@@ -79,7 +79,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
         return minutesRange.map((minutes) => ({
             id: String(minutes),
             value: zeroBasedValue(minutes),
-            label: zeroBasedValue(minutes)
+            label: zeroBasedValue(minutes),
         }));
     }
 
@@ -89,7 +89,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
         return ampmRange.map((option) => ({
             id: option.toString(),
             value: option.toString(),
-            label: option.toString()
+            label: option.toString(),
         }));
     }
 
@@ -99,7 +99,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
             isRequired,
             type,
             selectedYear,
-            onSetYear
+            onSetYear,
         } = this.props;
 
         return (
@@ -112,16 +112,16 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
                   selectPlaceholder: __('Year'),
                   value: selectedYear,
                   [DateFieldAttr.TYPE]: type,
-                  [DateFieldAttr.NAME]: 'year'
+                  [DateFieldAttr.NAME]: 'year',
               } }
               key={ `${type}-year-${ uid }` }
               options={ this.getYearOptions() }
               mix={ { block: 'DateSelect', elem: 'Year' } }
               events={ {
-                  onChange: onSetYear
+                  onChange: onSetYear,
               } }
               validationRule={ {
-                  isRequired
+                  isRequired,
               } }
               validateOn={ ['onChange'] }
             />
@@ -134,7 +134,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
             isRequired,
             type,
             selectedMonth,
-            onSetMonth
+            onSetMonth,
         } = this.props;
 
         return (
@@ -147,16 +147,16 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
                   selectPlaceholder: __('Month'),
                   value: selectedMonth,
                   [DateFieldAttr.TYPE]: type,
-                  [DateFieldAttr.NAME]: 'month'
+                  [DateFieldAttr.NAME]: 'month',
               } }
               key={ `${type}-month-${ uid }` }
               options={ this.getMonthOptions() }
               mix={ { block: 'DateSelect', elem: 'Month' } }
               events={ {
-                  onChange: onSetMonth
+                  onChange: onSetMonth,
               } }
               validationRule={ {
-                  isRequired
+                  isRequired,
               } }
               validateOn={ ['onChange'] }
             />
@@ -169,7 +169,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
             uid,
             isRequired,
             type,
-            selectedDay
+            selectedDay,
         } = this.props;
 
         return (
@@ -182,16 +182,16 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
                   selectPlaceholder: __('Day'),
                   value: selectedDay,
                   [DateFieldAttr.TYPE]: type,
-                  [DateFieldAttr.NAME]: 'day'
+                  [DateFieldAttr.NAME]: 'day',
               } }
               key={ `${type}-day-${ uid }` }
               options={ this.getDayOptions() }
               mix={ { block: 'DateSelect', elem: 'Day' } }
               events={ {
-                  onChange: onSetDay
+                  onChange: onSetDay,
               } }
               validationRule={ {
-                  isRequired
+                  isRequired,
               } }
               validateOn={ ['onChange'] }
             />
@@ -204,7 +204,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
             uid,
             isRequired,
             type,
-            selectedHours
+            selectedHours,
         } = this.props;
 
         return (
@@ -217,16 +217,16 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
                   selectPlaceholder: __('Hours'),
                   value: selectedHours,
                   [DateFieldAttr.TYPE]: type,
-                  [DateFieldAttr.NAME]: 'hours'
+                  [DateFieldAttr.NAME]: 'hours',
               } }
               key={ `${type}-hours-${ uid }` }
               options={ this.getHoursOptions() }
               mix={ { block: 'DateSelect', elem: 'Hours' } }
               events={ {
-                  onChange: onSetHours
+                  onChange: onSetHours,
               } }
               validationRule={ {
-                  isRequired
+                  isRequired,
               } }
               validateOn={ ['onChange'] }
             />
@@ -239,7 +239,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
             uid,
             isRequired,
             type,
-            selectedMinutes
+            selectedMinutes,
         } = this.props;
 
         return (
@@ -252,16 +252,16 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
                   selectPlaceholder: __('Minutes'),
                   value: selectedMinutes,
                   [DateFieldAttr.TYPE]: type,
-                  [DateFieldAttr.NAME]: 'minutes'
+                  [DateFieldAttr.NAME]: 'minutes',
               } }
               key={ `${type}-minutes-${ uid }` }
               options={ this.getMinutesOptions() }
               mix={ { block: 'DateSelect', elem: 'Minutes' } }
               events={ {
-                  onChange: onSetMinutes
+                  onChange: onSetMinutes,
               } }
               validationRule={ {
-                  isRequired
+                  isRequired,
               } }
               validateOn={ ['onChange'] }
             />
@@ -275,7 +275,7 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
             isRequired,
             type,
             selectedAMPM,
-            timeFormat
+            timeFormat,
         } = this.props;
 
         if (timeFormat !== TimeFormat.H12) {
@@ -292,15 +292,15 @@ export class DateSelectComponent extends PureComponent<DateSelectComponentProps>
                   value: selectedAMPM,
                   noPlaceholder: true,
                   [DateFieldAttr.TYPE]: type,
-                  [DateFieldAttr.NAME]: 'ampm'
+                  [DateFieldAttr.NAME]: 'ampm',
               } }
               options={ this.getAMPMOptions() }
               mix={ { block: 'DateSelect', elem: 'AMPM' } }
               events={ {
-                  onChange: onSetAMPM
+                  onChange: onSetAMPM,
               } }
               validationRule={ {
-                  isRequired
+                  isRequired,
               } }
               validateOn={ ['onChange'] }
             />

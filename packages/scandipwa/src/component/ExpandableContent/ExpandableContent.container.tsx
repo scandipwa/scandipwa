@@ -16,12 +16,12 @@ import { RootState } from 'Util/Store/Store.type';
 import ExpandableContent from './ExpandableContent.component';
 import {
     ExpandableContentContainerDispatchProps,
-    ExpandableContentContainerMapStateProps
+    ExpandableContentContainerMapStateProps,
 } from './ExpandableContent.type';
 
 /** @namespace Component/ExpandableContent/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ExpandableContentContainerMapStateProps => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/ExpandableContent/Container/mapDispatchToProps */

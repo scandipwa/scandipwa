@@ -55,7 +55,7 @@ export class StoreInPickUpStoreComponent extends PureComponent<StoreInPickUpStor
             phone,
             postcode,
             region,
-            street
+            street,
         } = store;
 
         return (

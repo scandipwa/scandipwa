@@ -37,7 +37,7 @@ export class UrlRewritesDispatcher extends QueryDispatcher<UrlRewritesQueryOptio
     onSuccess(
         { urlResolver }: UrlRewritesDispatcherData,
         dispatch: Dispatch,
-        { urlParam }: UrlRewritesQueryOptions
+        { urlParam }: UrlRewritesQueryOptions,
     ): void {
         dispatch(updateUrlRewrite(urlResolver || { notFound: true }, urlParam));
         dispatch(updateNoMatch(!urlResolver));
@@ -46,7 +46,7 @@ export class UrlRewritesDispatcher extends QueryDispatcher<UrlRewritesQueryOptio
     onError(
         error: NetworkError | NetworkError[],
         dispatch: Dispatch,
-        { urlParam }: UrlRewritesQueryOptions
+        { urlParam }: UrlRewritesQueryOptions,
     ): void {
         dispatch(setIsUrlRewritesLoading(false));
         dispatch(updateUrlRewrite({ notFound: true }, urlParam));
@@ -64,7 +64,7 @@ export class UrlRewritesDispatcher extends QueryDispatcher<UrlRewritesQueryOptio
         dispatch(setIsUrlRewritesLoading(true));
 
         return [
-            UrlRewritesQuery.getQuery(this.processUrlOptions(options))
+            UrlRewritesQuery.getQuery(this.processUrlOptions(options)),
         ];
     }
 
@@ -76,7 +76,7 @@ export class UrlRewritesDispatcher extends QueryDispatcher<UrlRewritesQueryOptio
 
         return {
             ...options,
-            urlParam: trimmedParam.replace(new RegExp(window.storeRegexText), '')
+            urlParam: trimmedParam.replace(new RegExp(window.storeRegexText), ''),
         };
     }
 }

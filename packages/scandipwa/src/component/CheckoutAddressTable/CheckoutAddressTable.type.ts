@@ -12,7 +12,7 @@
 import {
     MyAccountAddressTableComponentProps,
     MyAccountAddressTableContainerProps,
-    MyAccountAddressTableContainerPropsKeys
+    MyAccountAddressTableContainerPropsKeys,
 } from 'Component/MyAccountAddressTable/MyAccountAddressTable.type';
 import { CustomerAddress } from 'Query/MyAccount.type';
 

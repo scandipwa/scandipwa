@@ -17,7 +17,7 @@ import Image from 'Component/Image/Image.container';
 import { ImageRatio } from 'Component/Image/Image.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { VideoThumbnailComponent } from './VideoThumbnail.type';
+import { VideoThumbnailComponentProps } from './VideoThumbnail.type';
 
 import './VideoThumbnail.style';
 
@@ -25,7 +25,7 @@ import './VideoThumbnail.style';
  * VideoThumbnail component
  * @class VideoThumbnail
  * @namespace Component/VideoThumbnail/Component */
-export class VideoThumbnail extends PureComponent<VideoThumbnailComponent> {
+export class VideoThumbnailComponent extends PureComponent<VideoThumbnailComponentProps> {
     /**
      * Renders an icon indicating that the video can be played
      */
@@ -41,9 +41,9 @@ export class VideoThumbnail extends PureComponent<VideoThumbnailComponent> {
         const {
             media: {
                 thumbnail: { url },
-                video_content: { video_title }
+                video_content: { video_title },
             },
-            onPlayClick
+            onPlayClick,
         } = this.props;
 
         return (
@@ -60,7 +60,7 @@ export class VideoThumbnail extends PureComponent<VideoThumbnailComponent> {
                       mix={ {
                           block: 'VideoThumbnail',
                           elem: 'Thumbnail',
-                          mods: { isPlaceholder: !url }
+                          mods: { isPlaceholder: !url },
                       } }
                       isPlaceholder={ !url }
                       alt={ video_title }
@@ -72,4 +72,4 @@ export class VideoThumbnail extends PureComponent<VideoThumbnailComponent> {
     }
 }
 
-export default VideoThumbnail;
+export default VideoThumbnailComponentProps;

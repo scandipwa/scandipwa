@@ -18,9 +18,9 @@ import { ListIconComponentProps } from './ListIcon.type';
 import './ListIcon.style';
 
 /** @namespace Component/ListIcon/Component */
-export class ListIcon extends PureComponent<ListIconComponentProps> {
+export class ListIconComponent extends PureComponent<ListIconComponentProps> {
     static defaultProps: Partial<ListIconComponentProps> = {
-        isActive: false
+        isActive: false,
     };
 
     render(): ReactElement {
@@ -42,4 +42,4 @@ export class ListIcon extends PureComponent<ListIconComponentProps> {
     }
 }
 
-export default ListIcon;
+export default ListIconComponent;

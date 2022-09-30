@@ -15,7 +15,7 @@ import {
     MouseEvent,
     PureComponent,
     ReactNode,
-    RefObject
+    RefObject,
 } from 'react';
 
 import ChevronIcon from 'Component/ChevronIcon';
@@ -30,7 +30,7 @@ import { isRtl } from 'Util/CSS/CSS';
 import {
     ACTIVE_SLIDE_PERCENT,
     ANIMATION_DURATION,
-    HEIGHT_TRANSITION_SPEED_ON_MOUNT
+    HEIGHT_TRANSITION_SPEED_ON_MOUNT,
 } from './Slider.config';
 import { SliderComponentProps, SliderComponentState } from './Slider.type';
 
@@ -41,7 +41,7 @@ import './Slider.style';
  * @class Slider
  * @namespace Component/Slider/Component
  */
-export class Slider extends PureComponent<SliderComponentProps, SliderComponentState> {
+export class SliderComponent extends PureComponent<SliderComponentProps, SliderComponentState> {
     static defaultProps: Partial<SliderComponentProps> = {
         activeImage: 0,
         onActiveImageChange: noopFn,
@@ -54,7 +54,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
         isVertical: false,
         isHeightTransitionDisabledOnMount: false,
         sliderHeight: 0,
-        sliderRef: null
+        sliderRef: null,
     };
 
     sliderWidth = 0;
@@ -69,7 +69,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
         const { activeImage } = this.props;
 
         this.state = {
-            prevActiveImage: activeImage
+            prevActiveImage: activeImage,
         };
 
         this.handleDragStart = this.handleInteraction.bind(this, this.handleDragStart);
@@ -84,7 +84,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
 
     static getDerivedStateFromProps(
         props: SliderComponentProps,
-        state: SliderComponentState
+        state: SliderComponentState,
     ): Partial<SliderComponentState> | null {
         const { activeImage, children } = props;
         const { prevActiveImage } = state;
@@ -196,7 +196,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
             CSS.setVariable(
                 sliderRef,
                 'height-transition-speed',
-                transitionSpeed
+                transitionSpeed,
             );
         }
 
@@ -215,7 +215,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
         CSS.setVariable(
             this.draggableRef,
             isVertical ? 'translateY' : 'translateX',
-            `${ translate }px`
+            `${ translate }px`,
         );
     }
 
@@ -246,7 +246,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
         state: DraggableComponentState,
         slideSize: number,
         lastTranslate: number,
-        fullSliderSize: number
+        fullSliderSize: number,
     ): number {
         const { originalX } = state;
         const { prevActiveImage: prevActiveSlider } = this.state;
@@ -303,7 +303,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
             translateX,
             translateY,
             lastTranslateX,
-            lastTranslateY
+            lastTranslateY,
         } = state;
 
         const lastTranslate = isVertical ? lastTranslateY : lastTranslateX;
@@ -392,7 +392,7 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
         if (isVertical) {
             callback({
                 originalY: newTranslate,
-                lastTranslateY: newTranslate
+                lastTranslateY: newTranslate,
             });
 
             return;
@@ -400,13 +400,15 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
 
         callback({
             originalX: newTranslate,
-            lastTranslateX: newTranslate
+            lastTranslateX: newTranslate,
         });
     }
 
-    handleClick(state: DraggableComponentState,
+    handleClick(
+        state: DraggableComponentState,
         callback: (state: Partial<DraggableComponentState>) => void,
-        e: MouseEvent): void {
+        e: MouseEvent,
+    ): void {
         if (e.type === 'contextmenu') {
             this.handleDragEnd(state, callback);
         }
@@ -581,4 +583,4 @@ export class Slider extends PureComponent<SliderComponentProps, SliderComponentS
     }
 }
 
-export default Slider;
+export default SliderComponent;

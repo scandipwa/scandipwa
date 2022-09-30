@@ -19,10 +19,10 @@ import { GQLSubscriptionStatusesEnum } from 'Type/Graphql.type';
  * @namespace Query/NewsletterSubscription/Query */
 export class NewsletterSubscriptionQuery {
     getSubscribeToNewsletterMutation(
-        email: string
+        email: string,
     ): Mutation<'subscribeEmailToNewsletter', { status: GQLSubscriptionStatusesEnum }> {
         return new Mutation<'subscribeEmailToNewsletter', { status: GQLSubscriptionStatusesEnum }>(
-            'subscribeEmailToNewsletter'
+            'subscribeEmailToNewsletter',
         )
             .addArgument('email', 'String!', email)
             .addFieldList(this._getPageFields());
@@ -30,7 +30,7 @@ export class NewsletterSubscriptionQuery {
 
     _getPageFields(): Field<'status', GQLSubscriptionStatusesEnum>[] {
         return [
-            new Field<'status', GQLSubscriptionStatusesEnum>('status')
+            new Field<'status', GQLSubscriptionStatusesEnum>('status'),
         ];
     }
 }

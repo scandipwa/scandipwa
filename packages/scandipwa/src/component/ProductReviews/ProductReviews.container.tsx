@@ -23,19 +23,19 @@ import {
     ProductReviewsComponentProps,
     ProductReviewsContainerMapDispatchProps,
     ProductReviewsContainerMapStateProps,
-    ProductReviewsContainerProps
+    ProductReviewsContainerProps,
 } from './ProductReviews.type';
 
 /** @namespace Component/ProductReviews/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductReviewsContainerMapStateProps => ({
     isEnabled: state.ConfigReducer.reviews_are_enabled,
     isGuestEnabled: state.ConfigReducer.reviews_allow_guest,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/ProductReviews/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductReviewsContainerMapDispatchProps => ({
-    showInfoNotification: (message) => dispatch(showNotification(NotificationType.INFO, message))
+    showInfoNotification: (message) => dispatch(showNotification(NotificationType.INFO, message)),
 });
 
 /** @namespace Component/ProductReviews/Container */
@@ -43,7 +43,7 @@ export class ProductReviewsContainer extends PureComponent<ProductReviewsContain
     static defaultProps: Partial<ProductReviewsContainerProps> = {
         isEnabled: true,
         isGuestEnabled: true,
-        areDetailsLoaded: false
+        areDetailsLoaded: false,
     };
 
     containerProps(): ProductReviewsComponentProps {
@@ -51,14 +51,14 @@ export class ProductReviewsContainer extends PureComponent<ProductReviewsContain
             areDetailsLoaded,
             device,
             isEnabled,
-            product
+            product,
         } = this.props;
 
         return {
             areDetailsLoaded,
             device,
             isEnabled,
-            product
+            product,
         };
     }
 

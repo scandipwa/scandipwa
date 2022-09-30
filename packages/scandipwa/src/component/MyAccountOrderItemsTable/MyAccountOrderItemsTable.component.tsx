@@ -14,12 +14,12 @@ import { PureComponent } from 'react';
 import Link from 'Component/Link/Link.component';
 import {
     ORDER_ACTION_LABELS,
-    OrderTabs
+    OrderTabs,
 } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import MyAccountOrderItemsTableRow from 'Component/MyAccountOrderItemsTableRow';
 import MyAccountOrderTotals from 'Component/MyAccountOrderTotals';
 import {
-    InvoiceItem, OrderItemProduct, RefundItem, ShipmentItemInterface
+    InvoiceItem, OrderItemProduct, RefundItem, ShipmentItemInterface,
 } from 'Query/Order.type';
 import { ReactElement } from 'Type/Common.type';
 import { getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
@@ -31,7 +31,7 @@ import { MyAccountOrderItemsTableComponentProps } from './MyAccountOrderItemsTab
 import './MyAccountOrderItemsTable.style';
 
 /** @namespace Component/MyAccountOrderItemsTable/Component */
-export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsTableComponentProps> {
+export class MyAccountOrderItemsTableComponent extends PureComponent<MyAccountOrderItemsTableComponentProps> {
     renderItems(): ReactElement {
         const { items: { items: products } } = this.props;
 
@@ -43,13 +43,13 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
     }
 
     renderItemRow(
-        product: OrderItemProduct | ShipmentItemInterface | InvoiceItem | RefundItem
+        product: OrderItemProduct | ShipmentItemInterface | InvoiceItem | RefundItem,
     ): ReactElement {
         const { activeTab, allOrderItems, items } = this.props;
         const { product_sku, product_url_key } = product;
         const {
             entered_options = [],
-            selected_options = []
+            selected_options = [],
         } = getProductFromOrder(allOrderItems, product_sku) || {};
 
         return (
@@ -226,7 +226,7 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
         const commentOrder = comments.sort(
             ({ timestamp: first }, { timestamp: second }) => (
                 new Date(second.replace(/-/g, '/')).getTime() - new Date(first.replace(/-/g, '/')).getTime()
-            )
+            ),
         );
 
         return (
@@ -272,4 +272,4 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
     }
 }
 
-export default MyAccountOrderItemsTable;
+export default MyAccountOrderItemsTableComponent;

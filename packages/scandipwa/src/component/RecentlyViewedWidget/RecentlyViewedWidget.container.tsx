@@ -25,20 +25,20 @@ import {
     RecentlyViewedWidgetContainerMapDispatchProps,
     RecentlyViewedWidgetContainerMapStateProps,
     RecentlyViewedWidgetContainerProps,
-    RecentlyViewedWidgetContainerState
+    RecentlyViewedWidgetContainerState,
 } from './RecentlyViewedWidget.type';
 
 /** @namespace Component/RecentlyViewedWidget/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): RecentlyViewedWidgetContainerMapStateProps => ({
     recentProducts: state.RecentlyViewedProductsReducer.recentlyViewedProducts,
     isLoading: state.RecentlyViewedProductsReducer.isLoading,
-    store: state.ConfigReducer.code
+    store: state.ConfigReducer.code,
 });
 
 /** @namespace Component/RecentlyViewedWidget/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): RecentlyViewedWidgetContainerMapDispatchProps => ({
     updateRecentViewedProductsInfo:
-        (options) => RecentlyViewedProductsDispatcher.handleData(dispatch, options)
+        (options) => RecentlyViewedProductsDispatcher.handleData(dispatch, options),
 });
 
 /** @namespace Component/RecentlyViewedWidget/Container */
@@ -47,21 +47,21 @@ RecentlyViewedWidgetContainerProps,
 RecentlyViewedWidgetContainerState
 > {
     static defaultProps: Partial<RecentlyViewedWidgetContainerProps> = {
-        pageSize: 6
+        pageSize: 6,
     };
 
     state: RecentlyViewedWidgetContainerState = {
         siblingsHaveBrands: false,
         siblingsHavePriceBadge: false,
         siblingsHaveTierPrice: false,
-        siblingsHaveConfigurableOptions: false
+        siblingsHaveConfigurableOptions: false,
     };
 
     componentDidMount(): void {
         const {
             updateRecentViewedProductsInfo,
             recentProducts,
-            store
+            store,
         } = this.props;
 
         if (Object.entries(recentProducts).length !== 0) {
@@ -74,14 +74,14 @@ RecentlyViewedWidgetContainerState
             siblingsHaveBrands,
             siblingsHavePriceBadge,
             siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions
+            siblingsHaveConfigurableOptions,
         } = this.state;
 
         const {
             store,
             recentProducts,
             pageSize,
-            isLoading
+            isLoading,
         } = this.props;
 
         const products = recentProducts[ store ] ?? [];
@@ -91,17 +91,17 @@ RecentlyViewedWidgetContainerState
                 setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
                 setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
                 setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
-                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
+                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true }),
             },
             productCardProps: {
                 siblingsHaveBrands,
                 siblingsHavePriceBadge,
                 siblingsHaveTierPrice,
-                siblingsHaveConfigurableOptions
+                siblingsHaveConfigurableOptions,
             },
             products,
             isLoading,
-            pageSize
+            pageSize,
         };
     }
 
@@ -115,5 +115,5 @@ RecentlyViewedWidgetContainerState
 }
 
 export default withReducers({
-    RecentlyViewedProductsReducer
+    RecentlyViewedProductsReducer,
 })(connect(mapStateToProps, mapDispatchToProps)(RecentlyViewedWidgetContainer));

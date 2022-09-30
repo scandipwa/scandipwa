@@ -18,7 +18,7 @@ import { SearchBarAction, SearchBarActionType, SearchBarStore } from './SearchBa
 /** @namespace Store/SearchBar/Reducer/getInitialState */
 export const getInitialState = (): SearchBarStore => ({
     productsInSearch: [],
-    isLoading: true
+    isLoading: true,
 });
 
 /** @namespace Store/SearchBar/Reducer/SearchBarReducer */
@@ -27,7 +27,7 @@ SearchBarStore,
 SearchBarAction
 > = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     switch (action.type) {
     case SearchBarActionType.UPDATE_SEARCH_BAR:
@@ -35,7 +35,7 @@ SearchBarAction
 
         return {
             ...state,
-            productsInSearch: getIndexedProducts(initialItems)
+            productsInSearch: getIndexedProducts(initialItems),
         };
 
     case SearchBarActionType.UPDATE_SEARCH_LOAD_STATUS:
@@ -43,13 +43,13 @@ SearchBarAction
 
         return {
             ...state,
-            isLoading
+            isLoading,
         };
 
     case SearchBarActionType.CLEAR_SEARCH_RESULTS:
         return {
             ...state,
-            productsInSearch: getInitialState().productsInSearch
+            productsInSearch: getInitialState().productsInSearch,
         };
 
     default:

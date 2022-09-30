@@ -35,7 +35,7 @@ import {
     MyAccountSignInContainerMapDispatchProps,
     MyAccountSignInContainerMapStateProps,
     MyAccountSignInContainerProps,
-    MyAccountSignInContainerState
+    MyAccountSignInContainerState,
 } from './MyAccountSignIn.type';
 
 export const MyAccountDispatcher = import(
@@ -47,15 +47,15 @@ export const MyAccountDispatcher = import(
 export const mapStateToProps = (state: RootState): MyAccountSignInContainerMapStateProps => ({
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
     isLocked: state.MyAccountReducer.isLocked,
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
 });
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountSignInContainerMapDispatchProps => ({
     signIn: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
+        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch),
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
 });
 
 /** @namespace Component/MyAccountSignIn/Container */
@@ -68,15 +68,15 @@ MyAccountSignInContainerState
         isEmailAvailable: true,
         setSignInState: noopFn,
         handleEmailInput: noopFn,
-        isLoading: false
+        isLoading: false,
     };
 
     state = {
-        isSignIn: false
+        isSignIn: false,
     };
 
     containerFunctions: MyAccountSignInContainerFunctions = {
-        onSignInSuccess: this.onSignInSuccess.bind(this)
+        onSignInSuccess: this.onSignInSuccess.bind(this),
     };
 
     componentDidUpdate(prevProps: MyAccountSignInContainerProps): void {
@@ -97,7 +97,7 @@ MyAccountSignInContainerState
             isCheckout,
             emailValue,
             handleEmailInput,
-            isLoading
+            isLoading,
         } = this.props;
 
         return {
@@ -108,7 +108,7 @@ MyAccountSignInContainerState
             isCheckout,
             emailValue,
             handleEmailInput,
-            isLoading
+            isLoading,
         };
     }
 
@@ -119,11 +119,11 @@ MyAccountSignInContainerState
             onSignIn,
             setLoadingState,
             totals: { is_virtual },
-            isCheckout
+            isCheckout,
         } = this.props;
 
         const {
-            isSignIn
+            isSignIn,
         } = this.state;
 
         setLoadingState(true);

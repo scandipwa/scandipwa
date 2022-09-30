@@ -17,12 +17,12 @@ import { Page } from 'Component/Header/Header.config';
 import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
 import {
     FilterPriceRange,
-    ProductAttributeFilterOptions
+    ProductAttributeFilterOptions,
 } from 'Query/ProductList.type';
 import {
     CategoryPageLayout,
     LAYOUT_KEY,
-    SortDirections
+    SortDirections,
 } from 'Route/CategoryPage/CategoryPage.config';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import CategoryReducer from 'Store/Category/Category.reducer';
@@ -42,7 +42,7 @@ import { RootState } from 'Util/Store/Store.type';
 import {
     appendWithStoreCode,
     getQueryParam,
-    setQueryParams
+    setQueryParams,
 } from 'Util/Url';
 
 import CategoryPage from './CategoryPage.component';
@@ -56,7 +56,7 @@ import {
     CategoryPageContainerPropsKeys,
     CategoryPageContainerState,
     CategorySortOptions,
-    CategoryUrlParams
+    CategoryUrlParams,
 } from './CategoryPage.type';
 
 export const ProductListInfoDispatcher = import(
@@ -96,7 +96,7 @@ export const mapStateToProps = (state: RootState): CategoryPageContainerMapState
     totalPages: state.ProductListReducer.totalPages,
     totalItems: state.ProductListReducer.totalItems,
     plpType: state.ConfigReducer.plp_list_mode,
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -105,52 +105,52 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
     requestCategory: (options) => CategoryDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
     ),
     updateBreadcrumbs: (breadcrumbs) => ((Object.keys(breadcrumbs).length)
         ? BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs, dispatch)
+            ({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs, dispatch),
         )
         : BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update([], dispatch)
+            ({ default: dispatcher }) => dispatcher.update([], dispatch),
         )
     ),
     requestProductListInfo: (options) => ProductListInfoDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
     ),
     updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
     updateNoMatch: (options) => NoMatchDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options),
     ),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateMetaFromCategory: (category) => MetaDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
+        ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch),
     ),
-    clearCategory: () => dispatch(updateCurrentCategory({}))
+    clearCategory: () => dispatch(updateCurrentCategory({})),
 });
 
 /** @namespace Route/CategoryPage/Container */
 export class CategoryPageContainer<
 P extends CategoryPageContainerProps = CategoryPageContainerProps,
-S extends CategoryPageContainerState = CategoryPageContainerState
+S extends CategoryPageContainerState = CategoryPageContainerState,
 > extends PureComponent<P, S> {
     static defaultProps: Partial<CategoryPageContainerProps> = {
         categoryIds: -1,
         isSearchPage: false,
         currentArgs: {},
         selectedInfoFilter: {},
-        plpType: ''
+        plpType: '',
     };
 
     config = {
         sortKey: 'name',
-        sortDirection: SortDirections.ASC
+        sortDirection: SortDirections.ASC,
     };
 
     containerFunctions: CategoryPageContainerFunctions = {
         onSortChange: this.onSortChange.bind(this),
         onGridButtonClick: this.onGridButtonClick.bind(this),
-        onListButtonClick: this.onListButtonClick.bind(this)
+        onListButtonClick: this.onListButtonClick.bind(this),
     };
 
     __construct(props: P): void {
@@ -162,7 +162,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState
             selectedLayoutType: undefined,
             defaultPlpType: undefined,
             activeLayoutType: undefined,
-            plpTypes: [] as CategoryPageLayout[]
+            plpTypes: [] as CategoryPageLayout[],
         } as S;
 
         this.setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
@@ -170,17 +170,17 @@ S extends CategoryPageContainerState = CategoryPageContainerState
 
     static getDerivedStateFromProps(
         props: CategoryPageContainerProps,
-        state: CategoryPageContainerState
+        state: CategoryPageContainerState,
     ): Partial<CategoryPageContainerState> | null {
         const {
             currentCategoryIds,
             defaultPlpType,
-            plpTypes
+            plpTypes,
         } = state;
 
         const {
             category: { id },
-            plpType
+            plpType,
         } = props;
 
         const update = {};
@@ -216,8 +216,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState
         const {
             categoryIds,
             category: {
-                id
-            }
+                id,
+            },
         } = this.props;
 
         scrollToTop();
@@ -256,25 +256,25 @@ S extends CategoryPageContainerState = CategoryPageContainerState
             isOffline,
             categoryIds,
             category: {
-                id
+                id,
             },
             currentArgs: {
-                filter
-            } = {}
+                filter,
+            } = {},
         } = this.props;
 
         const {
-            breadcrumbsWereUpdated
+            breadcrumbsWereUpdated,
         } = this.state;
 
         const {
             categoryIds: prevCategoryIds,
             category: {
-                id: prevId
+                id: prevId,
             },
             currentArgs: {
-                filter: prevFilter
-            } = {}
+                filter: prevFilter,
+            } = {},
         } = prevProps;
 
         // TODO: category scrolls up when coming from PDP
@@ -359,8 +359,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState
             currentArgs: {
                 currentPage,
                 sort,
-                filter
-            } = {}
+                filter,
+            } = {},
         } = this.props;
         const { location } = history;
 
@@ -379,8 +379,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState
         const {
             categoryIds,
             selectedInfoFilter: {
-                categoryIds: selectedCategoryIds
-            }
+                categoryIds: selectedCategoryIds,
+            },
         } = this.props;
 
         // Requested category is equal to current category
@@ -389,7 +389,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState
 
     getAppliedFiltersCount(): number {
         const {
-            selectedInfoFilter: { customFilters = {} }
+            selectedInfoFilter: { customFilters = {} },
         } = this.props;
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -400,9 +400,9 @@ S extends CategoryPageContainerState = CategoryPageContainerState
         const {
             categoryIds,
             category: {
-                id
+                id,
             },
-            isSearchPage
+            isSearchPage,
         } = this.props;
 
         return isSearchPage || categoryIds === id;
@@ -417,12 +417,12 @@ S extends CategoryPageContainerState = CategoryPageContainerState
             toggleOverlayByKey,
             totalPages,
             totalItems,
-            isSearchPage
+            isSearchPage,
         } = this.props;
 
         const {
             selectedLayoutType,
-            activeLayoutType
+            activeLayoutType,
         } = this.state;
 
         return {
@@ -445,7 +445,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState
             totalPages,
             totalItems,
             selectedLayoutType,
-            activeLayoutType
+            activeLayoutType,
         };
     }
 
@@ -453,7 +453,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState
         const {
             customFilters,
             priceMin,
-            priceMax
+            priceMax,
         } = this.urlStringToObject();
 
         return !!(customFilters || priceMin || priceMax);
@@ -486,14 +486,14 @@ S extends CategoryPageContainerState = CategoryPageContainerState
     getSelectedSortFromUrl(): CategorySortOptions {
         const {
             category: {
-                default_sort_by
-            }
+                default_sort_by,
+            },
         } = this.props;
         const { location } = history;
 
         const {
             sortKey: globalDefaultSortKey,
-            sortDirection: defaultSortDirection
+            sortDirection: defaultSortDirection,
         } = this.config;
 
         /**
@@ -515,7 +515,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState
 
         return {
             sortDirection,
-            sortKey
+            sortKey,
         };
     }
 
@@ -529,7 +529,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState
 
     getDefaultPlpType(): CategoryPageLayout {
         const {
-            defaultPlpType = CategoryPageLayout.GRID
+            defaultPlpType = CategoryPageLayout.GRID,
         } = this.state;
 
         return defaultPlpType;
@@ -549,28 +549,28 @@ S extends CategoryPageContainerState = CategoryPageContainerState
         if (categoryIds === -1) {
             return {
                 priceRange,
-                customFilters
+                customFilters,
             };
         }
 
         return {
             priceRange,
             customFilters,
-            categoryIds
+            categoryIds,
         };
     }
 
     updateHistory(): void {
         const {
-            categoryIds
+            categoryIds,
         } = this.props;
 
         const {
             location: {
                 search,
                 pathname,
-                state = {}
-            }
+                state = {},
+            },
         } = history;
 
         const { category } = state;
@@ -588,8 +588,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState
                 search,
                 state: {
                     ...state,
-                    category: categoryIds
-                }
+                    category: categoryIds,
+                },
             });
         }
     }
@@ -597,7 +597,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState
     checkIsActive(): void {
         const {
             category: { is_active },
-            updateNoMatch
+            updateNoMatch,
         } = this.props;
 
         if (!is_active) {
@@ -613,7 +613,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState
 
         updateMetaFromCategory({
             ...category,
-            meta_robots
+            meta_robots,
         });
     }
 
@@ -623,14 +623,14 @@ S extends CategoryPageContainerState = CategoryPageContainerState
             id = 0,
             url = '',
             name = '',
-            breadcrumbs = []
+            breadcrumbs = [],
         } = isUnmatchedCategory ? {} : category;
 
         updateBreadcrumbs({
             id: Number(id),
             url,
             name,
-            breadcrumbs
+            breadcrumbs,
         });
 
         this.setState({ breadcrumbsWereUpdated: true });
@@ -646,8 +646,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState
         const {
             changeHeaderState,
             category: {
-                name
-            }
+                name,
+            },
         } = this.props;
 
         const { category } = history?.location?.state || {};
@@ -665,7 +665,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState
         changeHeaderState({
             name: Page.CATEGORY,
             title,
-            onBackClick
+            onBackClick,
         });
     }
 
@@ -673,11 +673,11 @@ S extends CategoryPageContainerState = CategoryPageContainerState
         const {
             categoryIds,
             isSearchPage,
-            requestCategory
+            requestCategory,
         } = this.props;
 
         const {
-            currentCategoryIds
+            currentCategoryIds,
         } = this.state;
 
         /**
@@ -701,12 +701,12 @@ S extends CategoryPageContainerState = CategoryPageContainerState
          */
         this.setState({
             currentCategoryIds: categoryIds,
-            breadcrumbsWereUpdated: false
+            breadcrumbsWereUpdated: false,
         });
 
         requestCategory({
             isSearchPage,
-            categoryIds
+            categoryIds,
         });
     }
 
@@ -721,9 +721,9 @@ S extends CategoryPageContainerState = CategoryPageContainerState
 }
 
 export default withReducers({
-    CategoryReducer
+    CategoryReducer,
 })(
     connect(mapStateToProps, mapDispatchToProps)(CategoryPageContainer as unknown as ComponentType<
     CategoryPageContainerProps
-    >)
+    >),
 );

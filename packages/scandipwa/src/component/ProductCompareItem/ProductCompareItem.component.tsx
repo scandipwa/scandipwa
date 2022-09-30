@@ -29,19 +29,19 @@ import { ProductCompareItemComponentProps } from './ProductCompareItem.type';
 import './ProductCompareItem.style';
 
 /** @namespace Component/ProductCompareItem/Component */
-export class ProductCompareItem extends PureComponent<ProductCompareItemComponentProps> {
+export class ProductCompareItemComponent extends PureComponent<ProductCompareItemComponentProps> {
     static defaultProps: Partial<ProductCompareItemComponentProps> = {
-        linkTo: { pathname: '' }
+        linkTo: { pathname: '' },
     };
 
     renderProductImage(): ReactElement {
         const {
             product: {
                 id,
-                name
+                name,
             },
             imgUrl,
-            linkTo
+            linkTo,
         } = this.props;
 
         return (
@@ -99,7 +99,7 @@ export class ProductCompareItem extends PureComponent<ProductCompareItemComponen
 
     renderAddToCartBtnEnabled(): ReactElement {
         const {
-            addItemToCart
+            addItemToCart,
         } = this.props;
 
         return (
@@ -143,7 +143,7 @@ export class ProductCompareItem extends PureComponent<ProductCompareItemComponen
         const {
             overrideAddToCartBtnBehavior,
             product,
-            isInStock
+            isInStock,
         } = this.props;
 
         if (!isInStock(product as Partial<StockCheckProduct>)) {
@@ -205,4 +205,4 @@ export class ProductCompareItem extends PureComponent<ProductCompareItemComponen
     }
 }
 
-export default ProductCompareItem;
+export default ProductCompareItemComponent;

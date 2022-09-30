@@ -25,9 +25,9 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent<MyAcco
     renderOrderIncrementId(): ReactElement {
         const {
             order: {
-                order_increment_id
+                order_increment_id,
             },
-            onOrderIdClick
+            onOrderIdClick,
         } = this.props;
 
         return (
@@ -44,9 +44,9 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent<MyAcco
                 download_url,
                 link_title,
                 downloads,
-                status_label
+                status_label,
             },
-            isOpenInNewTab
+            isOpenInNewTab,
         } = this.props;
 
         if (!download_url || !downloads || status_label === STATUS_EXPIRED) {
@@ -72,8 +72,8 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent<MyAcco
                 downloads,
                 created_at,
                 title,
-                status_label = ''
-            } = {}
+                status_label = '',
+            } = {},
         } = this.props;
 
         return (

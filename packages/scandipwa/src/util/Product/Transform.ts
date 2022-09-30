@@ -33,7 +33,7 @@ import {
     ProductTransformData,
     StockCheckProduct,
     TransformedBundleOption,
-    TransformedCustomizableOptions
+    TransformedCustomizableOptions,
 } from './Product.type';
 
 export const PRICE_TYPE_PERCENT = 'PERCENT';
@@ -85,31 +85,33 @@ export const getCustomizableOptions = (buyRequest: string): string[] => {
         return [];
     }
 
-    return Object.entries(options).reduce<string[]>((prev, [option, variant]) => {
-        if (typeof variant === 'string') {
-            return [...prev, encodeBase64(`custom-option/${option}/${variant}`)];
-        }
+    return Object.entries(options).reduce<string[]>(
+        (prev, [option, variant]) => {
+            if (typeof variant === 'string') {
+                return [...prev, encodeBase64(`custom-option/${option}/${variant}`)];
+            }
 
-        if (Array.isArray(variant)) {
-            return [...prev, ...variant.map((id) => encodeBase64(`custom-option/${option}/${id}`))];
-        }
+            if (Array.isArray(variant)) {
+                return [...prev, ...variant.map((id) => encodeBase64(`custom-option/${option}/${id}`))];
+            }
 
-        if (typeof variant === 'object' && (variant.date_internal || variant.date)) {
-            const { date_internal, date } = variant;
+            if (typeof variant === 'object' && (variant.date_internal || variant.date)) {
+                const { date_internal, date } = variant;
 
-            return [...prev, encodeBase64(`custom-option/${option}/${date_internal || date}`)];
-        }
+                return [...prev, encodeBase64(`custom-option/${option}/${date_internal || date}`)];
+            }
 
-        // Handle case when we need to pass previously uploaded file as selected option
-        // Normally files are passed via entered_options, but when customer adds product with attachment from wishlist,
-        // we need to reference data of the already uploaded file
-        if (typeof variant === 'object' && variant.type === 'application/octet-stream') {
-            return [...prev, encodeBase64(`custom-option/${option}/file-${encodeBase64(JSON.stringify(variant))}`)];
-        }
+            // Handle case when we need to pass previously uploaded file as selected option
+            // Normally files are passed via entered_options, but when customer adds product with attachment from wishlist,
+            // we need to reference data of the already uploaded file
+            if (typeof variant === 'object' && variant.type === 'application/octet-stream') {
+                return [...prev, encodeBase64(`custom-option/${option}/file-${encodeBase64(JSON.stringify(variant))}`)];
+            }
 
-        return prev;
-    },
-    []);
+            return prev;
+        },
+        [],
+    );
 };
 
 /** @namespace Util/Product/Transform/getDownloadableOptions */
@@ -139,13 +141,13 @@ export const getSelectedOptions = (buyRequest: string): string[] => [
     ...getBundleOptions(buyRequest),
     ...getCustomizableOptions(buyRequest),
     ...getDownloadableOptions(buyRequest),
-    ...getConfigurableOptions(buyRequest)
+    ...getConfigurableOptions(buyRequest),
 ];
 
 /** @namespace Util/Product/Transform/transformParameters */
 export const transformParameters = (
     parameters: Record<string, string>,
-    attributes: Record<string, IndexedAttributeWithValue>
+    attributes: Record<string, IndexedAttributeWithValue>,
 ): string[] => Object.entries(parameters)
     .map(([attrCode, selectedValue]) => {
         const attrId = attributes[attrCode]?.attribute_id;
@@ -163,7 +165,7 @@ export const transformParameters = (
  */
 export const bundleOptionToLabel = (
     option: Partial<IndexedBundleOption>,
-    currencyCode = GQLCurrencyEnum.USD
+    currencyCode = GQLCurrencyEnum.USD,
 ): PriceLabels => {
     const {
         price,
@@ -172,7 +174,7 @@ export const bundleOptionToLabel = (
         can_change_quantity: canChangeQuantity,
         quantity = 0,
         label,
-        product
+        product,
     } = option || {};
 
     const noPrice = price === 0 && finalOptionPrice === 0;
@@ -185,7 +187,7 @@ export const bundleOptionToLabel = (
 
     return {
         baseLabel: !canChangeQuantity && quantity >= 0 ? `${ quantity } x ${ renderLabel } ` : `${ renderLabel } `,
-        priceLabel: `${ priceLabel } ${ percentLabel }`
+        priceLabel: `${ priceLabel } ${ percentLabel }`,
     };
 };
 
@@ -199,7 +201,7 @@ export const bundleOptionToLabel = (
 export const bundleOptionsToSelectTransform = (
     options: IndexedBundleOption[],
     currencyCode = GQLCurrencyEnum.USD,
-    quantity: Record<string, number> = {}
+    quantity: Record<string, number> = {},
 ): TransformedBundleOption[] => (
     options.reduce((result: TransformedBundleOption[] = [], option) => {
         const {
@@ -207,14 +209,14 @@ export const bundleOptionsToSelectTransform = (
             quantity: defaultQuantity = 1,
             position,
             product,
-            is_default
+            is_default,
         } = option;
 
         const isAvailable = getProductInStock(product);
 
         const {
             priceLabel,
-            baseLabel
+            baseLabel,
         } = bundleOptionToLabel(option, currencyCode);
 
         const { [sourceUid]: currentQty = defaultQuantity } = quantity;
@@ -228,7 +230,7 @@ export const bundleOptionsToSelectTransform = (
             subLabel: priceLabel,
             sort_order: position,
             isAvailable,
-            isDefault: is_default
+            isDefault: is_default,
         });
 
         return result;
@@ -243,14 +245,12 @@ export const bundleOptionsToSelectTransform = (
  * @returns {{baseLabel: string, priceLabel: string}}
  * @namespace Util/Product/Transform/customizableOptionToLabel
  */
-export const customizableOptionToLabel = (
-    option: Partial<CustomizableSelectionValue>, currencyCode = GQLCurrencyEnum.USD
-): PriceLabels => {
+export const customizableOptionToLabel = (option: Partial<CustomizableSelectionValue>, currencyCode = GQLCurrencyEnum.USD): PriceLabels => {
     const {
         price,
         priceInclTax = 0,
         price_type,
-        title
+        title,
     } = option || {};
     const noPrice = price === 0 && priceInclTax === 0;
     const priceLabel = noPrice ? '' : `+ ${ formatPrice(priceInclTax, currencyCode) }`;
@@ -258,7 +258,7 @@ export const customizableOptionToLabel = (
 
     return {
         baseLabel: title,
-        priceLabel: `${ priceLabel } ${ percentLabel }`
+        priceLabel: `${ priceLabel } ${ percentLabel }`,
     };
 };
 
@@ -271,18 +271,18 @@ export const customizableOptionToLabel = (
  */
 export const customizableOptionsToSelectTransform = (
     options: CustomizableSelectionValue[],
-    currencyCode = GQLCurrencyEnum.USD
+    currencyCode = GQLCurrencyEnum.USD,
 ): TransformedCustomizableOptions[] => (
     options.reduce((result: TransformedCustomizableOptions[] = [], option) => {
         const {
             uid,
             title,
-            sort_order = 0
+            sort_order = 0,
         } = option;
 
         const {
             priceLabel,
-            baseLabel
+            baseLabel,
         } = customizableOptionToLabel(option, currencyCode);
 
         result.push({
@@ -291,7 +291,7 @@ export const customizableOptionsToSelectTransform = (
             value: uid,
             label: baseLabel,
             subLabel: priceLabel,
-            sort_order
+            sort_order,
         });
 
         return result;
@@ -313,7 +313,7 @@ export const magentoProductTransform = (
     product: IndexedProduct,
     quantity: number | Record<string, number> = 1,
     enteredOptions: ProductOption[] = [],
-    selectedOptions: string[] = []
+    selectedOptions: string[] = [],
 ): ProductTransformData[] => {
     const { sku = '', type_id: typeId } = product;
 
@@ -333,14 +333,14 @@ export const magentoProductTransform = (
             sku,
             quantity: 1,
             selected_options: [...selectedOptions, ...groupedProducts],
-            entered_options: enteredOptions
+            entered_options: enteredOptions,
         });
     } else {
         const baseProductToAdd: ProductTransformData = {
             sku,
             quantity: quantity as number,
             selected_options: selectedOptions,
-            entered_options: enteredOptions
+            entered_options: enteredOptions,
         };
 
         productData.push(baseProductToAdd);
@@ -360,7 +360,7 @@ export const magentoProductTransform = (
 export const nonRequiredRadioOptions = <T>(
     options: T | T[],
     isRequired = false,
-    type: string = FieldType.RADIO
+    type: string = FieldType.RADIO,
 ): T | Array<T | NoneRadioOption> => {
     if (isRequired || type !== FieldType.RADIO) {
         return options;
@@ -373,9 +373,9 @@ export const nonRequiredRadioOptions = <T>(
     return [
         {
             ...NONE_RADIO_OPTION,
-            is_default: !hasDefault
+            is_default: !hasDefault,
         },
-        ...(options as T[])
+        ...(options as T[]),
     ];
 };
 

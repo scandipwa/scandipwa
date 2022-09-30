@@ -26,7 +26,7 @@ export enum FieldType {
     SUBMIT = 'submit',
     BUTTON = 'button',
     NUMBER_WITH_CONTROLS = 'number_with_controls',
-    TEL = 'tel'
+    TEL = 'tel',
 }
 
 export const FIELD_RADIO_NONE = 'none';

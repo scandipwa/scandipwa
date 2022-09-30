@@ -23,13 +23,13 @@ import {
     CartItemPriceComponentProps,
     CartItemPriceContainerMapDispatchProps,
     CartItemPriceContainerMapStateProps,
-    CartItemPriceContainerProps
+    CartItemPriceContainerProps,
 } from './CartItemPrice.type';
 
 /** @namespace Component/CartItemPrice/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CartItemPriceContainerMapStateProps => ({
     getCartItemPrice: getCartItemPrice(state),
-    getCartItemSubPrice: getCartItemSubPrice(state)
+    getCartItemSubPrice: getCartItemSubPrice(state),
 });
 
 /** @namespace Component/CartItemPrice/Container/mapDispatchToProps */
@@ -50,7 +50,7 @@ export class CartItemPriceContainer extends PureComponent<CartItemPriceContainer
             currency_code,
             mix,
             price: getCartItemPrice(rest as CartItemPriceProps),
-            subPrice: getCartItemSubPrice(rest as CartItemPriceProps)
+            subPrice: getCartItemSubPrice(rest as CartItemPriceProps),
         };
     }
 

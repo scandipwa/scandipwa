@@ -20,7 +20,7 @@ import {
     ImageComponentProps,
     ImageContainerProps,
     ImageRatio,
-    WrapperSize
+    WrapperSize,
 } from './Image.type';
 
 /** @namespace Component/Image/Container */
@@ -39,7 +39,7 @@ export class ImageContainer<P extends ImageContainerProps = ImageContainerProps>
         imageRef: undefined,
         isPlain: false,
         showIsLoading: false,
-        onImageLoad: noopFn
+        onImageLoad: noopFn,
     };
 
     containerProps(): ImageComponentProps {
@@ -53,7 +53,7 @@ export class ImageContainer<P extends ImageContainerProps = ImageContainerProps>
             imageRef,
             isPlain,
             showIsLoading,
-            onImageLoad
+            onImageLoad,
         } = this.props;
 
         return {
@@ -70,7 +70,7 @@ export class ImageContainer<P extends ImageContainerProps = ImageContainerProps>
             isPlain,
             showIsLoading,
             isCached: this._isCached(),
-            onImageLoad
+            onImageLoad,
         };
     }
 
@@ -126,11 +126,11 @@ export class ImageContainer<P extends ImageContainerProps = ImageContainerProps>
 
         const trueMap = [
             this._parseSize(height) === IMAGE_HUNDRED_PERCENT,
-            this._parseSize(width) === IMAGE_HUNDRED_PERCENT
+            this._parseSize(width) === IMAGE_HUNDRED_PERCENT,
         ];
         const classMap = [
             'Image-WidthFull',
-            'Image-HeightFull'
+            'Image-HeightFull',
         ];
 
         const classes = classMap.filter((_, index) => trueMap[ index ]);

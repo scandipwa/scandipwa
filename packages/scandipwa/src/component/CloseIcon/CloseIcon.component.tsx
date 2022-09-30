@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import './CloseIcon.style';
 
 /** @namespace Component/CloseIcon/Component */
-export class CloseIcon extends PureComponent {
+export class CloseIconComponent extends PureComponent {
     render(): ReactElement {
         return (
             <svg
@@ -33,4 +33,4 @@ export class CloseIcon extends PureComponent {
     }
 }
 
-export default CloseIcon;
+export default CloseIconComponent;

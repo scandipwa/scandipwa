@@ -23,7 +23,7 @@ import { MyAccountAddressPopupComponentProps } from './MyAccountAddressPopup.typ
 import './MyAccountAddressPopup.style';
 
 /** @namespace Component/MyAccountAddressPopup/Component */
-export class MyAccountAddressPopup extends PureComponent<MyAccountAddressPopupComponentProps> {
+export class MyAccountAddressPopupComponent extends PureComponent<MyAccountAddressPopupComponentProps> {
     renderAddressForm(): ReactElement {
         const { payload: { address }, handleAddress } = this.props;
 
@@ -83,4 +83,4 @@ export class MyAccountAddressPopup extends PureComponent<MyAccountAddressPopupCo
     }
 }
 
-export default MyAccountAddressPopup;
+export default MyAccountAddressPopupComponent;

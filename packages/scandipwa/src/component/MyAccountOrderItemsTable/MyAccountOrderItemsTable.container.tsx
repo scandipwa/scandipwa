@@ -21,12 +21,12 @@ import {
     MyAccountOrderItemsTableComponentPropsKeys,
     MyAccountOrderItemsTableContainerMapDispatchProps,
     MyAccountOrderItemsTableContainerMapStateProps,
-    MyAccountOrderItemsTableContainerProps
+    MyAccountOrderItemsTableContainerProps,
 } from './MyAccountOrderItemsTable.type';
 
 /** @namespace Component/MyAccountOrderItemsTable/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountOrderItemsTableContainerMapStateProps => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/MyAccountOrderItemsTable/Container/mapDispatchToProps */
@@ -35,7 +35,7 @@ export const mapDispatchToProps = (): MyAccountOrderItemsTableContainerMapDispat
 /** @namespace Component/MyAccountOrderItemsTable/Container */
 export class MyAccountOrderItemsTableContainer extends PureComponent<MyAccountOrderItemsTableContainerProps> {
     static defaultProps = {
-        isPrintPage: false
+        isPrintPage: false,
     };
 
     containerProps(): Pick<
@@ -49,7 +49,7 @@ export class MyAccountOrderItemsTableContainer extends PureComponent<MyAccountOr
             total,
             allOrderItems,
             id,
-            isPrintPage
+            isPrintPage,
         } = this.props;
 
         return {
@@ -59,7 +59,7 @@ export class MyAccountOrderItemsTableContainer extends PureComponent<MyAccountOr
             total,
             allOrderItems,
             id,
-            isPrintPage
+            isPrintPage,
         };
     }
 

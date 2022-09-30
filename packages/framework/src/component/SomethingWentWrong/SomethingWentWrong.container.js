@@ -8,7 +8,7 @@ import SomethingWentWrong from './SomethingWentWrong.component';
 export class SomethingWentWrongContainer extends PureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
-        errorDetails: ErrorDetailsType.isRequired
+        errorDetails: ErrorDetailsType.isRequired,
     };
 
     containerFunctions = {};
@@ -20,7 +20,7 @@ export class SomethingWentWrongContainer extends PureComponent {
         return {
             onClick,
             trace,
-            error
+            error,
         };
     }
 
@@ -29,14 +29,14 @@ export class SomethingWentWrongContainer extends PureComponent {
             errorDetails: {
                 err,
                 info: {
-                    componentStack
-                } = {}
-            }
+                    componentStack,
+                } = {},
+            },
         } = this.props;
 
         return {
             error: err.toString(),
-            trace: componentStack
+            trace: componentStack,
         };
     }
 

@@ -13,7 +13,7 @@ import { ProductItem, ProductListOptionArgs } from 'Query/ProductList.type';
 
 import {
     AppendPageAction,
-    ProductListActionType, UpdateLoadStatusAction, UpdatePageLoadingStatusAction, UpdateProductListItemsAction
+    ProductListActionType, UpdateLoadStatusAction, UpdatePageLoadingStatusAction, UpdateProductListItemsAction,
 } from './ProductList.type';
 
 /**
@@ -27,7 +27,7 @@ import {
 export const appendPage = (items: ProductItem[], currentPage: number): AppendPageAction => ({
     type: ProductListActionType.APPEND_PAGE,
     items,
-    currentPage
+    currentPage,
 });
 
 /**
@@ -43,14 +43,14 @@ export const updateProductListItems = (
     currentPage: number,
     total_count: number,
     total_pages: number,
-    args: ProductListOptionArgs
+    args: ProductListOptionArgs,
 ): UpdateProductListItemsAction => ({
     type: ProductListActionType.UPDATE_PRODUCT_LIST_ITEMS,
     items,
     currentPage,
     total_pages,
     total_count,
-    args
+    args,
 });
 
 /**
@@ -61,10 +61,10 @@ export const updateProductListItems = (
  */
 export const updateLoadStatus = (status: boolean): UpdateLoadStatusAction => ({
     type: ProductListActionType.UPDATE_LOAD_STATUS,
-    isLoading: status
+    isLoading: status,
 });
 
 /** @namespace Store/ProductList/Action/updatePageLoadingStatus */
 export const updatePageLoadingStatus = (): UpdatePageLoadingStatusAction => ({
-    type: ProductListActionType.UPDATE_PAGE_LOAD_STATUS
+    type: ProductListActionType.UPDATE_PAGE_LOAD_STATUS,
 });
