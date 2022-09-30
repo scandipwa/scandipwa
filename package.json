@@ -19,10 +19,6 @@
         "husky": "^4.3.0",
         "lerna": "^3.22.1"
     },
-    "resolutions": {
-        "**/@typescript-eslint/eslint-plugin": "^5.26.0",
-        "**/@typescript-eslint/parser": "^5.26.0"
-    },
     "husky": {
         "hooks": {
             "pre-commit": "npm run eslint"

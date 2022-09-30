@@ -23,7 +23,7 @@
         "eslint-plugin-react": "^7.31.8",
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-simple-import-sort": "^8.0.0",
-        "typescript": "^4.0.3"
+        "typescript": "4.7.2"
     },
     "gitHead": "187276597fcf17521bcccdac1238b4e0061e5418"
 }
