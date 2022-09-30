@@ -185,7 +185,7 @@ MyAccountContainerState
             return { activeTab: newActiveTab };
         }
 
-        return { activeTab: '' };
+        return { activeTab };
     }
 
     containerFunctions: MyAccountContainerFunctions = {

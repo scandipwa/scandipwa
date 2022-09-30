@@ -38,7 +38,7 @@ export class ProductCompare extends Component<ProductCompareComponentProps> {
         return products !== nextProducts || isLoading !== nextIsLoading;
     }
 
-    renderScroll() {
+    renderScroll(): ReactElement {
         const { handleScroll, scrollerScroll, scrollerContent } = this.props;
 
         return (
@@ -168,7 +168,7 @@ export class ProductCompare extends Component<ProductCompareComponentProps> {
         ));
     }
 
-    renderProducts() {
+    renderProducts(): ReactElement {
         const { handleBlockScroll, productCompare, productCompareRow } = this.props;
 
         return (

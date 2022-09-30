@@ -23,34 +23,41 @@ import './ProductTabs.style';
 
 /** @namespace Component/ProductTabs/Component */
 export class ProductTabs extends PureComponent<ProductTabsComponentProps, ProductTabsComponentState> {
+    state = {
+        activeTab: ''
+    };
+
     __construct(props: ProductTabsComponentProps): void {
         super.__construct?.(props);
-        const { tabs } = this.props;
 
         this.onTabClick = this.onTabClick.bind(this);
+    }
 
-        if (tabs.length > 0) {
-            const { tabs: [{ id }] } = this.props;
-
-            this.state = {
-                activeTab: id
-            };
-        } else {
-            this.state = {
-                activeTab: ''
-            };
-        }
+    componentDidMount(): void {
+        this.updateDefaultSelectedTab();
     }
 
     componentDidUpdate(prevProps: ProductTabsComponentProps): void {
         const { tabs: prevTabs } = prevProps;
         const { tabs } = this.props;
+        const [prevTab] = prevTabs;
+        const [tab] = tabs;
 
-        if (prevTabs.length !== tabs.length) {
-            const [{ id }] = tabs;
-
-            this.setActiveTab(id);
+        if (tab?.id !== prevTab?.id) {
+            this.updateDefaultSelectedTab();
         }
+    }
+
+    updateDefaultSelectedTab(): void {
+        const { tabs } = this.props;
+
+        if (!tabs?.length) {
+            return;
+        }
+
+        const [{ id }] = tabs;
+
+        this.setActiveTab(id);
     }
 
     onTabClick(tab: string): void {
@@ -103,7 +110,7 @@ export class ProductTabs extends PureComponent<ProductTabsComponentProps, Produc
     renderTabs(): ReactElement {
         const { tabs } = this.props;
 
-        if (tabs.length === 0) {
+        if (!tabs?.length) {
             return null;
         }
 
