@@ -23,7 +23,7 @@ import { TierPricesComponentProps } from './TierPrices.type';
 import './TierPrices.style';
 
 /** @namespace Component/TierPrices/Component */
-export class TierPrices extends PureComponent<TierPricesComponentProps> {
+export class TierPricesComponent extends PureComponent<TierPricesComponentProps> {
     static defaultProps: Partial<TierPricesComponentProps> = {
         isLowestPrice: false,
     };
@@ -167,4 +167,4 @@ export class TierPrices extends PureComponent<TierPricesComponentProps> {
     }
 }
 
-export default TierPrices;
+export default TierPricesComponent;

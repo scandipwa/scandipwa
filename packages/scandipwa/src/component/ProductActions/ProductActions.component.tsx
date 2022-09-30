@@ -32,7 +32,7 @@ import './ProductActions.style';
  * @class ProductActions
  * @namespace Component/ProductActions/Component
  */
-export class ProductActions extends Product<ProductActionsComponentProps> {
+export class ProductActionsComponent extends Product<ProductActionsComponentProps> {
     static defaultProps: Partial<ProductActionsComponentProps> = {
         ...Product.defaultProps,
         productName: '',
@@ -399,4 +399,4 @@ export class ProductActions extends Product<ProductActionsComponentProps> {
     }
 }
 
-export default ProductActions;
+export default ProductActionsComponent;

@@ -30,7 +30,7 @@ import { MyAccountOrderPrintComponentProps } from './MyAccountOrderPrint.type';
 import './MyAccountOrderPrint.style';
 
 /** @namespace Component/MyAccountOrderPrint/Component */
-export class MyAccountOrderPrint extends MyAccountOrder<MyAccountOrderPrintComponentProps> {
+export class MyAccountOrderPrintComponent extends MyAccountOrder<MyAccountOrderPrintComponentProps> {
     logoRef = createRef<HTMLDivElement>();
 
     state = {
@@ -161,4 +161,4 @@ export class MyAccountOrderPrint extends MyAccountOrder<MyAccountOrderPrintCompo
     }
 }
 
-export default MyAccountOrderPrint;
+export default MyAccountOrderPrintComponent;

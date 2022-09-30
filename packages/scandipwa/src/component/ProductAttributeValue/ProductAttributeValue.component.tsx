@@ -28,7 +28,7 @@ import { ProductAttributeValueComponentProps, ProductAttributeValueOption } from
 import './ProductAttributeValue.style';
 
 /** @namespace Component/ProductAttributeValue/Component */
-export class ProductAttributeValue extends PureComponent<ProductAttributeValueComponentProps> {
+export class ProductAttributeValueComponent extends PureComponent<ProductAttributeValueComponentProps> {
     static defaultProps: Partial<ProductAttributeValueComponentProps> = {
         isSelected: false,
         onClick: noopFn,
@@ -457,4 +457,4 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
     }
 }
 
-export default ProductAttributeValue;
+export default ProductAttributeValueComponent;

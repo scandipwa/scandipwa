@@ -27,7 +27,7 @@ import './Breadcrumbs.style';
  * @class Breadcrumbs
  * @namespace Component/Breadcrumbs/Component
  */
-export class Breadcrumbs extends PureComponent<BreadcrumbsComponentProps> {
+export class BreadcrumbsComponent extends PureComponent<BreadcrumbsComponentProps> {
     renderBreadcrumb({ url, name }: BreadcrumbType, i: number): ReactElement {
         const { breadcrumbs } = this.props;
         const isDisabled = !url || breadcrumbs.length - 1 === i;
@@ -92,4 +92,4 @@ export class Breadcrumbs extends PureComponent<BreadcrumbsComponentProps> {
     }
 }
 
-export default Breadcrumbs;
+export default BreadcrumbsComponent;

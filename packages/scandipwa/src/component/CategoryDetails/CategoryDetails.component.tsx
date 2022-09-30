@@ -27,7 +27,7 @@ import './CategoryDetails.style';
  * @class CategoryDetails
  * @namespace Component/CategoryDetails/Component
  */
-export class CategoryDetails extends PureComponent<CategoryDetailsComponentProps> {
+export class CategoryDetailsComponent extends PureComponent<CategoryDetailsComponentProps> {
     static defaultProps: Partial<CategoryDetailsComponentProps> = {
         isCurrentCategoryLoaded: true,
     };
@@ -136,4 +136,4 @@ export class CategoryDetails extends PureComponent<CategoryDetailsComponentProps
     }
 }
 
-export default CategoryDetails;
+export default CategoryDetailsComponent;

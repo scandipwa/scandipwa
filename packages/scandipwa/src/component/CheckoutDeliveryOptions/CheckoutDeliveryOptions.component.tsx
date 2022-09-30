@@ -15,13 +15,13 @@ import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
 import { ShippingMethod } from 'Query/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { CheckoutDeliveryOptionsComponent } from './CheckoutDeliveryOptions.type';
+import { CheckoutDeliveryOptionsComponentProps } from './CheckoutDeliveryOptions.type';
 
 import './CheckoutDeliveryOptions.style';
 
 /** @namespace Component/CheckoutDeliveryOptions/Component */
-export class CheckoutDeliveryOptions extends PureComponent<CheckoutDeliveryOptionsComponent> {
-    static defaultProps: Partial<CheckoutDeliveryOptionsComponent> = {
+export class CheckoutDeliveryOptionsComponent extends PureComponent<CheckoutDeliveryOptionsComponentProps> {
+    static defaultProps: Partial<CheckoutDeliveryOptionsComponentProps> = {
         selectedShippingMethod: {},
     };
 
@@ -82,4 +82,4 @@ export class CheckoutDeliveryOptions extends PureComponent<CheckoutDeliveryOptio
     }
 }
 
-export default CheckoutDeliveryOptions;
+export default CheckoutDeliveryOptionsComponentProps;

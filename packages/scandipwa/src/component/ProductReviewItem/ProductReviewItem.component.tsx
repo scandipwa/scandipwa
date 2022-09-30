@@ -24,7 +24,7 @@ import './ProductReviewItem.style';
  * @class ProductReviewItem
  * @namespace Component/ProductReviewItem/Component
  */
-export class ProductReviewItem extends PureComponent<ProductReviewItemComponentProps> {
+export class ProductReviewItemComponent extends PureComponent<ProductReviewItemComponentProps> {
     getFormattedDate(created_at: string): string {
         // Safari bug
         const fixedDate = created_at.replace(/-/g, '/');
@@ -107,4 +107,4 @@ export class ProductReviewItem extends PureComponent<ProductReviewItemComponentP
     }
 }
 
-export default ProductReviewItem;
+export default ProductReviewItemComponent;

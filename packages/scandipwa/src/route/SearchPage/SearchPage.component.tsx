@@ -18,7 +18,7 @@ import { SearchPageComponentProps, SearchPageComponentState } from './SearchPage
 import './SearchPage.style';
 
 /** @namespace Route/SearchPage/Component */
-export class SearchPage extends CategoryPage<
+export class SearchPageComponent extends CategoryPage<
 SearchPageComponentProps,
 SearchPageComponentState
 > {
@@ -55,4 +55,4 @@ SearchPageComponentState
     }
 }
 
-export default SearchPage;
+export default SearchPageComponent;

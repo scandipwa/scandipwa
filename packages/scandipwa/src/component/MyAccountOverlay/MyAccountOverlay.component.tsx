@@ -30,7 +30,7 @@ import { MyAccountOverlayComponentProps, MyAccountOverlayRenderMap } from './MyA
 import './MyAccountOverlay.style';
 
 /** @namespace Component/MyAccountOverlay/Component */
-export class MyAccountOverlay<
+export class MyAccountOverlayComponent<
 Props extends MyAccountOverlayComponentProps = MyAccountOverlayComponentProps,
 > extends PureComponent<Props> {
     static defaultProps: Partial<MyAccountOverlayComponentProps> = {
@@ -192,4 +192,4 @@ Props extends MyAccountOverlayComponentProps = MyAccountOverlayComponentProps,
     }
 }
 
-export default MyAccountOverlay;
+export default MyAccountOverlayComponent;

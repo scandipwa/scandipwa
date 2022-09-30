@@ -28,7 +28,7 @@ import { CartOverlayComponentProps } from './CartOverlay.type';
 import './CartOverlay.style';
 
 /** @namespace Component/CartOverlay/Component */
-export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
+export class CartOverlayComponent extends PureComponent<CartOverlayComponentProps> {
     static defaultProps: Partial<CartOverlayComponentProps> = {
         hasOutOfStockProductsInCart: false,
         onCartItemLoading: undefined,
@@ -309,4 +309,4 @@ export class CartOverlay extends PureComponent<CartOverlayComponentProps> {
     }
 }
 
-export default CartOverlay;
+export default CartOverlayComponent;

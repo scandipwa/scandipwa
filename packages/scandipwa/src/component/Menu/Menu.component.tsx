@@ -28,7 +28,7 @@ import { MenuComponentProps } from './Menu.type';
 import './Menu.style';
 
 /** @namespace Component/Menu/Component */
-export class Menu extends PureComponent<MenuComponentProps> {
+export class MenuComponent extends PureComponent<MenuComponentProps> {
     debouncedCloseMenu?: () => void;
 
     componentDidMount(): void {
@@ -421,4 +421,4 @@ export class Menu extends PureComponent<MenuComponentProps> {
     }
 }
 
-export default Menu;
+export default MenuComponent;

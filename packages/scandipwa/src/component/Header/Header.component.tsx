@@ -55,7 +55,7 @@ export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChun
 export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "overlay" */ 'Component/MyAccountOverlay'));
 
 /** @namespace Component/Header/Component */
-export class Header extends NavigationAbstract<HeaderComponentProps> {
+export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
     static defaultProps: Partial<HeaderComponentProps> = {
         logo_alt: 'ScandiPWA logo',
         logo_height: 25,
@@ -734,4 +734,4 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
     }
 }
 
-export default Header;
+export default HeaderComponent;

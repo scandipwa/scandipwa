@@ -27,7 +27,7 @@ import { CheckoutAddressBookComponentProps, CheckoutAddressBookComponentState } 
 import './CheckoutAddressBook.style';
 
 /** @namespace Component/CheckoutAddressBook/Component */
-export class CheckoutAddressBook extends PureComponent<
+export class CheckoutAddressBookComponent extends PureComponent<
 CheckoutAddressBookComponentProps,
 CheckoutAddressBookComponentState
 > {
@@ -195,4 +195,4 @@ CheckoutAddressBookComponentState
     }
 }
 
-export default CheckoutAddressBook;
+export default CheckoutAddressBookComponent;

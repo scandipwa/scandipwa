@@ -21,7 +21,7 @@ import { CurrencySwitcherComponentProps } from './CurrencySwitcher.type';
 import './CurrencySwitcher.style';
 
 /** @namespace Component/CurrencySwitcher/Component */
-export class CurrencySwitcher extends PureComponent<CurrencySwitcherComponentProps> {
+export class CurrencySwitcherComponent extends PureComponent<CurrencySwitcherComponentProps> {
     getCurrencyValue(): string | undefined {
         const {
             currencyData: {
@@ -69,4 +69,4 @@ export class CurrencySwitcher extends PureComponent<CurrencySwitcherComponentPro
     }
 }
 
-export default CurrencySwitcher;
+export default CurrencySwitcherComponent;

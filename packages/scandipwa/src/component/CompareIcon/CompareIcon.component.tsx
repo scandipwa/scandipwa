@@ -18,7 +18,7 @@ import { CompareIconComponentProps } from './CompareIcon.type';
 import './CompareIcon.style';
 
 /** @namespace Component/CompareIcon/Component */
-export class CompareIcon extends PureComponent<CompareIconComponentProps> {
+export class CompareIconComponent extends PureComponent<CompareIconComponentProps> {
     static defaultProps: Partial<CompareIconComponentProps> = {
         isActive: false,
     };
@@ -42,4 +42,4 @@ export class CompareIcon extends PureComponent<CompareIconComponentProps> {
     }
 }
 
-export default CompareIcon;
+export default CompareIconComponent;

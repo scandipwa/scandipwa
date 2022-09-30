@@ -21,7 +21,7 @@ import { ProductAttributesComponentProps } from './ProductAttributes.type';
 import './ProductAttributes.style';
 
 /** @namespace Component/ProductAttributes/Component */
-export class ProductAttributes extends PureComponent<ProductAttributesComponentProps> {
+export class ProductAttributesComponent extends PureComponent<ProductAttributesComponentProps> {
     renderGroups(): ReactElement {
         const { attributesWithValues } = this.props;
 
@@ -119,4 +119,4 @@ export class ProductAttributes extends PureComponent<ProductAttributesComponentP
     }
 }
 
-export default ProductAttributes;
+export default ProductAttributesComponent;

@@ -26,7 +26,7 @@ import { ProductDownloadableLinksComponentProps } from './ProductDownloadableLin
 import './ProductDownloadableLinks.style';
 
 /** @namespace Component/ProductDownloadableLinks/Component */
-export class ProductDownloadableLinks extends PureComponent<ProductDownloadableLinksComponentProps> {
+export class ProductDownloadableLinksComponent extends PureComponent<ProductDownloadableLinksComponentProps> {
     static defaultProps: Partial<ProductDownloadableLinksComponentProps> = {
         links: [],
     };
@@ -176,4 +176,4 @@ export class ProductDownloadableLinks extends PureComponent<ProductDownloadableL
     }
 }
 
-export default ProductDownloadableLinks;
+export default ProductDownloadableLinksComponent;

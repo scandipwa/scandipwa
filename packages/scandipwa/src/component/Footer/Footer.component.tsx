@@ -29,7 +29,7 @@ import './Footer.style';
  * @class Footer
  * @namespace Component/Footer/Component
  */
-export class Footer extends Component<FooterComponentProps> {
+export class FooterComponent extends Component<FooterComponentProps> {
     static defaultProps: Partial<FooterComponentProps> = {
         copyright: '',
         isVisibleOnMobile: false,
@@ -238,4 +238,4 @@ export class Footer extends Component<FooterComponentProps> {
     }
 }
 
-export default Footer;
+export default FooterComponent;

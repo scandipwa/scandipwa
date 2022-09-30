@@ -18,7 +18,7 @@ import { CarouselScrollItemComponentProps } from './CarouselScrollItem.type';
 import './CarouselScrollItem.style';
 
 /** @namespace Component/CarouselScrollItem/Component */
-export class CarouselScrollItem extends PureComponent<CarouselScrollItemComponentProps> {
+export class CarouselScrollItemComponent extends PureComponent<CarouselScrollItemComponentProps> {
     render(): ReactElement {
         const {
             isActive,
@@ -43,4 +43,4 @@ export class CarouselScrollItem extends PureComponent<CarouselScrollItemComponen
     }
 }
 
-export default CarouselScrollItem;
+export default CarouselScrollItemComponent;

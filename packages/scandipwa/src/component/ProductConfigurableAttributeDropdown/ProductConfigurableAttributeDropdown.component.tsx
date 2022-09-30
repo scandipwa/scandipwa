@@ -21,7 +21,7 @@ import { ProductConfigurableAttributeDropdownComponentProps } from './ProductCon
 import './ProductConfigurableAttributeDropdown.style';
 
 /** @namespace Component/ProductConfigurableAttributeDropdown/Component */
-export class ProductConfigurableAttributeDropdown extends PureComponent<
+export class ProductConfigurableAttributeDropdownComponent extends PureComponent<
 ProductConfigurableAttributeDropdownComponentProps
 > {
     static defaultProps: Partial<ProductConfigurableAttributeDropdownComponentProps> = {
@@ -63,4 +63,4 @@ ProductConfigurableAttributeDropdownComponentProps
     }
 }
 
-export default ProductConfigurableAttributeDropdown;
+export default ProductConfigurableAttributeDropdownComponent;

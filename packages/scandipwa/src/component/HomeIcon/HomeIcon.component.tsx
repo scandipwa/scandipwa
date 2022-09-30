@@ -18,7 +18,7 @@ import { HomeIconComponentProps } from './HomeIcon.type';
 import './HomeIcon.style';
 
 /** @namespace Component/HomeIcon/Component */
-export class HomeIcon extends PureComponent<HomeIconComponentProps> {
+export class HomeIconComponent extends PureComponent<HomeIconComponentProps> {
     static defaultProps: Partial<HomeIconComponentProps> = {
         isActive: false,
     };
@@ -42,4 +42,4 @@ export class HomeIcon extends PureComponent<HomeIconComponentProps> {
     }
 }
 
-export default HomeIcon;
+export default HomeIconComponent;

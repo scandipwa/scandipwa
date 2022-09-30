@@ -23,7 +23,7 @@ import { SharedWishlistItemComponentProps } from './SharedWishlistItem.type';
 import './SharedWishlistItem.style';
 
 /** @namespace Component/SharedWishlistItem/Component */
-export class SharedWishlistItem extends SourceWishlistItem<SharedWishlistItemComponentProps> {
+export class SharedWishlistItemComponent extends SourceWishlistItem<SharedWishlistItemComponentProps> {
     renderAddToCart(): ReactElement {
         const {
             product,
@@ -93,4 +93,4 @@ export class SharedWishlistItem extends SourceWishlistItem<SharedWishlistItemCom
     }
 }
 
-export default SharedWishlistItem;
+export default SharedWishlistItemComponent;

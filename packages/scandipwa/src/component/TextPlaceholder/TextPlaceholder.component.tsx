@@ -23,7 +23,7 @@ import './TextPlaceholder.style';
  * @class TextPlaceholder
  * @namespace Component/TextPlaceholder/Component
  */
-export class TextPlaceholder extends PureComponent<TextPlaceholderComponentProps> {
+export class TextPlaceholderComponent extends PureComponent<TextPlaceholderComponentProps> {
     static defaultProps: Partial<TextPlaceholderComponentProps> = {
         content: '',
         length: TextPlaceHolderLength.SHORT,
@@ -41,4 +41,4 @@ export class TextPlaceholder extends PureComponent<TextPlaceholderComponentProps
     }
 }
 
-export default TextPlaceholder;
+export default TextPlaceholderComponent;

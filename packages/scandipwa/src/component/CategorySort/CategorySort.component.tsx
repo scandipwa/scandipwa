@@ -27,7 +27,7 @@ import './CategorySort.style';
  * @class ProductSort
  * @namespace Component/CategorySort/Component
  */
-export class CategorySort extends PureComponent<CategorySortComponentProps> {
+export class CategorySortComponent extends PureComponent<CategorySortComponentProps> {
     __construct(props: CategorySortComponentProps): void {
         super.__construct?.(props);
 
@@ -90,4 +90,4 @@ export class CategorySort extends PureComponent<CategorySortComponentProps> {
     }
 }
 
-export default CategorySort;
+export default CategorySortComponent;

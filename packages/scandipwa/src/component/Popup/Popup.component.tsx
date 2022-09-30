@@ -24,7 +24,7 @@ import { PopupComponentProps } from './Popup.type';
 import './Popup.style';
 
 /** @namespace Component/Popup/Component */
-export class Popup extends Overlay<PopupComponentProps> {
+export class PopupComponent extends Overlay<PopupComponentProps> {
     static defaultProps: Partial<PopupComponentProps> = {
         ...Overlay.defaultProps,
         clickOutside: true,
@@ -204,4 +204,4 @@ export class Popup extends Overlay<PopupComponentProps> {
     }
 }
 
-export default Popup;
+export default PopupComponent;

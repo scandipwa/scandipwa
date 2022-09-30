@@ -26,7 +26,7 @@ import './ProductCustomizableOptions.style';
  * @class ProductCustomizableOptions
  * @namespace Component/ProductCustomizableOptions/Component
  */
-export class ProductCustomizableOptions extends PureComponent<ProductCustomizableOptionsComponentProps> {
+export class ProductCustomizableOptionsComponent extends PureComponent<ProductCustomizableOptionsComponentProps> {
     static defaultProps: Partial<ProductCustomizableOptionsComponentProps> = {
         options: [],
     };
@@ -68,4 +68,4 @@ export class ProductCustomizableOptions extends PureComponent<ProductCustomizabl
     }
 }
 
-export default ProductCustomizableOptions;
+export default ProductCustomizableOptionsComponent;

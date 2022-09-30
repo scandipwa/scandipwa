@@ -19,7 +19,7 @@ import { MyAccountTabListItemComponentProps } from './MyAccountTabListItem.type'
 import './MyAccountTabListItem.style';
 
 /** @namespace Component/MyAccountTabListItem/Component */
-export class MyAccountTabListItem extends PureComponent<MyAccountTabListItemComponentProps> {
+export class MyAccountTabListItemComponent extends PureComponent<MyAccountTabListItemComponentProps> {
     static defaultProps: Partial<MyAccountTabListItemComponentProps> = {
         isActive: false,
         children: [],
@@ -60,4 +60,4 @@ export class MyAccountTabListItem extends PureComponent<MyAccountTabListItemComp
     }
 }
 
-export default MyAccountTabListItem;
+export default MyAccountTabListItemComponent;

@@ -26,10 +26,6 @@ module.exports = {
         '@scandipwa/scandipwa-guidelines/use-license': 'error',
         // avoid duplicate namespaces for core
         '@scandipwa/scandipwa-guidelines/no-duplicate-namespaces': 'error',
-        // allow (for initial state in reducers)
-        '@typescript-eslint/default-param-last': 'off',
-        // disabled to keep namespace compatible
-        '@scandipwa/scandipwa-guidelines/derived-class-names': 'off',
         // TODO: disable someday
         '@scandipwa/scandipwa-guidelines/jsx-no-conditional': 'off',
         '@scandipwa/scandipwa-guidelines/only-render-in-component': 'off',
@@ -37,15 +33,5 @@ module.exports = {
         '@typescript-eslint/naming-convention': 'off',
         'max-lines': 'off',
         'max-len': 'off',
-    },
-    overrides: [
-        // {
-        //     files: [
-        //         '*.reducer.ts'
-        //     ],
-        //     rules: {
-        //         '@typescript-eslint/default-param-last': 'off'
-        //     }
-        // }
-    ],
+    }
 };

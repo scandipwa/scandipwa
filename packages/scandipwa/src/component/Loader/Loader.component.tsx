@@ -23,7 +23,7 @@ import './Loader.style';
  * @class Loader
  * @namespace Component/Loader/Component
  */
-export class Loader extends PureComponent<LoaderComponentProps> {
+export class LoaderComponent extends PureComponent<LoaderComponentProps> {
     static defaultProps: Partial<LoaderComponentProps> = {
         isLoading: true,
         mix: {},
@@ -54,4 +54,4 @@ export class Loader extends PureComponent<LoaderComponentProps> {
     }
 }
 
-export default Loader;
+export default LoaderComponent;

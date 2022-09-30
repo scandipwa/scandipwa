@@ -19,7 +19,7 @@ import { SharedTransitionComponentProps } from './SharedTransition.type';
 import './SharedTransition.style';
 
 /** @namespace Component/SharedTransition/Component */
-export class SharedTransition extends PureComponent<SharedTransitionComponentProps> {
+export class SharedTransitionComponent extends PureComponent<SharedTransitionComponentProps> {
     sharedContainer = createRef<HTMLDivElement>();
 
     animationSpeed = SHARED_ELEMENT_TRANSITION;
@@ -120,4 +120,4 @@ export class SharedTransition extends PureComponent<SharedTransitionComponentPro
     }
 }
 
-export default SharedTransition;
+export default SharedTransitionComponent;

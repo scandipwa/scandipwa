@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import './FilterIcon.style';
 
 /** @namespace Component/FilterIcon/Component */
-export class FilterIcon extends PureComponent {
+export class FilterIconComponent extends PureComponent {
     render(): ReactElement {
         return (
             <svg
@@ -41,4 +41,4 @@ export class FilterIcon extends PureComponent {
     }
 }
 
-export default FilterIcon;
+export default FilterIconComponent;

@@ -19,7 +19,7 @@ import { MyAccountOrderTableRowComponentProps } from './MyAccountOrderTableRow.t
 import './MyAccountOrderTableRow.style';
 
 /** @namespace Component/MyAccountOrderTableRow/Component */
-export class MyAccountOrderTableRow extends PureComponent<MyAccountOrderTableRowComponentProps> {
+export class MyAccountOrderTableRowComponent extends PureComponent<MyAccountOrderTableRowComponentProps> {
     renderEmptyRow(): ReactElement {
         const { onViewClick } = this.props;
 
@@ -65,4 +65,4 @@ export class MyAccountOrderTableRow extends PureComponent<MyAccountOrderTableRow
     }
 }
 
-export default MyAccountOrderTableRow;
+export default MyAccountOrderTableRowComponent;

@@ -25,7 +25,7 @@ import { SearchOverlayComponentProps } from './SearchOverlay.type';
 import './SearchOverlay.style';
 
 /** @namespace Component/SearchOverlay/Component */
-export class SearchOverlay extends PureComponent<SearchOverlayComponentProps> {
+export class SearchOverlayComponent extends PureComponent<SearchOverlayComponentProps> {
     static defaultProps: Partial<SearchOverlayComponentProps> = {
         searchCriteria: '',
     };
@@ -116,4 +116,4 @@ export class SearchOverlay extends PureComponent<SearchOverlayComponentProps> {
     }
 }
 
-export default SearchOverlay;
+export default SearchOverlayComponent;

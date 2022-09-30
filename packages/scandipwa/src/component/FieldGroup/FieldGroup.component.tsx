@@ -22,7 +22,7 @@ import './FieldGroup.style';
  * Field Group
  * @class FieldGroup
  * @namespace Component/FieldGroup/Component */
-export class FieldGroup extends PureComponent<FieldGroupComponentProps> {
+export class FieldGroupComponent extends PureComponent<FieldGroupComponentProps> {
     static defaultProps: Partial<FieldGroupComponentProps> = {
         validationResponse: null,
     };
@@ -113,4 +113,4 @@ export class FieldGroup extends PureComponent<FieldGroupComponentProps> {
     }
 }
 
-export default FieldGroup;
+export default FieldGroupComponent;

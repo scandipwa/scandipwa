@@ -22,7 +22,7 @@ import { SwipeToDeleteComponentProps, SwipeToDeleteComponentState } from './Swip
 import './SwipeToDelete.style';
 
 /** @namespace Component/SwipeToDelete/Component */
-export class SwipeToDelete extends PureComponent<SwipeToDeleteComponentProps, SwipeToDeleteComponentState> {
+export class SwipeToDeleteComponent extends PureComponent<SwipeToDeleteComponentProps, SwipeToDeleteComponentState> {
     state: SwipeToDeleteComponentState = {
         isRightSideOpen: false,
         isAheadRemoveItemThreshold: false,
@@ -235,4 +235,4 @@ export class SwipeToDelete extends PureComponent<SwipeToDeleteComponentProps, Sw
     }
 }
 
-export default SwipeToDelete;
+export default SwipeToDeleteComponent;

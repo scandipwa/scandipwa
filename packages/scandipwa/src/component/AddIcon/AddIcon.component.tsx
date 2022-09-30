@@ -18,7 +18,7 @@ import { AddIconComponentProps } from './AddIcon.type';
 import './AddIcon.style';
 
 /** @namespace Component/AddIcon/Component */
-export class AddIcon extends PureComponent<AddIconComponentProps> {
+export class AddIconComponent extends PureComponent<AddIconComponentProps> {
     static defaultProps: Partial<AddIconComponentProps> = {
         isPrimary: false,
     };
@@ -42,4 +42,4 @@ export class AddIcon extends PureComponent<AddIconComponentProps> {
     }
 }
 
-export default AddIcon;
+export default AddIconComponent;

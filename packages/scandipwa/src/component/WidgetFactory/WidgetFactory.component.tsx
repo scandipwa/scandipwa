@@ -41,7 +41,7 @@ export const RecentlyViewedWidget = lazy(() => import(
 ));
 
 /** @namespace Component/WidgetFactory/Component */
-export class WidgetFactory extends PureComponent<WidgetFactoryComponentProps> {
+export class WidgetFactoryComponent extends PureComponent<WidgetFactoryComponentProps> {
     renderMap: WidgetFactoryComponentRenderMap = {
         [Widget.SLIDER]: {
             component: HomeSlider,
@@ -119,4 +119,4 @@ export class WidgetFactory extends PureComponent<WidgetFactoryComponentProps> {
     }
 }
 
-export default WidgetFactory;
+export default WidgetFactoryComponent;

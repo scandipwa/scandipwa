@@ -21,7 +21,7 @@ import { BreadcrumbComponentProps } from './Breadcrumb.type';
 import './Breadcrumb.style';
 
 /** @namespace Component/Breadcrumb/Component */
-export class Breadcrumb extends PureComponent<BreadcrumbComponentProps> {
+export class BreadcrumbComponent extends PureComponent<BreadcrumbComponentProps> {
     static defaultProps: Partial<BreadcrumbComponentProps> = {
         url: '',
         name: '',
@@ -89,4 +89,4 @@ export class Breadcrumb extends PureComponent<BreadcrumbComponentProps> {
     }
 }
 
-export default Breadcrumb;
+export default BreadcrumbComponent;

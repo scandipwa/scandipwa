@@ -44,7 +44,7 @@ export const CategoryFilterOverlay = lazy(() => import(
 ));
 
 /** @namespace Route/CategoryPage/Component */
-export class CategoryPage<
+export class CategoryPageComponent<
 P extends CategoryPageComponentProps = CategoryPageComponentProps,
 S extends CategoryPageComponentState = CategoryPageComponentState,
 > extends PureComponent<P, S> {
@@ -482,4 +482,4 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
     }
 }
 
-export default CategoryPage;
+export default CategoryPageComponent;

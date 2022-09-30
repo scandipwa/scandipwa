@@ -24,7 +24,7 @@ import myAccountAddressForm from './MyAccountAddressForm.form';
 import { MyAccountAddressFormComponentProps, MyAccountAddressFormFields } from './MyAccountAddressForm.type';
 
 /** @namespace Component/MyAccountAddressForm/Component */
-export class MyAccountAddressForm<
+export class MyAccountAddressFormComponent<
     Props extends MyAccountAddressFormComponentProps = MyAccountAddressFormComponentProps,
 > extends FieldForm<Props> {
     static defaultProps: Partial<MyAccountAddressFormComponentProps> = {
@@ -135,4 +135,4 @@ export class MyAccountAddressForm<
     //#endregion
 }
 
-export default MyAccountAddressForm;
+export default MyAccountAddressFormComponent;

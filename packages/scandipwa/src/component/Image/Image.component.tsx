@@ -27,7 +27,7 @@ import './Image.style';
  * @class Image
  * @namespace Component/Image/Component
  */
-export class Image<
+export class ImageComponent<
 P extends ImageComponentProps = ImageComponentProps,
 S extends ImageComponentState = ImageComponentState,
 > extends PureComponent<P, S> {
@@ -251,4 +251,4 @@ S extends ImageComponentState = ImageComponentState,
     }
 }
 
-export default Image;
+export default ImageComponent;

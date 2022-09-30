@@ -39,7 +39,7 @@ import './CartItem.style';
  * @class CartItem
  * @namespace Component/CartItem/Component
  */
-export class CartItem extends PureComponent<CartItemComponentProps> {
+export class CartItemComponent extends PureComponent<CartItemComponentProps> {
     static defaultProps: Partial<CartItemComponentProps> = {
         isCartOverlay: false,
         isMobileLayout: false,
@@ -546,4 +546,4 @@ export class CartItem extends PureComponent<CartItemComponentProps> {
     }
 }
 
-export default CartItem;
+export default CartItemComponent;

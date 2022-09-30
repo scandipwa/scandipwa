@@ -21,7 +21,7 @@ import { MyAccountTabListComponentProps } from './MyAccountTabList.type';
 import './MyAccountTabList.style';
 
 /** @namespace Component/MyAccountTabList/Component */
-export class MyAccountTabList extends PureComponent<MyAccountTabListComponentProps> {
+export class MyAccountTabListComponent extends PureComponent<MyAccountTabListComponentProps> {
     renderTabListItem(
         tabEntry: ObjectEntries<Record<string, MyAccountTab>>,
         index: number,
@@ -101,4 +101,4 @@ export class MyAccountTabList extends PureComponent<MyAccountTabListComponentPro
     }
 }
 
-export default MyAccountTabList;
+export default MyAccountTabListComponent;

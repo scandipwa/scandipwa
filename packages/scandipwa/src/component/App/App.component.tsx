@@ -25,7 +25,7 @@ import getStore from 'Util/Store';
 import { AppComponentState } from './App.type';
 
 /** @namespace Component/App/Component */
-export class App extends PureComponent<unknown, AppComponentState> {
+export class AppComponent extends PureComponent<unknown, AppComponentState> {
     protected reduxStore?: Store<unknown, AnyAction> = undefined;
 
     productionFunctions = [
@@ -184,4 +184,4 @@ export class App extends PureComponent<unknown, AppComponentState> {
     }
 }
 
-export default App;
+export default AppComponent;

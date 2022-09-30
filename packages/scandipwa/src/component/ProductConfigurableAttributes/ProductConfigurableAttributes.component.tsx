@@ -26,7 +26,7 @@ import {
 import './ProductConfigurableAttributes.style';
 
 /** @namespace Component/ProductConfigurableAttributes/Component */
-export class ProductConfigurableAttributes<
+export class ProductConfigurableAttributesComponent<
 P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttributesComponentProps,
 > extends PureComponent<P> {
     static defaultProps: Partial<ProductConfigurableAttributesComponentProps> = {
@@ -200,4 +200,4 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
     }
 }
 
-export default ProductConfigurableAttributes;
+export default ProductConfigurableAttributesComponent;

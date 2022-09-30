@@ -21,7 +21,7 @@ import { MyAccountMyOrdersComponentProps, OrderRow } from './MyAccountMyOrders.t
 import './MyAccountMyOrders.style';
 
 /** @namespace Component/MyAccountMyOrders/Component */
-export class MyAccountMyOrders extends Component<MyAccountMyOrdersComponentProps> {
+export class MyAccountMyOrdersComponent extends Component<MyAccountMyOrdersComponentProps> {
     shouldComponentUpdate(nextProps: MyAccountMyOrdersComponentProps): boolean {
         const { device, orderList, isLoading } = this.props;
         const {
@@ -126,4 +126,4 @@ export class MyAccountMyOrders extends Component<MyAccountMyOrdersComponentProps
     }
 }
 
-export default MyAccountMyOrders;
+export default MyAccountMyOrdersComponent;

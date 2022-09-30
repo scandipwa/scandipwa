@@ -26,7 +26,7 @@ import { SendConfirmationPageComponentProps } from './SendConfirmationPage.type'
 import './SendConfirmationPage.style';
 
 /** @namespace Route/SendConfirmationPage/Component */
-export class SendConfirmationPage extends PureComponent<SendConfirmationPageComponentProps> {
+export class SendConfirmationPageComponent extends PureComponent<SendConfirmationPageComponentProps> {
     renderWarningMessage(): ReactElement {
         const { shouldDisplayWarning } = this.props;
 
@@ -132,4 +132,4 @@ export class SendConfirmationPage extends PureComponent<SendConfirmationPageComp
     }
 }
 
-export default SendConfirmationPage;
+export default SendConfirmationPageComponent;

@@ -27,7 +27,7 @@ import './FieldSelect.style';
  * Field Select
  * @class FieldSelect
  * @namespace Component/FieldSelect/Component */
-export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
+export class FieldSelectComponent extends PureComponent<FieldSelectComponentProps> {
     static defaultProps: Partial<FieldSelectComponentProps> = {
         isUpDirection: false,
     };
@@ -209,4 +209,4 @@ export class FieldSelect extends PureComponent<FieldSelectComponentProps> {
     }
 }
 
-export default FieldSelect;
+export default FieldSelectComponent;

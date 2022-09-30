@@ -28,7 +28,7 @@ import './VideoPopup.style';
  * @class VideoPopup
  * @namespace Component/VideoPopup/Component
  */
-export class VideoPopup extends PureComponent<VideoPopupComponentProps> {
+export class VideoPopupComponent extends PureComponent<VideoPopupComponentProps> {
     vimeoPromise: CancelablePromise<{ default: VimeoComponent }> | null = null;
 
     youTubePromise: CancelablePromise<{ default: YouTubeComponent }> | null = null;
@@ -45,7 +45,7 @@ export class VideoPopup extends PureComponent<VideoPopupComponentProps> {
             this.vimeoPromise,
             this.youTubePromise,
         ]).then(
-            /** @namespace Component/VideoPopup/Component/VideoPopup/componentDidMount/all/then */
+            /** @namespace Component/VideoPopup/Component/VideoPopupComponent/componentDidMount/all/then */
             () => this.forceUpdate(),
         );
     }
@@ -109,7 +109,7 @@ export class VideoPopup extends PureComponent<VideoPopupComponentProps> {
         this.vimeoPromise = makeCancelable(import('react-vimeo'));
 
         this.vimeoPromise.promise.then(
-            /** @namespace Component/VideoPopup/Component/VideoPopup/loadVimeoLibrary/then */
+            /** @namespace Component/VideoPopup/Component/VideoPopupComponent/loadVimeoLibrary/then */
             ({ default: vimeo }) => {
                 this.vimeoComponent = vimeo;
             },
@@ -120,7 +120,7 @@ export class VideoPopup extends PureComponent<VideoPopupComponentProps> {
         this.youTubePromise = makeCancelable<{ default: YouTubeComponent }>(import('react-youtube'));
 
         this.youTubePromise.promise.then(
-            /** @namespace Component/VideoPopup/Component/VideoPopup/loadYouTubeLibrary/then */
+            /** @namespace Component/VideoPopup/Component/VideoPopupComponent/loadYouTubeLibrary/then */
             ({ default: youTube }) => {
                 this.youTubeComponent = youTube;
             },
@@ -173,4 +173,4 @@ export class VideoPopup extends PureComponent<VideoPopupComponentProps> {
     }
 }
 
-export default VideoPopup;
+export default VideoPopupComponent;

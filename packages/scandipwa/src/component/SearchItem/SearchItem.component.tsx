@@ -23,7 +23,7 @@ import { SearchItemComponentProps } from './SearchItem.type';
 import './SearchItem.style';
 
 /** @namespace Component/SearchItem/Component */
-export class SearchItem extends PureComponent<SearchItemComponentProps> {
+export class SearchItemComponent extends PureComponent<SearchItemComponentProps> {
     static defaultProps: Partial<SearchItemComponentProps> = {
         linkTo: { pathname: '' },
         imgSrc: '',
@@ -120,4 +120,4 @@ export class SearchItem extends PureComponent<SearchItemComponentProps> {
     }
 }
 
-export default SearchItem;
+export default SearchItemComponent;

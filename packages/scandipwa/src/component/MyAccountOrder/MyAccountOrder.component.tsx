@@ -33,7 +33,7 @@ import { MyAccountOrderComponentProps, OrderRenderItems, OrderTab } from './MyAc
 import './MyAccountOrder.style';
 
 /** @namespace Component/MyAccountOrder/Component */
-export class MyAccountOrder<
+export class MyAccountOrderComponent<
 Props extends MyAccountOrderComponentProps = MyAccountOrderComponentProps,
 > extends PureComponent<Props> {
     static defaultProps = {
@@ -365,4 +365,4 @@ Props extends MyAccountOrderComponentProps = MyAccountOrderComponentProps,
     }
 }
 
-export default MyAccountOrder;
+export default MyAccountOrderComponent;

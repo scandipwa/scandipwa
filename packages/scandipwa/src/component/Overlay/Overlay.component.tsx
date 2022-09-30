@@ -21,7 +21,7 @@ import { OverlayComponentProps } from './Overlay.type';
 import './Overlay.style';
 
 /** @namespace Component/Overlay/Component */
-export class Overlay<P extends OverlayComponentProps = OverlayComponentProps> extends PureComponent<P> {
+export class OverlayComponent<P extends OverlayComponentProps = OverlayComponentProps> extends PureComponent<P> {
     static defaultProps: Partial<OverlayComponentProps> = {
         mix: {},
         contentMix: {},
@@ -134,4 +134,4 @@ export class Overlay<P extends OverlayComponentProps = OverlayComponentProps> ex
     }
 }
 
-export default Overlay;
+export default OverlayComponent;

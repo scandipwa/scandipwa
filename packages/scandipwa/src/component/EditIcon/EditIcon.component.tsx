@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import './EditIcon.style';
 
 /** @namespace Component/EditIcon/Component */
-export class EditIcon extends PureComponent {
+export class EditIconComponent extends PureComponent {
     render(): ReactElement {
         return (
             <svg
@@ -33,4 +33,4 @@ export class EditIcon extends PureComponent {
     }
 }
 
-export default EditIcon;
+export default EditIconComponent;

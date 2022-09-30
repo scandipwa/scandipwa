@@ -19,7 +19,7 @@ import { ProductAlertsComponentProps } from './ProductAlerts.type';
 import './ProductAlerts.style';
 
 /** @namespace Component/ProductAlerts/Component */
-export class ProductAlerts extends PureComponent<ProductAlertsComponentProps> {
+export class ProductAlertsComponent extends PureComponent<ProductAlertsComponentProps> {
     static defaultProps: Partial<ProductAlertsComponentProps> = {
         isInStockAlertEnabled: false,
         isPriceAlertEnabled: false,
@@ -83,4 +83,4 @@ export class ProductAlerts extends PureComponent<ProductAlertsComponentProps> {
     }
 }
 
-export default ProductAlerts;
+export default ProductAlertsComponent;

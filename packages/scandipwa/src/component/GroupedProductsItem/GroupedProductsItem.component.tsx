@@ -34,7 +34,7 @@ import './GroupedProductsItem.style';
  * @class GroupedProduct
  * @namespace Component/GroupedProductsItem/Component
  */
-export class GroupedProductsItem extends PureComponent<GroupedProductsItemComponentProps> {
+export class GroupedProductsItemComponent extends PureComponent<GroupedProductsItemComponentProps> {
     renderTitle(): ReactElement {
         const {
             product: {
@@ -154,4 +154,4 @@ export class GroupedProductsItem extends PureComponent<GroupedProductsItemCompon
     }
 }
 
-export default GroupedProductsItem;
+export default GroupedProductsItemComponent;

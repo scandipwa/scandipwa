@@ -52,7 +52,7 @@ import './ProductGallery.style';
  * @class ProductGallery
  * @namespace Component/ProductGallery/Component
  */
-export class ProductGallery extends PureComponent<ProductGalleryComponentProps, ProductGalleryComponentState> {
+export class ProductGalleryComponent extends PureComponent<ProductGalleryComponentProps, ProductGalleryComponentState> {
     static defaultProps: Partial<ProductGalleryComponentProps> = {
         productId: 0,
     };
@@ -439,7 +439,7 @@ export class ProductGallery extends PureComponent<ProductGalleryComponentProps, 
 }
 
 export default withRouter(
-    ProductGallery as unknown as ComponentType<
+    ProductGalleryComponent as unknown as ComponentType<
     RouteComponentProps & ProductGalleryComponentProps
     >,
 );

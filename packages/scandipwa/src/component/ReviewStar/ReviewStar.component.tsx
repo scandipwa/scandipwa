@@ -18,7 +18,7 @@ import { ReviewStarComponentProps } from './ReviewStar.type';
 import './ReviewStar.style';
 
 /** @namespace Component/ReviewStar/Component */
-export class ReviewStar extends PureComponent<ReviewStarComponentProps> {
+export class ReviewStarComponent extends PureComponent<ReviewStarComponentProps> {
     __construct(props: ReviewStarComponentProps): void {
         super.__construct?.(props);
 
@@ -61,4 +61,4 @@ export class ReviewStar extends PureComponent<ReviewStarComponentProps> {
     }
 }
 
-export default ReviewStar;
+export default ReviewStarComponent;

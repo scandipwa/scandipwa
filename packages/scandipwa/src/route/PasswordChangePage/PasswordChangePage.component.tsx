@@ -21,7 +21,7 @@ import { PasswordChangePageComponentProps } from './PasswordChangePage.type';
 import './PasswordChangePage.style';
 
 /** @namespace Route/PasswordChangePage/Component */
-export class PasswordChangePage extends PureComponent<PasswordChangePageComponentProps> {
+export class PasswordChangePageComponent extends PureComponent<PasswordChangePageComponentProps> {
     renderWarningMessage(): ReactElement {
         const { shouldDisplayWarning } = this.props;
 
@@ -93,4 +93,4 @@ export class PasswordChangePage extends PureComponent<PasswordChangePageComponen
     }
 }
 
-export default PasswordChangePage;
+export default PasswordChangePageComponent;

@@ -28,7 +28,7 @@ import './ProductPrice.style';
  * @class ProductPrice
  * @namespace Component/ProductPrice/Component
  */
-export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
+export class ProductPriceComponent extends PureComponent<ProductPriceComponentProps> {
     static defaultProps: Partial<ProductPriceComponentProps> = {
         price: {},
         priceType: ProductType.SIMPLE,
@@ -445,4 +445,4 @@ export class ProductPrice extends PureComponent<ProductPriceComponentProps> {
     }
 }
 
-export default ProductPrice;
+export default ProductPriceComponent;

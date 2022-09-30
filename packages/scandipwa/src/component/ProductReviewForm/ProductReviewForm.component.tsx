@@ -29,7 +29,7 @@ import './ProductReviewForm.style';
  * @class ProductReviewForm
  * @namespace Component/ProductReviewForm/Component
  */
-export class ProductReviewForm extends PureComponent<ProductReviewFormComponentProps> {
+export class ProductReviewFormComponent extends PureComponent<ProductReviewFormComponentProps> {
     ratingTitleMap = {
         1: __('Awful'),
         2: __('Bad'),
@@ -206,4 +206,4 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
     }
 }
 
-export default ProductReviewForm;
+export default ProductReviewFormComponent;

@@ -27,7 +27,7 @@ import './ProductListPage.style';
  * @class ProductListPage
  * @namespace Component/ProductListPage/Component
  */
-export class ProductListPage extends PureComponent<
+export class ProductListPageComponent extends PureComponent<
 ProductListPageComponentProps,
 ProductListPageComponentState
 > {
@@ -235,4 +235,4 @@ ProductListPageComponentState
     }
 }
 
-export default ProductListPage;
+export default ProductListPageComponent;

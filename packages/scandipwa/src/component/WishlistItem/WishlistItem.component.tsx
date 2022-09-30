@@ -31,7 +31,7 @@ import { WishlistItemComponentOptionMap, WishlistItemComponentProps } from './Wi
 import './WishlistItem.style';
 
 /** @namespace Component/WishlistItem/Component */
-export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemComponentProps> extends PureComponent<P> {
+export class WishlistItemComponent<P extends WishlistItemComponentProps = WishlistItemComponentProps> extends PureComponent<P> {
     static defaultProps: Partial<WishlistItemComponentProps> = {
         addToCart: noopFnAsync,
         changeQuantity: noopFn,
@@ -470,4 +470,4 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
     }
 }
 
-export default WishlistItem;
+export default WishlistItemComponent;

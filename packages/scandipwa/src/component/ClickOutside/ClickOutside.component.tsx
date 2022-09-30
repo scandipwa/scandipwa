@@ -24,7 +24,7 @@ import { noopFn } from 'Util/Common';
 import { ClickOutsideComponentProps } from './ClickOutside.type';
 
 /** @namespace Component/ClickOutside/Component */
-export class ClickOutside extends PureComponent<ClickOutsideComponentProps> {
+export class ClickOutsideComponent extends PureComponent<ClickOutsideComponentProps> {
     childrenRefs: RefObject<HTMLElement>[] = [];
 
     static defaultProps: Partial<ClickOutsideComponentProps> = {
@@ -78,4 +78,4 @@ export class ClickOutside extends PureComponent<ClickOutsideComponentProps> {
     }
 }
 
-export default ClickOutside;
+export default ClickOutsideComponent;

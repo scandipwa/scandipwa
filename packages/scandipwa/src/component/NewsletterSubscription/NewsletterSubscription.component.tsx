@@ -25,7 +25,7 @@ import './NewsletterSubscription.style';
  * @class NewsletterSubscription
  * @namespace Component/NewsletterSubscription/Component
  */
-export class NewsletterSubscription extends FieldForm<NewsletterSubscriptionComponentProps> {
+export class NewsletterSubscriptionComponent extends FieldForm<NewsletterSubscriptionComponentProps> {
     fieldMap(): Partial<FieldContainerProps>[] {
         return newsletterSubscriptionForm();
     }
@@ -70,4 +70,4 @@ export class NewsletterSubscription extends FieldForm<NewsletterSubscriptionComp
     }
 }
 
-export default NewsletterSubscription;
+export default NewsletterSubscriptionComponent;

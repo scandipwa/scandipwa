@@ -25,7 +25,7 @@ import { ProductCompareComponentProps } from './ProductCompare.type';
 import './ProductCompare.style';
 
 /** @namespace Component/ProductCompare/Component */
-export class ProductCompare extends Component<ProductCompareComponentProps> {
+export class ProductCompareComponent extends Component<ProductCompareComponentProps> {
     static defaultProps: Partial<ProductCompareComponentProps> = {
         isLoading: false,
         products: [],
@@ -246,4 +246,4 @@ export class ProductCompare extends Component<ProductCompareComponentProps> {
     }
 }
 
-export default ProductCompare;
+export default ProductCompareComponent;

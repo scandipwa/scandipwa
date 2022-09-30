@@ -36,7 +36,7 @@ import {
  * @class ProductCustomizableOption
  * @namespace Component/ProductCustomizableOption/Component
  */
-export class ProductCustomizableOption extends PureComponent<
+export class ProductCustomizableOptionComponent extends PureComponent<
 ProductCustomizableOptionComponentProps,
 ProductCustomizableOptionComponentState
 > {
@@ -340,4 +340,4 @@ ProductCustomizableOptionComponentState
     }
 }
 
-export default ProductCustomizableOption;
+export default ProductCustomizableOptionComponent;

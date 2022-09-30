@@ -20,7 +20,7 @@ import { CheckoutPaymentComponentProps } from './CheckoutPayment.type';
 import './CheckoutPayment.style';
 
 /** @namespace Component/CheckoutPayment/Component */
-export class CheckoutPayment extends PureComponent<CheckoutPaymentComponentProps> {
+export class CheckoutPaymentComponent extends PureComponent<CheckoutPaymentComponentProps> {
     static defaultProps = {
         isSelected: false,
     };
@@ -72,4 +72,4 @@ export class CheckoutPayment extends PureComponent<CheckoutPaymentComponentProps
     }
 }
 
-export default CheckoutPayment;
+export default CheckoutPaymentComponent;

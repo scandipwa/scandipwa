@@ -21,7 +21,7 @@ import { NewProductsComponentProps } from './NewProducts.type';
 import './NewProducts.style';
 
 /** @namespace Component/NewProducts/Component */
-export class NewProducts extends Component<NewProductsComponentProps> {
+export class NewProductsComponent extends Component<NewProductsComponentProps> {
     static defaultProps: Partial<NewProductsComponentProps> = {
         products: Array.from({ length: 4 }, () => ({})),
     };
@@ -105,4 +105,4 @@ export class NewProducts extends Component<NewProductsComponentProps> {
     }
 }
 
-export default NewProducts;
+export default NewProductsComponent;

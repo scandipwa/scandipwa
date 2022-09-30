@@ -31,7 +31,7 @@ import { MyAccountOrderItemsTableComponentProps } from './MyAccountOrderItemsTab
 import './MyAccountOrderItemsTable.style';
 
 /** @namespace Component/MyAccountOrderItemsTable/Component */
-export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsTableComponentProps> {
+export class MyAccountOrderItemsTableComponent extends PureComponent<MyAccountOrderItemsTableComponentProps> {
     renderItems(): ReactElement {
         const { items: { items: products } } = this.props;
 
@@ -272,4 +272,4 @@ export class MyAccountOrderItemsTable extends PureComponent<MyAccountOrderItemsT
     }
 }
 
-export default MyAccountOrderItemsTable;
+export default MyAccountOrderItemsTableComponent;

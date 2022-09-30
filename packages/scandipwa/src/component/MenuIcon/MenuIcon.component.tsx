@@ -18,7 +18,7 @@ import { MenuIconComponentProps } from './MenuIcon.type';
 import './MenuIcon.style';
 
 /** @namespace Component/MenuIcon/Component */
-export class MenuIcon extends PureComponent<MenuIconComponentProps> {
+export class MenuIconComponent extends PureComponent<MenuIconComponentProps> {
     static defaultProps: Partial<MenuIconComponentProps> = {
         isActive: false,
     };
@@ -45,4 +45,4 @@ export class MenuIcon extends PureComponent<MenuIconComponentProps> {
     }
 }
 
-export default MenuIcon;
+export default MenuIconComponent;

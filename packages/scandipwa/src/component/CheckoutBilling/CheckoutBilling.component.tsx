@@ -28,7 +28,7 @@ import { CheckoutBillingComponentProps, CheckoutBillingComponentState } from './
 import './CheckoutBilling.style';
 
 /** @namespace Component/CheckoutBilling/Component */
-export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps, CheckoutBillingComponentState> {
+export class CheckoutBillingComponent extends PureComponent<CheckoutBillingComponentProps, CheckoutBillingComponentState> {
     state: CheckoutBillingComponentState = {
         isOrderButtonVisible: true,
         isOrderButtonEnabled: true,
@@ -335,4 +335,4 @@ export class CheckoutBilling extends PureComponent<CheckoutBillingComponentProps
     }
 }
 
-export default CheckoutBilling;
+export default CheckoutBillingComponent;

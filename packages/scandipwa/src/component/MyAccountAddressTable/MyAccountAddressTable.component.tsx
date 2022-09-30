@@ -22,7 +22,7 @@ import { MyAccountAddressTableComponentProps } from './MyAccountAddressTable.typ
 import './MyAccountAddressTable.style';
 
 /** @namespace Component/MyAccountAddressTable/Component */
-export class MyAccountAddressTable <
+export class MyAccountAddressTableComponent <
 Props extends MyAccountAddressTableComponentProps = MyAccountAddressTableComponentProps,
 > extends KeyValueTable<Props> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -86,4 +86,4 @@ Props extends MyAccountAddressTableComponentProps = MyAccountAddressTableCompone
     }
 }
 
-export default MyAccountAddressTable;
+export default MyAccountAddressTableComponent;

@@ -27,7 +27,7 @@ import { CategoryFilterOverlayComponentProps } from './CategoryFilterOverlay.typ
 import './CategoryFilterOverlay.style';
 
 /** @namespace Component/CategoryFilterOverlay/Component */
-export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayComponentProps> {
+export class CategoryFilterOverlayComponent extends PureComponent<CategoryFilterOverlayComponentProps> {
     renderFilters(): ReactElement {
         const {
             availableFilters = {},
@@ -217,4 +217,4 @@ export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayCo
     }
 }
 
-export default CategoryFilterOverlay;
+export default CategoryFilterOverlayComponent;

@@ -28,7 +28,7 @@ import './ProductList.style';
  * @class ProductList
  * @namespace Component/ProductList/Component
  */
-export class ProductList extends PureComponent<ProductListComponentProps> {
+export class ProductListComponent extends PureComponent<ProductListComponentProps> {
     static defaultProps: Partial<ProductListComponentProps> = {
         mix: {},
         title: '',
@@ -339,4 +339,4 @@ export class ProductList extends PureComponent<ProductListComponentProps> {
     }
 }
 
-export default ProductList;
+export default ProductListComponent;

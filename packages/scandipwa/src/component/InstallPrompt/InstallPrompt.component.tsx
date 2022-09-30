@@ -20,7 +20,7 @@ import { InstallPromptComponentProps } from './InstallPrompt.type';
 import './InstallPrompt.style';
 
 /** @namespace Component/InstallPrompt/Component */
-export class InstallPrompt extends PureComponent<InstallPromptComponentProps> {
+export class InstallPromptComponent extends PureComponent<InstallPromptComponentProps> {
     /**
      * Currently BeforeInstallPromptEvent is supported only on
      * - Android webview
@@ -86,4 +86,4 @@ export class InstallPrompt extends PureComponent<InstallPromptComponentProps> {
     }
 }
 
-export default InstallPrompt;
+export default InstallPromptComponent;

@@ -23,7 +23,7 @@ import { CheckoutDeliveryOptionComponentProps } from './CheckoutDeliveryOption.t
 import './CheckoutDeliveryOption.style';
 
 /** @namespace Component/CheckoutDeliveryOption/Component */
-export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOptionComponentProps> {
+export class CheckoutDeliveryOptionComponent extends PureComponent<CheckoutDeliveryOptionComponentProps> {
     static defaultProps: Partial<CheckoutDeliveryOptionComponentProps> = {
         isSelected: false,
         optionPrice: 0,
@@ -185,4 +185,4 @@ export class CheckoutDeliveryOption extends PureComponent<CheckoutDeliveryOption
     }
 }
 
-export default CheckoutDeliveryOption;
+export default CheckoutDeliveryOptionComponent;

@@ -19,7 +19,7 @@ import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 import { NavigationAbstractComponentProps } from './NavigationAbstract.type';
 
 /** @namespace Component/NavigationAbstract/Component */
-export class NavigationAbstract<Props extends NavigationAbstractComponentProps> extends Component<
+export class NavigationAbstractComponent<Props extends NavigationAbstractComponentProps> extends Component<
 Props
 > {
     defaultStateName = DEFAULT_STATE_NAME;
@@ -52,4 +52,4 @@ Props
     }
 }
 
-export default NavigationAbstract;
+export default NavigationAbstractComponent;

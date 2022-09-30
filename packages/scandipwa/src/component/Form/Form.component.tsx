@@ -20,7 +20,7 @@ import { FormComponentProps } from './Form.type';
  * Form
  * @class Form
  * @namespace Component/Form/Component */
-export class Form extends PureComponent<FormComponentProps> {
+export class FormComponent extends PureComponent<FormComponentProps> {
     static defaultProps: Partial<FormComponentProps> = {
         validationResponse: null,
     };
@@ -113,4 +113,4 @@ export class Form extends PureComponent<FormComponentProps> {
     }
 }
 
-export default Form;
+export default FormComponent;

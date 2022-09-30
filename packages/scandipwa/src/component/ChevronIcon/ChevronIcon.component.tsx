@@ -19,7 +19,7 @@ import { ChevronIconComponentProps } from './ChevronIcon.type';
 import './ChevronIcon.style';
 
 /** @namespace Component/ChevronIcon/Component */
-export class ChevronIcon extends PureComponent<ChevronIconComponentProps> {
+export class ChevronIconComponent extends PureComponent<ChevronIconComponentProps> {
     static defaultProps: Partial<ChevronIconComponentProps> = {
         direction: Directions.RIGHT,
     };
@@ -43,4 +43,4 @@ export class ChevronIcon extends PureComponent<ChevronIconComponentProps> {
     }
 }
 
-export default ChevronIcon;
+export default ChevronIconComponent;

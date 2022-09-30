@@ -19,7 +19,7 @@ import { DataPair, KeyValueTableComponentProps } from './KeyValueTable.type';
 import './KeyValueTable.style';
 
 /** @namespace Component/KeyValueTable/Component */
-export class KeyValueTable<
+export class KeyValueTableComponent<
 T extends KeyValueTableComponentProps = KeyValueTableComponentProps,
 > extends PureComponent<T> {
     static defaultProps: Partial<KeyValueTableComponentProps> = {
@@ -114,4 +114,4 @@ T extends KeyValueTableComponentProps = KeyValueTableComponentProps,
     }
 }
 
-export default KeyValueTable;
+export default KeyValueTableComponent;

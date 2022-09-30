@@ -34,7 +34,7 @@ import './ProductCard.style';
  * Product card
  * @class ProductCard
  * @namespace Component/ProductCard/Component */
-export class ProductCard extends Product<ProductCardComponentProps> {
+export class ProductCardComponent extends Product<ProductCardComponentProps> {
     static defaultProps: Partial<ProductCardComponentProps> = {
         ...Product.defaultProps,
         thumbnail: '',
@@ -444,4 +444,4 @@ export class ProductCard extends Product<ProductCardComponentProps> {
     }
 }
 
-export default ProductCard;
+export default ProductCardComponent;

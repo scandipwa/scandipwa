@@ -536,6 +536,13 @@ module.exports = {
             '@scandipwa/scandipwa-guidelines/export-level-one': 'off',
         },
     }, {
+        files: [
+            '*.reducer.ts',
+        ],
+        rules: {
+            '@typescript-eslint/default-param-last': 'off',
+        },
+    }, {
         files: ['build*/**/*'],
         rules: {
             'no-magic-numbers': 'off',

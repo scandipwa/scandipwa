@@ -24,7 +24,7 @@ import { FormattedStore, StoreSwitcherComponentProps } from './StoreSwitcher.typ
 import './StoreSwitcher.style';
 
 /** @namespace Component/StoreSwitcher/Component */
-export class StoreSwitcher extends PureComponent<StoreSwitcherComponentProps> {
+export class StoreSwitcherComponent extends PureComponent<StoreSwitcherComponentProps> {
     static defaultProps: Partial<StoreSwitcherComponentProps> = {
         storeLabel: '',
     };
@@ -115,4 +115,4 @@ export class StoreSwitcher extends PureComponent<StoreSwitcherComponentProps> {
     }
 }
 
-export default StoreSwitcher;
+export default StoreSwitcherComponent;

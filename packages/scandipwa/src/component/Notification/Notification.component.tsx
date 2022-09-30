@@ -28,7 +28,7 @@ import './Notification.style';
  * @class Notification
  * @namespace Component/Notification/Component
  */
-export class Notification extends PureComponent<NotificationComponentProps, NotificationComponentState> {
+export class NotificationComponent extends PureComponent<NotificationComponentProps, NotificationComponentState> {
     static defaultProps: Partial<NotificationComponentProps> = {
         lifeTime: 0,
         id: '',
@@ -119,4 +119,4 @@ export class Notification extends PureComponent<NotificationComponentProps, Noti
     }
 }
 
-export default Notification;
+export default NotificationComponent;

@@ -24,7 +24,7 @@ import transformToNameValuePair from 'Util/Form/Transform';
 import { CheckoutAddressFormComponentProps, EstimateAddressFields } from './CheckoutAddressForm.type';
 
 /** @namespace Component/CheckoutAddressForm/Component */
-export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFormComponentProps> {
+export class CheckoutAddressFormComponent extends MyAccountAddressForm<CheckoutAddressFormComponentProps> {
     static defaultProps: Partial<CheckoutAddressFormComponentProps> = {
         ...MyAccountAddressForm.defaultProps,
         onShippingEstimationFieldsChange: noopFn,
@@ -150,4 +150,4 @@ export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFor
     }
 }
 
-export default CheckoutAddressForm;
+export default CheckoutAddressFormComponent;

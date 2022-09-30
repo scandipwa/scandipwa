@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import './UploadIcon.style';
 
 /** @namespace Component/UploadIcon/Component */
-export class UploadIcon extends PureComponent {
+export class UploadIconComponent extends PureComponent {
     render(): ReactElement {
         return (
             <svg
@@ -34,4 +34,4 @@ export class UploadIcon extends PureComponent {
     }
 }
 
-export default UploadIcon;
+export default UploadIconComponent;

@@ -21,7 +21,7 @@ import {
 import './ExpandableContentShowMore.style';
 
 /** @namespace Component/ExpandableContentShowMore/Component */
-export class ExpandableContentShowMore extends PureComponent<
+export class ExpandableContentShowMoreComponent extends PureComponent<
 ExpandableContentShowMoreComponentProps,
 ExpandableContentShowMoreComponentState
 > {
@@ -193,4 +193,4 @@ ExpandableContentShowMoreComponentState
         );
     }
 }
-export default ExpandableContentShowMore;
+export default ExpandableContentShowMoreComponent;

@@ -35,7 +35,7 @@ export const CartCoupon = lazy(() => import(
  * Checkout Order Summary component
  * @namespace Component/CheckoutOrderSummary/Component
  */
-export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComponentProps> {
+export class CheckoutOrderSummaryComponent extends PureComponent<CheckoutOrderSummaryComponentProps> {
     static defaultProps: Partial<CheckoutOrderSummaryComponentProps> = {
         totals: undefined,
         isLoading: false,
@@ -444,4 +444,4 @@ export class CheckoutOrderSummary extends PureComponent<CheckoutOrderSummaryComp
     }
 }
 
-export default CheckoutOrderSummary;
+export default CheckoutOrderSummaryComponent;

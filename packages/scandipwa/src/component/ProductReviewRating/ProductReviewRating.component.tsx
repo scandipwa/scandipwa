@@ -29,7 +29,7 @@ import './ProductReviewRating.style';
  * @class ProductReviewRating
  * @namespace Component/ProductReviewRating/Component
  */
-export class ProductReviewRating extends PureComponent<ProductReviewRatingComponentProps> {
+export class ProductReviewRatingComponent extends PureComponent<ProductReviewRatingComponentProps> {
     static defaultProps: Partial<ProductReviewRatingComponentProps> = {
         summary: 0,
         code: '',
@@ -126,4 +126,4 @@ export class ProductReviewRating extends PureComponent<ProductReviewRatingCompon
     }
 }
 
-export default ProductReviewRating;
+export default ProductReviewRatingComponent;

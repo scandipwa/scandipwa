@@ -25,7 +25,7 @@ import './FieldNumberWithControls.style.scss';
  * Field Number With Controls
  * @class FieldNumberWithControls
  * @namespace Component/FieldNumberWithControls/Component */
-export class FieldNumberWithControls extends PureComponent<FieldNumberWitControlsComponentProps> {
+export class FieldNumberWithControlsComponent extends PureComponent<FieldNumberWitControlsComponentProps> {
     render(): ReactElement {
         const {
             attr,
@@ -77,4 +77,4 @@ export class FieldNumberWithControls extends PureComponent<FieldNumberWitControl
     }
 }
 
-export default FieldNumberWithControls;
+export default FieldNumberWithControlsComponent;

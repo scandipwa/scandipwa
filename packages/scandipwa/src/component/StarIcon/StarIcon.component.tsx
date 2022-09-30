@@ -19,7 +19,7 @@ import { StarIconComponentProps } from './StarIcon.type';
 import './StarIcon.style';
 
 /** @namespace Component/StarIcon/Component */
-export class AddIcon extends PureComponent<StarIconComponentProps> {
+export class StarIconComponent extends PureComponent<StarIconComponentProps> {
     getStarPath(): ReactElement {
         const { starFill } = this.props;
 
@@ -60,4 +60,4 @@ export class AddIcon extends PureComponent<StarIconComponentProps> {
     }
 }
 
-export default AddIcon;
+export default StarIconComponent;

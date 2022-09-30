@@ -26,7 +26,7 @@ import { IndexedAttributeWithValueOption } from 'Util/Product/Product.type';
 import { CategoryConfigurableAttributesComponentProps } from './CategoryConfigurableAttributes.type';
 
 /** @namespace Component/CategoryConfigurableAttributes/Component */
-export class CategoryConfigurableAttributes extends ProductConfigurableAttributes<
+export class CategoryConfigurableAttributesComponent extends ProductConfigurableAttributes<
 CategoryConfigurableAttributesComponentProps
 > {
     renderSubCategories(option: Partial<ProductConfigurableAttribute>): ReactElement {
@@ -161,4 +161,4 @@ CategoryConfigurableAttributesComponentProps
     }
 }
 
-export default CategoryConfigurableAttributes;
+export default CategoryConfigurableAttributesComponent;

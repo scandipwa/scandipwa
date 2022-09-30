@@ -18,7 +18,7 @@ import { CartIconComponentProps } from './CartIcon.type';
 import './CartIcon.style';
 
 /** @namespace Component/CartIcon/Component */
-export class CartIcon extends PureComponent<CartIconComponentProps> {
+export class CartIconComponent extends PureComponent<CartIconComponentProps> {
     static defaultProps: Partial<CartIconComponentProps> = {
         isActive: false,
     };
@@ -44,4 +44,4 @@ export class CartIcon extends PureComponent<CartIconComponentProps> {
     }
 }
 
-export default CartIcon;
+export default CartIconComponent;

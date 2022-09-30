@@ -23,7 +23,7 @@ import './CmsBlock.style';
  * @class CmsBlock
  * @namespace Component/CmsBlock/Component
  */
-export class CmsBlock extends PureComponent<CmsBlockComponentProps> {
+export class CmsBlockComponent extends PureComponent<CmsBlockComponentProps> {
     static defaultProps: Partial<CmsBlockComponentProps> = {
         cmsBlock: {},
         blockType: '',
@@ -71,4 +71,4 @@ export class CmsBlock extends PureComponent<CmsBlockComponentProps> {
     }
 }
 
-export default CmsBlock;
+export default CmsBlockComponent;

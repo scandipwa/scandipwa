@@ -22,7 +22,7 @@ import { ProductGalleryThumbnailImageComponentProps } from './ProductGalleryThum
 import './ProductGalleryThumbnailImage.style';
 
 /** @namespace Component/ProductGalleryThumbnailImage/Component */
-export class ProductGalleryThumbnailImage extends PureComponent<ProductGalleryThumbnailImageComponentProps> {
+export class ProductGalleryThumbnailImageComponent extends PureComponent<ProductGalleryThumbnailImageComponentProps> {
     renderMedia(): ReactElement {
         const { media: { media_type } } = this.props;
 
@@ -106,4 +106,4 @@ export class ProductGalleryThumbnailImage extends PureComponent<ProductGalleryTh
     }
 }
 
-export default ProductGalleryThumbnailImage;
+export default ProductGalleryThumbnailImageComponent;

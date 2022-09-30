@@ -24,7 +24,7 @@ import { CarouselScrollComponentProps, CarouselScrollComponentState } from './Ca
 import './CarouselScroll.style';
 
 /** @namespace Component/CarouselScroll/Component */
-export class CarouselScroll extends PureComponent<CarouselScrollComponentProps, CarouselScrollComponentState> {
+export class CarouselScrollComponent extends PureComponent<CarouselScrollComponentProps, CarouselScrollComponentState> {
     static defaultProps: Partial<CarouselScrollComponentProps> = {
         showArrow: true,
         showedItemCount: 1,
@@ -231,4 +231,4 @@ export class CarouselScroll extends PureComponent<CarouselScrollComponentProps, 
     }
 }
 
-export default CarouselScroll;
+export default CarouselScrollComponent;

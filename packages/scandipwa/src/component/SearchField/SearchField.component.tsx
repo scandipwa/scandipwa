@@ -34,7 +34,7 @@ import { SearchFieldComponentProps } from './SearchField.type';
 import './SearchField.style';
 
 /** @namespace Component/SearchField/Component */
-export class SearchField extends PureComponent<SearchFieldComponentProps> {
+export class SearchFieldComponent extends PureComponent<SearchFieldComponentProps> {
     static defaultProps: Partial<SearchFieldComponentProps> = {
         isVisible: true,
         isActive: true,
@@ -205,4 +205,4 @@ export class SearchField extends PureComponent<SearchFieldComponentProps> {
     }
 }
 
-export default SearchField;
+export default SearchFieldComponent;

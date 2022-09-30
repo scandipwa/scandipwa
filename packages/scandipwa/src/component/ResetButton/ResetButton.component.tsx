@@ -19,7 +19,7 @@ import { ResetButtonComponentProps } from './ResetButton.type';
 import './ResetButton.style';
 
 /** @namespace Component/ResetButton/Component */
-export class ResetButton extends PureComponent<ResetButtonComponentProps> {
+export class ResetButtonComponent extends PureComponent<ResetButtonComponentProps> {
     static defaultProps: Partial<ResetButtonComponentProps> = {
         mix: {},
     };
@@ -66,4 +66,4 @@ export class ResetButton extends PureComponent<ResetButtonComponentProps> {
     }
 }
 
-export default ResetButton;
+export default ResetButtonComponent;

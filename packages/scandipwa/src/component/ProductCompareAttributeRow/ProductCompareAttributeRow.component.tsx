@@ -19,7 +19,7 @@ import { ProductCompareAttributeRowComponentProps } from './ProductCompareAttrib
 import './ProductCompareAttributeRow.style';
 
 /** @namespace Component/ProductCompareAttributeRow/Component */
-export class ProductCompareAttributeRow extends PureComponent<ProductCompareAttributeRowComponentProps> {
+export class ProductCompareAttributeRowComponent extends PureComponent<ProductCompareAttributeRowComponentProps> {
     renderTitle(): ReactElement {
         const { title } = this.props;
 
@@ -70,4 +70,4 @@ export class ProductCompareAttributeRow extends PureComponent<ProductCompareAttr
     }
 }
 
-export default ProductCompareAttributeRow;
+export default ProductCompareAttributeRowComponent;
