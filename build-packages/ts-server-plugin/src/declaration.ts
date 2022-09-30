@@ -51,8 +51,8 @@ export class NamespaceDeclaration {
         }
 
         const namespace = (this.node as ts.JSDocTag).comment || '';
-        this.namespace = namespace;
-        return namespace;
+        this.namespace = Array.isArray(namespace) ? namespace[0] : namespace;
+        return this.namespace;
     }
 
     getNamespaceIndex(): number {
