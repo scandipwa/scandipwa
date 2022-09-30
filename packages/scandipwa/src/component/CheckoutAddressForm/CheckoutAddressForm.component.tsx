@@ -93,7 +93,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm<CheckoutAddressFor
             return name === 'addressGroup';
         }) as FormSection | undefined;
 
-        if (addressGroup && 'events' in addressGroup) {
+        if (addressGroup) {
             addressGroup.events = {
                 // Updates shipping methods on address blurt
                 onBlur: this.onAddressChange,
