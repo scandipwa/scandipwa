@@ -9,9 +9,13 @@ import * as vscode from 'vscode';
 export const handlePossibleError = (callback: Function | Promise<Function>) => async () => {
     try {
         await (await callback)()
-    } catch (error) {
-        vscode.window.showErrorMessage(error.message);
+    } catch (e) {
+        if (e instanceof Error) {
+            vscode.window.showErrorMessage(e.message);
+        } else {
+            vscode.window.showErrorMessage(String(e));
+        }
 
-        console.error(error);
+        console.error(e);
     }
 }

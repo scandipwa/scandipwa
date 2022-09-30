@@ -51,7 +51,11 @@ const createExtension = async (
             path: packagePath
         });
     } catch (e) {
-        logger.log(e);
+        if (e instanceof Error) {
+            logger.log(e.message);
+        } else {
+            logger.log(String(e));
+        }
 
         logger.error(
             `Failed to create ScandiPWA extension in ${ logger.style.file(packagePath) }.`,
@@ -67,7 +71,11 @@ const createExtension = async (
         await addDependency(contextPathname, packageName, `file:${ relativePackagePath }`);
         await installDeps(contextPathname);
     } catch (e) {
-        logger.log(e);
+        if (e instanceof Error) {
+            logger.log(e.message);
+        } else {
+            logger.log(String(e));
+        }
 
         logger.error(
             `Failed to install ScandiPWA extension in ${ logger.style.file(contextPathname) }.`,
@@ -85,7 +93,7 @@ const createExtension = async (
         `Package ${logger.style.misc(packageName)} has been created successfully!`,
         `See it at ${logger.style.file(relativePackagePath)}`
     );
-    
+
     return relativePackagePath;
 };
 
