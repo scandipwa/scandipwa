@@ -1,14 +1,12 @@
-const pluginForMethod = () => {
-    return 'ABC';
-};
+const pluginForMethod = () => 'ABC';
 
 export default {
     'Hello/World': {
         'member-function': {
-            method2: pluginForMethod
+            method2: pluginForMethod,
         },
         'static-member': {
-            method3: () => 123
-        }
-    }
-}
+            method3: () => 123,
+        },
+    },
+};

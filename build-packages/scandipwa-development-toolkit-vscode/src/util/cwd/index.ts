@@ -1,25 +1,25 @@
 import * as vscode from 'vscode';
 
-const { walkDirectoryUp } = require('@tilework/mosaic-dev-utils/get-context');
-
-import { proposeFromHistory, unshiftUniqueToHistory, removeDeadFsEntries } from '../history';
+import { proposeFromHistory, removeDeadFsEntries, unshiftUniqueToHistory } from '../history';
 import { HALT, SKIP } from './keys';
 import { isScandipwaModule } from './workspace';
 
+const { walkDirectoryUp } = require('@tilework/mosaic-dev-utils/get-context');
+
 export const selectModuleWithHistory = async (
-    message: string, 
+    message: string,
     historyKey: string,
     skipOption?: string,
     additionalHistoryEntries?: string[],
-    allowedModuleTypes?: string[]
+    allowedModuleTypes?: string[],
 ): Promise<string | undefined | null> => {
     removeDeadFsEntries(historyKey);
     const selectedFromHistory = await proposeFromHistory(
-        historyKey, 
-        message, 
-        undefined, 
+        historyKey,
+        message,
+        undefined,
         skipOption,
-        additionalHistoryEntries
+        additionalHistoryEntries,
     );
 
     // Handle selection halted
@@ -35,6 +35,7 @@ export const selectModuleWithHistory = async (
     // Handle selected one of previously selected ones
     if (typeof selectedFromHistory === 'string') {
         unshiftUniqueToHistory(historyKey, selectedFromHistory);
+
         return walkDirectoryUp(selectedFromHistory).pathname;
     }
 
@@ -43,7 +44,7 @@ export const selectModuleWithHistory = async (
         canSelectFolders: true,
         canSelectFiles: false,
         canSelectMany: false,
-        title: message
+        title: message,
     };
 
     // On Mac, open window does not have a title
@@ -61,6 +62,7 @@ export const selectModuleWithHistory = async (
 
     // Preserve the selected value
     const targetDirectory = walkDirectoryUp(selectedDirectories[0].fsPath);
+
     if (allowedModuleTypes && !isScandipwaModule(targetDirectory, allowedModuleTypes)) {
         throw new Error('Selected module\'s type is not allowed for this action!');
     }

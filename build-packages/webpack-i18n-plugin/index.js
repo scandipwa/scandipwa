@@ -37,9 +37,9 @@ const addParsedVariableToModule = (parser, name) => {
                 // eslint-disable-next-line no-param-reassign
                 dep.userRequest = name;
                 deps.push(dep);
-            }
+            },
         },
-        module: parser.state.module
+        module: parser.state.module,
     });
 
     parser.state.current.addVariable(
@@ -61,8 +61,8 @@ const generateCorruptedJsonReadError = (jsonPath, error) => ({
     args: [
         `Unable to load a translation from ${jsonPath}.`,
         `Error: ${logger.style.misc(error.message)}`,
-        'Restart the compilation after you apply the corresponding changes.'
-    ]
+        'Restart the compilation after you apply the corresponding changes.',
+    ],
 });
 
 /**
@@ -75,8 +75,8 @@ const generateCorruptedJsonWriteError = (jsonPath, error) => ({
     args: [
         `Unable to update a translation in ${jsonPath}.`,
         `Error: ${logger.style.misc(error.message)}`,
-        'Restart the compilation after you apply the corresponding changes.'
-    ]
+        'Restart the compilation after you apply the corresponding changes.',
+    ],
 });
 
 /**
@@ -87,7 +87,7 @@ class I18nPlugin {
     constructor(options = {}) {
         const {
             locale,
-            defaultLocale = 'en_US'
+            defaultLocale = 'en_US',
         } = options;
 
         this.locale = locale;
@@ -126,7 +126,7 @@ class I18nPlugin {
         const translations = [
             childTranslation,
             ...parentTranslations,
-            ...extensionsTranslations
+            ...extensionsTranslations,
         ].reduce((mergedTranslations, incomingTranslations) => {
             for (const key in incomingTranslations) {
                 // Skip if already translated
@@ -135,6 +135,7 @@ class I18nPlugin {
                 }
 
                 const incomingValue = incomingTranslations[key];
+
                 // If currently translated as `null` and overriding with value => notify!
                 if (mergedTranslations[key] === null && incomingValue) {
                     this.afterEmitLogs.push({
@@ -143,8 +144,8 @@ class I18nPlugin {
                         args: [
                             'Overriding translation for key '
                             + `"${logger.style.misc(key)}": ${logger.style.misc(null)} => "${logger.style.misc(incomingValue)}" `
-                            + 'from a translation file with less priority.'
-                        ]
+                            + 'from a translation file with less priority.',
+                        ],
                     });
                 }
 
@@ -223,8 +224,8 @@ class I18nPlugin {
             args: [
                 `New locale ${ logger.style.misc(this.locale) } was discovered.`,
                 `Created translation file ${ logger.style.file(`.${ path.sep }${ pathToTry }`) }.`,
-                `Provide translations for ${ logger.style.misc(this.locale) } locale there.`
-            ]
+                `Provide translations for ${ logger.style.misc(this.locale) } locale there.`,
+            ],
         });
 
         writeJson(
@@ -270,8 +271,8 @@ class I18nPlugin {
                     hideForDefaultLocale: true,
                     args: [
                         `Missing ${logger.style.code(missingTranslations.length)} translations!`,
-                        'Please update your translation files and restart the compilation.'
-                    ]
+                        'Please update your translation files and restart the compilation.',
+                    ],
                 });
             }
 
@@ -279,14 +280,15 @@ class I18nPlugin {
              * Handle unused translations
              */
             const unusedTranslationKeys = Object.keys(unusedTranslations);
+
             if (unusedTranslationKeys.length) {
                 this.afterEmitLogs.push({
                     type: 'warn',
                     args: [
                         `Found ${logger.style.code(unusedTranslationKeys.length)} unused translations!`,
                         'Consider removing them! See the list below.',
-                        ...unusedTranslationKeys.map((one) => `  - "${one}"`)
-                    ]
+                        ...unusedTranslationKeys.map((one) => `  - "${one}"`),
+                    ],
                 });
             }
 
@@ -330,6 +332,7 @@ class I18nPlugin {
                         // Extract translation if the translated string is missing
                         if (!result) {
                             missingTranslations.push(paramString);
+
                             return false;
                         }
 
@@ -363,6 +366,7 @@ class I18nPlugin {
             existingTranslations = require(filepath);
         } catch (err) {
             this.afterEmitLogs.push(generateCorruptedJsonWriteError(filepath, err));
+
             return;
         }
 
@@ -382,6 +386,7 @@ class I18nPlugin {
         fs.readdir(dirname, (err, filenames) => {
             if (err) {
                 logger.logN(err);
+
                 return;
             }
 

@@ -10,7 +10,7 @@ module.exports = {
             category: 'Coding standard',
             recommended: true,
         },
-        fixable: 'code'
+        fixable: 'code',
     },
 
     create: (context) => ({
@@ -18,11 +18,11 @@ module.exports = {
             const {
                 expression: {
                     type,
-                    loc
+                    loc,
                 },
                 parent: {
-                    type: parentType
-                }
+                    type: parentType,
+                },
             } = node;
 
             if (
@@ -34,8 +34,8 @@ module.exports = {
 
             context.report({
                 loc,
-                message: 'Do not use conditional expressions in JSX.'
+                message: 'Do not use conditional expressions in JSX.',
             });
-        }
+        },
     }),
 };

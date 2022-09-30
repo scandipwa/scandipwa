@@ -1,7 +1,7 @@
 import { ESLint } from 'eslint';
 
 export const fixESLint = async (filePaths: string[]) => {
-    const jsFilePaths = filePaths.filter(file => /\.(j|t)sx?$/.test(file));
+    const jsFilePaths = filePaths.filter((file) => /\.(j|t)sx?$/.test(file));
 
     const eslint = new ESLint({ fix: true });
 

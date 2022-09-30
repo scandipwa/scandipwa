@@ -2,7 +2,7 @@ import ts from 'typescript/lib/tsserverlibrary';
 
 import { Cache } from './cache';
 import {
-    CLASS_PLUGIN_METHOD_TYPE, CLASS_PLUGIN_PROPERTY_TYPE, CLASS_PLUGIN_STATIC_TYPE, FUNCTION_PLUGIN_TYPE
+    CLASS_PLUGIN_METHOD_TYPE, CLASS_PLUGIN_PROPERTY_TYPE, CLASS_PLUGIN_STATIC_TYPE, FUNCTION_PLUGIN_TYPE,
 } from './util/config';
 import { Ctx } from './util/context';
 
@@ -46,7 +46,7 @@ type CompletionStringsGetter = () => string[];
 export const getCompletionStringsForNode = (
     node: ts.Node,
     _ctx: Ctx,
-    cache: Cache
+    cache: Cache,
 ): string[] => {
     const exportDepth = getExportDepth(node);
 
@@ -77,7 +77,7 @@ export const getCompletionStringsForNode = (
                 : [
                     CLASS_PLUGIN_PROPERTY_TYPE,
                     CLASS_PLUGIN_METHOD_TYPE,
-                    CLASS_PLUGIN_STATIC_TYPE
+                    CLASS_PLUGIN_STATIC_TYPE,
                 ];
         },
         [METHOD_DECLARATION]: () => {
@@ -119,8 +119,9 @@ export const getCompletionStringsForNode = (
 
             const nodes = declaration.getNodesByTargetConfig({ type });
             const names = nodes.map((n) => n.getText());
+
             return names;
-        }
+        },
     };
 
     const completionStringsGetter: CompletionStringsGetter = completionMap[exportDepth as SupportedCompletionDepths] || (() => ([]));
@@ -133,7 +134,7 @@ export const handleReferenceCompletions = (
     position: number,
     prior: ts.WithMetadata<ts.CompletionInfo> | undefined,
     ctx: Ctx,
-    cache: Cache
+    cache: Cache,
 ): ts.WithMetadata<ts.CompletionInfo> | undefined => {
     if (!fileName.includes('.plugin')) {
         // ^^^ only process plugin files
@@ -142,7 +143,7 @@ export const handleReferenceCompletions = (
 
     const completionNode = ctx.nodeUtils.getFileNodeAtPosition(
         fileName,
-        position - 1
+        position - 1,
         // ^^^ Get one before
     );
 
@@ -165,11 +166,12 @@ export const handleReferenceCompletions = (
     const completionEntries: ts.CompletionEntry[] = completions.map((completion) => ({
         name: completion,
         kind: ts.ScriptElementKind.constElement,
-        sortText: '1'
+        sortText: '1',
     }));
 
     if (prior) {
         prior.entries.push(...completionEntries);
+
         return prior;
     }
 
@@ -177,6 +179,6 @@ export const handleReferenceCompletions = (
         isGlobalCompletion: false,
         isMemberCompletion: false,
         isNewIdentifierLocation: true,
-        entries: completionEntries
+        entries: completionEntries,
     };
 };

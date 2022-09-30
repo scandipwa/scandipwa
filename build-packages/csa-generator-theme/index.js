@@ -114,7 +114,7 @@ const fileSystemCreator = (templateOptions) => (
 const run = async (options) => {
     const {
         name,
-        path: pathname
+        path: pathname,
     } = options;
 
     const destination = path.join(process.cwd(), pathname);
@@ -174,7 +174,7 @@ const run = async (options) => {
         mosaicCracoVersion,
         postcssVersion,
         proxy: DEFAULT_PROXY,
-        eslintConfigVersion
+        eslintConfigVersion,
     };
 
     // create filesystem from template

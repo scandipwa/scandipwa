@@ -10,9 +10,9 @@ module.exports = {
         docs: {
             description: 'Only render methods are allowed in component.',
             category: 'Coding standard',
-            recommended: true
+            recommended: true,
         },
-        fixable: 'code'
+        fixable: 'code',
     },
     create: (context) => ({
         MethodDefinition(node) {
@@ -34,8 +34,8 @@ module.exports = {
 
             context.report({
                 node,
-                message: 'Component should only contain rendering logic.'
+                message: 'Component should only contain rendering logic.',
             });
-        }
-    })
-}
+        },
+    }),
+};

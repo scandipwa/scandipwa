@@ -22,7 +22,7 @@ export const getAllExtensions = (pathname: string = process.cwd(), _isFirst = tr
         const { dependencies = {} } = packageJson;
         const { extensions = {} } = getMosaicConfig(pathname);
         const extensionFolders = Object.keys(extensions).map(
-            (packageName) => getPackagePath(packageName)
+            (packageName) => getPackagePath(packageName),
         );
 
         return Array.from(
@@ -31,10 +31,11 @@ export const getAllExtensions = (pathname: string = process.cwd(), _isFirst = tr
                     const packagePath = getPackagePath(packageName);
                     const childExtensions = getAllExtensions(packagePath, false);
                     childExtensions.forEach((ext) => acc.add(ext));
+
                     return acc;
                 },
-                new Set(extensionFolders)
-            )
+                new Set(extensionFolders),
+            ),
         );
     } catch (e) {
         return [];
@@ -46,6 +47,6 @@ export const getAllExtensionsFiles = (sourcePath: string): string[] => {
 
     return extensions.reduce((acc, extension) => ([
         ...acc,
-        ...getAllFilesFromPath(extension)
+        ...getAllFilesFromPath(extension),
     ]), [] as string[]);
 };

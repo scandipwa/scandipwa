@@ -1,12 +1,10 @@
 import * as path from 'path';
 
-import getFileMap from './file-map';
-
+import { ILogger, ResourceParams, ResourceType } from '../types';
 import generateFilesFromMap from '../util/generate-files-from-map';
-import validateResourceParams from './validate-resource-params';
+import getFileMap from './file-map';
 import postProcess from './post-process';
-import { ILogger, ResourceType } from '../types';
-import { ResourceParams } from '../types';
+import validateResourceParams from './validate-resource-params';
 
 export const extensionRoot = path.resolve(__dirname, '..', '..', 'src');
 
@@ -14,14 +12,15 @@ export const extensionRoot = path.resolve(__dirname, '..', '..', 'src');
  * Entry: validate input and create files
  */
 const create = (
-    resourceType: ResourceType, 
-    resourceName: string, 
+    resourceType: ResourceType,
+    resourceName: string,
     resourceParams: ResourceParams,
     targetModulePath: string,
-    logger: ILogger
+    logger: ILogger,
 ) => {
     // Validate input data
     const validationErrors = validateResourceParams(resourceName, resourceType, resourceParams);
+
     if (validationErrors.length) {
         throw new Error(validationErrors.map(({ message }) => message).join(';'));
     }
@@ -31,11 +30,11 @@ const create = (
 
     // Create the files
     const generatedFiles = generateFilesFromMap(
-        fileMap, 
-        resourceName, 
-        resourceType, 
+        fileMap,
+        resourceName,
+        resourceType,
         targetModulePath,
-        logger
+        logger,
     );
 
     postProcess(generatedFiles, resourceName);

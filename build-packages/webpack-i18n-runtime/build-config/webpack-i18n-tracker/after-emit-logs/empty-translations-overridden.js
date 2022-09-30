@@ -26,7 +26,7 @@ module.exports = (overriddenTranslations) => {
         args: [
             'The following strings have been overridden from translation files with less priority.',
             'That happened due to their initial values in your theme being null. See a list of them below:',
-            ...overrides
-        ]
+            ...overrides,
+        ],
     };
 };

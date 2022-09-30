@@ -4,7 +4,7 @@ const { getPackageJson } = require('@scandipwa/scandipwa-dev-utils/package-json'
 const logger = require('@scandipwa/scandipwa-dev-utils/logger');
 
 const injectScripts = (
-    contextPathname: string
+    contextPathname: string,
 ) => {
     const packagePath = path.join(contextPathname, 'package.json');
     const packageJson = getPackageJson(contextPathname);
@@ -33,7 +33,7 @@ const injectScripts = (
 
             logger.error(
                 'Can not install Lerna (which is required to symlink local package).',
-                `Please remove current ${ logger.style.misc(`scripts.${ script }`) } field from ${ logger.style.file('package.json') }.`
+                `Please remove current ${ logger.style.misc(`scripts.${ script }`) } field from ${ logger.style.file('package.json') }.`,
             );
 
             process.exit(1);

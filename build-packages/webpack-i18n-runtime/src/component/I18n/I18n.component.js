@@ -6,7 +6,7 @@ import i18n from '../../util/i18n';
 /** @namespace RuntimeI18n/Component/I18n/Component/I18nComponent */
 export class I18nComponent extends PureComponent {
     static propTypes = {
-        children: PropTypes.node.isRequired
+        children: PropTypes.node.isRequired,
     };
 
     // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component

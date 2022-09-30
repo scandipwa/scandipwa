@@ -12,7 +12,7 @@ const compressDirectory = (contextPathname, directory) => {
     return new Promise((resolve, reject) => {
         const output = fs.createWriteStream(destination);
         const archive = archiver('zip', {
-            zlib: { level: 9 }
+            zlib: { level: 9 },
         });
 
         output.on('close', () => {

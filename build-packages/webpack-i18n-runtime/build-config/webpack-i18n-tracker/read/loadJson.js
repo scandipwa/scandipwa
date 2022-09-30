@@ -20,6 +20,7 @@ module.exports = (pathToTry) => {
         return JSON.parse(fs.readFileSync(pathToTry));
     } catch (error) {
         afterEmitLogger.logMessage(corruptedJson(pathToTry, error));
+
         return {};
     }
 };

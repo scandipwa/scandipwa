@@ -1,8 +1,8 @@
 const writeJson = require('@scandipwa/scandipwa-dev-utils/write-json');
 
 const enableExtension = (
-    themePath: string, 
-    extensionName: string
+    themePath: string,
+    extensionName: string,
 ) => {
     const packagePath = `${ themePath }/package.json`;
     const packageJson = require(packagePath);
@@ -15,7 +15,7 @@ const enableExtension = (
 
     writeJson(
         packagePath,
-        packageJson
+        packageJson,
     );
 };
 

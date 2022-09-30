@@ -32,7 +32,7 @@ module.exports = function middleware(templateFile) {
                 override({
                     dom: acc,
                     parser: domParser,
-                    serializer: xmlSerializer
+                    serializer: xmlSerializer,
                 })
             )
         ),

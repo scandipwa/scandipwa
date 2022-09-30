@@ -1,14 +1,15 @@
-import * as path from 'path';
-import * as fs from 'fs';
-import { getIsSemver } from "./semver";
 import { getPackageJson } from '@scandipwa/scandipwa-dev-utils/package-json';
+import * as fs from 'fs';
+import * as path from 'path';
+
+import { getIsSemver } from './semver';
 
 /**
  * * Priority:
  * - If semver version is provided - validate and use it
  * - If explicit path is provided - make sure it exists and use it
  * - If "local" flag is set - find the package and use it
- * 
+ *
  * * throws an Error on invalid data
  */
 const getVersionConstraint = (
@@ -16,17 +17,17 @@ const getVersionConstraint = (
     packageSemverVersion: string | undefined,
     targetModule: string,
     explicitPath: string | undefined,
-    useLocalPackagesDirectory: boolean | undefined
+    useLocalPackagesDirectory: boolean | undefined,
 ): string | undefined => {
     const generateLinkUri = (relative: string) => `file:${relative}`;
 
     if ([packageSemverVersion, explicitPath, useLocalPackagesDirectory].filter(Boolean).length > 1) {
         throw new Error(
-            'Several of the following have been provided\n' +
-            ' - semver version\n' +
-            ' - explicit path to the module\n' +
-            ' - flag to use the local "packages" directory\n' +
-            'Please, stick to one and try again.'
+            'Several of the following have been provided\n'
+            + ' - semver version\n'
+            + ' - explicit path to the module\n'
+            + ' - flag to use the local "packages" directory\n'
+            + 'Please, stick to one and try again.',
         );
     }
 
@@ -42,11 +43,13 @@ const getVersionConstraint = (
     // If an explicit path is provided - use it
     if (explicitPath) {
         const absolutePath = path.resolve(targetModule, explicitPath);
+
         if (!fs.existsSync(absolutePath)) {
             throw new Error('The provided directory does not exist!');
         }
 
         const relativePath = path.relative(targetModule, absolutePath);
+
         return generateLinkUri(relativePath);
     }
 
@@ -66,8 +69,8 @@ const getVersionConstraint = (
         const localPackagesContents = fs.readdirSync(localPackagesDirectory);
         const firstLevelPackage = localPackagesContents.find(
             (directoryName) => getPackageJson(
-                path.join(localPackagesDirectory, directoryName)
-            ).name === packageName
+                path.join(localPackagesDirectory, directoryName),
+            ).name === packageName,
         );
 
         if (firstLevelPackage) {

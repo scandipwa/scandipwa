@@ -9,8 +9,8 @@ module.exports = {
         docs: {
             description: 'Forbid usage of empty PropTypes.shape.',
             category: 'Coding standard',
-            recommended: true
-        }
+            recommended: true,
+        },
     },
     create: (context) => ({
         MemberExpression(node) {
@@ -19,7 +19,7 @@ module.exports = {
                 if (node.parent.arguments === undefined) {
                     context.report({
                         node: node.property,
-                        message: `Empty PropTypes.shape is forbidden`
+                        message: 'Empty PropTypes.shape is forbidden',
                     });
                 }
 
@@ -27,10 +27,10 @@ module.exports = {
                 if (node.parent.arguments?.length === 1 && node.parent.arguments[0].properties?.length === 0) {
                     context.report({
                         node: node.property,
-                        message: `PropTypes.shape with empty object as parameter is forbidden`
+                        message: 'PropTypes.shape with empty object as parameter is forbidden',
                     });
                 }
             }
-        }
-    })
+        },
+    }),
 };

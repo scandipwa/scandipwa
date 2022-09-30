@@ -5,7 +5,7 @@ export const getPackagePath = (packageName: string, context: string = process.cw
     const possibleRelativePath = path.join(
         process.cwd(),
         packageName,
-        'package.json'
+        'package.json',
     );
 
     const isPathReference = fs.existsSync(possibleRelativePath);
@@ -17,6 +17,6 @@ export const getPackagePath = (packageName: string, context: string = process.cw
     // This is not a local package, path based extension -> try loading it as a package
     return path.join(
         require.resolve(`${ packageName }/package.json`, { paths: [context] }),
-        '..'
+        '..',
     );
 };

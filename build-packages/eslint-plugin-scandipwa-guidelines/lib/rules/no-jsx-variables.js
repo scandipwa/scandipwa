@@ -6,17 +6,17 @@
 const getName = (node) => {
     const {
         id: {
-            name: varName = ''
+            name: varName = '',
         } = {},
         left: {
             property: {
-                name: propName
-            } = {}
-        } = {}
+                name: propName,
+            } = {},
+        } = {},
     } = node;
 
     return varName || propName || '';
-}
+};
 
 module.exports = {
     meta: {
@@ -67,6 +67,6 @@ module.exports = {
                 node: parent,
                 message: 'Do not assign JSX to object properties.',
             });
-        }
-    })
+        },
+    }),
 };

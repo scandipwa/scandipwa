@@ -14,18 +14,18 @@ export const getParentThemes = (pathname: string = process.cwd(), rootTheme: str
 
     return [
         parentThemePathname,
-        ...getParentThemes(parentThemePathname, rootTheme)
+        ...getParentThemes(parentThemePathname, rootTheme),
     ];
 };
 
 export const getAllThemeFiles = (sourcePath: string): string[] => {
     const themes = [
         sourcePath,
-        ...getParentThemes(sourcePath)
+        ...getParentThemes(sourcePath),
     ];
 
     return themes.reduce((acc, theme) => ([
         ...acc,
-        ...getAllFilesFromPath(theme)
+        ...getAllFilesFromPath(theme),
     ]), [] as string[]);
 };

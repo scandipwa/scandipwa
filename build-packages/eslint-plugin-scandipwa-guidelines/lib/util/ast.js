@@ -1,4 +1,5 @@
-const traverse = require("eslint-traverse");
+/* eslint-disable consistent-return */
+const traverse = require('eslint-traverse');
 
 function getIdentifierOccurrences(context, name) {
     const nodes = [];

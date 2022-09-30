@@ -2,19 +2,18 @@
  * @fileoverview All components should be extensible.
  * @author Jegors Batovs
  */
-"use strict";
 
 module.exports = {
     meta: {
         docs: {
             description: 'Only namespaces are needed to make the classes extensible.',
             category: 'Coding standard',
-            recommended: false
+            recommended: false,
         },
-        fixable: 'code'
+        fixable: 'code',
     },
 
-    create: context => ({
+    create: (context) => ({
         ClassDeclaration(node) {
             const { superClass } = node;
             const { name } = superClass || {};
@@ -25,13 +24,14 @@ module.exports = {
                 context.report({
                     node: superClass,
                     message: 'Inheritance from the ExtensibleClass is no longer necessary',
-                    fix: fixer => {
-                      const sourceCode = context.getSourceCode();
-                      return fixer.removeRange([
-                        sourceCode.getIndexFromLoc(node.id.loc.end),
-                        sourceCode.getIndexFromLoc(node.body.loc.start)
-                      ])
-                    }
+                    fix: (fixer) => {
+                        const sourceCode = context.getSourceCode();
+
+                        return fixer.removeRange([
+                            sourceCode.getIndexFromLoc(node.id.loc.end),
+                            sourceCode.getIndexFromLoc(node.body.loc.start),
+                        ]);
+                    },
                 });
             }
 
@@ -40,9 +40,9 @@ module.exports = {
                 context.report({
                     loc: identifierLocation,
                     message: `${name} is not necessary anymore. Use '${relevantName}' instead`,
-                    fix: fixer => fixer.replaceText(superClass, relevantName)
+                    fix: (fixer) => fixer.replaceText(superClass, relevantName),
                 });
             }
-        }
-    })
+        },
+    }),
 };
