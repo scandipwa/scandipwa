@@ -80,14 +80,13 @@ export class CartCouponContainer extends PureComponent<CartCouponContainerProps,
     }
 
     handleApplyCouponToCart(couponCode: string): void {
-        const { applyCouponToCart, onCouponCodeUpdate } = this.props;
+        const { applyCouponToCart } = this.props;
 
         this.setState({ isLoading: true });
 
         applyCouponToCart(couponCode).then(
             /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally/applyCouponToCart/then */
             (success) => {
-                onCouponCodeUpdate();
                 this.setState({ isIncorrectCoupon: !success });
             }
         ).finally(

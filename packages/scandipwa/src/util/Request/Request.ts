@@ -276,7 +276,7 @@ export const executePost = async <T>(queryObject: QueryObject): Promise<T> => {
     } catch (err) {
         handleConnectionError(err, 'executePost failed');
 
-        throw new Error(err as string);
+        throw err;
     }
 };
 
