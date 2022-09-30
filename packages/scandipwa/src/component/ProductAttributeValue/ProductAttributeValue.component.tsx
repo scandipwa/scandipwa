@@ -22,7 +22,7 @@ import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import { getBooleanLabel } from 'Util/Product';
 
-import { AttributeType, STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
+import { AttributeType, SelectAttributeType, STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
 import { ProductAttributeValueComponentProps, ProductAttributeValueOption } from './ProductAttributeValue.type';
 
 import './ProductAttributeValue.style';
@@ -159,11 +159,11 @@ export class ProductAttributeValue extends PureComponent<ProductAttributeValueCo
         const { value, type } = swatch_data;
 
         switch (type) {
-        case '0':
+        case SelectAttributeType.STRING:
             return this.renderStringValue(value, labelText, count);
-        case '1':
+        case SelectAttributeType.COLOR:
             return this.renderColorValue(value, label);
-        case '2':
+        case SelectAttributeType.IMAGE:
             return this.renderImageValue(value, label);
         default:
             return this.renderStringValue(labelText || __('N/A'), labelText, count);

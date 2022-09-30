@@ -11,6 +11,7 @@
 
 import { AnimationEvent } from 'react';
 
+import { ConfigurableProductSelectedVariantValue } from 'Component/Product/Product.type';
 import { StockStatus } from 'Component/Product/Stock.config';
 import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
 import { Merge, Mix } from 'Type/Common.type';
@@ -19,7 +20,7 @@ import { IndexedConfigurableOption, IndexedVariant } from 'Util/Product/Product.
 export interface ProductConfigurableAttributesContainerProps {
     getLink: (filterKey: string, value: string) => string;
     parameters: Record<string, string | string[]>;
-    updateConfigurableVariant?: (requestVar: string, value: string | number | boolean) => void;
+    updateConfigurableVariant?: (requestVar: string, value: ConfigurableProductSelectedVariantValue) => void;
     isExpandable: boolean;
     showProductAttributeAsLink: boolean;
     variants: IndexedVariant[];
@@ -51,7 +52,7 @@ export interface ProductConfigurableAttributesComponentProps
     numberOfPlaceholders: number[];
     parameters: Record<string, string | string[]>;
     showProductAttributeAsLink: boolean;
-    updateConfigurableVariant?: (requestVar: string, value: string | number | boolean) => void;
+    updateConfigurableVariant?: (requestVar: string, value: ConfigurableProductSelectedVariantValue) => void;
     inStock: boolean;
     isContentExpanded: boolean;
     addToCartTriggeredWithError: boolean;
