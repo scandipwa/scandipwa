@@ -59,7 +59,7 @@ export interface MyAccountOrderContainerState {
 }
 
 export interface MyAccountOrderComponentProps {
-    order: OrderItem | Record<string, never>;
+    order: OrderItem | EmptyObject;
     isLoading: boolean;
     handleReorder: () => void;
     is_allowed_reorder: boolean;
