@@ -17,7 +17,7 @@
         "@scandipwa/service-worker": "0.0.17",
         "@scandipwa/stylelint-config": "0.0.7",
         "@scandipwa/webpack-i18n-runtime": "0.0.31",
-        "@tilework/opus": "file:../../tilework-packages/opus",
+        "@tilework/opus": "0.0.10",
         "@types/react": "18.0.17",
         "@types/react-dom": "18.0.6",
         "@types/react-redux": "7.1.24",

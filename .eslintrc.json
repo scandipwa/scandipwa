@@ -4,8 +4,7 @@
         "requireConfigFile": false,
         "project": [
             "./packages/**/tsconfig.json",
-            "./build-packages/**/tsconfig.json",
-            "./tilework-packages/**/tsconfig.json"
+            "./build-packages/**/tsconfig.json"
         ],
         "babelOptions": {
             "presets": ["@babel/preset-react"]
@@ -21,13 +20,13 @@
         "**/node_modules/**",
         "**/Magento_Theme/**",
         "**/build/**",
-        "**/runtime-packages/**"
+        "**/runtime-packages/**",
+        "**/tilework-packages/**"
     ],
     "overrides": [
         {
             "files": [
-                "**/build*/**/*",
-                "**/tilework*/**/*"
+                "**/build*/**/*"
             ],
             "rules": {
                 "no-magic-numbers": "off",

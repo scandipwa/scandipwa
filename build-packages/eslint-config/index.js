@@ -48,6 +48,8 @@ const commonRules = {
     ],
     // disable original sorting
     'sort-imports': 'off',
+    // disable import extension (.js, index.js)
+    'import/extensions': 'off',
     // seems to be disabled overall
     'import/no-extraneous-dependencies': 'off',
     'import/order': 'off',
@@ -61,8 +63,9 @@ const commonRules = {
     'fp/no-let': 'warn',
     'fp/no-loops': 'warn',
     'fp/no-arguments': 'error',
-    'fp/no-delete': 'off',
     'no-var': 'error',
+    'fp/no-delete': 'off',
+    'no-continue': 'off',
     // allow to proxy { default }
     'no-restricted-exports': 'off',
     'no-restricted-globals': [
@@ -229,8 +232,6 @@ const reactRules = {
     'import/no-import-module-exports': 'off',
     // allow only one non-default exports in the file
     'import/prefer-default-export': 'off',
-    // disable import extension (.js, index.js)
-    'import/extensions': 'off',
     // Allow only files with proper postfix notations
     '@scandipwa/scandipwa-guidelines/file-structure': 'error',
     // allow classes with .js contain JSX
@@ -556,7 +557,6 @@ module.exports = {
             'max-len': 'off',
             'max-lines': 'off',
             'max-classes-per-file': 'off',
-            'import/extensions': 'off',
             'no-console': 'off',
             '@scandipwa/scandipwa-guidelines/only-one-class': 'off',
             '@scandipwa/scandipwa-guidelines/derived-class-names': 'off',

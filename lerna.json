@@ -6,6 +6,6 @@
         "packages/*",
         "runtime-packages/*",
         "build-packages/*",
-        "tilework-packages/opus"
+        "tilework-packages/*"
     ]
 }

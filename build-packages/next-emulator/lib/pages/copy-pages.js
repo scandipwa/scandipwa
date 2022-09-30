@@ -6,7 +6,6 @@ const { getParentThemePaths } = require('@tilework/mosaic-dev-utils/parent-theme
 const logger = require('@tilework/mosaic-dev-utils/logger');
 const extensions = require('@tilework/mosaic-dev-utils/extensions');
 
-// eslint-disable-next-line import/extensions
 const transformImports = require('./transform-import');
 
 const copiedPages = {};
