@@ -1,0 +1,59 @@
+{
+    "extends": "@scandipwa",
+    "parserOptions": {
+        "requireConfigFile": false,
+        "project": [
+            "./packages/**/tsconfig.json",
+            "./build-packages/**/tsconfig.json",
+            "./tilework-packages/**/tsconfig.json"
+        ],
+        "babelOptions": {
+            "presets": ["@babel/preset-react"]
+        }
+    },
+    "ignorePatterns": [
+        "*.d.ts",
+        "**/test/**",
+        "*.test.*",
+        "**/dist/**",
+        "**/out/**",
+        "**/bin/**",
+        "**/node_modules/**",
+        "**/Magento_Theme/**",
+        "**/build/**",
+        "**/runtime-packages/**"
+    ],
+    "overrides": [
+        {
+            "files": [
+                "**/build*/**/*",
+                "**/tilework*/**/*"
+            ],
+            "rules": {
+                "no-magic-numbers": "off",
+                "import/no-dynamic-require": "off",
+                "fp/no-let": "off",
+                "fp/no-loops": "off",
+                "global-require": "off",
+                "max-len": "off",
+                "max-lines": "off",
+                "default-param-last": "off",
+                "@typescript-eslint/default-param-last": "off",
+                "@typescript-eslint/naming-convention": "off",
+                "import/prefer-default-export": "off",
+                "import/no-extraneous-dependencies": "off",
+                "import/no-cycle": "off"
+            }
+        }, {
+            "files": [
+                "**/templates/**",
+                "**/template/**",
+                "**/examples/**",
+                "**/example/**"
+            ],
+            "rules": {
+                "no-unused-vars": "off"
+            }
+        }
+    ]
+}

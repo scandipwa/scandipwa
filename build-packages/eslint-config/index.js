@@ -48,6 +48,8 @@ const commonRules = {
     ],
     // disable original sorting
     'sort-imports': 'off',
+    // seems to be disabled overall
+    'import/no-extraneous-dependencies': 'off',
     'import/order': 'off',
     'import/no-cycle': [
         'error',
@@ -263,7 +265,6 @@ const reactRules = {
     '@scandipwa/scandipwa-guidelines/only-render-in-component': 'error',
     // force not using conditional expressions in JSX
     '@scandipwa/scandipwa-guidelines/jsx-no-conditional': 'error',
-    'import/no-extraneous-dependencies': 'off',
     // forbid empty PropTypes.shape({})
     '@scandipwa/scandipwa-guidelines/forbid-prop-types-in-shape': 'error',
     // enforce small files
@@ -500,10 +501,10 @@ module.exports = {
      */
     rules: commonRules,
     overrides: [{
-        files: ['src/**/*.js', 'src/**/*.jsx'],
+        files: ['**/src/**/*.js', '**/src/**/*.jsx'],
         rules: reactRules,
     }, {
-        files: ['src/**/*.ts', 'src/**/*.tsx'],
+        files: ['**/src/**/*.ts', '**/src/**/*.tsx'],
         extends: [
             'airbnb',
             'airbnb-typescript',
@@ -516,7 +517,7 @@ module.exports = {
     }, {
         files: [
             '*.config.*',
-            'src/config/**',
+            '**/src/config/**',
         ],
         rules: {
             '@scandipwa/scandipwa-guidelines/only-one-class': 'off',
@@ -543,20 +544,27 @@ module.exports = {
             '@typescript-eslint/default-param-last': 'off',
         },
     }, {
-        files: ['build*/**/*'],
+        files: [
+            '**/build*/**/*',
+        ],
         rules: {
             'no-magic-numbers': 'off',
-            'max-lines': 'off',
             'import/no-dynamic-require': 'off',
             'fp/no-let': 'off',
+            'fp/no-loops': 'off',
             'global-require': 'off',
-            'max-len': [
-                'error',
-                {
-                    code: 150,
-                    ignorePattern: 'logger.',
-                },
-            ],
+            'max-len': 'off',
+            'max-lines': 'off',
+            'max-classes-per-file': 'off',
+            'import/extensions': 'off',
+            'no-console': 'off',
+            '@scandipwa/scandipwa-guidelines/only-one-class': 'off',
+            '@scandipwa/scandipwa-guidelines/derived-class-names': 'off',
+            '@scandipwa/scandipwa-guidelines/use-namespace': 'off',
+            '@scandipwa/scandipwa-guidelines/export-level-one': 'off',
+            '@scandipwa/scandipwa-guidelines/use-named-export': 'off',
+            '@scandipwa/scandipwa-guidelines/create-config-files': 'off',
+            '@scandipwa/scandipwa-guidelines/use-magic-construct': 'off',
         },
     }],
 };
