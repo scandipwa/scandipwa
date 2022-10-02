@@ -12,7 +12,7 @@
 import { ProductCardDisplayProps, ProductCartDisplayFunctions } from 'Component/ProductLinks/ProductLinks.type';
 import {
     RecentlyViewedProductItem,
-    RecentlyViewedProductsDispatcherOptions
+    RecentlyViewedProductsDispatcherOptions,
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.type';
 
 export interface RecentlyViewedWidgetContainerMapStateProps {

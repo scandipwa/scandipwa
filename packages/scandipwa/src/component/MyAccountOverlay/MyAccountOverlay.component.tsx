@@ -23,44 +23,44 @@ import { noopFn } from 'Util/Common';
 
 import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
-    MyAccountPageState
+    MyAccountPageState,
 } from './MyAccountOverlay.config';
 import { MyAccountOverlayComponentProps, MyAccountOverlayRenderMap } from './MyAccountOverlay.type';
 
 import './MyAccountOverlay.style';
 
 /** @namespace Component/MyAccountOverlay/Component */
-export class MyAccountOverlay<
-Props extends MyAccountOverlayComponentProps = MyAccountOverlayComponentProps
+export class MyAccountOverlayComponent<
+Props extends MyAccountOverlayComponentProps = MyAccountOverlayComponentProps,
 > extends PureComponent<Props> {
     static defaultProps: Partial<MyAccountOverlayComponentProps> = {
         isCheckout: false,
-        onSignIn: noopFn
+        onSignIn: noopFn,
     };
 
     renderMap: Record<MyAccountPageState, MyAccountOverlayRenderMap> = {
         [MyAccountPageState.STATE_SIGN_IN]: {
             render: () => this.renderSignIn(),
-            title: __('Sign in to your account')
+            title: __('Sign in to your account'),
         },
         [MyAccountPageState.STATE_FORGOT_PASSWORD]: {
             render: () => this.renderForgotPassword(),
-            title: __('Get password link')
+            title: __('Get password link'),
         },
         [MyAccountPageState.STATE_FORGOT_PASSWORD_SUCCESS]: {
-            render: () => this.renderForgotPasswordSuccess()
+            render: () => this.renderForgotPasswordSuccess(),
         },
         [MyAccountPageState.STATE_CREATE_ACCOUNT]: {
             render: () => this.renderCreateAccount(),
-            title: __('Create new account')
+            title: __('Create new account'),
         },
         [MyAccountPageState.STATE_LOGGED_IN]: {
-            render: noopFn
+            render: noopFn,
         },
         [MyAccountPageState.STATE_CONFIRM_EMAIL]: {
             render: () => this.renderConfirmEmail(),
-            title: __('Confirm the email')
-        }
+            title: __('Confirm the email'),
+        },
     };
 
     renderMyAccount(): ReactElement {
@@ -97,7 +97,7 @@ Props extends MyAccountOverlayComponentProps = MyAccountOverlayComponentProps
             setSignInState,
             setLoadingState,
             isCheckout,
-            isOverlayVisible
+            isOverlayVisible,
         } = this.props;
 
         return (
@@ -131,7 +131,7 @@ Props extends MyAccountOverlayComponentProps = MyAccountOverlayComponentProps
             handleSignIn,
             setSignInState,
             setLoadingState,
-            onSignIn
+            onSignIn,
         } = this.props;
 
         return (
@@ -154,7 +154,7 @@ Props extends MyAccountOverlayComponentProps = MyAccountOverlayComponentProps
             handleCreateAccount,
             isCheckout,
             setLoadingState,
-            onSignIn
+            onSignIn,
         } = this.props;
 
         return (
@@ -175,7 +175,7 @@ Props extends MyAccountOverlayComponentProps = MyAccountOverlayComponentProps
             onVisible,
             isCheckout,
             isMobile,
-            isLoading
+            isLoading,
         } = this.props;
 
         return (
@@ -192,4 +192,4 @@ Props extends MyAccountOverlayComponentProps = MyAccountOverlayComponentProps
     }
 }
 
-export default MyAccountOverlay;
+export default MyAccountOverlayComponent;

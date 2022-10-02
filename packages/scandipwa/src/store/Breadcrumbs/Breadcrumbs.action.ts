@@ -13,7 +13,7 @@ import {
     Breadcrumb,
     BreadcrumbsActionType,
     ToggleBreadcrumbsAction,
-    UpdateBreadcrumbsAction
+    UpdateBreadcrumbsAction,
 } from './Breadcrumbs.type';
 
 /**
@@ -24,7 +24,7 @@ import {
  */
 export const updateBreadcrumbs = (breadcrumbs: Breadcrumb[]): UpdateBreadcrumbsAction => ({
     type: BreadcrumbsActionType.UPDATE_BREADCRUMBS,
-    breadcrumbs
+    breadcrumbs,
 });
 
 /**
@@ -35,5 +35,5 @@ export const updateBreadcrumbs = (breadcrumbs: Breadcrumb[]): UpdateBreadcrumbsA
  */
 export const toggleBreadcrumbs = (areBreadcrumbsVisible: boolean): ToggleBreadcrumbsAction => ({
     type: BreadcrumbsActionType.TOGGLE_BREADCRUMBS,
-    areBreadcrumbsVisible
+    areBreadcrumbsVisible,
 });

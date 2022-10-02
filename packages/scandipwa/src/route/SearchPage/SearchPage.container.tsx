@@ -18,7 +18,7 @@ import { LOADING_TIME, SortDirections } from 'Route/CategoryPage/CategoryPage.co
 import {
     CategoryPageContainer,
     mapDispatchToProps as sourceMapDispatchToProps,
-    mapStateToProps as sourceMapStateToProps
+    mapStateToProps as sourceMapStateToProps,
 } from 'Route/CategoryPage/CategoryPage.container';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -37,7 +37,7 @@ import {
     SearchPageComponentProps,
     SearchPageContainerConfig,
     SearchPageContainerMapDispatchProps, SearchPageContainerMapStateProps, SearchPageContainerProps,
-    SearchPageContainerState
+    SearchPageContainerState,
 } from './SearchPage.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -65,13 +65,13 @@ export const ProductListInfoDispatcher = import(
 export const mapStateToProps = (state: RootState): SearchPageContainerMapStateProps => ({
     ...sourceMapStateToProps(state),
     minPriceRange: state.ProductListInfoReducer.minPrice,
-    maxPriceRange: state.ProductListInfoReducer.maxPrice
+    maxPriceRange: state.ProductListInfoReducer.maxPrice,
 });
 
 /** @namespace Route/SearchPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): SearchPageContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
-    updateMeta: (meta) => dispatch(updateMeta(meta))
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
 });
 
 /** @namespace Route/SearchPage/Container */
@@ -82,12 +82,12 @@ SearchPageContainerState
     static defaultProps: Partial<SearchPageContainerProps> = {
         ...CategoryPageContainer.defaultProps,
         isSearchPage: true,
-        updateMetaFromCategory: noopFn
+        updateMetaFromCategory: noopFn,
     };
 
     config: SearchPageContainerConfig = {
         sortKey: 'none',
-        sortDirection: SortDirections.ASC
+        sortDirection: SortDirections.ASC,
     };
 
     updateMeta(): void {
@@ -104,13 +104,13 @@ SearchPageContainerState
             url: '',
             name: search,
             id: '',
-            breadcrumbs: []
+            breadcrumbs: [],
         });
     }
 
     updateHeaderState(): void {
         const {
-            changeHeaderState
+            changeHeaderState,
         } = this.props;
 
         const { category } = history?.location?.state || {};
@@ -123,7 +123,7 @@ SearchPageContainerState
         changeHeaderState({
             name: Page.CATEGORY,
             title: search,
-            onBackClick
+            onBackClick,
         });
     }
 
@@ -153,12 +153,12 @@ SearchPageContainerState
     componentDidUpdate(prevProps: SearchPageContainerProps): void {
         const {
             isOffline,
-            match: { params = {} }
+            match: { params = {} },
         } = this.props;
         const { query } = params as Record<string, string>;
 
         const {
-            match: { params: prevParams = {} }
+            match: { params: prevParams = {} },
         } = prevProps;
         const { query: prevQuery } = prevParams as Record<string, string>;
 
@@ -186,8 +186,8 @@ SearchPageContainerState
     getSortFields(): SortFields {
         const {
             sortFields: {
-                options = []
-            } = {}
+                options = [],
+            } = {},
         } = this.props;
 
         const filteredOptions = options.filter(({ value }) => value !== BEST_MATCH_SORT_OPTION_VALUE);
@@ -195,8 +195,8 @@ SearchPageContainerState
         return {
             options: [
                 NONE_SORT_OPTION,
-                ...filteredOptions
-            ]
+                ...filteredOptions,
+            ],
         };
     }
 
@@ -207,7 +207,7 @@ SearchPageContainerState
         return {
             ...super.containerProps(),
             search: this.getSearchParam(),
-            sortFields: this.getSortFields()
+            sortFields: this.getSortFields(),
         };
     }
 
@@ -222,5 +222,5 @@ SearchPageContainerState
 }
 
 export default withReducers({
-    CategoryReducer
+    CategoryReducer,
 })(connect(mapStateToProps, mapDispatchToProps)(SearchPageContainer));

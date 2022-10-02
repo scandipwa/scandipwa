@@ -14,20 +14,20 @@ import { connect } from 'react-redux';
 import {
     mapDispatchToProps,
     mapStateToProps,
-    MyAccountAddressTableContainer
+    MyAccountAddressTableContainer,
 } from 'Component/MyAccountAddressTable/MyAccountAddressTable.container';
 import { ReactElement } from 'Type/Common.type';
 
 import CheckoutAddressTable from './CheckoutAddressTable.component';
 import {
     CheckoutAddressTableContainerProps,
-    CheckoutAddressTableContainerPropsKeys
+    CheckoutAddressTableContainerPropsKeys,
 } from './CheckoutAddressTable.type';
 
 /** @namespace Component/CheckoutAddressTable/Container */
 export class CheckoutAddressTableContainer extends MyAccountAddressTableContainer<CheckoutAddressTableContainerProps> {
     static defaultProps = {
-        ...MyAccountAddressTableContainer.defaultProps
+        ...MyAccountAddressTableContainer.defaultProps,
     };
 
     containerProps(): Pick<CheckoutAddressTableContainerProps, CheckoutAddressTableContainerPropsKeys> {
@@ -36,7 +36,7 @@ export class CheckoutAddressTableContainer extends MyAccountAddressTableContaine
         return {
             isSelected,
             onClick,
-            ...super.containerProps()
+            ...super.containerProps(),
         };
     }
 

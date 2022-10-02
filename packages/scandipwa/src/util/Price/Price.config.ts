@@ -185,5 +185,5 @@ export enum CurrencyMap {
     XPF = '₣',
     YER = '﷼',
     ZAR = 'R',
-    ZWD = 'Z$'
+    ZWD = 'Z$',
 }

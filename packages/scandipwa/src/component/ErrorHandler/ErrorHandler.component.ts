@@ -16,9 +16,9 @@ import { ReactElement } from 'Type/Common.type';
 import { ErrorHandlerComponentProps, ErrorHandlerComponentState } from './ErrorHandler.type';
 
 /** @namespace Component/ErrorHandler/Component */
-export class ErrorHandler extends PureComponent<ErrorHandlerComponentProps, ErrorHandlerComponentState> {
+export class ErrorHandlerComponent extends PureComponent<ErrorHandlerComponentProps, ErrorHandlerComponentState> {
     static defaultProps: Partial<ErrorHandlerComponentProps> = {
-        children: []
+        children: [],
     };
 
     static getDerivedStateFromError(): Partial<ErrorHandlerComponentState> {
@@ -27,7 +27,7 @@ export class ErrorHandler extends PureComponent<ErrorHandlerComponentProps, Erro
 
     state: ErrorHandlerComponentState = {
         hasError: false,
-        pathname: ''
+        pathname: '',
     };
 
     componentDidMount(): void {
@@ -42,7 +42,7 @@ export class ErrorHandler extends PureComponent<ErrorHandlerComponentProps, Erro
         if (window.location.pathname !== pathname && hasError) {
             this.setState({
                 hasError: false,
-                pathname: window.location.pathname
+                pathname: window.location.pathname,
             });
         }
 
@@ -63,4 +63,4 @@ export class ErrorHandler extends PureComponent<ErrorHandlerComponentProps, Erro
     }
 }
 
-export default ErrorHandler;
+export default ErrorHandlerComponent;

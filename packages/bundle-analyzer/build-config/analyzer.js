@@ -4,7 +4,7 @@ const { choosePort } = require('react-dev-utils/WebpackDevServerUtils');
 module.exports = {
     plugin: {
         overrideCracoConfig: async ({
-            cracoConfig
+            cracoConfig,
         }) => {
             if (process.env.NODE_ENV === 'production') {
                 return cracoConfig;
@@ -16,10 +16,10 @@ module.exports = {
 
             cracoConfig.webpack.plugins.push(new BundleAnalyzerPlugin({
                 analyzerHost: HOST,
-                analyzerPort
+                analyzerPort,
             }));
 
             return cracoConfig;
-        }
-    }
+        },
+    },
 };

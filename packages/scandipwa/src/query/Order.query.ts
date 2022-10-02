@@ -39,7 +39,7 @@ import {
     ShipmentItemInterface,
     ShipmentTracking,
     ShippingHandling,
-    TaxItem
+    TaxItem,
 } from './Order.type';
 
 /**
@@ -84,7 +84,7 @@ export class OrderQuery {
 
     _getOrderListFields(options: Partial<OrdersOptions>): Field<'orders', CustomerOrders>[] {
         return [
-            this._getOrdersField(options)
+            this._getOrdersField(options),
         ];
     }
 
@@ -111,7 +111,7 @@ export class OrderQuery {
         return [
             new Field<'total_count', number>('total_count'),
             this._getOrderItemsField(isSingleOrder),
-            this._getSearchResultPageInfoField()
+            this._getSearchResultPageInfoField(),
         ];
     }
 
@@ -128,7 +128,7 @@ export class OrderQuery {
         return [
             new Field<'current_page', number>('current_page'),
             new Field<'page_size', number>('page_size'),
-            new Field<'total_pages', number>('total_pages')
+            new Field<'total_pages', number>('total_pages'),
         ];
     }
 
@@ -163,7 +163,7 @@ export class OrderQuery {
             new Field<'status', string>('status'),
             new Field<'can_reorder', boolean>('can_reorder'),
             new Field<'rss_link', string>('rss_link'),
-            this._getOrderItemTotalField()
+            this._getOrderItemTotalField(),
         ];
 
         if (isSingleOrder) {
@@ -195,7 +195,7 @@ export class OrderQuery {
             this._getOrderBillingAddressField(),
             this._getOrderPaymentMethodsField(),
             this._getOrderShippingMethodField(),
-            this._getOrderCommentsField()
+            this._getOrderCommentsField(),
         ];
     }
 
@@ -210,7 +210,7 @@ export class OrderQuery {
     > {
         return [
             new Field<'timestamp', string>('timestamp'),
-            new Field<'message', string>('message')
+            new Field<'message', string>('message'),
         ];
     }
 
@@ -237,7 +237,7 @@ export class OrderQuery {
             this._getOrderTotalShippingField(),
             this._getOrderTotalTaxField(),
             this._getOrderShippingHandlingField(),
-            this._getOrderTaxesField()
+            this._getOrderTaxesField(),
         ];
     }
 
@@ -254,7 +254,7 @@ export class OrderQuery {
         return [
             new Field<'rate', number>('rate'),
             new Field<'title', string>('title'),
-            this._getOrderAmountField()
+            this._getOrderAmountField(),
         ];
     }
 
@@ -275,7 +275,7 @@ export class OrderQuery {
             this._getOrderShippingAmountInclTaxField(),
             this._getOrderShippingDiscountsField(),
             this._getOrderShippingHandlingTotalField(),
-            this._getOrderTaxesField()
+            this._getOrderTaxesField(),
         ];
     }
 
@@ -286,7 +286,7 @@ export class OrderQuery {
 
     _getOrderShippingDiscountsFields(): Field<'amount', Money>[] {
         return [
-            this._getOrderAmountField()
+            this._getOrderAmountField(),
         ];
     }
 
@@ -336,7 +336,7 @@ export class OrderQuery {
     > {
         return [
             new Field<'value', string>('value'),
-            new Field<'currency', GQLCurrencyEnum>('currency')
+            new Field<'currency', GQLCurrencyEnum>('currency'),
         ];
     }
 
@@ -357,7 +357,7 @@ export class OrderQuery {
             new Field<'number', string>('number'),
             this._getOrderCommentsField(),
             this._getOrderShipmentTrackingField(),
-            this._getShipmentsItemsProductsField()
+            this._getShipmentsItemsProductsField(),
         ];
     }
 
@@ -374,7 +374,7 @@ export class OrderQuery {
     > {
         return [
             new Field<'quantity_shipped', number>('quantity_shipped'),
-            ...this._getBaseOrderItemProductsFields()
+            ...this._getBaseOrderItemProductsFields(),
         ];
     }
 
@@ -391,7 +391,7 @@ export class OrderQuery {
         return [
             new Field<'carrier', string>('carrier'),
             new Field<'number', string>('number'),
-            new Field<'title', string>('title')
+            new Field<'title', string>('title'),
         ];
     }
 
@@ -412,7 +412,7 @@ export class OrderQuery {
             new Field<'number', string>('number'),
             this._getOrderCommentsField(),
             this._getRefundsItemsProductsField(),
-            this._getOrderItemTotalField()
+            this._getOrderItemTotalField(),
         ];
     }
 
@@ -427,7 +427,7 @@ export class OrderQuery {
     > {
         return [
             new Field<'label', string>('label'),
-            this._getOrderAmountField()
+            this._getOrderAmountField(),
         ];
     }
 
@@ -455,7 +455,7 @@ export class OrderQuery {
             ...this._getBaseOrderItemProductsFields(),
             this._getRefundsItemInformationField(),
             this._getOrderProductRowSubtotalField(),
-            this._getOrderDiscountsField()
+            this._getOrderDiscountsField(),
         ];
     }
 
@@ -481,7 +481,7 @@ export class OrderQuery {
             new Field<'number', string>('number'),
             this._getOrderCommentsField(),
             this._getInvoiceItemsProductsField(),
-            this._getOrderItemTotalField()
+            this._getOrderItemTotalField(),
         ];
     }
 
@@ -500,7 +500,7 @@ export class OrderQuery {
         return [
             new Field<'quantity_invoiced', number>('quantity_invoiced'),
             this._getOrderProductRowSubtotalField(),
-            ...this._getBaseOrderItemProductsFields()
+            ...this._getBaseOrderItemProductsFields(),
         ];
     }
 
@@ -531,7 +531,7 @@ export class OrderQuery {
             this._getOrderProductEnteredOptionsField(),
             this._getOrderProductSelectedOptionsField(),
             this._getOrderProductRowSubtotalField(),
-            ...this._getBaseOrderItemProductsFields()
+            ...this._getBaseOrderItemProductsFields(),
         ];
     }
 
@@ -543,7 +543,7 @@ export class OrderQuery {
         return [
             new Field<'product_name', string>('product_name'),
             new Field<'product_sku', string>('product_sku'),
-            this._getOrderProductSalePriceField()
+            this._getOrderProductSalePriceField(),
         ];
     }
 
@@ -577,7 +577,7 @@ export class OrderQuery {
             new Field<'label', string>('label'),
             new Field<'value', string>('value'),
             this._getOrderProductBundleOptionItemsField(),
-            new Field<'linkItems', string, true>('linkItems', true)
+            new Field<'linkItems', string, true>('linkItems', true),
         ];
     }
 
@@ -594,7 +594,7 @@ export class OrderQuery {
         return [
             new Field<'title', string>('title'),
             new Field<'qty', number>('qty'),
-            new Field<'price', number>('price')
+            new Field<'price', number>('price'),
         ];
     }
 
@@ -616,7 +616,7 @@ export class OrderQuery {
         return [
             new Field<'code', string>('code'),
             new Field<'message', string>('message'),
-            new Field<'path', string>('path')
+            new Field<'path', string>('path'),
         ];
     }
 
@@ -652,7 +652,7 @@ export class OrderQuery {
             new Field<'region_id', number>('region_id'),
             new Field<'telephone', string>('telephone'),
             new Field<'vat_id', string>('vat_id'),
-            this._getOrderAddressStreetField()
+            this._getOrderAddressStreetField(),
         ];
     }
 
@@ -675,7 +675,7 @@ export class OrderQuery {
             new Field<'name', string>('name'),
             new Field<'type', string>('type'),
             new Field<'purchase_number', string>('purchase_number'),
-            this._getOrderPaymentMethodAdditionalField()
+            this._getOrderPaymentMethodAdditionalField(),
         ];
     }
 
@@ -690,7 +690,7 @@ export class OrderQuery {
     > {
         return [
             new Field<'name', string>('name'),
-            new Field<'value', string>('value')
+            new Field<'value', string>('value'),
         ];
     }
 
@@ -700,7 +700,7 @@ export class OrderQuery {
 
     getDownloadableQuery(): Query<'customerDownloadableProducts', { items: CustomerDownloadableProduct[] }> {
         return new Query<'customerDownloadableProducts', { items: CustomerDownloadableProduct[] }>(
-            'customerDownloadableProducts'
+            'customerDownloadableProducts',
         )
             .addField(this._getDownloadableField());
     }
@@ -733,7 +733,7 @@ export class OrderQuery {
             new Field<'download_url', string>('download_url'),
             new Field<'link_title', string>('link_title'),
             new Field<'remaining_downloads', number>('remaining_downloads'),
-            new Field<'title', string>('title')
+            new Field<'title', string>('title'),
         ];
     }
 }

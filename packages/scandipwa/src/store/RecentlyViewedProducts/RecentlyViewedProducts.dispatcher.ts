@@ -18,7 +18,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import {
     updateLoadStatus,
-    updateRecentlyViewedProducts
+    updateRecentlyViewedProducts,
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { NetworkError } from 'Type/Common.type';
 import { QueryDispatcher } from 'Util/Request';
@@ -27,7 +27,7 @@ import { RootState } from 'Util/Store/Store.type';
 
 import {
     RecentlyViewedProductsDispatcherData,
-    RecentlyViewedProductsDispatcherOptions
+    RecentlyViewedProductsDispatcherOptions,
 } from './RecentlyViewedProducts.type';
 
 /**
@@ -47,7 +47,7 @@ RecentlyViewedProductsDispatcherData
     onSuccess({ products: { items } }: RecentlyViewedProductsDispatcherData, dispatch: Dispatch): void {
         const state = getStore().getState() as RootState;
         const {
-            code: storeCode
+            code: storeCode,
         } = state.ConfigReducer;
 
         dispatch(updateRecentlyViewedProducts(items, storeCode));
@@ -57,7 +57,7 @@ RecentlyViewedProductsDispatcherData
         dispatch(showNotification(
             NotificationType.ERROR,
             __('Error fetching Recently Viewed Products Information!'),
-            error
+            error,
         ));
     }
 
@@ -69,13 +69,13 @@ RecentlyViewedProductsDispatcherData
      */
     prepareRequest(
         options: RecentlyViewedProductsDispatcherOptions,
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ): Query<'products', ProductsQueryOutput>[] {
         const { store } = options;
         const {
             recentProducts: {
-                [ store ]: storeRecentProducts
-            } = {}
+                [ store ]: storeRecentProducts,
+            } = {},
         } = options;
 
         if (!Array.isArray(storeRecentProducts)) {
@@ -94,11 +94,11 @@ RecentlyViewedProductsDispatcherData
             ProductListQuery.getQuery({
                 args: {
                     filter: {
-                        productsSkuArray: recentlyViewedProductsSKUs
-                    }
+                        productsSkuArray: recentlyViewedProductsSKUs,
+                    },
                 },
-                notRequireInfo: true
-            })
+                notRequireInfo: true,
+            }),
         ];
     }
 }

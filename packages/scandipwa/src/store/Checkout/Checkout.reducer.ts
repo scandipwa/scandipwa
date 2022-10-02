@@ -14,14 +14,14 @@ import { Reducer } from 'redux';
 import {
     CheckoutAction,
     CheckoutActionType,
-    CheckoutStore
+    CheckoutStore,
 } from './Checkout.type';
 
 /** @namespace Store/Checkout/Reducer/getInitialState */
 export const getInitialState = (): CheckoutStore => ({
     shippingFields: {},
     email: '',
-    isEmailAvailable: true
+    isEmailAvailable: true,
 });
 
 /** @namespace Store/Checkout/Reducer/CheckoutReducer */
@@ -30,7 +30,7 @@ CheckoutStore,
 CheckoutAction
 > = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     switch (action.type) {
     case CheckoutActionType.UPDATE_SHIPPING_FIELDS:
@@ -38,7 +38,7 @@ CheckoutAction
 
         return {
             ...state,
-            shippingFields
+            shippingFields,
         };
 
     case CheckoutActionType.UPDATE_EMAIL:
@@ -46,7 +46,7 @@ CheckoutAction
 
         return {
             ...state,
-            email
+            email,
         };
 
     case CheckoutActionType.UPDATE_EMAIL_AVAILABLE:
@@ -54,7 +54,7 @@ CheckoutAction
 
         return {
             ...state,
-            isEmailAvailable
+            isEmailAvailable,
         };
 
     default:

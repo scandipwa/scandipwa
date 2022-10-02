@@ -12,7 +12,7 @@
 import { AnimationEvent, PureComponent } from 'react';
 
 import {
-    BIG_PLACEHOLDER_CONFIG
+    BIG_PLACEHOLDER_CONFIG,
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
 import { ReactElement } from 'Type/Common.type';
 import { GQLProductStockStatus } from 'Type/Graphql.type';
@@ -25,12 +25,12 @@ import {
     ProductConfigurableAttributesComponentContainerFunctions,
     ProductConfigurableAttributesComponentContainerPropsKeys,
     ProductConfigurableAttributesComponentProps,
-    ProductConfigurableAttributesContainerProps
+    ProductConfigurableAttributesContainerProps,
 } from './ProductConfigurableAttributes.type';
 
 /** @namespace Component/ProductConfigurableAttributes/Container */
 export class ProductConfigurableAttributesContainer<
-    P extends ProductConfigurableAttributesContainerProps = ProductConfigurableAttributesContainerProps
+    P extends ProductConfigurableAttributesContainerProps = ProductConfigurableAttributesContainerProps,
 > extends PureComponent<P> {
     static defaultProps: Partial<ProductConfigurableAttributesContainerProps> = {
         getLink: noopFn as unknown as (filterKey: string, value: string) => string,
@@ -43,7 +43,7 @@ export class ProductConfigurableAttributesContainer<
         inStock: true,
         updateAddToCartTriggeredWithError: noopFn,
         addToCartTriggeredWithError: false,
-        isContentExpanded: false
+        isContentExpanded: false,
 
     };
 
@@ -53,7 +53,7 @@ export class ProductConfigurableAttributesContainer<
         isSelected: this.isSelected.bind(this),
         getLink: this.getLink.bind(this),
         getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this),
-        handleShakeAnimationEnd: this.handleShakeAnimationEnd.bind(this)
+        handleShakeAnimationEnd: this.handleShakeAnimationEnd.bind(this),
     };
 
     containerProps(): Pick<
@@ -72,7 +72,7 @@ export class ProductConfigurableAttributesContainer<
             inStock,
             addToCartTriggeredWithError,
             updateAddToCartTriggeredWithError,
-            isContentExpanded
+            isContentExpanded,
         } = this.props;
 
         return {
@@ -87,7 +87,7 @@ export class ProductConfigurableAttributesContainer<
             inStock,
             addToCartTriggeredWithError,
             updateAddToCartTriggeredWithError,
-            isContentExpanded
+            isContentExpanded,
         };
     }
 
@@ -101,11 +101,11 @@ export class ProductConfigurableAttributesContainer<
         attribute_values = [],
         attribute_code,
         attribute_options = {},
-        is_boolean = false
+        is_boolean = false,
     }: Partial<ProductConfigurableAttribute>): string {
         return attribute_values.reduce((acc: string[], attribute_value) => (this.isSelected({
             attribute_code,
-            attribute_value
+            attribute_value,
         })
             ? [...acc, getBooleanLabel(attribute_options[ attribute_value ].label, is_boolean)]
             : acc), []).join(', ');
@@ -144,7 +144,7 @@ export class ProductConfigurableAttributesContainer<
     }
 
     getIsConfigurableAttributeAvailable(
-        { attribute_code = '', attribute_value = '' }: Partial<ProductConfigurableAttribute>
+        { attribute_code = '', attribute_value = '' }: Partial<ProductConfigurableAttribute>,
     ): boolean {
         const { parameters, variants } = this.props;
 

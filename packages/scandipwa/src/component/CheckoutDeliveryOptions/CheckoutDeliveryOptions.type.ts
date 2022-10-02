@@ -22,7 +22,7 @@ export interface CheckoutDeliveryOptionsContainerState {
     isShippingMethodPreSelected: boolean;
 }
 
-export interface CheckoutDeliveryOptionsComponent {
+export interface CheckoutDeliveryOptionsComponentProps {
     shippingMethods: ShippingMethod[];
     selectShippingMethod: (shippingMethod: ShippingMethod) => void;
     handleSelectDeliveryMethod: () => void;

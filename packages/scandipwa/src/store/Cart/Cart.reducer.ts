@@ -24,7 +24,7 @@ import {
     CartTotals,
     IndexedCartItem,
     UpdateShippingPriceAction,
-    UpdateTotalsAction
+    UpdateTotalsAction,
 } from './Cart.type';
 
 export const CART_TOTALS = 'cart_totals';
@@ -36,7 +36,7 @@ export const updateCartTotals = (action: UpdateTotalsAction): CartStore => {
     const cartTotals: CartTotals = {
         ...rest,
         items: [],
-        shipping_addresses: {}
+        shipping_addresses: {},
     };
 
     if (items.length) {
@@ -52,7 +52,7 @@ export const updateCartTotals = (action: UpdateTotalsAction): CartStore => {
 
             normalizedItem.product = getIndexedProduct(
                 item.product as unknown as Partial<ProductItem>,
-                item.sku
+                item.sku,
             ) as unknown as CartItemProduct;
 
             normalizedItem.customizable_options = bundle_customizable_options
@@ -72,7 +72,7 @@ export const updateCartTotals = (action: UpdateTotalsAction): CartStore => {
 
     BrowserDatabase.setItem(
         cartTotals,
-        CART_TOTALS
+        CART_TOTALS,
     );
 
     return { cartTotals, isLoading: false };
@@ -81,7 +81,7 @@ export const updateCartTotals = (action: UpdateTotalsAction): CartStore => {
 /** @namespace Store/Cart/Reducer/updateShippingPrice */
 export const updateShippingPrice = (
     action: UpdateShippingPriceAction,
-    state: CartStore
+    state: CartStore,
 ): CartStore => {
     const {
         data: {
@@ -93,16 +93,16 @@ export const updateShippingPrice = (
             subtotal = 0,
             subtotal_incl_tax = 0,
             subtotal_with_discount = 0,
-            tax_amount = 0
-        } = {}
+            tax_amount = 0,
+        } = {},
     } = action;
 
     const {
         cartTotals: {
             prices: {
-                quote_currency_code = GQLCurrencyEnum.USD
-            } = {}
-        } = {}
+                quote_currency_code = GQLCurrencyEnum.USD,
+            } = {},
+        } = {},
     } = state;
 
     const shipping = {
@@ -113,67 +113,67 @@ export const updateShippingPrice = (
                     ...state.cartTotals.prices?.applied_taxes?.[0],
                     amount: {
                         value: tax_amount,
-                        currency: quote_currency_code
-                    }
-                } as AppliedTax
+                        currency: quote_currency_code,
+                    },
+                } as AppliedTax,
             ],
             discount: {
                 ...state.cartTotals.prices?.discount,
                 label: state.cartTotals.prices?.discount?.label || '',
                 amount: {
                     value: discount_amount,
-                    currency: quote_currency_code as GQLCurrencyEnum
-                }
+                    currency: quote_currency_code as GQLCurrencyEnum,
+                },
             },
             grand_total: {
                 value: grand_total,
-                currency: quote_currency_code as GQLCurrencyEnum
+                currency: quote_currency_code as GQLCurrencyEnum,
             },
             subtotal_excluding_tax: {
                 value: subtotal,
-                currency: quote_currency_code as GQLCurrencyEnum
+                currency: quote_currency_code as GQLCurrencyEnum,
             },
             subtotal_including_tax: {
                 value: subtotal_incl_tax,
-                currency: quote_currency_code as GQLCurrencyEnum
+                currency: quote_currency_code as GQLCurrencyEnum,
             },
             subtotal_with_discount_excluding_tax: {
                 value: subtotal_with_discount,
-                currency: quote_currency_code as GQLCurrencyEnum
-            }
+                currency: quote_currency_code as GQLCurrencyEnum,
+            },
         },
         shipping_addresses: {
             ...state.cartTotals.shipping_addresses,
             selected_shipping_method: {
                 amount: {
                     value: shipping_amount,
-                    currency: quote_currency_code as GQLCurrencyEnum
+                    currency: quote_currency_code as GQLCurrencyEnum,
                 },
                 amount_incl_tax: shipping_incl_tax,
-                tax_amount: shipping_tax_amount
-            } as SelectedShippingMethod
-        }
+                tax_amount: shipping_tax_amount,
+            } as SelectedShippingMethod,
+        },
     };
 
     return {
         ...state,
         cartTotals: {
             ...state.cartTotals,
-            ...shipping
-        }
+            ...shipping,
+        },
     };
 };
 
 /** @namespace Store/Cart/Reducer/getInitialState */
 export const getInitialState = (): CartStore => ({
     isLoading: false,
-    cartTotals: BrowserDatabase.getItem(CART_TOTALS) || {} as CartTotals
+    cartTotals: BrowserDatabase.getItem(CART_TOTALS) || {} as CartTotals,
 });
 
 /** @namespace Store/Cart/Reducer/CartReducer */
 export const CartReducer: Reducer<CartStore, CartAction> = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     const { type } = action;
 
@@ -187,7 +187,7 @@ export const CartReducer: Reducer<CartStore, CartAction> = (
 
         return {
             ...state,
-            isLoading
+            isLoading,
         };
     default:
         return state;

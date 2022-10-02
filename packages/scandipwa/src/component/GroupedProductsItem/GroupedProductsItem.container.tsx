@@ -20,13 +20,13 @@ import {
     GroupedProductsItemComponentContainerPropKeys,
     GroupedProductsItemComponentProps,
     GroupedProductsItemContainerFunctions,
-    GroupedProductsItemContainerProps
+    GroupedProductsItemContainerProps,
 } from './GroupedProductsItem.type';
 
 /** @namespace Component/GroupedProductsItem/Container */
 export class GroupedProductsItemContainer extends PureComponent<GroupedProductsItemContainerProps> {
     containerFunctions: GroupedProductsItemContainerFunctions = {
-        setQuantity: this.setQuantity.bind(this)
+        setQuantity: this.setQuantity.bind(this),
     };
 
     __construct(props: GroupedProductsItemContainerProps): void {
@@ -42,7 +42,7 @@ export class GroupedProductsItemContainer extends PureComponent<GroupedProductsI
 
         return {
             itemCount: this._getCurrentQuantity(),
-            product
+            product,
         };
     }
 
@@ -53,7 +53,7 @@ export class GroupedProductsItemContainer extends PureComponent<GroupedProductsI
     _getCurrentQuantity(): number {
         const {
             product: { id = 0 },
-            quantity
+            quantity,
         } = this.props;
 
         return (quantity as Record<number, number>)[ id ] || 0;

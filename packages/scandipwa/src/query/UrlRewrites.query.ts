@@ -14,7 +14,7 @@ import { GQLUrlRewriteEntityTypeEnum } from 'Type/Graphql.type';
 
 import {
     UrlRewritesOutput,
-    UrlRewritesQueryOptions
+    UrlRewritesQueryOptions,
 } from './UrlRewrites.type';
 
 /**
@@ -40,7 +40,7 @@ export class UrlRewritesQuery {
         return [
             new Field<'sku', string>('sku'),
             new Field<'type', GQLUrlRewriteEntityTypeEnum>('type'),
-            new Field<'id', number>('id')
+            new Field<'id', number>('id'),
         ];
     }
 }

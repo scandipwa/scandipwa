@@ -23,12 +23,12 @@ import {
     InstallPromptContainerMapDispatchProps,
     InstallPromptContainerMapStateProps,
     InstallPromptContainerProps,
-    InstallPromptContainerState
+    InstallPromptContainerState,
 } from './InstallPrompt.type';
 
 /** @namespace Component/InstallPrompt/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): InstallPromptContainerMapStateProps => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/InstallPrompt/Container/mapDispatchToProps */
@@ -38,12 +38,12 @@ export const mapDispatchToProps = (): InstallPromptContainerMapDispatchProps => 
 export class InstallPromptContainer extends PureComponent<InstallPromptContainerProps, InstallPromptContainerState> {
     state: InstallPromptContainerState = {
         isBannerClosed: !!BrowserDatabase.getItem('postpone_installation'),
-        hasInstallPromptEvent: false
+        hasInstallPromptEvent: false,
     };
 
     containerFunctions: InstallPromptContainerFunctions = {
         handleAppInstall: this.handleAppInstall.bind(this),
-        handleBannerClose: this.handleBannerClose.bind(this)
+        handleBannerClose: this.handleBannerClose.bind(this),
     };
 
     componentDidMount(): void {
@@ -62,7 +62,7 @@ export class InstallPromptContainer extends PureComponent<InstallPromptContainer
         return {
             device,
             isBannerClosed,
-            hasInstallPromptEvent
+            hasInstallPromptEvent,
         };
     }
 
@@ -85,7 +85,7 @@ export class InstallPromptContainer extends PureComponent<InstallPromptContainer
                 // Clear the saved prompt since it can't be used again
                 window.prompt_event = undefined;
                 this.setState({ hasInstallPromptEvent: false });
-            }
+            },
         );
     }
 

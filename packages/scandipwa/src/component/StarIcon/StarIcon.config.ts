@@ -12,5 +12,5 @@
 export enum StartFill {
     EMPTY = 'empty',
     HALF_FULL = 'halfFull',
-    FULL = 'full'
+    FULL = 'full',
 }

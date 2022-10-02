@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps as sourceMapStateToProps,
-    MyAccountMyWishlistContainer
+    MyAccountMyWishlistContainer,
 } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
 import WishlistQuery from 'Query/Wishlist.query';
 import { Wishlist } from 'Query/Wishlist.type';
@@ -32,7 +32,7 @@ import {
     WishlistSharedPageContainerMapDispatchProps,
     WishlistSharedPageContainerMapStateProps,
     WishlistSharedPageContainerProps,
-    WishlistSharedPageContainerState
+    WishlistSharedPageContainerState,
 } from './WishlistSharedPage.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -46,7 +46,7 @@ export const WishlistDispatcher = import(
 
 /** @namespace Route/WishlistSharedPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): WishlistSharedPageContainerMapStateProps => ({
-    ...sourceMapStateToProps(state)
+    ...sourceMapStateToProps(state),
 });
 
 /** @namespace Route/WishlistSharedPage/Container/mapDispatchToProps */
@@ -54,8 +54,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): WishlistSharedPageContai
     ...sourceMapDispatchToProps(dispatch),
     showNoMatch: () => dispatch(updateNoMatch(true)),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
-    )
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
+    ),
 });
 
 /** @namespace Route/WishlistSharedPage/Container */
@@ -71,7 +71,7 @@ WishlistSharedPageContainerState
         isWishlistLoading: true,
         isLoading: false,
         loadingItemsMap: {},
-        isQtyUpdateInProgress: false
+        isQtyUpdateInProgress: false,
     };
 
     componentDidMount(): void {
@@ -101,7 +101,7 @@ WishlistSharedPageContainerState
             /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/addAllToCart/moveWishlistToCart/then */
             () => this.showNotificationAndRemoveLoading('Wishlist moved to cart'),
             /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/addAllToCart/moveWishlistToCart/then/showError/catch */
-            (error) => showError(getErrorMessage(error))
+            (error) => showError(getErrorMessage(error)),
         );
     }
 
@@ -129,7 +129,7 @@ WishlistSharedPageContainerState
                         sku,
                         product,
                         description,
-                        qty: quantity
+                        qty: quantity,
                     } = wishlistItem;
 
                     const indexedProduct = getIndexedProduct(product);
@@ -142,30 +142,30 @@ WishlistSharedPageContainerState
                                 id,
                                 sku,
                                 quantity,
-                                description
+                                description,
                             },
-                            ...indexedProduct
-                        }
+                            ...indexedProduct,
+                        },
                     };
                 }, {});
 
                 updateBreadcrumbs([
                     { name: creatorsName, url: `/wishlist/shared/${code}` },
-                    { name: __('Shared Wishlist'), url: '/' }
+                    { name: __('Shared Wishlist'), url: '/' },
                 ]);
 
                 this.setState({
                     creatorsName,
                     wishlistItems,
                     isLoading: false,
-                    isWishlistLoading: false
+                    isWishlistLoading: false,
                 });
             },
             /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/requestWishlist/executeGet/then/catch */
             (error) => {
                 showError(getErrorMessage(error));
                 showNoMatch();
-            }
+            },
         );
     }
 

@@ -16,7 +16,7 @@ import {
     CheckoutAgreement,
     Currencies,
     CurrencyData,
-    StoreConfig
+    StoreConfig,
 } from 'Query/Config.type';
 import { Country } from 'Query/Region.type';
 import { ReviewRatingItem } from 'Query/Review.type';
@@ -26,7 +26,7 @@ import {
     ConfigAction,
     ConfigActionType,
     ConfigStore,
-    ReviewRatings
+    ReviewRatings,
 } from './Config.type';
 
 export const MAX_WIDTH = 150;
@@ -36,12 +36,12 @@ export const DEFAULT_CATGORY_URL_SUFFIX = '.html';
 /** @namespace Store/Config/Reducer/filterStoreConfig */
 export const filterStoreConfig = (config: StoreConfig): Partial<StoreConfig> => Object.entries(config).reduce(
     (acc, [key, value]) => (value !== null ? { ...acc, [key]: value } : acc),
-    {}
+    {},
 );
 
 export const {
 // @ts-ignore
-    countries, reviewRatings, storeConfig, currencyData, currency, cartDisplayConfig
+    countries, reviewRatings, storeConfig, currencyData, currency, cartDisplayConfig,
 } = BrowserDatabase.getItem('config') || {
     countries: [],
     reviewRatings: [],
@@ -54,37 +54,37 @@ export const {
         display_tax_in_shipping_amount: '',
         include_tax_in_order_total: false,
         display_full_tax_summary: false,
-        display_zero_tax_subtotal: false
-    }
+        display_zero_tax_subtotal: false,
+    },
 };
 
 /** @namespace Store/Config/Reducer/getIndexedRatings */
 export const getIndexedRatings = (
-    reviewRatings: ReviewRatings
+    reviewRatings: ReviewRatings,
 ): ReviewRatingItem[] => ((reviewRatings) ? reviewRatings.items || [] : []);
 
 /** @namespace Store/Config/Reducer/getCurrencyRates */
 export const getCurrencyRates = (
     base: Currencies,
-    state: Partial<ConfigStore>
+    state: Partial<ConfigStore>,
 ): Currencies => (base || state.currency || {});
 
 /** @namespace Store/Config/Reducer/getCurrencyData */
 export const getCurrencyData = (
     base: CurrencyData,
-    state: Partial<ConfigStore>
+    state: Partial<ConfigStore>,
 ): CurrencyData => (base || state.currencyData || {});
 
 /** @namespace Store/Config/Reducer/getCountryData */
 export const getCountryData = (
     base: Country[],
-    state: Partial<ConfigStore>
+    state: Partial<ConfigStore>,
 ): Country[] => (base || state.countries || {});
 
 /** @namespace Store/Config/Reducer/getCheckoutAgreementData */
 export const getCheckoutAgreementData = (
     base: CheckoutAgreement[],
-    state: Partial<ConfigStore>
+    state: Partial<ConfigStore>,
 ): CheckoutAgreement[] => (base || state.checkoutAgreements || {});
 
 /** @namespace Store/Config/Reducer/getInitialState */
@@ -99,7 +99,7 @@ export const getInitialState = (): Partial<ConfigStore> => ({
     cartDisplayConfig,
     priceTaxDisplay: {
         product_price_display_type: '',
-        shipping_price_display_type: ''
+        shipping_price_display_type: '',
     },
     category_url_suffix: DEFAULT_CATGORY_URL_SUFFIX,
     device: {
@@ -110,15 +110,15 @@ export const getInitialState = (): Partial<ConfigStore> => ({
         opera: false,
         windows: false,
         safari: false,
-        standaloneMode: window.matchMedia('(display-mode: standalone)').matches
-    }
+        standaloneMode: window.matchMedia('(display-mode: standalone)').matches,
+    },
 });
 
 /** @namespace Store/Config/Reducer/ConfigReducer */
 // @ts-ignore
 export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     const {
         type,
@@ -128,9 +128,9 @@ export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
             checkoutAgreements,
             currencyData,
             storeConfig = {},
-            cartDisplayConfig = {}
+            cartDisplayConfig = {},
         } = {},
-        device
+        device,
     } = action;
 
     const { currentCurrency = '' } = action;
@@ -154,7 +154,7 @@ export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
             // and header_logo_src takes old value
             isLoading: false,
-            cartDisplayConfig
+            cartDisplayConfig,
         };
 
     case ConfigActionType.UPDATE_CONFIG_DEVICE:
@@ -162,8 +162,8 @@ export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
             ...state,
             device: {
                 ...state.device,
-                ...device
-            }
+                ...device,
+            },
         };
 
     case ConfigActionType.UPDATE_CURRENT_CURRENCY:
@@ -171,8 +171,8 @@ export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
             ...state,
             currencyData: {
                 ...prevCurrencyData,
-                current_currency_code: currentCurrency
-            }
+                current_currency_code: currentCurrency,
+            },
         };
 
     default:

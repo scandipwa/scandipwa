@@ -12,12 +12,12 @@
 export enum FieldDateType {
     DATE = 'date',
     DATETIME = 'dateTime',
-    TIME = 'time'
+    TIME = 'time',
 }
 
 export enum TimeFormat {
     H12 = '12h',
-    H24 = '24h'
+    H24 = '24h',
 }
 
 export const DATE_FIELDS_COUNT = 3;

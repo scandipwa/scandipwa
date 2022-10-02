@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import {
-    PRODUCT_COMPARE_FIRST_COLUMN_WIDTH
+    PRODUCT_COMPARE_FIRST_COLUMN_WIDTH,
 } from 'Component/ProductCompare/ProductCompare.config';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
@@ -29,7 +29,7 @@ import {
     ProductCompareContainerFunctions,
     ProductCompareContainerMapDispatchProps,
     ProductCompareContainerMapStateProps,
-    ProductCompareContainerProps
+    ProductCompareContainerProps,
 } from './ProductCompare.type';
 
 export const ProductCompareDispatcher = import(
@@ -43,17 +43,17 @@ export const mapStateToProps = (state: RootState): ProductCompareContainerMapSta
     items: state.ProductCompareReducer.items,
     attributes: state.ProductCompareReducer.attributes,
     isLoading: state.ProductCompareReducer.isLoading,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/ProductCompare/Container/mapDispatchToProps  */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareContainerMapDispatchProps => ({
     fetchCompareList: () => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getCompareList(dispatch)
+        ({ default: dispatcher }) => dispatcher.getCompareList(dispatch),
     ),
     clearCompareList: () => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.clearComparedProducts(dispatch)
-    )
+        ({ default: dispatcher }) => dispatcher.clearComparedProducts(dispatch),
+    ),
 });
 
 /** @namespace Component/ProductCompare/Container */
@@ -62,7 +62,7 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         isLoading: false,
         products: [],
         items: [],
-        attributes: []
+        attributes: [],
     };
 
     scrollerScroll = createRef<HTMLDivElement>();
@@ -78,7 +78,7 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         clearCompareList: this.clearCompareList.bind(this),
         isInStock: getProductInStock.bind(this),
         handleScroll: this.handleScroll.bind(this),
-        handleBlockScroll: this.handleBlockScroll.bind(this)
+        handleBlockScroll: this.handleBlockScroll.bind(this),
     };
 
     scrollerTriggered = false;
@@ -108,7 +108,7 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
         const {
             isLoading,
             products,
-            device
+            device,
         } = this.props;
 
         return {
@@ -118,7 +118,7 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
             scrollerScroll: this.scrollerScroll,
             productCompare: this.productCompare,
             productCompareRow: this.productCompareRow,
-            scrollerContent: this.scrollerContent
+            scrollerContent: this.scrollerContent,
         };
     }
 
@@ -202,8 +202,8 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
                     if (code === 'description' || code === 'short_description') {
                         const {
                             [ code ]: {
-                                html = ''
-                            } = {}
+                                html = '',
+                            } = {},
                         } = product || {};
 
                         if (html) {
@@ -212,8 +212,8 @@ export class ProductCompareContainer extends PureComponent<ProductCompareContain
                     }
 
                     return attributes.find((attribute) => attribute.code === code)?.value || '';
-                }
-            )
+                },
+            ),
         }));
     }
 

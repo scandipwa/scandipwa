@@ -21,7 +21,7 @@ import {
     MetaContainerMapDispatchProps,
     MetaContainerMapStateProps,
     MetaContainerProps,
-    MetaContainerPropsKeys
+    MetaContainerPropsKeys,
 } from './Meta.type';
 
 /** @namespace Component/Meta/Container/mapStateToProps */
@@ -36,7 +36,7 @@ export const mapStateToProps = (state: RootState): MetaContainerMapStateProps =>
     keywords: state.MetaReducer.keywords,
     title: state.MetaReducer.title,
     robots: state.MetaReducer.robots,
-    status_code: state.MetaReducer.status_code
+    status_code: state.MetaReducer.status_code,
 });
 
 /** @namespace Component/Meta/Container/mapDispatchToProps */
@@ -55,7 +55,7 @@ export class MetaContainer extends PureComponent<MetaContainerProps> {
         keywords: '',
         title: '',
         robots: '',
-        status_code: ''
+        status_code: '',
     };
 
     containerProps(): Pick<MetaComponentProps, MetaContainerPropsKeys> {
@@ -64,7 +64,7 @@ export class MetaContainer extends PureComponent<MetaContainerProps> {
             default_title,
             title,
             title_prefix,
-            title_suffix
+            title_suffix,
         } = this.props;
 
         return {
@@ -73,7 +73,7 @@ export class MetaContainer extends PureComponent<MetaContainerProps> {
             default_title,
             title,
             title_prefix,
-            title_suffix
+            title_suffix,
         };
     }
 
@@ -121,7 +121,7 @@ export class MetaContainer extends PureComponent<MetaContainerProps> {
             description: this._getDescription(),
             keywords: this._getKeywords(),
             robots: this._getRobots(),
-            'render:status_code': this._getStatusCode()
+            'render:status_code': this._getStatusCode(),
         };
 
         return this._generateMetaFromMetadata(meta);

@@ -26,18 +26,18 @@ import {
     SliderWidgetContainerMapDispatchProps,
     SliderWidgetContainerMapStateProps,
     SliderWidgetContainerProps,
-    SliderWidgetContainerState
+    SliderWidgetContainerState,
 } from './SliderWidget.type';
 
 /** @namespace Component/SliderWidget/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): SliderWidgetContainerMapStateProps => ({
     device: state.ConfigReducer.device,
-    isOffline: state.OfflineReducer.isOffline
+    isOffline: state.OfflineReducer.isOffline,
 });
 
 /** @namespace Component/SliderWidget/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): SliderWidgetContainerMapDispatchProps => ({
-    showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
+    showNotification: (type, title, error) => dispatch(showNotification(type, title, error)),
 });
 
 /** @namespace Component/SliderWidget/Container */
@@ -52,9 +52,9 @@ export class SliderWidgetContainer extends DataContainer<SliderWidgetContainerPr
                 desktop_image: '',
                 title: '',
                 is_active: true,
-                isPlaceholder: true
-            }]
-        }
+                isPlaceholder: true,
+            }],
+        },
     };
 
     __construct(props: SliderWidgetContainerProps): void {
@@ -90,7 +90,7 @@ export class SliderWidgetContainer extends DataContainer<SliderWidgetContainerPr
             [SliderQuery.getQuery({ sliderId: String(sliderId) })],
             ({ slider }) => this.setState({ slider }),
             (e) => showNotification(NotificationType.ERROR, __('Error fetching Slider!'), e),
-            isOffline
+            isOffline,
         );
     }
 

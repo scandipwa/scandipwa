@@ -64,7 +64,7 @@ export const appendTokenToHeaders = (headers: HeadersInit): HeadersInit => {
 
     return {
         ...headers,
-        Authorization: token ? `Bearer ${token}` : ''
+        Authorization: token ? `Bearer ${token}` : '',
     };
 };
 
@@ -82,7 +82,7 @@ export const formatURI = (query: string, variables: Record<string, string>, url:
 
     const stringifyVariables = Object.keys(variables).reduce(
         (acc, variable) => [...acc, `${ variable }=${ JSON.stringify(variables[variable]) }`],
-        [`?hash=${ hash(query) }`]
+        [`?hash=${ hash(query) }`],
     );
 
     return `${ url }${ stringifyVariables.join('&') }`;
@@ -95,16 +95,18 @@ export const formatURI = (query: string, variables: Record<string, string>, url:
  * @returns {Promise<Response>}
  * @namespace Util/Request/getFetch
  */
-export const getFetch = (uri: string, name: string, signal?: AbortSignal): Promise<Response> => fetch(uri,
+export const getFetch = (uri: string, name: string, signal?: AbortSignal): Promise<Response> => fetch(
+    uri,
     {
         method: 'GET',
         signal,
         headers: appendTokenToHeaders({
             'Content-Type': 'application/json',
             'Application-Model': `${ name }_${ getWindowId() }`,
-            Accept: 'application/json'
-        })
-    });
+            Accept: 'application/json',
+        }),
+    },
+);
 
 // TODO CacheTTL number or string?
 /**
@@ -117,16 +119,18 @@ export const getFetch = (uri: string, name: string, signal?: AbortSignal): Promi
 export const putPersistedQuery = (
     graphQlURI: string,
     query: string,
-    cacheTTL: number
-): Promise<Response> => fetch(`${ graphQlURI }?hash=${ hash(query) }`,
+    cacheTTL: number,
+): Promise<Response> => fetch(
+    `${ graphQlURI }?hash=${ hash(query) }`,
     {
         method: 'PUT',
         body: JSON.stringify(query),
         headers: {
             'Content-Type': 'application/json',
-            'SW-Cache-Age': String(Number.isInteger(cacheTTL) ? cacheTTL : ONE_MONTH_IN_SECONDS)
-        }
-    });
+            'SW-Cache-Age': String(Number.isInteger(cacheTTL) ? cacheTTL : ONE_MONTH_IN_SECONDS),
+        },
+    },
+);
 
 /**
  *
@@ -139,16 +143,18 @@ export const putPersistedQuery = (
 export const postFetch = (
     graphQlURI: string,
     query: string,
-    variables: Record<string, string>
-): Promise<Response> => fetch(graphQlURI,
+    variables: Record<string, string>,
+): Promise<Response> => fetch(
+    graphQlURI,
     {
         method: 'POST',
         body: JSON.stringify({ query, variables }),
         headers: appendTokenToHeaders({
             'Content-Type': 'application/json',
-            Accept: 'application/json'
-        })
-    });
+            Accept: 'application/json',
+        }),
+    },
+);
 
 export type ResponseBody<T> = Omit<GraphQlResponse, 'data'> & {
     data: T;
@@ -163,7 +169,13 @@ export type ResponseBody<T> = Omit<GraphQlResponse, 'data'> & {
 export const checkForErrors = <T>(res: ResponseBody<T>): Promise<T> => new Promise((resolve, reject) => {
     const { errors, data } = res;
 
-    return errors ? reject(errors) : resolve(data);
+    if (errors) {
+        reject(errors);
+
+        return;
+    }
+
+    resolve(data);
 });
 
 /**
@@ -221,7 +233,7 @@ export const executeGet = async <T>(
     queryObject: QueryObject,
     name: string,
     cacheTTL: number,
-    signal?: AbortSignal
+    signal?: AbortSignal,
 ): Promise<T> => {
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, getGraphqlEndpoint());
@@ -322,7 +334,7 @@ export class Debouncer {
 
     startDebounce = <T = unknown>(
         callback: (...args: T[]) => void,
-        delay: number
+        delay: number,
     ) => (...args: T[]): void => {
         clearTimeout(this.timeout);
         this.handler = () => callback.apply(this, args);

@@ -24,7 +24,7 @@ import {
     ProductCompareButtonContainerMapDispatchProps,
     ProductCompareButtonContainerMapStateProps,
     ProductCompareButtonContainerProps,
-    ProductCompareButtonContainerState
+    ProductCompareButtonContainerState,
 } from './ProductCompareButton.type';
 
 export const ProductCompareDispatcher = import(
@@ -34,17 +34,17 @@ export const ProductCompareDispatcher = import(
 
 /** @namespace Component/ProductCompareButton/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductCompareButtonContainerMapStateProps => ({
-    comparedProducts: state.ProductCompareReducer.productIds
+    comparedProducts: state.ProductCompareReducer.productIds,
 });
 
 /** @namespace Component/ProductCompareButton/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareButtonContainerMapDispatchProps => ({
     addProductToCompare: (productId) => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCompare(productId, dispatch)
+        ({ default: dispatcher }) => dispatcher.addProductToCompare(productId, dispatch),
     ),
     removeComparedProduct: (productId) => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch)
-    )
+        ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch),
+    ),
 });
 
 /** @namespace Component/ProductCompareButton/Container */
@@ -54,15 +54,15 @@ ProductCompareButtonContainerState
 > {
     static defaultProps: Partial<ProductCompareButtonContainerProps> = {
         productId: null,
-        mix: {}
+        mix: {},
     };
 
     state: ProductCompareButtonContainerState = {
-        isLoading: false
+        isLoading: false,
     };
 
     containerFunctions: ProductCompareButtonContainerFunctions = {
-        handleClick: this.handleClick.bind(this)
+        handleClick: this.handleClick.bind(this),
     };
 
     containerProps(): Pick<ProductCompareButtonComponentProps, ProductCompareButtonComponentContainerPropKeys> {
@@ -72,7 +72,7 @@ ProductCompareButtonContainerState
         return {
             mix,
             isLoading,
-            isActive: this.isActive()
+            isActive: this.isActive(),
         };
     }
 
@@ -86,7 +86,7 @@ ProductCompareButtonContainerState
         const {
             productId,
             addProductToCompare,
-            removeComparedProduct
+            removeComparedProduct,
         } = this.props;
 
         const { isLoading } = this.state;

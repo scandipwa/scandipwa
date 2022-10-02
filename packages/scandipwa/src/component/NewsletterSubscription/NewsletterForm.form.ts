@@ -23,14 +23,14 @@ export const newsletterSubscriptionForm = (): Partial<FieldContainerProps>[] => 
         attr: {
             name: 'newsletterEmail',
             placeholder: __('Enter your email address'),
-            'aria-label': __('Email address')
+            'aria-label': __('Email address'),
         },
         validateOn: ['onChange'],
         validationRule: {
             inputType: ValidationInputType.EMAIL,
-            isRequired: true
-        }
-    }
+            isRequired: true,
+        },
+    },
 ];
 
 export default newsletterSubscriptionForm;

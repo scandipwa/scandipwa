@@ -19,5 +19,5 @@ import { NewsletterSubscriptionActionType, SubscribeToNewsletterAction } from '.
  */
 export const subscribeToNewsletter = (email: string): SubscribeToNewsletterAction => ({
     type: NewsletterSubscriptionActionType.SUBSCRIBE_TO_NEWSLETTER,
-    email
+    email,
 });

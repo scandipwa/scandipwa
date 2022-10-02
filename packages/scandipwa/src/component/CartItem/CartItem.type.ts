@@ -18,7 +18,7 @@ import { Url } from 'Type/Common.type';
 import {
     GQLSelectedCustomizableOption,
     GQLSelectedCustomizableOptionValue,
-    GQLSelectedDownloadableLinks
+    GQLSelectedDownloadableLinks,
 } from 'Type/Graphql.type';
 import { IndexedProduct, IndexedVariant } from 'Util/Product/Product.type';
 

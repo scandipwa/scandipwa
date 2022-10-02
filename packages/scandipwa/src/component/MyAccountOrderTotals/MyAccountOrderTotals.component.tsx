@@ -22,7 +22,7 @@ import { MyAccountOrderTotalsComponentProps } from './MyAccountOrderTotals.type'
 import './MyAccountOrderTotals.style';
 
 /** @namespace Component/MyAccountOrderTotals/Component */
-export class MyAccountOrderTotals extends PureComponent<MyAccountOrderTotalsComponentProps> {
+export class MyAccountOrderTotalsComponent extends PureComponent<MyAccountOrderTotalsComponentProps> {
     renderTax(tax: TaxItem): ReactElement {
         const { colSpanPriceCount, colSpanLabelCount } = this.props;
         const { amount: { value, currency }, title, rate } = tax;
@@ -61,20 +61,20 @@ export class MyAccountOrderTotals extends PureComponent<MyAccountOrderTotalsComp
         const {
             total: {
                 subtotal: {
-                    value: subtotalPrice
+                    value: subtotalPrice,
                 },
                 shipping_handling: {
                     total_amount: {
-                        value: shippingHandlingPrice
-                    }
+                        value: shippingHandlingPrice,
+                    },
                 },
                 grand_total: {
-                    value: grandTotalPrice
+                    value: grandTotalPrice,
                 },
                 total_tax: {
-                    value: totalTaxPrice
-                }
-            }
+                    value: totalTaxPrice,
+                },
+            },
         } = this.props;
 
         const grandTotalMix = { block: 'MyAccountOrderTotals', elem: 'GrandTotal' };
@@ -88,7 +88,7 @@ export class MyAccountOrderTotals extends PureComponent<MyAccountOrderTotalsComp
                     __('Grand Total (Excl.Tax)'),
                     Number(grandTotalPrice) - Number(totalTaxPrice),
                     undefined,
-                    grandTotalMix
+                    grandTotalMix,
                 ) }
                 { this.renderTaxes() }
                 { this.renderPriceLine(__('Tax'), totalTaxPrice) }
@@ -104,9 +104,9 @@ export class MyAccountOrderTotals extends PureComponent<MyAccountOrderTotalsComp
             total: {
                 base_grand_total: {
                     value: baseGrandTotalPrice,
-                    currency: baseGrandTotalCurrency
-                }
-            }
+                    currency: baseGrandTotalCurrency,
+                },
+            },
         } = this.props;
 
         if (activeTab !== OrderTabs.ORDER_ITEMS) {
@@ -121,12 +121,12 @@ export class MyAccountOrderTotals extends PureComponent<MyAccountOrderTotalsComp
         price?: string | number,
         currency?: string,
         mix: Mix = {},
-        key?: string | number
+        key?: string | number,
     ): ReactElement {
         const {
             total: { grand_total: { currency: defaultCurrency } },
             colSpanLabelCount,
-            colSpanPriceCount
+            colSpanPriceCount,
         } = this.props;
 
         return (
@@ -157,4 +157,4 @@ export class MyAccountOrderTotals extends PureComponent<MyAccountOrderTotalsComp
     }
 }
 
-export default MyAccountOrderTotals;
+export default MyAccountOrderTotalsComponent;

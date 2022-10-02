@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import {
     mapDispatchToProps,
     mapStateToProps,
-    MyAccountAddressFormContainer
+    MyAccountAddressFormContainer,
 } from 'Component/MyAccountAddressForm/MyAccountAddressForm.container';
 import { ReactElement } from 'Type/Common.type';
 
@@ -22,13 +22,13 @@ import CheckoutAddressForm from './CheckoutAddressForm.component';
 import {
     CheckoutAddressFormComponentProps,
     CheckoutAddressFormContainerProps,
-    CheckoutAddressFormContainerPropsKeys
+    CheckoutAddressFormContainerPropsKeys,
 } from './CheckoutAddressForm.type';
 
 /** @namespace Component/CheckoutAddressForm/Container */
 export class CheckoutAddressFormContainer extends MyAccountAddressFormContainer<CheckoutAddressFormContainerProps> {
     static defaultProps = {
-        ...MyAccountAddressFormContainer.defaultProps
+        ...MyAccountAddressFormContainer.defaultProps,
     };
 
     containerProps(): Pick<CheckoutAddressFormComponentProps, CheckoutAddressFormContainerPropsKeys> {
@@ -36,7 +36,7 @@ export class CheckoutAddressFormContainer extends MyAccountAddressFormContainer<
 
         return {
             onShippingEstimationFieldsChange,
-            ...super.containerProps()
+            ...super.containerProps(),
         };
     }
 

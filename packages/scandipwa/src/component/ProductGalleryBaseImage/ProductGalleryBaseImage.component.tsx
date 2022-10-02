@@ -19,7 +19,7 @@ import { ReactElement } from 'Type/Common.type';
 import { ProductGalleryComponentProps } from './ProductGalleryBaseImage.type';
 
 /** @namespace Component/ProductGalleryBaseImage/Component */
-export class ProductGalleryBaseImage extends PureComponent<ProductGalleryComponentProps> {
+export class ProductGalleryBaseImageComponent extends PureComponent<ProductGalleryComponentProps> {
     render(): ReactElement {
         const { src, alt } = this.props;
 
@@ -31,7 +31,7 @@ export class ProductGalleryBaseImage extends PureComponent<ProductGalleryCompone
                   mix={ {
                       block: 'ProductGallery',
                       elem: 'SliderImage',
-                      mods: { isPlaceholder: !src }
+                      mods: { isPlaceholder: !src },
                   } }
                   isPlaceholder={ !src }
                   alt={ alt }
@@ -47,4 +47,4 @@ export class ProductGalleryBaseImage extends PureComponent<ProductGalleryCompone
     }
 }
 
-export default ProductGalleryBaseImage;
+export default ProductGalleryBaseImageComponent;

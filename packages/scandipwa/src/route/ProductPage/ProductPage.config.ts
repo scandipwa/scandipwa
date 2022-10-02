@@ -12,5 +12,5 @@
 export enum ProductPageTabs {
     INFORMATION = 'information',
     ATTRIBUTES = 'attributes',
-    REVIEWS = 'reviews'
+    REVIEWS = 'reviews',
 }

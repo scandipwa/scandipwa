@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign, global-require */
 const path = require('path');
 const FallbackPlugin = require('@scandipwa/webpack-fallback-plugin');
+// eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { getLoader, loaderByName } = require('@scandipwa/craco');
 
@@ -10,7 +11,7 @@ const isMagento = process.env.BUILD_MODE === 'magento';
 module.exports = {
     plugin: {
         overrideCracoConfig: ({
-            cracoConfig
+            cracoConfig,
         }) => {
             if (!isMagento) {
                 return cracoConfig;
@@ -40,6 +41,7 @@ module.exports = {
 
             try {
                 // Optional dependency (if the @scandipwa/service-worker is installed)
+                // eslint-disable-next-line import/no-extraneous-dependencies
                 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
                 // Yes, another loop, but it is more readable
@@ -78,6 +80,6 @@ module.exports = {
             devServerConfig.writeToDisk = true;
 
             return devServerConfig;
-        }
-    }
+        },
+    },
 };

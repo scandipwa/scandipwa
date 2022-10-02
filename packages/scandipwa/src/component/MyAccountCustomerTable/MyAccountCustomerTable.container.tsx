@@ -20,36 +20,36 @@ import MyAccountCustomerTable from './MyAccountCustomerTable.component';
 import {
     MyAccountCustomerTableComponentProps,
     MyAccountCustomerTableContainerFunctions,
-    MyAccountCustomerTableContainerProps
+    MyAccountCustomerTableContainerProps,
 } from './MyAccountCustomerTable.type';
 
 /** @namespace Component/MyAccountCustomerTable/Container */
 export class MyAccountCustomerTableContainer extends PureComponent<MyAccountCustomerTableContainerProps> {
     static defaultProps: Partial<MyAccountCustomerTableContainerProps> = {
-        title: ''
+        title: '',
     };
 
     containerFunctions: MyAccountCustomerTableContainerFunctions = {
         handleOnEditPassword: this.handleOnEditPassword.bind(this),
-        handleOnEditInformation: this.handleOnEditInformation.bind(this)
+        handleOnEditInformation: this.handleOnEditInformation.bind(this),
     };
 
     containerProps(): Pick<MyAccountCustomerTableComponentProps, 'customer' | 'title'> {
         const {
             customer,
-            title
+            title,
         } = this.props;
 
         return {
             customer,
-            title
+            title,
         };
     }
 
     handleOnEditPassword(): void {
         history.push({
             pathname: appendWithStoreCode(AccountPageUrl.INFORMATION_EDIT_URL),
-            state: { editPassword: true }
+            state: { editPassword: true },
         });
     }
 

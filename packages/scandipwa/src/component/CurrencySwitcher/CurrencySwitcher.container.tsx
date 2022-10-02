@@ -27,23 +27,23 @@ import {
     CurrencySwitcherContainerFunctions,
     CurrencySwitcherContainerProps,
     CurrencySwitcherMapDispatchProps,
-    CurrencySwitcherMapStateProps
+    CurrencySwitcherMapStateProps,
 } from './CurrencySwitcher.type';
 
 /** @namespace Component/CurrencySwitcher/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CurrencySwitcherMapStateProps => ({
-    currencyData: state.ConfigReducer.currencyData
+    currencyData: state.ConfigReducer.currencyData,
 });
 
 /** @namespace Component/CurrencySwitcher/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CurrencySwitcherMapDispatchProps => ({
-    updateCurrency: (options) => ConfigDispatcher.updateCurrency(dispatch, options)
+    updateCurrency: (options) => ConfigDispatcher.updateCurrency(dispatch, options),
 });
 
 /** @namespace Component/CurrencySwitcher/Container */
 export class CurrencySwitcherContainer extends DataContainer<CurrencySwitcherContainerProps> {
     containerFunctions: CurrencySwitcherContainerFunctions = {
-        handleCurrencySelect: this._handleCurrencySelect.bind(this)
+        handleCurrencySelect: this._handleCurrencySelect.bind(this),
     };
 
     __construct(props: CurrencySwitcherContainerProps): void {
@@ -64,7 +64,7 @@ export class CurrencySwitcherContainer extends DataContainer<CurrencySwitcherCon
                 if (!pathname.match(checkoutOrCartUrlsRegex)) {
                     location.reload();
                 }
-            }
+            },
         );
     }
 
@@ -86,7 +86,7 @@ export class CurrencySwitcherContainer extends DataContainer<CurrencySwitcherCon
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(
-    CurrencySwitcherContainer
+    CurrencySwitcherContainer,
 );

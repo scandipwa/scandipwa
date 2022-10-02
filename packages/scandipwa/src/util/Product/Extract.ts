@@ -18,7 +18,7 @@ import { ImageType } from 'Component/ProductGallery/ProductGallery.config';
 import {
     GroupedProductItem,
     Money,
-    PriceRange
+    PriceRange,
 } from 'Query/ProductList.type';
 import { GQLCurrencyEnum, GQLProductStockStatus } from 'Type/Graphql.type';
 import { decodeBase64 } from 'Util/Base64';
@@ -35,14 +35,14 @@ import {
     ProductExtractImage,
     ProductExtractPrice,
     QtyFields,
-    StockCheckProduct
+    StockCheckProduct,
 } from './Product.type';
 
 // TODO unify keyof product and stockitem.
 /** @namespace Util/Product/Extract/getFieldQty */
 export const getFieldQty = (
     product: Partial<IndexedProduct> | Partial<IndexedVariant>,
-    field: QtyFields
+    field: QtyFields,
 ): number => {
     if (field === QtyFields.MIN_SALE_QTY || field === QtyFields.MAX_SALE_QTY) {
         const { stock_item: { [field]: qty = 0 } = {} } = product;
@@ -68,7 +68,7 @@ export const getQuantity = (
     product: IndexedProduct,
     defaultValue: number,
     field: QtyFields,
-    configIndex = -1
+    configIndex = -1,
 ): number => {
     if (!product) {
         return defaultValue;
@@ -111,14 +111,16 @@ export const getMinQuantity = (product: IndexedProduct, configIndex = -1): numbe
  */
 export const getMaxQuantity = (product: IndexedProduct, configIndex = -1): number => {
     const maxQuantity: number = getQuantity(
-        product, DEFAULT_MAX_PRODUCTS,
+        product,
+        DEFAULT_MAX_PRODUCTS,
         QtyFields.MAX_SALE_QTY,
-        configIndex
+        configIndex,
     );
     const salableQuantity: number = getQuantity(
-        product, DEFAULT_MAX_PRODUCTS,
+        product,
+        DEFAULT_MAX_PRODUCTS,
         QtyFields.SALABLE_QTY,
-        configIndex
+        configIndex,
     );
 
     return Math.min(maxQuantity, salableQuantity);
@@ -135,7 +137,7 @@ export const getName = (product: IndexedProduct, configIndex = -1): string => {
     const { variants = [] } = product;
 
     const {
-        name = ''
+        name = '',
     } = variants[configIndex] || product;
 
     return name;
@@ -157,7 +159,7 @@ export const getProductOptionInStock = (product: IndexedProduct): boolean => {
  */
 export const getProductInStock = (
     product: Partial<StockCheckProduct>,
-    parentProduct?: Partial<StockCheckProduct>
+    parentProduct?: Partial<StockCheckProduct>,
 ): boolean => {
     if (!product) {
         return false;
@@ -166,15 +168,15 @@ export const getProductInStock = (
     const {
         type_id: type,
         stock_item: {
-            in_stock: inStock = true
-        } = {}
+            in_stock: inStock = true,
+        } = {},
     } = product;
 
     if (type === ProductType.BUNDLE) {
         const { items = [] } = product;
         const requiredItems = (items as IndexedBundleItem[]).filter(({ required }) => required);
         const requiredItemsInStock = requiredItems.filter(
-            ({ options }) => options?.some(({ product: optionProduct }) => getProductOptionInStock(optionProduct))
+            ({ options }) => options?.some(({ product: optionProduct }) => getProductOptionInStock(optionProduct)),
         );
 
         return inStock && requiredItemsInStock.length === requiredItems.length;
@@ -185,7 +187,7 @@ export const getProductInStock = (
 
         return inStock && !!variants.some((variant) => getProductInStock(
             variant,
-            product
+            product,
         ));
     }
 
@@ -194,9 +196,9 @@ export const getProductInStock = (
     if (parentTypeId === ProductType.CONFIGURABLE && parentProduct !== product) {
         const {
             stock_item: {
-                in_stock: parentInStock = true
+                in_stock: parentInStock = true,
             } = {},
-            stock_status: parentStockStatus
+            stock_status: parentStockStatus,
         } = parentProduct || {};
 
         return parentInStock && parentStockStatus !== GQLProductStockStatus.OUT_OF_STOCK && getProductInStock(product);
@@ -206,7 +208,7 @@ export const getProductInStock = (
         const { items = [] } = product;
 
         return inStock && !!(items as GroupedProductItem[]).some(
-            ({ product: groupedProduct }) => getProductInStock(groupedProduct as StockCheckProduct)
+            ({ product: groupedProduct }) => getProductInStock(groupedProduct as StockCheckProduct),
         );
     }
 
@@ -223,9 +225,9 @@ export const getProductInStock = (
  * @namespace Util/Product/Extract/getGroupedProductsInStockQuantity */
 
 export const getGroupedProductsInStockQuantity = (
-    { items = [] }: Partial<IndexedProduct>
+    { items = [] }: Partial<IndexedProduct>,
 ): Record<number, number> => (items as GroupedProductItem[]).reduce((acc: Record<number, number>, {
-    product, product: { id }, qty = 1
+    product, product: { id }, qty = 1,
 }) => (getProductInStock(product as StockCheckProduct) ? { ...acc, [id]: qty } : acc), {});
 
 /**
@@ -234,9 +236,7 @@ export const getGroupedProductsInStockQuantity = (
  * @param options
  * @namespace Util/Product/Extract/getBundleOption
  */
-export const getBundleOption = (
-    uid: string, options: Partial<IndexedBundleOption>[] = []
-): Partial<IndexedBundleOption> | undefined => {
+export const getBundleOption = (uid: string, options: Partial<IndexedBundleOption>[] = []): Partial<IndexedBundleOption> | undefined => {
     const uidParts = decodeBase64(uid).split('/');
 
     return options.find(({ uid: linkedUid = '' }) => {
@@ -272,7 +272,7 @@ export const getPrice = (
     dynamicPrice = false,
     adjustedPrice: Partial<AdjustedPriceMap> = {},
     type: ProductType = ProductType.SIMPLE,
-    options = []
+    options = [],
 ): ProductExtractPrice => {
     const priceAcc = type === ProductType.BUNDLE
         ? 'default_final_price'
@@ -290,19 +290,19 @@ export const getPrice = (
             [priceExcTaxAcc]: { value: basePriceExclTax = 0 } = {},
             discount: {
                 percent_off: percentOffRef = 0,
-                amount_off: amountOff = 0
-            } = {}
+                amount_off: amountOff = 0,
+            } = {},
         } = {},
         minimum_price: {
             regular_price: minRegularPrice = {} as Money,
             final_price: minFinalPrice = {} as Money,
-            final_price_excl_tax: minFinalPriceExclTax = {} as Money
+            final_price_excl_tax: minFinalPriceExclTax = {} as Money,
         } = {},
         maximum_price: {
             regular_price: maxRegularPrice = {} as Money,
             final_price: maxFinalPrice = {} as Money,
-            final_price_excl_tax: maxFinalPriceExclTax = {} as Money
-        } = {}
+            final_price_excl_tax: maxFinalPriceExclTax = {} as Money,
+        } = {},
     } = priceRange || {};
 
     // Fixes decimal misplacement for discount
@@ -328,22 +328,22 @@ export const getPrice = (
     const priceValue = {
         value: dynamicPrice ? 0 : basePriceExclDiscount * discountValue,
         currency,
-        valueFormatted: '0'
+        valueFormatted: '0',
     };
     const priceValueExclTax = {
         value: dynamicPrice ? 0 : basePriceExclDiscountExclTax * discountValue,
         currency,
-        valueFormatted: '0'
+        valueFormatted: '0',
     };
     const priceValueExclDiscount = {
         value: dynamicPrice ? 0 : basePriceExclDiscount,
         currency,
-        valueFormatted: '0'
+        valueFormatted: '0',
     };
     const priceValueExclDiscountExclTax = {
         value: dynamicPrice ? 0 : basePriceExclDiscountExclTax,
         currency,
-        valueFormatted: '0'
+        valueFormatted: '0',
     };
 
     // Adds adjusted price
@@ -353,7 +353,7 @@ export const getPrice = (
             inclTax = 0,
             exclTax = 0,
             requiresDiscountCalculations = true,
-            hasDiscountCalculated = false
+            hasDiscountCalculated = false,
         } = group || {};
 
         if (requiresDiscountCalculations) {
@@ -386,12 +386,12 @@ export const getPrice = (
         containsOptions: options && !!options.length,
         containsOptionsWithPrice: false,
         containsRequiredOptions: false,
-        containsRequiredOptionsWithPrice: false
+        containsRequiredOptionsWithPrice: false,
     };
 
     if (options) {
         configuration.containsOptionsWithPrice = !!options.find(
-            ({ value = [] }) => Array.isArray(value) && value.find(({ price }) => price)
+            ({ value = [] }) => Array.isArray(value) && value.find(({ price }) => price),
         );
         const requiredOptions = options.filter(({ required }) => required);
 
@@ -399,7 +399,7 @@ export const getPrice = (
 
         if (requiredOptions.length) {
             configuration.containsRequiredOptionsWithPrice = !!requiredOptions.find(
-                ({ value = [] }) => Array.isArray(value) && value.find(({ price }) => price)
+                ({ value = [] }) => Array.isArray(value) && value.find(({ price }) => price),
             );
         }
     }
@@ -411,36 +411,36 @@ export const getPrice = (
             originalPrice: priceValueExclDiscount,
             originalPriceExclTax: priceValueExclDiscountExclTax,
             discount: {
-                percentOff
-            }
+                percentOff,
+            },
         },
         originalPrice: {
             minRegularPrice: {
                 ...minRegularPrice,
-                valueFormatted: formatPrice(minRegularPrice.value || 0, currency)
+                valueFormatted: formatPrice(minRegularPrice.value || 0, currency),
             },
             minFinalPrice: {
                 ...minFinalPrice,
-                valueFormatted: formatPrice(minFinalPrice.value || 0, currency)
+                valueFormatted: formatPrice(minFinalPrice.value || 0, currency),
             },
             minFinalPriceExclTax: {
                 ...minFinalPriceExclTax,
-                valueFormatted: formatPrice(minFinalPriceExclTax.value || 0, currency)
+                valueFormatted: formatPrice(minFinalPriceExclTax.value || 0, currency),
             },
             maxRegularPrice: {
                 ...maxRegularPrice,
-                valueFormatted: formatPrice(maxRegularPrice.value || 0, currency)
+                valueFormatted: formatPrice(maxRegularPrice.value || 0, currency),
             },
             maxFinalPrice: {
                 ...maxFinalPrice,
-                valueFormatted: formatPrice(maxFinalPrice.value || 0, currency)
+                valueFormatted: formatPrice(maxFinalPrice.value || 0, currency),
             },
             maxFinalPriceExclTax: {
                 ...maxFinalPriceExclTax,
-                valueFormatted: formatPrice(maxFinalPriceExclTax.value || 0, currency)
-            }
+                valueFormatted: formatPrice(maxFinalPriceExclTax.value || 0, currency),
+            },
         },
-        configuration
+        configuration,
     };
 };
 
@@ -457,11 +457,11 @@ export const getAdjustedPrice = (
     product: IndexedProduct,
     downloadableLinks: string[],
     enteredOptions: ProductOption[],
-    selectedOptions: FieldValue<string, false>[]
+    selectedOptions: FieldValue<string, false>[],
 ): AdjustedPriceMap => {
     const {
         options = [],
-        type_id: typeId
+        type_id: typeId,
     } = product;
 
     const adjustedPrice = {
@@ -469,20 +469,20 @@ export const getAdjustedPrice = (
             exclTax: 0,
             inclTax: 0,
             requiresDiscountCalculations: true,
-            hasDiscountCalculated: false
+            hasDiscountCalculated: false,
         },
         bundle: {
             exclTax: 0,
             inclTax: 0,
             requiresDiscountCalculations: true,
-            hasDiscountCalculated: true
+            hasDiscountCalculated: true,
         },
         config: {
             exclTax: 0,
             inclTax: 0,
             requiresDiscountCalculations: false,
-            hasDiscountCalculated: false
-        }
+            hasDiscountCalculated: false,
+        },
     };
 
     // #region DOWNLOADABLE
@@ -519,9 +519,9 @@ export const getAdjustedPrice = (
                         product: {
                             price_range: optionProductPriceRange = {},
                             type_id: optionProductType,
-                            dynamic_price: optionProductDynamic
+                            dynamic_price: optionProductDynamic,
                         } = {},
-                        can_change_quantity: canChangeQuantity = false
+                        can_change_quantity: canChangeQuantity = false,
                     } = option;
 
                     if (!dynamicPrice) {
@@ -533,11 +533,9 @@ export const getAdjustedPrice = (
                         const {
                             price: {
                                 finalPrice: { value: priceInclTax = 0 } = {},
-                                finalPriceExclTax: { value: priceExclTax = 0 } = {}
-                            }
-                        } = getPrice(
-                            optionProductPriceRange, optionProductDynamic, {}, optionProductType
-                        ) || {};
+                                finalPriceExclTax: { value: priceExclTax = 0 } = {},
+                            },
+                        } = getPrice(optionProductPriceRange, optionProductDynamic, {}, optionProductType) || {};
 
                         adjustedPrice.bundle.inclTax += priceInclTax * quantity;
                         adjustedPrice.bundle.exclTax += priceExclTax * quantity;
@@ -635,7 +633,7 @@ export const getImage = (product: Partial<ProductExtractImage>, field: ImageType
  * @namespace Util/Product/Extract/getThumbnailImage
  */
 export const getThumbnailImage = (
-    product: Partial<ProductExtractImage>
+    product: Partial<ProductExtractImage>,
 ): string => getImage(product, ImageType.THUMBNAIL);
 
 /**

@@ -13,7 +13,7 @@ import { AnyAction } from 'redux';
 import { Category } from 'Query/Category.type';
 
 export enum CategoryActionType {
-    UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY'
+    UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY',
 }
 
 export interface UpdateCurrentCategoryAction extends AnyAction {

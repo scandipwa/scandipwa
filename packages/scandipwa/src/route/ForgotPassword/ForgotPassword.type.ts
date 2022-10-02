@@ -14,7 +14,7 @@ import {
     MyAccountOverlayContainerFunctions,
     MyAccountOverlayContainerMapDispatchProps,
     MyAccountOverlayContainerMapStateProps,
-    MyAccountOverlayContainerProps
+    MyAccountOverlayContainerProps,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.type';
 
 export interface ForgotPasswordContainerMapDispatchProps extends MyAccountOverlayContainerMapDispatchProps {

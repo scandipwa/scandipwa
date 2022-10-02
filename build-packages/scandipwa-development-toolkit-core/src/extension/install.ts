@@ -45,14 +45,20 @@ const installExtension = async (
         await addDependency(contextPathname, packageName, version, isDev);
         await installDeps(contextPathname);
     } catch (e) {
-        logger.log(e.stack);
+        if (e instanceof Error) {
+            logger.log(e.message);
+        } else {
+            logger.log(String(e));
+        }
 
         logger.error(
             `Failed to install ScandiPWA extension in ${ logger.style.file(contextPathname) }.`,
             'See an error log below and a stack - above.'
         );
 
-        logger.error(...e.message.split('\n'));
+        if (e instanceof Error) {
+            logger.error(...e.message.split('\n'));
+        }
 
         return null;
     }

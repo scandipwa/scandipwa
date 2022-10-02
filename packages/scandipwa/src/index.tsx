@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import 'Util/Polyfill';
-import 'Style/main';
-
 import { render } from 'react-dom';
 
 import App from 'Component/App';
+
+import 'Util/Polyfill';
+import 'Style/main';
 
 // let's register service-worker
 if ('serviceWorker' in navigator) {

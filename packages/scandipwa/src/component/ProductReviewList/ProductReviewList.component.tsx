@@ -22,7 +22,7 @@ import './ProductReviewList.style';
  * @class ProductReviewList
  * @namespace Component/ProductReviewList/Component
  */
-export class ProductReviewList extends PureComponent<ProductReviewListComponentProps> {
+export class ProductReviewListComponent extends PureComponent<ProductReviewListComponentProps> {
     renderReviews(): ReactElement {
         const { product: { reviews = [] } } = this.props;
 
@@ -51,4 +51,4 @@ export class ProductReviewList extends PureComponent<ProductReviewListComponentP
     }
 }
 
-export default ProductReviewList;
+export default ProductReviewListComponent;

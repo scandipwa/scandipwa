@@ -20,12 +20,12 @@ import {
     ProductCompareAttributeRowComponentProps,
     ProductCompareAttributeRowContainerMapDispatchProps,
     ProductCompareAttributeRowContainerMapStateProps,
-    ProductCompareAttributeRowContainerProps
+    ProductCompareAttributeRowContainerProps,
 } from './ProductCompareAttributeRow.type';
 
 /** @namespace Component/ProductCompareAttributeRow/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductCompareAttributeRowContainerMapStateProps => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/ProductCompareAttributeRow/Container/mapDispatchToProps */

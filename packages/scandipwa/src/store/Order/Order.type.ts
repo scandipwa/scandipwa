@@ -15,7 +15,7 @@ import { CustomerOrders, OrderItem, SearchResultPageInfo } from 'Query/Order.typ
 
 export enum OrderActionType {
     GET_ORDER_LIST = 'GET_ORDER_LIST',
-    SET_ORDER_LOADING_STATUS = 'SET_ORDER_LOADING_STATUS'
+    SET_ORDER_LOADING_STATUS = 'SET_ORDER_LOADING_STATUS',
 }
 
 export interface OrderList {

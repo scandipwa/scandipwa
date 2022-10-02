@@ -19,7 +19,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import {
     updateInfoLoadStatus,
-    updateProductListInfo
+    updateProductListInfo,
 } from 'Store/ProductListInfo/ProductListInfo.action';
 import { NetworkError } from 'Type/Common.type';
 import { QueryDispatcher } from 'Util/Request';
@@ -43,12 +43,12 @@ ProductListInfoDispatcherData
     onSuccess(
         { products }: ProductListInfoDispatcherData,
         dispatch: Dispatch,
-        options: Partial<ProductListOptions>
+        options: Partial<ProductListOptions>,
     ): void {
         const {
             args: {
-                filter = {}
-            } = {}
+                filter = {},
+            } = {},
         } = options;
 
         dispatch(updateProductListInfo(products, filter));
@@ -61,13 +61,13 @@ ProductListInfoDispatcherData
 
     prepareRequest(
         options: Partial<ProductListOptions>,
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ): Query<'products', ProductsQueryOutput> {
         dispatch(updateInfoLoadStatus(true));
 
         return ProductListQuery.getQuery({
             ...options,
-            requireInfo: true
+            requireInfo: true,
         });
     }
 }

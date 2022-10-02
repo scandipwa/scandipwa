@@ -24,13 +24,13 @@ import { PaginationComponentProps } from './Pagination.type';
 import './Pagination.style';
 
 /** @namespace Component/Pagination/Component */
-export class Pagination extends PureComponent<PaginationComponentProps> {
+export class PaginationComponent extends PureComponent<PaginationComponentProps> {
     renderPreviousPageLink(): ReactElement {
         const {
             anchorTextPrevious,
             currentPage,
             totalPages,
-            paginationFrame
+            paginationFrame,
         } = this.props;
 
         /*
@@ -47,7 +47,7 @@ export class Pagination extends PureComponent<PaginationComponentProps> {
         return this.renderPageLink(
             currentPage - 1,
             __('Previous page'),
-            anchorTextPrevious || this.renderPageIcon()
+            anchorTextPrevious || this.renderPageIcon(),
         );
     }
 
@@ -55,14 +55,14 @@ export class Pagination extends PureComponent<PaginationComponentProps> {
         const {
             currentPage,
             firstFramePage,
-            lastFramePage
+            lastFramePage,
         } = this.props;
 
         return range(firstFramePage, lastFramePage).map((page) => this.renderPageLink(
             page,
             __('Page %s', page),
             page.toString(),
-            page === currentPage
+            page === currentPage,
         ));
     }
 
@@ -77,7 +77,7 @@ export class Pagination extends PureComponent<PaginationComponentProps> {
             anchorTextNext,
             currentPage,
             totalPages,
-            paginationFrame
+            paginationFrame,
         } = this.props;
 
         /*
@@ -94,7 +94,7 @@ export class Pagination extends PureComponent<PaginationComponentProps> {
         return this.renderPageLink(
             currentPage + 1,
             __('Next page'),
-            anchorTextNext || this.renderPageIcon(true)
+            anchorTextNext || this.renderPageIcon(true),
         );
     }
 
@@ -102,11 +102,11 @@ export class Pagination extends PureComponent<PaginationComponentProps> {
         pageNumber: number,
         label: string,
         children: string | ReactElement,
-        isCurrent = false
+        isCurrent = false,
     ): ReactElement {
         const {
             pathname,
-            getSearchQuery
+            getSearchQuery,
         } = this.props;
 
         return (
@@ -207,7 +207,7 @@ export class Pagination extends PureComponent<PaginationComponentProps> {
             isLoading,
             totalPages,
             id,
-            mix
+            mix,
         } = this.props;
 
         if (totalPages === 1) { // do not show pagination, if there are less then one page
@@ -234,4 +234,4 @@ export class Pagination extends PureComponent<PaginationComponentProps> {
     }
 }
 
-export default Pagination;
+export default PaginationComponent;

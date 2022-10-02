@@ -22,9 +22,9 @@ import { ProductTabsComponentProps, ProductTabsComponentState, ProductTabShape }
 import './ProductTabs.style';
 
 /** @namespace Component/ProductTabs/Component */
-export class ProductTabs extends PureComponent<ProductTabsComponentProps, ProductTabsComponentState> {
+export class ProductTabsComponent extends PureComponent<ProductTabsComponentProps, ProductTabsComponentState> {
     state = {
-        activeTab: ''
+        activeTab: '',
     };
 
     __construct(props: ProductTabsComponentProps): void {
@@ -140,4 +140,4 @@ export class ProductTabs extends PureComponent<ProductTabsComponentProps, Produc
     }
 }
 
-export default ProductTabs;
+export default ProductTabsComponent;

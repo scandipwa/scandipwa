@@ -12,7 +12,7 @@
 import {
     ComplexTextValue,
     GroupedProductItem,
-    ProductItem
+    ProductItem,
 } from './ProductList.type';
 
 export interface ProductId {

@@ -32,7 +32,7 @@ export class ContactFormDispatcher {
         const mutation = ContactFormQuery.getSendContactFormMutation(fields);
 
         dispatch(updateContactForm({
-            isLoading: true
+            isLoading: true,
         }));
 
         return fetchMutation(mutation)
@@ -41,7 +41,7 @@ export class ContactFormDispatcher {
                 (data) => {
                     dispatch(showNotification(NotificationType.SUCCESS, data.contactForm.message || ''));
                     dispatch(updateContactForm({
-                        isLoading: false
+                        isLoading: false,
                     }));
 
                     // Clears form
@@ -53,9 +53,9 @@ export class ContactFormDispatcher {
                 (error) => {
                     dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
                     dispatch(updateContactForm({
-                        isLoading: false
+                        isLoading: false,
                     }));
-                }
+                },
             );
     }
 }

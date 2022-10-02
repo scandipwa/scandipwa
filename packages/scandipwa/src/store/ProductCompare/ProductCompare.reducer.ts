@@ -17,7 +17,7 @@ import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import {
     ProductCompareAction,
     ProductCompareActionType,
-    ProductCompareStore
+    ProductCompareStore,
 } from './ProductCompare.type';
 
 export const COMPARE_LIST_PRODUCTS = 'compare_list_products';
@@ -32,14 +32,14 @@ export const getInitialState = (): ProductCompareStore => {
         attributes: [],
         products: [],
         productIds: compareListProducts,
-        items: []
+        items: [],
     };
 };
 
 /** @namespace Store/ProductCompare/Reducer/ProductCompareReducer */
 export const ProductCompareReducer: Reducer<ProductCompareStore, ProductCompareAction> = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     const { type } = action;
 
@@ -49,7 +49,7 @@ export const ProductCompareReducer: Reducer<ProductCompareStore, ProductCompareA
 
         return {
             ...state,
-            isLoading
+            isLoading,
         };
     }
 
@@ -58,13 +58,13 @@ export const ProductCompareReducer: Reducer<ProductCompareStore, ProductCompareA
 
         const products = items.map((item): ComparableProduct => ({
             ...(item?.product || {}),
-            attributes: []
+            attributes: [],
         }));
         const productIds = products.map((product) => product.id);
 
         BrowserDatabase.setItem(
             productIds,
-            COMPARE_LIST_PRODUCTS
+            COMPARE_LIST_PRODUCTS,
         );
 
         return {
@@ -73,7 +73,7 @@ export const ProductCompareReducer: Reducer<ProductCompareStore, ProductCompareA
             attributes,
             products,
             productIds,
-            items
+            items,
         };
     }
 
@@ -82,14 +82,14 @@ export const ProductCompareReducer: Reducer<ProductCompareStore, ProductCompareA
 
         return {
             ...state,
-            count: compareTotals
+            count: compareTotals,
         };
     }
 
     case ProductCompareActionType.CLEAR_COMPARED_PRODUCTS: {
         BrowserDatabase.setItem(
             [],
-            COMPARE_LIST_PRODUCTS
+            COMPARE_LIST_PRODUCTS,
         );
 
         return {
@@ -98,7 +98,7 @@ export const ProductCompareReducer: Reducer<ProductCompareStore, ProductCompareA
             products: [],
             productIds: [],
             items: [],
-            attributes: []
+            attributes: [],
         };
     }
 
@@ -107,12 +107,12 @@ export const ProductCompareReducer: Reducer<ProductCompareStore, ProductCompareA
 
         BrowserDatabase.setItem(
             productIds,
-            COMPARE_LIST_PRODUCTS
+            COMPARE_LIST_PRODUCTS,
         );
 
         return {
             ...state,
-            productIds
+            productIds,
         };
     }
 

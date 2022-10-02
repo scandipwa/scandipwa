@@ -19,12 +19,12 @@ import { DataPair, KeyValueTableComponentProps } from './KeyValueTable.type';
 import './KeyValueTable.style';
 
 /** @namespace Component/KeyValueTable/Component */
-export class KeyValueTable<
-T extends KeyValueTableComponentProps = KeyValueTableComponentProps
+export class KeyValueTableComponent<
+T extends KeyValueTableComponentProps = KeyValueTableComponentProps,
 > extends PureComponent<T> {
     static defaultProps: Partial<KeyValueTableComponentProps> = {
         title: '',
-        isSelected: false
+        isSelected: false,
     };
 
     dataPairArray(): DataPair<Record<string, string | string[]>>[] {
@@ -114,4 +114,4 @@ T extends KeyValueTableComponentProps = KeyValueTableComponentProps
     }
 }
 
-export default KeyValueTable;
+export default KeyValueTableComponent;

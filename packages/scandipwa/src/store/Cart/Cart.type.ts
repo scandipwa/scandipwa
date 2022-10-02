@@ -12,7 +12,7 @@
 import { AnyAction } from 'redux';
 
 import {
-    CartItem, CartShippingAddress, CartTotals as QuoteData, Region
+    CartItem, CartShippingAddress, CartTotals as QuoteData, Region,
 } from 'Query/Cart.type';
 import { TotalsObject } from 'Query/Checkout.type';
 import { ProductItem } from 'Query/ProductList.type';
@@ -27,7 +27,7 @@ export enum CartActionType {
     APPLY_COUPON_TO_CART = 'APPLY_COUPON_TO_CART',
     REMOVE_COUPON_FROM_CART = 'REMOVE_COUPON_FROM_CART',
     UPDATE_SHIPPING_PRICE = 'UPDATE_SHIPPING_PRICE',
-    UPDATE_IS_LOADING_CART = 'UPDATE_IS_LOADING_CART'
+    UPDATE_IS_LOADING_CART = 'UPDATE_IS_LOADING_CART',
 }
 
 export interface AddProductToCartAction extends AnyAction {

@@ -11,10 +11,10 @@
 import { AnyAction } from 'redux';
 
 import {
-    CheckoutTermsAndConditionsPopupPayload
+    CheckoutTermsAndConditionsPopupPayload,
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.component.type';
 import {
-    TERMS_AND_CONDITIONS_POPUP_ID
+    TERMS_AND_CONDITIONS_POPUP_ID,
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
 import { Page } from 'Component/Header/Header.config';
 import { MyAccountAddressPopupAction } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
@@ -23,11 +23,11 @@ import { VIDEO_POPUP_ID } from 'Component/VideoPopup/VideoPopup.config';
 import { VideoPopupPayload } from 'Component/VideoPopup/VideoPopup.type';
 import {
     HideActiveOverlayAction,
-    HideActivePopupAction
+    HideActivePopupAction,
 } from 'Store/Overlay/Overlay.type';
 
 export enum PopupActionType {
-    SHOW_POPUP = 'SHOW_POPUP'
+    SHOW_POPUP = 'SHOW_POPUP',
 }
 
 export interface ShowPopupAction<OverlayKey extends string, Payload> extends AnyAction {

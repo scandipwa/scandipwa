@@ -65,12 +65,12 @@ export const getStaticReducers = (): Record<StaticReducerKeys, Reducer> => ({
     CheckoutReducer,
     ContactFormReducer,
     ProductCompareReducer,
-    StoreInPickUpReducer
+    StoreInPickUpReducer,
 } as Record<StaticReducerKeys, Reducer>);
 
 export default function injectStaticReducers<
     S,
-    T extends ModifiedReduxStore<S>
+    T extends ModifiedReduxStore<S>,
 >(store: T): T {
     // eslint-disable-next-line no-param-reassign
     // store.asyncReducers = {};
@@ -81,7 +81,7 @@ export default function injectStaticReducers<
             if (store.injectReducer) {
                 store.injectReducer(name, reducer);
             }
-        }
+        },
     );
 
     return store;

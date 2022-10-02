@@ -24,7 +24,7 @@ import { FormSection } from './FieldForm.type';
 import './FieldForm.style';
 
 /** @namespace Component/FieldForm/Component */
-export class FieldForm<T> extends PureComponent<T> {
+export class FieldFormComponent<T> extends PureComponent<T> {
     fieldMap(): (Partial<FieldContainerProps> | FormSection)[] {
         return [
             // // Field
@@ -101,4 +101,4 @@ export class FieldForm<T> extends PureComponent<T> {
     }
 }
 
-export default FieldForm;
+export default FieldFormComponent;

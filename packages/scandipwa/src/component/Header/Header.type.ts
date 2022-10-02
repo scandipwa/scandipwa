@@ -14,7 +14,7 @@ import { RouteComponentProps } from 'react-router';
 
 import {
     NavigationAbstractComponentProps,
-    NavigationAbstractContainerProps
+    NavigationAbstractContainerProps,
 } from 'Component/NavigationAbstract/NavigationAbstract.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';

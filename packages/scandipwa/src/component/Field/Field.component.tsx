@@ -15,7 +15,7 @@ import {
     InputHTMLAttributes,
     PureComponent,
     SelectHTMLAttributes,
-    TextareaHTMLAttributes
+    TextareaHTMLAttributes,
 } from 'react';
 
 import FieldFile from 'Component/FieldFile';
@@ -31,7 +31,7 @@ import {
     FieldInputCustomEvents,
     FieldNumberCustomEvents,
     FieldReactEvents,
-    FieldSelectCustomEvents
+    FieldSelectCustomEvents,
 } from './Field.type';
 
 import './Field.style';
@@ -41,11 +41,11 @@ import './Field.style';
  * @class Field
  * @namespace Component/Field/Component
  */
-export class Field extends PureComponent<FieldComponentProps> {
+export class FieldComponent extends PureComponent<FieldComponentProps> {
     static defaultProps: Partial<FieldComponentProps> = {
         validationResponse: null,
         changeValueOnDoubleClick: false,
-        isSortSelect: false
+        isSortSelect: false,
     };
 
     renderMap = {
@@ -70,14 +70,14 @@ export class Field extends PureComponent<FieldComponentProps> {
         [FieldType.SELECT]: this.renderSelect.bind(this),
         [FieldType.TEXTAREA]: this.renderTextArea.bind(this),
         [FieldType.BUTTON]: this.renderButton.bind(this),
-        [FieldType.NUMBER_WITH_CONTROLS]: this.renderNumberWithControls.bind(this)
+        [FieldType.NUMBER_WITH_CONTROLS]: this.renderNumberWithControls.bind(this),
 
     };
 
     //#region INPUT TYPE RENDER
     renderDefaultInput(): ReactElement {
         const {
-            type, setRef, attr, events, isDisabled
+            type, setRef, attr, events, isDisabled,
         } = this.props;
 
         return (
@@ -97,7 +97,7 @@ export class Field extends PureComponent<FieldComponentProps> {
             events,
             setRef,
             validate,
-            resetFieldValue
+            resetFieldValue,
         } = this.props;
 
         return (
@@ -117,7 +117,7 @@ export class Field extends PureComponent<FieldComponentProps> {
             events,
             setRef,
             value,
-            isDisabled = false
+            isDisabled = false,
         } = this.props;
 
         return (
@@ -139,7 +139,7 @@ export class Field extends PureComponent<FieldComponentProps> {
             options,
             isDisabled = false,
             changeValueOnDoubleClick,
-            isSortSelect
+            isSortSelect,
         } = this.props;
 
         return (
@@ -157,7 +157,7 @@ export class Field extends PureComponent<FieldComponentProps> {
 
     renderButton(): ReactElement {
         const {
-            setRef, attr, events, isDisabled
+            setRef, attr, events, isDisabled,
         } = this.props;
         const { value = __('Submit') } = attr;
 
@@ -181,18 +181,18 @@ export class Field extends PureComponent<FieldComponentProps> {
             events: { onChange },
             events,
             isDisabled,
-            label
+            label,
         } = this.props;
 
         const {
             id = '',
             checked,
-            value = ''
+            value = '',
         } = newAttr as InputHTMLAttributes<HTMLInputElement>;
         const elem = type.charAt(0).toUpperCase() + type.slice(1);
         const inputEvents = {
             ...events,
-            onChange: onChange || noopFn
+            onChange: onChange || noopFn,
         };
         // if button value is "none" do not disable
         const isButtonDisabled = (!String(value).match('none') && isDisabled);
@@ -217,7 +217,7 @@ export class Field extends PureComponent<FieldComponentProps> {
 
     renderTextArea(): ReactElement {
         const {
-            setRef, attr, events, isDisabled
+            setRef, attr, events, isDisabled,
         } = this.props;
 
         return (
@@ -241,7 +241,7 @@ export class Field extends PureComponent<FieldComponentProps> {
         const {
             showErrorAsLabel,
             validationResponse,
-            attr: { name }
+            attr: { name },
         } = this.props;
 
         if (!showErrorAsLabel || !validationResponse || validationResponse === true) {
@@ -314,7 +314,7 @@ export class Field extends PureComponent<FieldComponentProps> {
 
     render(): ReactElement {
         const {
-            type, validationResponse, mix
+            type, validationResponse, mix,
         } = this.props;
         const inputRenderer = this.renderMap[type] ?? this.renderDefaultInput.bind(this);
         const { mods: { hasError = false } = {} } = mix;
@@ -326,7 +326,7 @@ export class Field extends PureComponent<FieldComponentProps> {
                   mods={ {
                       type,
                       isValid: !hasError && validationResponse === true,
-                      hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0
+                      hasError: validationResponse !== true && Object.keys(validationResponse || {}).length !== 0,
                   } }
                   mix={ mix }
                 >
@@ -340,4 +340,4 @@ export class Field extends PureComponent<FieldComponentProps> {
     }
 }
 
-export default Field;
+export default FieldComponent;

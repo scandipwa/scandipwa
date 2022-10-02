@@ -29,7 +29,7 @@ import {
     PopupContainerMapDispatchProps,
     PopupContainerMapStateProps,
     PopupContainerProps,
-    PopupContainerPropsKeys
+    PopupContainerPropsKeys,
 } from './Popup.type';
 
 /** @namespace Component/Popup/Container/mapStateToProps */
@@ -38,7 +38,7 @@ export const mapStateToProps = (state: RootState): PopupContainerMapStateProps =
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
     shouldPopupClose: state.PopupReducer.shouldPopupClose,
     payload: state.PopupReducer.popupPayload as PopupPayload,
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/Popup/Container/mapDispatchToProps */
@@ -47,8 +47,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): PopupContainerMapDispatc
     resetHideActivePopup: () => dispatch(hideActivePopup(false)),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     goToPreviousNavigationState: () => dispatch(
-        goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)
-    )
+        goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE),
+    ),
 });
 
 /** @namespace Component/Popup/Container */
@@ -61,11 +61,11 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
         contentMix: {},
         children: [],
         isStatic: false,
-        clickOutside: false
+        clickOutside: false,
     };
 
     containerFunctions: PopupContainerFunctions = {
-        onVisible: this.onVisible.bind(this)
+        onVisible: this.onVisible.bind(this),
     };
 
     onVisible(): void {
@@ -76,7 +76,7 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
             title: this._getPopupTitle(),
             onCloseClick: () => {
                 history.back();
-            }
+            },
         });
 
         onVisible();
@@ -102,7 +102,7 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
             shouldPopupClose,
             hideActiveOverlay,
             resetHideActivePopup,
-            goToPreviousNavigationState
+            goToPreviousNavigationState,
         } = this.props;
 
         return {
@@ -122,7 +122,7 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
             hideActiveOverlay,
             resetHideActivePopup,
             goToPreviousNavigationState,
-            title: this._getPopupTitle()
+            title: this._getPopupTitle(),
         };
     }
 

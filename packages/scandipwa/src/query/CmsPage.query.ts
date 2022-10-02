@@ -51,7 +51,7 @@ export class CmsPageQuery {
             new Field<'content_heading', string>('content_heading'),
             new Field<'meta_title', string>('meta_title'),
             new Field<'meta_description', string>('meta_description'),
-            new Field<'meta_keywords', string>('meta_keywords')
+            new Field<'meta_keywords', string>('meta_keywords'),
         ];
     }
 }

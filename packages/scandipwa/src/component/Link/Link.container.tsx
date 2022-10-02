@@ -26,7 +26,7 @@ import {
     LinkContainerDispatchProps,
     LinkContainerFunctions,
     LinkContainerMapStateProps,
-    LinkContainerProps
+    LinkContainerProps,
 } from './Link.type';
 
 export const NoMatchDispatcher = import(
@@ -36,24 +36,24 @@ export const NoMatchDispatcher = import(
 
 /** @namespace Component/Link/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): LinkContainerMapStateProps => ({
-    baseLinkUrl: state.ConfigReducer.base_link_url || ''
+    baseLinkUrl: state.ConfigReducer.base_link_url || '',
 });
 
 /** @namespace Component/Link/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): LinkContainerDispatchProps => ({
     updateNoMatch: (noMatch) => NoMatchDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, { noMatch })
-    )
+        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, { noMatch }),
+    ),
 });
 
 /** @namespace Component/Link/Container */
 export class LinkContainer extends PureComponent<LinkContainerProps> {
     static defaultProps: Partial<LinkContainerProps> = {
-        onClick: noopFn
+        onClick: noopFn,
     };
 
     containerFunctions: LinkContainerFunctions = {
-        onClick: this.onClick.bind(this)
+        onClick: this.onClick.bind(this),
     };
 
     containerProps(): LinkComponentProps {
@@ -75,8 +75,8 @@ export class LinkContainer extends PureComponent<LinkContainerProps> {
                 block,
                 elem,
                 mods,
-                mix
-            }
+                mix,
+            },
         };
     }
 
@@ -98,7 +98,7 @@ export class LinkContainer extends PureComponent<LinkContainerProps> {
 
         return {
             ...to,
-            pathname: appendWithStoreCode(pathname)
+            pathname: appendWithStoreCode(pathname),
         };
     }
 

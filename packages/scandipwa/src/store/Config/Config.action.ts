@@ -16,13 +16,13 @@ import {
     ConfigStore,
     UpdateConfigAction,
     UpdateConfigCurrencyAction,
-    UpdateConfigDeviceAction
+    UpdateConfigDeviceAction,
 } from './Config.type';
 
 /** @namespace Store/Config/Action/updateCurrentCurrency  */
 export const updateCurrentCurrency = (selectedCurrency: string): UpdateConfigCurrencyAction => ({
     type: ConfigActionType.UPDATE_CURRENT_CURRENCY,
-    selectedCurrency
+    selectedCurrency,
 });
 
 export const UPDATE_CONFIG = 'UPDATE_CONFIG';
@@ -30,11 +30,11 @@ export const UPDATE_CONFIG = 'UPDATE_CONFIG';
 /** @namespace Store/Config/Action/updateConfig */
 export const updateConfig = (config: Partial<ConfigStore>): UpdateConfigAction => ({
     type: ConfigActionType.UPDATE_CONFIG,
-    config
+    config,
 });
 
 /** @namespace Store/Config/Action/updateConfigDevice */
 export const updateConfigDevice = (device: Device): UpdateConfigDeviceAction => ({
     type: ConfigActionType.UPDATE_CONFIG_DEVICE,
-    device
+    device,
 });

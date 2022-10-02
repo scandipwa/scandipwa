@@ -25,18 +25,18 @@ import { RootState } from 'Util/Store/Store.type';
 import {
     MenuPageContainerMapDispatchProps,
     MenuPageContainerMapStateProps,
-    MenuPageContainerProps
+    MenuPageContainerProps,
 } from './MenuPage.type';
 
 /** @namespace Route/MenuPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MenuPageContainerMapStateProps => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Route/MenuPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MenuPageContainerMapDispatchProps => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state))
+    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
 });
 
 /** @namespace Route/MenuPage/Container */
@@ -51,7 +51,7 @@ export class MenuPageContainer extends PureComponent<MenuPageContainerProps> {
         updateMeta({ title: __('Menu') });
         changeHeaderState({
             name: Page.MENU,
-            onBackClick: () => history.goBack()
+            onBackClick: () => history.goBack(),
         });
     }
 

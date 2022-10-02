@@ -25,10 +25,10 @@ import { ProductCompareComponentProps } from './ProductCompare.type';
 import './ProductCompare.style';
 
 /** @namespace Component/ProductCompare/Component */
-export class ProductCompare extends Component<ProductCompareComponentProps> {
+export class ProductCompareComponent extends Component<ProductCompareComponentProps> {
     static defaultProps: Partial<ProductCompareComponentProps> = {
         isLoading: false,
-        products: []
+        products: [],
     };
 
     shouldComponentUpdate(nextProps: ProductCompareComponentProps): boolean {
@@ -134,7 +134,7 @@ export class ProductCompare extends Component<ProductCompareComponentProps> {
             price_range,
             dynamic_price,
             type_id,
-            id
+            id,
         } = product;
 
         const price = getPrice(price_range, dynamic_price, {}, type_id as ProductType);
@@ -221,7 +221,7 @@ export class ProductCompare extends Component<ProductCompareComponentProps> {
     renderContent(): ReactElement {
         const {
             isLoading,
-            products
+            products,
         } = this.props;
         const hasProducts = products && products.length;
 
@@ -246,4 +246,4 @@ export class ProductCompare extends Component<ProductCompareComponentProps> {
     }
 }
 
-export default ProductCompare;
+export default ProductCompareComponent;

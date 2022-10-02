@@ -14,5 +14,5 @@ export enum PaymentMethods {
     CHECK_MONEY = 'checkmo',
     PAYPAL_EXPRESS = 'paypal_express',
     PAYPAL_EXPRESS_CREDIT = 'paypal_express_bml',
-    PURCHASE_ORDER = 'purchaseorder'
+    PURCHASE_ORDER = 'purchaseorder',
 }

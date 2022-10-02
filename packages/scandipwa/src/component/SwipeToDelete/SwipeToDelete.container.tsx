@@ -22,19 +22,19 @@ import {
     ANIMATION_DURATION_ON_REMOVE,
     DRAG_ITEM_REMOVE_THRESHOLD,
     DRAG_RIGHT_OPEN_THRESHOLD,
-    DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD
+    DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD,
 } from './SwipeToDelete.config';
 import {
     SwipeToDeleteComponentProps,
     SwipeToDeleteContainerMapDispatchProps,
     SwipeToDeleteContainerMapStateProps,
     SwipeToDeleteContainerProps,
-    SwipeToDeleteContainerPropsKeys
+    SwipeToDeleteContainerPropsKeys,
 } from './SwipeToDelete.type';
 
 /** @namespace Component/SwipeToDelete/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): SwipeToDeleteContainerMapStateProps => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/SwipeToDelete/Container/mapDispatchToProps */
@@ -54,7 +54,7 @@ export class SwipeToDeleteContainer extends PureComponent<SwipeToDeleteContainer
         renderRightSideContent: (): null => null,
         topElemMix: {},
         onAheadOfDragItemRemoveThreshold: noopFn,
-        isLoading: false
+        isLoading: false,
     };
 
     containerProps(): Pick<SwipeToDeleteComponentProps, SwipeToDeleteContainerPropsKeys> {
@@ -68,7 +68,7 @@ export class SwipeToDeleteContainer extends PureComponent<SwipeToDeleteContainer
             isLoading,
             topElemMix,
             onAheadOfDragItemRemoveThreshold,
-            renderRightSideContent
+            renderRightSideContent,
         } = this.props;
 
         return {
@@ -81,7 +81,7 @@ export class SwipeToDeleteContainer extends PureComponent<SwipeToDeleteContainer
             isLoading,
             topElemMix,
             onAheadOfDragItemRemoveThreshold,
-            renderRightSideContent
+            renderRightSideContent,
         };
     }
 

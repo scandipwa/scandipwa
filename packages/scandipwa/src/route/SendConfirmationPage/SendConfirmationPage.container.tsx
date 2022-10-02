@@ -31,7 +31,7 @@ import {
     SendConfirmationPageContainerMapStateProps,
     SendConfirmationPageContainerProps,
     SendConfirmationPageContainerPropsKeys,
-    SendConfirmationPageContainerState
+    SendConfirmationPageContainerState,
 } from './SendConfirmationPage.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -51,9 +51,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): SendConfirmationPageCont
     toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     resendConfirmation: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.resendConfirmation(options, dispatch)
+        ({ default: dispatcher }) => dispatcher.resendConfirmation(options, dispatch),
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
 });
 
 /** @namespace Route/SendConfirmationPage/Container */
@@ -63,7 +63,7 @@ SendConfirmationPageContainerState
 > {
     containerFunctions: SendConfirmationPageContainerFunctions = {
         onConfirmSuccess: this.onConfirmSuccess.bind(this),
-        onFormError: this.onFormError.bind(this)
+        onFormError: this.onFormError.bind(this),
     };
 
     __construct(props: SendConfirmationPageContainerProps): void {
@@ -72,7 +72,7 @@ SendConfirmationPageContainerState
         this.state = {
             email: '',
             redirect: false,
-            isLoading: false
+            isLoading: false,
         };
     }
 
@@ -90,7 +90,7 @@ SendConfirmationPageContainerState
             email,
             redirect,
             isLoading,
-            shouldDisplayWarning: this.shouldDisplayWarning()
+            shouldDisplayWarning: this.shouldDisplayWarning(),
         };
     }
 
@@ -108,7 +108,7 @@ SendConfirmationPageContainerState
     async onConfirmSuccess(form: HTMLFormElement, fields: FieldData[]): Promise<boolean> {
         const {
             showNotification,
-            resendConfirmation
+            resendConfirmation,
         } = this.props;
 
         this.setState({ isLoading: true });

@@ -21,21 +21,21 @@ import { ProductAttributesComponentProps } from './ProductAttributes.type';
 import './ProductAttributes.style';
 
 /** @namespace Component/ProductAttributes/Component */
-export class ProductAttributes extends PureComponent<ProductAttributesComponentProps> {
+export class ProductAttributesComponent extends PureComponent<ProductAttributesComponentProps> {
     renderGroups(): ReactElement {
         const { attributesWithValues } = this.props;
 
         const groups = Object.values(attributesWithValues).map(
             (attribute) => ({
                 attribute_group_id: attribute.attribute_group_id,
-                attribute_group_name: attribute.attribute_group_name
-            })
+                attribute_group_name: attribute.attribute_group_name,
+            }),
         );
 
         const uniqueGroups = groups.filter(
             (group, index, array) => (
                 index === array.findIndex((g) => g.attribute_group_id === group.attribute_group_id)
-            )
+            ),
         );
 
         return (
@@ -47,7 +47,7 @@ export class ProductAttributes extends PureComponent<ProductAttributesComponentP
                         </h2>
                         { this.renderAttributes(group.attribute_group_id) }
                     </div>
-                )
+                ),
             )
         );
     }
@@ -77,7 +77,7 @@ export class ProductAttributes extends PureComponent<ProductAttributesComponentP
         }
 
         const filteredAttributesWithValues = Object.values(attributesWithValues).filter(
-            (attribute) => attribute.attribute_group_id === attribute_group_id
+            (attribute) => attribute.attribute_group_id === attribute_group_id,
         );
 
         if (!filteredAttributesWithValues.length) {
@@ -108,7 +108,7 @@ export class ProductAttributes extends PureComponent<ProductAttributesComponentP
 
     render(): ReactElement {
         const {
-            areDetailsLoaded
+            areDetailsLoaded,
         } = this.props;
 
         if (!areDetailsLoaded) {
@@ -119,4 +119,4 @@ export class ProductAttributes extends PureComponent<ProductAttributesComponentP
     }
 }
 
-export default ProductAttributes;
+export default ProductAttributesComponent;

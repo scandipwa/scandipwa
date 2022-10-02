@@ -18,9 +18,9 @@ import { formatPrice, roundPrice } from 'Util/Price';
 import { CartItemPriceComponentProps } from './CartItemPrice.type';
 
 /** @namespace Component/CartItemPrice/Component */
-export class CartItemPrice extends PureComponent<CartItemPriceComponentProps> {
+export class CartItemPriceComponent extends PureComponent<CartItemPriceComponentProps> {
     static defaultProps: Partial<CartItemPriceComponentProps> = {
-        subPrice: null
+        subPrice: null,
     };
 
     renderPrice(): ReactElement {
@@ -64,4 +64,4 @@ export class CartItemPrice extends PureComponent<CartItemPriceComponentProps> {
     }
 }
 
-export default CartItemPrice;
+export default CartItemPriceComponent;

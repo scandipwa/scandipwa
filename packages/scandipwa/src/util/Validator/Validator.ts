@@ -14,13 +14,13 @@ import { FieldType } from 'Component/Field/Field.config';
 import {
     VALIDATION_MESSAGES,
     VALIDATION_RULES,
-    ValidationInputTypeNumber
+    ValidationInputTypeNumber,
 } from 'Util/Validator/Config';
 
 import {
     ValidationDOMOutput,
     ValidationOutput,
-    ValidationRule
+    ValidationRule,
 } from './Validator.type';
 
 /**
@@ -43,13 +43,13 @@ export const validate = (value: string | boolean, rule: ValidationRule): boolean
             onMatchFail,
             onRangeFailMin,
             onRangeFailMax,
-            onExtensionFail
-        } = {}
+            onExtensionFail,
+        } = {},
     } = rule;
 
     const output: ValidationOutput = {
         value,
-        errorMessages: []
+        errorMessages: [],
     };
 
     //#region IS REQUIRED
@@ -60,10 +60,10 @@ export const validate = (value: string | boolean, rule: ValidationRule): boolean
 
     //#region INPUT TYPE
     if (inputType && value && !(value as string).match(
-        VALIDATION_RULES[inputType as keyof typeof VALIDATION_RULES]
+        VALIDATION_RULES[inputType as keyof typeof VALIDATION_RULES],
     )) {
         output.errorMessages.push(
-            onInputTypeFail || VALIDATION_MESSAGES[inputType as keyof typeof VALIDATION_MESSAGES]
+            onInputTypeFail || VALIDATION_MESSAGES[inputType as keyof typeof VALIDATION_MESSAGES],
         );
     }
     //#endregion
@@ -135,14 +135,14 @@ export const validate = (value: string | boolean, rule: ValidationRule): boolean
  */
 export const validateGroup = (DOM: HTMLElement, rule?: ValidationRule): true | ValidationDOMOutput => {
     const {
-        selector = 'select, input, textarea, .js-validatabale, form, .FieldGroup'
+        selector = 'select, input, textarea, .js-validatabale, form, .FieldGroup',
     } = rule || {};
     const fields = DOM.querySelectorAll<HTMLInputElement>(selector);
 
     const output: ValidationDOMOutput = {
         values: [],
         errorFields: [],
-        errorMessages: []
+        errorMessages: [],
     };
 
     //#region VALIDATE FIELDS
@@ -151,7 +151,7 @@ export const validateGroup = (DOM: HTMLElement, rule?: ValidationRule): true | V
             name,
             value,
             tagName = FieldType.SELECT,
-            type = FieldType.SELECT
+            type = FieldType.SELECT,
         } = field;
 
         const fieldType = tagName.toLowerCase() === FieldType.TEXTAREA ? FieldType.TEXTAREA : type;
@@ -181,8 +181,8 @@ export const validateGroup = (DOM: HTMLElement, rule?: ValidationRule): true | V
             customErrorMessages: {
                 onRequirementFail,
                 onMatchFail,
-                onGroupFail
-            } = {}
+                onGroupFail,
+            } = {},
         } = rule;
 
         if (isRequired) {
@@ -241,7 +241,7 @@ export default validate;
 export const validatePassword = (
     value: string,
     range: ValidationRule['range'],
-    minCharacter: string
+    minCharacter: string,
 ): string | boolean => {
     if (value.length === 0 || !range) {
         return true;
@@ -258,8 +258,10 @@ export const validatePassword = (
     const counter = getNumberOfCharacterClasses(value);
 
     if (counter < Number(minCharacter)) {
-        return __('Minimum of different classes of characters in password is %s. ',
-            minCharacter)
+        return __(
+            'Minimum of different classes of characters in password is %s. ',
+            minCharacter,
+        )
             + __('Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
     }
 

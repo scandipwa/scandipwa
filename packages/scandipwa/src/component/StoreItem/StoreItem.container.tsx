@@ -17,13 +17,13 @@ import StoreItem from './StoreItem.component';
 import {
     StoreItemComponentProps,
     StoreItemContainerFunctions,
-    StoreItemContainerProps
+    StoreItemContainerProps,
 } from './StoreItem.type';
 
 /** @namespace Component/StoreItem/Container */
 export class StoreItemContainer extends PureComponent<StoreItemContainerProps> {
     containerFunctions: StoreItemContainerFunctions = {
-        getStoreCode: this.getStoreCode.bind(this)
+        getStoreCode: this.getStoreCode.bind(this),
     };
 
     containerProps(): Pick<StoreItemComponentProps, 'item'>{

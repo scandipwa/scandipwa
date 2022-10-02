@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 import ProductListQuery from 'Query/ProductList.query';
 import {
     ProductLink,
-    ProductsQueryOutput
+    ProductsQueryOutput,
 } from 'Query/ProductList.type';
 import { updateLinkedProducts } from 'Store/LinkedProducts/LinkedProducts.action';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -31,7 +31,7 @@ import {
     LinkedProducts,
     LinkedProductsDispatcherData,
     LinkedProductsMap,
-    LinkedProductType
+    LinkedProductType,
 } from './LinkedProducts.type';
 
 export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';
@@ -78,11 +78,11 @@ LinkedProductsDispatcherData
             ProductListQuery.getQuery({
                 args: {
                     filter: {
-                        productsSkuArray: relatedSKUs
-                    }
+                        productsSkuArray: relatedSKUs,
+                    },
                 },
-                notRequireInfo: true
-            })
+                notRequireInfo: true,
+            }),
         ];
     }
 
@@ -96,14 +96,14 @@ LinkedProductsDispatcherData
         const linkedProducts = {
             upsell: { total_count: 0, items: [] },
             related: { total_count: 0, items: [] },
-            crosssell: { total_count: 0, items: [] }
+            crosssell: { total_count: 0, items: [] },
         };
 
         BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
 
         dispatch(updateLinkedProducts({
             ...linkedProducts,
-            updateCrossSell
+            updateCrossSell,
         }));
     }
 
@@ -117,7 +117,7 @@ LinkedProductsDispatcherData
 
         Object.assign(linkedProducts, {
             crosssell,
-            updateCrossSell: true
+            updateCrossSell: true,
         });
 
         dispatch(updateLinkedProducts(linkedProducts));
@@ -130,7 +130,7 @@ LinkedProductsDispatcherData
 
         Object.assign(linkedProducts, {
             crosssell: { total_count: 0, items: [] },
-            updateCrossSell: true
+            updateCrossSell: true,
         });
 
         dispatch(updateLinkedProducts(linkedProducts));
@@ -138,7 +138,7 @@ LinkedProductsDispatcherData
 
     _processResponse(
         data: LinkedProductsDispatcherData,
-        product_links: ProductLink[]
+        product_links: ProductLink[],
     ): Record<LinkedProductType, LinkedProducts> {
         const { products: { items } } = data;
 
@@ -153,12 +153,12 @@ LinkedProductsDispatcherData
         const linkedProducts = product_links.reduce((acc: Record<LinkedProductType, LinkedProducts>, link) => {
             const {
                 linked_product_sku,
-                link_type
+                link_type,
             } = link as { linked_product_sku: string; link_type: LinkedProductType };
 
             if (indexedBySku[linked_product_sku] && acc[link_type]) {
                 acc[link_type].items.push(
-                    indexedBySku[linked_product_sku]
+                    indexedBySku[linked_product_sku],
                 );
 
                 acc[link_type].total_count++;
@@ -169,7 +169,7 @@ LinkedProductsDispatcherData
             upsell: { total_count: 0, items: [] },
             related: { total_count: 0, items: [] },
             crosssell: { total_count: 0, items: [] },
-            associated: { total_count: 0, items: [] }
+            associated: { total_count: 0, items: [] },
         });
 
         return linkedProducts;

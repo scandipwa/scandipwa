@@ -25,7 +25,7 @@ import { ValidationRule } from 'Util/Validator/Validator.type';
 export const customerEmailAndPasswordFields = (
     range: ValidationRule['range'],
     minimunPasswordCharacter: string,
-    passwordRef: MutableRefObject<HTMLInputElement>
+    passwordRef: MutableRefObject<HTMLInputElement>,
 ): Partial<FieldContainerProps>[] => [
     {
         type: FieldType.PASSWORD,
@@ -35,15 +35,15 @@ export const customerEmailAndPasswordFields = (
             id: 'password',
             name: 'password',
             placeholder: __('Enter your password'),
-            autoComplete: 'new-password'
+            autoComplete: 'new-password',
         },
         validateOn: ['onChange'],
         validationRule: {
             isRequired: true,
             inputType: ValidationInputType.PASSWORD,
-            match: (value: string) => validatePassword(value, range, minimunPasswordCharacter)
+            match: (value: string) => validatePassword(value, range, minimunPasswordCharacter),
         },
-        addRequiredTag: true
+        addRequiredTag: true,
     },
     {
         type: FieldType.PASSWORD,
@@ -52,7 +52,7 @@ export const customerEmailAndPasswordFields = (
             id: 'password_confirmation',
             name: 'password_confirmation',
             placeholder: __('Retype your password'),
-            autoComplete: 'new-password'
+            autoComplete: 'new-password',
         },
         validateOn: ['onChange'],
         validationRule: {
@@ -64,11 +64,11 @@ export const customerEmailAndPasswordFields = (
                 return value && password.value === value;
             },
             customErrorMessages: {
-                onMatchFail: __('Passwords do not match!')
-            }
+                onMatchFail: __('Passwords do not match!'),
+            },
         },
-        addRequiredTag: true
-    }
+        addRequiredTag: true,
+    },
 ];
 
 export default customerEmailAndPasswordFields;

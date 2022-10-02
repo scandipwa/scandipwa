@@ -34,7 +34,7 @@ import {
     MyAccountAddressPopupContainerMapStateProps,
     MyAccountAddressPopupContainerProps,
     MyAccountAddressPopupContainerState,
-    MyAccountAddressPopupPayload
+    MyAccountAddressPopupPayload,
 } from './MyAccountAddressPopup.type';
 
 export const MyAccountDispatcher = import(
@@ -46,7 +46,7 @@ export const MyAccountDispatcher = import(
 export const mapStateToProps = (state: RootState): MyAccountAddressPopupContainerMapStateProps => ({
     payload: (state.PopupReducer.popupPayload as {
         [MyAccountAddressPopupAction.ADDRESS_POPUP_ID]: MyAccountAddressPopupPayload;
-    })[ MyAccountAddressPopupAction.ADDRESS_POPUP_ID ]
+    })[ MyAccountAddressPopupAction.ADDRESS_POPUP_ID ],
 });
 
 /** @namespace Component/MyAccountAddressPopup/Container/mapDispatchToProps */
@@ -55,9 +55,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressPopupCon
     showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
     showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     updateCustomerDetails: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
+        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch),
     ),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE))
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
 });
 
 /** @namespace Component/MyAccountAddressPopup/Container */
@@ -66,12 +66,12 @@ MyAccountAddressPopupContainerProps,
 MyAccountAddressPopupContainerState
 > {
     state: MyAccountAddressPopupContainerState = {
-        isLoading: false
+        isLoading: false,
     };
 
     containerFunctions: MyAccountAddressPopupContainerFunctions = {
         handleAddress: this.handleAddress.bind(this),
-        handleDeleteAddress: this.handleDeleteAddress.bind(this)
+        handleDeleteAddress: this.handleDeleteAddress.bind(this),
     };
 
     __construct(props: MyAccountAddressPopupContainerProps): void {
@@ -92,7 +92,7 @@ MyAccountAddressPopupContainerState
             hideActiveOverlay,
             updateCustomerDetails,
             showErrorNotification,
-            goToPreviousHeaderState
+            goToPreviousHeaderState,
         } = this.props;
 
         try {

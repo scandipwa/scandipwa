@@ -45,7 +45,7 @@ export const ProductAttributes = lazy(() => import(
 ));
 
 /** @namespace Route/ProductPage/Component */
-export class ProductPage extends PureComponent<ProductPageComponentProps> {
+export class ProductPageComponent extends PureComponent<ProductPageComponentProps> {
     tabMap: Record<ProductPageTabs, ProductPageTab> = {
         [ ProductPageTabs.INFORMATION ]: {
             name: __('About'),
@@ -54,7 +54,7 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
 
                 return !isInformationTabEmpty;
             },
-            render: (key: string): ReactElement => this.renderProductInformationTab(key)
+            render: (key: string): ReactElement => this.renderProductInformationTab(key),
         },
         [ ProductPageTabs.ATTRIBUTES ]: {
             name: __('Details'),
@@ -63,7 +63,7 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
 
                 return !isAttributesTabEmpty;
             },
-            render: (key: string): ReactElement => this.renderProductAttributesTab(key)
+            render: (key: string): ReactElement => this.renderProductAttributesTab(key),
         },
         [ ProductPageTabs.REVIEWS ]: {
             name: __('Reviews'),
@@ -73,8 +73,8 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
 
                 return areReviewsEnabled;
             },
-            render: (key: string): ReactElement => this.renderProductReviewsTab(key)
-        }
+            render: (key: string): ReactElement => this.renderProductReviewsTab(key),
+        },
     };
 
     renderProductPageContent(): ReactElement {
@@ -86,7 +86,7 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
             setActiveProduct,
             useEmptyGallerySwitcher,
             parameters,
-            isVariant
+            isVariant,
         } = this.props;
 
         return (
@@ -111,7 +111,7 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
     renderProductInformationTab(key: string): ReactElement {
         const {
             dataSource: { description: { html } = {} },
-            areDetailsLoaded
+            areDetailsLoaded,
         } = this.props;
 
         if (!html) {
@@ -130,7 +130,7 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
     renderProductAttributesTab(key: string): ReactElement {
         const {
             activeProduct,
-            areDetailsLoaded
+            areDetailsLoaded,
         } = this.props;
 
         return (
@@ -147,7 +147,7 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
     renderProductReviewsTab(key: string): ReactElement {
         const {
             dataSource,
-            areDetailsLoaded
+            areDetailsLoaded,
         } = this.props;
 
         return (
@@ -181,7 +181,7 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
 
     renderAdditionalSections(): ReactElement {
         const {
-            areDetailsLoaded
+            areDetailsLoaded,
         } = this.props;
 
         return (
@@ -237,4 +237,4 @@ export class ProductPage extends PureComponent<ProductPageComponentProps> {
     }
 }
 
-export default ProductPage;
+export default ProductPageComponent;

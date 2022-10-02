@@ -20,7 +20,7 @@ import { ReactElement } from 'Type/Common.type';
 import { GQLProductStockStatus } from 'Type/Graphql.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import {
-    showNewReviewPopup
+    showNewReviewPopup,
 } from 'Util/Product';
 
 import { ProductActionsComponentProps } from './ProductActions.type';
@@ -32,11 +32,11 @@ import './ProductActions.style';
  * @class ProductActions
  * @namespace Component/ProductActions/Component
  */
-export class ProductActions extends Product<ProductActionsComponentProps> {
+export class ProductActionsComponent extends Product<ProductActionsComponentProps> {
     static defaultProps: Partial<ProductActionsComponentProps> = {
         ...Product.defaultProps,
         productName: '',
-        isPricePreview: false
+        isPricePreview: false,
     };
 
     className = 'ProductActions';
@@ -79,7 +79,7 @@ export class ProductActions extends Product<ProductActionsComponentProps> {
     renderSkuAndStock(): ReactElement {
         const {
             getActiveProduct,
-            showOnlyIfLoaded
+            showOnlyIfLoaded,
         } = this.props;
 
         const { sku } = getActiveProduct();
@@ -99,7 +99,7 @@ export class ProductActions extends Product<ProductActionsComponentProps> {
                             { this.renderStock() }
                         </>
                     ),
-                    <TextPlaceholder />
+                    <TextPlaceholder />,
                 ) }
             </section>
         );
@@ -159,7 +159,7 @@ export class ProductActions extends Product<ProductActionsComponentProps> {
         const {
             productName,
             stockMeta,
-            metaLink
+            metaLink,
         } = this.props;
 
         return (
@@ -182,18 +182,18 @@ export class ProductActions extends Product<ProductActionsComponentProps> {
 
     renderPriceWithSchema(): ReactElement {
         const {
-            productPrice
+            productPrice,
         } = this.props;
 
         const {
             originalPrice: {
                 minFinalPrice: {
-                    value: minFinalPrice = 0
+                    value: minFinalPrice = 0,
                 } = {},
                 maxFinalPrice: {
-                    value: maxFinalPrice = 0
-                } = {}
-            } = {}
+                    value: maxFinalPrice = 0,
+                } = {},
+            } = {},
         } = productPrice;
 
         return (
@@ -215,8 +215,8 @@ export class ProductActions extends Product<ProductActionsComponentProps> {
         const {
             offerType,
             product: {
-                type_id: type
-            }
+                type_id: type,
+            },
         } = this.props;
 
         if (type === ProductType.GROUPED) {
@@ -253,7 +253,7 @@ export class ProductActions extends Product<ProductActionsComponentProps> {
             getActiveProduct,
             inStock,
             product: { type_id: baseType, price_range = null } = {},
-            isPricePreview
+            isPricePreview,
         } = this.props;
         const { type_id: activeType } = getActiveProduct();
 
@@ -282,7 +282,7 @@ export class ProductActions extends Product<ProductActionsComponentProps> {
             isInStockAlertEnabled,
             isPriceAlertEnabled,
             getActiveProduct,
-            inStock
+            inStock,
         } = this.props;
 
         if (
@@ -399,4 +399,4 @@ export class ProductActions extends Product<ProductActionsComponentProps> {
     }
 }
 
-export default ProductActions;
+export default ProductActionsComponent;

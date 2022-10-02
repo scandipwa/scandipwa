@@ -23,7 +23,7 @@ import {
     CheckoutDeliveryOptionContainerMapDispatchProps,
     CheckoutDeliveryOptionContainerMapStateProps,
     CheckoutDeliveryOptionContainerProps,
-    CheckoutDeliveryOptionContainerPropsKeys
+    CheckoutDeliveryOptionContainerPropsKeys,
 } from './CheckoutDeliveryOption.type';
 
 /** @namespace Component/CheckoutDeliveryOption/Container/mapStateToProps */
@@ -31,7 +31,7 @@ export const mapStateToProps = (state: RootState): CheckoutDeliveryOptionContain
     totals: state.CartReducer.cartTotals,
     cartDisplayConfig: state.ConfigReducer.cartDisplayConfig,
     getCartShippingItemPrice: getCartShippingItemPrice(state),
-    getCartShippingItemSubPrice: getCartShippingItemSubPrice(state)
+    getCartShippingItemSubPrice: getCartShippingItemSubPrice(state),
 });
 
 /** @namespace Component/CheckoutDeliveryOption/Container/mapDispatchToProps */
@@ -40,7 +40,7 @@ export const mapDispatchToProps = (): CheckoutDeliveryOptionContainerMapDispatch
 /** @namespace Component/CheckoutDeliveryOption/Container */
 export class CheckoutDeliveryOptionContainer extends PureComponent<CheckoutDeliveryOptionContainerProps> {
     containerFunctions: CheckoutDeliveryOptionContainerFunctions = {
-        onOptionClick: this.onOptionClick.bind(this)
+        onOptionClick: this.onOptionClick.bind(this),
     };
 
     containerProps(): Pick<CheckoutDeliveryOptionComponentProps, CheckoutDeliveryOptionContainerPropsKeys> {
@@ -51,9 +51,9 @@ export class CheckoutDeliveryOptionContainer extends PureComponent<CheckoutDeliv
             option,
             totals: {
                 prices: {
-                    quote_currency_code = null
-                } = {}
-            }
+                    quote_currency_code = null,
+                } = {},
+            },
         } = this.props;
 
         return {
@@ -61,7 +61,7 @@ export class CheckoutDeliveryOptionContainer extends PureComponent<CheckoutDeliv
             option,
             optionPrice: getCartShippingItemPrice(option),
             optionSubPrice: getCartShippingItemSubPrice(option),
-            currency: quote_currency_code || 'USD'
+            currency: quote_currency_code || 'USD',
         };
     }
 

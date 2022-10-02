@@ -38,7 +38,7 @@ import {
     PasswordChangePageContainerMapStateProps,
     PasswordChangePageContainerProps,
     PasswordChangePageContainerPropsKeys,
-    PasswordChangePageContainerState
+    PasswordChangePageContainerState,
 } from './PasswordChangePage.type';
 
 export const MyAccountDispatcher = import(
@@ -52,7 +52,7 @@ export const mapStateToProps = (state: RootState): PasswordChangePageContainerMa
     passwordResetMessage: state.MyAccountReducer.passwordResetMessage,
     isMobile: state.ConfigReducer.device.isMobile,
     minimunPasswordLength: state.ConfigReducer.minimun_password_length,
-    minimunPasswordCharacter: state.ConfigReducer.required_character_classes_number
+    minimunPasswordCharacter: state.ConfigReducer.required_character_classes_number,
 });
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
@@ -62,12 +62,12 @@ export const mapDispatchToProps = (dispatch: Dispatch): PasswordChangePageContai
     setHeaderState: (headerState) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState)),
     resetPassword(options) {
         MyAccountDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch)
+            ({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch),
         );
     },
     showNotification(type, message) {
         dispatch(showNotification(type, message));
-    }
+    },
 });
 
 /** @namespace Route/PasswordChangePage/Container */
@@ -77,16 +77,16 @@ PasswordChangePageContainerState
 > {
     state: PasswordChangePageContainerState = {
         passwordResetStatus: '',
-        isLoading: false
+        isLoading: false,
     };
 
     static getDerivedStateFromProps(
-        props: PasswordChangePageContainerProps
+        props: PasswordChangePageContainerProps,
     ): Partial<PasswordChangePageContainerState> | null {
         const {
             passwordResetStatus,
             passwordResetMessage,
-            showNotification
+            showNotification,
         } = props;
         const stateToBeUpdated: Partial<PasswordChangePageContainerState> = {};
 
@@ -111,7 +111,7 @@ PasswordChangePageContainerState
 
     containerFunctions = {
         onPasswordSuccess: this.onPasswordSuccess.bind(this),
-        onError: this.onError.bind(this)
+        onError: this.onError.bind(this),
     };
 
     componentDidMount(): void {
@@ -129,7 +129,7 @@ PasswordChangePageContainerState
             title: __('Change My Password'),
             onBackClick: () => {
                 history.push({ pathname: appendWithStoreCode('/') });
-            }
+            },
         });
     }
 
@@ -139,7 +139,7 @@ PasswordChangePageContainerState
 
         const range = {
             min: minimunPasswordLength,
-            max: 64
+            max: 64,
         };
 
         return {
@@ -147,7 +147,7 @@ PasswordChangePageContainerState
             isLoading,
             isMobile,
             minimunPasswordCharacter,
-            shouldDisplayWarning: this.shouldDisplayWarning()
+            shouldDisplayWarning: this.shouldDisplayWarning(),
         };
     }
 
@@ -168,7 +168,7 @@ PasswordChangePageContainerState
 
             if (token) {
                 resetPassword({
-                    customer_id: Number(customer_id), token, password, password_confirmation
+                    customer_id: Number(customer_id), token, password, password_confirmation,
                 });
             }
         });

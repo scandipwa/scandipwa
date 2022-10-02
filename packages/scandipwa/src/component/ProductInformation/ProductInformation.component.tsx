@@ -23,7 +23,7 @@ import { ProductInformationComponentProps } from './ProductInformation.type';
 import './ProductInformation.style';
 
 /** @namespace Component/ProductInformation/Component */
-export class ProductInformation extends PureComponent<ProductInformationComponentProps> {
+export class ProductInformationComponent extends PureComponent<ProductInformationComponentProps> {
     renderDescription(): ReactElement {
         const { htmlDescription } = this.props;
 
@@ -74,9 +74,9 @@ export class ProductInformation extends PureComponent<ProductInformationComponen
 
         // check if at least one HTML element has content
         const elementsWithContent = Array.from(
-            document.body.children as HTMLCollectionOf<HTMLElement>
+            document.body.children as HTMLCollectionOf<HTMLElement>,
         ).filter(
-            (element) => element.innerText !== '' || element.nodeName === 'IMG'
+            (element) => element.innerText !== '' || element.nodeName === 'IMG',
         );
 
         return elementsWithContent.length === 0;
@@ -85,7 +85,7 @@ export class ProductInformation extends PureComponent<ProductInformationComponen
     render(): ReactElement {
         const {
             areDetailsLoaded,
-            htmlDescription
+            htmlDescription,
         } = this.props;
 
         if (this.isHTMLWhiteSpaceOrUndefined(htmlDescription) && areDetailsLoaded) {
@@ -104,4 +104,4 @@ export class ProductInformation extends PureComponent<ProductInformationComponen
     }
 }
 
-export default ProductInformation;
+export default ProductInformationComponent;

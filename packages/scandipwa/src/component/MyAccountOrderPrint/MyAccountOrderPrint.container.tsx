@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps as sourceMapStateToProps,
-    MyAccountOrderContainer
+    MyAccountOrderContainer,
 } from 'Component/MyAccountOrder/MyAccountOrder.container';
 import { OrderItem } from 'Query/Order.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
@@ -34,7 +34,7 @@ import {
     MyAccountOrderPrintContainerMapStateProps,
     MyAccountOrderPrintContainerProps,
     MyAccountOrderPrintContainerPropsKeys,
-    MyAccountOrderPrintContainerState
+    MyAccountOrderPrintContainerState,
 } from './MyAccountOrderPrint.type';
 
 /** @namespace Component/MyAccountOrderPrint/Container/mapStateToProps */
@@ -44,13 +44,13 @@ export const mapStateToProps = (state: RootState): MyAccountOrderPrintContainerM
     logo_alt: state.ConfigReducer.logo_alt,
     logo_height: state.ConfigReducer.logo_height,
     logo_width: state.ConfigReducer.logo_width,
-    copyright: state.ConfigReducer.copyright
+    copyright: state.ConfigReducer.copyright,
 });
 
 /** @namespace Component/MyAccountOrderPrint/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderPrintContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
-    updateMeta: (meta) => dispatch(updateMeta(meta))
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
 });
 
 /** @namespace Component/MyAccountOrderPrint/Container */
@@ -61,17 +61,17 @@ MyAccountOrderPrintContainerState
     static defaultProps: Partial<MyAccountOrderPrintContainerProps> = {
         is_allowed_reorder: false,
         changeTabName: noopFn,
-        setTabSubheading: noopFn
+        setTabSubheading: noopFn,
     };
 
     containerFunctions: MyAccountOrderPrintContainerFunctions = {
         ...this.containerFunctions,
-        onLogoLoad: this.onLogoLoad.bind(this)
+        onLogoLoad: this.onLogoLoad.bind(this),
     };
 
     state: MyAccountOrderPrintContainerState = {
         ...this.state,
-        isLogoLoaded: false
+        isLogoLoaded: false,
     };
 
     componentDidMount(): void {
@@ -84,11 +84,11 @@ MyAccountOrderPrintContainerState
                 params: {
                     invoiceId,
                     shipmentId,
-                    refundId
-                }
+                    refundId,
+                },
             },
             orderPrintRequest,
-            orderPrintMap
+            orderPrintMap,
         } = this.props;
         const { request } = orderPrintMap[orderPrintRequest];
 
@@ -109,10 +109,10 @@ MyAccountOrderPrintContainerState
         const {
             match: {
                 params: {
-                    orderId
-                }
+                    orderId,
+                },
             },
-            getOrderById
+            getOrderById,
         } = this.props;
 
         const order = await getOrderById(Number(orderId));
@@ -145,7 +145,7 @@ MyAccountOrderPrintContainerState
             match,
             copyright,
             orderPrintRequest,
-            orderPrintMap
+            orderPrintMap,
         } = this.props;
         const { isLogoLoaded } = this.state;
 
@@ -160,7 +160,7 @@ MyAccountOrderPrintContainerState
             match,
             copyright,
             activeTab,
-            isLogoLoaded
+            isLogoLoaded,
         };
     }
 
@@ -176,7 +176,7 @@ MyAccountOrderPrintContainerState
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(
-    MyAccountOrderPrintContainer
+    MyAccountOrderPrintContainer,
 );

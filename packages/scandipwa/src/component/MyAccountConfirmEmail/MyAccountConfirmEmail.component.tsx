@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import { MyAccountConfirmEmailComponentProps } from './MyAccountConfirmEmail.type';
 
 /** @namespace Component/MyAccountConfirmEmail/Component */
-export class MyAccountConfirmEmail extends PureComponent<MyAccountConfirmEmailComponentProps> {
+export class MyAccountConfirmEmailComponent extends PureComponent<MyAccountConfirmEmailComponentProps> {
     render(): ReactElement {
         const { state, handleSignIn } = this.props;
 
@@ -42,4 +42,4 @@ export class MyAccountConfirmEmail extends PureComponent<MyAccountConfirmEmailCo
     }
 }
 
-export default MyAccountConfirmEmail;
+export default MyAccountConfirmEmailComponent;

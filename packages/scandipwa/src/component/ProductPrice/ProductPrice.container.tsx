@@ -25,12 +25,12 @@ import {
     ProductPriceComponentProps,
     ProductPriceContainerMapDispatchProps,
     ProductPriceContainerMapStateProps,
-    ProductPriceContainerProps
+    ProductPriceContainerProps,
 } from './ProductPrice.type';
 
 /** @namespace Component/ProductPrice/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductPriceContainerMapStateProps => ({
-    displayTaxInPrice: state.ConfigReducer.priceTaxDisplay?.product_price_display_type
+    displayTaxInPrice: state.ConfigReducer.priceTaxDisplay?.product_price_display_type,
 });
 
 /** @namespace Component/ProductPrice/Container/mapDispatchToProps */
@@ -51,7 +51,7 @@ export class ProductPriceContainer extends PureComponent<ProductPriceContainerPr
         priceType: ProductType.SIMPLE,
         tierPrices: [],
         label: '',
-        variantsCount: 0
+        variantsCount: 0,
     };
 
     containerProps(): Partial<ProductPriceComponentProps> {
@@ -62,12 +62,12 @@ export class ProductPriceContainer extends PureComponent<ProductPriceContainerPr
                 configuration,
                 price: {
                     finalPrice: {
-                        currency: priceCurrency = GQLCurrencyEnum.USD
+                        currency: priceCurrency = GQLCurrencyEnum.USD,
                     } = {},
                     discount: {
-                        percentOff: discountPercentage = 0
-                    } = {}
-                } = {}
+                        percentOff: discountPercentage = 0,
+                    } = {},
+                } = {},
             },
             isPreview,
             isSchemaRequired,
@@ -75,7 +75,7 @@ export class ProductPriceContainer extends PureComponent<ProductPriceContainerPr
             mix,
             variantsCount,
             priceType,
-            displayTaxInPrice
+            displayTaxInPrice,
         } = this.props;
 
         if (!price || !originalPrice) {
@@ -95,7 +95,7 @@ export class ProductPriceContainer extends PureComponent<ProductPriceContainerPr
             mix,
             variantsCount,
             priceType,
-            displayTaxInPrice
+            displayTaxInPrice,
         };
     }
 
@@ -109,14 +109,14 @@ export class ProductPriceContainer extends PureComponent<ProductPriceContainerPr
             return {
                 currency,
                 value: minPrice,
-                valueFormatted: formatPrice(minPrice, currency)
+                valueFormatted: formatPrice(minPrice, currency),
             };
         }
 
         return {
             currency,
             value: '',
-            valueFormatted: ''
+            valueFormatted: '',
         };
     }
 

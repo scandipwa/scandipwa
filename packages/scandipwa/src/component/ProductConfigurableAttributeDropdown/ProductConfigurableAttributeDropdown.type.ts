@@ -12,7 +12,7 @@
 import { AnimationEvent } from 'react';
 
 import {
-    ProductConfigurableAttribute
+    ProductConfigurableAttribute,
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
 import { AggregationOption } from 'Query/ProductList.type';
 import { Merge } from 'Type/Common.type';

@@ -22,12 +22,12 @@ import {
     MyAccountDashboardContainerFunctions,
     MyAccountDashboardContainerMapDispatchProps,
     MyAccountDashboardContainerMapStateProps,
-    MyAccountDashboardContainerProps
+    MyAccountDashboardContainerProps,
 } from './MyAccountDashboard.type';
 
 /** @namespace Component/MyAccountDashboard/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountDashboardContainerMapStateProps => ({
-    customer: state.MyAccountReducer.customer
+    customer: state.MyAccountReducer.customer,
 });
 
 /** @namespace Component/MyAccountDashboard/Container/mapDispatchToProps */
@@ -36,7 +36,7 @@ export const mapDispatchToProps = (): MyAccountDashboardContainerMapDispatchProp
 /** @namespace Component/MyAccountDashboard/Container */
 export class MyAccountDashboardContainer extends PureComponent<MyAccountDashboardContainerProps> {
     containerFunctions: MyAccountDashboardContainerFunctions = {
-        getDefaultAddress: this.getDefaultAddress.bind(this)
+        getDefaultAddress: this.getDefaultAddress.bind(this),
     };
 
     containerProps(): Pick<MyAccountDashboardComponentProps, 'customer'> {

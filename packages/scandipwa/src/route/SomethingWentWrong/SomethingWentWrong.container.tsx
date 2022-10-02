@@ -22,12 +22,12 @@ import {
     SomethingWentWrongContainerMapDispatchProps,
     SomethingWentWrongContainerMapStateToProps,
     SomethingWentWrongContainerProps,
-    SomethingWentWrongContainerPropsKeys
+    SomethingWentWrongContainerPropsKeys,
 } from './SomethingWentWrong.type';
 
 /** @namespace Route/SomethingWentWrong/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): SomethingWentWrongContainerMapDispatchProps => ({
-    updateMeta: (meta) => dispatch(updateMeta(meta))
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
 });
 
 /** @namespace Route/SomethingWentWrong/Container */

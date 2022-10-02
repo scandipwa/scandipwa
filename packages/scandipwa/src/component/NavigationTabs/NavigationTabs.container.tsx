@@ -36,7 +36,7 @@ import {
     NavigationTabsContainerMapDispatchProps,
     NavigationTabsContainerMapStateProps,
     NavigationTabsContainerProps,
-    NavigationTabsContainerPropsKeys
+    NavigationTabsContainerPropsKeys,
 } from './NavigationTabs.type';
 
 /** @namespace Component/NavigationTabs/Container/mapStateToProps */
@@ -45,7 +45,7 @@ export const mapStateToProps = (state: RootState): NavigationTabsContainerMapSta
     headerState: state.NavigationReducer[ NavigationType.TOP_NAVIGATION_TYPE ].navigationState,
     device: state.ConfigReducer.device,
     cartTotals: state.CartReducer.cartTotals,
-    noMatch: state.NoMatchReducer.noMatch
+    noMatch: state.NoMatchReducer.noMatch,
 });
 
 /** @namespace Component/NavigationTabs/Container/mapDispatchToProps */
@@ -53,10 +53,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): NavigationTabsContainerM
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     setNavigationState: (stateName) => dispatch(
-        changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName)
+        changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName),
     ),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE))
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE)),
 });
 
 export const DEFAULT_NAVIGATION_TABS_STATE = { name: NavigationTabsMap.MENU_TAB };
@@ -83,14 +83,14 @@ NavigationAbstractContainerState
         '/checkout': { name: NavigationTabsMap.CHECKOUT_TAB },
         '/cart': { name: NavigationTabsMap.CART_TAB },
         '/': { name: NavigationTabsMap.HOME_TAB },
-        '': { name: NavigationTabsMap.HOME_TAB }
+        '': { name: NavigationTabsMap.HOME_TAB },
     };
 
     containerFunctions: NavigationTabsContainerFunctions = {
         onMenuButtonClick: this.onMenuButtonClick.bind(this),
         onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
         onMinicartButtonClick: this.onMinicartButtonClick.bind(this),
-        onHomeButtonClick: this.onHomeButtonClick.bind(this)
+        onHomeButtonClick: this.onHomeButtonClick.bind(this),
     };
 
     componentDidMount(): void {
@@ -102,7 +102,7 @@ NavigationAbstractContainerState
         this.lastSeenMenu = name === NavigationTabsMap.MENU_TAB ? 0 : -1;
         window.addEventListener(
             'scroll',
-            debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY) as EventListenerOrEventListenerObject
+            debounce(this.handleScroll.bind(this), SCROLL_DEBOUNCE_DELAY) as EventListenerOrEventListenerObject,
         );
 
         super.componentDidMount();
@@ -246,7 +246,7 @@ NavigationAbstractContainerState
     handleMobileRouteChange(history: Location): { prevPathname: string } {
         const {
             setNavigationState,
-            navigationState: { name }
+            navigationState: { name },
         } = this.props;
 
         const { pathname } = history;
@@ -267,7 +267,7 @@ NavigationAbstractContainerState
 
     onHomeButtonClick(): void {
         const {
-            hideActiveOverlay
+            hideActiveOverlay,
         } = this.props;
 
         const { pathname } = location;

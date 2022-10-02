@@ -18,7 +18,7 @@ import { NotSupportedPaymentComponentProps } from './NotSupportedPayment.type';
 import './NotSupportedPayment.style';
 
 /** @namespace Component/NotSupportedPayment/Component */
-export class NotSupportedPayment extends PureComponent<NotSupportedPaymentComponentProps> {
+export class NotSupportedPaymentComponent extends PureComponent<NotSupportedPaymentComponentProps> {
     componentDidMount(): void {
         const { disableButton } = this.props;
 
@@ -34,4 +34,4 @@ export class NotSupportedPayment extends PureComponent<NotSupportedPaymentCompon
     }
 }
 
-export default NotSupportedPayment;
+export default NotSupportedPaymentComponent;

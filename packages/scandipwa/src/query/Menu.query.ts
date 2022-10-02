@@ -40,7 +40,7 @@ export class MenuQuery {
             new Field<'menu_id', string>('menu_id'),
             new Field<'is_active', boolean>('is_active'),
             new Field<'css_class', string>('css_class'),
-            this._getMenuItemsField()
+            this._getMenuItemsField(),
         ];
     }
 
@@ -73,7 +73,7 @@ export class MenuQuery {
             new Field<'is_active', boolean>('is_active'),
             new Field<'item_class', string>('item_class'),
             new Field<'category_id', number>('category_id'),
-            new Field<'cms_page_identifier', string>('cms_page_identifier')
+            new Field<'cms_page_identifier', string>('cms_page_identifier'),
         ];
     }
 }

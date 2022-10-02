@@ -14,5 +14,5 @@ export enum NavigationTabsMap {
     MENU_TAB = 'MENU_TAB',
     ACCOUNT_TAB = 'ACCOUNT_TAB',
     CART_TAB = 'CART_TAB',
-    CHECKOUT_TAB = 'CHECKOUT_TAB'
+    CHECKOUT_TAB = 'CHECKOUT_TAB',
 }

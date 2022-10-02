@@ -29,13 +29,13 @@ import './ProductReviewForm.style';
  * @class ProductReviewForm
  * @namespace Component/ProductReviewForm/Component
  */
-export class ProductReviewForm extends PureComponent<ProductReviewFormComponentProps> {
+export class ProductReviewFormComponent extends PureComponent<ProductReviewFormComponentProps> {
     ratingTitleMap = {
         1: __('Awful'),
         2: __('Bad'),
         3: __('Average'),
         4: __('Good'),
-        5: __('Awesome')
+        5: __('Awesome'),
     };
 
     renderReviewStar(options: ReviewRatingValue, rating_id: number): ReactElement {
@@ -118,7 +118,7 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
         const {
             nickname = '',
             summary = '',
-            detail = ''
+            detail = '',
         } = reviewData;
 
         return (
@@ -138,11 +138,11 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
                           id: 'nickname',
                           name: 'nickname',
                           defaultValue: nickname,
-                          placeholder: __('Your nickname')
+                          placeholder: __('Your nickname'),
                       } }
                       validateOn={ ['onChange'] }
                       validationRule={ {
-                          isRequired: true
+                          isRequired: true,
                       } }
                       addRequiredTag
                       mix={ { block: 'ProductReviewForm', elem: 'Field' } }
@@ -154,11 +154,11 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
                           id: 'title',
                           name: 'title',
                           defaultValue: summary,
-                          placeholder: __('Summary')
+                          placeholder: __('Summary'),
                       } }
                       validateOn={ ['onChange'] }
                       validationRule={ {
-                          isRequired: true
+                          isRequired: true,
                       } }
                       addRequiredTag
                       mix={ { block: 'ProductReviewForm', elem: 'Field' } }
@@ -170,11 +170,11 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
                           id: 'detail',
                           name: 'detail',
                           defaultValue: detail,
-                          placeholder: __('Review')
+                          placeholder: __('Review'),
                       } }
                       validateOn={ ['onChange'] }
                       validationRule={ {
-                          isRequired: true
+                          isRequired: true,
                       } }
                       addRequiredTag
                       mix={ { block: 'ProductReviewForm', elem: 'Field' } }
@@ -188,7 +188,7 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
         const {
             isLoading,
             onReviewSubmitSuccess,
-            onReviewError
+            onReviewError,
         } = this.props;
 
         return (
@@ -206,4 +206,4 @@ export class ProductReviewForm extends PureComponent<ProductReviewFormComponentP
     }
 }
 
-export default ProductReviewForm;
+export default ProductReviewFormComponent;

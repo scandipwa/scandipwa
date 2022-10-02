@@ -28,20 +28,20 @@ import {
     ProductAlertsContainerFunctions,
     ProductAlertsContainerMapDispatchProps,
     ProductAlertsContainerMapStateProps,
-    ProductAlertsContainerProps
+    ProductAlertsContainerProps,
 } from './ProductAlerts.type';
 
 /** @namespace Component/ProductAlerts/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductAlertsContainerMapStateProps => ({
     isPriceAlertEnabled: state.ConfigReducer.product_alert_allow_price,
     isInStockAlertEnabled: state.ConfigReducer.product_alert_allow_stock,
-    isSignedIn: state.MyAccountReducer.isSignedIn
+    isSignedIn: state.MyAccountReducer.isSignedIn,
 });
 
 /** @namespace Component/ProductAlerts/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductAlertsContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message))
+    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
 });
 
 /** @namespace Component/ProductAlerts/Container */
@@ -49,25 +49,25 @@ export class ProductAlertsContainer extends PureComponent<ProductAlertsContainer
     static defaultProps: Partial<ProductAlertsContainerProps> = {
         isInStockAlertEnabled: false,
         isPriceAlertEnabled: false,
-        stockStatus: null
+        stockStatus: null,
     };
 
     containerFunctions: ProductAlertsContainerFunctions = {
         handlePriceDropSubscribeAlertPriceDrop: this.handlePriceDropSubscribe.bind(this, ProductAlert.PRICE_DROP),
-        handlePriceDropSubscribeAlertInStock: this.handlePriceDropSubscribe.bind(this, ProductAlert.IN_STOCK)
+        handlePriceDropSubscribeAlertInStock: this.handlePriceDropSubscribe.bind(this, ProductAlert.IN_STOCK),
     };
 
     containerProps(): Pick<ProductAlertsComponentProps, ProductAlertsComponentContainerPropKeys> {
         const {
             isInStockAlertEnabled,
             isPriceAlertEnabled,
-            stockStatus
+            stockStatus,
         } = this.props;
 
         return {
             isInStockAlertEnabled,
             isPriceAlertEnabled,
-            stockStatus
+            stockStatus,
         };
     }
 
@@ -76,7 +76,7 @@ export class ProductAlertsContainer extends PureComponent<ProductAlertsContainer
             productId,
             showErrorNotification,
             showNotification,
-            isSignedIn
+            isSignedIn,
         } = this.props;
 
         if (!isSignedIn) {

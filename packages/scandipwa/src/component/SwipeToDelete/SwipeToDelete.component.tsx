@@ -22,10 +22,10 @@ import { SwipeToDeleteComponentProps, SwipeToDeleteComponentState } from './Swip
 import './SwipeToDelete.style';
 
 /** @namespace Component/SwipeToDelete/Component */
-export class SwipeToDelete extends PureComponent<SwipeToDeleteComponentProps, SwipeToDeleteComponentState> {
+export class SwipeToDeleteComponent extends PureComponent<SwipeToDeleteComponentProps, SwipeToDeleteComponentState> {
     state: SwipeToDeleteComponentState = {
         isRightSideOpen: false,
-        isAheadRemoveItemThreshold: false
+        isAheadRemoveItemThreshold: false,
     };
 
     draggableRef = createRef<HTMLDivElement>();
@@ -76,7 +76,7 @@ export class SwipeToDelete extends PureComponent<SwipeToDeleteComponentProps, Sw
         const { draggableWidth } = this;
         const {
             dragRightOpenThreshold,
-            dragItemRemoveThreshold
+            dragItemRemoveThreshold,
         } = this.props;
 
         this.draggableRemoveThreshold = draggableWidth * dragItemRemoveThreshold - dragRightOpenThreshold;
@@ -107,7 +107,7 @@ export class SwipeToDelete extends PureComponent<SwipeToDeleteComponentProps, Sw
 
         if (isAheadRemoveItemThreshold !== nextIsAheadRemoveItemThreshold) {
             this.setState({
-                isAheadRemoveItemThreshold: nextIsAheadRemoveItemThreshold
+                isAheadRemoveItemThreshold: nextIsAheadRemoveItemThreshold,
             });
         }
 
@@ -145,7 +145,7 @@ export class SwipeToDelete extends PureComponent<SwipeToDeleteComponentProps, Sw
             dragRightOpenThreshold,
             dragRightOpenTriggerThreshold,
             onAheadOfDragItemRemoveThreshold,
-            animationDurationOnRemove
+            animationDurationOnRemove,
         } = this.props;
         const { isAheadRemoveItemThreshold } = this.state;
         const { draggableWidth } = this;
@@ -235,4 +235,4 @@ export class SwipeToDelete extends PureComponent<SwipeToDeleteComponentProps, Sw
     }
 }
 
-export default SwipeToDelete;
+export default SwipeToDeleteComponent;

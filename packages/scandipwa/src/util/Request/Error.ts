@@ -21,7 +21,7 @@ export const DEFAULT_ERROR_MESSAGE = __('Something went wrong!');
  * @namespace Util/Request/Error/getErrorMessage */
 export const getErrorMessage = (
     error: NetworkError | NetworkError[],
-    defaultMessage: string = DEFAULT_ERROR_MESSAGE
+    defaultMessage: string = DEFAULT_ERROR_MESSAGE,
 ): string => {
     if (Array.isArray(error)) {
         return error?.[0].message || defaultMessage;

@@ -20,7 +20,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { ReactElement } from 'Type/Common.type';
 import {
-    getMaxQuantity, getMinQuantity, getPrice, getProductInStock, getThumbnailImage
+    getMaxQuantity, getMinQuantity, getPrice, getProductInStock, getThumbnailImage,
 } from 'Util/Product/Extract';
 import { IndexedProduct } from 'Util/Product/Product.type';
 import { ValidationInputTypeNumber } from 'Util/Validator/Config';
@@ -34,15 +34,15 @@ import './GroupedProductsItem.style';
  * @class GroupedProduct
  * @namespace Component/GroupedProductsItem/Component
  */
-export class GroupedProductsItem extends PureComponent<GroupedProductsItemComponentProps> {
+export class GroupedProductsItemComponent extends PureComponent<GroupedProductsItemComponentProps> {
     renderTitle(): ReactElement {
         const {
             product: {
                 name,
                 price_range: priceRange = {},
                 type_id: type = '',
-                dynamic_price: dynamicPrice
-            }
+                dynamic_price: dynamicPrice,
+            },
         } = this.props;
 
         return (
@@ -66,7 +66,7 @@ export class GroupedProductsItem extends PureComponent<GroupedProductsItemCompon
 
     getError(value: string): true | string {
         const {
-            product = {}
+            product = {},
         } = this.props;
 
         const valueNum = +value;
@@ -89,7 +89,7 @@ export class GroupedProductsItem extends PureComponent<GroupedProductsItemCompon
             product = {},
             product: { id } = {},
             setQuantity,
-            itemCount = 0
+            itemCount = 0,
         } = this.props;
 
         if (!getProductInStock(product)) {
@@ -111,7 +111,7 @@ export class GroupedProductsItem extends PureComponent<GroupedProductsItemCompon
                   defaultValue: itemCount,
                   value: itemCount,
                   min: 0,
-                  max
+                  max,
               } }
               value={ itemCount }
               validationRule={ {
@@ -119,8 +119,8 @@ export class GroupedProductsItem extends PureComponent<GroupedProductsItemCompon
                   isRequired: true,
                   match: this.getError.bind(this),
                   range: {
-                      max
-                  }
+                      max,
+                  },
               } }
               events={ { onChange: setQuantity } }
               validateOn={ ['onChange', 'onLoad'] }
@@ -154,4 +154,4 @@ export class GroupedProductsItem extends PureComponent<GroupedProductsItemCompon
     }
 }
 
-export default GroupedProductsItem;
+export default GroupedProductsItemComponent;

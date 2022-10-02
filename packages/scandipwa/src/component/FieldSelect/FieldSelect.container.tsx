@@ -22,7 +22,7 @@ import {
     FieldSelectContainerFunctions,
     FieldSelectContainerProps,
     FieldSelectContainerPropsKeys,
-    FieldSelectContainerState
+    FieldSelectContainerState,
 } from './FieldSelect.type';
 
 /**
@@ -33,7 +33,7 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
     static defaultProps: Partial<FieldSelectContainerProps> = {
         noPlaceholder: false,
         changeValueOnDoubleClick: false,
-        isSortSelect: false
+        isSortSelect: false,
     };
 
     state: FieldSelectContainerState = {
@@ -43,7 +43,7 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
         isExpanded: false,
         isDropdownOpenUpwards: false,
         isScrollable: false,
-        isSelectedOptionAvailable: true
+        isSelectedOptionAvailable: true,
     };
 
     containerFunctions: FieldSelectContainerFunctions = {
@@ -53,14 +53,14 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
         handleSelectListKeyPress: this.handleSelectListKeyPress.bind(this),
         setRef: this.setRef.bind(this),
         handleIsScrollableList: this.handleIsScrollableList.bind(this),
-        handleDropdownOpenDirection: this.handleDropdownOpenDirection.bind(this)
+        handleDropdownOpenDirection: this.handleDropdownOpenDirection.bind(this),
     };
 
     fieldRef: HTMLSelectElement | null = null;
 
     static getDerivedStateFromProps(
         props: FieldSelectContainerProps,
-        state: FieldSelectContainerState
+        state: FieldSelectContainerState,
     ): { isExpanded: boolean } {
         const { attr: { isExpanded } = {} } = props;
         const { isExpanded: stateIsExpanded } = state;
@@ -93,7 +93,7 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
 
         this.setState({
             selectedOptionIndex,
-            isSelectedOptionAvailable: isAvailable
+            isSelectedOptionAvailable: isAvailable,
         });
     }
 
@@ -113,8 +113,8 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
             attr: {
                 id = 'select',
                 selectPlaceholder = __('Select item...'),
-                noPlaceholder
-            } = {}
+                noPlaceholder,
+            } = {},
         } = this.props;
 
         if (noPlaceholder) {
@@ -128,9 +128,9 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
                 label: selectPlaceholder,
                 value: '',
                 sort_order: -100,
-                isPlaceholder: true
+                isPlaceholder: true,
             },
-            ...options
+            ...options,
         ];
     }
 
@@ -192,7 +192,7 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
         const { options } = this.props;
         const {
             searchString: prevSearchString,
-            valueIndex: prevValueIndex
+            valueIndex: prevValueIndex,
         } = this.state;
 
         const pressedKeyValue = String.fromCharCode(keyCode).toLowerCase();
@@ -230,7 +230,7 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
         const { isExpanded } = this.state;
         const {
             options,
-            events: { onChange } = {}
+            events: { onChange } = {},
         } = this.props;
         const keyCode = event.which || event.keyCode;
 
@@ -322,14 +322,14 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
             events,
             setRef,
             isDisabled,
-            isSortSelect
+            isSortSelect,
         } = this.props;
 
         const {
             isExpanded,
             isDropdownOpenUpwards,
             isScrollable,
-            isSelectedOptionAvailable
+            isSelectedOptionAvailable,
         } = this.state;
 
         return {
@@ -342,7 +342,7 @@ export class FieldSelectContainer extends PureComponent<FieldSelectContainerProp
             isScrollable,
             isSortSelect,
             isSelectedOptionAvailable,
-            options: this.getOptions()
+            options: this.getOptions(),
         };
     }
 

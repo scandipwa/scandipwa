@@ -22,7 +22,7 @@ import {
     CheckoutTermsAndConditionsPopupContainerMapDispatchProps,
     CheckoutTermsAndConditionsPopupContainerMapStateProps,
     CheckoutTermsAndConditionsPopupContainerProps,
-    CheckoutTermsAndConditionsPopupPayload
+    CheckoutTermsAndConditionsPopupPayload,
 } from './CheckoutTermsAndConditionsPopup.component.type';
 import { TERMS_AND_CONDITIONS_POPUP_ID } from './CheckoutTermsAndConditionsPopup.config';
 
@@ -32,7 +32,7 @@ export const mapStateToProps = (state: RootState): CheckoutTermsAndConditionsPop
         [TERMS_AND_CONDITIONS_POPUP_ID]: CheckoutTermsAndConditionsPopupPayload;
     })[
         TERMS_AND_CONDITIONS_POPUP_ID
-    ]
+    ],
 });
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Container/mapDispatchToProps */
@@ -45,8 +45,8 @@ CheckoutTermsAndConditionsPopupContainerProps
     static defaultProps = {
         payload: {
             text: '',
-            title: ''
-        }
+            title: '',
+        },
     };
 
     containerProps(): Pick<

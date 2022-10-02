@@ -21,7 +21,7 @@ import { OverlayComponentProps, OverlayContainerMapDispatchProps, OverlayContain
 export const mapStateToProps = (state: RootState): OverlayContainerMapStateProps => ({
     activeOverlay: state.OverlayReducer.activeOverlay,
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/Overlay/Container/mapDispatchToProps */
@@ -29,5 +29,5 @@ export const mapDispatchToProps = (): OverlayContainerMapDispatchProps => ({});
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(OverlayComponent as unknown as ComponentType<OverlayComponentProps>);

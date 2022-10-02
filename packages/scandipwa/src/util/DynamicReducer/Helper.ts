@@ -17,7 +17,7 @@ import { Reducer } from 'redux';
  */
 export default function injectToReducers <S, T extends ModifiedReduxStore<S>>(
     store: T,
-    reducers: Record<string, Reducer>
+    reducers: Record<string, Reducer>,
 ): void {
     Object.keys(reducers).forEach((key) => {
         if (store.asyncReducers && store.injectReducer && !Reflect.has(store.asyncReducers, key)) {

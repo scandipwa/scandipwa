@@ -14,7 +14,7 @@ import { FieldType } from 'Component/Field/Field.config';
 import {
     DATE_FIELDS_COUNT,
     FieldDateType,
-    TimeFormat
+    TimeFormat,
 } from 'Component/FieldDate/FieldDate.config';
 import { GetYearRangeAttributes } from 'Util/Product/Product.type';
 
@@ -24,7 +24,7 @@ import {
     DatesData,
     FieldData,
     GetFieldsData,
-    YearRangeAttribute
+    YearRangeAttribute,
 } from './Form.type';
 
 /**
@@ -96,7 +96,7 @@ export const calcYearRangeAttributes = (startYear: number, endYear: number): Yea
 
 /** @namespace Util/Form/Extract/getYearRangeAttributes */
 export const getYearRangeAttributes = <IsYear extends boolean = false>(
-    yearRange: string | undefined, isYear: IsYear
+    yearRange: string | undefined, isYear: IsYear,
 ): GetYearRangeAttributes<IsYear> => {
     const [startYear, endYear] = (yearRange || ',').split(',');
 
@@ -108,7 +108,7 @@ export const getYearRangeAttributes = <IsYear extends boolean = false>(
 
     return <GetYearRangeAttributes<IsYear>>{
         minDate: new Date(`${minYear}-01-01T00:00:00.000`),
-        maxDate: new Date(`${maxYear}-12-31T23:59:59.999`)
+        maxDate: new Date(`${maxYear}-12-31T23:59:59.999`),
     };
 };
 
@@ -129,7 +129,7 @@ export const getDateFormat = (dateFieldsOrder: string): string => {
     const dateMap: DateMap = {
         d: 'dd',
         m: 'MM',
-        y: 'yyyy'
+        y: 'yyyy',
     };
 
     return dateFieldsOrder
@@ -166,10 +166,10 @@ export const adjustAmpmHours = (hours: number, ampm?: string): number => {
 
 /** @namespace Util/Form/Extract/transformDateFieldsData */
 export const transformDateFieldsData = (
-    datesData: Record<string, DatesData>
+    datesData: Record<string, DatesData>,
 ): DateObject[] => Object.entries(datesData).reduce((
     prev: DateObject[],
-    [name, data]
+    [name, data],
 ) => {
     const {
         type,
@@ -178,7 +178,7 @@ export const transformDateFieldsData = (
         day,
         hours,
         minutes,
-        ampm
+        ampm,
     } = data;
 
     const hoursAdjusted = adjustAmpmHours(Number(hours), ampm);
@@ -187,7 +187,7 @@ export const transformDateFieldsData = (
         return [...prev, {
             name,
             type,
-            value: `${year}-${month}-${day} 00:00:00`
+            value: `${year}-${month}-${day} 00:00:00`,
         }];
     }
 
@@ -195,7 +195,7 @@ export const transformDateFieldsData = (
         return [...prev, {
             name,
             type,
-            value: `${year}-${month}-${day} ${hoursAdjusted}:${minutes}:00`
+            value: `${year}-${month}-${day} ${hoursAdjusted}:${minutes}:00`,
         }];
     }
 
@@ -203,7 +203,7 @@ export const transformDateFieldsData = (
         return [...prev, {
             name,
             type,
-            value: `2000-01-01 ${hoursAdjusted}:${minutes}:00`
+            value: `2000-01-01 ${hoursAdjusted}:${minutes}:00`,
         }];
     }
 
@@ -212,7 +212,7 @@ export const transformDateFieldsData = (
 
 /** @namespace Util/Form/Extract/groupDateFieldsData */
 export const groupDateFieldsData = (
-    fields: NodeListOf<HTMLSelectElement | HTMLInputElement>
+    fields: NodeListOf<HTMLSelectElement | HTMLInputElement>,
 ): Record<string, DatesData> => Array.from(fields)
     .reduce((prev: Record<string, DatesData>, field) => {
         const dataType = field.getAttribute(DateFieldAttr.TYPE) || '';
@@ -230,8 +230,8 @@ export const groupDateFieldsData = (
             [name]: {
                 ...prevData,
                 type: <FieldDateType>dataType,
-                [fieldName]: value
-            }
+                [fieldName]: value,
+            },
         };
     }, {});
 
@@ -248,7 +248,7 @@ export const getFieldsData = <AsObject extends boolean = false>(
     DOM: Document | HTMLElement | null,
     excludeEmpty = false,
     ignoreTypes: string[] = [],
-    asObject?: AsObject
+    asObject?: AsObject,
 ): GetFieldsData<AsObject> | null => {
     if (!DOM) {
         return null;
@@ -293,7 +293,7 @@ export const getFieldsData = <AsObject extends boolean = false>(
                 name: field.name,
                 type,
                 value: formattedValue,
-                field: (field as HTMLInputElement)
+                field: (field as HTMLInputElement),
             });
         }
     });

@@ -13,11 +13,11 @@
 import {
     MetaActionType,
     PageMeta,
-    UpdateMetaAction
+    UpdateMetaAction,
 } from './Meta.type';
 
 /** @namespace Store/Meta/Action/updateMeta */
 export const updateMeta = (metadata: Partial<PageMeta>): UpdateMetaAction => ({
     type: MetaActionType.UPDATE_META,
-    payload: metadata
+    payload: metadata,
 });

@@ -13,13 +13,13 @@ import { AnyAction } from 'redux';
 
 export enum NotificationActionType {
     SHOW_NOTIFICATION = 'SHOW_NOTIFICATION',
-    HIDE_NOTIFICATION = 'HIDE_NOTIFICATION'
+    HIDE_NOTIFICATION = 'HIDE_NOTIFICATION',
 }
 
 export enum NotificationType {
     INFO = 'info',
     ERROR = 'error',
-    SUCCESS = 'success'
+    SUCCESS = 'success',
 }
 
 export interface Notification<T> {

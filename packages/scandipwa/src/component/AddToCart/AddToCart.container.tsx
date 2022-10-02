@@ -23,7 +23,7 @@ import {
     getMaxQuantity,
     getMinQuantity,
     getName,
-    getProductInStock
+    getProductInStock,
 } from 'Util/Product/Extract';
 import { StockCheckProduct } from 'Util/Product/Product.type';
 import { magentoProductTransform } from 'Util/Product/Transform';
@@ -36,7 +36,7 @@ import {
     AddToCartContainerMapDispatchProps,
     AddToCartContainerMapStateProps,
     AddToCartContainerProps,
-    AddToCartContainerState
+    AddToCartContainerState,
 } from './AddToCart.type';
 
 export const CartDispatcher = import(
@@ -46,15 +46,15 @@ export const CartDispatcher = import(
 
 /** @namespace Component/AddToCart/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): AddToCartContainerMapStateProps => ({
-    cartId: state.CartReducer.cartTotals?.id || ''
+    cartId: state.CartReducer.cartTotals?.id || '',
 });
 
 /** @namespace Component/AddToCart/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): AddToCartContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     fallbackAddToCart: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
-    )
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
+    ),
 });
 
 /* @namespace Component/AddToCart/Container */
@@ -69,30 +69,30 @@ export class AddToCartContainer extends PureComponent<AddToCartContainerProps, A
         addToCart: undefined,
         updateSelectedValues: undefined,
         withLink: false,
-        product: {}
+        product: {},
     };
 
     containerFunctions = {
         addProductToCart: this.addProductToCart.bind(this),
-        handleButtonClick: this.handleButtonClick.bind(this)
+        handleButtonClick: this.handleButtonClick.bind(this),
     };
 
     state: AddToCartContainerState = {
-        isAdding: false
+        isAdding: false,
     };
 
     globalValidationMap = [
         this.validateStock.bind(this),
         this.validateQuantity.bind(this),
         this.validateCustomizable.bind(this),
-        this.validateByType.bind(this)
+        this.validateByType.bind(this),
     ];
 
     typeValidationMap = {
         [ ProductType.BUNDLE ]: this.validateBundle.bind(this),
         [ ProductType.DOWNLOADABLE ]: this.validateDownloadable.bind(this),
         [ ProductType.CONFIGURABLE ]: this.validateConfigurable.bind(this),
-        [ ProductType.GROUPED ]: this.validateGroup.bind(this)
+        [ ProductType.GROUPED ]: this.validateGroup.bind(this),
     };
 
     handleButtonClick(e: MouseEvent): void {
@@ -134,14 +134,14 @@ export class AddToCartContainer extends PureComponent<AddToCartContainerProps, A
             const {
                 quantity,
                 cartId,
-                fallbackAddToCart
+                fallbackAddToCart,
             } = this.props;
             const magentoProduct = magentoProductTransform(ADD_TO_CART, product, quantity);
 
             try {
                 await fallbackAddToCart({
                     products: magentoProduct,
-                    cartId
+                    cartId,
                 });
             } finally {
                 this.setState({ isAdding: false });
@@ -179,7 +179,7 @@ export class AddToCartContainer extends PureComponent<AddToCartContainerProps, A
 
     validateQuantity(): boolean {
         const {
-            product, quantity, showNotification, product: { type_id: typeId }
+            product, quantity, showNotification, product: { type_id: typeId },
         } = this.props;
         const minQty = getMinQuantity(product);
         const maxQty = getMaxQuantity(product);
@@ -239,11 +239,11 @@ export class AddToCartContainer extends PureComponent<AddToCartContainerProps, A
             isDisabled,
             isIconEnabled,
             mix,
-            layout
+            layout,
         } = this.props;
 
         const {
-            isAdding
+            isAdding,
         } = this.state;
 
         return {
@@ -251,7 +251,7 @@ export class AddToCartContainer extends PureComponent<AddToCartContainerProps, A
             isIconEnabled,
             mix,
             layout,
-            isAdding
+            isAdding,
         };
     }
 

@@ -17,7 +17,7 @@ import {
     ProductExtractBasePrice,
     ProductExtractOriginalPrice,
     ProductExtractPrice,
-    ProductExtractPriceConfiguration
+    ProductExtractPriceConfiguration,
 } from 'Util/Product/Product.type';
 
 export interface ProductPriceContainerMapStateProps {

@@ -23,12 +23,12 @@ export const isMobile = {
     windows: (agent = navigator.userAgent): boolean => /iemobile/i.test(agent),
     // iPad uses 810 so we need to handle that.
     any: (): boolean => window.matchMedia('(max-width: 810px)').matches && window.matchMedia('screen').matches,
-    standaloneMode: (): boolean => window.matchMedia('(display-mode: standalone)').matches
+    standaloneMode: (): boolean => window.matchMedia('(display-mode: standalone)').matches,
 };
 
 // https://medium.com/@galmeiri/get-ready-for-chrome-user-agent-string-phase-out-c6840da1c31e
 export const isMobileClientHints = {
-    getDeviceData: (): Promise<UADataValues> => navigator.userAgentData.getHighEntropyValues(['platform', 'model'])
+    getDeviceData: (): Promise<UADataValues> => navigator.userAgentData.getHighEntropyValues(['platform', 'model']),
 };
 
 export default isMobile;

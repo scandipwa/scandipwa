@@ -18,7 +18,7 @@ import { scrollToTop } from 'Util/Browser';
 import { NoMatchHandlerComponentProps } from './NoMatchHandler.type';
 
 /** @namespace Route/NoMatchHandler/Component */
-export class NoMatchHandler extends PureComponent<NoMatchHandlerComponentProps> {
+export class NoMatchHandlerComponent extends PureComponent<NoMatchHandlerComponentProps> {
     componentDidMount(): void {
         scrollToTop();
     }
@@ -36,7 +36,7 @@ export class NoMatchHandler extends PureComponent<NoMatchHandlerComponentProps> 
     componentWillUnmount(): void {
         const {
             noMatch,
-            updateNoMatch
+            updateNoMatch,
         } = this.props;
 
         if (noMatch) {
@@ -51,7 +51,7 @@ export class NoMatchHandler extends PureComponent<NoMatchHandlerComponentProps> 
     onRouteChanged(): void {
         const {
             noMatch,
-            updateNoMatch
+            updateNoMatch,
         } = this.props;
 
         if (noMatch) {
@@ -70,4 +70,4 @@ export class NoMatchHandler extends PureComponent<NoMatchHandlerComponentProps> 
     }
 }
 
-export default NoMatchHandler;
+export default NoMatchHandlerComponent;

@@ -20,13 +20,13 @@ export enum MyAccountTabs {
     MY_WISHLIST = 'my-wishlist',
     ADDRESS_BOOK = 'address',
     NEWSLETTER_SUBSCRIPTION = 'newsletter-subscription',
-    ACCOUNT_INFORMATION = 'edit'
+    ACCOUNT_INFORMATION = 'edit',
 }
 
 export enum MyAccountTabsSection {
     FIRST_SECTION = 1,
     SECOND_SECTION,
-    THIRD_SECTION
+    THIRD_SECTION,
 }
 
 export interface Region {

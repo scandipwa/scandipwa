@@ -23,7 +23,7 @@ import { debounce } from 'Util/Request';
 import {
     SliderWidgetComponentProps,
     SliderWidgetComponentState,
-    SlideWithPlaceholder
+    SlideWithPlaceholder,
 } from './SliderWidget.type';
 
 import './SliderWidget.style';
@@ -33,16 +33,16 @@ import './SliderWidget.style';
  * @class SliderWidget
  * @namespace Component/SliderWidget/Component
  */
-export class SliderWidget extends PureComponent<SliderWidgetComponentProps, SliderWidgetComponentState> {
+export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentProps, SliderWidgetComponentState> {
     static defaultProps: Partial<SliderWidgetComponentProps> = {
-        slider: {}
+        slider: {},
     };
 
     changeSlideDebounced?: () => void;
 
     state: SliderWidgetComponentState = {
         activeImage: 0,
-        carouselDirection: Directions.RIGHT
+        carouselDirection: Directions.RIGHT,
     };
 
     __construct(props: SliderWidgetComponentProps): void {
@@ -53,7 +53,7 @@ export class SliderWidget extends PureComponent<SliderWidgetComponentProps, Slid
 
     componentDidUpdate(
         prevProps: SliderWidgetComponentProps,
-        prevState: SliderWidgetComponentState
+        prevState: SliderWidgetComponentState,
     ): void {
         const { slider: { slideSpeed, slides } } = this.props;
         const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
@@ -107,7 +107,7 @@ export class SliderWidget extends PureComponent<SliderWidgetComponentProps, Slid
     getSlideImage(slide: SlideWithPlaceholder): string {
         const {
             desktop_image,
-            mobile_image
+            mobile_image,
         } = slide;
         const { device } = this.props;
 
@@ -126,7 +126,7 @@ export class SliderWidget extends PureComponent<SliderWidgetComponentProps, Slid
         const {
             slide_text,
             isPlaceholder,
-            title: block
+            title: block,
         } = slide;
 
         return (
@@ -173,4 +173,4 @@ export class SliderWidget extends PureComponent<SliderWidgetComponentProps, Slid
     }
 }
 
-export default SliderWidget;
+export default SliderWidgetComponent;

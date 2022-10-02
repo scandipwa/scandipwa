@@ -18,14 +18,19 @@ import SharedTransition from './SharedTransition.component';
 import { SharedTransitionComponentProps } from './SharedTransition.type';
 import SharedTransitionContainer from './SharedTransition.unstated';
 
+/** @namespace Component/SharedTransition/Container/SharedTransitionWrapper */
+export function SharedTransitionWrapper(props: Record<string, any>): JSX.Element {
+    return (
+        <Subscribe to={ [SharedTransitionContainer] }>
+            { (sharedTransition) => (
+                <SharedTransition
+                  { ...props }
+                  { ...(sharedTransition as unknown as SharedTransitionComponentProps) }
+                />
+            ) }
+        </Subscribe>
+    );
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default (props: Record<string, any>): JSX.Element => (
-    <Subscribe to={ [SharedTransitionContainer] }>
-        { (sharedTransition) => (
-            <SharedTransition
-              { ...props }
-              { ...(sharedTransition as unknown as SharedTransitionComponentProps) }
-            />
-        ) }
-    </Subscribe>
-);
+export default SharedTransitionWrapper;

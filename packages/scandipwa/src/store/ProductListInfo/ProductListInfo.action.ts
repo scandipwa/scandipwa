@@ -14,17 +14,17 @@ import { ProductAttributeFilterOptions, ProductsQueryOutput } from 'Query/Produc
 import {
     ProductListInfoActionType,
     UpdateInfoLoadStatusAction,
-    UpdateProductListInfoAction
+    UpdateProductListInfoAction,
 } from './ProductListInfo.type';
 
 /** @namespace Store/ProductListInfo/Action/updateProductListInfo */
 export const updateProductListInfo = (
     products: ProductsQueryOutput,
-    filter: Partial<ProductAttributeFilterOptions>
+    filter: Partial<ProductAttributeFilterOptions>,
 ): UpdateProductListInfoAction => ({
     type: ProductListInfoActionType.UPDATE_PRODUCT_LIST_INFO,
     products,
-    selectedFilter: filter
+    selectedFilter: filter,
 });
 
 /**
@@ -35,5 +35,5 @@ export const updateProductListInfo = (
  */
 export const updateInfoLoadStatus = (status: boolean): UpdateInfoLoadStatusAction => ({
     type: ProductListInfoActionType.UPDATE_INFO_LOAD_STATUS,
-    isLoading: status
+    isLoading: status,
 });

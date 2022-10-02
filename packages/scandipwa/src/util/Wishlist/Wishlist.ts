@@ -13,7 +13,7 @@ import {
     PriceRange,
     ProductDiscount,
     ProductItem,
-    ProductPrice
+    ProductPrice,
 } from 'Query/ProductList.type';
 
 /**
@@ -25,7 +25,7 @@ export const getPriceRange = (
     product: ProductItem,
     price: number,
     priceWithoutTax: number,
-    discount: ProductDiscount | number = 0
+    discount: ProductDiscount | number = 0,
 ): { price_range?: PriceRange } => {
     if (!price) {
         return {};
@@ -35,10 +35,10 @@ export const getPriceRange = (
         price_range: {
             minimum_price: {
                 regular_price: {
-                    currency
-                } = {}
-            }
-        }
+                    currency,
+                } = {},
+            },
+        },
     } = product;
 
     const priceCurrencyValue = { value: price, currency };
@@ -50,14 +50,14 @@ export const getPriceRange = (
         final_price_excl_tax: priceCurrencyValueExclTax,
         regular_price_excl_tax: priceCurrencyValueExclTax,
         default_final_price_excl_tax: priceCurrencyValueExclTax,
-        discount
+        discount,
     } as ProductPrice;
 
     return {
         price_range: {
             minimum_price: priceSection,
-            maximum_price: priceSection
-        }
+            maximum_price: priceSection,
+        },
     };
 };
 

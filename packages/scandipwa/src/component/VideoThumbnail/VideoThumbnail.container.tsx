@@ -23,7 +23,7 @@ import {
     VideoThumbnailContainerFunctions,
     VideoThumbnailContainerMapDispatchProps,
     VideoThumbnailContainerMapStateProps,
-    VideoThumbnailContainerProps
+    VideoThumbnailContainerProps,
 } from './VideoThumbnail.type';
 
 /** @namespace Component/VideoThumbnail/Container/mapStateToProps
@@ -33,7 +33,7 @@ export const mapStateToProps = (): VideoThumbnailContainerMapStateProps => ({});
 /** @namespace Component/VideoThumbnail/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): VideoThumbnailContainerMapDispatchProps => ({
     showPopup: (payload) => dispatch(showPopup(VIDEO_POPUP_ID, payload)),
-    hideActivePopup: () => dispatch(hideActivePopup())
+    hideActivePopup: () => dispatch(hideActivePopup()),
 });
 
 /**
@@ -41,7 +41,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): VideoThumbnailContainerM
  * @namespace Component/VideoThumbnail/Container */
 export class VideoThumbnailContainer extends PureComponent<VideoThumbnailContainerProps> {
     containerFunctions: VideoThumbnailContainerFunctions = {
-        onPlayClick: this.onPlayClick.bind(this)
+        onPlayClick: this.onPlayClick.bind(this),
     };
 
     /**
@@ -55,12 +55,12 @@ export class VideoThumbnailContainer extends PureComponent<VideoThumbnailContain
             media,
             media: {
                 video_content: {
-                    video_title = ''
-                } = {}
+                    video_title = '',
+                } = {},
             } = {},
             showPopup,
             isVideoZoomed,
-            onZoomedVideoClick
+            onZoomedVideoClick,
         } = this.props;
 
         event.preventDefault();
@@ -72,7 +72,7 @@ export class VideoThumbnailContainer extends PureComponent<VideoThumbnailContain
         setTimeout(() => {
             showPopup({
                 media,
-                title: video_title
+                title: video_title,
             });
         }, 0);
     }

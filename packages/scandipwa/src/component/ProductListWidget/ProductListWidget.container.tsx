@@ -29,7 +29,7 @@ import {
     ProductListWidgetContainerMapStateProps,
     ProductListWidgetContainerProps,
     ProductListWidgetContainerState,
-    ProductListWidgetQueryResult
+    ProductListWidgetQueryResult,
 } from './ProductListWidget.type';
 
 import './ProductListWidget.style';
@@ -40,7 +40,7 @@ export const mapStateToProps = (): ProductListWidgetContainerMapStateProps => ({
 /** @namespace Component/ProductListWidget/Container/mapDispatchToProps */
 export const mapDispatchToProps = (): ProductListWidgetContainerMapDispatchProps => ({
     updateNoMatch,
-    showNotification
+    showNotification,
 });
 
 /** @namespace Component/ProductListWidget/Container */
@@ -52,20 +52,20 @@ ProductListWidgetContainerState
         showPager: false,
         productsCount: 10,
         productsPerPage: 5,
-        conditionsEncoded: undefined
+        conditionsEncoded: undefined,
     };
 
     state: ProductListWidgetContainerState = {
         pages: {},
         totalItems: 0,
         totalPages: 0,
-        isLoading: true
+        isLoading: true,
     };
 
     containerFunctions: ProductListWidgetContainerFunctions = {
         requestProductList: this.requestProductList.bind(this),
         updateLoadStatus: this.updateLoadStatus.bind(this),
-        getIsNewCategory: this.getIsNewCategory.bind(this)
+        getIsNewCategory: this.getIsNewCategory.bind(this),
     };
 
     __construct(props: ProductListWidgetContainerProps): void {
@@ -79,14 +79,14 @@ ProductListWidgetContainerState
     containerProps(): ProductListWidgetComponentContainerPropKeys {
         const {
             selectedFilters,
-            title
+            title,
         } = this.props;
 
         const {
             pages,
             totalItems,
             totalPages,
-            isLoading
+            isLoading,
         } = this.state;
 
         return {
@@ -100,7 +100,7 @@ ProductListWidgetContainerState
             numberOfPlaceholders: 6,
             mix: { block: 'ProductListWidget' },
             isWidget: true,
-            ...this.adaptProps()
+            ...this.adaptProps(),
         };
     }
 
@@ -124,9 +124,9 @@ ProductListWidgetContainerState
             products: {
                 items,
                 page_info: {
-                    current_page = 0
-                } = {}
-            } = {}
+                    current_page = 0,
+                } = {},
+            } = {},
         } = data;
 
         if (!showPager) {
@@ -136,8 +136,8 @@ ProductListWidgetContainerState
         this.setState({
             pages: {
                 ...pages,
-                [current_page]: getIndexedProducts(items || [])
-            }
+                [current_page]: getIndexedProducts(items || []),
+            },
         });
     }
 
@@ -148,9 +148,9 @@ ProductListWidgetContainerState
                 items,
                 total_count: totalItems = 0,
                 page_info: {
-                    current_page = 0
-                } = {}
-            } = {}
+                    current_page = 0,
+                } = {},
+            } = {},
         } = data;
 
         const totalPages = Math.ceil(productsCount / productsPerPage);
@@ -159,7 +159,7 @@ ProductListWidgetContainerState
             isLoading: false,
             totalItems,
             totalPages,
-            pages: { [current_page]: getIndexedProducts(items || []) }
+            pages: { [current_page]: getIndexedProducts(items || []) },
         });
     }
 
@@ -177,7 +177,7 @@ ProductListWidgetContainerState
         this.fetchData<ProductListWidgetQueryResult>(
             [ProductListQuery.getQuery(options)],
             isNext ? this.appendPage : this.updateProductListItems,
-            this.onError
+            this.onError,
         );
     }
 
@@ -186,13 +186,13 @@ ProductListWidgetContainerState
             showPager,
             productsCount,
             productsPerPage,
-            conditionsEncoded: conditions
+            conditionsEncoded: conditions,
         } = this.props;
 
         return {
             filter: { conditions },
             pageSize: showPager ? productsPerPage : productsCount,
-            isPaginationEnabled: showPager
+            isPaginationEnabled: showPager,
         };
     }
 

@@ -17,7 +17,7 @@ import { executePost } from 'Util/Request/Request';
 
 /** @namespace Util/Request/Mutation/fetchMutation */
 export const fetchMutation = <S extends string, T, IsArray extends boolean = false>(
-    rawMutations: Mutation<S, T, boolean> | Mutation<S, T, boolean>[]
+    rawMutations: Mutation<S, T, boolean> | Mutation<S, T, boolean>[],
 ): Promise<Record<S, IsArray extends false ? T : T[]>> => {
     const queries = rawMutations instanceof Mutation ? [rawMutations] : rawMutations;
 

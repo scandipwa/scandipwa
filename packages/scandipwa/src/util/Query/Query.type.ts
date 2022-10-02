@@ -11,7 +11,7 @@
 
 export enum FieldType {
     MUTATION = 'mutation',
-    QUERY = 'query'
+    QUERY = 'query',
 }
 
 export interface FieldArgument {

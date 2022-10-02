@@ -17,7 +17,7 @@ import { noopFn } from 'Util/Common';
 import CSS from 'Util/CSS';
 
 import {
-    ANIMATION_DURATION, ERROR_NOTIFICATION_LIFETIME, ERROR_TYPE, NOTIFICATION_LIFETIME
+    ANIMATION_DURATION, ERROR_NOTIFICATION_LIFETIME, ERROR_TYPE, NOTIFICATION_LIFETIME,
 } from './Notification.config';
 import { NotificationComponentProps, NotificationComponentState } from './Notification.type';
 
@@ -28,10 +28,10 @@ import './Notification.style';
  * @class Notification
  * @namespace Component/Notification/Component
  */
-export class Notification extends PureComponent<NotificationComponentProps, NotificationComponentState> {
+export class NotificationComponent extends PureComponent<NotificationComponentProps, NotificationComponentState> {
     static defaultProps: Partial<NotificationComponentProps> = {
         lifeTime: 0,
-        id: ''
+        id: '',
     };
 
     state: NotificationComponentState = { isNotificationVisible: true };
@@ -104,7 +104,7 @@ export class Notification extends PureComponent<NotificationComponentProps, Noti
 
         const mods = {
             type: msgType.toLowerCase(),
-            is: isNotificationVisible ? 'opening' : 'closing'
+            is: isNotificationVisible ? 'opening' : 'closing',
         };
 
         return (
@@ -119,4 +119,4 @@ export class Notification extends PureComponent<NotificationComponentProps, Noti
     }
 }
 
-export default Notification;
+export default NotificationComponent;

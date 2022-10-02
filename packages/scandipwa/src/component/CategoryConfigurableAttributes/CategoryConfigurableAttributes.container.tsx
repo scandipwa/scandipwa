@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import ProductConfigurableAttributesContainer
     from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
 import {
-    ProductConfigurableAttribute
+    ProductConfigurableAttribute,
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
@@ -26,14 +26,14 @@ import {
     CategoryConfigurableAttributesComponentProps,
     CategoryConfigurableAttributesContainerMapDispatchProps,
     CategoryConfigurableAttributesContainerMapStateProps,
-    CategoryConfigurableAttributesContainerProps
+    CategoryConfigurableAttributesContainerProps,
 } from './CategoryConfigurableAttributes.type';
 
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CategoryConfigurableAttributesContainerMapStateProps => ({
     currencyCode: state.ConfigReducer.currencyData.current_currency_code,
     showProductCount: state.ConfigReducer.layered_navigation_product_count_enabled,
-    childrenCategories: state.CategoryReducer.category.children || []
+    childrenCategories: state.CategoryReducer.category.children || [],
 });
 
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapDispatchToProps */
@@ -49,7 +49,7 @@ CategoryConfigurableAttributesContainerProps
 
     containerFunctions: CategoryConfigurableAttributesComponentContainerFunctions = {
         ...this.containerFunctions,
-        getSubCategories: this.getSubCategories.bind(this)
+        getSubCategories: this.getSubCategories.bind(this),
     };
 
     containerProps(): Pick<
@@ -59,14 +59,14 @@ CategoryConfigurableAttributesContainerProps
         const {
             currencyCode,
             showProductCount,
-            childrenCategories
+            childrenCategories,
         } = this.props;
 
         return {
             currencyCode,
             showProductCount,
             childrenCategories,
-            ...super.containerProps()
+            ...super.containerProps(),
         };
     }
 

@@ -25,7 +25,7 @@ export const getInitialState = (): MyAccountStore => ({
     customer: {},
     message: '',
     email: '',
-    status: false
+    status: false,
 });
 
 /** @namespace Store/MyAccount/Reducer/MyAccountReducer */
@@ -34,7 +34,7 @@ MyAccountStore,
 MyAccountAction
 > = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     switch (action.type) {
     case MyAccountActionType.UPDATE_CUSTOMER_SIGN_IN_STATUS: {
@@ -42,7 +42,7 @@ MyAccountAction
 
         return {
             ...state,
-            isSignedIn: status
+            isSignedIn: status,
         };
     }
 
@@ -52,14 +52,14 @@ MyAccountAction
         return {
             ...state,
             passwordResetStatus: status,
-            passwordResetMessage: message
+            passwordResetMessage: message,
         };
     }
 
     case MyAccountActionType.UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS: {
         return {
             ...state,
-            isPasswordForgotSend: !state.isPasswordForgotSend
+            isPasswordForgotSend: !state.isPasswordForgotSend,
         };
     }
 
@@ -68,7 +68,7 @@ MyAccountAction
 
         return {
             ...state,
-            customer
+            customer,
         };
     }
 
@@ -77,7 +77,7 @@ MyAccountAction
 
         return {
             ...state,
-            email
+            email,
         };
     }
 
@@ -86,7 +86,7 @@ MyAccountAction
 
         return {
             ...state,
-            isLoading
+            isLoading,
         };
     }
 
@@ -95,7 +95,7 @@ MyAccountAction
 
         return {
             ...state,
-            isLocked
+            isLocked,
         };
     }
 

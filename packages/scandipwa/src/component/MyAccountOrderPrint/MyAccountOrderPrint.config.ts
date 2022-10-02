@@ -17,5 +17,5 @@ export enum PrintTypes {
     PRINT_ALL_REFUNDS = 'print_all_refunds',
     PRINT_INVOICE = 'print_invoice',
     PRINT_SHIPMENT = 'print_shipment',
-    PRINT_REFUND = 'print_refund'
+    PRINT_REFUND = 'print_refund',
 }

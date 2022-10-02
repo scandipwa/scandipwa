@@ -16,13 +16,13 @@ import { GQLCreateProductReviewInput } from 'Type/Graphql.type';
 import {
     CreateProductReviewOutput,
     ReviewRatingItem,
-    ReviewRatingValue
+    ReviewRatingValue,
 } from './Review.type';
 
 /** @namespace Query/Review/Query */
 export class ReviewQuery {
     getAddProductReviewMutation(
-        reviewItem: GQLCreateProductReviewInput
+        reviewItem: GQLCreateProductReviewInput,
     ): Mutation<'addProductReview', CreateProductReviewOutput> {
         return new Mutation<'createProductReview', CreateProductReviewOutput>('createProductReview')
             .setAlias('addProductReview')
@@ -32,7 +32,7 @@ export class ReviewQuery {
 
     getRatingQuery(): Query<'reviewRatings', { items: ReviewRatingItem[] }> {
         return new Query<'productReviewRatingsMetadata', { items: ReviewRatingItem[] }>(
-            'productReviewRatingsMetadata'
+            'productReviewRatingsMetadata',
         )
             .setAlias('reviewRatings')
             .addFieldList(this._getRatingFields());
@@ -40,7 +40,7 @@ export class ReviewQuery {
 
     _getRatingFields(): Field<'items', ReviewRatingItem, true>[] {
         return [
-            this._getRatingItemsField()
+            this._getRatingItemsField(),
         ];
     }
 
@@ -57,7 +57,7 @@ export class ReviewQuery {
         return [
             new Field<'id', number>('id').setAlias('rating_id'),
             new Field<'name', string>('name').setAlias('rating_code'),
-            this._getRatingOptionsField()
+            this._getRatingOptionsField(),
         ];
     }
 
@@ -67,7 +67,7 @@ export class ReviewQuery {
     > {
         return [
             new Field<'value_id', string>('value_id').setAlias('option_id'),
-            new Field<'value', string>('value')
+            new Field<'value', string>('value'),
         ];
     }
 

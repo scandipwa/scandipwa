@@ -26,7 +26,7 @@ import {
     MyAccountDownloadableComponentProps,
     MyAccountDownloadableContainerDispatchProps,
     MyAccountDownloadableContainerProps,
-    MyAccountDownloadableContainerState
+    MyAccountDownloadableContainerState,
 } from './MyAccountDownloadable.type';
 
 export const OrderDispatcher = import(
@@ -40,7 +40,7 @@ export const mapStateToProps = (): unknown => ({});
 /** @namespace Component/MyAccountDownloadable/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountDownloadableContainerDispatchProps => ({
     showErrorNotification: (message: string) => dispatch(showNotification(NotificationType.ERROR, message)),
-    showSuccessNotification: (message: string) => dispatch(showNotification(NotificationType.SUCCESS, message))
+    showSuccessNotification: (message: string) => dispatch(showNotification(NotificationType.SUCCESS, message)),
 });
 
 /** @namespace Component/MyAccountDownloadable/Container */
@@ -50,7 +50,7 @@ MyAccountDownloadableContainerState
 > {
     state: MyAccountDownloadableContainerState = {
         items: [],
-        isLoading: false
+        isLoading: false,
     };
 
     componentDidMount(): void {
@@ -62,7 +62,7 @@ MyAccountDownloadableContainerState
 
         return {
             isLoading,
-            items: this._prepareDownloadableProps()
+            items: this._prepareDownloadableProps(),
         };
     }
 
@@ -76,7 +76,7 @@ MyAccountDownloadableContainerState
         return items.reduce((
             acc: CustomerDownloadableProductExtended[],
             item: CustomerDownloadableProduct,
-            index: number
+            index: number,
         ) => {
             acc.push({
                 id: index,
@@ -87,7 +87,7 @@ MyAccountDownloadableContainerState
                 download_url: item.download_url,
                 downloads: item.remaining_downloads,
                 title: item.title,
-                link_title: item.link_title
+                link_title: item.link_title,
             });
 
             return acc;
@@ -102,8 +102,8 @@ MyAccountDownloadableContainerState
         try {
             const {
                 customerDownloadableProducts: {
-                    items = []
-                } = {}
+                    items = [],
+                } = {},
             } = await fetchQuery(OrderQuery.getDownloadableQuery());
 
             this.setState({ items, isLoading: false });

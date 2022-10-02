@@ -11,7 +11,7 @@
 
 import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import {
-    OrderTotal
+    OrderTotal,
 } from 'Query/Order.type';
 
 export interface MyAccountOrderTotalsContainerMapStateProps {

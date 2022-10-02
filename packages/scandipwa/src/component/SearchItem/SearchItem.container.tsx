@@ -24,7 +24,7 @@ import {
     SearchItemContainerFunctions,
     SearchItemContainerMapDispatchProps,
     SearchItemContainerMapStateProps,
-    SearchItemContainerProps
+    SearchItemContainerProps,
 } from './SearchItem.type';
 
 export const SearchBarDispatcher = import(
@@ -34,7 +34,7 @@ export const SearchBarDispatcher = import(
 
 /** @namespace Component/SearchItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): SearchItemContainerMapDispatchProps => ({
-    hideActiveOverlay: () => dispatch(hideActiveOverlay())
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
 });
 
 /** @namespace Component/SearchItem/Container/mapStateToProps */
@@ -43,7 +43,7 @@ export const mapStateToProps = (): SearchItemContainerMapStateProps => ({});
 /** @namespace Component/SearchItem/Container */
 export class SearchItemContainer extends PureComponent<SearchItemContainerProps> {
     containerFunctions: SearchItemContainerFunctions = {
-        onClick: this.handleItemClick.bind(this)
+        onClick: this.handleItemClick.bind(this),
     };
 
     containerProps(): Pick<SearchItemComponentProps, SearchItemComponentContainerPropKeys> {
@@ -53,7 +53,7 @@ export class SearchItemContainer extends PureComponent<SearchItemContainerProps>
             product,
             linkTo: this.getLinkTo(),
             imgSrc: this.getImgSrc(),
-            customAttribute: this.getCustomAttribute()
+            customAttribute: this.getCustomAttribute(),
         };
     }
 
@@ -66,7 +66,7 @@ export class SearchItemContainer extends PureComponent<SearchItemContainerProps>
     getLinkTo(): Url {
         const {
             product,
-            product: { url }
+            product: { url },
         } = this.props;
 
         if (!url) {
@@ -75,15 +75,15 @@ export class SearchItemContainer extends PureComponent<SearchItemContainerProps>
 
         return {
             pathname: url,
-            state: { product }
+            state: { product },
         };
     }
 
     getImgSrc(): string {
         const {
             product: {
-                thumbnail: { url = '' } = {}
-            }
+                thumbnail: { url = '' } = {},
+            },
         } = this.props;
 
         return url;
