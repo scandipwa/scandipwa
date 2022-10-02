@@ -14,7 +14,7 @@ import { Redirect } from 'react-router';
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import {
-    MyAccountOverlay,
+    MyAccountOverlayComponent,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { ReactElement } from 'Type/Common.type';
@@ -25,7 +25,7 @@ import { ForgotPasswordComponentProps } from './ForgotPassword.type';
 import './ForgotPassword.style';
 
 /** @namespace Route/ForgotPassword/Component */
-export class ForgotPasswordComponent extends MyAccountOverlay<ForgotPasswordComponentProps> {
+export class ForgotPasswordComponent extends MyAccountOverlayComponent<ForgotPasswordComponentProps> {
     renderSignInWrapper(): ReactElement {
         const { onLoginClick } = this.props;
 

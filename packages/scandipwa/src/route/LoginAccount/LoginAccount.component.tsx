@@ -14,7 +14,7 @@ import { withRouter } from 'react-router-dom';
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import {
-    MyAccountOverlay,
+    MyAccountOverlayComponent,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { ReactElement } from 'Type/Common.type';
 
@@ -23,7 +23,7 @@ import { LoginAccountComponentProps } from './LoginAccount.type';
 import './LoginAccount.style';
 
 /** @namespace Route/LoginAccount/Component */
-export class LoginAccountComponent extends MyAccountOverlay<LoginAccountComponentProps> {
+export class LoginAccountComponent extends MyAccountOverlayComponent<LoginAccountComponentProps> {
     renderSignInWrapper(): ReactElement {
         const { isMobile } = this.props;
 
