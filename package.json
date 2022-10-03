@@ -44,8 +44,5 @@
         "build-packages/*",
         "runtime-packages/*",
         "tilework-packages/opus"
-    ],
-    "resolutions": {
-        "react-error-overlay": "6.0.9"
-    }
+    ]
 }
