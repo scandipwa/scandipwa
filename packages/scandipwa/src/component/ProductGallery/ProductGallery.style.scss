@@ -26,6 +26,10 @@
     height: 500px;
     margin-inline: 45px;
 
+    @include ultra-narrow-desktop {
+        min-width: 300px;
+    }
+
     @include narrow-desktop {
         min-width: 507px;
     }
