@@ -63,7 +63,7 @@ export interface RouterComponentState {
     errorDetails: {
         err: Error;
         info: ErrorInfo;
-    } | Record<string, never>;
+    } | EmptyObject;
     hasError: boolean;
 }
 

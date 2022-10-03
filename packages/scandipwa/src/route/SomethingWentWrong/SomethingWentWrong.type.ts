@@ -25,7 +25,7 @@ export interface SomethingWentWrongContainerBaseProps {
     errorDetails: {
         err: Error;
         info: ErrorInfo;
-    } | Record<string, never>;
+    } | EmptyObject;
 
 }
 
@@ -37,7 +37,7 @@ export interface SomethingWentWrongComponentProps {
     errorDetails: {
         err: Error;
         info: ErrorInfo;
-    } | Record<string, never>;
+    } | EmptyObject;
 
 }
 

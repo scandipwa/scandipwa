@@ -31,7 +31,7 @@ export type UrlRewritesContainerProps = UrlRewritesContainerMapStateProps
 
 export interface UrlRewritesComponentProps {
     type: string;
-    props: UrlRewriteProps | Record<string, never>;
+    props: UrlRewriteProps | EmptyObject;
 }
 
 export type UrlRewritesContainerPropsKeys = 'type'
