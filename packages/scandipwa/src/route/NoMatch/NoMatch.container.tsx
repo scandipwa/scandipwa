@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Subscribe } from 'unstated';
+import { Subscribe } from 'unstated-typescript';
 
 import { Page } from 'Component/Header/Header.config';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';

@@ -586,6 +586,7 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
             <div
               block="Header"
               elem="IconsWrapper"
+              key="desktop-icons"
             >
                 { this.renderAccount() }
                 { this.renderComparePageButton() }

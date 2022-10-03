@@ -12,10 +12,9 @@
 
 // TODO: implement props passing
 
-import { Subscribe } from 'unstated';
+import { Subscribe } from 'unstated-typescript';
 
 import SharedTransition from './SharedTransition.component';
-import { SharedTransitionComponentProps } from './SharedTransition.type';
 import SharedTransitionContainer from './SharedTransition.unstated';
 
 /** @namespace Component/SharedTransition/Container/SharedTransitionWrapper */
@@ -25,7 +24,7 @@ export function SharedTransitionWrapper(props: Record<string, any>): JSX.Element
             { (sharedTransition) => (
                 <SharedTransition
                   { ...props }
-                  { ...(sharedTransition as unknown as SharedTransitionComponentProps) }
+                  { ...sharedTransition }
                 />
             ) }
         </Subscribe>

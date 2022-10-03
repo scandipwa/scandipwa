@@ -40,7 +40,6 @@ export class FieldSelectComponent extends PureComponent<FieldSelectComponentProp
             label,
             subLabel = '',
             isAvailable = true,
-            isPlaceholder,
         } = option;
 
         const { isDisabled } = this.props;
@@ -51,7 +50,6 @@ export class FieldSelectComponent extends PureComponent<FieldSelectComponentProp
               id={ String(id) }
               value={ value }
               disabled={ disabled || isDisabled || !isAvailable }
-              selected={ isPlaceholder }
             >
                 { `${label} ${subLabel}` }
             </option>
@@ -60,8 +58,17 @@ export class FieldSelectComponent extends PureComponent<FieldSelectComponentProp
 
     renderNativeSelect(): ReactElement {
         const {
-            setRef, attr, events, isDisabled, options, handleSelectListOptionClick, isSelectedOptionAvailable,
+            setRef,
+            attr,
+            events,
+            isDisabled,
+            options,
+            handleSelectListOptionClick,
+            isSelectedOptionAvailable,
+            value,
         } = this.props;
+
+        const { value: placeholder } = options.find(({ isPlaceholder }) => isPlaceholder) || {};
 
         return (
             <select
@@ -70,6 +77,7 @@ export class FieldSelectComponent extends PureComponent<FieldSelectComponentProp
               mods={ { isDisabled: !isSelectedOptionAvailable } }
               ref={ (elem) => setRef(elem) }
               disabled={ isDisabled }
+              value={ value || placeholder }
               // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
               { ...attr }
               // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
