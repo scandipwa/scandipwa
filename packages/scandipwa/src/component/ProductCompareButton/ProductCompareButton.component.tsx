@@ -27,6 +27,7 @@ export class ProductCompareButtonComponent extends PureComponent<ProductCompareB
         isActive: false,
     };
 
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     handleClick: ((e: MouseEvent) => void) | (() => void) = noopFn;
 
     __construct(props: ProductCompareButtonComponentProps): void {

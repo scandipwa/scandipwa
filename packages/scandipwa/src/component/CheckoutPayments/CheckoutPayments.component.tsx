@@ -14,7 +14,7 @@ import { ErrorInfo, PureComponent } from 'react';
 
 import CheckoutPayment from 'Component/CheckoutPayment';
 import NotSupportedPayment from 'Component/NotSupportedPayment';
-import { PurchaseOrder } from 'Component/PurchaseOrder/PurchaseOrder.component';
+import { PurchaseOrderComponent } from 'Component/PurchaseOrder/PurchaseOrder.component';
 import { PaymentMethod } from 'Query/Checkout.type';
 import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { ReactElement } from 'Type/Common.type';
@@ -63,7 +63,7 @@ export class CheckoutPaymentsComponent extends PureComponent<CheckoutPaymentsCom
     // }
 
     renderPurchaseOrderPayment(): ReactElement {
-        return <PurchaseOrder id={ CheckoutSteps.BILLING_STEP } />;
+        return <PurchaseOrderComponent id={ CheckoutSteps.BILLING_STEP } />;
     }
 
     renderNotSupported(): ReactElement {
