@@ -124,7 +124,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
             name: RouterSwitchItemType.HOME,
         },
         {
-            component: <Route path={ withStoreRegex('/search/:query/') } render={ () => <SearchPage /> } />,
+            component: <Route path={ withStoreRegex('/search/:query/') } render={ ({ match }) => <SearchPage match={ match } /> } />,
             position: 25,
             name: RouterSwitchItemType.SEARCH,
         },
