@@ -20,12 +20,12 @@ import {
     ProductDownloadableSamplesComponentProps,
     ProductDownloadableSamplesContainerMapDispatchProps,
     ProductDownloadableSamplesContainerMapStateProps,
-    ProductDownloadableSamplesContainerProps
+    ProductDownloadableSamplesContainerProps,
 } from './ProductDownloadableSamples.type';
 
 /** @namespace Component/ProductDownloadableSamples/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductDownloadableSamplesContainerMapStateProps => ({
-    isOpenInNewTab: state.ConfigReducer.downloadable_links_target_new_window
+    isOpenInNewTab: state.ConfigReducer.downloadable_links_target_new_window,
 });
 
 /** @namespace Component/ProductDownloadableSamples/Container/mapDispatchToProps */

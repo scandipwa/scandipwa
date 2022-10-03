@@ -14,15 +14,15 @@ import { lazy, PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 
 import {
-    UrlRewritePageType
+    UrlRewritePageType,
 } from './UrlRewrites.config';
 import { UrlRewritesComponentProps } from './UrlRewrites.type';
 
 export const ProductPage = lazy(
-    () => import(/* webpackMode: "lazy", webpackChunkName: "product" */ 'Route/ProductPage')
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product" */ 'Route/ProductPage'),
 );
 export const CategoryPage = lazy(
-    () => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/CategoryPage')
+    () => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/CategoryPage'),
 );
 export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
 export const NoMatch = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/NoMatch'));
@@ -33,10 +33,10 @@ export const NoMatch = lazy(() => import(/* webpackMode: "lazy", webpackChunkNam
  * const TYPE_CUSTOM = 'CUSTOM';
  * @namespace Route/UrlRewrites/Component
  */
-export class UrlRewrites extends PureComponent<UrlRewritesComponentProps> {
+export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProps> {
     static defaultProps: Partial<UrlRewritesComponentProps> = {
         props: {},
-        type: ''
+        type: '',
     };
 
     renderDefaultPage(): ReactElement {
@@ -50,7 +50,7 @@ export class UrlRewrites extends PureComponent<UrlRewritesComponentProps> {
         const {
             match,
             productSKU,
-            id
+            id,
         } = props;
 
         if (!productSKU) {
@@ -71,7 +71,7 @@ export class UrlRewrites extends PureComponent<UrlRewritesComponentProps> {
         const { props } = this.props;
         const {
             match,
-            pageIds
+            pageIds,
         } = props;
 
         return (
@@ -86,7 +86,7 @@ export class UrlRewrites extends PureComponent<UrlRewritesComponentProps> {
         const { props } = this.props;
         const {
             match,
-            categoryIds
+            categoryIds,
         } = props;
 
         return (
@@ -123,4 +123,4 @@ export class UrlRewrites extends PureComponent<UrlRewritesComponentProps> {
     }
 }
 
-export default UrlRewrites;
+export default UrlRewritesComponent;

@@ -20,7 +20,7 @@ import {
     ErrorInfo,
     lazy,
     PureComponent,
-    Suspense
+    Suspense,
 } from 'react';
 import { Router as ReactRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
@@ -29,7 +29,7 @@ import ErrorHandler from 'Component/ErrorHandler';
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 import {
-    PrintTypes
+    PrintTypes,
 } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
 import UrlRewrites from 'Route/UrlRewrites';
 import { MyAccountTabs } from 'Type/Account.type';
@@ -40,7 +40,7 @@ import {
     RouterAfterItemType,
     RouterBeforeItemType,
     RouterItemType,
-    RouterSwitchItemType
+    RouterSwitchItemType,
 } from './Router.config';
 import { RouterComponentProps, RouterComponentState, RouterItem } from './Router.type';
 
@@ -79,234 +79,234 @@ export const OrderPrintPage = lazy(() => import(/* webpackMode: "lazy", webpackC
 export const withStoreRegex = (path: string): string => window.storeRegexText.concat(path);
 
 /** @namespace Component/Router/Component */
-export class Router extends PureComponent<RouterComponentProps, RouterComponentState> {
+export class RouterComponent extends PureComponent<RouterComponentProps, RouterComponentState> {
     static defaultProps: Partial<RouterComponentProps> = {
-        isBigOffline: false
+        isBigOffline: false,
     };
 
     [RouterItemType.BEFORE_ITEMS_TYPE] = [
         {
             component: <NotificationList />,
             position: 10,
-            name: RouterBeforeItemType.NOTIFICATION_LIST
+            name: RouterBeforeItemType.NOTIFICATION_LIST,
         },
         {
             component: <DemoNotice />,
             position: 15,
-            name: RouterBeforeItemType.DEMO_NOTICE
+            name: RouterBeforeItemType.DEMO_NOTICE,
         },
         {
             component: <Header />,
             position: 20,
-            name: RouterBeforeItemType.HEADER
+            name: RouterBeforeItemType.HEADER,
         },
         {
             component: <NavigationTabs />,
             position: 25,
-            name: RouterBeforeItemType.NAVIGATION_TABS
+            name: RouterBeforeItemType.NAVIGATION_TABS,
         },
         {
             component: <Breadcrumbs />,
             position: 30,
-            name: RouterBeforeItemType.BREADCRUMBS
+            name: RouterBeforeItemType.BREADCRUMBS,
         },
         {
             component: <NewVersionPopup />,
             position: 35,
-            name: RouterBeforeItemType.NEW_VERSION_POPUP
-        }
+            name: RouterBeforeItemType.NEW_VERSION_POPUP,
+        },
     ];
 
     [RouterItemType.SWITCH_ITEMS_TYPE] = [
         {
             component: <Route path={ withStoreRegex('/') } exact render={ ({ match }) => <HomePage match={ match } currentUrl={ this.props.currentUrl } /> } />,
             position: 10,
-            name: RouterSwitchItemType.HOME
+            name: RouterSwitchItemType.HOME,
         },
         {
-            component: <Route path={ withStoreRegex('/search/:query/') } render={ () => <SearchPage /> } />,
+            component: <Route path={ withStoreRegex('/search/:query/') } render={ ({ match }) => <SearchPage match={ match } /> } />,
             position: 25,
-            name: RouterSwitchItemType.SEARCH
+            name: RouterSwitchItemType.SEARCH,
         },
         {
             component: <Route path={ withStoreRegex('/page') } render={ ({ match }) => <CmsPage match={ match } currentUrl={ this.props.currentUrl } /> } />,
             position: 40,
-            name: RouterSwitchItemType.CMS_PAGE
+            name: RouterSwitchItemType.CMS_PAGE,
         },
         {
             component: <Route path={ withStoreRegex('/cart') } exact render={ () => <CartPage /> } />,
             position: 50,
-            name: RouterSwitchItemType.CART
+            name: RouterSwitchItemType.CART,
         },
         {
             component: <Route path={ withStoreRegex('/checkout/:step?') } render={ ({ match }) => <Checkout match={ match } /> } />,
             position: 55,
-            name: RouterSwitchItemType.CHECKOUT
+            name: RouterSwitchItemType.CHECKOUT,
         },
         {
             // @ts-ignore Due to problems with extended components
             component: <Route path={ withStoreRegex('/customer/account/createPassword/') } render={ () => <PasswordChangePage /> } />,
             position: 60,
-            name: RouterSwitchItemType.CHANGE_PASSWORD
+            name: RouterSwitchItemType.CHANGE_PASSWORD,
         },
         {
             // @ts-ignore Due to problems with extended components
             component: <Route path={ withStoreRegex('/customer/account/create/') } render={ () => <CreateAccountPage /> } />,
             position: 61,
-            name: RouterSwitchItemType.CREATE_ACCOUNT
+            name: RouterSwitchItemType.CREATE_ACCOUNT,
         },
         {
             // @ts-ignore Due to problems with extended components
             component: <Route path={ withStoreRegex('/customer/account/login/') } render={ () => <LoginAccountPage /> } />,
             position: 62,
-            name: RouterSwitchItemType.LOGIN
+            name: RouterSwitchItemType.LOGIN,
         },
         {
             // @ts-ignore Due to problems with extended components
             component: <Route path={ withStoreRegex('/customer/account/forgotpassword/') } render={ () => <ForgotPasswordPage /> } />,
             position: 63,
-            name: RouterSwitchItemType.ACCOUNT_FORGOT_PASSWORD
+            name: RouterSwitchItemType.ACCOUNT_FORGOT_PASSWORD,
         },
         {
             component: <Route path={ withStoreRegex('/customer/account/confirmation') } render={ () => <SendConfirmationPage /> } />,
             position: 64,
-            name: RouterSwitchItemType.CONFIRM_ACCOUNT
+            name: RouterSwitchItemType.CONFIRM_ACCOUNT,
         },
         {
             component: <Route path={ withStoreRegex('/customer/account/confirm') } render={ () => <ConfirmAccountPage /> } />,
             position: 65,
-            name: RouterSwitchItemType.CONFIRM_ACCOUNT
+            name: RouterSwitchItemType.CONFIRM_ACCOUNT,
         },
         {
             component: <Route path={ withStoreRegex('/sales/order/view/order_id/:orderId?') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.MY_ORDER } /> } />,
             position: 70,
-            name: RouterSwitchItemType.MY_ACCOUNT_ORDER
+            name: RouterSwitchItemType.MY_ACCOUNT_ORDER,
         },
         {
             component: <Route path={ withStoreRegex('/sales/order/history') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.MY_ORDERS } /> } />,
             position: 71,
-            name: RouterSwitchItemType.MY_ACCOUNT_ORDERS
+            name: RouterSwitchItemType.MY_ACCOUNT_ORDERS,
         },
         {
             component: <Route path={ withStoreRegex('/downloadable/customer/products') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.MY_DOWNLOADABLE } /> } />,
             position: 72,
-            name: RouterSwitchItemType.MY_ACCOUNT_DOWNLOADABLE
+            name: RouterSwitchItemType.MY_ACCOUNT_DOWNLOADABLE,
         },
         {
             component: <Route path={ withStoreRegex('/wishlist') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.MY_WISHLIST } /> } />,
             position: 73,
-            name: RouterSwitchItemType.MY_ACCOUNT_WISHLIST
+            name: RouterSwitchItemType.MY_ACCOUNT_WISHLIST,
         },
         {
             component: <Route path={ withStoreRegex('/customer/address') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.ADDRESS_BOOK } /> } />,
             position: 74,
-            name: RouterSwitchItemType.MY_ACCOUNT_ADDRESS
+            name: RouterSwitchItemType.MY_ACCOUNT_ADDRESS,
         },
         {
             component: <Route path={ withStoreRegex('/newsletter/manage') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.NEWSLETTER_SUBSCRIPTION } /> } />,
             position: 75,
-            name: RouterSwitchItemType.MY_ACCOUNT_NEWSLETTER
+            name: RouterSwitchItemType.MY_ACCOUNT_NEWSLETTER,
         },
         {
             component: <Route path={ withStoreRegex('/customer/account/:tab?') } render={ ({ match }) => <MyAccount match={ match } /> } />,
             position: 76,
-            name: RouterSwitchItemType.MY_ACCOUNT
+            name: RouterSwitchItemType.MY_ACCOUNT,
         },
         {
             component: <Route path={ withStoreRegex('/menu') } render={ () => <MenuPage /> } />,
             position: 80,
-            name: RouterSwitchItemType.MENU
+            name: RouterSwitchItemType.MENU,
         },
         {
             component: <Route path={ withStoreRegex('/wishlist/shared/:code') } render={ ({ match }) => <WishlistShared match={ match } /> } />,
             position: 81,
-            name: RouterSwitchItemType.SHARED_WISHLIST
+            name: RouterSwitchItemType.SHARED_WISHLIST,
         },
         {
             component: <Route path={ withStoreRegex('/contact') } render={ () => <ContactPage /> } />,
             position: 82,
-            name: RouterSwitchItemType.CONTACT_PAGE
+            name: RouterSwitchItemType.CONTACT_PAGE,
         },
         {
             component: <Route path={ withStoreRegex('/compare') } render={ () => <ProductComparePage /> } />,
             position: 83,
-            name: RouterSwitchItemType.COMPARE
+            name: RouterSwitchItemType.COMPARE,
         },
         {
             component: <Route path={ withStoreRegex('/styleguide') } render={ () => <StyleGuidePage /> } />,
             position: 84,
-            name: RouterSwitchItemType.STYLE_GUIDE
+            name: RouterSwitchItemType.STYLE_GUIDE,
         },
         {
             component: <Route path={ withStoreRegex('/sales/order/print/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_ORDER } /> } />,
             position: 90,
-            name: PrintTypes.PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER,
         },
         {
             component: <Route path={ withStoreRegex('/sales/order/printInvoice/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_ALL_INVOICES } /> } />,
             position: 91,
-            name: PrintTypes.PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER,
         },
         {
             component: <Route path={ withStoreRegex('/sales/order/printShipment/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_ALL_SHIPMENT } /> } />,
             position: 92,
-            name: PrintTypes.PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER,
         },
         {
             component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/order_id/:orderId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_ALL_REFUNDS } /> } />,
             position: 93,
-            name: PrintTypes.PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER,
         },
         {
             component: <Route path={ withStoreRegex('/sales/order/printInvoice/invoice_id/:invoiceId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_INVOICE } /> } />,
             position: 94,
-            name: PrintTypes.PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER,
         },
         {
             component: <Route path={ withStoreRegex('/sales/order/printShipment/shipment_id/:shipmentId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_SHIPMENT } /> } />,
             position: 95,
-            name: PrintTypes.PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER,
         },
         {
             component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/creditmemo_id/:refundId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_REFUND } /> } />,
             position: 95,
-            name: PrintTypes.PRINT_ORDER
+            name: PrintTypes.PRINT_ORDER,
         },
         {
             component: <Route render={ ({ match }) => <UrlRewrites match={ match } /> } />,
             position: 1000,
-            name: RouterSwitchItemType.URL_REWRITES
-        }
+            name: RouterSwitchItemType.URL_REWRITES,
+        },
     ];
 
     [RouterItemType.AFTER_ITEMS_TYPE] = [
         {
             component: <Footer />,
             position: 10,
-            name: RouterAfterItemType.FOOTER
+            name: RouterAfterItemType.FOOTER,
         },
         {
             component: <CookiePopup />,
             position: 20,
-            name: RouterAfterItemType.COOKIE_POPUP
-        }
+            name: RouterAfterItemType.COOKIE_POPUP,
+        },
     ];
 
     state: RouterComponentState = {
         hasError: false,
-        errorDetails: {}
+        errorDetails: {},
     };
 
     componentDidCatch(err: Error, info: ErrorInfo): void {
         this.setState({
             hasError: true,
-            errorDetails: { err, info }
+            errorDetails: { err, info },
         });
     }
 
     getSortedItems(type: RouterItemType): RouterItem[] {
         const sortedRouteItems: RouterItem[] = this[type].sort(
-            (a, b) => a.position - b.position
+            (a, b) => a.position - b.position,
         );
         const filteredRouteItems: RouterItem[] = sortedRouteItems.filter(
             (entry: RouterItem) => {
@@ -318,7 +318,7 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
                 }
 
                 return true;
-            }
+            },
         );
 
         return filteredRouteItems;
@@ -417,4 +417,4 @@ export class Router extends PureComponent<RouterComponentProps, RouterComponentS
     }
 }
 
-export default Router;
+export default RouterComponent;

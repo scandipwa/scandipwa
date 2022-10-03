@@ -25,7 +25,7 @@ import {
     PaginationContainerMapDispatchProps,
     PaginationContainerMapStateProps,
     PaginationContainerProps,
-    PaginationContainerPropsKeys
+    PaginationContainerPropsKeys,
 } from './Pagination.type';
 
 /** @namespace Component/Pagination/Container/mapStateToProps */
@@ -33,7 +33,7 @@ export const mapStateToProps = (state: RootState): PaginationContainerMapStatePr
     paginationFrame: state.ConfigReducer.pagination_frame,
     paginationFrameSkip: state.ConfigReducer.pagination_frame_skip,
     anchorTextPrevious: state.ConfigReducer.anchor_text_for_previous,
-    anchorTextNext: state.ConfigReducer.anchor_text_for_next
+    anchorTextNext: state.ConfigReducer.anchor_text_for_next,
 });
 
 /** @namespace Component/Pagination/Container/mapDispatchToProps */
@@ -44,11 +44,11 @@ export class PaginationContainer extends PureComponent<PaginationContainerProps>
     static defaultProps: Partial<PaginationContainerProps> = {
         isLoading: false,
         id: '',
-        mix: {}
+        mix: {},
     };
 
     containerFunctions: PaginationContainerFunctions = {
-        getSearchQuery: this.getSearchQuery.bind(this)
+        getSearchQuery: this.getSearchQuery.bind(this),
     };
 
     getSearchQuery(pageNumber: number): string {
@@ -67,7 +67,7 @@ export class PaginationContainer extends PureComponent<PaginationContainerProps>
             paginationFrame,
             totalPages,
             location: { pathname },
-            mix
+            mix,
         } = this.props;
 
         return {
@@ -86,7 +86,7 @@ export class PaginationContainer extends PureComponent<PaginationContainerProps>
             lastFramePage: this._getLastFramePage(),
             shouldRenderNextJump: this._shouldRenderNextJump(),
             shouldRenderPreviousJump: this._shouldRenderPreviousJump(),
-            shouldRenderJumps: this._shouldRenderJumps()
+            shouldRenderJumps: this._shouldRenderJumps(),
         };
     }
 
@@ -163,8 +163,8 @@ export class PaginationContainer extends PureComponent<PaginationContainerProps>
 export default withRouter(
     connect(
         mapStateToProps,
-        mapDispatchToProps
+        mapDispatchToProps,
     )(
-        PaginationContainer as unknown as ComponentType<RouteComponentProps & PaginationContainerProps>
-    )
+        PaginationContainer as unknown as ComponentType<RouteComponentProps & PaginationContainerProps>,
+    ),
 );

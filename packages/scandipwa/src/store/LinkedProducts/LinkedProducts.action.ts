@@ -13,7 +13,7 @@
 import {
     LinkedProductsActionType,
     LinkedProductsMap,
-    UpdateLinkedProductsAction
+    UpdateLinkedProductsAction,
 } from './LinkedProducts.type';
 
 /**
@@ -26,5 +26,5 @@ export const updateLinkedProducts = (linkedProducts: LinkedProductsMap & {
     updateCrossSell?: boolean;
 }): UpdateLinkedProductsAction => ({
     type: LinkedProductsActionType.UPDATE_LINKED_PRODUCTS,
-    linkedProducts
+    linkedProducts,
 });

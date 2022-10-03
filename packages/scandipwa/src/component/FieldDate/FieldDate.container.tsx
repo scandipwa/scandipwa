@@ -21,12 +21,12 @@ import {
     FieldDateComponentProps,
     FieldDateContainerMapDispatchProps,
     FieldDateContainerMapStateProps,
-    FieldDateContainerProps
+    FieldDateContainerProps,
 } from './FieldDate.type';
 
 /** @namespace Component/FieldDate/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): FieldDateContainerMapStateProps => ({
-    useCalendar: !!+state.ConfigReducer.use_calendar
+    useCalendar: !!+state.ConfigReducer.use_calendar,
 });
 
 /** @namespace Component/FieldDate/Container/mapDispatchToProps */
@@ -35,7 +35,7 @@ export const mapDispatchToProps = (): FieldDateContainerMapDispatchProps => ({})
 /** @namespace Component/FieldDate/Container */
 export class FieldDateContainer extends PureComponent<FieldDateContainerProps> {
     static defaultProps: Partial<FieldDateContainerProps> = {
-        isRequired: false
+        isRequired: false,
     };
 
     containerProps(): FieldDateComponentProps {
@@ -43,14 +43,14 @@ export class FieldDateContainer extends PureComponent<FieldDateContainerProps> {
             type,
             uid,
             isRequired,
-            updateSelectedValues
+            updateSelectedValues,
         } = this.props;
 
         return {
             type,
             uid,
             isRequired,
-            updateSelectedValues
+            updateSelectedValues,
         };
     }
 

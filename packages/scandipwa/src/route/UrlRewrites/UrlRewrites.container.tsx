@@ -19,7 +19,7 @@ import { RootState } from 'Util/Store/Store.type';
 
 import UrlRewrites from './UrlRewrites.component';
 import {
-    UrlRewritePageType
+    UrlRewritePageType,
 } from './UrlRewrites.config';
 import {
     UrlRewriteProps,
@@ -28,7 +28,7 @@ import {
     UrlRewritesContainerMapStateProps,
     UrlRewritesContainerProps,
     UrlRewritesContainerPropsKeys,
-    UrlRewriteTypeSpecificProps
+    UrlRewriteTypeSpecificProps,
 } from './UrlRewrites.type';
 
 export const UrlRewritesDispatcher = import(
@@ -45,28 +45,28 @@ export const NoMatchDispatcher = import(
 export const mapStateToProps = (state: RootState): UrlRewritesContainerMapStateProps => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
     isLoading: state.UrlRewritesReducer.isLoading,
-    requestedUrl: state.UrlRewritesReducer.requestedUrl
+    requestedUrl: state.UrlRewritesReducer.requestedUrl,
 });
 
 /** @namespace Route/UrlRewrites/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): UrlRewritesContainerMapDispatchProps => ({
     requestUrlRewrite: (urlParam) => {
         UrlRewritesDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, { urlParam })
+            ({ default: dispatcher }) => dispatcher.handleData(dispatch, { urlParam }),
         );
-    }
+    },
 });
 
 /** @namespace Route/UrlRewrites/Container */
 export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProps> {
     static defaultProps: Partial<UrlRewritesContainerProps> = {
-        requestedUrl: ''
+        requestedUrl: '',
     };
 
     static stateMapping = {
         category: UrlRewritePageType.CATEGORY,
         product: UrlRewritePageType.PRODUCT,
-        page: UrlRewritePageType.CMS_PAGE
+        page: UrlRewritePageType.CMS_PAGE,
     };
 
     initialUrl = '';
@@ -103,7 +103,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
         if (type in [UrlRewritePageType.CATEGORY, UrlRewritePageType.PRODUCT]) {
             if (location.pathname.endsWith('/')) {
                 history.replace(
-                    location.pathname.slice(0, -1)
+                    location.pathname.slice(0, -1),
                 );
             }
         }
@@ -112,7 +112,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
     containerProps(): Pick<UrlRewritesComponentProps, UrlRewritesContainerPropsKeys> {
         return {
             type: this.getType(),
-            props: this.getProps()
+            props: this.getProps(),
         };
     }
 
@@ -120,8 +120,8 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
         const {
             urlRewrite: {
                 id,
-                sku
-            }
+                sku,
+            },
         } = this.props;
 
         const isLoading = this.getIsLoading();
@@ -185,18 +185,18 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
 
     getProps(): UrlRewriteProps {
         const {
-            match
+            match,
         } = this.props;
 
         return {
             match,
-            ...this.getTypeSpecificProps()
+            ...this.getTypeSpecificProps(),
         };
     }
 
     getFallbackType(): string {
         const {
-            actionName: { type: initialType = '' } = {}
+            actionName: { type: initialType = '' } = {},
         } = window;
 
         if (this.initialUrl === location.pathname) {

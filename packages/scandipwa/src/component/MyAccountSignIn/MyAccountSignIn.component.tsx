@@ -23,9 +23,9 @@ import { MyAccountSignInComponentProps } from './MyAccountSignIn.type';
 import './MyAccountSignIn.style.scss';
 
 /** @namespace Component/MyAccountSignIn/Component */
-export class MyAccountSignIn extends PureComponent<MyAccountSignInComponentProps> {
+export class MyAccountSignInComponent extends PureComponent<MyAccountSignInComponentProps> {
     static defaultProps: Partial<MyAccountSignInComponentProps> = {
-        isLoading: false
+        isLoading: false,
     };
 
     renderSignInForm(): ReactElement {
@@ -36,7 +36,7 @@ export class MyAccountSignIn extends PureComponent<MyAccountSignInComponentProps
             emailValue,
             isCheckout,
             handleEmailInput,
-            isLoading
+            isLoading,
         } = this.props;
 
         return (
@@ -53,12 +53,12 @@ export class MyAccountSignIn extends PureComponent<MyAccountSignInComponentProps
                       name: 'email',
                       placeholder: __('Your email address'),
                       defaultValue: emailValue,
-                      autoComplete: isCheckout ? 'off' : 'email'
+                      autoComplete: isCheckout ? 'off' : 'email',
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: ValidationInputType.EMAIL
+                      inputType: ValidationInputType.EMAIL,
                   } }
                   events={ { onChange: handleEmailInput } }
                   addRequiredTag
@@ -70,12 +70,12 @@ export class MyAccountSignIn extends PureComponent<MyAccountSignInComponentProps
                       id: 'password',
                       name: 'password',
                       placeholder: __('Enter your password'),
-                      autoComplete: 'current-password'
+                      autoComplete: 'current-password',
                   } }
                   validateOn={ isCheckout ? ['onSubmit'] : ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: ValidationInputType.PASSWORD
+                      inputType: ValidationInputType.PASSWORD,
                   } }
                   addRequiredTag
                 />
@@ -100,7 +100,7 @@ export class MyAccountSignIn extends PureComponent<MyAccountSignInComponentProps
         const {
             isCheckout,
             handleCreateAccount,
-            state
+            state,
         } = this.props;
 
         if (isCheckout) {
@@ -133,4 +133,4 @@ export class MyAccountSignIn extends PureComponent<MyAccountSignInComponentProps
     }
 }
 
-export default MyAccountSignIn;
+export default MyAccountSignInComponent;

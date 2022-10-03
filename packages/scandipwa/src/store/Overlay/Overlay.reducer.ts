@@ -16,23 +16,23 @@ import { PopupActionType } from 'Store/Popup/Popup.type';
 import {
     OverlayAction,
     OverlayActionType,
-    OverlayStore
+    OverlayStore,
 } from './Overlay.type';
 
 /** @namespace Store/Overlay/Reducer/getInitialState */
 export const getInitialState = (): OverlayStore => ({
     activeOverlay: '',
-    areOtherOverlaysOpen: false
+    areOtherOverlaysOpen: false,
 });
 
 /** @namespace Store/Overlay/Reducer/OverlayReducer */
 export const OverlayReducer: Reducer<OverlayStore, OverlayAction> = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     const { overlayKey } = action;
     const {
-        activeOverlay: prevActiveOverlay
+        activeOverlay: prevActiveOverlay,
     } = state;
 
     switch (action.type) {
@@ -44,14 +44,14 @@ export const OverlayReducer: Reducer<OverlayStore, OverlayAction> = (
         return {
             ...state,
             activeOverlay,
-            areOtherOverlaysOpen
+            areOtherOverlaysOpen,
         };
 
     case OverlayActionType.HIDE_ACTIVE_OVERLAY:
         return {
             ...state,
             activeOverlay: '',
-            areOtherOverlaysOpen: false
+            areOtherOverlaysOpen: false,
         };
 
     default:

@@ -28,7 +28,7 @@ import { ConfigFieldType } from './ProductCustomizableOption.config';
 import {
     ProductCustomizableOptionComponentProps,
     ProductCustomizableOptionComponentRenderMap,
-    ProductCustomizableOptionComponentState
+    ProductCustomizableOptionComponentState,
 } from './ProductCustomizableOption.type';
 
 /**
@@ -36,12 +36,12 @@ import {
  * @class ProductCustomizableOption
  * @namespace Component/ProductCustomizableOption/Component
  */
-export class ProductCustomizableOption extends PureComponent<
+export class ProductCustomizableOptionComponent extends PureComponent<
 ProductCustomizableOptionComponentProps,
 ProductCustomizableOptionComponentState
 > {
     static defaultProps: Partial<ProductCustomizableOptionComponentProps> = {
-        options: []
+        options: [],
     };
 
     renderMap: ProductCustomizableOptionComponentRenderMap = {
@@ -55,11 +55,11 @@ ProductCustomizableOptionComponentState
         [ConfigFieldType.SELECT]: this.renderSelectValues.bind(this),
         [ConfigFieldType.RADIO]: this.renderRadioValues.bind(this),
         [ConfigFieldType.CHECKBOX]: this.renderCheckboxValues.bind(this),
-        [ConfigFieldType.MULTI]: this.renderCheckboxValues.bind(this)
+        [ConfigFieldType.MULTI]: this.renderCheckboxValues.bind(this),
     };
 
     state: ProductCustomizableOptionComponentState = {
-        value: ''
+        value: '',
     };
 
     componentDidMount(): void {
@@ -71,13 +71,13 @@ ProductCustomizableOptionComponentState
     getLabel(
         option: Partial<IndexedCustomOptionValue>,
         overrideBase: string | null = null,
-        overridePrice: string | null = null
+        overridePrice: string | null = null,
     ): ReactElement {
         const { currencyCode } = this.props;
 
         const {
             baseLabel,
-            priceLabel
+            priceLabel,
         } = customizableOptionToLabel(option, currencyCode);
 
         return (
@@ -101,7 +101,7 @@ ProductCustomizableOptionComponentState
 
     renderDefaultValue(option: Partial<CustomizableFieldValue>): ReactElement {
         const {
-            title, fieldType, isRequired, uid
+            title, fieldType, isRequired, uid,
         } = this.props;
         const { value } = this.state;
         const { max_characters = 0 } = option;
@@ -115,16 +115,16 @@ ProductCustomizableOptionComponentState
                   type={ fieldType }
                   validationRule={ {
                       isRequired,
-                      range: { max: max_characters > 0 ? max_characters : undefined }
+                      range: { max: max_characters > 0 ? max_characters : undefined },
                   } }
                   attr={ {
                       id: uid,
                       name: uid,
-                      placeholder: ''
+                      placeholder: '',
                   } }
                   subLabel={ subLabel }
                   events={ {
-                      onChange: this.updateValues.bind(this)
+                      onChange: this.updateValues.bind(this),
                   } }
                   validateOn={ ['onBlur', 'onChange'] }
                 />
@@ -137,7 +137,7 @@ ProductCustomizableOptionComponentState
             title,
             uid,
             isRequired,
-            updateSelectedValues
+            updateSelectedValues,
         } = this.props;
 
         const label = this.getLabel(option, title);
@@ -157,7 +157,7 @@ ProductCustomizableOptionComponentState
 
     renderFileValue(option: Partial<IndexedCustomOptionValue>): ReactElement {
         const {
-            title, uid, isRequired, updateSelectedValues
+            title, uid, isRequired, updateSelectedValues,
         } = this.props;
         const { file_extension: fileExtensions = '' } = option as CustomizableFileValue;
         const label = this.getLabel(option, title);
@@ -170,17 +170,17 @@ ProductCustomizableOptionComponentState
                   validationRule={ {
                       isRequired,
                       fileExtension: {
-                          accept: fileExtensions
-                      }
+                          accept: fileExtensions,
+                      },
                   } }
                   attr={ {
                       id: uid,
                       name: uid,
-                      accept: fileExtensions
+                      accept: fileExtensions,
                   } }
                   updateSelectedValues={ updateSelectedValues }
                   events={ {
-                      onChange: updateSelectedValues
+                      onChange: updateSelectedValues,
                   } }
                 />
             </>
@@ -188,11 +188,11 @@ ProductCustomizableOptionComponentState
     }
 
     renderCheckBox(
-        option: Partial<CustomizableSelectionValue> & { is_default?: boolean }
+        option: Partial<CustomizableSelectionValue> & { is_default?: boolean },
     ): ReactElement {
         const {
             uid,
-            is_default: isDefault = false
+            is_default: isDefault = false,
         } = option;
         const { updateSelectedValues } = this.props;
         const label = this.getLabel(option);
@@ -206,10 +206,10 @@ ProductCustomizableOptionComponentState
                       id: `option-${ uid }`,
                       value: uid,
                       name: `option-${ uid }`,
-                      defaultChecked: isDefault
+                      defaultChecked: isDefault,
                   } }
                   events={ {
-                      onChange: updateSelectedValues
+                      onChange: updateSelectedValues,
                   } }
                 />
             </div>
@@ -222,7 +222,7 @@ ProductCustomizableOptionComponentState
         return (
             <FieldGroup
               validationRule={ {
-                  isRequired
+                  isRequired,
               } }
               validateOn={ ['onChange'] }
             >
@@ -234,7 +234,7 @@ ProductCustomizableOptionComponentState
     renderRadio(name: string, option: Partial<IndexedCustomOptionValue>): ReactElement {
         const {
             uid,
-            is_default
+            is_default,
         } = option as CustomizableSelectionValue & { is_default?: boolean };
         const { updateSelectedValues } = this.props;
         const label = this.getLabel(option);
@@ -248,10 +248,10 @@ ProductCustomizableOptionComponentState
                       id: `option-${ uid }`,
                       value: uid,
                       name: `option-${ name }`,
-                      defaultChecked: is_default
+                      defaultChecked: is_default,
                   } }
                   events={ {
-                      onChange: updateSelectedValues
+                      onChange: updateSelectedValues,
                   } }
                 />
             </div>
@@ -264,7 +264,7 @@ ProductCustomizableOptionComponentState
         return (
             <FieldGroup
               validationRule={ {
-                  isRequired
+                  isRequired,
               } }
               validateOn={ ['onChange'] }
             >
@@ -278,7 +278,7 @@ ProductCustomizableOptionComponentState
             getDropdownOptions,
             updateSelectedValues,
             isRequired,
-            uid
+            uid,
         } = this.props;
 
         return (
@@ -288,15 +288,15 @@ ProductCustomizableOptionComponentState
                   attr={ {
                       id: `customizable-options-dropdown-${ uid }`,
                       name: `customizable-options-dropdown-${ uid }`,
-                      selectPlaceholder: __('Select option...')
+                      selectPlaceholder: __('Select option...'),
                   } }
                   mix={ { block: 'ProductCustomizableItem', elem: 'Select' } }
                   options={ (getDropdownOptions() as FieldOptions[]) || undefined }
                   events={ {
-                      onChange: updateSelectedValues
+                      onChange: updateSelectedValues,
                   } }
                   validationRule={ {
-                      isRequired
+                      isRequired,
                   } }
                   validateOn={ ['onChange'] }
                 />
@@ -340,4 +340,4 @@ ProductCustomizableOptionComponentState
     }
 }
 
-export default ProductCustomizableOption;
+export default ProductCustomizableOptionComponent;

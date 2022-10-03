@@ -20,17 +20,17 @@ import {
     ResetButtonComponentContainerPropKeys,
     ResetButtonComponentProps,
     ResetButtonContainerFunctions,
-    ResetButtonContainerProps
+    ResetButtonContainerProps,
 } from './ResetButton.type';
 
 /** @namespace Component/ResetButton/Container */
 export class ResetButtonContainer extends PureComponent<ResetButtonContainerProps> {
     static defaultProps: Partial<ResetButtonContainerProps> = {
-        mix: {}
+        mix: {},
     };
 
     containerFunctions: ResetButtonContainerFunctions = {
-        resetFilters: this.resetFilters.bind(this)
+        resetFilters: this.resetFilters.bind(this),
     };
 
     containerProps(): Pick<ResetButtonComponentProps, ResetButtonComponentContainerPropKeys> {
@@ -39,7 +39,7 @@ export class ResetButtonContainer extends PureComponent<ResetButtonContainerProp
         return {
             mix,
             onClick,
-            isContentFiltered: this.isContentFiltered()
+            isContentFiltered: this.isContentFiltered(),
         };
     }
 
@@ -50,7 +50,7 @@ export class ResetButtonContainer extends PureComponent<ResetButtonContainerProp
             customFilters: '',
             priceMin: '',
             priceMax: '',
-            page: ''
+            page: '',
         }, location, history);
     }
 

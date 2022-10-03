@@ -23,12 +23,12 @@ import { SearchItemComponentProps } from './SearchItem.type';
 import './SearchItem.style';
 
 /** @namespace Component/SearchItem/Component */
-export class SearchItem extends PureComponent<SearchItemComponentProps> {
+export class SearchItemComponent extends PureComponent<SearchItemComponentProps> {
     static defaultProps: Partial<SearchItemComponentProps> = {
         linkTo: { pathname: '' },
         imgSrc: '',
         customAttribute: null,
-        product: {}
+        product: {},
     };
 
     renderCustomAttribute(): ReactElement {
@@ -67,7 +67,7 @@ export class SearchItem extends PureComponent<SearchItemComponentProps> {
     renderImage(): ReactElement {
         const {
             product: { name },
-            imgSrc
+            imgSrc,
         } = this.props;
 
         if (name && !imgSrc) {
@@ -120,4 +120,4 @@ export class SearchItem extends PureComponent<SearchItemComponentProps> {
     }
 }
 
-export default SearchItem;
+export default SearchItemComponent;

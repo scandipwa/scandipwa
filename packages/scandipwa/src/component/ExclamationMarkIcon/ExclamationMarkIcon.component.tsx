@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import './ExclamationMarkIcon.style';
 
 /** @namespace Component/ExclamationMarkIcon/Component */
-export class ExclamationMarkIcon extends PureComponent {
+export class ExclamationMarkIconComponent extends PureComponent {
     render(): ReactElement {
         return (
             <svg
@@ -35,4 +35,4 @@ export class ExclamationMarkIcon extends PureComponent {
     }
 }
 
-export default ExclamationMarkIcon;
+export default ExclamationMarkIconComponent;

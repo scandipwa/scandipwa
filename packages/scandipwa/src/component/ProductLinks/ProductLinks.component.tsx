@@ -21,7 +21,7 @@ import { ProductLinksComponentProps } from './ProductLinks.type';
 import './ProductLinks.style';
 
 /** @namespace Component/ProductLinks/Component */
-export class ProductLinks extends PureComponent<ProductLinksComponentProps> {
+export class ProductLinksComponent extends PureComponent<ProductLinksComponentProps> {
     __construct(props: ProductLinksComponentProps): void {
         super.__construct?.(props);
 
@@ -68,13 +68,13 @@ export class ProductLinks extends PureComponent<ProductLinksComponentProps> {
         const {
             linkType,
             linkedProducts: { [linkType]: { items = [] } = {} },
-            numberOfProductsToDisplay
+            numberOfProductsToDisplay,
         } = this.props;
 
         if (!items?.length) {
             return Array.from(
                 { length: numberOfProductsToDisplay },
-                (_, i) => this.renderProductCard({}, i)
+                (_, i) => this.renderProductCard({}, i),
             );
         }
 
@@ -113,4 +113,4 @@ export class ProductLinks extends PureComponent<ProductLinksComponentProps> {
     }
 }
 
-export default ProductLinks;
+export default ProductLinksComponent;

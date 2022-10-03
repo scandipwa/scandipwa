@@ -16,19 +16,19 @@ import { formatOrders } from 'Util/Orders';
 import {
     OrderAction,
     OrderActionType,
-    OrderStore
+    OrderStore,
 } from './Order.type';
 
 /** @namespace Store/Order/Reducer/getInitialState */
 export const getInitialState = (): OrderStore => ({
     orderList: {},
-    isLoading: true
+    isLoading: true,
 });
 
 /** @namespace Store/Order/Reducer/OrderReducer */
 export const OrderReducer: Reducer<OrderStore, OrderAction> = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     const { type } = action;
 
@@ -36,7 +36,7 @@ export const OrderReducer: Reducer<OrderStore, OrderAction> = (
     case OrderActionType.GET_ORDER_LIST: {
         const {
             orderList,
-            status
+            status,
         } = action;
         const { items = [], page_info } = orderList;
         const formattedOrders = formatOrders(items);
@@ -44,18 +44,18 @@ export const OrderReducer: Reducer<OrderStore, OrderAction> = (
         return {
             ...state,
             isLoading: status,
-            orderList: { items: formattedOrders, pageInfo: page_info }
+            orderList: { items: formattedOrders, pageInfo: page_info },
         };
     }
 
     case OrderActionType.SET_ORDER_LOADING_STATUS: {
         const {
-            status
+            status,
         } = action;
 
         return {
             ...state,
-            isLoading: status
+            isLoading: status,
         };
     }
 

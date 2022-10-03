@@ -17,7 +17,7 @@ import RenderWhenVisible from 'Component/RenderWhenVisible';
 import { ReactElement } from 'Type/Common.type';
 
 import {
-    Widget
+    Widget,
 } from './WidgetFactory.config';
 import { WidgetFactoryComponentProps, WidgetFactoryComponentRenderMap } from './WidgetFactory.type';
 
@@ -41,21 +41,21 @@ export const RecentlyViewedWidget = lazy(() => import(
 ));
 
 /** @namespace Component/WidgetFactory/Component */
-export class WidgetFactory extends PureComponent<WidgetFactoryComponentProps> {
+export class WidgetFactoryComponent extends PureComponent<WidgetFactoryComponentProps> {
     renderMap: WidgetFactoryComponentRenderMap = {
         [Widget.SLIDER]: {
             component: HomeSlider,
-            fallback: this.renderSliderFallback
+            fallback: this.renderSliderFallback,
         },
         [Widget.NEW_PRODUCTS]: {
-            component: NewProducts
+            component: NewProducts,
         },
         [Widget.CATALOG_PRODUCT_LIST]: {
-            component: ProductListWidget
+            component: ProductListWidget,
         },
         [Widget.RECENTLY_VIEWED]: {
-            component: RecentlyViewedWidget
-        }
+            component: RecentlyViewedWidget,
+        },
     };
 
     renderSliderFallback(): JSX.Element {
@@ -77,11 +77,11 @@ export class WidgetFactory extends PureComponent<WidgetFactoryComponentProps> {
             showPager,
             storeId,
             title,
-            conditionsEncoded
+            conditionsEncoded,
         } = this.props;
         const {
             component: Widget,
-            fallback
+            fallback,
         } = this.renderMap[type] || {};
 
         if (Widget !== undefined) {
@@ -119,4 +119,4 @@ export class WidgetFactory extends PureComponent<WidgetFactoryComponentProps> {
     }
 }
 
-export default WidgetFactory;
+export default WidgetFactoryComponent;

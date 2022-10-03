@@ -33,7 +33,7 @@ import {
     ProductReviewFormContainerMapDispatchProps,
     ProductReviewFormContainerMapStateProps,
     ProductReviewFormContainerProps,
-    ProductReviewFormContainerState
+    ProductReviewFormContainerState,
 } from './ProductReviewForm.type';
 
 export const ReviewDispatcher = import(
@@ -44,17 +44,17 @@ export const ReviewDispatcher = import(
 /** @namespace Component/ProductReviewForm/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductReviewFormContainerMapStateProps => ({
     customer: state.MyAccountReducer.customer,
-    reviewRatings: state.ConfigReducer.reviewRatings
+    reviewRatings: state.ConfigReducer.reviewRatings,
 });
 
 /** @namespace Component/ProductReviewForm/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductReviewFormContainerMapDispatchProps => ({
     addReview: (options) => ReviewDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.submitProductReview(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.submitProductReview(dispatch, options),
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE))
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
 });
 
 /** @namespace Component/ProductReviewForm/Container */
@@ -65,7 +65,7 @@ ProductReviewFormContainerState
     containerFunctions: ProductReviewFormContainerFunctions = ({
         onReviewSubmitSuccess: this._onReviewSubmitSuccess.bind(this),
         onStarRatingClick: this._onStarRatingClick.bind(this),
-        onReviewError: this._onReviewError.bind(this)
+        onReviewError: this._onReviewError.bind(this),
     });
 
     __construct(props: ProductReviewFormContainerProps): void {
@@ -78,7 +78,7 @@ ProductReviewFormContainerState
             isLoading: false,
             ratingData: {},
             reviewData,
-            isSubmitted: false
+            isSubmitted: false,
         };
     }
 
@@ -88,7 +88,7 @@ ProductReviewFormContainerState
             isLoading,
             ratingData,
             reviewData,
-            isSubmitted
+            isSubmitted,
         } = this.state;
 
         return {
@@ -96,7 +96,7 @@ ProductReviewFormContainerState
             isSubmitted,
             ratingData,
             reviewData,
-            reviewRatings
+            reviewRatings,
         };
     }
 
@@ -108,14 +108,14 @@ ProductReviewFormContainerState
 
     async _onReviewSubmitSuccess(
         form: HTMLFormElement,
-        fields: FormFields
+        fields: FormFields,
     ): Promise<void> {
         const {
             product,
             addReview,
             hideActiveOverlay,
             goToPreviousHeaderState,
-            showNotification
+            showNotification,
         } = this.props;
 
         const { ratingData: rating_data } = this.state;
@@ -125,7 +125,7 @@ ProductReviewFormContainerState
         const {
             nickname,
             title,
-            detail
+            detail,
         } = transformToNameValuePair<Record<string, string>>(fields as Record<string, FieldData>);
 
         const { sku: product_sku = '' } = product;
@@ -136,12 +136,12 @@ ProductReviewFormContainerState
                 title,
                 detail,
                 product_sku,
-                rating_data
+                rating_data,
             });
 
             this.setState({
                 ratingData: {},
-                reviewData: {}
+                reviewData: {},
             });
 
             goToPreviousHeaderState();
@@ -155,13 +155,13 @@ ProductReviewFormContainerState
 
     _onStarRatingClick(rating_id: string, option_id: string): void {
         this.setState(({ ratingData }) => ({
-            ratingData: { ...ratingData, [ rating_id ]: option_id }
+            ratingData: { ...ratingData, [ rating_id ]: option_id },
         }));
     }
 
     _handleFieldChange(fieldName: string, value: string): void {
         this.setState(({ reviewData }) => ({
-            reviewData: { ...reviewData, [ fieldName ]: value }
+            reviewData: { ...reviewData, [ fieldName ]: value },
         }));
     }
 

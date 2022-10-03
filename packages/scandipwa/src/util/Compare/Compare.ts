@@ -10,7 +10,7 @@
  */
 
 import {
-    isSignedIn, ONE_HOUR, ONE_HOUR_IN_SECONDS, TOKEN_REFRESH_DELAY
+    isSignedIn, ONE_HOUR, ONE_HOUR_IN_SECONDS, TOKEN_REFRESH_DELAY,
 } from 'Util/Auth';
 import { TokensByWebsite } from 'Util/Auth/Token.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -41,7 +41,7 @@ export const setUid = (uid: string | null): void => {
     const tokens: TokensByWebsite = BrowserDatabase.getItem(COMPARE_UID) || {};
     const state = getStore().getState() as RootState;
     const {
-        access_token_lifetime = ONE_HOUR
+        access_token_lifetime = ONE_HOUR,
     } = state.ConfigReducer;
 
     const uidExpirationTimeInStorage = isSignedIn()
@@ -83,5 +83,5 @@ export const removeUid = (): void => {
 /** @namespace Util/Compare/refreshUid */
 export const refreshUid = debounce(
     () => setUid(getUid()),
-    TOKEN_REFRESH_DELAY
+    TOKEN_REFRESH_DELAY,
 );

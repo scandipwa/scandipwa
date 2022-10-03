@@ -20,7 +20,7 @@ export class StoreInPickUpQuery {
     getStores(
         country: string,
         search = '',
-        productsInfo?: GQLProductInfoInput[]
+        productsInfo?: GQLProductInfoInput[],
     ): Query<'getStores', { stores: Store[] }> {
         return new Query<'getStores', { stores: Store[] }>('getStores')
             .addFieldList([this.getStoreFields()])
@@ -40,7 +40,7 @@ export class StoreInPickUpQuery {
                 new Field<'pickup_location_code', string>('pickup_location_code'),
                 new Field<'postcode', string>('postcode'),
                 new Field<'region', string>('region'),
-                new Field<'street', string>('street')
+                new Field<'street', string>('street'),
             ]);
     }
 }

@@ -28,7 +28,7 @@ import { scrollToTop } from 'Util/Browser';
 import {
     getCartShippingPrice,
     getCartShippingSubPrice,
-    getCartTotalSubPrice
+    getCartTotalSubPrice,
 } from 'Util/Cart';
 import history from 'Util/History';
 import { getProductInStock } from 'Util/Product/Extract';
@@ -43,7 +43,7 @@ import {
     CartOverlayContainerMapDispatchProps,
     CartOverlayContainerMapStateProps,
     CartOverlayContainerProps,
-    CartOverlayContainerState
+    CartOverlayContainerState,
 } from './CartOverlay.type';
 
 export const CartDispatcher = import(
@@ -62,7 +62,7 @@ export const mapStateToProps = (state: RootState): CartOverlayContainerMapStateP
     cartShippingPrice: getCartShippingPrice(state),
     cartShippingSubPrice: getCartShippingSubPrice(state),
     cartDisplaySettings: state.ConfigReducer.cartDisplayConfig,
-    minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount || {}
+    minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount || {},
 });
 
 /** @namespace Component/CartOverlay/Container/mapDispatchToProps */
@@ -71,7 +71,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartOverlayContainerMapD
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    hideActiveOverlay: () => dispatch(hideActiveOverlay())
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
 });
 
 /** @namespace Component/CartOverlay/Container */
@@ -82,26 +82,26 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
         currencyCode: undefined,
-        minimumOrderAmount: {}
+        minimumOrderAmount: {},
     };
 
     state: CartOverlayContainerState = {
         isEditing: false,
-        isCartItemLoading: false
+        isCartItemLoading: false,
     };
 
     containerFunctions = {
         changeHeaderState: this.changeHeaderState.bind(this),
         handleCheckoutClick: this.handleCheckoutClick.bind(this),
         onCartItemLoading: this.onCartItemLoading.bind(this),
-        scrollToTop: this.scrollToTop.bind(this)
+        scrollToTop: this.scrollToTop.bind(this),
     };
 
     containerProps(): Pick<CartOverlayComponentProps, CartOverlayComponentContainerPropKeys> {
         const {
             totals,
             totals: {
-                items = []
+                items = [],
             } = {},
             showOverlay,
             currencyCode,
@@ -112,8 +112,8 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
             cartShippingPrice,
             cartShippingSubPrice,
             minimumOrderAmount: {
-                minimum_order_amount_reached: minimumOrderAmountReached = true
-            }
+                minimum_order_amount_reached: minimumOrderAmountReached = true,
+            },
         } = this.props;
         const { isEditing, isCartItemLoading } = this.state;
 
@@ -130,7 +130,7 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
             cartShippingSubPrice,
             isCartItemLoading,
             minimumOrderAmountReached,
-            hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items)
+            hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items),
         };
     }
 
@@ -145,7 +145,7 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
             showNotification,
             setNavigationState,
             hideActiveOverlay,
-            totals
+            totals,
         } = this.props;
 
         // to prevent outside-click handler trigger
@@ -156,7 +156,7 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
         if (hasOutOfStockProductsInCart) {
             showNotification(
                 NotificationType.ERROR,
-                __('Cannot proceed to checkout. Remove out of stock products first.')
+                __('Cannot proceed to checkout. Remove out of stock products first.'),
             );
 
             e.preventDefault();
@@ -182,7 +182,7 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
     changeHeaderState(): void {
         const {
             changeHeaderState,
-            totals: { total_quantity = 0 }
+            totals: { total_quantity = 0 },
         } = this.props;
         const title = __('%s Items', total_quantity || 0);
 
@@ -195,10 +195,10 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
                     name: Page.CART_EDITING,
                     title,
                     onOkClick: () => this.setState({ isEditing: false }),
-                    onCancelClick: () => this.setState({ isEditing: false })
+                    onCancelClick: () => this.setState({ isEditing: false }),
                 });
             },
-            onCloseClick: () => this.setState({ isEditing: false })
+            onCloseClick: () => this.setState({ isEditing: false }),
         });
     }
 

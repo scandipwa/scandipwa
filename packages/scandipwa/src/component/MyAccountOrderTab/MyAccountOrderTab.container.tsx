@@ -17,17 +17,17 @@ import MyAccountOrderTab from './MyAccountOrderTab.component';
 import {
     MyAccountOrderTabComponentProps,
     MyAccountOrderTabContainerProps,
-    MyAccountOrderTabContainerPropsKeys
+    MyAccountOrderTabContainerPropsKeys,
 } from './MyAccountOrderTab.type';
 
 /** @namespace Component/MyAccountOrderTab/Container */
 export class MyAccountOrderTabContainer extends PureComponent<MyAccountOrderTabContainerProps> {
     static defaultProps: Partial<MyAccountOrderTabContainerProps> = {
-        isActive: false
+        isActive: false,
     };
 
     containerFunctions = {
-        handleClickOnTab: this.handleClickOnTab.bind(this)
+        handleClickOnTab: this.handleClickOnTab.bind(this),
     };
 
     containerProps(): Pick<MyAccountOrderTabComponentProps, MyAccountOrderTabContainerPropsKeys> {

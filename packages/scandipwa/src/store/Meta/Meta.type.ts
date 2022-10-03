@@ -15,7 +15,7 @@ import { CategoryTree } from 'Query/Category.type';
 import { Merge } from 'Type/Common.type';
 
 export enum MetaActionType {
-    UPDATE_META = 'UPDATE_META'
+    UPDATE_META = 'UPDATE_META',
 }
 
 export interface PageMeta {

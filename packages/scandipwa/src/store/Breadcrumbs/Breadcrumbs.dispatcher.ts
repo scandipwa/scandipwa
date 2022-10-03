@@ -13,7 +13,7 @@ import { Dispatch } from 'redux';
 
 import {
     toggleBreadcrumbs,
-    updateBreadcrumbs
+    updateBreadcrumbs,
 } from 'Store/Breadcrumbs/Breadcrumbs.action';
 
 import { Breadcrumb, Category, Product } from './Breadcrumbs.type';
@@ -73,8 +73,8 @@ export class BreadcrumbsDispatcher {
             ? [
                 {
                     url: '',
-                    name: title
-                }
+                    name: title,
+                },
             ]
             : [];
 
@@ -99,7 +99,7 @@ export class BreadcrumbsDispatcher {
                         const {
                             category_url,
                             category_name,
-                            category_is_active
+                            category_is_active,
                         } = crumb;
 
                         // do not add link to inactive categories
@@ -108,13 +108,13 @@ export class BreadcrumbsDispatcher {
                                 name: category_name || '',
                                 url: {
                                     pathname: category_url || '',
-                                    state: { category: true }
-                                }
+                                    state: { category: true },
+                                },
                             });
                         } else {
                             breadcrumbsList.push({
                                 url: '',
-                                name: category_name || ''
+                                name: category_name || '',
                             });
                         }
                     }
@@ -123,7 +123,7 @@ export class BreadcrumbsDispatcher {
 
         return [
             { url, name },
-            ...breadcrumbsList.reverse()
+            ...breadcrumbsList.reverse(),
         ];
     }
 
@@ -133,7 +133,7 @@ export class BreadcrumbsDispatcher {
 
     findLongestBreadcrumbs(categories: Category[]): Partial<Category> {
         const {
-            breadcrumbsCategory = {}
+            breadcrumbsCategory = {},
         } = categories.reduce((acc, category) => {
             const { longestBreadcrumbsLength } = acc;
             const { breadcrumbs } = category;
@@ -153,11 +153,11 @@ export class BreadcrumbsDispatcher {
 
             return {
                 breadcrumbsCategory: category,
-                longestBreadcrumbsLength: breadcrumbsLength
+                longestBreadcrumbsLength: breadcrumbsLength,
             };
         }, {
             breadcrumbsCategory: {},
-            longestBreadcrumbsLength: 0
+            longestBreadcrumbsLength: 0,
         });
 
         return breadcrumbsCategory;
@@ -186,8 +186,8 @@ export class BreadcrumbsDispatcher {
             { url, name },
             ...this._getCategoryBreadcrumbs(
                 this.findCategoryById(categories, prevCategoryId || 0)
-                || this.findLongestBreadcrumbs(categories)
-            )
+                || this.findLongestBreadcrumbs(categories),
+            ),
         ];
     }
 }

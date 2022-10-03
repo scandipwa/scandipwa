@@ -22,17 +22,17 @@ import './ContentWrapper.style';
  * @class ContentWrapper
  * @namespace Component/ContentWrapper/Component
  */
-export class ContentWrapper extends PureComponent<ContentWrapperComponentProps> {
+export class ContentWrapperComponent extends PureComponent<ContentWrapperComponentProps> {
     static defaultProps: Partial<ContentWrapperComponentProps> = {
         mix: {},
         wrapperMix: {},
         children: null,
-        isNotSection: false
+        isNotSection: false,
     };
 
     renderContentWrapper(): ReactElement {
         const {
-            children, wrapperMix
+            children, wrapperMix,
         } = this.props;
 
         return (
@@ -46,7 +46,7 @@ export class ContentWrapper extends PureComponent<ContentWrapperComponentProps> 
         const {
             mix,
             label,
-            isNotSection
+            isNotSection,
         } = this.props;
 
         if (isNotSection) {
@@ -61,4 +61,4 @@ export class ContentWrapper extends PureComponent<ContentWrapperComponentProps> 
     }
 }
 
-export default ContentWrapper;
+export default ContentWrapperComponent;

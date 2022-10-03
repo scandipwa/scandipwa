@@ -20,14 +20,14 @@ import { DraggableComponentProps, DraggableComponentState } from './Draggable.ty
 import './Draggable.style';
 
 /** @namespace Component/Draggable/Component */
-export class Draggable extends PureComponent<DraggableComponentProps, DraggableComponentState> {
+export class DraggableComponent extends PureComponent<DraggableComponentProps, DraggableComponentState> {
     static defaultProps: Partial<DraggableComponentProps> = {
         shiftX: 0,
         shiftY: 0,
         onDragStart: noopFn,
         onDragEnd: (
             state: DraggableComponentState,
-            callback: (newState: Partial<DraggableComponentState & { shiftX: number; shiftY: number }>) => unknown
+            callback: (newState: Partial<DraggableComponentState & { shiftX: number; shiftY: number }>) => unknown,
         ): void => {
             const { translateX, translateY } = state;
 
@@ -35,7 +35,7 @@ export class Draggable extends PureComponent<DraggableComponentProps, DraggableC
                 originalX: 0,
                 originalY: 0,
                 shiftX: translateX,
-                shiftY: translateY
+                shiftY: translateY,
             });
         },
         onClick: noopFn,
@@ -43,7 +43,7 @@ export class Draggable extends PureComponent<DraggableComponentProps, DraggableC
         handleFocus: noopFn,
         handleKey: noopFn,
         draggableRef: undefined,
-        mix: {}
+        mix: {},
     };
 
     state: DraggableComponentState = {
@@ -53,7 +53,7 @@ export class Draggable extends PureComponent<DraggableComponentProps, DraggableC
         lastTranslateX: 0,
         originalY: 0,
         translateY: 0,
-        lastTranslateY: 0
+        lastTranslateY: 0,
     };
 
     __construct(props: DraggableComponentProps): void {
@@ -71,7 +71,7 @@ export class Draggable extends PureComponent<DraggableComponentProps, DraggableC
 
     static getDerivedStateFromProps(
         props: DraggableComponentProps,
-        state: DraggableComponentState
+        state: DraggableComponentState,
     ): Partial<DraggableComponentState> | null {
         const { shiftX, shiftY } = props;
         const { lastTranslateX, lastTranslateY } = state;
@@ -79,7 +79,7 @@ export class Draggable extends PureComponent<DraggableComponentProps, DraggableC
         if (shiftX !== lastTranslateX || shiftY !== lastTranslateY) {
             return {
                 lastTranslateX: shiftX,
-                lastTranslateY: shiftY
+                lastTranslateY: shiftY,
             };
         }
 
@@ -126,10 +126,10 @@ export class Draggable extends PureComponent<DraggableComponentProps, DraggableC
 
         this.setState(({
             originalX,
-            originalY
+            originalY,
         }) => ({
             translateX: clientX - originalX + shiftX,
-            translateY: clientY - originalY + shiftY
+            translateY: clientY - originalY + shiftY,
         }), () => {
             const { onDrag } = this.props;
 
@@ -163,16 +163,16 @@ export class Draggable extends PureComponent<DraggableComponentProps, DraggableC
                     ...newState,
                     isDragging: false,
                     translateX: 0,
-                    translateY: 0
+                    translateY: 0,
                 } as DraggableComponentState),
-                event
+                event,
             );
         }
     }
 
     handleDragStart({
         clientX,
-        clientY
+        clientY,
     }: MouseEvent | MouseEventInit): void {
         const { onDragStart } = this.props;
 
@@ -187,7 +187,7 @@ export class Draggable extends PureComponent<DraggableComponentProps, DraggableC
         this.setState({
             originalX: clientX,
             originalY: clientY,
-            isDragging: true
+            isDragging: true,
         });
     }
 
@@ -195,12 +195,12 @@ export class Draggable extends PureComponent<DraggableComponentProps, DraggableC
         const { onDragEnd } = this.props;
 
         onDragEnd(this.state, (
-            newState: Partial<DraggableComponentState>
+            newState: Partial<DraggableComponentState>,
         ) => this.setState<keyof typeof newState>({
             ...newState,
             isDragging: false,
             translateX: 0,
-            translateY: 0
+            translateY: 0,
         } as DraggableComponentState));
 
         // TO STAY WHERE RELEASED
@@ -222,7 +222,7 @@ export class Draggable extends PureComponent<DraggableComponentProps, DraggableC
             handleFocus,
             handleKey,
             draggableRef,
-            mix
+            mix,
         } = this.props;
 
         return (
@@ -246,4 +246,4 @@ export class Draggable extends PureComponent<DraggableComponentProps, DraggableC
     }
 }
 
-export default Draggable;
+export default DraggableComponent;

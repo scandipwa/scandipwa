@@ -13,7 +13,7 @@ import {
     HideNotificationAction,
     NotificationActionType,
     NotificationType,
-    ShowNotificationAction
+    ShowNotificationAction,
 } from './Notification.type';
 
 /**
@@ -27,12 +27,12 @@ import {
 export const showNotification = <T>(
     msgType: NotificationType,
     msgText: string,
-    msgDebug?: T
+    msgDebug?: T,
 ): ShowNotificationAction<T> => ({
         type: NotificationActionType.SHOW_NOTIFICATION,
         msgType,
         msgText,
-        msgDebug
+        msgDebug,
     });
 
 /**
@@ -43,5 +43,5 @@ export const showNotification = <T>(
  */
 export const hideNotification = (id: string): HideNotificationAction => ({
     type: NotificationActionType.HIDE_NOTIFICATION,
-    id
+    id,
 });

@@ -31,36 +31,36 @@ import {
     StoreSwitcherContainerMapStateProps,
     StoreSwitcherContainerProps,
     StoreSwitcherContainerPropsKeys,
-    StoreSwitcherContainerState
+    StoreSwitcherContainerState,
 } from './StoreSwitcher.type';
 
 /** @namespace Component/StoreSwitcher/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): StoreSwitcherContainerMapStateProps => ({
     device: state.ConfigReducer.device,
-    currentStoreCode: state.ConfigReducer.code
+    currentStoreCode: state.ConfigReducer.code,
 });
 
 /** @namespace Component/StoreSwitcher/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): StoreSwitcherContainerMapDispatchProps => ({
-    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message))
+    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
 });
 
 /** @namespace Component/StoreSwitcher/Container */
 export class StoreSwitcherContainer extends DataContainer<StoreSwitcherContainerProps, StoreSwitcherContainerState> {
     static defaultProps: Partial<StoreSwitcherContainerProps> = {
-        currentStoreCode: 'default'
+        currentStoreCode: 'default',
     };
 
     state: StoreSwitcherContainerState = {
         storeList: [],
         isOpened: false,
-        storeLabel: ''
+        storeLabel: '',
     };
 
     containerFunctions: StoreSwitcherContainerFunctions = {
         handleStoreSelect: this.handleStoreSelect.bind(this),
         onStoreSwitcherClick: this.onStoreSwitcherClick.bind(this),
-        onStoreSwitcherOutsideClick: this.onStoreSwitcherOutsideClick.bind(this)
+        onStoreSwitcherOutsideClick: this.onStoreSwitcherOutsideClick.bind(this),
     };
 
     __construct(props: StoreSwitcherContainerProps): void {
@@ -97,7 +97,7 @@ export class StoreSwitcherContainer extends DataContainer<StoreSwitcherContainer
             device,
             isOpened,
             storeLabel,
-            storeList
+            storeList,
         };
     }
 
@@ -115,8 +115,8 @@ export class StoreSwitcherContainer extends DataContainer<StoreSwitcherContainer
         this.fetchData<{ storeList: StoreItem[] }>(
             [ConfigQuery.getStoreListField()],
             ({ storeList }) => this.setState({
-                storeList: this._formatStoreList(storeList)
-            })
+                storeList: this._formatStoreList(storeList),
+            }),
         );
     }
 
@@ -126,7 +126,7 @@ export class StoreSwitcherContainer extends DataContainer<StoreSwitcherContainer
             code,
             is_active,
             base_url,
-            base_link_url
+            base_link_url,
         }) => {
             if (!is_active) {
                 return acc;
@@ -139,8 +139,8 @@ export class StoreSwitcherContainer extends DataContainer<StoreSwitcherContainer
                     value: code,
                     storeUrl: base_url,
                     storeLinkUrl: base_link_url,
-                    label: name
-                }
+                    label: name,
+                },
             ];
         }, []);
     }
@@ -149,7 +149,7 @@ export class StoreSwitcherContainer extends DataContainer<StoreSwitcherContainer
         const { storeList } = this.state;
 
         const store = storeList.find(
-            ({ value }) => value === storeCode
+            ({ value }) => value === storeCode,
         );
 
         if (!store) {
@@ -166,7 +166,7 @@ export class StoreSwitcherContainer extends DataContainer<StoreSwitcherContainer
         const { storeList } = this.state;
 
         const store = storeList.find(
-            ({ value }) => value === storeCode
+            ({ value }) => value === storeCode,
         );
 
         if (!store) {

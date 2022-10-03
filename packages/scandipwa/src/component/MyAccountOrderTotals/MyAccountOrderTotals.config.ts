@@ -13,13 +13,13 @@ import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 export const colSpanCounts = {
     [OrderTabs.ORDER_REFUNDS]: {
         colSpanPriceCount: 1,
-        colSpanLabelCount: 6
-    }
+        colSpanLabelCount: 6,
+    },
 };
 
 export const colSpanCountsMobile = {
     [OrderTabs.ORDER_REFUNDS]: {
         colSpanPriceCount: 2,
-        colSpanLabelCount: 5
-    }
+        colSpanLabelCount: 5,
+    },
 };

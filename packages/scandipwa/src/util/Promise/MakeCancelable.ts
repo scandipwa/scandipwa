@@ -29,7 +29,7 @@ export const makeCancelable = <T>(promise: Promise<T>): CancelablePromise<T> => 
             /** @namespace Util/Promise/MakeCancelable/makeCancelable/wrappedPromise/promise/then */
             (val) => (!hasCanceled && resolve(val)),
             /** @namespace Util/Promise/MakeCancelable/makeCancelable/wrappedPromise/promise/then/catch */
-            (error) => (!hasCanceled && reject(error))
+            (error) => (!hasCanceled && reject(error)),
         );
     });
 
@@ -37,7 +37,7 @@ export const makeCancelable = <T>(promise: Promise<T>): CancelablePromise<T> => 
         promise: wrappedPromise,
         cancel() {
             hasCanceled = true;
-        }
+        },
     };
 };
 

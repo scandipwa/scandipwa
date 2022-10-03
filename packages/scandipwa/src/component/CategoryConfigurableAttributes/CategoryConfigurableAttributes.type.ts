@@ -14,7 +14,7 @@ import {
     ProductConfigurableAttributesComponentContainerFunctions,
     ProductConfigurableAttributesComponentContainerPropsKeys,
     ProductConfigurableAttributesComponentProps,
-    ProductConfigurableAttributesContainerProps
+    ProductConfigurableAttributesContainerProps,
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
 import { CategoryTree } from 'Query/Category.type';
 import { Merge } from 'Type/Common.type';

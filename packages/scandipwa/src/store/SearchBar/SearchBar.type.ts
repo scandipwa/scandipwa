@@ -16,7 +16,7 @@ import { IndexedProduct } from 'Util/Product/Product.type';
 export enum SearchBarActionType {
     UPDATE_SEARCH_BAR = 'UPDATE_SEARCH_BAR',
     UPDATE_SEARCH_LOAD_STATUS = 'UPDATE_SEARCH_LOAD_STATUS',
-    CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS'
+    CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS',
 }
 
 export interface UpdateSearchBarAction extends AnyAction {

@@ -14,7 +14,7 @@ import { Category } from 'Query/Category.type';
 
 import {
     CategoryActionType,
-    UpdateCurrentCategoryAction
+    UpdateCurrentCategoryAction,
 } from './Category.type';
 
 /**
@@ -24,8 +24,8 @@ import {
  * @namespace Store/Category/Action/updateCurrentCategory
  */
 export const updateCurrentCategory = (
-    category: Partial<Category>
+    category: Partial<Category>,
 ): UpdateCurrentCategoryAction => ({
     type: CategoryActionType.UPDATE_CURRENT_CATEGORY,
-    category
+    category,
 });

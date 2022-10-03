@@ -16,7 +16,7 @@ import CartQuery from 'Query/Cart.query';
 import { CartDisplayConfig } from 'Query/Cart.type';
 import ConfigQuery from 'Query/Config.query';
 import {
-    CheckoutAgreement, Currencies, CurrencyData, StoreConfig
+    CheckoutAgreement, Currencies, CurrencyData, StoreConfig,
 } from 'Query/Config.type';
 import RegionQuery from 'Query/Region.query';
 import { Country } from 'Query/Region.type';
@@ -53,7 +53,7 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
             await dispatch(updateCurrentCurrency(currencyCode));
 
             CartDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, true)
+                ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, true),
             );
         } catch (e) {
             dispatch(updateConfig({}));
@@ -90,7 +90,7 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
             ConfigQuery.getCheckoutAgreements(),
             ConfigQuery.getCurrencyData(),
             ConfigQuery.getCurrencyRates(),
-            CartQuery.getCartDisplayConfig()
+            CartQuery.getCartDisplayConfig(),
         ];
     }
 }

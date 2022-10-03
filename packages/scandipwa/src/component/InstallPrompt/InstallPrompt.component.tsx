@@ -20,7 +20,7 @@ import { InstallPromptComponentProps } from './InstallPrompt.type';
 import './InstallPrompt.style';
 
 /** @namespace Component/InstallPrompt/Component */
-export class InstallPrompt extends PureComponent<InstallPromptComponentProps> {
+export class InstallPromptComponent extends PureComponent<InstallPromptComponentProps> {
     /**
      * Currently BeforeInstallPromptEvent is supported only on
      * - Android webview
@@ -34,7 +34,7 @@ export class InstallPrompt extends PureComponent<InstallPromptComponentProps> {
             android,
             ios,
             safari,
-            standaloneMode
+            standaloneMode,
         } = device;
         const isAndroid = android && hasInstallPromptEvent;
         const isIos = ios && safari;
@@ -48,7 +48,7 @@ export class InstallPrompt extends PureComponent<InstallPromptComponentProps> {
         const {
             device,
             handleAppInstall,
-            handleBannerClose
+            handleBannerClose,
         } = this.props;
 
         if (device.ios) {
@@ -86,4 +86,4 @@ export class InstallPrompt extends PureComponent<InstallPromptComponentProps> {
     }
 }
 
-export default InstallPrompt;
+export default InstallPromptComponent;

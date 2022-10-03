@@ -28,31 +28,31 @@ import {
     StoreInPickUpContainerDispatchProps,
     StoreInPickUpContainerFunctions,
     StoreInPickUpContainerMapStateProps,
-    StoreInPickUpContainerProps
+    StoreInPickUpContainerProps,
 } from './StoreInPickUp.type';
 
 /** @namespace Component/StoreInPickUp/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpContainerDispatchProps => ({
     showPopup: (payload) => dispatch(showPopup(STORE_IN_PICK_UP_POPUP_ID, payload)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    setPickUpStore: (store) => dispatch(setPickUpStore(store))
+    setPickUpStore: (store) => dispatch(setPickUpStore(store)),
 });
 
 /** @namespace Component/StoreInPickUp/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): StoreInPickUpContainerMapStateProps => ({
-    selectedStore: state.StoreInPickUpReducer.store
+    selectedStore: state.StoreInPickUpReducer.store,
 });
 
 /** @namespace Component/StoreInPickUp/Container */
 export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainerProps> {
     static defaultProps: Partial<StoreInPickUpContainerProps> = {
         cartItemsSku: [],
-        selectedStore: null
+        selectedStore: null,
     };
 
     containerFunctions: StoreInPickUpContainerFunctions = {
         handleOpenPopup: this.handleOpenPopup.bind(this),
-        setSelectedStore: this.setSelectedStore.bind(this)
+        setSelectedStore: this.setSelectedStore.bind(this),
     };
 
     containerProps(): Pick<StoreInPickUpComponentProps, StoreInPickUpComponentPropsKeys> {
@@ -62,7 +62,7 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
             onStoreSelect,
             shippingMethods,
             cartItemsSku,
-            selectedStore
+            selectedStore,
         } = this.props;
 
         return {
@@ -71,7 +71,7 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
             onStoreSelect,
             selectedStore,
             shippingMethods,
-            cartItemsSku
+            cartItemsSku,
         };
     }
 

@@ -22,7 +22,7 @@ import {
     CartCouponContainerMapStateProps,
     CartCouponContainerProps,
     CartCouponContainerPropsKeys,
-    CartCouponContainerState
+    CartCouponContainerState,
 } from './CartCoupon.type';
 
 export const CartDispatcher = import(
@@ -36,11 +36,11 @@ export const mapStateToProps = (): CartCouponContainerMapStateProps => ({});
 /** @namespace Component/CartCoupon/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CartCouponContainerMapDispatchProps => ({
     applyCouponToCart: (couponCode: string) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.applyCouponToCart(dispatch, couponCode)
+        ({ default: dispatcher }) => dispatcher.applyCouponToCart(dispatch, couponCode),
     ),
     removeCouponFromCart: () => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeCouponFromCart(dispatch)
-    )
+        ({ default: dispatcher }) => dispatcher.removeCouponFromCart(dispatch),
+    ),
 });
 
 /** @namespace Component/CartCoupon/Container */
@@ -48,18 +48,18 @@ export class CartCouponContainer extends PureComponent<CartCouponContainerProps,
     static defaultProps: Partial<CartCouponContainerProps> = {
         couponCode: '',
         mix: {},
-        title: ''
+        title: '',
     };
 
     state: CartCouponContainerState = {
         isLoading: false,
-        isIncorrectCoupon: false
+        isIncorrectCoupon: false,
     };
 
     containerFunctions = {
         handleApplyCouponToCart: this.handleApplyCouponToCart.bind(this),
         handleRemoveCouponFromCart: this.handleRemoveCouponFromCart.bind(this),
-        resetIsIncorrectCoupon: this.resetIsIncorrectCoupon.bind(this)
+        resetIsIncorrectCoupon: this.resetIsIncorrectCoupon.bind(this),
     };
 
     containerProps(): Pick<CartCouponComponentProps, CartCouponContainerPropsKeys> {
@@ -71,7 +71,7 @@ export class CartCouponContainer extends PureComponent<CartCouponContainerProps,
             isIncorrectCoupon,
             couponCode,
             mix,
-            title
+            title,
         };
     }
 
@@ -88,10 +88,10 @@ export class CartCouponContainer extends PureComponent<CartCouponContainerProps,
             /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally/applyCouponToCart/then */
             (success) => {
                 this.setState({ isIncorrectCoupon: !success });
-            }
+            },
         ).finally(
             /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleApplyCouponToCart/then/finally */
-            () => this.setState({ isLoading: false })
+            () => this.setState({ isLoading: false }),
         );
     }
 
@@ -102,7 +102,7 @@ export class CartCouponContainer extends PureComponent<CartCouponContainerProps,
 
         removeCouponFromCart().then(
             /** @namespace Component/CartCoupon/Container/CartCouponContainer/handleRemoveCouponFromCart/removeCouponFromCart/then */
-            () => this.setState({ isLoading: false })
+            () => this.setState({ isLoading: false }),
         );
     }
 

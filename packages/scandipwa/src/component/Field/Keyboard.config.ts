@@ -26,5 +26,5 @@ export enum KeyCode {
     A = 65,
     a = 97,
     Z = 90,
-    z = 122
+    z = 122,
 }

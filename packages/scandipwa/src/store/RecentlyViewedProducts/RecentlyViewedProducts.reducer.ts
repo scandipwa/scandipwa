@@ -13,7 +13,7 @@ import { Reducer } from 'redux';
 
 import {
     MAX_NUMBER_OF_RECENT_PRODUCTS,
-    RECENTLY_VIEWED_PRODUCTS
+    RECENTLY_VIEWED_PRODUCTS,
 } from 'Component/RecentlyViewedWidget/RecentlyViewedWidget.config';
 import { ProductItem } from 'Query/ProductList.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -24,12 +24,12 @@ import {
     RecentlyViewedProductItem,
     RecentlyViewedProductsAction,
     RecentlyViewedProductsActionType,
-    RecentlyViewedProductsStore
+    RecentlyViewedProductsStore,
 } from './RecentlyViewedProducts.type';
 
 /** @namespace Store/RecentlyViewedProducts/Reducer/convertToRecentlyViewedProduct */
 export const convertToRecentlyViewedProduct = (
-    products: IndexedBaseProduct<ProductItem>[]
+    products: IndexedBaseProduct<ProductItem>[],
 ): RecentlyViewedProductItem[] => products.map((product) => {
     const {
         canonical_url,
@@ -54,19 +54,19 @@ export const convertToRecentlyViewedProduct = (
 /** @namespace Store/RecentlyViewedProducts/Reducer/getInitialState */
 export const getInitialState = (): RecentlyViewedProductsStore => ({
     recentlyViewedProducts: BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || {},
-    isLoading: true
+    isLoading: true,
 });
 
 /** @namespace Store/RecentlyViewedProducts/Reducer/RecentlyViewedProductsReducer */
 export const RecentlyViewedProductsReducer: Reducer<RecentlyViewedProductsStore, RecentlyViewedProductsAction> = (
     state: RecentlyViewedProductsStore = getInitialState(),
-    action: RecentlyViewedProductsAction
+    action: RecentlyViewedProductsAction,
 ) => {
     switch (action.type) {
     case RecentlyViewedProductsActionType.ADD_RECENTLY_VIEWED_PRODUCT: {
         const {
             product,
-            product: { sku: newSku }
+            product: { sku: newSku },
         } = action;
 
         const { recentlyViewedProducts = {} } = state;
@@ -84,27 +84,27 @@ export const RecentlyViewedProductsReducer: Reducer<RecentlyViewedProductsStore,
 
         const newRecentProducts = {
             ...recentlyViewedProducts,
-            [store]: newStoreRecentProducts
+            [store]: newStoreRecentProducts,
         };
 
         BrowserDatabase.setItem(newRecentProducts, RECENTLY_VIEWED_PRODUCTS);
 
         return {
             ...state,
-            recentlyViewedProducts: newRecentProducts
+            recentlyViewedProducts: newRecentProducts,
         };
     }
 
     case RecentlyViewedProductsActionType.UPDATE_RECENTLY_VIEWED_PRODUCTS: {
         const {
             products = [],
-            storeCode = ''
+            storeCode = '',
         } = action;
         const { recentlyViewedProducts: recent = {} } = state;
 
         const indexedProducts = convertToRecentlyViewedProduct(getIndexedProducts(products));
         const recentProductsFromStorage: Record<string, RecentlyViewedProductItem[]> = BrowserDatabase.getItem(
-            RECENTLY_VIEWED_PRODUCTS
+            RECENTLY_VIEWED_PRODUCTS,
         ) || { [storeCode]: [] };
 
         // Remove product from storage if it is not available
@@ -124,29 +124,29 @@ export const RecentlyViewedProductsReducer: Reducer<RecentlyViewedProductsStore,
 
                 return acc;
             },
-            []
+            [],
         );
 
         const updatedRecentViewedProducts = {
             ...recent,
-            [storeCode]: sortedRecentProducts
+            [storeCode]: sortedRecentProducts,
         };
 
         return {
             ...state,
             recentlyViewedProducts: updatedRecentViewedProducts,
-            isLoading: false
+            isLoading: false,
         };
     }
 
     case RecentlyViewedProductsActionType.UPDATE_LOAD_STATUS: {
         const {
-            isLoading
+            isLoading,
         } = action;
 
         return {
             ...state,
-            isLoading
+            isLoading,
         };
     }
 

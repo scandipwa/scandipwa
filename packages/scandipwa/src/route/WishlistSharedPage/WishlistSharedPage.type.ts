@@ -16,7 +16,7 @@ import {
     MyAccountMyWishlistContainerBaseProps,
     MyAccountMyWishlistContainerMapDispatchProps,
     MyAccountMyWishlistContainerMapStateProps,
-    MyAccountMyWishlistContainerState
+    MyAccountMyWishlistContainerState,
 } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.type';
 import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
 

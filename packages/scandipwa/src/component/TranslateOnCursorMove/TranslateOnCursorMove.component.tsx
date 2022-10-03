@@ -19,7 +19,7 @@ import { TranslateOnCursorMoveComponentProps } from './TranslateOnCursorMove.typ
 import './TranslateOnCursorMove.style';
 
 /** @namespace Component/TranslateOnCursorMove/Component */
-export class TranslateOnCursorMove extends PureComponent<TranslateOnCursorMoveComponentProps> {
+export class TranslateOnCursorMoveComponent extends PureComponent<TranslateOnCursorMoveComponentProps> {
     ref = createRef<HTMLDivElement>();
 
     __construct(props: TranslateOnCursorMoveComponentProps): void {
@@ -51,7 +51,7 @@ export class TranslateOnCursorMove extends PureComponent<TranslateOnCursorMoveCo
         const {
             activeImageId,
             itemSelector,
-            targetSelector
+            targetSelector,
         } = this.props;
 
         const targets = this.ref.current?.querySelectorAll<HTMLElement>(itemSelector);
@@ -75,7 +75,7 @@ export class TranslateOnCursorMove extends PureComponent<TranslateOnCursorMoveCo
         const {
             activeImageId,
             itemSelector,
-            targetSelector
+            targetSelector,
         } = this.props;
 
         // Space from top and bottom to shrink mouse move watch area
@@ -119,6 +119,8 @@ export class TranslateOnCursorMove extends PureComponent<TranslateOnCursorMoveCo
         return (
             <div
               block="TranslateOnCursorMove"
+              // TODO: investigate why does this work ???
+              // eslint-disable-next-line react/no-unknown-property
               onLoad={ this.handleLoad }
               onMouseMove={ this.handleMouseMove }
               ref={ this.ref }
@@ -129,4 +131,4 @@ export class TranslateOnCursorMove extends PureComponent<TranslateOnCursorMoveCo
     }
 }
 
-export default TranslateOnCursorMove;
+export default TranslateOnCursorMoveComponent;

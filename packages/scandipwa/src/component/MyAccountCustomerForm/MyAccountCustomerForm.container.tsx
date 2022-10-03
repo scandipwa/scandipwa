@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 
 import {
     SHOW_VAT_NUMBER_OPTIONAL,
-    SHOW_VAT_NUMBER_REQUIRED
+    SHOW_VAT_NUMBER_REQUIRED,
 } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
@@ -27,14 +27,14 @@ import {
     MyAccountCustomerFormContainerMapStateProps,
     MyAccountCustomerFormContainerProps,
     MyAccountCustomerFormContainerPropsKeys,
-    MyAccountCustomerFormContainerState
+    MyAccountCustomerFormContainerState,
 } from './MyAccountCustomerForm.type';
 
 /** @namespace Component/MyAccountCustomerForm/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountCustomerFormContainerMapStateProps => ({
     showTaxVatNumber: state.ConfigReducer.show_tax_vat_number,
     minimunPasswordLength: state.ConfigReducer.minimun_password_length,
-    minimunPasswordCharacter: state.ConfigReducer.required_character_classes_number
+    minimunPasswordCharacter: state.ConfigReducer.required_character_classes_number,
 });
 
 /** @namespace Component/MyAccountCustomerForm/Container/mapDispatchToProps */
@@ -47,13 +47,13 @@ MyAccountCustomerFormContainerState
 > {
     containerFunctions: MyAccountCustomerFormContainerFunctions = {
         handleEmailInput: this.handleEmailInput.bind(this),
-        handlePasswordInput: this.handlePasswordInput.bind(this)
+        handlePasswordInput: this.handlePasswordInput.bind(this),
     };
 
     state: MyAccountCustomerFormContainerState = {
         email: '',
         currentPassword: '',
-        isEmailEdit: false
+        isEmailEdit: false,
     };
 
     containerProps(): Pick<
@@ -69,10 +69,10 @@ MyAccountCustomerFormContainerState
             handleChangeEmailCheckbox,
             handleChangePasswordCheckbox,
             minimunPasswordLength,
-            minimunPasswordCharacter
+            minimunPasswordCharacter,
         } = this.props;
         const {
-            email, currentPassword, isEmailEdit
+            email, currentPassword, isEmailEdit,
         } = this.state;
 
         const range = { min: minimunPasswordLength, max: 64 };
@@ -89,7 +89,7 @@ MyAccountCustomerFormContainerState
             currentPassword,
             range,
             minimunPasswordCharacter,
-            email: !isEmailEdit ? currentCustomerEmail as string : email
+            email: !isEmailEdit ? currentCustomerEmail as string : email,
         };
     }
 

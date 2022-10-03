@@ -23,7 +23,7 @@ import { CheckoutSuccessComponentProps } from './CheckoutSuccess.type';
 import './CheckoutSuccess.style';
 
 /** @namespace Component/CheckoutSuccess/Component */
-export class CheckoutSuccess extends PureComponent<CheckoutSuccessComponentProps> {
+export class CheckoutSuccessComponent extends PureComponent<CheckoutSuccessComponentProps> {
     renderButtons(): ReactElement {
         return (
             <div block="CheckoutSuccess" elem="ButtonWrapper">
@@ -44,7 +44,7 @@ export class CheckoutSuccess extends PureComponent<CheckoutSuccessComponentProps
             email,
             firstName,
             lastName,
-            orderID
+            orderID,
         } = this.props;
 
         if (!isEmailAvailable || isSignedIn()) {
@@ -68,8 +68,8 @@ export class CheckoutSuccess extends PureComponent<CheckoutSuccessComponentProps
                           firstName,
                           lastName,
                           email,
-                          orderID
-                      }
+                          orderID,
+                      },
                   } }
                   block="Button"
                 >
@@ -93,4 +93,4 @@ export class CheckoutSuccess extends PureComponent<CheckoutSuccessComponentProps
     }
 }
 
-export default CheckoutSuccess;
+export default CheckoutSuccessComponent;

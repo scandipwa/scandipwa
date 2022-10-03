@@ -30,7 +30,7 @@ import {
     MyAccountMyWishlistContainerMapStateProps,
     MyAccountMyWishlistContainerProps,
     MyAccountMyWishlistContainerPropsKeys,
-    MyAccountMyWishlistContainerState
+    MyAccountMyWishlistContainerState,
 } from './MyAccountMyWishlist.type';
 
 export const WishlistDispatcher = import(
@@ -42,32 +42,32 @@ export const WishlistDispatcher = import(
 export const mapStateToProps = (state: RootState): MyAccountMyWishlistContainerMapStateProps => ({
     wishlistItems: state.WishlistReducer.productsInWishlist,
     isWishlistLoading: state.WishlistReducer.isLoading,
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/MyAccountMyWishlist/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyWishlistContainerMapDispatchProps => ({
     clearWishlist: () => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)
+        ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch),
     ),
     moveWishlistToCart: () => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch)
+        ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch),
     ),
     showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
     showNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     removeSelectedFromWishlist: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeItemsFromWishlist(dispatch, options)
-    )
+        ({ default: dispatcher }) => dispatcher.removeItemsFromWishlist(dispatch, options),
+    ),
 });
 
 /** @namespace Component/MyAccountMyWishlist/Container */
 export class MyAccountMyWishlistContainer<
 P extends MyAccountMyWishlistContainerProps = MyAccountMyWishlistContainerProps,
-S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
+S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState,
 > extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountMyWishlistContainerProps> = {
-        creatorsName: ''
+        creatorsName: '',
     };
 
     containerFunctions: MyAccountMyWishlistContainerFunctions = {
@@ -75,7 +75,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
         addAllToCart: this.addAllToCart.bind(this),
         shareWishlist: this.shareWishlist.bind(this),
         removeSelectedFromWishlist: this.removeSelectedFromWishlist.bind(this),
-        setIsQtyUpdateInProgress: this.setIsQtyUpdateInProgress.bind(this)
+        setIsQtyUpdateInProgress: this.setIsQtyUpdateInProgress.bind(this),
     };
 
     __construct(props: MyAccountMyWishlistContainerProps): void {
@@ -84,7 +84,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
         this.state = {
             isLoading: false,
             loadingItemsMap: {} as Record<string, boolean>,
-            isQtyUpdateInProgress: false
+            isQtyUpdateInProgress: false,
         } as S;
     }
 
@@ -92,7 +92,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
         const {
             isLoading,
             loadingItemsMap,
-            isQtyUpdateInProgress
+            isQtyUpdateInProgress,
         } = this.state;
 
         const {
@@ -100,7 +100,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
             creatorsName,
             wishlistItems,
             isEditingActive,
-            isMobile
+            isMobile,
         } = this.props;
 
         const isWishlistEmpty = this._getIsWishlistEmpty();
@@ -115,7 +115,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
             wishlistItems,
             isEditingActive,
             isMobile,
-            isQtyUpdateInProgress
+            isQtyUpdateInProgress,
         };
     }
 
@@ -236,5 +236,5 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState
 
 export default connect(mapStateToProps, mapDispatchToProps)(
     // eslint-disable-next-line max-len
-    MyAccountMyWishlistContainer as unknown as ComponentType<MyAccountMyWishlistContainerProps>
+    MyAccountMyWishlistContainer as unknown as ComponentType<MyAccountMyWishlistContainerProps>,
 );

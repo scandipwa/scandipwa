@@ -14,18 +14,18 @@ import { Store } from 'Query/StoreInPickUp.type';
 import {
     ClearPickUpStoreAction,
     SetPickUpStoreAction,
-    StoreInPickUpActionType
+    StoreInPickUpActionType,
 } from './StoreInPickUp.type';
 
 /** @namespace Store/StoreInPickUp/Action/setPickUpStore */
 export const setPickUpStore = (
-    store: Store | null
+    store: Store | null,
 ): SetPickUpStoreAction => ({
     type: StoreInPickUpActionType.SET_PICK_UP_STORE,
-    store
+    store,
 });
 
 /** @namespace Store/StoreInPickUp/Action/clearPickUpStore */
 export const clearPickUpStore = (): ClearPickUpStoreAction => ({
-    type: StoreInPickUpActionType.CLEAR_PICK_UP_STORE
+    type: StoreInPickUpActionType.CLEAR_PICK_UP_STORE,
 });

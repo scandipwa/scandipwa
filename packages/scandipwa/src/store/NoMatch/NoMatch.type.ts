@@ -12,7 +12,7 @@
 import { AnyAction } from 'redux';
 
 export enum NoMatchActionType {
-    UPDATE_NOMATCH = 'UPDATE_NOMATCH'
+    UPDATE_NOMATCH = 'UPDATE_NOMATCH',
 }
 
 export interface UpdateNoMatchAction extends AnyAction {

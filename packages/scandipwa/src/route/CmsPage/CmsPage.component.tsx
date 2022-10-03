@@ -21,9 +21,9 @@ import { CmsPageComponentProps } from './CmsPage.type';
 import './CmsPage.style';
 
 /** @namespace Route/CmsPage/Component */
-export class CmsPage extends PureComponent<CmsPageComponentProps> {
+export class CmsPageComponent extends PureComponent<CmsPageComponentProps> {
     static defaultProps: Partial<CmsPageComponentProps> = {
-        isBreadcrumbsActive: true
+        isBreadcrumbsActive: true,
     };
 
     renderHeading(): ReactElement {
@@ -43,7 +43,7 @@ export class CmsPage extends PureComponent<CmsPageComponentProps> {
     renderContent(): ReactElement {
         const {
             isLoading,
-            page: { content }
+            page: { content },
         } = this.props;
 
         if (isLoading) {
@@ -68,7 +68,7 @@ export class CmsPage extends PureComponent<CmsPageComponentProps> {
             page,
             isBreadcrumbsActive,
             isLoading,
-            isPageLoaded
+            isPageLoaded,
         } = this.props;
         const { page_width } = page;
 
@@ -92,4 +92,4 @@ export class CmsPage extends PureComponent<CmsPageComponentProps> {
     }
 }
 
-export default CmsPage;
+export default CmsPageComponent;

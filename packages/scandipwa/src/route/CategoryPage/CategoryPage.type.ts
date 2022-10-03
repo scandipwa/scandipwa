@@ -17,7 +17,7 @@ import {
     ProductAttributeFilterOptions,
     ProductListOptionArgs,
     ProductListOptions,
-    SortFields
+    SortFields,
 } from 'Query/ProductList.type';
 import { Category as BreadcrumbCategory } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { Category as MetaCategory } from 'Store/Meta/Meta.type';

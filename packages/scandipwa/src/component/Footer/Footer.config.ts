@@ -20,9 +20,9 @@ export const NEWSLETTER_COLUMN = {
     columnActiveKey: 'newsletterActive',
     items: [
         {
-            render: RENDER_NEWSLETTER
-        }
-    ]
+            render: RENDER_NEWSLETTER,
+        },
+    ],
 };
 
 export const COLUMN_MAP = [
@@ -31,43 +31,43 @@ export const COLUMN_MAP = [
         items: [
             {
                 href: '/about-us',
-                title: __('About Us')
-            }
-        ]
+                title: __('About Us'),
+            },
+        ],
     },
     {
         title: __('Additional info'),
         items: [
             {
                 href: '/privacy-policy-cookie-restriction-mode',
-                title: __('Privacy Policy')
+                title: __('Privacy Policy'),
             },
             {
                 href: '/terms-and-conditions',
-                title: __('Terms of use')
+                title: __('Terms of use'),
             },
             {
                 href: '/privacy-policy-cookie-restriction-mode',
-                title: __('Use of Cookies')
-            }
-        ]
+                title: __('Use of Cookies'),
+            },
+        ],
     },
     {
         title: __('Popular categories'),
         items: [
             {
                 href: '/women',
-                title: __('Women')
+                title: __('Women'),
             },
             {
                 href: '/men',
-                title: __('Men')
+                title: __('Men'),
             },
             {
                 href: '/accessories',
-                title: __('Accessories')
-            }
-        ]
+                title: __('Accessories'),
+            },
+        ],
     },
     {
         title: __('Follow'),
@@ -76,19 +76,19 @@ export const COLUMN_MAP = [
             {
                 href: 'https://www.linkedin.com/company/scandipwa',
                 src: linkedinIcon,
-                title: __('LinkedIn')
+                title: __('LinkedIn'),
             },
             {
                 href: 'https://www.facebook.com/ScandiPWA/',
                 src: facebookIcon,
-                title: __('Facebook')
+                title: __('Facebook'),
             },
             {
                 href: 'https://twitter.com/scandipwa',
                 src: twitterIcon,
-                title: __('Twitter')
-            }
-        ]
+                title: __('Twitter'),
+            },
+        ],
     },
-    NEWSLETTER_COLUMN
+    NEWSLETTER_COLUMN,
 ];

@@ -26,7 +26,7 @@ import {
     MyAccountForgotPasswordContainerMapDispatchProps,
     MyAccountForgotPasswordContainerMapStateProps,
     MyAccountForgotPasswordContainerProps,
-    MyAccountForgotPasswordContainerPropsKeys
+    MyAccountForgotPasswordContainerPropsKeys,
 } from './MyAccountForgotPassword.type';
 
 export const MyAccountDispatcher = import(
@@ -40,17 +40,17 @@ export const mapStateToProps = (): MyAccountForgotPasswordContainerMapStateProps
 /** @namespace Component/MyAccountForgotPassword/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountForgotPasswordContainerMapDispatchProps => ({
     forgotPassword: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)
+        ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch),
     ),
     forgotPasswordEmail: (email) => dispatch(updateCustomerPasswordForgotEmail(email)),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
 
 });
 
 /** @namespace Component/MyAccountForgotPassword/Container */
 export class MyAccountForgotPasswordContainer extends PureComponent<MyAccountForgotPasswordContainerProps> {
     containerFunctions: MyAccountForgotPasswordContainerFunctions = {
-        onForgotPasswordSuccess: this.onForgotPasswordSuccess.bind(this)
+        onForgotPasswordSuccess: this.onForgotPasswordSuccess.bind(this),
     };
 
     containerProps(): Pick<
@@ -62,7 +62,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent<MyAccountFor
             onFormError,
             handleSignIn,
             handleCreateAccount,
-            isCheckout
+            isCheckout,
         } = this.props;
 
         return {
@@ -70,13 +70,13 @@ export class MyAccountForgotPasswordContainer extends PureComponent<MyAccountFor
             onFormError,
             handleSignIn,
             handleCreateAccount,
-            isCheckout
+            isCheckout,
         };
     }
 
     async onForgotPasswordSuccess(form: HTMLFormElement): Promise<void> {
         const {
-            forgotPassword, setSignInState, setLoadingState, forgotPasswordEmail, isOverlayVisible
+            forgotPassword, setSignInState, setLoadingState, forgotPasswordEmail, isOverlayVisible,
         } = this.props;
         const submittedEmail = (form[0] as HTMLInputElement).value as string;
 

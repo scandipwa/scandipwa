@@ -8,8 +8,6 @@
  * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
-import 'intersection-observer';
-
 import { PureComponent } from 'react';
 import { InView } from 'react-intersection-observer';
 
@@ -19,18 +17,19 @@ import { noopFn } from 'Util/Common';
 
 import { RenderWhenVisibleComponentProps, RenderWhenVisibleComponentState } from './RenderWhenVisible.type';
 
+import 'intersection-observer';
 import './RenderWhenVisible.style';
 
 /** @namespace Component/RenderWhenVisible/Component */
-export class RenderWhenVisible extends PureComponent<RenderWhenVisibleComponentProps, RenderWhenVisibleComponentState> {
+export class RenderWhenVisibleComponent extends PureComponent<RenderWhenVisibleComponentProps, RenderWhenVisibleComponentState> {
     static defaultProps: Partial<RenderWhenVisibleComponentProps> = {
-        fallback: noopFn
+        fallback: noopFn,
     };
 
     node: HTMLElement | null = null;
 
     state: RenderWhenVisibleComponentState = {
-        wasVisible: false
+        wasVisible: false,
     };
 
     __construct(props: RenderWhenVisibleComponentProps): void {
@@ -118,4 +117,4 @@ export class RenderWhenVisible extends PureComponent<RenderWhenVisibleComponentP
     }
 }
 
-export default RenderWhenVisible;
+export default RenderWhenVisibleComponent;

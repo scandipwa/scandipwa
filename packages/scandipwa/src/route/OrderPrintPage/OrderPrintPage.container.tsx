@@ -14,10 +14,10 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import {
-    OrderTabs
+    OrderTabs,
 } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import {
-    PrintTypes
+    PrintTypes,
 } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
 import { OrderItem } from 'Query/Order.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
@@ -33,7 +33,7 @@ import {
     OrderPrintPageContainerMapDispatchProps,
     OrderPrintPageContainerMapStateProps,
     OrderPrintPageContainerProps,
-    OrderPrintPageContainerPropsKeys
+    OrderPrintPageContainerPropsKeys,
 } from './OrderPrintPage.type';
 
 export const OrderDispatcher = import(
@@ -44,14 +44,14 @@ export const OrderDispatcher = import(
 /** @namespace Route/OrderPrintPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): OrderPrintPageContainerMapDispatchProps => ({
     getOrderInvoice: (invoiceId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getOrderInvoice(dispatch, invoiceId)
+        ({ default: dispatcher }) => dispatcher.getOrderInvoice(dispatch, invoiceId),
     ),
     getOrderShipment: (shipmentId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getOrderShipment(dispatch, shipmentId)
+        ({ default: dispatcher }) => dispatcher.getOrderShipment(dispatch, shipmentId),
     ),
     getOrderRefund: (refundId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getOrderRefund(dispatch, refundId)
-    )
+        ({ default: dispatcher }) => dispatcher.getOrderRefund(dispatch, refundId),
+    ),
 });
 
 /** @namespace Route/OrderPrintPage/Container/mapStateToProps */
@@ -61,29 +61,29 @@ export const mapStateToProps = (): OrderPrintPageContainerMapStateProps => ({});
 export class OrderPrintPageContainer extends PureComponent<OrderPrintPageContainerProps> {
     orderPrintMap: OrderPrintMapItems = {
         [PrintTypes.PRINT_ORDER]: {
-            activeTab: OrderTabs.ORDER_ITEMS
+            activeTab: OrderTabs.ORDER_ITEMS,
         },
         [PrintTypes.PRINT_ALL_INVOICES]: {
-            activeTab: OrderTabs.ORDER_INVOICES
+            activeTab: OrderTabs.ORDER_INVOICES,
         },
         [PrintTypes.PRINT_ALL_SHIPMENT]: {
-            activeTab: OrderTabs.ORDER_SHIPMENTS
+            activeTab: OrderTabs.ORDER_SHIPMENTS,
         },
         [PrintTypes.PRINT_ALL_REFUNDS]: {
-            activeTab: OrderTabs.ORDER_REFUNDS
+            activeTab: OrderTabs.ORDER_REFUNDS,
         },
         [PrintTypes.PRINT_INVOICE]: {
             request: (invoiceId) => this.requestOrderByInvoice(invoiceId),
-            activeTab: OrderTabs.ORDER_INVOICES
+            activeTab: OrderTabs.ORDER_INVOICES,
         },
         [PrintTypes.PRINT_SHIPMENT]: {
             request: (shipmentId) => this.requestOrderByShipment(shipmentId),
-            activeTab: OrderTabs.ORDER_SHIPMENTS
+            activeTab: OrderTabs.ORDER_SHIPMENTS,
         },
         [PrintTypes.PRINT_REFUND]: {
             request: (refundId) => this.requestOrderByRefund(refundId),
-            activeTab: OrderTabs.ORDER_REFUNDS
-        }
+            activeTab: OrderTabs.ORDER_REFUNDS,
+        },
     };
 
     __construct(props: OrderPrintPageContainerProps): void {
@@ -115,13 +115,13 @@ export class OrderPrintPageContainer extends PureComponent<OrderPrintPageContain
     containerProps(): Pick<OrderPrintPageComponentProps, OrderPrintPageContainerPropsKeys> {
         const {
             match,
-            orderPrintRequest
+            orderPrintRequest,
         } = this.props;
 
         return {
             match,
             orderPrintRequest,
-            orderPrintMap: this.orderPrintMap
+            orderPrintMap: this.orderPrintMap,
         };
     }
 

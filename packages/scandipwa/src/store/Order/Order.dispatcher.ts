@@ -45,15 +45,15 @@ export class OrderDispatcher {
             (error) => {
                 dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
                 dispatch(setLoadingStatus(false));
-            }
+            },
         );
     }
 
     async reorder(dispatch: Dispatch, incrementId: string): Promise<void> {
         const {
             reorderItems: {
-                userInputErrors = []
-            } = {}
+                userInputErrors = [],
+            } = {},
         } = await this.handleReorderMutation(dispatch, incrementId) || {};
 
         const cartDispatcher = (await CartDispatcher).default;
@@ -64,14 +64,14 @@ export class OrderDispatcher {
 
         if (userInputErrors.length) {
             userInputErrors.map((
-                { message }: NetworkError
+                { message }: NetworkError,
             ) => dispatch(showNotification(NotificationType.ERROR, message)));
         }
     }
 
     handleReorderMutation(
         dispatch: Dispatch,
-        incrementId: string
+        incrementId: string,
     ): Promise<Record<'reorderItems', ReorderOutput>> | null {
         try {
             return fetchMutation(OrderQuery.getReorder(incrementId));
@@ -87,9 +87,9 @@ export class OrderDispatcher {
             const {
                 customer: {
                     orders: {
-                        items
-                    }
-                }
+                        items,
+                    },
+                },
             } = await fetchQuery(OrderQuery.getOrderListQuery({ orderId }));
 
             return items[0];
@@ -103,7 +103,7 @@ export class OrderDispatcher {
     async getOrderInvoice(dispatch: Dispatch, invoiceId: number): Promise<OrderItem | null> {
         try {
             const {
-                orderByInvoice
+                orderByInvoice,
             } = await fetchQuery(OrderQuery.getOrderByInvoice(invoiceId));
 
             const invoice = orderByInvoice.invoices.find(({ id }) => Number(decodeBase64(id)) === invoiceId);
@@ -125,7 +125,7 @@ export class OrderDispatcher {
     async getOrderShipment(dispatch: Dispatch, shipmentId: number): Promise<OrderItem | null> {
         try {
             const {
-                orderByShipment
+                orderByShipment,
             } = await fetchQuery(OrderQuery.getOrderByShipment(shipmentId));
 
             const shipment = orderByShipment.shipments.find(({ id }) => Number(decodeBase64(id)) === shipmentId);
@@ -147,7 +147,7 @@ export class OrderDispatcher {
     async getOrderRefund(dispatch: Dispatch, refundId: number): Promise<OrderItem | null> {
         try {
             const {
-                orderByRefund
+                orderByRefund,
             } = await fetchQuery(OrderQuery.getOrderByRefund(refundId));
 
             const refund = orderByRefund.credit_memos.find(({ id }) => Number(decodeBase64(id)) === refundId);

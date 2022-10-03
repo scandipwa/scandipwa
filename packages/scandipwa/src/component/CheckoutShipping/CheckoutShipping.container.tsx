@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 
 import { FormFields } from 'Component/Form/Form.type';
 import {
-    StoreInPickUpCode
+    StoreInPickUpCode,
 } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.type';
 import { ShippingMethod } from 'Query/Checkout.type';
@@ -24,7 +24,7 @@ import { updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { ReactElement } from 'Type/Common.type';
 import {
     trimCheckoutAddress,
-    trimCheckoutCustomerAddress
+    trimCheckoutCustomerAddress,
 } from 'Util/Address';
 import { scrollToTop } from 'Util/Browser';
 import { getCartTotalSubPrice } from 'Util/Cart';
@@ -42,7 +42,7 @@ import {
     CheckoutShippingContainerMapStateProps,
     CheckoutShippingContainerProps,
     CheckoutShippingContainerPropsKeys,
-    CheckoutShippingContainerState
+    CheckoutShippingContainerState,
 } from './CheckoutShipping.type';
 
 /** @namespace Component/CheckoutShipping/Container/mapStateToProps */
@@ -51,12 +51,12 @@ export const mapStateToProps = (state: RootState): CheckoutShippingContainerMapS
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
     totals: state.CartReducer.cartTotals,
     cartTotalSubPrice: getCartTotalSubPrice(state),
-    savedShippingMethodCode: state.CheckoutReducer.shippingFields.shippingMethod as string
+    savedShippingMethodCode: state.CheckoutReducer.shippingFields.shippingMethod as string,
 });
 
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutShippingContainerMapDispatchProps => ({
-    updateShippingFields: (fields) => dispatch(updateShippingFields(fields))
+    updateShippingFields: (fields) => dispatch(updateShippingFields(fields)),
 });
 
 /** @namespace Component/CheckoutShipping/Container */
@@ -67,14 +67,14 @@ CheckoutShippingContainerState
     static defaultProps: Partial<CheckoutShippingContainerProps> = {
         selectedStoreAddress: undefined,
         isSubmitted: false,
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
     };
 
     containerFunctions: CheckoutShippingContainerFunctions = {
         onShippingSuccess: this.onShippingSuccess.bind(this),
         onShippingError: this.onShippingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
-        onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
+        onShippingMethodSelect: this.onShippingMethodSelect.bind(this),
     };
 
     __construct(props: CheckoutShippingContainerProps): void {
@@ -83,7 +83,7 @@ CheckoutShippingContainerState
         const { shippingMethods = [], savedShippingMethodCode } = props;
 
         const previousShippingMethod = shippingMethods.find(
-            (method) => `${method.carrier_code}_${method.method_code}` === savedShippingMethodCode
+            (method) => `${method.carrier_code}_${method.method_code}` === savedShippingMethodCode,
         );
 
         const [defaultShippingMethod] = shippingMethods.filter((method) => method.available);
@@ -95,7 +95,7 @@ CheckoutShippingContainerState
             isSubmitted: false,
             selectedShippingMethod: method_code && method_code !== StoreInPickUpCode.METHOD_CODE
                 ? selectedShippingMethod
-                : undefined
+                : undefined,
         };
     }
 
@@ -124,7 +124,7 @@ CheckoutShippingContainerState
             shippingMethods,
             totals,
             onStoreSelect,
-            onShippingEstimationFieldsChange
+            onShippingEstimationFieldsChange,
         } = this.props;
         const { selectedShippingMethod } = this.state;
 
@@ -139,7 +139,7 @@ CheckoutShippingContainerState
             totals,
             selectedShippingMethod,
             onStoreSelect,
-            onShippingEstimationFieldsChange
+            onShippingEstimationFieldsChange,
         };
     }
 
@@ -155,7 +155,7 @@ CheckoutShippingContainerState
 
     getStoreAddress(
         shippingAddress: CheckoutAddress,
-        isBillingAddress = false
+        isBillingAddress = false,
     ): Partial<StoreWithCountryId> {
         const {
             selectedStoreAddress: {
@@ -166,8 +166,8 @@ CheckoutShippingContainerState
                 street,
                 name,
                 pickup_location_code,
-                country_id
-            } = {}
+                country_id,
+            } = {},
         } = this.props;
 
         const storeAddress = {
@@ -179,7 +179,7 @@ CheckoutShippingContainerState
             telephone: phone,
             street,
             firstname: name,
-            lastname: 'Store'
+            lastname: 'Store',
         };
 
         if (isBillingAddress) {
@@ -191,9 +191,9 @@ CheckoutShippingContainerState
             extension_attributes: [
                 {
                     attribute_code: StoreInPickUpCode.ATTRIBUTE_CODE,
-                    value: pickup_location_code || ''
-                }
-            ]
+                    value: pickup_location_code || '',
+                },
+            ],
         };
     }
 
@@ -215,7 +215,7 @@ CheckoutShippingContainerState
     onShippingError(
         form: HTMLFormElement,
         fields: FormFields | null,
-        validation: boolean | ValidationDOMOutput
+        validation: boolean | ValidationDOMOutput,
     ): void {
         // TODO: implement notification if some data in Form can not display error
         const { isSubmitted } = this.state;
@@ -228,19 +228,19 @@ CheckoutShippingContainerState
 
     onShippingSuccess(
         form: HTMLFormElement,
-        fields: FieldData[]
+        fields: FieldData[],
     ): void {
         const {
             saveAddressInformation,
             updateShippingFields,
             addressLinesQty,
             selectedStoreAddress,
-            customer: { default_shipping }
+            customer: { default_shipping },
         } = this.props;
 
         const {
             selectedCustomerAddressId,
-            selectedShippingMethod
+            selectedShippingMethod,
         } = this.state;
 
         const formattedFields = transformToNameValuePair <CheckoutAddress & Record<string, unknown>>(fields);
@@ -252,7 +252,7 @@ CheckoutShippingContainerState
             for (let i = 0; i < addressLinesQty; i++) {
                 if (formattedFields[ `street_${i}` as keyof typeof formattedFields ]) {
                     (formattedFields.street).push(
-                        formattedFields[ `street_${i}` as keyof typeof formattedFields ] as string
+                        formattedFields[ `street_${i}` as keyof typeof formattedFields ] as string,
                     );
                 }
             }
@@ -270,7 +270,7 @@ CheckoutShippingContainerState
 
         const {
             carrier_code: shipping_carrier_code,
-            method_code: shipping_method_code
+            method_code: shipping_method_code,
         } = selectedShippingMethod || {};
 
         const isInStoreDelivery = Object.keys(selectedStoreAddress || {}).length > 0;
@@ -279,7 +279,7 @@ CheckoutShippingContainerState
             billing_address: isInStoreDelivery ? this.getStoreAddress(shippingAddress, true) : shippingAddress,
             shipping_address: isInStoreDelivery ? this.getStoreAddress(shippingAddress) : shippingAddress,
             shipping_carrier_code: shipping_carrier_code || '',
-            shipping_method_code: shipping_method_code || ''
+            shipping_method_code: shipping_method_code || '',
         };
 
         saveAddressInformation(data);
@@ -294,7 +294,7 @@ CheckoutShippingContainerState
                     && parseInt(default_shipping, 10) === data.shipping_address.id)
                     ? formattedFields : data.shipping_address
             ),
-            shippingMethod
+            shippingMethod,
         });
     }
 
@@ -310,7 +310,7 @@ CheckoutShippingContainerState
         return {
             ...trimCheckoutCustomerAddress(address),
             save_in_address_book: false,
-            id: addressId
+            id: addressId,
         };
     }
 

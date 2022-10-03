@@ -38,14 +38,14 @@ export class ProductGalleryBaseImageContainer extends Component<ProductGalleryBa
             previousScale,
             disableZoom,
             location: { pathname },
-            setTransform
+            setTransform,
         } = this.props;
         const { location: { pathname: prevPathname } } = prevProps;
 
         if (pathname !== prevPathname && scale !== INITIAL_SCALE) {
             setTimeout(
                 () => setTransform(null, null, INITIAL_SCALE, TRANSFORMATION_SPEED),
-                TRANSFORMATION_DELAY
+                TRANSFORMATION_DELAY,
             );
         }
 
@@ -57,7 +57,7 @@ export class ProductGalleryBaseImageContainer extends Component<ProductGalleryBa
     containerProps(): ProductGalleryComponentProps {
         return {
             alt: this._getAlt(),
-            src: this._getSrc()
+            src: this._getSrc(),
         };
     }
 
@@ -70,7 +70,7 @@ export class ProductGalleryBaseImageContainer extends Component<ProductGalleryBa
     _getSrc(): string | undefined {
         const {
             mediaData: { file, base: { url: baseUrl } = {} },
-            isZoomEnabled
+            isZoomEnabled,
         } = this.props;
 
         if (!isZoomEnabled) {
@@ -92,5 +92,5 @@ export class ProductGalleryBaseImageContainer extends Component<ProductGalleryBa
 export default withRouter(
     ProductGalleryBaseImageContainer as unknown as ComponentType<
     RouteComponentProps & ProductGalleryBaseImageContainerProps
-    >
+    >,
 );

@@ -27,7 +27,7 @@ import { ConfirmAccountPageComponentProps } from './ConfirmAccountPage.type';
 import './ConfirmAccountPage.style';
 
 /** @namespace Route/ConfirmAccountPage/Component */
-export class ConfirmAccountPage extends PureComponent<ConfirmAccountPageComponentProps> {
+export class ConfirmAccountPageComponent extends PureComponent<ConfirmAccountPageComponentProps> {
     renderWarningMessage(): ReactElement {
         const { shouldDisplayWarning } = this.props;
 
@@ -50,7 +50,7 @@ export class ConfirmAccountPage extends PureComponent<ConfirmAccountPageComponen
     renderForm(): ReactElement {
         const {
             onConfirmSuccess,
-            onFormError
+            onFormError,
         } = this.props;
 
         return (
@@ -69,7 +69,7 @@ export class ConfirmAccountPage extends PureComponent<ConfirmAccountPageComponen
                   label={ __('Email') }
                   attr={ {
                       id: 'email',
-                      name: 'email'
+                      name: 'email',
                   } }
                   mix={ { block: 'ConfirmAccountPage', elem: 'EmailInput' } }
                   addRequiredTag
@@ -81,12 +81,12 @@ export class ConfirmAccountPage extends PureComponent<ConfirmAccountPageComponen
                       id: 'password',
                       name: 'password',
                       placeholder: __('Enter your password'),
-                      autoComplete: 'new-password'
+                      autoComplete: 'new-password',
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: ValidationInputType.PASSWORD
+                      inputType: ValidationInputType.PASSWORD,
                   } }
                   addRequiredTag
                 />
@@ -121,7 +121,7 @@ export class ConfirmAccountPage extends PureComponent<ConfirmAccountPageComponen
     render(): ReactElement {
         const {
             redirect,
-            isLoading
+            isLoading,
         } = this.props;
 
         if (redirect || isSignedIn()) {
@@ -143,4 +143,4 @@ export class ConfirmAccountPage extends PureComponent<ConfirmAccountPageComponen
     }
 }
 
-export default ConfirmAccountPage;
+export default ConfirmAccountPageComponent;

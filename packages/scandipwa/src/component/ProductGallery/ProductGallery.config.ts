@@ -12,13 +12,13 @@
 export enum ImageType {
     SMALL = 'small_image',
     THUMBNAIL = 'thumbnail',
-    IMAGE = 'image'
+    IMAGE = 'image',
 }
 
 export enum MediaType {
     IMAGE = 'image',
     VIDEO = 'external-video',
-    PLACEHOLDER = 'placeholder'
+    PLACEHOLDER = 'placeholder',
 }
 
 export const MAX_ZOOM_SCALE = 8;

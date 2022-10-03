@@ -28,26 +28,26 @@ import {
     NewVersionPopupContainerFunctions,
     NewVersionPopupContainerMapDispatchProps,
     NewVersionPopupContainerMapStateProps,
-    NewVersionPopupContainerProps
+    NewVersionPopupContainerProps,
 } from './NewVersionPopup.type';
 
 /** @namespace Component/NewVersionPopup/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): NewVersionPopupContainerMapStateProps => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/NewVersionPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): NewVersionPopupContainerMapDispatchProps => ({
     showPopup: (payload) => dispatch(showPopup(NEW_VERSION_POPUP_ID, payload)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
-    hideActiveOverlay: () => dispatch(hideActiveOverlay())
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
 });
 
 /** @namespace Component/NewVersionPopup/Container */
 export class NewVersionPopupContainer extends PureComponent<NewVersionPopupContainerProps> {
     containerFunctions: NewVersionPopupContainerFunctions = {
         toggleNewVersion: this.toggleNewVersion.bind(this),
-        handleDismiss: this.handleDismiss.bind(this)
+        handleDismiss: this.handleDismiss.bind(this),
     };
 
     componentDidMount(): void {
@@ -67,7 +67,7 @@ export class NewVersionPopupContainer extends PureComponent<NewVersionPopupConta
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.addEventListener('controllerchange', () => {
                 showPopup({
-                    title: __('New version available!')
+                    title: __('New version available!'),
                 });
 
                 if (device.isMobile) {

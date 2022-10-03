@@ -15,7 +15,7 @@ import {
     GQLEstimateShippingCostsAddress,
     GQLSaveAddressInformation,
     GQLSSetBillingAddressOnCartInput,
-    GQLSSetPaymentMethodOnCartInput
+    GQLSSetPaymentMethodOnCartInput,
 } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
 
@@ -25,7 +25,7 @@ import {
     SetGuestEmailOnCartOutput,
     ShippingMethod,
     TotalsItem,
-    TotalsObject
+    TotalsObject,
 } from './Checkout.type';
 
 /** @namespace Query/Checkout/Query */
@@ -41,7 +41,7 @@ export class CheckoutQuery {
 
     getSaveGuestEmailMutation(
         email: string,
-        cart_id: string
+        cart_id: string,
     ): Mutation<'setGuestEmailOnCart', SetGuestEmailOnCartOutput> {
         const input = { email, cart_id };
         const mutation = new Mutation<'setGuestEmailOnCart', SetGuestEmailOnCartOutput>('setGuestEmailOnCart')
@@ -53,7 +53,7 @@ export class CheckoutQuery {
 
     getEstimateShippingCosts(
         address: GQLEstimateShippingCostsAddress,
-        guestCartId: string
+        guestCartId: string,
     ): Mutation<'estimateShippingCosts', ShippingMethod, true> {
         const mutation = new Mutation<'estimateShippingCosts', ShippingMethod, true>('estimateShippingCosts', true)
             .addArgument('address', 'EstimateShippingCostsAddress!', address)
@@ -66,7 +66,7 @@ export class CheckoutQuery {
 
     getSaveAddressInformation(
         addressInformation: GQLSaveAddressInformation,
-        guestCartId: string
+        guestCartId: string,
     ): Mutation<'saveAddressInformation', PaymentDetails> {
         const mutation = new Mutation<'saveAddressInformation', PaymentDetails>('saveAddressInformation')
             .addArgument('addressInformation', 'SaveAddressInformation!', addressInformation)
@@ -78,7 +78,7 @@ export class CheckoutQuery {
     }
 
     getSetBillingAddressOnCart(
-        input: GQLSSetBillingAddressOnCartInput
+        input: GQLSSetBillingAddressOnCartInput,
     ): Mutation<'billingAddress', { cart: { id: number } }> {
         return new Mutation<'setBillingAddressOnCart', { cart: { id: number } }>('setBillingAddressOnCart')
             .addArgument('input', 'SetBillingAddressOnCartInput', input)
@@ -87,7 +87,7 @@ export class CheckoutQuery {
     }
 
     getSetPaymentMethodOnCartMutation(
-        input: GQLSSetPaymentMethodOnCartInput
+        input: GQLSSetPaymentMethodOnCartInput,
     ): Mutation<'paymentMethod', { cart: { id: number } }> {
         return new Mutation<'setPaymentMethodOnCart', { cart: { id: number } }>('setPaymentMethodOnCart')
             .addArgument('input', 'SetPaymentMethodOnCartInput', input)
@@ -107,7 +107,7 @@ export class CheckoutQuery {
         guestCartId: string,
         mutation: Mutation<'saveAddressInformation', PaymentDetails>
         | Mutation<'estimateShippingCosts', ShippingMethod, true>
-        | Query<'getPaymentMethods', PaymentMethod, true>
+        | Query<'getPaymentMethods', PaymentMethod, true>,
     ): void {
         if (guestCartId && !isSignedIn()) {
             mutation.addArgument('guestCartId', 'String!', guestCartId);
@@ -125,7 +125,7 @@ export class CheckoutQuery {
     > {
         return [
             this._getPaymentMethodsField(),
-            this._getTotalsField()
+            this._getTotalsField(),
         ];
     }
 
@@ -151,7 +151,7 @@ export class CheckoutQuery {
             new Field<'carrier_title', string>('carrier_title'),
             new Field<'error_message', string>('error_message'),
             new Field<'price_excl_tax', number>('price_excl_tax'),
-            new Field<'price_incl_tax', number>('price_incl_tax')
+            new Field<'price_incl_tax', number>('price_incl_tax'),
         ];
     }
 
@@ -166,7 +166,7 @@ export class CheckoutQuery {
     > {
         return [
             new Field<'code', string>('code'),
-            new Field<'title', string>('title')
+            new Field<'title', string>('title'),
         ];
     }
 
@@ -192,7 +192,7 @@ export class CheckoutQuery {
             new Field<'tax_percent', number>('tax_percent'),
             new Field<'price_incl_tax', number>('price_incl_tax'),
             new Field<'discount_amount', number>('discount_amount'),
-            new Field<'discount_percent', number>('discount_percent')
+            new Field<'discount_percent', number>('discount_percent'),
         ];
     }
 
@@ -229,7 +229,7 @@ export class CheckoutQuery {
             new Field<'shipping_tax_amount', number>('shipping_tax_amount'),
             new Field<'subtotal_with_discount', number>('subtotal_with_discount'),
             new Field<'shipping_discount_amount', number>('shipping_discount_amount'),
-            this._getTotalItemField()
+            this._getTotalItemField(),
         ];
     }
 
@@ -245,7 +245,7 @@ export class CheckoutQuery {
 
     _getCartFieldList(): Field<'id', number>[] {
         return [
-            new Field<'id', number>('id')
+            new Field<'id', number>('id'),
         ];
     }
 }

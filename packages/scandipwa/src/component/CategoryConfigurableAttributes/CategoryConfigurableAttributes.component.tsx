@@ -16,7 +16,7 @@ import { ProductAttributeShape } from 'Component/ProductAttributeValue/ProductAt
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
 import {
-    ProductConfigurableAttribute
+    ProductConfigurableAttribute,
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
 import { ReactElement } from 'Type/Common.type';
 import { getPriceFilterLabel } from 'Util/Category';
@@ -26,7 +26,7 @@ import { IndexedAttributeWithValueOption } from 'Util/Product/Product.type';
 import { CategoryConfigurableAttributesComponentProps } from './CategoryConfigurableAttributes.type';
 
 /** @namespace Component/CategoryConfigurableAttributes/Component */
-export class CategoryConfigurableAttributes extends ProductConfigurableAttributes<
+export class CategoryConfigurableAttributesComponent extends ProductConfigurableAttributes<
 CategoryConfigurableAttributesComponentProps
 > {
     renderSubCategories(option: Partial<ProductConfigurableAttribute>): ReactElement {
@@ -55,7 +55,7 @@ CategoryConfigurableAttributesComponentProps
             (priceOption as Partial<ProductConfigurableAttribute>).attribute_options = Object.entries(attribute_options)
                 .reduce((
                     acc: Record<string, IndexedAttributeWithValueOption>,
-                    [key, option]
+                    [key, option],
                 ) => {
                     const { label: oldLabel } = option;
                     const [from, to] = oldLabel.split('~');
@@ -72,13 +72,13 @@ CategoryConfigurableAttributesComponentProps
 
     renderDropdownOrSwatch(option: Partial<ProductConfigurableAttribute>): ReactElement {
         const {
-            isContentExpanded
+            isContentExpanded,
         } = this.props;
 
         const {
             attribute_label,
             attribute_code,
-            attribute_options
+            attribute_options,
         } = option;
 
         const [{ swatch_data = null }] = attribute_options ? Object.values(attribute_options) : [{}];
@@ -90,7 +90,7 @@ CategoryConfigurableAttributesComponentProps
               heading={ attribute_label }
               mix={ {
                   block: 'ProductConfigurableAttributes',
-                  elem: 'Expandable'
+                  elem: 'Expandable',
               } }
               isContentExpanded={ isContentExpanded }
             >
@@ -105,7 +105,7 @@ CategoryConfigurableAttributesComponentProps
             handleOptionClick,
             getLink,
             isSelected,
-            showProductCount
+            showProductCount,
         } = this.props;
 
         const { attribute_value } = attribute;
@@ -161,4 +161,4 @@ CategoryConfigurableAttributesComponentProps
     }
 }
 
-export default CategoryConfigurableAttributes;
+export default CategoryConfigurableAttributesComponent;

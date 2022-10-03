@@ -23,18 +23,18 @@ import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
 import {
     MyAccountMyWishlistComponentProps,
-    MyAccountMyWishlistComponentState
+    MyAccountMyWishlistComponentState,
 } from './MyAccountMyWishlist.type';
 
 import './MyAccountMyWishlist.style';
 
 /** @namespace Component/MyAccountMyWishlist/Component */
-export class MyAccountMyWishlist<
+export class MyAccountMyWishlistComponent<
 P extends MyAccountMyWishlistComponentProps = MyAccountMyWishlistComponentProps,
-S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
+S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState,
 > extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountMyWishlistComponentProps> = {
-        creatorsName: ''
+        creatorsName: '',
     };
 
     actionLineMobileRef = createRef<HTMLDivElement>();
@@ -46,7 +46,7 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
 
         this.state = {
             selectedIdMap: [] as string[],
-            actionLineHeight: 0
+            actionLineHeight: 0,
         } as S;
 
         this.handleSelectIdChange = this.handleSelectIdChange.bind(this);
@@ -80,7 +80,7 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
         CSS.setVariable(
             this.productsRef,
             'myaccount-wishlist-products-margin-bottom',
-            isMobile ? `${ current.clientHeight }px` : 0
+            isMobile ? `${ current.clientHeight }px` : 0,
         );
     }
 
@@ -146,7 +146,7 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
         const {
             isWishlistLoading,
             isWishlistEmpty,
-            wishlistItems
+            wishlistItems,
         } = this.props;
 
         if (isWishlistLoading && isWishlistEmpty) {
@@ -160,7 +160,7 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
         const {
             removeAll,
             isActionsDisabled,
-            isLoading
+            isLoading,
         } = this.props;
 
         return (
@@ -183,7 +183,7 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
             isEditingActive,
             isMobile,
             isLoading,
-            isQtyUpdateInProgress
+            isQtyUpdateInProgress,
         } = this.props;
 
         const isDisabled = (isMobile && isEditingActive) || isActionsDisabled || isLoading || isQtyUpdateInProgress;
@@ -205,7 +205,7 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
         const {
             isWishlistLoading,
             shareWishlist,
-            isWishlistEmpty
+            isWishlistEmpty,
         } = this.props;
 
         const disabled = isWishlistLoading || isWishlistEmpty;
@@ -301,7 +301,7 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
         const {
             isWishlistLoading,
             isWishlistEmpty,
-            isLoading
+            isLoading,
         } = this.props;
 
         if (isWishlistEmpty && !isWishlistLoading) {
@@ -327,4 +327,4 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState
     }
 }
 
-export default MyAccountMyWishlist;
+export default MyAccountMyWishlistComponent;

@@ -23,13 +23,13 @@ import {
     MyAccountDownloadableTableRowComponentProps,
     MyAccountDownloadableTableRowContainerFunctions,
     MyAccountDownloadableTableRowContainerMapStateProps,
-    MyAccountDownloadableTableRowContainerProps
+    MyAccountDownloadableTableRowContainerProps,
 } from './MyAccountDownloadableTableRow.type';
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountDownloadableTableRowContainerMapStateProps => ({
     device: state.ConfigReducer.device,
-    isOpenInNewTab: state.ConfigReducer.downloadable_links_target_new_window
+    isOpenInNewTab: state.ConfigReducer.downloadable_links_target_new_window,
 });
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container/mapDispatchToProps */
@@ -38,7 +38,7 @@ export const mapDispatchToProps = (): unknown => ({});
 /** @namespace Component/MyAccountDownloadableTableRow/Container */
 export class MyAccountDownloadableTableRowContainer extends PureComponent<MyAccountDownloadableTableRowContainerProps> {
     containerFunctions: MyAccountDownloadableTableRowContainerFunctions = {
-        onOrderIdClick: this.onOrderIdClick.bind(this)
+        onOrderIdClick: this.onOrderIdClick.bind(this),
     };
 
     onOrderIdClick(): void {
@@ -52,7 +52,7 @@ export class MyAccountDownloadableTableRowContainer extends PureComponent<MyAcco
 
         return {
             order,
-            isOpenInNewTab
+            isOpenInNewTab,
         };
     }
 

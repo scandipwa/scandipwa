@@ -19,9 +19,9 @@ import { ResetButtonComponentProps } from './ResetButton.type';
 import './ResetButton.style';
 
 /** @namespace Component/ResetButton/Component */
-export class ResetButton extends PureComponent<ResetButtonComponentProps> {
+export class ResetButtonComponent extends PureComponent<ResetButtonComponentProps> {
     static defaultProps: Partial<ResetButtonComponentProps> = {
-        mix: {}
+        mix: {},
     };
 
     __construct(props: ResetButtonComponentProps): void {
@@ -56,7 +56,7 @@ export class ResetButton extends PureComponent<ResetButtonComponentProps> {
                   elem="Button"
                   mix={ {
                       block: 'Button',
-                      mods: { isHollow: true }
+                      mods: { isHollow: true },
                   } }
                 >
                     { __('Reset all') }
@@ -66,4 +66,4 @@ export class ResetButton extends PureComponent<ResetButtonComponentProps> {
     }
 }
 
-export default ResetButton;
+export default ResetButtonComponent;

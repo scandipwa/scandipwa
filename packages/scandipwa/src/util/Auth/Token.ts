@@ -35,7 +35,7 @@ export const setAuthorizationToken = (token: string | null): void => {
 
         const state = getStore().getState() as RootState;
         const {
-            access_token_lifetime = ONE_HOUR
+            access_token_lifetime = ONE_HOUR,
         } = state.ConfigReducer;
 
         const tokens: TokensByWebsite = BrowserDatabase.getItem(AUTH_TOKEN) || {};
@@ -83,7 +83,7 @@ export const getAuthorizationToken = (): string | null => {
 /** @namespace Util/Auth/Token/refreshAuthorizationToken */
 export const refreshAuthorizationToken = debounce(
     () => setAuthorizationToken(getAuthorizationToken()),
-    TOKEN_REFRESH_DELAY
+    TOKEN_REFRESH_DELAY,
 );
 
 /** @namespace Util/Auth/Token/isInitiallySignedIn */
@@ -96,8 +96,8 @@ export const isSignedIn = (): boolean => {
 
     const {
         MyAccountReducer: {
-            isSignedIn: isCustomerSignedIn = false
-        } = {}
+            isSignedIn: isCustomerSignedIn = false,
+        } = {},
     } = store.getState() as RootState;
 
     const { dispatch } = store;
@@ -112,7 +112,7 @@ export const isSignedIn = (): boolean => {
         const MyAccountDispatcher = import('../../store/MyAccount/MyAccount.dispatcher');
 
         MyAccountDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.logout(true, true, dispatch)
+            ({ default: dispatcher }) => dispatcher.logout(true, true, dispatch),
         );
     }
 

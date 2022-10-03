@@ -19,11 +19,11 @@ import { CmsBlockComponentProps, CmsBlockContainerProps, CmsBlockContainerState 
 /** @namespace Component/CmsBlock/Container */
 export class CmsBlockContainer extends DataContainer<CmsBlockContainerProps, CmsBlockContainerState> {
     static defaultProps: Partial<CmsBlockContainerProps> = {
-        blockType: ''
+        blockType: '',
     };
 
     state: CmsBlockContainerState = {
-        cmsBlock: {}
+        cmsBlock: {},
     };
 
     __construct(props: CmsBlockContainerProps): void {
@@ -61,7 +61,7 @@ export class CmsBlockContainer extends DataContainer<CmsBlockContainerProps, Cms
                 }
 
                 this.setState({ cmsBlock: items[0] });
-            }
+            },
         );
     }
 

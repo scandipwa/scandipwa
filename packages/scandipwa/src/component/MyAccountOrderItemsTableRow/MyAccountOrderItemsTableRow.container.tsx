@@ -23,12 +23,12 @@ import {
     MyAccountOrderItemsTableRowContainerMapDispatchProps,
     MyAccountOrderItemsTableRowContainerMapStateProps,
     MyAccountOrderItemsTableRowContainerProps,
-    MyAccountOrderItemsTableRowContainerPropsKeys
+    MyAccountOrderItemsTableRowContainerPropsKeys,
 } from './MyAccountOrderItemsTableRow.type';
 
 /** @namespace Component/MyAccountOrderItemsTableRow/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountOrderItemsTableRowContainerMapStateProps => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/MyAccountOrderItemsTableRow/Container/mapDispatchToProps */
@@ -39,7 +39,7 @@ export class MyAccountOrderItemsTableRowContainer extends PureComponent<MyAccoun
     static defaultProps: Partial<MyAccountOrderItemsTableRowContainerProps> = {
         selectedOptions: [],
         enteredOptions: [],
-        comments: []
+        comments: [],
     };
 
     containerProps(): Pick<MyAccountOrderItemsTableRowComponentProps, MyAccountOrderItemsTableRowContainerPropsKeys> {
@@ -49,7 +49,7 @@ export class MyAccountOrderItemsTableRowContainer extends PureComponent<MyAccoun
             enteredOptions,
             selectedOptions,
             isMobile,
-            comments
+            comments,
         } = this.props;
 
         return {
@@ -59,7 +59,7 @@ export class MyAccountOrderItemsTableRowContainer extends PureComponent<MyAccoun
             selectedOptions,
             isMobile,
             comments,
-            colSpanCount: this.getOrderColumnSpanCount()
+            colSpanCount: this.getOrderColumnSpanCount(),
         };
     }
 

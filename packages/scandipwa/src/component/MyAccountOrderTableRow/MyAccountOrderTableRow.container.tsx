@@ -25,7 +25,7 @@ import {
     MyAccountOrderTableRowContainerMapDispatchProps,
     MyAccountOrderTableRowContainerMapStateProps,
     MyAccountOrderTableRowContainerProps,
-    MyAccountOrderTableRowContainerPropsKeys
+    MyAccountOrderTableRowContainerPropsKeys,
 } from './MyAccountOrderTableRow.type';
 
 /** @namespace Component/MyAccountOrderTableRow/Container/mapDispatchToProps */
@@ -34,13 +34,13 @@ export const mapDispatchToProps = (): MyAccountOrderTableRowContainerMapDispatch
 
 /** @namespace Component/MyAccountOrderTableRow/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountOrderTableRowContainerMapStateProps => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/MyAccountOrderTableRow/Container */
 export class MyAccountOrderTableRowContainer extends PureComponent<MyAccountOrderTableRowContainerProps> {
     containerFunctions: MyAccountOrderTableRowContainerFunctions = {
-        onViewClick: this.onViewClick.bind(this)
+        onViewClick: this.onViewClick.bind(this),
     };
 
     onViewClick(): void {
@@ -57,11 +57,11 @@ export class MyAccountOrderTableRowContainer extends PureComponent<MyAccountOrde
 
     containerProps(): Pick<MyAccountOrderTableRowComponentProps, MyAccountOrderTableRowContainerPropsKeys> {
         const {
-            order
+            order,
         } = this.props;
 
         return {
-            order
+            order,
         };
     }
 

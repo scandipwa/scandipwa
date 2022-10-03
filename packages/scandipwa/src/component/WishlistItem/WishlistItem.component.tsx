@@ -31,19 +31,19 @@ import { WishlistItemComponentOptionMap, WishlistItemComponentProps } from './Wi
 import './WishlistItem.style';
 
 /** @namespace Component/WishlistItem/Component */
-export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemComponentProps> extends PureComponent<P> {
+export class WishlistItemComponent<P extends WishlistItemComponentProps = WishlistItemComponentProps> extends PureComponent<P> {
     static defaultProps: Partial<WishlistItemComponentProps> = {
         addToCart: noopFnAsync,
         changeQuantity: noopFn,
         changeDescription: noopFn,
         removeItem: noopFnAsync,
         redirectToProductPage: noopFn,
-        isLoading: false
+        isLoading: false,
     };
 
     optionRenderMap: WishlistItemComponentOptionMap = {
         [ProductType.GROUPED]: this.renderGroupedOption.bind(this),
-        [ProductType.BUNDLE]: this.renderBundleOption.bind(this)
+        [ProductType.BUNDLE]: this.renderBundleOption.bind(this),
     };
 
     __construct(props: WishlistItemComponentProps): void {
@@ -56,7 +56,7 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
         const {
             product: { wishlist: { description } = {} },
             changeDescription,
-            inStock
+            inStock,
         } = this.props;
 
         return (
@@ -66,10 +66,10 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
                   id: 'description',
                   name: 'description',
                   placeholder: __('Add a comment'),
-                  defaultValue: description
+                  defaultValue: description,
               } }
               events={ {
-                  onChange: ({ target: { value = '' } = {} }) => changeDescription(value)
+                  onChange: ({ target: { value = '' } = {} }) => changeDescription(value),
               } }
               mix={ { block: 'WishlistItem', elem: 'CommentField' } }
               isDisabled={ !inStock }
@@ -79,13 +79,18 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
 
     renderQuantityFieldInput(): ReactElement {
         const {
+            isEditingActive,
             product: { type_id, wishlist: { quantity } = {} },
             changeQuantity,
             setQuantity,
             minSaleQuantity,
             maxSaleQuantity,
-            inStock
+            inStock,
         } = this.props;
+
+        if (isEditingActive) {
+            return quantity;
+        }
 
         if (type_id === ProductType.GROUPED) {
             return null;
@@ -99,13 +104,13 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
                   name: 'item_qty',
                   defaultValue: quantity,
                   min: minSaleQuantity,
-                  max: maxSaleQuantity
+                  max: maxSaleQuantity,
               } }
               events={ {
                   onChange: (quantity: number): void => {
                       changeQuantity(quantity);
                       setQuantity(quantity);
-                  }
+                  },
               } }
               mix={ { block: 'WishlistItem', elem: 'QuantityInput' } }
               isDisabled={ !inStock }
@@ -114,11 +119,7 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
     }
 
     renderQuantityField(): ReactElement {
-        const {
-            product: { wishlist: { quantity } = {} },
-            isEditingActive,
-            isMobile
-        } = this.props;
+        const { isMobile } = this.props;
 
         if (!isMobile) {
             return this.renderQuantityFieldInput();
@@ -127,9 +128,7 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
         return (
             <div block="WishlistItem" elem="QuantityWrapper">
                 <span block="WishlistItem" elem="QuantityText">{ __('Qty:') }</span>
-                { isEditingActive
-                    ? this.renderQuantityFieldInput()
-                    : quantity }
+                { this.renderQuantityFieldInput() }
             </div>
         );
     }
@@ -139,7 +138,7 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
             addToCart,
             isEditingActive,
             isMobile,
-            inStock
+            inStock,
         } = this.props;
 
         if (!inStock) {
@@ -196,7 +195,7 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
     getWishlistProduct(): IndexedWishlistProduct {
         const {
             product,
-            product: { url, type_id }
+            product: { url, type_id },
         } = this.props;
 
         if (type_id !== ProductType.CONFIGURABLE) {
@@ -208,13 +207,13 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
         if (!wishedVariant) {
             return {
                 ...product,
-                url
+                url,
             };
         }
 
         return {
             ...(wishedVariant as unknown as IndexedWishlistProduct),
-            url
+            url,
         };
     }
 
@@ -271,8 +270,8 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
     renderBrand(): ReactElement {
         const {
             product: {
-                attributes: { brand: { attribute_value: brand = '' } = {} } = {}
-            }
+                attributes: { brand: { attribute_value: brand = '' } = {} } = {},
+            },
         } = this.props;
 
         return (
@@ -314,11 +313,11 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
                   type={ FieldType.CHECKBOX }
                   attr={ {
                       id: `option-${ id }`,
-                      name: `option-${ id }`
+                      name: `option-${ id }`,
                   } }
                   events={ {
                       // eslint-disable-next-line react/jsx-no-bind
-                      onClick: () => handleSelectIdChange(id)
+                      onClick: () => handleSelectIdChange(id),
                   } }
                 />
             </div>
@@ -352,15 +351,17 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
     renderCardDataMobile({
         content: { productPrice },
         pictureBlock: { picture: renderPicture },
-        renderCardLinkWrapper
+        renderCardLinkWrapper,
     }: ContentObject): ReactElement {
         return (
             <div block="WishlistItem" elem="FigureWrapper">
-                { renderCardLinkWrapper((
+                { renderCardLinkWrapper(
+                    (
                     <figure mix={ { block: 'ProductCard', elem: 'Figure' } }>
                         { renderPicture({ block: 'WishlistItem', elem: 'Picture' }) }
                     </figure>
-                ), { block: 'WishlistItem', elem: 'ImageWrapper' }) }
+                    ), { block: 'WishlistItem', elem: 'ImageWrapper' },
+                ) }
                 <div block="WishlistItem" elem="InformationWrapper">
                     <div block="WishlistItem" elem="RowWrapper">
                         <div block="WishlistItem" elem="NameAndOptions">
@@ -381,7 +382,7 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
 
     renderContentMobile(renderMethods: ContentObject): ReactElement {
         const {
-            isEditingActive
+            isEditingActive,
         } = this.props;
 
         return (
@@ -401,7 +402,7 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
         const {
             content: { productPrice },
             pictureBlock: { picture: renderPicture },
-            renderCardLinkWrapper
+            renderCardLinkWrapper,
         } = renderMethods;
 
         const { isMobile } = this.props;
@@ -421,7 +422,7 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
                             { this.renderRating() }
                             { this.renderBrand() }
                             { this.renderName() }
-                        </>
+                        </>,
                     ) }
                     { this.renderRemove() }
                 </div>
@@ -469,4 +470,4 @@ export class WishlistItem<P extends WishlistItemComponentProps = WishlistItemCom
     }
 }
 
-export default WishlistItem;
+export default WishlistItemComponent;

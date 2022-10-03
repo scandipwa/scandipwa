@@ -12,7 +12,7 @@
 import { match } from 'react-router';
 
 import {
-    Invoice, OrderItem, OrderItemProduct, OrderShipment
+    Invoice, OrderItem, OrderItemProduct, OrderShipment,
 } from 'Query/Order.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';

@@ -15,7 +15,7 @@ export enum MyAccountPageState {
     STATE_FORGOT_PASSWORD_SUCCESS = 'forgotPasswordSuccess',
     STATE_CREATE_ACCOUNT = 'createAccount',
     STATE_LOGGED_IN = 'loggedIn',
-    STATE_CONFIRM_EMAIL = 'confirmEmail'
+    STATE_CONFIRM_EMAIL = 'confirmEmail',
 }
 
 export const CUSTOMER_ACCOUNT_OVERLAY_KEY = 'customer_account';

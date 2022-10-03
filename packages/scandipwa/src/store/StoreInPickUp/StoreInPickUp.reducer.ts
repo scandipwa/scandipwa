@@ -13,12 +13,12 @@ import { Reducer } from 'redux';
 import {
     StoreInPickUpAction,
     StoreInPickUpActionType,
-    StoreInPickUpStore
+    StoreInPickUpStore,
 } from './StoreInPickUp.type';
 
 /** @namespace Store/StoreInPickUp/Reducer/getInitialState */
 export const getInitialState = (): StoreInPickUpStore => ({
-    store: null
+    store: null,
 });
 
 /** @namespace Store/StoreInPickUp/Reducer/StoreInPickUpReducer */
@@ -27,7 +27,7 @@ StoreInPickUpStore,
 StoreInPickUpAction
 > = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     const { type } = action;
 
@@ -37,13 +37,13 @@ StoreInPickUpAction
 
         return {
             ...state,
-            store
+            store,
         };
 
     case StoreInPickUpActionType.CLEAR_PICK_UP_STORE:
         return {
             ...state,
-            store: null
+            store: null,
         };
 
     default:

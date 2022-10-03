@@ -33,7 +33,7 @@ export class RegionQuery {
             new Field<'id', number>('id'),
             new Field<'is_state_required', boolean>('is_state_required'),
             this._getAvailableRegionsField(),
-            new Field<'full_name_locale', string>('full_name_locale').setAlias('label')
+            new Field<'full_name_locale', string>('full_name_locale').setAlias('label'),
         ];
     }
 
@@ -45,7 +45,7 @@ export class RegionQuery {
         return [
             new Field<'code', string>('code'),
             new Field<'name', string>('name'),
-            new Field<'id', number>('id')
+            new Field<'id', number>('id'),
         ];
     }
 

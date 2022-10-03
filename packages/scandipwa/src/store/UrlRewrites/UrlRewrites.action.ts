@@ -13,23 +13,23 @@ import {
     SetIsUrlRewritesLoadingAction,
     UpdateUrlRewriteAction,
     UrlRewrite,
-    UrlRewritesActionType
+    UrlRewritesActionType,
 } from './UrlRewrites.type';
 
 /** @namespace Store/UrlRewrites/Action/updateUrlRewrite */
 export const updateUrlRewrite = (
     urlRewrite: UrlRewrite,
-    requestedUrl: string
+    requestedUrl: string,
 ): UpdateUrlRewriteAction => ({
     type: UrlRewritesActionType.UPDATE_URL_REWRITE,
     urlRewrite,
-    requestedUrl
+    requestedUrl,
 });
 
 /** @namespace Store/UrlRewrites/Action/setIsUrlRewritesLoading */
 export const setIsUrlRewritesLoading = (
-    isLoading: boolean
+    isLoading: boolean,
 ): SetIsUrlRewritesLoadingAction => ({
     type: UrlRewritesActionType.IS_LOADING_URL_REWRITE,
-    isLoading
+    isLoading,
 });

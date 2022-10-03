@@ -14,7 +14,7 @@ import { createRef, PureComponent } from 'react';
 import {
     ONE_STAR_SHARE,
     STARS_COUNT,
-    STARS_GRANULARITY_PERCENT
+    STARS_GRANULARITY_PERCENT,
 } from 'Component/ProductReviewRating/ProductReviewRating.config';
 import Star from 'Component/StarIcon';
 import { StartFill } from 'Component/StarIcon/StarIcon.config';
@@ -29,13 +29,13 @@ import './ProductReviewRating.style';
  * @class ProductReviewRating
  * @namespace Component/ProductReviewRating/Component
  */
-export class ProductReviewRating extends PureComponent<ProductReviewRatingComponentProps> {
+export class ProductReviewRatingComponent extends PureComponent<ProductReviewRatingComponentProps> {
     static defaultProps: Partial<ProductReviewRatingComponentProps> = {
         summary: 0,
         code: '',
         placeholder: false,
         mix: {},
-        count: 0
+        count: 0,
     };
 
     reviewRating = createRef<HTMLDivElement>();
@@ -63,7 +63,7 @@ export class ProductReviewRating extends PureComponent<ProductReviewRatingCompon
         CSS.setVariable(
             this.reviewRating,
             'percentage',
-            `${summary}%`
+            `${summary}%`,
         );
     }
 
@@ -96,7 +96,7 @@ export class ProductReviewRating extends PureComponent<ProductReviewRatingCompon
             code,
             placeholder,
             mix,
-            count
+            count,
         } = this.props;
 
         const [fullCount, halfFullCount, emptyCount] = this.getStarCounts();
@@ -126,4 +126,4 @@ export class ProductReviewRating extends PureComponent<ProductReviewRatingCompon
     }
 }
 
-export default ProductReviewRating;
+export default ProductReviewRatingComponent;

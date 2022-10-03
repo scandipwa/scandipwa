@@ -14,7 +14,7 @@
 import {
     createRef,
     lazy,
-    Suspense
+    Suspense,
 } from 'react';
 
 import CartIcon from 'Component/CartIcon';
@@ -55,14 +55,14 @@ export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChun
 export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "overlay" */ 'Component/MyAccountOverlay'));
 
 /** @namespace Component/Header/Component */
-export class Header extends NavigationAbstract<HeaderComponentProps> {
+export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
     static defaultProps: Partial<HeaderComponentProps> = {
         logo_alt: 'ScandiPWA logo',
         logo_height: 25,
         logo_width: 200,
         showMyAccountLogin: false,
         header_logo_src: '',
-        isLoading: true
+        isLoading: true,
     };
 
     logoRef = createRef<HTMLElement>();
@@ -70,92 +70,92 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
     stateMap: Record<string, Record<string, boolean>> = {
         [DEFAULT_STATE_NAME]: {
             title: true,
-            logo: true
+            logo: true,
         },
         [Page.NO_MATCH]: {
-            title: true
+            title: true,
         },
         [Page.POPUP]: {
             title: true,
-            close: true
+            close: true,
         },
         [Page.PDP]: {
             back: true,
-            title: true
+            title: true,
         },
         [Page.CATEGORY]: {
             back: true,
-            title: true
+            title: true,
         },
         [Page.CUSTOMER_ACCOUNT]: {
-            title: true
+            title: true,
         },
         [Page.CUSTOMER_SUB_ACCOUNT]: {
             title: true,
-            back: true
+            back: true,
         },
         [Page.CUSTOMER_ACCOUNT_PAGE]: {
-            title: true
+            title: true,
         },
         [Page.CUSTOMER_WISHLIST]: {
             share: true,
-            title: true
+            title: true,
         },
         [Page.CUSTOMER_ORDER]: {
             title: true,
-            back: true
+            back: true,
         },
         [Page.MENU]: {
-            search: true
+            search: true,
         },
         [Page.MENU_SUBCATEGORY]: {
             back: true,
             title: true,
-            search: true
+            search: true,
         },
         [Page.SEARCH]: {
-            search: true
+            search: true,
         },
         [Page.CART]: {
-            title: true
+            title: true,
         },
         [Page.CART_OVERLAY]: {
-            title: true
+            title: true,
         },
         [Page.CART_EDITING]: {
             ok: true,
             title: true,
-            cancel: true
+            cancel: true,
         },
         [Page.FILTER]: {
             close: true,
-            title: true
+            title: true,
         },
         [Page.CHECKOUT]: {
             back: true,
             title: true,
-            account: true
+            account: true,
         },
         [Page.CHECKOUT_SUCCESS]: {
             title: true,
-            account: true
+            account: true,
         },
         [Page.CHECKOUT_ACCOUNT]: {
             title: true,
-            close: true
+            close: true,
         },
         [Page.CMS_PAGE]: {
             back: true,
-            title: true
+            title: true,
         },
         [Page.CONTACT_US]: {
             title: true,
-            back: true
+            back: true,
         },
         [Page.PRODUCT_COMPARE]: {
             title: true,
-            back: true
-        }
+            back: true,
+        },
     };
 
     renderMap = {
@@ -167,7 +167,7 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
         search: this.renderSearchField.bind(this),
         renderDesktopIcons: this.renderDesktopIcons.bind(this),
         share: this.renderShareWishListButton.bind(this),
-        ok: this.renderOkButton.bind(this)
+        ok: this.renderOkButton.bind(this),
     };
 
     // PureComponent suits perfectly for current component, as changes in almost all props (7+) need to trigger rerender.
@@ -243,7 +243,7 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
             onClearSearchButtonClick,
             navigationState: { name },
             isCheckout,
-            hideActiveOverlay
+            hideActiveOverlay,
         } = this.props;
 
         if (isCheckout) {
@@ -269,7 +269,7 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
         const {
             isWishlistLoading,
             shareWishlist,
-            productsInWishlist
+            productsInWishlist,
         } = this.props;
 
         if (!Object.keys(productsInWishlist).length) {
@@ -313,9 +313,9 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
     renderComparePageButton(): ReactElement {
         const {
             device: {
-                isMobile
+                isMobile,
             } = {},
-            isCheckout
+            isCheckout,
         } = this.props;
 
         if (isCheckout || isMobile) {
@@ -363,7 +363,7 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
             header_logo_src,
             logo_alt,
             logo_height,
-            logo_width
+            logo_width,
         } = this.props;
 
         // if no src defined from the backend, pass null in order to display placeholder
@@ -417,7 +417,7 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
         const {
             isCheckout,
             showMyAccountLogin,
-            onSignIn
+            onSignIn,
         } = this.props;
 
         // This is here to prevent the popup-suspense from rendering
@@ -438,7 +438,7 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
     renderAccountButton(): ReactElement {
         const {
             onMyAccountButtonClick,
-            device
+            device,
         } = this.props;
 
         if (device.isMobile) {
@@ -463,7 +463,7 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
         const {
             onMyAccountOutsideClick,
             isCheckout,
-            device: { isMobile }
+            device: { isMobile },
         } = this.props;
 
         // on mobile hide button if not in checkout
@@ -536,7 +536,7 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
 
     renderMinicartButton(): ReactElement {
         const {
-            onMinicartButtonClick
+            onMinicartButtonClick,
         } = this.props;
 
         return (
@@ -557,7 +557,7 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
         const {
             onMinicartOutsideClick,
             isCheckout,
-            device: { isMobile }
+            device: { isMobile },
         } = this.props;
 
         if (isMobile || isCheckout) {
@@ -700,7 +700,7 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
         const {
             navigationState: { name, isHiddenOnMobile = false },
             isCheckout,
-            device: { isMobile }
+            device: { isMobile },
         } = this.props;
 
         if (!isMobile) {
@@ -734,4 +734,4 @@ export class Header extends NavigationAbstract<HeaderComponentProps> {
     }
 }
 
-export default Header;
+export default HeaderComponent;

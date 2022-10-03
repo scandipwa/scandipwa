@@ -25,10 +25,10 @@ import { CheckoutGuestFormEvents, CheckoutGuestFormProps } from './CheckoutGuest
  */
 export const checkoutGuestForm = (
     props: CheckoutGuestFormProps,
-    events: CheckoutGuestFormEvents
+    events: CheckoutGuestFormEvents,
 ): Partial<FieldContainerProps>[] => {
     const {
-        emailValue, range, isCreateUser, minimumPasswordCharacter
+        emailValue, range, isCreateUser, minimumPasswordCharacter,
     } = props;
     const { handleEmailInput, handlePasswordInput } = events;
 
@@ -41,17 +41,17 @@ export const checkoutGuestForm = (
                 placeholder: __('Your email'),
                 defaultValue: emailValue,
                 'aria-label': __('Your email'),
-                autoComplete: 'email'
+                autoComplete: 'email',
             },
             events: {
-                onChange: handleEmailInput
+                onChange: handleEmailInput,
             },
             addRequiredTag: true,
             validateOn: ['onChange'],
             validationRule: {
                 inputType: ValidationInputType.EMAIL,
-                isRequired: true
-            }
+                isRequired: true,
+            },
         },
         ...(isCreateUser ? [{
             type: FieldType.PASSWORD,
@@ -59,19 +59,19 @@ export const checkoutGuestForm = (
             attr: {
                 name: 'guest_password',
                 placeholder: __('Create Password'),
-                'aria-label': __('Create Password')
+                'aria-label': __('Create Password'),
             },
             addRequiredTag: true,
             events: {
-                onChange: handlePasswordInput
+                onChange: handlePasswordInput,
             },
             validateOn: ['onChange'],
             validationRule: {
                 inputType: ValidationInputType.PASSWORD,
                 isRequired: true,
-                match: (value: string) => validatePassword(value, range, minimumPasswordCharacter)
-            }
-        }] : [])
+                match: (value: string) => validatePassword(value, range, minimumPasswordCharacter),
+            },
+        }] : []),
     ];
 };
 

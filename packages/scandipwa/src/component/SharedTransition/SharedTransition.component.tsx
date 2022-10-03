@@ -19,7 +19,7 @@ import { SharedTransitionComponentProps } from './SharedTransition.type';
 import './SharedTransition.style';
 
 /** @namespace Component/SharedTransition/Component */
-export class SharedTransition extends PureComponent<SharedTransitionComponentProps> {
+export class SharedTransitionComponent extends PureComponent<SharedTransitionComponentProps> {
     sharedContainer = createRef<HTMLDivElement>();
 
     animationSpeed = SHARED_ELEMENT_TRANSITION;
@@ -50,9 +50,9 @@ export class SharedTransition extends PureComponent<SharedTransitionComponentPro
                     width,
                     height,
                     left,
-                    top
-                }
-            }
+                    top,
+                },
+            },
         } = this.props;
 
         if (this.sharedContainer.current) {
@@ -85,8 +85,8 @@ export class SharedTransition extends PureComponent<SharedTransitionComponentPro
         const {
             state: {
                 sharedElementDestination,
-                sharedElement
-            }
+                sharedElement,
+            },
         } = this.props;
 
         const { current: wrapper } = this.sharedContainer;
@@ -120,4 +120,4 @@ export class SharedTransition extends PureComponent<SharedTransitionComponentPro
     }
 }
 
-export default SharedTransition;
+export default SharedTransitionComponent;

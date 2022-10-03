@@ -22,10 +22,10 @@ import { customerEmailAndPasswordFields, customerInformationFields } from './MyA
 import { MyAccountCustomerFormComponentProps } from './MyAccountCustomerForm.type';
 
 /** @namespace Component/MyAccountCustomerForm/Component */
-export class MyAccountCustomerForm extends FieldForm<MyAccountCustomerFormComponentProps> {
+export class MyAccountCustomerFormComponent extends FieldForm<MyAccountCustomerFormComponentProps> {
     static defaultProps: Partial<MyAccountCustomerFormComponentProps> = {
         email: '',
-        currentPassword: ''
+        currentPassword: '',
     };
 
     onFormSuccess(form: HTMLFormElement, fields: FieldData[]): void {
@@ -45,7 +45,7 @@ export class MyAccountCustomerForm extends FieldForm<MyAccountCustomerFormCompon
             showEmailChangeField,
             showPasswordChangeField,
             vatNumberRequired,
-            customer
+            customer,
         } = this.props;
 
         return customerInformationFields({
@@ -55,7 +55,7 @@ export class MyAccountCustomerForm extends FieldForm<MyAccountCustomerFormCompon
             handleChangeEmailCheckbox,
             showEmailChangeField,
             showPasswordChangeField,
-            vatNumberRequired
+            vatNumberRequired,
         });
     }
 
@@ -68,7 +68,7 @@ export class MyAccountCustomerForm extends FieldForm<MyAccountCustomerFormCompon
             handleEmailInput,
             currentPassword,
             email,
-            range
+            range,
         } = this.props;
 
         return customerEmailAndPasswordFields({
@@ -79,7 +79,7 @@ export class MyAccountCustomerForm extends FieldForm<MyAccountCustomerFormCompon
             handleEmailInput,
             currentPassword,
             email,
-            range
+            range,
         });
     }
 
@@ -97,7 +97,7 @@ export class MyAccountCustomerForm extends FieldForm<MyAccountCustomerFormCompon
 
     getFormProps(): Partial<FormContainerProps> {
         return {
-            onSubmit: this.onFormSuccess.bind(this)
+            onSubmit: this.onFormSuccess.bind(this),
         };
     }
 
@@ -162,4 +162,4 @@ export class MyAccountCustomerForm extends FieldForm<MyAccountCustomerFormCompon
     }
 }
 
-export default MyAccountCustomerForm;
+export default MyAccountCustomerFormComponent;

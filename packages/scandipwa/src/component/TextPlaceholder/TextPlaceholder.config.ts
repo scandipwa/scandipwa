@@ -15,5 +15,5 @@ export enum TextPlaceHolderLength {
     MEDIUM = 'medium',
     LONG = 'long',
     PARAGRAPH = 'paragraph',
-    CUSTOM = 'custom'
+    CUSTOM = 'custom',
 }

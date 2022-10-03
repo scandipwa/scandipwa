@@ -18,7 +18,7 @@ import { SearchFieldContainerMapDispatchToProps, SearchFieldContainerMapStateToP
 
 /** @namespace Component/SearchField/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): SearchFieldContainerMapStateToProps => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/SearchField/Container/mapDispatchToProps */

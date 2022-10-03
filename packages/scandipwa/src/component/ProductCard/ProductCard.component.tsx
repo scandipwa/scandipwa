@@ -16,7 +16,7 @@ import Image from 'Component/Image';
 import { ImageRatio } from 'Component/Image/Image.type';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import { Product } from 'Component/Product/Product.component';
+import { ProductComponent } from 'Component/Product/Product.component';
 import { ProductType } from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
@@ -34,9 +34,9 @@ import './ProductCard.style';
  * Product card
  * @class ProductCard
  * @namespace Component/ProductCard/Component */
-export class ProductCard extends Product<ProductCardComponentProps> {
+export class ProductCardComponent extends ProductComponent<ProductCardComponentProps> {
     static defaultProps: Partial<ProductCardComponentProps> = {
-        ...Product.defaultProps,
+        ...ProductComponent.defaultProps,
         thumbnail: '',
         linkTo: '',
         children: null,
@@ -45,20 +45,20 @@ export class ProductCard extends Product<ProductCardComponentProps> {
         renderContent: null,
         hideWishlistButton: false,
         hideCompareButton: false,
-        layout: CategoryPageLayout.GRID
+        layout: CategoryPageLayout.GRID,
     };
 
     contentObject: ContentObject = {
         renderCardLinkWrapper: this.renderCardLinkWrapper.bind(this),
         pictureBlock: {
-            picture: this.renderPicture.bind(this)
+            picture: this.renderPicture.bind(this),
         },
         content: {
             review: this.renderReviews.bind(this),
             productPrice: this.renderPrice.bind(this),
             mainDetails: this.renderMainDetails.bind(this),
-            additionalProductDetails: this.renderBrand.bind(this)
-        }
+            additionalProductDetails: this.renderBrand.bind(this),
+        },
     };
 
     imageRef = createRef<HTMLImageElement>();
@@ -96,13 +96,13 @@ export class ProductCard extends Product<ProductCardComponentProps> {
         const {
             getActiveProduct,
             product: {
-                type_id: baseType
-            } = {}
+                type_id: baseType,
+            } = {},
         } = this.props;
 
         const {
             price_range: priceRange,
-            type_id: typeId
+            type_id: typeId,
         } = getActiveProduct();
 
         if (!priceRange) {
@@ -154,7 +154,7 @@ export class ProductCard extends Product<ProductCardComponentProps> {
 
     renderProductCompareButton(): ReactElement {
         const {
-            hideCompareButton
+            hideCompareButton,
         } = this.props;
 
         if (hideCompareButton) {
@@ -231,8 +231,8 @@ export class ProductCard extends Product<ProductCardComponentProps> {
                 type_id: type,
                 options = [],
                 items = [],
-                links_purchased_separately
-            }
+                links_purchased_separately,
+            },
         } = this.props;
 
         const configureBundle = type === ProductType.BUNDLE;
@@ -249,7 +249,7 @@ export class ProductCard extends Product<ProductCardComponentProps> {
             )
             || (
                 Object.values(plpConfigurableAttrs).some(
-                    (value) => value.attribute_values.length === 0
+                    (value) => value.attribute_values.length === 0,
                 )
             )
             || (Object.keys(allAttrs).length > 0 && Object.keys(parameters).length === 0)
@@ -273,7 +273,7 @@ export class ProductCard extends Product<ProductCardComponentProps> {
         const {
             layout,
             showSelectOptionsNotification,
-            inStock
+            inStock,
         } = this.props;
 
         const requiresConfiguration = this.requiresConfiguration();
@@ -317,8 +317,8 @@ export class ProductCard extends Product<ProductCardComponentProps> {
 
                     return Object.values(attribute_options)
                         .some(({ swatch_data: swatchData }) => swatchData);
-                }
-            )
+                },
+            ),
         );
     }
 
@@ -371,7 +371,7 @@ export class ProductCard extends Product<ProductCardComponentProps> {
 
     renderCardListContent(): ReactElement {
         const {
-            children, layout, renderContent, product: { name }
+            children, layout, renderContent, product: { name },
         } = this.props;
 
         if (renderContent) {
@@ -412,7 +412,7 @@ export class ProductCard extends Product<ProductCardComponentProps> {
             children,
             mix,
             isLoading,
-            layout
+            layout,
         } = this.props;
 
         if (layout === CategoryPageLayout.LIST) {
@@ -444,4 +444,4 @@ export class ProductCard extends Product<ProductCardComponentProps> {
     }
 }
 
-export default ProductCard;
+export default ProductCardComponent;

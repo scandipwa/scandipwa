@@ -36,7 +36,7 @@ export class NewsletterSubscriptionDispatcher {
                 return dispatch(showNotification(NotificationType.SUCCESS, message));
             },
             /** @namespace Store/NewsletterSubscription/Dispatcher/NewsletterSubscriptionDispatcher/subscribeToNewsletter/fetchMutation/then/dispatch/catch */
-            (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)))
+            (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
         );
     }
 }

@@ -12,7 +12,7 @@
 export enum RouterItemType {
     BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE',
     SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE',
-    AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE'
+    AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE',
 }
 
 export enum RouterBeforeItemType {
@@ -21,7 +21,7 @@ export enum RouterBeforeItemType {
     DEMO_NOTICE = 'DEMO_NOTICE',
     HEADER = 'HEADER',
     BREADCRUMBS = 'BREADCRUMBS',
-    NEW_VERSION_POPUP = 'NEW_VERSION_POPUP'
+    NEW_VERSION_POPUP = 'NEW_VERSION_POPUP',
 }
 
 export enum RouterSwitchItemType {
@@ -48,15 +48,15 @@ export enum RouterSwitchItemType {
     CONTACT_PAGE = 'CONTACT_PAGE',
     COMPARE = 'COMPARE',
     STYLE_GUIDE = 'STYLE_GUIDE',
-    URL_REWRITES = 'URL_REWRITES'
+    URL_REWRITES = 'URL_REWRITES',
 }
 
 export enum RouterAfterItemType {
     FOOTER = 'FOOTER',
-    COOKIE_POPUP = 'COOKIE_POPUP'
+    COOKIE_POPUP = 'COOKIE_POPUP',
 }
 
 export const URL_ONLY_MAIN_ITEMS_RENDER = [
     '/sales/order/print',
-    '/styleguide'
+    '/styleguide',
 ];

@@ -15,7 +15,7 @@ import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttrib
 import Loader from 'Component/Loader';
 import Overlay from 'Component/Overlay';
 import {
-    ProductConfigurableAttribute
+    ProductConfigurableAttribute,
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
 import ResetAttributes from 'Component/ResetAttributes';
 import ResetButton from 'Component/ResetButton';
@@ -27,7 +27,7 @@ import { CategoryFilterOverlayComponentProps } from './CategoryFilterOverlay.typ
 import './CategoryFilterOverlay.style';
 
 /** @namespace Component/CategoryFilterOverlay/Component */
-export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayComponentProps> {
+export class CategoryFilterOverlayComponent extends PureComponent<CategoryFilterOverlayComponentProps> {
     renderFilters(): ReactElement {
         const {
             availableFilters = {},
@@ -35,7 +35,7 @@ export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayCo
             toggleCustomFilter,
             isMatchingInfoFilter,
             getFilterUrl,
-            isSearchPage
+            isSearchPage,
         } = this.props;
 
         const filters = availableFilters as unknown as Record<string, Partial<ProductConfigurableAttribute>>;
@@ -146,7 +146,7 @@ export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayCo
         const {
             totalPages,
             areFiltersEmpty,
-            isProductsLoading
+            isProductsLoading,
         } = this.props;
 
         if (!isProductsLoading && totalPages === 0) {
@@ -168,7 +168,7 @@ export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayCo
     renderLoader(): ReactElement {
         const {
             isInfoLoading,
-            availableFilters
+            availableFilters,
         } = this.props;
 
         const isLoaded = availableFilters && !!Object.keys(availableFilters).length;
@@ -190,7 +190,7 @@ export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayCo
             isProductsLoading,
             isContentFiltered,
             isCategoryAnchor,
-            isSearchPage
+            isSearchPage,
         } = this.props;
 
         // show CategoryFilterOverlay for 1. categories marked as `anchor` in Magento admin 2. Search page
@@ -217,4 +217,4 @@ export class CategoryFilterOverlay extends PureComponent<CategoryFilterOverlayCo
     }
 }
 
-export default CategoryFilterOverlay;
+export default CategoryFilterOverlayComponent;

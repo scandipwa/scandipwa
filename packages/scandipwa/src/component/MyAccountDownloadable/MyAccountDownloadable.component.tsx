@@ -61,7 +61,7 @@ export class MyAccountDownloadableComponent extends Component<MyAccountDownloada
               block="MyAccountMyOrders"
               elem="Table"
               mix={ {
-                  block: 'MyDownloadable'
+                  block: 'MyDownloadable',
               } }
             >
                 <thead>
@@ -98,7 +98,7 @@ export class MyAccountDownloadableComponent extends Component<MyAccountDownloada
 
         return orders.reduceRight(
             (acc, e) => [...acc, this.renderOrderRow(e)],
-            [] as ReactElement[]
+            [] as ReactElement[],
         );
     }
 
@@ -109,7 +109,7 @@ export class MyAccountDownloadableComponent extends Component<MyAccountDownloada
             <div
               block="MyAccountMyOrders"
               mix={ {
-                  block: 'MyDownloadableOrders'
+                  block: 'MyDownloadableOrders',
               } }
             >
                 <Loader isLoading={ isLoading } />

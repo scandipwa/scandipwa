@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps as sourceMapStateToProps,
-    WishlistItemContainer
+    WishlistItemContainer,
 } from 'Component/WishlistItem/WishlistItem.container';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
@@ -27,7 +27,7 @@ import {
     SharedWishlistItemContainerMapDispatchProps,
     SharedWishlistItemContainerMapStateProps,
     SharedWishlistItemContainerProps,
-    SharedWishlistItemContainerState
+    SharedWishlistItemContainerState,
 } from './SharedWishlistItem.type';
 
 export const CartDispatcher = import(
@@ -37,12 +37,12 @@ export const CartDispatcher = import(
 
 /** @namespace Component/SharedWishlistItem/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): SharedWishlistItemContainerMapStateProps => ({
-    ...sourceMapStateToProps(state)
+    ...sourceMapStateToProps(state),
 });
 
 /** @namespace Component/SharedWishlistItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): SharedWishlistItemContainerMapDispatchProps => ({
-    ...sourceMapDispatchToProps(dispatch)
+    ...sourceMapDispatchToProps(dispatch),
 });
 
 /** @namespace Component/SharedWishlistItem/Container */
@@ -53,7 +53,7 @@ SharedWishlistItemContainerState
     state: SharedWishlistItemContainerState = {
         isLoading: false,
         currentQty: 0,
-        quantity: 1
+        quantity: 1,
     };
 
     _getConfigurableVariantIndex(): number {
@@ -68,7 +68,7 @@ SharedWishlistItemContainerState
             isEditingActive,
             isMobile,
             isRemoving,
-            product
+            product,
         } = this.props;
         const { isLoading, quantity } = this.state;
 
@@ -84,7 +84,7 @@ SharedWishlistItemContainerState
             isMobile,
             isRemoving,
             product,
-            quantity
+            quantity,
         };
     }
 

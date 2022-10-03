@@ -24,7 +24,7 @@ import {
     PriceTaxDisplay,
     StoreConfig,
     StoreConfigFields,
-    StoreItem
+    StoreItem,
 } from './Config.type';
 
 /** @namespace Query/Config/Query */
@@ -43,7 +43,7 @@ export class ConfigQuery {
         return new Query<'currencyData', CurrencyData>('currencyData')
             .addFieldList([
                 this.getCurrencyFields(),
-                new Field<'current_currency_code', string>('current_currency_code')
+                new Field<'current_currency_code', string>('current_currency_code'),
             ]);
     }
 
@@ -60,7 +60,7 @@ export class ConfigQuery {
         return [
             new Field<'id', string>('id'),
             new Field<'label', string>('label'),
-            new Field<'value', string>('value')
+            new Field<'value', string>('value'),
         ];
     }
 
@@ -78,7 +78,7 @@ export class ConfigQuery {
             'exchange_rates',
             ExchangeRate,
             true
-            >('exchange_rates').addFieldList(this._getExchangeRatesFields())
+            >('exchange_rates').addFieldList(this._getExchangeRatesFields()),
         ];
     }
 
@@ -88,7 +88,7 @@ export class ConfigQuery {
     > {
         return [
             new Field<'currency_to', string>('currency_to'),
-            new Field<'rate', string>('rate')
+            new Field<'rate', string>('rate'),
         ];
     }
 
@@ -96,7 +96,7 @@ export class ConfigQuery {
         return new Field<'priceTaxDisplay', PriceTaxDisplay>('priceTaxDisplay')
             .addFieldList([
                 new Field<'product_price_display_type', string>('product_price_display_type'),
-                new Field<'shipping_price_display_type', string>('shipping_price_display_type')
+                new Field<'shipping_price_display_type', string>('shipping_price_display_type'),
             ]);
     }
 
@@ -106,7 +106,7 @@ export class ConfigQuery {
         const query = new Mutation<'saveSelectedCurrency', { currencyData: CurrencyData }>('saveSelectedCurrency')
             .addArgument('currency', 'String', newCurrency)
             .addFieldList([
-                this.getCurrencyData()
+                this.getCurrencyData(),
             ]);
 
         if (!isSignedIn()) {
@@ -134,7 +134,7 @@ export class ConfigQuery {
             new Field<'content_height', number>('content_height'),
             new Field<'is_html', boolean>('is_html'),
             new Field<'mode', GQLCheckoutAgreementMode>('mode'),
-            new Field<'name', string>('name')
+            new Field<'name', string>('name'),
         ];
     }
 
@@ -150,7 +150,7 @@ export class ConfigQuery {
             new Field<'is_active', boolean>('is_active'),
             new Field<'base_url', string>('base_url'),
             new Field<'base_link_url', string>('base_link_url'),
-            new Field<'code', string>('code')
+            new Field<'code', string>('code'),
         ];
     }
 
@@ -169,7 +169,7 @@ export class ConfigQuery {
             new Field<'use_calendar', boolean>('use_calendar'),
             new Field<'year_range', string>('year_range'),
             new Field<'date_fields_order', string>('date_fields_order'),
-            new Field<'time_format', string>('time_format')
+            new Field<'time_format', string>('time_format'),
         ];
     }
 
@@ -224,7 +224,7 @@ export class ConfigQuery {
             new Field<'product_alert_allow_stock', boolean>('product_alert_allow_stock'),
             new Field<'newsletter_general_active', boolean>('newsletter_general_active'),
             new Field<'newsletter_subscription_allow_guest_subscribe', boolean>(
-                'newsletter_subscription_allow_guest_subscribe'
+                'newsletter_subscription_allow_guest_subscribe',
             ),
             new Field<'newsletter_subscription_confirm', boolean>('newsletter_subscription_confirm'),
             new Field<'delivery_instore_active', boolean>('delivery_instore_active'),
@@ -235,7 +235,7 @@ export class ConfigQuery {
             new Field<'minimun_password_length', number>('minimun_password_length'),
             new Field<'required_character_classes_number', string>('required_character_classes_number'),
             ...this._getTimeDateFormatFields(),
-            this._getPriceDisplayTypeField()
+            this._getPriceDisplayTypeField(),
         ];
     }
 }

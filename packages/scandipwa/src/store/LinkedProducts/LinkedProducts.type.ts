@@ -18,7 +18,7 @@ export enum LinkedProductType {
     UPSELL = 'upsell',
     RELATED = 'related',
     CROSS_SELL = 'crosssell',
-    ASSOCIATED = 'associated'
+    ASSOCIATED = 'associated',
 }
 
 export interface LinkedProducts {
@@ -29,7 +29,7 @@ export interface LinkedProducts {
 export type LinkedProductsMap = Partial<Record<LinkedProductType, Partial<LinkedProducts>>>;
 
 export enum LinkedProductsActionType {
-    UPDATE_LINKED_PRODUCTS = 'UPDATE_LINKED_PRODUCTS'
+    UPDATE_LINKED_PRODUCTS = 'UPDATE_LINKED_PRODUCTS',
 }
 
 export interface UpdateLinkedProductsAction extends AnyAction {

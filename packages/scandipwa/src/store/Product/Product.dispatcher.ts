@@ -70,7 +70,7 @@ export class ProductDispatcher extends QueryDispatcher<Partial<ProductListOption
                 } else {
                     dispatcher.clearLinkedProducts(dispatch);
                 }
-            }
+            },
         );
 
         dispatch(updateProductDetails(product));

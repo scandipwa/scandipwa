@@ -10,7 +10,7 @@
  */
 
 import {
-    ChangeEvent, createRef, MouseEvent, PureComponent
+    ChangeEvent, createRef, MouseEvent, PureComponent,
 } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -18,7 +18,7 @@ import { Dispatch } from 'redux';
 import { EventFieldData } from 'Component/Field/Field.type';
 import { FormFields } from 'Component/Form/Form.type';
 import {
-    MyAccountPageState
+    MyAccountPageState,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CheckoutSteps, UPDATE_EMAIL_CHECK_FREQUENCY } from 'Route/Checkout/Checkout.config';
 import { updateEmail, updateEmailAvailable } from 'Store/Checkout/Checkout.action';
@@ -40,7 +40,7 @@ import {
     CheckoutGuestFormContainerMapStateProps,
     CheckoutGuestFormContainerProps,
     CheckoutGuestFormContainerPropsKeys,
-    CheckoutGuestFormContainerState
+    CheckoutGuestFormContainerState,
 } from './CheckoutGuestForm.type';
 
 export const MyAccountDispatcher = import(
@@ -58,21 +58,21 @@ export const mapStateToProps = (state: RootState): CheckoutGuestFormContainerMap
     emailValue: state.CheckoutReducer.email,
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
     minimumPasswordLength: state.ConfigReducer.minimun_password_length,
-    minimumPasswordCharacter: state.ConfigReducer.required_character_classes_number
+    minimumPasswordCharacter: state.ConfigReducer.required_character_classes_number,
 });
 
 /** @namespace Component/CheckoutGuestForm/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutGuestFormContainerMapDispatchProps => ({
     signIn: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
+        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch),
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
     clearEmailStatus: () => dispatch(updateEmailAvailable(true)),
     checkEmailAvailability: (email) => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, email)
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, email),
     ),
-    updateEmail: (email) => dispatch(updateEmail(email))
+    updateEmail: (email) => dispatch(updateEmail(email)),
 });
 
 /** @namespace Component/CheckoutGuestForm/Container */
@@ -83,12 +83,12 @@ CheckoutGuestFormContainerState
     static defaultProps: Partial<CheckoutGuestFormContainerProps> = {
         emailValue: '',
         isGuestEmailSaved: false,
-        onSignIn: noopFn
+        onSignIn: noopFn,
     };
 
     state: CheckoutGuestFormContainerState = {
         isLoading: false,
-        signInState: ''
+        signInState: '',
     };
 
     containerFunctions: CheckoutGuestFormContainerFunctions = {
@@ -100,7 +100,7 @@ CheckoutGuestFormContainerState
         handleCreateAccount: this.handleCreateAccount.bind(this),
         onFormError: this.onFormError.bind(this),
         setSignInState: this.setSignInState.bind(this),
-        setLoadingState: this.setLoadingState.bind(this)
+        setLoadingState: this.setLoadingState.bind(this),
     };
 
     formRef = createRef<HTMLFormElement>();
@@ -148,7 +148,7 @@ CheckoutGuestFormContainerState
             onSignIn,
             minimumPasswordLength,
             minimumPasswordCharacter,
-            isCreateUser
+            isCreateUser,
         } = this.props;
         const { isLoading, signInState } = this.state;
 
@@ -164,14 +164,14 @@ CheckoutGuestFormContainerState
             range,
             minimumPasswordCharacter,
             isCreateUser,
-            formRef: this.formRef
+            formRef: this.formRef,
         });
     }
 
     onFormError(
         _: HTMLFormElement,
         fields: FormFields | null,
-        validation: boolean | ValidationDOMOutput
+        validation: boolean | ValidationDOMOutput,
     ): void {
         this.setState({ isLoading: false });
         scrollToError(fields, validation);

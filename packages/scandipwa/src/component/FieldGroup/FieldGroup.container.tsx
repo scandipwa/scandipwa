@@ -25,7 +25,7 @@ import {
     FieldGroupContainerProps,
     FieldGroupContainerPropsKeys,
     FieldGroupContainerState,
-    FieldGroupEvents
+    FieldGroupEvents,
 } from './FieldGroup.type';
 
 /**
@@ -44,15 +44,15 @@ export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps,
         children: [],
         mods: {},
         elemRef: undefined,
-        returnAsObject: false
+        returnAsObject: false,
     };
 
     state: FieldGroupContainerState = {
-        validationResponse: null
+        validationResponse: null,
     };
 
     containerFunctions: FieldGroupContainerFunctions = {
-        validate: this.validate.bind(this)
+        validate: this.validate.bind(this),
     };
 
     groupRef: HTMLDivElement | null = null;
@@ -117,7 +117,7 @@ export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps,
         const fields = getFieldsData(
             this.groupRef,
             false,
-            [FieldType.NUMBER_WITH_CONTROLS, FieldType.BUTTON]
+            [FieldType.NUMBER_WITH_CONTROLS, FieldType.BUTTON],
         );
 
         hook(...[...args, { ...attr, formRef: this.groupRef, fields }]);
@@ -133,7 +133,7 @@ export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps,
             showErrorAsLabel,
             label,
             subLabel,
-            mods
+            mods,
         } = this.props;
         const { validate } = this.containerFunctions;
         const { validationResponse } = this.state;
@@ -163,7 +163,7 @@ export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps,
             subLabel,
             mods,
             events: newEvents,
-            setRef: this.setRef.bind(this)
+            setRef: this.setRef.bind(this),
         };
     }
 

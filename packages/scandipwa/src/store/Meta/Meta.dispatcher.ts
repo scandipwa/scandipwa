@@ -56,14 +56,14 @@ export class MetaDispatcher {
             meta_title,
             meta_keyword,
             canonical_url = '',
-            meta_description
+            meta_description,
         } = product;
 
         return {
             description: meta_description,
             keywords: meta_keyword,
             title: meta_title || name,
-            canonical_url: `${window.location.origin}${appendWithStoreCode(canonical_url)}`
+            canonical_url: `${window.location.origin}${appendWithStoreCode(canonical_url)}`,
         };
     }
 
@@ -81,7 +81,7 @@ export class MetaDispatcher {
             meta_title,
             meta_keywords,
             meta_description,
-            meta_robots = 'follow, index'
+            meta_robots = 'follow, index',
         } = category;
 
         return {
@@ -89,7 +89,7 @@ export class MetaDispatcher {
             title: meta_title || name,
             keywords: meta_keywords,
             canonical_url: `${window.location.origin}${appendWithStoreCode(canonical_url)}`,
-            robots: meta_robots
+            robots: meta_robots,
         };
     }
 }

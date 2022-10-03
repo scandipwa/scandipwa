@@ -18,7 +18,7 @@ export const sharedTransitionInitialState: SharedTransitionState = {
     sharedElementDestination: null,
     sharedElement: null,
     destinationPosition: {},
-    startingPosition: {}
+    startingPosition: {},
 };
 
 /** @namespace Component/SharedTransition/Unstated */
@@ -48,7 +48,7 @@ export class SharedTransitionUnstated extends Container<SharedTransitionState> {
 
                 return {
                     sharedElementDestination: current,
-                    destinationPosition: this._parseRectangle(current.getBoundingClientRect())
+                    destinationPosition: this._parseRectangle(current.getBoundingClientRect()),
                 };
             });
         }
@@ -62,7 +62,7 @@ export class SharedTransitionUnstated extends Container<SharedTransitionState> {
                 sharedElement: clone,
                 sharedElementDestination: null,
                 destinationPosition: {},
-                startingPosition: this._parseRectangle(current.getBoundingClientRect())
+                startingPosition: this._parseRectangle(current.getBoundingClientRect()),
             });
         }
     }

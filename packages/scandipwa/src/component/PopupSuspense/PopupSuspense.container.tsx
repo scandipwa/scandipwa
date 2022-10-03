@@ -21,7 +21,7 @@ export const mapStateToProps = (): PopupSuspenseMapStateToProps => ({});
 
 /** @namespace Component/PopupSuspense/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): PopupSuspenseMapDispatchToProps => ({
-    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey))
+    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PopupSuspense);

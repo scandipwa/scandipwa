@@ -18,7 +18,7 @@ import { formatPrice } from 'Util/Price';
 import { CheckoutOrderSummaryPriceLineProps } from './CheckoutOrderSummaryPriceLine.type';
 
 /** @namespace Component/CheckoutOrderSummaryPriceLine/Component */
-export class CheckoutOrderSummaryPriceLine extends PureComponent<CheckoutOrderSummaryPriceLineProps> {
+export class CheckoutOrderSummaryPriceLineComponent extends PureComponent<CheckoutOrderSummaryPriceLineProps> {
     static defaultProps: Partial<CheckoutOrderSummaryPriceLineProps> = {
         itemsQty: 0,
         mods: {},
@@ -26,7 +26,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent<CheckoutOrderSu
         children: [],
         coupon_code: '',
         currency: GQLCurrencyEnum.USD,
-        price: undefined
+        price: undefined,
     };
 
     renderPrice(): ReactElement {
@@ -83,7 +83,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent<CheckoutOrderSu
             price,
             mods,
             children,
-            itemsQty
+            itemsQty,
         } = this.props;
 
         if (!itemsQty && !price) {
@@ -109,4 +109,4 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent<CheckoutOrderSu
     }
 }
 
-export default CheckoutOrderSummaryPriceLine;
+export default CheckoutOrderSummaryPriceLineComponent;

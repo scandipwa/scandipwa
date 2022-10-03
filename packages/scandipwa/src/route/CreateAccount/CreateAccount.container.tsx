@@ -17,7 +17,7 @@ import { Page } from 'Component/Header/Header.config';
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps,
-    MyAccountOverlayContainer
+    MyAccountOverlayContainer,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
@@ -31,7 +31,7 @@ import CreateAccount from './CreateAccount.component';
 import {
     CreateAccountContainerFunctions,
     CreateAccountContainerMapDispatchProps,
-    CreateAccountContainerProps
+    CreateAccountContainerProps,
 } from './CreateAccount.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -42,14 +42,14 @@ export const BreadcrumbsDispatcher = import(
 /** @namespace Route/CreateAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CreateAccountContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
-    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible))
+    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
 });
 
 /** @namespace Route/CreateAccount/Container */
 export class CreateAccountContainer extends MyAccountOverlayContainer<CreateAccountContainerProps> {
     containerFunctions: CreateAccountContainerFunctions = {
         ...this.containerFunctions,
-        onLoginClick: this.onLoginClick.bind(this)
+        onLoginClick: this.onLoginClick.bind(this),
     };
 
     componentDidMount(): void {
@@ -69,7 +69,7 @@ export class CreateAccountContainer extends MyAccountOverlayContainer<CreateAcco
             onBackClick: (e) => {
                 history.push({ pathname: appendWithStoreCode(`${AccountPageUrl.LOGIN_URL}`) });
                 this.handleSignIn(e);
-            }
+            },
         });
         scrollToTop({ behavior: 'smooth' });
     }
@@ -90,7 +90,7 @@ export class CreateAccountContainer extends MyAccountOverlayContainer<CreateAcco
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(
-    CreateAccountContainer as unknown as ComponentType<CreateAccountContainerProps>
+    CreateAccountContainer as unknown as ComponentType<CreateAccountContainerProps>,
 );

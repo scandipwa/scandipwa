@@ -26,7 +26,7 @@ import {
     NewsletterSubscriptionContainerProps,
     NewsletterSubscriptionContainerState,
     NewsletterSubscriptionMapDispatchProps,
-    NewsletterSubscriptionMapStateProps
+    NewsletterSubscriptionMapStateProps,
 } from './NewsletterSubscription.type';
 
 export const NewsletterSubscriptionDispatcher = import(
@@ -37,15 +37,15 @@ export const NewsletterSubscriptionDispatcher = import(
 /** @namespace Component/NewsletterSubscription/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): NewsletterSubscriptionMapStateProps => ({
     allowGuestSubscribe: state.ConfigReducer.newsletter_subscription_allow_guest_subscribe,
-    isSignedIn: state.MyAccountReducer.isSignedIn
+    isSignedIn: state.MyAccountReducer.isSignedIn,
 });
 
 /** @namespace Component/NewsletterSubscription/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): NewsletterSubscriptionMapDispatchProps => ({
     subscribeToNewsletter: (email) => NewsletterSubscriptionDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.subscribeToNewsletter(dispatch, email)
+        ({ default: dispatcher }) => dispatcher.subscribeToNewsletter(dispatch, email),
     ),
-    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message))
+    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
 });
 
 /** @namespace Component/NewsletterSubscription/Container */
@@ -54,11 +54,11 @@ NewsletterSubscriptionContainerProps,
 NewsletterSubscriptionContainerState
 > {
     containerFunctions: NewsletterSubscriptionContainerFunctions = {
-        onFormSubmit: this.onFormSubmit.bind(this)
+        onFormSubmit: this.onFormSubmit.bind(this),
     };
 
     state: NewsletterSubscriptionContainerState = {
-        isLoading: false
+        isLoading: false,
     };
 
     __construct(props: NewsletterSubscriptionContainerProps): void {
@@ -78,11 +78,11 @@ NewsletterSubscriptionContainerState
             subscribeToNewsletter,
             allowGuestSubscribe,
             isSignedIn,
-            showErrorNotification
+            showErrorNotification,
         } = this.props;
 
         const {
-            value: email
+            value: email,
         } = fields.find(({ name }) => name === 'newsletterEmail') || {};
 
         if (!email) {
@@ -91,7 +91,7 @@ NewsletterSubscriptionContainerState
 
         if (!allowGuestSubscribe && !isSignedIn) {
             showErrorNotification(
-                __('Guests can not subscribe to the newsletter. You must create an account or login to subscribe.')
+                __('Guests can not subscribe to the newsletter. You must create an account or login to subscribe.'),
             );
 
             return;
@@ -123,5 +123,5 @@ NewsletterSubscriptionContainerState
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(NewsletterSubscriptionContainer);

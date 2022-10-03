@@ -16,7 +16,7 @@ import { PopupPayload, ShowPopupAction } from 'Store/Popup/Popup.type';
 export enum OverlayActionType {
     TOGGLE_OVERLAY = 'TOGGLE_OVERLAY',
     HIDE_ACTIVE_OVERLAY = 'HIDE_ACTIVE_OVERLAY',
-    HIDE_ACTIVE_POPUP = 'HIDE_ACTIVE_POPUP'
+    HIDE_ACTIVE_POPUP = 'HIDE_ACTIVE_POPUP',
 }
 
 export interface ToggleOverlayByKeyAction extends AnyAction {

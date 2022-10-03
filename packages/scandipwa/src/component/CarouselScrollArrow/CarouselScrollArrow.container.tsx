@@ -16,13 +16,13 @@ import CarouselScrollArrow from './CarouselScrollArrow.component';
 import {
     CarouselScrollArrowComponentContainerPropKeys,
     CarouselScrollArrowComponentProps,
-    CarouselScrollArrowContainerProps
+    CarouselScrollArrowContainerProps,
 } from './CarouselScrollArrow.type';
 
 /** @namespace Component/CarouselScrollArrow/Container */
 export class CarouselScrollArrowContainer extends PureComponent<CarouselScrollArrowContainerProps> {
     containerFunctions = {
-        onClick: this.onClick.bind(this)
+        onClick: this.onClick.bind(this),
     };
 
     containerProps(): Pick<CarouselScrollArrowComponentProps, CarouselScrollArrowComponentContainerPropKeys> {
@@ -31,8 +31,8 @@ export class CarouselScrollArrowContainer extends PureComponent<CarouselScrollAr
         return {
             mods: {
                 isNextArrow,
-                isInvisible
-            }
+                isInvisible,
+            },
         };
     }
 

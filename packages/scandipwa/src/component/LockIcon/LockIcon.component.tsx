@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import './LockIcon.style';
 
 /** @namespace Component/LockIcon/Component */
-export class LockIcon extends PureComponent {
+export class LockIconComponent extends PureComponent {
     render(): ReactElement {
         return (
             <svg
@@ -34,4 +34,4 @@ export class LockIcon extends PureComponent {
     }
 }
 
-export default LockIcon;
+export default LockIconComponent;

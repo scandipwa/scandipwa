@@ -12,7 +12,7 @@ import {
     AnyAction,
     Reducer,
     ReducersMapObject,
-    Store
+    Store,
 } from 'redux';
 
 /**

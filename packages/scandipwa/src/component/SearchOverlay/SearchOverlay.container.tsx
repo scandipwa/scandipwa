@@ -25,7 +25,7 @@ import {
     SearchOverlayContainerFunctions,
     SearchOverlayContainerMapDispatchProps,
     SearchOverlayContainerMapStateProps,
-    SearchOverlayContainerProps
+    SearchOverlayContainerProps,
 } from './SearchOverlay.type';
 
 export const SearchBarDispatcher = import(
@@ -36,27 +36,27 @@ export const SearchBarDispatcher = import(
 /** @namespace Component/SearchOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): SearchOverlayContainerMapStateProps => ({
     searchResults: state.SearchBarReducer.productsInSearch,
-    isLoading: state.SearchBarReducer.isLoading
+    isLoading: state.SearchBarReducer.isLoading,
 });
 
 /** @namespace Component/SearchOverlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): SearchOverlayContainerMapDispatchProps => ({
     makeSearchRequest: (options) => SearchBarDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
     ),
     clearSearchResults: () => SearchBarDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.clearSearchResults(dispatch)
-    )
+        ({ default: dispatcher }) => dispatcher.clearSearchResults(dispatch),
+    ),
 });
 
 /** @namespace Component/SearchOverlay/Container */
 export class SearchOverlayContainer extends PureComponent<SearchOverlayContainerProps> {
     static defaultProps: Partial<SearchOverlayContainerProps> = {
-        isHideOverlay: false
+        isHideOverlay: false,
     };
 
     containerFunctions: SearchOverlayContainerFunctions = {
-        makeSearchRequest: this.makeSearchRequest.bind(this)
+        makeSearchRequest: this.makeSearchRequest.bind(this),
     };
 
     containerProps(): Pick<SearchOverlayComponentProps, SearchOverlayComponentContainerPropKeys> {
@@ -65,7 +65,7 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
             isHideOverlay,
             isLoading,
             searchCriteria,
-            searchResults
+            searchResults,
         } = this.props;
 
         return {
@@ -73,7 +73,7 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
             isHideOverlay,
             isLoading,
             searchCriteria,
-            searchResults
+            searchResults,
         };
     }
 
@@ -81,7 +81,7 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
         const {
             makeSearchRequest,
             clearSearchResults,
-            searchCriteria
+            searchCriteria,
         } = this.props;
 
         if (searchCriteria) {
@@ -92,8 +92,8 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
                 args: {
                     search,
                     pageSize: 24,
-                    currentPage: 1
-                }
+                    currentPage: 1,
+                },
             });
         }
     }
@@ -109,8 +109,8 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
 }
 
 export default withReducers({
-    SearchBarReducer
+    SearchBarReducer,
 })(connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(SearchOverlayContainer)) as unknown as ComponentType<Partial<SearchOverlayComponentProps>>;

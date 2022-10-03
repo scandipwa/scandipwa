@@ -22,8 +22,8 @@ import { MyAccountAddressTableComponentProps } from './MyAccountAddressTable.typ
 import './MyAccountAddressTable.style';
 
 /** @namespace Component/MyAccountAddressTable/Component */
-export class MyAccountAddressTable <
-Props extends MyAccountAddressTableComponentProps = MyAccountAddressTableComponentProps
+export class MyAccountAddressTableComponent <
+Props extends MyAccountAddressTableComponentProps = MyAccountAddressTableComponentProps,
 > extends KeyValueTable<Props> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -36,7 +36,7 @@ Props extends MyAccountAddressTableComponentProps = MyAccountAddressTableCompone
             onEditClick,
             onDeleteClick,
             showActions,
-            address
+            address,
         } = this.props;
 
         if (!('default_shipping' in address)) {
@@ -86,4 +86,4 @@ Props extends MyAccountAddressTableComponentProps = MyAccountAddressTableCompone
     }
 }
 
-export default MyAccountAddressTable;
+export default MyAccountAddressTableComponent;

@@ -25,25 +25,25 @@ import {
     ImageZoomPopupComponentProps,
     ImageZoomPopupContainerMapDispatchProps,
     ImageZoomPopupContainerMapStateProps,
-    ImageZoomPopupContainerProps
+    ImageZoomPopupContainerProps,
 } from './ImageZoomPopup.type';
 
 /** @namespace Component/ImageZoomPopup/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ImageZoomPopupContainerMapStateProps => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/ImageZoomPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ImageZoomPopupContainerMapDispatchProps => ({
     showPopup: (id, payload) => dispatch(showPopup(id, payload)),
-    hideActiveOverlay: () => dispatch(hideActiveOverlay())
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
 });
 
 /** @namespace Component/ImageZoomPopup/Container */
 export class ImageZoomPopupContainer extends PureComponent<ImageZoomPopupContainerProps> {
     static defaultProps: Partial<ImageZoomPopupContainerProps> = {
         onClose: noopFn,
-        mix: {}
+        mix: {},
     };
 
     componentDidUpdate(prevProps: ImageZoomPopupContainerProps): void {
@@ -58,12 +58,12 @@ export class ImageZoomPopupContainer extends PureComponent<ImageZoomPopupContain
     containerProps(): ImageZoomPopupComponentProps {
         const {
             children,
-            activeImageId
+            activeImageId,
         } = this.props;
 
         return {
             children,
-            activeImageId
+            activeImageId,
         };
     }
 
@@ -74,7 +74,7 @@ export class ImageZoomPopupContainer extends PureComponent<ImageZoomPopupContain
             mix,
             popupId,
             isMobile,
-            onClose
+            onClose,
         } = this.props;
 
         if (!isActive || isMobile) {

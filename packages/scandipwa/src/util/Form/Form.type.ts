@@ -56,5 +56,5 @@ export type GetFieldsData<AsObject extends boolean = false> = AsObject extends t
     : Array<DateObject | FieldData>;
 
 export type FieldValue<
-    T = unknown, isUnknownValue = true
+    T = unknown, isUnknownValue = true,
 > = isUnknownValue extends true ? string | number | boolean | Date : T;

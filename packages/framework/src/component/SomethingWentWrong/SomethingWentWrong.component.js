@@ -6,12 +6,12 @@ export class SomethingWentWrongComponent extends PureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
         trace: PropTypes.string,
-        error: PropTypes.string
+        error: PropTypes.string,
     };
 
     static defaultProps = {
         trace: '',
-        error: ''
+        error: '',
     };
 
     renderAction() {

@@ -26,16 +26,16 @@ import { MyAccountOrderItemsTableRowComponentProps } from './MyAccountOrderItems
 import './MyAccountOrderItemsTableRow.style';
 
 /** @namespace Component/MyAccountOrderItemsTableRow/Component */
-export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderItemsTableRowComponentProps> {
+export class MyAccountOrderItemsTableRowComponent extends PureComponent<MyAccountOrderItemsTableRowComponentProps> {
     static defaultProps: Partial<MyAccountOrderItemsTableRowComponentProps> = {
-        comments: []
+        comments: [],
     };
 
     renderMap = {
         renderOption: this.renderOption.bind(this),
         renderQty: this.renderQty.bind(this),
         renderOptionItem: this.renderOptionItem.bind(this),
-        renderEnteredOptionAsRow: this.renderEnteredOptionAsRow.bind(this)
+        renderEnteredOptionAsRow: this.renderEnteredOptionAsRow.bind(this),
     };
 
     renderItemPrice(): ReactElement {
@@ -43,10 +43,10 @@ export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderIte
             product: {
                 product_sale_price: {
                     value,
-                    currency
-                }
+                    currency,
+                },
             },
-            activeTab
+            activeTab,
         } = this.props;
 
         if (activeTab === OrderTabs.ORDER_SHIPMENTS) {
@@ -93,7 +93,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderIte
     renderRowSubtotal(): ReactElement {
         const {
             activeTab,
-            product
+            product,
         } = this.props;
 
         if (activeTab === OrderTabs.ORDER_SHIPMENTS || !('row_subtotal' in product)) {
@@ -103,8 +103,8 @@ export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderIte
         const {
             row_subtotal: {
                 value,
-                currency
-            } = {}
+                currency,
+            } = {},
         } = product;
 
         return this.renderPrice(value, currency, __('Subtotal'));
@@ -121,7 +121,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderIte
     renderSelectedAndEnteredOptions(): ReactElement {
         const {
             selectedOptions,
-            enteredOptions
+            enteredOptions,
         } = this.props;
         const { renderOption } = this.renderMap;
 
@@ -245,7 +245,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderIte
         const {
             label,
             items,
-            value
+            value,
         } = option || [];
 
         if (items) {
@@ -268,7 +268,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderIte
     renderOptionContent(option: OrderProductSelectedOption): ReactElement {
         const {
             value = '',
-            linkItems = []
+            linkItems = [],
         } = option;
 
         if (linkItems && linkItems.length) {
@@ -294,7 +294,7 @@ export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderIte
         const {
             activeTab,
             product,
-            isMobile
+            isMobile,
         } = this.props;
 
         if (
@@ -308,9 +308,9 @@ export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderIte
         const {
             row_subtotal: {
                 value: row_subtotal,
-                currency
+                currency,
             } = {},
-            discounts = []
+            discounts = [],
         } = product;
 
         const totalDiscount = discounts.length ? getOrderItemRowDiscount(discounts) : 0;
@@ -321,12 +321,12 @@ export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderIte
                     { this.renderPrice(
                         -Number(totalDiscount),
                         currency,
-                        __('Discount Amount')
+                        __('Discount Amount'),
                     ) }
                     { this.renderPrice(
                         Number(row_subtotal) - totalDiscount,
                         currency,
-                        __('Row Total')
+                        __('Row Total'),
                     ) }
                 </>
             );
@@ -344,10 +344,10 @@ export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderIte
         const {
             activeTab,
             product: {
-                product_sku
+                product_sku,
             },
             enteredOptions = [],
-            comments
+            comments,
         } = this.props;
 
         const isWithEnteredItems = !!enteredOptions[ 0 ]?.items;
@@ -383,4 +383,4 @@ export class MyAccountOrderItemsTableRow extends PureComponent<MyAccountOrderIte
     }
 }
 
-export default MyAccountOrderItemsTableRow;
+export default MyAccountOrderItemsTableRowComponent;

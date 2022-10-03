@@ -12,7 +12,7 @@
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import {
-    MyAccountOverlay
+    MyAccountOverlayComponent,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { ReactElement } from 'Type/Common.type';
 
@@ -21,7 +21,7 @@ import { CreateAccountComponentProps } from './CreateAccount.type';
 import './CreateAccount.style';
 
 /** @namespace Route/CreateAccount/Component */
-export class CreateAccountComponent extends MyAccountOverlay<CreateAccountComponentProps> {
+export class CreateAccountComponent extends MyAccountOverlayComponent<CreateAccountComponentProps> {
     renderSignInWrapper(): ReactElement {
         const { onLoginClick } = this.props;
 
@@ -76,14 +76,14 @@ export class CreateAccountComponent extends MyAccountOverlay<CreateAccountCompon
 
     render(): ReactElement {
         const {
-            isLoading
+            isLoading,
         } = this.props;
 
         return (
             <ContentWrapper
               label="Create account page"
               mix={ {
-                  block: 'CreateAccount'
+                  block: 'CreateAccount',
               } }
             >
                 <div block="CreateAccount" elem="InnerWrapper">

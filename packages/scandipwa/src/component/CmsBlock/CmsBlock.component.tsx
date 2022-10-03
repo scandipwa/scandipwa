@@ -23,15 +23,15 @@ import './CmsBlock.style';
  * @class CmsBlock
  * @namespace Component/CmsBlock/Component
  */
-export class CmsBlock extends PureComponent<CmsBlockComponentProps> {
+export class CmsBlockComponent extends PureComponent<CmsBlockComponentProps> {
     static defaultProps: Partial<CmsBlockComponentProps> = {
         cmsBlock: {},
-        blockType: ''
+        blockType: '',
     };
 
     renderPlaceholder(): ReactElement {
         const {
-            children
+            children,
         } = this.props;
 
         if (children && (!Array.isArray(children) || children.length)) {
@@ -46,9 +46,9 @@ export class CmsBlock extends PureComponent<CmsBlockComponentProps> {
             cmsBlock: {
                 identifier,
                 content,
-                disabled
+                disabled,
             },
-            blockType
+            blockType,
         } = this.props;
 
         if (!content || disabled) {
@@ -71,4 +71,4 @@ export class CmsBlock extends PureComponent<CmsBlockComponentProps> {
     }
 }
 
-export default CmsBlock;
+export default CmsBlockComponent;

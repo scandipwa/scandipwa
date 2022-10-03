@@ -27,7 +27,7 @@ import { RootState } from 'Util/Store/Store.type';
 import ContactPage from './ContactPage.component';
 import {
     ContactPageComponentProps,
-    ContactPageContainerProps, ContactPageContainerState, ContactPageMapDispatchProps, ContactPageMapStateProps
+    ContactPageContainerProps, ContactPageContainerState, ContactPageMapDispatchProps, ContactPageMapStateProps,
 } from './ContactPage.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -37,7 +37,7 @@ export const BreadcrumbsDispatcher = import(
 
 /** @namespace Route/ContactPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ContactPageMapStateProps => ({
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Route/ContactPage/Container/mapDispatchToProps */
@@ -47,16 +47,16 @@ export const mapDispatchToProps = (dispatch: Dispatch): ContactPageMapDispatchPr
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
         );
-    }
+    },
 });
 
 /** @namespace Route/ContactPage/Container */
 export class ContactPageContainer extends DataContainer<ContactPageContainerProps, ContactPageContainerState> {
     state: ContactPageContainerState = {
         isLoading: false,
-        isEnabled: false
+        isEnabled: false,
     };
 
     __construct(props: ContactPageContainerProps): void {
@@ -79,7 +79,7 @@ export class ContactPageContainer extends DataContainer<ContactPageContainerProp
         return {
             isMobile,
             isLoading,
-            isEnabled
+            isEnabled,
         };
     }
 
@@ -94,8 +94,8 @@ export class ContactPageContainer extends DataContainer<ContactPageContainerProp
         const breadcrumbs = [
             {
                 url: '/contact-us',
-                name: __('Contact Us')
-            }
+                name: __('Contact Us'),
+            },
         ];
 
         updateBreadcrumbs(breadcrumbs);
@@ -106,7 +106,7 @@ export class ContactPageContainer extends DataContainer<ContactPageContainerProp
 
         setHeaderState({
             name: Page.CONTACT_US,
-            title: __('Contact Us')
+            title: __('Contact Us'),
         });
     }
 
@@ -123,7 +123,7 @@ export class ContactPageContainer extends DataContainer<ContactPageContainerProp
             (e) => {
                 this.setState({ isLoading: false });
                 showNotification(NotificationType.ERROR, getErrorMessage(e as Error));
-            }
+            },
         );
     }
 

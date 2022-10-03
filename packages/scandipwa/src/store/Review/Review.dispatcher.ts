@@ -31,7 +31,7 @@ export class ReviewDispatcher {
             product_sku,
             detail,
             title,
-            nickname
+            nickname,
         } = reviewItem;
 
         return {
@@ -42,9 +42,9 @@ export class ReviewDispatcher {
             ratings: Object.keys(rating_data).map(
                 (key) => ({
                     id: key,
-                    value_id: rating_data[ key ]
-                })
-            )
+                    value_id: rating_data[ key ],
+                }),
+            ),
         };
     }
 

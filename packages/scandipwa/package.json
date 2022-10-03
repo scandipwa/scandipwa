@@ -46,6 +46,7 @@
         "react-zoom-pan-pinch": "^1.6.1",
         "rebem-classname": "^0.4.0",
         "redux": "4.2.0",
+        "typescript": "4.7.2",
         "unstated": "^2.1.1"
     },
     "scandipwa": {

@@ -37,41 +37,42 @@ export const WidgetFactory = lazy(() => import(
  * @class Html
  * @namespace Component/Html/Component
  */
-export class Html extends PureComponent<HtmlComponentProps> {
+export class HtmlComponent extends PureComponent<HtmlComponentProps> {
     createdOutsideElements: Record<number, boolean> = {};
 
     rules: HtmlParserRule[] = [
         {
             query: { name: ['widget'] },
-            replace: this.replaceWidget
+            replace: this.replaceWidget,
         },
         {
             query: { name: ['a'] },
-            replace: this.replaceLinks
+            replace: this.replaceLinks,
         },
         {
             query: { name: ['img'] },
-            replace: this.replaceImages
+            replace: this.replaceImages,
         },
         {
             query: { name: ['input'] },
-            replace: this.replaceInput
+            replace: this.replaceInput,
         },
         {
             query: { name: ['script'] },
-            replace: this.replaceScript
+            replace: this.replaceScript,
         },
         {
             query: { name: ['style'] },
-            replace: this.replaceStyle
+            replace: this.replaceStyle,
         },
         {
             query: { name: ['table'] },
-            replace: this.wrapTable
-        }
+            replace: this.wrapTable,
+        },
     ];
 
     parserOptions: HTMLReactParserOptions = {
+        // eslint-disable-next-line react/no-unstable-nested-components
         replace: (domNode: DomElement): JSX.Element | undefined => {
             const { data, name: domName, attribs: domAttrs } = domNode;
 
@@ -112,14 +113,14 @@ export class Html extends PureComponent<HtmlComponentProps> {
 
                 return replace.call(this, domNode);
             }
-        }
+        },
     };
 
     attributesToProps(attribs: Record<string, string | number>): Record<string, string | number> {
         const toCamelCase = (str: string) => str.replace(/_[a-z]/g, (match: string) => match.substr(1).toUpperCase());
 
         const convertPropertiesToValidFormat = (
-            properties: Record<string, string | number>
+            properties: Record<string, string | number>,
         ) => Object.entries(properties)
             .reduce((validProps, [key, value]) => {
                 // eslint-disable-next-line no-restricted-globals
@@ -149,8 +150,8 @@ export class Html extends PureComponent<HtmlComponentProps> {
         const { href, ...attrs } = attribs;
 
         if (href) {
-            const isAbsoluteUrl = (value: string) => new RegExp('^(?:[a-z]+:)?//', 'i').test(value);
-            const isSpecialLink = (value: string) => new RegExp('^(sms|tel|mailto):', 'i').test(value);
+            const isAbsoluteUrl = (value: string) => /^(?:[a-z]+:)?\/\//i.test(value);
+            const isSpecialLink = (value: string) => /^(sms|tel|mailto):/i.test(value);
 
             if (!isAbsoluteUrl(href) && !isSpecialLink(href)) {
                 return (
@@ -275,4 +276,4 @@ export class Html extends PureComponent<HtmlComponentProps> {
     }
 }
 
-export default Html;
+export default HtmlComponent;

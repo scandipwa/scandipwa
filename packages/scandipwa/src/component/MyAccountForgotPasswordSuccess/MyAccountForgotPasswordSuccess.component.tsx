@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import { MyAccountForgotPasswordSuccessContainerProps } from './MyAccountForgotPasswordSuccess.type';
 
 /** @namespace Component/MyAccountForgotPasswordSuccess/Component */
-export class MyAccountForgotPasswordSuccess extends PureComponent<MyAccountForgotPasswordSuccessContainerProps> {
+export class MyAccountForgotPasswordSuccessComponent extends PureComponent<MyAccountForgotPasswordSuccessContainerProps> {
     render(): ReactElement {
         const { state, handleSignIn, submittedEmail } = this.props;
 
@@ -42,4 +42,4 @@ export class MyAccountForgotPasswordSuccess extends PureComponent<MyAccountForgo
     }
 }
 
-export default MyAccountForgotPasswordSuccess;
+export default MyAccountForgotPasswordSuccessComponent;

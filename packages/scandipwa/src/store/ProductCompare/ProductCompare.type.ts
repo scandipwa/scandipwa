@@ -15,7 +15,7 @@ import {
     ComparableAttribute,
     ComparableItem,
     ComparableProduct,
-    CompareList
+    CompareList,
 } from 'Query/ProductCompare.type';
 
 export enum ProductCompareActionType {
@@ -25,7 +25,7 @@ export enum ProductCompareActionType {
     CLEAR_COMPARED_PRODUCTS = 'CLEAR_COMPARED_PRODUCTS',
     SET_COMPARED_PRODUCT_IDS = 'SET_COMPARED_PRODUCT_IDS',
     ADD_COMPARED_PRODUCT_ID = 'ADD_COMPARED_PRODUCT_ID',
-    UPDATE_COMPARE_TOTALS = 'UPDATE_COMPARE_TOTALS'
+    UPDATE_COMPARE_TOTALS = 'UPDATE_COMPARE_TOTALS',
 }
 
 export interface ToggleLoaderAction extends AnyAction {

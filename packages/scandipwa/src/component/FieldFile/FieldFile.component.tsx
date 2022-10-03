@@ -23,7 +23,7 @@ import { FieldFileComponentProps } from './FieldFile.type';
  * Field File
  * @class FieldFile
  * @namespace Component/FieldFile/Component */
-export class FieldFile extends PureComponent<FieldFileComponentProps> {
+export class FieldFileComponent extends PureComponent<FieldFileComponentProps> {
     renderSubLabel(allowedTypes: string): ReactElement {
         return (
             <p block="FieldFile" elem="AllowedTypes">
@@ -38,7 +38,7 @@ export class FieldFile extends PureComponent<FieldFileComponentProps> {
             attr: { id = '', multiple = false } = {},
             fileName = '',
             isLoading = false,
-            resetFieldValue
+            resetFieldValue,
         } = this.props;
 
         if (isLoading) {
@@ -73,7 +73,7 @@ export class FieldFile extends PureComponent<FieldFileComponentProps> {
             attr = {},
             attr: { accept = '' } = {},
             events = {},
-            setRef
+            setRef,
         } = this.props;
 
         const allowedFieldTypes = (accept || '')
@@ -98,4 +98,4 @@ export class FieldFile extends PureComponent<FieldFileComponentProps> {
     }
 }
 
-export default FieldFile;
+export default FieldFileComponent;

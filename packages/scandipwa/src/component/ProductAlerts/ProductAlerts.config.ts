@@ -11,5 +11,5 @@
 
 export enum ProductAlert {
     PRICE_DROP = 'PRODUCT_ALERT_PRICE_DROP',
-    IN_STOCK = 'PRODUCT_ALERT_IN_STOCK'
+    IN_STOCK = 'PRODUCT_ALERT_IN_STOCK',
 }

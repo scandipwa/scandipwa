@@ -20,7 +20,7 @@ import { ValidationInputType } from 'Util/Validator/Config';
 import { MyAccountForgotPasswordComponentProps } from './MyAccountForgotPassword.type';
 
 /** @namespace Component/MyAccountForgotPassword/Component */
-export class MyAccountForgotPassword extends PureComponent<MyAccountForgotPasswordComponentProps> {
+export class MyAccountForgotPasswordComponent extends PureComponent<MyAccountForgotPasswordComponentProps> {
     renderForgotPasswordForm(): ReactElement {
         const { onForgotPasswordSuccess, onFormError } = this.props;
 
@@ -38,12 +38,12 @@ export class MyAccountForgotPassword extends PureComponent<MyAccountForgotPasswo
                       name: 'email',
                       className: 'ForgotPassword-Input_type_email',
                       placeholder: __('Your email address'),
-                      autoComplete: 'email'
+                      autoComplete: 'email',
                   } }
                   validateOn={ ['onChange'] }
                   validationRule={ {
                       isRequired: true,
-                      inputType: ValidationInputType.EMAIL
+                      inputType: ValidationInputType.EMAIL,
                   } }
                   addRequiredTag
                 />
@@ -112,4 +112,4 @@ export class MyAccountForgotPassword extends PureComponent<MyAccountForgotPasswo
     }
 }
 
-export default MyAccountForgotPassword;
+export default MyAccountForgotPasswordComponent;

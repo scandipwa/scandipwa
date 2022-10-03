@@ -21,30 +21,30 @@ import { noopFn } from 'Util/Common';
 import { LinkComponentProps } from './Link.type';
 
 /** @namespace Component/Link/Component */
-export class Link extends PureComponent<LinkComponentProps> {
+export class LinkComponent extends PureComponent<LinkComponentProps> {
     static defaultProps: Partial<LinkComponentProps> = {
         bemProps: {},
         className: '',
         onClick: noopFn,
         isOpenInNewTab: false,
-        id: ''
+        id: '',
     };
 
     scrollToElement(e: MouseEvent): void {
         const {
             to: cssIdentifier,
-            onClick
+            onClick,
         } = this.props;
 
         const elem = document.querySelector<HTMLElement>(
-            cssIdentifier !== '#' ? cssIdentifier as string : 'body'
+            cssIdentifier !== '#' ? cssIdentifier as string : 'body',
         );
 
         e.preventDefault();
 
         window.scrollTo({
             top: elem?.offsetTop || 0,
-            behavior: 'smooth'
+            behavior: 'smooth',
         });
 
         elem?.focus();
@@ -164,4 +164,4 @@ export class Link extends PureComponent<LinkComponentProps> {
     }
 }
 
-export default Link;
+export default LinkComponent;

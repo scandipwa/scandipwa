@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import './SearchIcon.style';
 
 /** @namespace Component/SearchIcon/Component */
-export class SearchIcon extends PureComponent {
+export class SearchIconComponent extends PureComponent {
     render(): ReactElement {
         return (
             <svg
@@ -34,4 +34,4 @@ export class SearchIcon extends PureComponent {
     }
 }
 
-export default SearchIcon;
+export default SearchIconComponent;

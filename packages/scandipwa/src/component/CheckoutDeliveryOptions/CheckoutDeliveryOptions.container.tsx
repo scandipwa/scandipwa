@@ -16,10 +16,10 @@ import { ReactElement } from 'Type/Common.type';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 import {
-    CheckoutDeliveryOptionsComponent,
+    CheckoutDeliveryOptionsComponentProps,
     CheckoutDeliveryOptionsContainerProps,
     CheckoutDeliveryOptionsContainerPropsKeys,
-    CheckoutDeliveryOptionsContainerState
+    CheckoutDeliveryOptionsContainerState,
 } from './CheckoutDeliveryOptions.type';
 
 /** @namespace Component/CheckoutDeliveryOptions/Container */
@@ -28,26 +28,26 @@ CheckoutDeliveryOptionsContainerProps,
 CheckoutDeliveryOptionsContainerState
 > {
     static defaultProps: Partial<CheckoutDeliveryOptionsContainerProps> = {
-        selectedShippingMethod: {}
+        selectedShippingMethod: {},
     };
 
     containerFunctions = {
-        selectShippingMethod: this.selectShippingMethod.bind(this)
+        selectShippingMethod: this.selectShippingMethod.bind(this),
     };
 
     dataMap = {};
 
-    containerProps(): Pick<CheckoutDeliveryOptionsComponent, CheckoutDeliveryOptionsContainerPropsKeys> {
+    containerProps(): Pick<CheckoutDeliveryOptionsComponentProps, CheckoutDeliveryOptionsContainerPropsKeys> {
         const {
             shippingMethods,
             handleSelectDeliveryMethod,
-            selectedShippingMethod
+            selectedShippingMethod,
         } = this.props;
 
         return {
             selectedShippingMethod,
             shippingMethods,
-            handleSelectDeliveryMethod
+            handleSelectDeliveryMethod,
         };
     }
 

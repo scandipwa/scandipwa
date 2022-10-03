@@ -72,8 +72,12 @@ export const createNewFileWithContents = (
             newFilePath,
             contents
         );
-    } catch (error) {
-        logger.error(error.message);
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.log(e.message);
+        } else {
+            logger.log(String(e));
+        }
 
         return false;
     }

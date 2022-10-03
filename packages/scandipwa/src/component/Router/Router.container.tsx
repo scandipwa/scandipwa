@@ -21,7 +21,7 @@ import { history } from 'Util/History';
 import {
     isMobile,
     isMobileClientHints,
-    isUsingClientHints
+    isUsingClientHints,
 } from 'Util/Mobile';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -33,7 +33,7 @@ import {
     RouterContainerMapStateProps,
     RouterContainerProps,
     RouterContainerPropsKeys,
-    RouterContainerState
+    RouterContainerState,
 } from './Router.type';
 
 export const CartDispatcher = import(
@@ -70,7 +70,7 @@ export const mapStateToProps = (state: RootState): RouterContainerMapStateProps 
     isOffline: state.OfflineReducer.isOffline,
     isBigOffline: state.OfflineReducer.isBig,
     status_code: state.MetaReducer.status_code,
-    base_link_url: state.ConfigReducer.base_link_url
+    base_link_url: state.ConfigReducer.base_link_url,
 });
 
 /** @namespace Component/Router/Container/mapDispatchToProps */
@@ -80,7 +80,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispat
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     init: async () => {
         ConfigDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, undefined)
+            ({ default: dispatcher }) => dispatcher.handleData(dispatch, undefined),
         );
 
         const { default: dispatcher } = await MyAccountDispatcher;
@@ -88,15 +88,15 @@ export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispat
         await dispatcher.handleCustomerDataOnInit(dispatch);
 
         WishlistDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
+            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch),
         );
         CartDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch),
         );
         ProductCompareDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
+            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch),
         );
-    }
+    },
 });
 
 /** @namespace Component/Router/Container */
@@ -111,7 +111,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
         isLoading: true,
         isBigOffline: false,
         meta_title: '',
-        status_code: ''
+        status_code: '',
     };
 
     __construct(props: RouterContainerProps): void {
@@ -119,7 +119,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
 
         this.state = ({
             currentUrl: window.location.pathname,
-            isOnlyMainItems: this.handleCheckIfOnlyMainItemsRender()
+            isOnlyMainItems: this.handleCheckIfOnlyMainItemsRender(),
         });
 
         this.initializeApplication();
@@ -152,7 +152,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
                 title_prefix,
                 title_suffix,
                 meta_title,
-                status_code
+                status_code,
             } = this.props;
 
             updateMeta({
@@ -164,7 +164,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
                 keywords: default_keywords,
                 title_prefix,
                 title_suffix,
-                status_code
+                status_code,
             });
         }
     }
@@ -186,7 +186,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
                 blackberry: isMobile.blackBerry(model),
                 opera: isMobile.opera(model),
                 safari: isMobile.safari(model),
-                windows: isMobile.windows(model)
+                windows: isMobile.windows(model),
             });
         } else {
             updateConfigDevice({
@@ -196,7 +196,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
                 blackberry: isMobile.blackBerry(),
                 opera: isMobile.opera(),
                 safari: isMobile.safari(),
-                windows: isMobile.windows()
+                windows: isMobile.windows(),
             });
         }
     }
@@ -227,7 +227,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
             isBigOffline,
             setBigOfflineNotice,
             isOnlyMainItems,
-            currentUrl
+            currentUrl,
         };
     }
 

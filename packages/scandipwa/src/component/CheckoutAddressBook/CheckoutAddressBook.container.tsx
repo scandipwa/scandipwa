@@ -26,7 +26,7 @@ import {
     CheckoutAddressBookContainerMapStateProps,
     CheckoutAddressBookContainerProps,
     CheckoutAddressBookContainerPropsKeys,
-    CheckoutAddressBookContainerState
+    CheckoutAddressBookContainerState,
 } from './CheckoutAddressBook.type';
 
 export const MyAccountDispatcher = import(
@@ -36,14 +36,14 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Component/CheckoutAddressBook/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CheckoutAddressBookContainerMapStateProps => ({
-    customer: state.MyAccountReducer.customer
+    customer: state.MyAccountReducer.customer,
 });
 
 /** @namespace Component/CheckoutAddressBook/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutAddressBookContainerMapDispatchProps => ({
     requestCustomerData: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
-    )
+        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch),
+    ),
 });
 
 /** @namespace Component/CheckoutAddressBook/Container */
@@ -56,7 +56,7 @@ CheckoutAddressBookContainerState
         onAddressSelect: noopFn,
         onShippingEstimationFieldsChange: noopFn,
         isSubmitted: false,
-        is_virtual: false
+        is_virtual: false,
     };
 
     static _getDefaultAddressId(props: CheckoutAddressBookContainerProps): number {
@@ -76,7 +76,7 @@ CheckoutAddressBookContainerState
     }
 
     containerFunctions = ({
-        onAddressSelect: this.onAddressSelect.bind(this)
+        onAddressSelect: this.onAddressSelect.bind(this),
     });
 
     __construct(props: CheckoutAddressBookContainerProps): void {
@@ -85,7 +85,7 @@ CheckoutAddressBookContainerState
         const {
             requestCustomerData,
             customer,
-            onAddressSelect
+            onAddressSelect,
         } = props;
 
         if (isSignedIn() && !Object.keys(customer).length) {
@@ -101,13 +101,13 @@ CheckoutAddressBookContainerState
 
         this.state = {
             prevDefaultAddressId: defaultAddressId,
-            selectedAddressId: defaultAddressId
+            selectedAddressId: defaultAddressId,
         };
     }
 
     static getDerivedStateFromProps(
         props: CheckoutAddressBookContainerProps,
-        state: CheckoutAddressBookContainerState
+        state: CheckoutAddressBookContainerState,
     ): null | CheckoutAddressBookContainerState {
         const { prevDefaultAddressId } = state;
         const defaultAddressId = CheckoutAddressBookContainer._getDefaultAddressId(props);
@@ -115,7 +115,7 @@ CheckoutAddressBookContainerState
         if (defaultAddressId !== prevDefaultAddressId) {
             return {
                 selectedAddressId: defaultAddressId,
-                prevDefaultAddressId: defaultAddressId
+                prevDefaultAddressId: defaultAddressId,
             };
         }
 
@@ -126,7 +126,7 @@ CheckoutAddressBookContainerState
         const {
             onAddressSelect,
             requestCustomerData,
-            customer
+            customer,
         } = this.props;
         const { selectedAddressId: prevSelectedAddressId } = prevState;
         const { selectedAddressId } = this.state;
@@ -147,7 +147,7 @@ CheckoutAddressBookContainerState
             onShippingEstimationFieldsChange,
             isBilling,
             isSubmitted,
-            is_virtual
+            is_virtual,
         } = this.props;
         const { selectedAddressId } = this.state;
 
@@ -157,7 +157,7 @@ CheckoutAddressBookContainerState
             isBilling,
             selectedAddressId,
             isSubmitted,
-            is_virtual
+            is_virtual,
         };
     }
 
@@ -170,7 +170,7 @@ CheckoutAddressBookContainerState
     estimateShipping(addressId: number): void {
         const {
             onShippingEstimationFieldsChange,
-            customer: { addresses = [] }
+            customer: { addresses = [] },
         } = this.props;
 
         const address = addresses.find(({ id }) => id === addressId);
@@ -185,8 +185,8 @@ CheckoutAddressBookContainerState
             postcode,
             region: {
                 region_id,
-                region
-            } = {}
+                region,
+            } = {},
         } = address;
 
         if (!country_id) {
@@ -198,7 +198,7 @@ CheckoutAddressBookContainerState
             country_id,
             region_id,
             region,
-            postcode
+            postcode,
         });
     }
 

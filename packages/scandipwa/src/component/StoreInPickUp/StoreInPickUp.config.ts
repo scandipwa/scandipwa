@@ -11,5 +11,5 @@
 
 export enum StoreInPickUpCode {
     METHOD_CODE = 'pickup',
-    ATTRIBUTE_CODE = 'pickup_location_code'
+    ATTRIBUTE_CODE = 'pickup_location_code',
 }

@@ -12,7 +12,7 @@
 import {
     ComponentType,
     MouseEvent,
-    PureComponent
+    PureComponent,
 } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -34,7 +34,7 @@ import { appendWithStoreCode } from 'Util/Url';
 import MyAccountOverlay from './MyAccountOverlay.component';
 import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
-    MyAccountPageState
+    MyAccountPageState,
 } from './MyAccountOverlay.config';
 import {
     MyAccountOverlayComponentProps,
@@ -43,7 +43,7 @@ import {
     MyAccountOverlayContainerMapStateProps,
     MyAccountOverlayContainerProps,
     MyAccountOverlayContainerPropsKeys,
-    MyAccountOverlayContainerState
+    MyAccountOverlayContainerState,
 } from './MyAccountOverlay.type';
 
 /** @namespace Component/MyAccountOverlay/Container/mapStateToProps */
@@ -55,7 +55,7 @@ export const mapStateToProps = (state: RootState): MyAccountOverlayContainerMapS
     isOverlayVisible: state.OverlayReducer.activeOverlay === Page.CUSTOMER_ACCOUNT,
     redirectToDashboard: state.ConfigReducer.redirect_dashboard,
     isLoading: state.MyAccountReducer.isLoading,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
 });
 
 /** @namespace Component/MyAccountOverlay/Container/mapDispatchToProps */
@@ -64,19 +64,19 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOverlayContaine
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
-    updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status))
+    updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status)),
 });
 
 /** @namespace Component/MyAccountOverlay/Container */
 export class MyAccountOverlayContainer<
 Props extends MyAccountOverlayContainerProps = MyAccountOverlayContainerProps,
-State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
+State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState,
 > extends PureComponent<Props, State> {
     static defaultProps: Partial<MyAccountOverlayContainerProps> = {
         isCheckout: false,
         isLoading: false,
         onSignIn: noopFn,
-        goToPreviousHeaderState: noopFn
+        goToPreviousHeaderState: noopFn,
     };
 
     containerFunctions: MyAccountOverlayContainerFunctions = {
@@ -86,7 +86,7 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
         handleCreateAccount: this.handleCreateAccount.bind(this),
         onVisible: this.onVisible.bind(this),
         setSignInState: this.setSignInState.bind(this),
-        setLoadingState: this.setLoadingState.bind(this)
+        setLoadingState: this.setLoadingState.bind(this),
     };
 
     __construct(props: MyAccountOverlayContainerProps): void {
@@ -97,18 +97,18 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
 
     static getDerivedStateFromProps(
         props: MyAccountOverlayContainerProps,
-        state: MyAccountOverlayContainerState
+        state: MyAccountOverlayContainerState,
     ): Partial<MyAccountOverlayContainerState> | null {
         const {
             isPasswordForgotSend,
             isOverlayVisible,
             isMobile,
-            goToPreviousHeaderState
+            goToPreviousHeaderState,
         } = props;
 
         const {
             isPasswordForgotSend: currentIsPasswordForgotSend,
-            state: myAccountState
+            state: myAccountState,
         } = state;
 
         const { location: { pathname, state: { isForgotPassword } = {} } } = history;
@@ -163,7 +163,7 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
             hideActiveOverlay,
             isCheckout,
             goToPreviousHeaderState,
-            redirectToDashboard
+            redirectToDashboard,
         } = this.props;
 
         if (oldMyAccountState === newMyAccountState) {
@@ -205,10 +205,10 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
             isLoading: propIsLoading,
             onSignIn,
             isCheckout,
-            device
+            device,
         } = this.props;
         const {
-            state
+            state,
         } = this.state;
 
         return {
@@ -218,7 +218,7 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
             isOverlayVisible,
             onSignIn,
             state,
-            device
+            device,
         };
     }
 
@@ -237,7 +237,7 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
             showOverlay,
             setHeaderState,
             isPasswordForgotSend,
-            isMobile
+            isMobile,
         } = props;
 
         const { location: { pathname, state: { isForgotPassword } = {} } } = history;
@@ -246,7 +246,7 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
             state: isSignedIn() ? MyAccountPageState.STATE_LOGGED_IN : MyAccountPageState.STATE_SIGN_IN,
             // eslint-disable-next-line react/no-unused-state
             isPasswordForgotSend,
-            isLoading: false
+            isLoading: false,
         };
 
         if (pathname !== '/forgot-password' && !isForgotPassword) {
@@ -262,12 +262,12 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
             onBackClick: (e: MouseEvent) => {
                 history.push({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL) });
                 this.handleSignIn(e);
-            }
+            },
         });
 
         if (isMobile) {
             history.push(
-                { pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL), state: { isForgotPassword: true } }
+                { pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL), state: { isForgotPassword: true } },
             );
 
             return state;
@@ -309,7 +309,7 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
         setHeaderState({
             name: Page.CUSTOMER_SUB_ACCOUNT,
             title: __('Forgot password'),
-            onBackClick: () => this.handleSignIn(e)
+            onBackClick: () => this.handleSignIn(e),
         });
     }
 
@@ -322,7 +322,7 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
 
         setHeaderState({
             name: Page.CUSTOMER_ACCOUNT,
-            title: __('Sign in')
+            title: __('Sign in'),
         });
     }
 
@@ -336,7 +336,7 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
         setHeaderState({
             name: Page.CUSTOMER_SUB_ACCOUNT,
             title: __('Create account'),
-            onBackClick: () => this.handleSignIn(e)
+            onBackClick: () => this.handleSignIn(e),
         });
     }
 
@@ -351,5 +351,5 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    MyAccountOverlayContainer as unknown as ComponentType<MyAccountOverlayContainerProps>
+    MyAccountOverlayContainer as unknown as ComponentType<MyAccountOverlayContainerProps>,
 );

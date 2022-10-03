@@ -16,7 +16,7 @@ import {
     RecentlyViewedProductItem,
     RecentlyViewedProductsActionType,
     UpdateLoadStatusAction,
-    UpdateRecentlyViewedProductsAction
+    UpdateRecentlyViewedProductsAction,
 } from './RecentlyViewedProducts.type';
 
 /**
@@ -28,11 +28,11 @@ import {
  */
 export const addRecentlyViewedProduct = (
     product: RecentlyViewedProductItem,
-    store: string
+    store: string,
 ): AddRecentlyViewedProductAction => ({
     type: RecentlyViewedProductsActionType.ADD_RECENTLY_VIEWED_PRODUCT,
     product,
-    store
+    store,
 });
 
 /**
@@ -43,11 +43,11 @@ export const addRecentlyViewedProduct = (
  */
 export const updateRecentlyViewedProducts = (
     products: ProductItem[],
-    storeCode: string
+    storeCode: string,
 ): UpdateRecentlyViewedProductsAction => ({
     type: RecentlyViewedProductsActionType.UPDATE_RECENTLY_VIEWED_PRODUCTS,
     products,
-    storeCode
+    storeCode,
 });
 
 /**
@@ -58,5 +58,5 @@ export const updateRecentlyViewedProducts = (
  */
 export const updateLoadStatus = (status: boolean): UpdateLoadStatusAction => ({
     type: RecentlyViewedProductsActionType.UPDATE_LOAD_STATUS,
-    isLoading: status
+    isLoading: status,
 });

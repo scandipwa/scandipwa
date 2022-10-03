@@ -27,12 +27,12 @@ import { CheckoutAddressBookComponentProps, CheckoutAddressBookComponentState } 
 import './CheckoutAddressBook.style';
 
 /** @namespace Component/CheckoutAddressBook/Component */
-export class CheckoutAddressBook extends PureComponent<
+export class CheckoutAddressBookComponent extends PureComponent<
 CheckoutAddressBookComponentProps,
 CheckoutAddressBookComponentState
 > {
     state: CheckoutAddressBookComponentState = {
-        isCustomAddressExpanded: false
+        isCustomAddressExpanded: false,
     };
 
     __construct(props: CheckoutAddressBookComponentProps): void {
@@ -43,7 +43,7 @@ CheckoutAddressBookComponentState
     }
 
     static getDerivedStateFromProps(
-        props: CheckoutAddressBookComponentProps
+        props: CheckoutAddressBookComponentProps,
     ): CheckoutAddressBookComponentState | null {
         const { is_virtual, selectedAddressId, customer: { addresses = [] } } = props;
 
@@ -195,4 +195,4 @@ CheckoutAddressBookComponentState
     }
 }
 
-export default CheckoutAddressBook;
+export default CheckoutAddressBookComponent;

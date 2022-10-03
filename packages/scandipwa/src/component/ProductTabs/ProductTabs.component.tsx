@@ -22,7 +22,7 @@ import { ProductTabsComponentProps, ProductTabsComponentState, ProductTabShape }
 import './ProductTabs.style';
 
 /** @namespace Component/ProductTabs/Component */
-export class ProductTabs extends PureComponent<ProductTabsComponentProps, ProductTabsComponentState> {
+export class ProductTabsComponent extends PureComponent<ProductTabsComponentProps, ProductTabsComponentState> {
     __construct(props: ProductTabsComponentProps): void {
         super.__construct?.(props);
         const { tabs } = this.props;
@@ -33,11 +33,11 @@ export class ProductTabs extends PureComponent<ProductTabsComponentProps, Produc
             const { tabs: [{ id }] } = this.props;
 
             this.state = {
-                activeTab: id
+                activeTab: id,
             };
         } else {
             this.state = {
-                activeTab: ''
+                activeTab: '',
             };
         }
     }
@@ -133,4 +133,4 @@ export class ProductTabs extends PureComponent<ProductTabsComponentProps, Produc
     }
 }
 
-export default ProductTabs;
+export default ProductTabsComponent;

@@ -9,15 +9,15 @@
         "csa": "create-scandipwa-app runtime-packages/csa",
         "csa-blank": "create-scandipwa-app runtime-packages/csa-blank --template blank",
         "csa-cra": "create-scandipwa-app runtime-packages/csa-cra --template cra",
-        "postinstall": "lerna bootstrap && lerna run compile",
+        "postinstall": "lerna bootstrap",
         "compile:lockfile": "node build-tasks/compile-lockfile.js"
     },
     "devDependencies": {
         "@scandipwa/eslint-config": "^0.1.6",
-        "eslint": "^7.11.0",
+        "eslint": "^8.24.0",
+        "fs-extra": "^9.0.1",
         "husky": "^4.3.0",
-        "lerna": "^3.22.1",
-        "fs-extra": "^9.0.1"
+        "lerna": "^3.22.1"
     },
     "husky": {
         "hooks": {
@@ -26,7 +26,16 @@
     },
     "eslintConfig": {
         "extends": "@scandipwa",
+        "parserOptions": {
+            "requireConfigFile": false,
+            "project": "./packages/scandipwa/tsconfig.json",
+            "babelOptions": {
+                "presets": ["@babel/preset-react"]
+            }
+        },
         "ignorePatterns": [
+            "**/.*",
+            "**/bin/**",
             "**/node_modules/**",
             "**/Magento_Theme/**",
             "**/build/**",

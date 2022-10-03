@@ -27,18 +27,18 @@ import {
     CheckoutPaymentsContainerMapStateProps,
     CheckoutPaymentsContainerProps,
     CheckoutPaymentsContainerPropsKeys,
-    CheckoutPaymentsContainerState
+    CheckoutPaymentsContainerState,
 } from './CheckoutPayments.type';
 
 /** @namespace Component/CheckoutPayments/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutPaymentsContainerMapDispatchProps => ({
-    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message))
+    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
 });
 
 /** @namespace Component/CheckoutPayments/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CheckoutPaymentsContainerMapStateProps => ({
     totals: state.CartReducer.cartTotals,
-    email: state.CheckoutReducer.email
+    email: state.CheckoutReducer.email,
 });
 
 /** @namespace Component/CheckoutPayments/Container */
@@ -47,11 +47,11 @@ CheckoutPaymentsContainerProps,
 CheckoutPaymentsContainerState
 > {
     containerFunctions: CheckoutPaymentsContainerFunctions = {
-        selectPaymentMethod: this.selectPaymentMethod.bind(this)
+        selectPaymentMethod: this.selectPaymentMethod.bind(this),
     };
 
     state = {
-        selectedPaymentCode: ''
+        selectedPaymentCode: '',
     };
 
     dataMap = {
@@ -74,7 +74,7 @@ CheckoutPaymentsContainerState
         const {
             paymentMethods,
             setOrderButtonEnableStatus,
-            showError
+            showError,
         } = this.props;
 
         const { selectedPaymentCode } = this.state;
@@ -83,7 +83,7 @@ CheckoutPaymentsContainerState
             paymentMethods,
             selectedPaymentCode,
             setOrderButtonEnableStatus,
-            showError
+            showError,
         };
     }
 
@@ -110,11 +110,11 @@ CheckoutPaymentsContainerState
     selectPaymentMethod({ code }: PaymentMethod): void {
         const {
             onPaymentMethodSelect,
-            setOrderButtonEnableStatus
+            setOrderButtonEnableStatus,
         } = this.props;
 
         this.setState({
-            selectedPaymentCode: code
+            selectedPaymentCode: code,
         });
 
         onPaymentMethodSelect(code);

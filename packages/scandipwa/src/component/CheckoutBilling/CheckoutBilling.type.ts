@@ -10,7 +10,7 @@
  */
 
 import {
-    CheckoutTermsAndConditionsPopupPayload
+    CheckoutTermsAndConditionsPopupPayload,
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.component.type';
 import { FormFields } from 'Component/Form/Form.type';
 import { PaymentMethod } from 'Query/Checkout.type';

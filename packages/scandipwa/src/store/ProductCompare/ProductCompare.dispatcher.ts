@@ -20,7 +20,7 @@ import {
     setCompareList,
     setCompareListIds,
     toggleLoader,
-    updateCompareTotals
+    updateCompareTotals,
 } from 'Store/ProductCompare/ProductCompare.action';
 import { getAuthorizationToken } from 'Util/Auth';
 import { getUid, removeUid, setUid } from 'Util/Compare';
@@ -44,7 +44,7 @@ export class ProductCompareDispatcher {
 
         try {
             const { compareList } = await fetchQuery(
-                ProductCompareQuery.getCompareList(uid)
+                ProductCompareQuery.getCompareList(uid),
             );
 
             dispatch(toggleLoader(false));
@@ -63,12 +63,12 @@ export class ProductCompareDispatcher {
         const {
             createCompareList,
             createCompareList: {
-                uid
-            }
+                uid,
+            },
         } = await fetchMutation(
             ProductCompareQuery.getCreateCompareList(
-                [productId]
-            )
+                [productId],
+            ),
         );
 
         if (uid) {
@@ -80,12 +80,12 @@ export class ProductCompareDispatcher {
 
     async addToCompareList(uid: string, productId: string): Promise<CompareList> {
         const {
-            addProductsToCompareList
+            addProductsToCompareList,
         } = await fetchMutation(
             ProductCompareQuery.getAddProductsToCompareList(
                 uid,
-                [productId]
-            )
+                [productId],
+            ),
         );
 
         return addProductsToCompareList;
@@ -119,12 +119,12 @@ export class ProductCompareDispatcher {
 
         try {
             const {
-                removeProductsFromCompareList
+                removeProductsFromCompareList,
             } = await fetchMutation(
                 ProductCompareQuery.getRemoveProductsFromCompareList(
                     uid,
-                    [productId]
-                )
+                    [productId],
+                ),
             );
 
             dispatch(setCompareList(removeProductsFromCompareList));
@@ -135,7 +135,7 @@ export class ProductCompareDispatcher {
             dispatch(showNotification(
                 NotificationType.SUCCESS,
                 __('Unable to remove product from the compare list'),
-                error
+                error,
             ));
 
             return null;
@@ -146,10 +146,10 @@ export class ProductCompareDispatcher {
         const {
             createCompareList,
             createCompareList: {
-                uid
-            }
+                uid,
+            },
         } = await fetchMutation(
-            ProductCompareQuery.getCreateEmptyCompareList()
+            ProductCompareQuery.getCreateEmptyCompareList(),
         );
 
         if (!getAuthorizationToken()) {
@@ -180,11 +180,11 @@ export class ProductCompareDispatcher {
                     result,
                     compare_list,
                     compare_list: {
-                        uid: newUid = ''
-                    } = {}
-                }
+                        uid: newUid = '',
+                    } = {},
+                },
             } = await fetchMutation(
-                ProductCompareQuery.getAssignCompareList(uid)
+                ProductCompareQuery.getAssignCompareList(uid),
             );
 
             if (!getAuthorizationToken()) {
@@ -205,7 +205,7 @@ export class ProductCompareDispatcher {
     }
 
     async clearComparedProducts(
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ): Promise<Record<'deleteCompareList', { result: boolean }> | null> {
         const uid = getUid();
 
@@ -217,7 +217,7 @@ export class ProductCompareDispatcher {
 
         try {
             const result = await fetchMutation(
-                ProductCompareQuery.getDeleteCompareList(uid)
+                ProductCompareQuery.getDeleteCompareList(uid),
             );
 
             removeUid();
@@ -235,7 +235,7 @@ export class ProductCompareDispatcher {
     }
 
     async updateInitialProductCompareData(
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ): Promise<boolean> {
         const uid = getUid();
 
@@ -247,7 +247,7 @@ export class ProductCompareDispatcher {
 
         try {
             const { compareList } = await fetchQuery(
-                ProductCompareQuery.getCompareListIds(uid)
+                ProductCompareQuery.getCompareListIds(uid),
             );
             const { items = [] } = compareList || {};
             const compareIds = items.map((data) => data?.product?.id);

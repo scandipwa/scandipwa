@@ -22,7 +22,7 @@ import shareWishlistForm from './ShareWishlistForm.form';
 import { ShareWishlistFormComponentProps } from './ShareWishlistForm.type';
 
 /** @namespace Component/ShareWishlistForm/Component */
-export class ShareWishlistForm extends FieldForm<ShareWishlistFormComponentProps> {
+export class ShareWishlistFormComponent extends FieldForm<ShareWishlistFormComponentProps> {
     __construct(props: ShareWishlistFormComponentProps): void {
         super.__construct?.(props);
 
@@ -54,9 +54,9 @@ export class ShareWishlistForm extends FieldForm<ShareWishlistFormComponentProps
 
     getFormProps(): Partial<FormContainerProps> {
         return {
-            onSubmit: this.onFormSuccess
+            onSubmit: this.onFormSuccess,
         };
     }
 }
 
-export default ShareWishlistForm;
+export default ShareWishlistFormComponent;

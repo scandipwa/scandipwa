@@ -42,8 +42,8 @@ export const store = configureStore(createStore(
         process.env.NODE_ENV === 'development'
         && window.__REDUX_DEVTOOLS_EXTENSION__
     ) && window.__REDUX_DEVTOOLS_EXTENSION__({
-        trace: true
-    })) || undefined
+        trace: true,
+    })) || undefined,
 ));
 
 /** @namespace Util/Store/Index/getStore */

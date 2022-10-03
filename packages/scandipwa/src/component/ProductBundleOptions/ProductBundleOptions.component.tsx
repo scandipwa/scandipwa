@@ -25,7 +25,7 @@ import './ProductBundleOptions.style';
  * @class ProductBundleOptions
  * @namespace Component/ProductBundleOptions/Component
  */
-export class ProductBundleOptions extends PureComponent<ProductBundleOptionsComponentProps> {
+export class ProductBundleOptionsComponent extends PureComponent<ProductBundleOptionsComponentProps> {
     renderOptionGroup(group: IndexedBundleItem): ReactElement {
         const {
             title,
@@ -33,7 +33,7 @@ export class ProductBundleOptions extends PureComponent<ProductBundleOptionsComp
             type,
             required,
             uid,
-            option_id
+            option_id,
         } = group;
 
         const { updateSelectedValues } = this.props;
@@ -62,4 +62,4 @@ export class ProductBundleOptions extends PureComponent<ProductBundleOptionsComp
     }
 }
 
-export default ProductBundleOptions;
+export default ProductBundleOptionsComponent;

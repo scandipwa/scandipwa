@@ -18,9 +18,9 @@ import { RadioButtonIconComponentProps } from './RadioButtonIcon.type';
 import './RadioButtonIcon.style';
 
 /** @namespace Component/RadioButtonIcon/Component */
-export class RadioButton extends PureComponent<RadioButtonIconComponentProps> {
+export class RadioButtonIconComponent extends PureComponent<RadioButtonIconComponentProps> {
     static defaultProps: Partial<RadioButtonIconComponentProps> = {
-        isActive: false
+        isActive: false,
     };
 
     render(): ReactElement {
@@ -43,4 +43,4 @@ export class RadioButton extends PureComponent<RadioButtonIconComponentProps> {
     }
 }
 
-export default RadioButton;
+export default RadioButtonIconComponent;

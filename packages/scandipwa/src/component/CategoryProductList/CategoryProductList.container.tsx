@@ -25,7 +25,7 @@ import {
     CategoryProductListContainerMapDispatchProps,
     CategoryProductListContainerMapStateProps,
     CategoryProductListContainerPropKeys,
-    CategoryProductListContainerProps
+    CategoryProductListContainerProps,
 } from './CategoryProductList.type';
 
 import './CategoryProductList.style';
@@ -42,15 +42,15 @@ export const mapStateToProps = (state: RootState): CategoryProductListContainerM
     isLoading: state.ProductListReducer.isLoading,
     isPageLoading: state.ProductListReducer.isPageLoading,
     totalItems: state.ProductListReducer.totalItems,
-    totalPages: state.ProductListReducer.totalPages
+    totalPages: state.ProductListReducer.totalPages,
 });
 
 /** @namespace Component/CategoryProductList/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CategoryProductListContainerMapDispatchProps => ({
     requestProductList: (options) => ProductListDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
     ),
-    updateLoadStatus: (isLoading) => dispatch(updateLoadStatus(isLoading))
+    updateLoadStatus: (isLoading) => dispatch(updateLoadStatus(isLoading)),
 });
 
 /** @namespace Component/CategoryProductList/Container */
@@ -66,11 +66,11 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
         sort: undefined,
         selectedFilters: {},
         isPageLoading: false,
-        isPlp: true
+        isPlp: true,
     };
 
     containerFunctions = {
-        requestProductList: this.requestProductList.bind(this)
+        requestProductList: this.requestProductList.bind(this),
     };
 
     getIsLoading(): boolean {
@@ -78,7 +78,7 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
             filter,
             isLoading,
             isMatchingListFilter,
-            isCurrentCategoryLoaded
+            isCurrentCategoryLoaded,
         } = this.props;
 
         /**
@@ -139,7 +139,7 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
             sort,
             totalItems,
             totalPages,
-            isPlp
+            isPlp,
         } = this.props;
 
         return {
@@ -154,7 +154,7 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
             isLoading: this.getIsLoading(),
             isPreventRequest: this.getIsPreventRequest(),
             isPlp,
-            mix: { block: 'CategoryProductList', mods: { layout: this.getLayout() } }
+            mix: { block: 'CategoryProductList', mods: { layout: this.getLayout() } },
         };
     }
 

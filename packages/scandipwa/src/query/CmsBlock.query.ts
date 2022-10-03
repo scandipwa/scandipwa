@@ -44,7 +44,7 @@ export class CmsBlockQuery {
             new Field<'title', string>('title'),
             new Field<'content', string>('content'),
             new Field<'identifier', string>('identifier'),
-            new Field<'disabled', boolean>('disabled')
+            new Field<'disabled', boolean>('disabled'),
         ];
     }
 

@@ -19,7 +19,7 @@ import {
     LinkedProductsActionType,
     LinkedProductsStore,
     LinkedProductType,
-    UpdateLinkedProductsAction
+    UpdateLinkedProductsAction,
 } from './LinkedProducts.type';
 
 /** @namespace Store/LinkedProducts/Reducer/getInitialState */
@@ -27,14 +27,14 @@ export const getInitialState = (): LinkedProductsStore => ({
     linkedProducts: BrowserDatabase.getItem(LINKED_PRODUCTS) || {
         [LinkedProductType.UPSELL]: {},
         [LinkedProductType.RELATED]: {},
-        [LinkedProductType.CROSS_SELL]: {}
-    }
+        [LinkedProductType.CROSS_SELL]: {},
+    },
 });
 
 /** @namespace Store/LinkedProducts/Reducer/LinkedProductsReducer */
 export const LinkedProductsReducer: Reducer<LinkedProductsStore, UpdateLinkedProductsAction> = (
     state = getInitialState(),
-    action
+    action,
 ) => {
     const { type } = action;
 
@@ -47,14 +47,14 @@ export const LinkedProductsReducer: Reducer<LinkedProductsStore, UpdateLinkedPro
             [LinkedProductType.UPSELL]: upsell,
             [LinkedProductType.RELATED]: related,
             [LinkedProductType.CROSS_SELL]: crosssell,
-            updateCrossSell = false
-        } = {}
+            updateCrossSell = false,
+        } = {},
     } = action;
 
     const {
         linkedProducts: {
-            [LinkedProductType.CROSS_SELL]: prevCrossSell
-        }
+            [LinkedProductType.CROSS_SELL]: prevCrossSell,
+        },
     } = state;
 
     if (updateCrossSell) {
@@ -63,8 +63,8 @@ export const LinkedProductsReducer: Reducer<LinkedProductsStore, UpdateLinkedPro
             linkedProducts: {
                 [LinkedProductType.UPSELL]: upsell,
                 [LinkedProductType.RELATED]: related,
-                [LinkedProductType.CROSS_SELL]: crosssell
-            }
+                [LinkedProductType.CROSS_SELL]: crosssell,
+            },
         };
     }
 
@@ -78,10 +78,10 @@ export const LinkedProductsReducer: Reducer<LinkedProductsStore, UpdateLinkedPro
                 ...related,
                 items: Object.values({
                     ...(prevCrossSell?.items || []),
-                    ...(crosssell?.items || [])
-                })
-            } as LinkedProducts
-        }
+                    ...(crosssell?.items || []),
+                }),
+            } as LinkedProducts,
+        },
     };
 };
 

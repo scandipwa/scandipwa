@@ -33,7 +33,7 @@ import {
     ConfirmAccountPageContainerMapStateProps,
     ConfirmAccountPageContainerProps,
     ConfirmAccountPageContainerPropsKeys,
-    ConfirmAccountPageContainerState
+    ConfirmAccountPageContainerState,
 } from './ConfirmAccountPage.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -53,12 +53,12 @@ export const mapDispatchToProps = (dispatch: Dispatch): ConfirmAccountPageContai
     toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     confirmAccount: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.confirmAccount(options, dispatch)
+        ({ default: dispatcher }) => dispatcher.confirmAccount(options, dispatch),
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     signIn: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
-    )
+        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch),
+    ),
 });
 
 /** @namespace Route/ConfirmAccountPage/Container */
@@ -68,7 +68,7 @@ ConfirmAccountPageContainerState
 > {
     containerFunctions: ConfirmAccountPageContainerFunctions = {
         onConfirmSuccess: this.onConfirmSuccess.bind(this),
-        onFormError: this.onFormError.bind(this)
+        onFormError: this.onFormError.bind(this),
     };
 
     __construct(props: ConfirmAccountPageContainerProps): void {
@@ -76,7 +76,7 @@ ConfirmAccountPageContainerState
 
         this.state = {
             redirect: false,
-            isLoading: false
+            isLoading: false,
         };
     }
 
@@ -97,15 +97,15 @@ ConfirmAccountPageContainerState
         return {
             redirect,
             isLoading,
-            shouldDisplayWarning: this.shouldDisplayWarning()
+            shouldDisplayWarning: this.shouldDisplayWarning(),
         };
     }
 
     shouldDisplayWarning(): boolean {
         const {
             location: {
-                search
-            }
+                search,
+            },
         } = history;
         const { email, key } = convertQueryStringToKeyValuePairs(search);
 
@@ -115,7 +115,7 @@ ConfirmAccountPageContainerState
     onConfirmSuccess(form: HTMLFormElement, fields: FieldData[]): void {
         const {
             confirmAccount,
-            signIn
+            signIn,
         } = this.props;
         const { location: { search } } = history;
 
@@ -139,15 +139,15 @@ ConfirmAccountPageContainerState
                     }
 
                     return signIn({ email, password });
-                }
+                },
             )
             .then(
                 /** @namespace Route/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch/then/then */
-                () => this.setState({ redirect: true })
+                () => this.setState({ redirect: true }),
             )
             .catch(
                 /** @namespace Route/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch */
-                () => this.setState({ isLoading: false })
+                () => this.setState({ isLoading: false }),
             );
     }
 

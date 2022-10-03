@@ -24,25 +24,25 @@ import {
     OfflineNoticeContainerMapDispatchProps,
     OfflineNoticeContainerMapStateProps,
     OfflineNoticeContainerProps,
-    OfflineNoticeContainerPropsKeys
+    OfflineNoticeContainerPropsKeys,
 } from './OfflineNotice.type';
 
 /** @namespace Component/OfflineNotice/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): OfflineNoticeContainerMapStateProps => ({
     isOffline: state.OfflineReducer.isOffline,
-    isBig: state.OfflineReducer.isBig
+    isBig: state.OfflineReducer.isBig,
 });
 
 /** @namespace Component/OfflineNotice/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): OfflineNoticeContainerMapDispatchProps => ({
     showOfflineNotice: (isOffline) => dispatch(showOfflineNotice(isOffline)),
-    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig))
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
 });
 
 /** @namespace Component/OfflineNotice/Container */
 export class OfflineNoticeContainer extends PureComponent<OfflineNoticeContainerProps> {
     static defaultProps: Partial<OfflineNoticeContainerProps> = {
-        isPage: false
+        isPage: false,
     };
 
     componentDidMount(): void {
@@ -59,12 +59,12 @@ export class OfflineNoticeContainer extends PureComponent<OfflineNoticeContainer
         const {
             location: { pathname },
             isBig,
-            setBigOfflineNotice
+            setBigOfflineNotice,
         } = this.props;
 
         const {
             isBig: prevIsBig,
-            location: { pathname: prevPathname }
+            location: { pathname: prevPathname },
         } = prevProps;
 
         if (isBig !== prevIsBig && !navigator.onLine) {
@@ -94,12 +94,12 @@ export class OfflineNoticeContainer extends PureComponent<OfflineNoticeContainer
     containerProps(): Pick<OfflineNoticeComponentProps, OfflineNoticeContainerPropsKeys> {
         const {
             isBig,
-            isPage
+            isPage,
         } = this.props;
 
         return {
             isBig,
-            isPage
+            isPage,
         };
     }
 
@@ -107,7 +107,7 @@ export class OfflineNoticeContainer extends PureComponent<OfflineNoticeContainer
         const {
             isBig,
             showOfflineNotice,
-            setBigOfflineNotice
+            setBigOfflineNotice,
         } = this.props;
 
         if (navigator.onLine) {
@@ -135,8 +135,8 @@ export class OfflineNoticeContainer extends PureComponent<OfflineNoticeContainer
 export default withRouter(
     connect(
         mapStateToProps,
-        mapDispatchToProps
+        mapDispatchToProps,
     )(
-        OfflineNoticeContainer as unknown as ComponentType<OfflineNoticeContainerProps>
-    )
+        OfflineNoticeContainer as unknown as ComponentType<OfflineNoticeContainerProps>,
+    ),
 );
