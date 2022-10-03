@@ -29,7 +29,6 @@ export interface CartCouponContainerBaseProps {
     couponCode: string;
     mix: Mix;
     title: string;
-    onCouponCodeUpdate: () => void;
 }
 
 export type CartCouponContainerProps = CartCouponContainerMapStateProps
