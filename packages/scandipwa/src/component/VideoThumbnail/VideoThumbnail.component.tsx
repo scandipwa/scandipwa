@@ -72,4 +72,4 @@ export class VideoThumbnailComponent extends PureComponent<VideoThumbnailCompone
     }
 }
 
-export default VideoThumbnailComponentProps;
+export default VideoThumbnailComponent;
