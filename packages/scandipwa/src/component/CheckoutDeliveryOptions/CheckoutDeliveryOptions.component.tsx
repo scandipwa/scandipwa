@@ -82,4 +82,4 @@ export class CheckoutDeliveryOptionsComponent extends PureComponent<CheckoutDeli
     }
 }
 
-export default CheckoutDeliveryOptionsComponentProps;
+export default CheckoutDeliveryOptionsComponent;

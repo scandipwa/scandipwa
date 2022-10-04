@@ -10,7 +10,7 @@
  */
 
 import Html from 'Component/Html';
-import { Product } from 'Component/Product/Product.component';
+import { ProductComponent } from 'Component/Product/Product.component';
 import { ProductType } from 'Component/Product/Product.config';
 import ProductAlerts from 'Component/ProductAlerts';
 import TextPlaceholder from 'Component/TextPlaceholder';
@@ -32,9 +32,9 @@ import './ProductActions.style';
  * @class ProductActions
  * @namespace Component/ProductActions/Component
  */
-export class ProductActionsComponent extends Product<ProductActionsComponentProps> {
+export class ProductActionsComponent extends ProductComponent<ProductActionsComponentProps> {
     static defaultProps: Partial<ProductActionsComponentProps> = {
-        ...Product.defaultProps,
+        ...ProductComponent.defaultProps,
         productName: '',
         isPricePreview: false,
     };

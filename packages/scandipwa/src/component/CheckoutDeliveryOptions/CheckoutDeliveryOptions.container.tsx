@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 import {
-    CheckoutDeliveryOptionsComponent,
+    CheckoutDeliveryOptionsComponentProps,
     CheckoutDeliveryOptionsContainerProps,
     CheckoutDeliveryOptionsContainerPropsKeys,
     CheckoutDeliveryOptionsContainerState,
@@ -37,7 +37,7 @@ CheckoutDeliveryOptionsContainerState
 
     dataMap = {};
 
-    containerProps(): Pick<CheckoutDeliveryOptionsComponent, CheckoutDeliveryOptionsContainerPropsKeys> {
+    containerProps(): Pick<CheckoutDeliveryOptionsComponentProps, CheckoutDeliveryOptionsContainerPropsKeys> {
         const {
             shippingMethods,
             handleSelectDeliveryMethod,

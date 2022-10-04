@@ -97,7 +97,7 @@ export class CheckoutQuery {
 
     getPlaceOrderMutation(cartId: string): Mutation<'placeOrder', { order: { order_id: string } }> {
         const mutation = new Mutation<'placeOrder', { order: { order_id: string } }>('placeOrder')
-            .addArgument('input', 'String', { cart_id: cartId })
+            .addArgument('input', 'PlaceOrderInput', { cart_id: cartId })
             .addField(this._getOrderField());
 
         return mutation;

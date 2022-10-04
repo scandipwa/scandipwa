@@ -28,6 +28,7 @@ Props
         [DEFAULT_STATE_NAME]: {},
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderMap: Record<string, (isVisible?: boolean, key?: string) => ReactElement> = {};
 
     renderNavigationState(): ReactElement {

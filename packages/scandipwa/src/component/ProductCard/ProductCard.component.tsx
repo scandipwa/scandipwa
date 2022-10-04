@@ -16,7 +16,7 @@ import Image from 'Component/Image';
 import { ImageRatio } from 'Component/Image/Image.type';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import { Product } from 'Component/Product/Product.component';
+import { ProductComponent } from 'Component/Product/Product.component';
 import { ProductType } from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
@@ -34,9 +34,9 @@ import './ProductCard.style';
  * Product card
  * @class ProductCard
  * @namespace Component/ProductCard/Component */
-export class ProductCardComponent extends Product<ProductCardComponentProps> {
+export class ProductCardComponent extends ProductComponent<ProductCardComponentProps> {
     static defaultProps: Partial<ProductCardComponentProps> = {
-        ...Product.defaultProps,
+        ...ProductComponent.defaultProps,
         thumbnail: '',
         linkTo: '',
         children: null,

@@ -46,7 +46,7 @@ export interface MyAccountInformationContainerFunctions {
 
 export type MyAccountInformationContainerProps = MyAccountInformationContainerMapStateProps
 & MyAccountInformationContainerMapDispatchProps
-& RouteComponentProps<Record<string, never>, Record<string, never>, { editPassword?: boolean }>;
+& RouteComponentProps<EmptyObject, EmptyObject, { editPassword?: boolean }>;
 
 export interface MyAccountInformationContainerState {
     showEmailChangeField: boolean;

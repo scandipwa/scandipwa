@@ -40,7 +40,7 @@ WishlistSharedPageContainerMapDispatchProps
 
 export interface WishlistSharedPageContainerState extends MyAccountMyWishlistContainerState {
     creatorsName: string;
-    wishlistItems: Record<string, never>;
+    wishlistItems: EmptyObject;
     isWishlistLoading: boolean;
 }
 

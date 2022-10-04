@@ -12,5 +12,5 @@
 import { OrderItem } from 'Query/Order.type';
 
 export interface MyAccountOrderInformationComponentProps {
-    order: OrderItem | Record<string, never>;
+    order: OrderItem | EmptyObject;
 }
