@@ -27,7 +27,7 @@ export interface LoginAccountContainerMapDispatchProps extends MyAccountOverlayC
 
 export type LoginAccountContainerProps = LoginAccountContainerMapDispatchProps
 & MyAccountOverlayContainerProps
-& RouteComponentProps<Record<string, never>, Record<string, never>, HistoryState>;
+& RouteComponentProps<EmptyObject, EmptyObject, HistoryState>;
 
 export interface LoginAccountContainerFunctions extends MyAccountOverlayContainerFunctions {
     onCreateAccountClick: () => void;

@@ -1,23 +1,23 @@
 import { parse } from '@babel/parser';
 import traverse, { NodePath } from '@babel/traverse';
 import {
-    Identifier,
-    ExportNamedDeclaration,
     ExportDefaultDeclaration,
-    SourceLocation
+    ExportNamedDeclaration,
+    Identifier,
+    SourceLocation,
 } from '@babel/types';
 
 import {
-    ExportsPaths,
     ExportData,
-    ExportType
+    ExportsPaths,
+    ExportType,
 } from '../types/extend-component.types';
 
 const isAsyncImport = (node: ExportNamedDeclaration): boolean => {
-    const declaration = node.declaration;
+    const { declaration } = node;
 
     if (declaration?.type === 'VariableDeclaration') {
-        const init = declaration.declarations[0].init;
+        const { init } = declaration.declarations[0];
 
         if (init?.type === 'CallExpression') {
             const { callee } = init;
@@ -29,7 +29,7 @@ const isAsyncImport = (node: ExportNamedDeclaration): boolean => {
     }
 
     return false;
-}
+};
 
 /**
  * Extract export nodes from original code
@@ -37,18 +37,18 @@ const isAsyncImport = (node: ExportNamedDeclaration): boolean => {
  */
 export const getExportPathsFromCode = (originalCode: string) : ExportsPaths => {
     const ast = parse(originalCode, {
-        sourceType: "unambiguous",
+        sourceType: 'unambiguous',
         plugins: [
             'jsx',
             'classProperties',
             'dynamicImport',
             'optionalCatchBinding',
             'optionalChaining',
-            'objectRestSpread'
-        ]
+            'objectRestSpread',
+        ],
     });
 
-    let exportsPaths: ExportsPaths = [];
+    const exportsPaths: ExportsPaths = [];
 
     traverse(ast, {
         ExportNamedDeclaration: (path) => {
@@ -61,7 +61,7 @@ export const getExportPathsFromCode = (originalCode: string) : ExportsPaths => {
         },
         ExportDefaultDeclaration: (path) => {
             exportsPaths.push(path);
-        }
+        },
     });
 
     return exportsPaths;
@@ -83,23 +83,23 @@ export const getNamedExportsNames = (exports: ExportsPaths) : ExportData[] => {
         };
 
         const getDataByTraverse = () : ExportData => {
-            let searchResult: ExportData = { 
-                name: '', 
-                type: ExportType.not_yet_assigned 
+            let searchResult: ExportData = {
+                name: '',
+                type: ExportType.not_yet_assigned,
             };
 
             traverse(headNode, {
                 ExportSpecifier: (path) => {
                     // TODO remove any
-                    const { node: { exported: { name } }, node } = path as any;
+                    const { node: { exported: { name } } } = path as any;
                     searchResult = { name, type: ExportType.specifier };
                     path.stop();
                 },
                 ClassDeclaration: (path) => {
-                    const { node: { id: { name } }, node } = path;
+                    const { node: { id: { name } } } = path;
                     searchResult = { name, type: ExportType.class };
                     path.stop();
-                }
+                },
             }, path.scope, null, path.parentPath);
 
             if (searchResult.type === ExportType.not_yet_assigned) {
@@ -110,6 +110,7 @@ export const getNamedExportsNames = (exports: ExportsPaths) : ExportData[] => {
         };
 
         const { node: { declaration }, node: headNode } = path;
+
         // handle variable declaration
         if (declaration && declaration.type !== 'ClassDeclaration') {
             return getNameFromDeclaration(declaration);
@@ -118,10 +119,10 @@ export const getNamedExportsNames = (exports: ExportsPaths) : ExportData[] => {
         return getDataByTraverse();
     };
 
-    return exports.filter(e => e.type === 'ExportNamedDeclaration').map(
-        (elem): ExportData => processNamedExport(<NodePath<ExportNamedDeclaration>>elem)
+    return exports.filter((e) => e.type === 'ExportNamedDeclaration').map(
+        (elem): ExportData => processNamedExport(<NodePath<ExportNamedDeclaration>>elem),
     );
-}
+};
 
 /**
  * Extract additional information from export node
@@ -135,31 +136,30 @@ export const getDefaultExportCode = (exports: ExportsPaths, code: string) : stri
         const { start, end } = <SourceLocation>loc;
 
         const codeArray = code.split(/\n/gm);
-        const exportDeclarationArray = codeArray.reduce(
-            (acc, cur, index) => {
-                const lineNumber = ++index;
+        const exportDeclarationArray = codeArray.reduce((acc, cur, index) => {
+            const lineNumber = index + 1;
 
-                if (lineNumber >= start.line && lineNumber <= end.line) {
-                    if (lineNumber === start.line) {
-                        acc.push(cur.slice(start.column));
-                    } else if (lineNumber === end.line) {
-                        acc.push(cur.slice(0, end.column));
-                    } else {
-                        acc.push(cur);
-                    }
+            if (lineNumber >= start.line && lineNumber <= end.line) {
+                if (lineNumber === start.line) {
+                    acc.push(cur.slice(start.column));
+                } else if (lineNumber === end.line) {
+                    acc.push(cur.slice(0, end.column));
+                } else {
+                    acc.push(cur);
                 }
+            }
 
-                return acc;
-            }, new Array<string>()
-        );
+            return acc;
+        }, new Array<string>());
 
         return exportDeclarationArray.join('\n');
     };
 
-    const exportDefaultPaths = exports.filter(e => e.type === 'ExportDefaultDeclaration');
-    if (!exportDefaultPaths.length) { 
-        return; 
+    const exportDefaultPaths = exports.filter((e) => e.type === 'ExportDefaultDeclaration');
+
+    if (!exportDefaultPaths.length) {
+        return;
     }
-    
-    return processDefaultExport(<NodePath<ExportDefaultDeclaration>>exportDefaultPaths[0]);
-}
+
+    processDefaultExport(<NodePath<ExportDefaultDeclaration>>exportDefaultPaths[0]);
+};

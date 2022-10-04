@@ -7,9 +7,11 @@ const addResolveLoader = (config) => {
     if (!config.resolveLoader) {
         config.resolveLoader = {};
     }
+
     if (!config.resolveLoader.modules) {
         config.resolveLoader.modules = [];
     }
+
     if (!config.resolveLoader.modules.includes('node_modules')) {
         config.resolveLoader.modules.push('node_modules');
     }
@@ -20,7 +22,7 @@ const addResolveLoader = (config) => {
 const addImportInjector = (config) => {
     config.module.rules.push({
         test: require.resolve(path.join(__dirname, '../src/util/localeMap.js')),
-        loader: require.resolve('./webpack-i18n-import-loader')
+        loader: require.resolve('./webpack-i18n-import-loader'),
     });
 };
 
@@ -36,7 +38,7 @@ const provideTranslationFunction = (config) => {
 // Add the plugin for missing/unused translation handling
 const addTrackerPlugin = (config) => {
     config.plugins.push(new WebpackI18nTracker({
-        defaultLocale: 'en_US'
+        defaultLocale: 'en_US',
     }));
 };
 
@@ -49,6 +51,6 @@ module.exports = {
             addTrackerPlugin(webpackConfig);
 
             return webpackConfig;
-        }
-    }
+        },
+    },
 };

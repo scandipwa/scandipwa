@@ -1,7 +1,7 @@
 type LoggerStyle = {
-    file: (text: string) => string,
-    command: (text: string) => string,
-    misc: (text: string) => string
+    file: (text: string) => string;
+    command: (text: string) => string;
+    misc: (text: string) => string;
 };
 
 export interface ILogger {
@@ -10,10 +10,10 @@ export interface ILogger {
     note(...messages: string[]): void;
     log(...messages: string[]): void;
 
-    style: LoggerStyle
+    style: LoggerStyle;
 }
 
-export type EnquiryOption<Y> = { displayName: string, value: Y };
+export type EnquiryOption<Y> = { displayName: string; value: Y };
 
 export interface IUserInteraction {
     singleSelect<T>(
@@ -29,8 +29,7 @@ export interface IUserInteraction {
     yesNo(question: string): Promise<boolean>;
 }
 
-
 export type ReplacementInstruction = {
-    pattern: RegExp | string,
-    replacement: string
+    pattern: RegExp | string;
+    replacement: string;
 };

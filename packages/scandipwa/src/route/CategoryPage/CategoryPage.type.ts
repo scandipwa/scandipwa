@@ -60,6 +60,7 @@ export interface CategoryPageContainerFunctions {
     onSortChange: (sortDirection: SortDirections, sortKey: string[]) => void;
     onGridButtonClick: () => void;
     onListButtonClick: () => void;
+    onFilterButtonClick: () => void;
 }
 
 export interface CategoryPageContainerBaseProps {
@@ -100,7 +101,6 @@ export interface CategoryPageComponentProps extends CategoryPageContainerFunctio
     selectedFilters: Record<string, string[]>;
     selectedSort: CategorySortOptions;
     sortFields: Partial<SortFields>;
-    toggleOverlayByKey: (key: string) => void;
     totalPages: number;
     totalItems: number;
     selectedLayoutType?: CategoryPageLayout;
@@ -127,7 +127,6 @@ export type CategoryPageContainerPropsKeys =
     | 'selectedFilters'
     | 'selectedSort'
     | 'sortFields'
-    | 'toggleOverlayByKey'
     | 'totalPages'
     | 'totalItems'
     | 'selectedLayoutType'

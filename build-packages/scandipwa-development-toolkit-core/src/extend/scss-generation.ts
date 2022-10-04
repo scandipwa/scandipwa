@@ -1,7 +1,7 @@
-import * as path from 'path';
 import * as fs from 'fs-extra';
+import * as path from 'path';
 
-import { ILogger, IUserInteraction, StylesOption } from "../types";
+import { ILogger, IUserInteraction, StylesOption } from '../types';
 import { createNewFileFromTemplate } from '../util/file';
 import { getConfigByKey } from './config';
 
@@ -10,8 +10,8 @@ const templateDirectory = path.join(__dirname, '..', 'templates');
 const templatePath = path.join(templateDirectory, 'stylesheet.scss');
 
 export const getStyleFileName = (
-    resourceName: string, 
-    stylesOption: StylesOption
+    resourceName: string,
+    stylesOption: StylesOption,
 ) => {
     const postfix = getConfigByKey('stylePostfix', 'override');
 
@@ -29,7 +29,7 @@ export const createStyleFile = (
     resourceName: string,
     targetResourceDirectory: string,
     stylesOption: StylesOption,
-    logger: ILogger
+    logger: ILogger,
 ): string => {
     // Calculate target file name and path
     const styleFileName = getStyleFileName(resourceName, stylesOption);
@@ -40,13 +40,13 @@ export const createStyleFile = (
 
     // Create the file
     createNewFileFromTemplate(
-        templatePath, 
-        targetPath, 
+        templatePath,
+        targetPath,
         [{
             pattern: /Placeholder/g,
-            replacement: resourceName
-        }], 
-        logger
+            replacement: resourceName,
+        }],
+        logger,
     );
 
     return targetPath;
@@ -56,14 +56,14 @@ export const selectStylesOption = (userInteraction: IUserInteraction) => userInt
     'What would you like to do with styles?',
     [{
         displayName: 'Keep',
-        value: StylesOption.keep
+        value: StylesOption.keep,
     },
     {
         displayName: 'Extend',
-        value: StylesOption.extend
+        value: StylesOption.extend,
     },
     {
         displayName: 'Override',
-        value: StylesOption.override
-    }]
+        value: StylesOption.override,
+    }],
 );

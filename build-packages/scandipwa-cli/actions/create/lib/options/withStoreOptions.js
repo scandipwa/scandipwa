@@ -3,7 +3,7 @@ const withStoreOptions = (yargs) => yargs
         describe: 'Type of dispatcher to create',
         alias: 'd',
         choices: ['query', 'regular', 'no'],
-        default: 'no'
+        default: 'no',
     });
 
 module.exports = withStoreOptions;

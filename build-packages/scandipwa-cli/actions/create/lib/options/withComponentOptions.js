@@ -3,13 +3,13 @@ const withComponentOptions = (yargs) => yargs
         describe: 'Create a container',
         alias: 'c',
         type: 'boolean',
-        default: false
+        default: false,
     })
     .option('redux', {
         describe: 'Connect to redux',
         alias: 'r',
         type: 'boolean',
-        default: false
+        default: false,
     });
 
 module.exports = withComponentOptions;

@@ -13,6 +13,7 @@ import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.config';
 import { Page } from 'Component/Header/Header.config';
 import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
 import {
@@ -151,6 +152,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         onSortChange: this.onSortChange.bind(this),
         onGridButtonClick: this.onGridButtonClick.bind(this),
         onListButtonClick: this.onListButtonClick.bind(this),
+        onFilterButtonClick: this.onFilterButtonClick.bind(this),
     };
 
     __construct(props: P): void {
@@ -344,6 +346,12 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         this.updateMeta();
     }
 
+    onFilterButtonClick(): void {
+        const { toggleOverlayByKey } = this.props;
+
+        toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
+    }
+
     setOfflineNoticeSize(): void {
         const { setBigOfflineNotice, isInfoLoading } = this.props;
 
@@ -414,7 +422,6 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             filters,
             isMobile,
             sortFields,
-            toggleOverlayByKey,
             totalPages,
             totalItems,
             isSearchPage,
@@ -441,7 +448,6 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             selectedFilters: this.getSelectedFiltersFromUrl(),
             selectedSort: this.getSelectedSortFromUrl(),
             sortFields,
-            toggleOverlayByKey,
             totalPages,
             totalItems,
             selectedLayoutType,

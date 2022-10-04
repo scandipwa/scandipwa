@@ -11,7 +11,7 @@ const googleAnalytics = require('@scandipwa/scandipwa-dev-utils/analytics');
 const templateMap = {
     theme: require('@scandipwa/csa-generator-theme'),
     blank: require('@scandipwa/csa-generator-blank'),
-    cra: require('@scandipwa/csa-generator-cra')
+    cra: require('@scandipwa/csa-generator-cra'),
 };
 
 const createApp = async (options) => {
@@ -24,6 +24,7 @@ const createApp = async (options) => {
         if (generator) {
             // Run generator if it is available
             generator(options);
+
             return;
         }
 
@@ -99,7 +100,7 @@ yargs.command(
                 describe: 'Template to create ScandiPWA app from.',
                 type: 'string',
                 default: 'theme',
-                nargs: 1
+                nargs: 1,
             }
         );
     },
@@ -129,7 +130,7 @@ yargs.command(
              * it should return '@scandipwa/test' as name as 'projects/test' as path.
              */
             name: packageName,
-            path: pathToDist
+            path: pathToDist,
         };
 
         await init(options);

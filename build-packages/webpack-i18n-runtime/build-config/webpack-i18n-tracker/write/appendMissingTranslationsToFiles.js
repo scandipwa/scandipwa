@@ -9,6 +9,7 @@ function loadTranslationJson(localeFilePath) {
         return require(localeFilePath);
     } catch (err) {
         afterEmitLogger.logMessage(corruptedJson(localeFilePath, err));
+
         return null;
     }
 }
@@ -48,6 +49,7 @@ module.exports = (missingTranslations) => {
             }
 
             const mergedAtLeastOne = mergeNewMissingTranslatablesIntoTranslations(missingTranslatables, translations);
+
             if (!mergedAtLeastOne) {
                 return;
             }

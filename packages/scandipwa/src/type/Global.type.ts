@@ -13,8 +13,6 @@ import { StoreEnhancer } from 'redux';
 
 import { Mix } from './Common.type';
 
-// import { ValidationData } from 'Util/Validator';
-
 declare global {
     interface Window {
         // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -125,7 +123,5 @@ declare global {
         };
     }
 
-    // interface HTMLElementEventMap {
-    //     validate: ValidationData
-    // }
+    type EmptyObject = Record<string, never>;
 }

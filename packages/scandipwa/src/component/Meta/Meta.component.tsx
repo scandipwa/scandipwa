@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent, ReactPortal } from 'react';
+import { Fragment, PureComponent, ReactPortal } from 'react';
 import { createPortal } from 'react-dom';
 
 import { ReactElement } from 'Type/Common.type';
@@ -70,7 +70,7 @@ export class MetaComponent extends PureComponent<MetaComponentProps> {
         const { metadata } = this.props;
 
         return [
-            <>
+            <Fragment key="meta-tags">
                 { this.renderTitle() }
                 { this.renderCanonical() }
                 { metadata.map((tag) => {
@@ -88,7 +88,7 @@ export class MetaComponent extends PureComponent<MetaComponentProps> {
                         />
                     );
                 }) }
-            </>,
+            </Fragment>,
         ];
     }
 

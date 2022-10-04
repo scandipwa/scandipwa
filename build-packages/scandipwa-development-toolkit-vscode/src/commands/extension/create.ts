@@ -1,10 +1,10 @@
 import { createExtension } from '@scandipwa/scandipwa-development-toolkit-core';
 
-import { ActionType } from '../../types';
-import { getResourceName } from '../common/options';
-import logger from '../../util/logger';
 import { getTargetModule } from '../../options/module-selection';
+import { ActionType } from '../../types';
 import { getWorkspaceThemes } from '../../util/cwd/workspace';
+import logger from '../../util/logger';
+import { getResourceName } from '../common/options';
 
 const extensionCreator = async () => {
     const resourceName = await getResourceName('extension', ActionType.Create);

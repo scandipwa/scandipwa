@@ -1,10 +1,10 @@
-const FallbackPlugin = require('@tilework/mosaic-webpack-fallback-plugin');
-const { walkDirectoryUp } = require('@tilework/mosaic-dev-utils/get-context');
-
 import * as path from 'path';
 
-import { ResourceType, SourceType } from "../types";
-import { getRelativeResourceDirectory } from "./fs-interactions";
+import { ResourceType, SourceType } from '../types';
+import { getRelativeResourceDirectory } from './fs-interactions';
+
+const FallbackPlugin = require('@tilework/mosaic-webpack-fallback-plugin');
+const { walkDirectoryUp } = require('@tilework/mosaic-dev-utils/get-context');
 
 /**
  * Returns path to a resource's folder
@@ -14,10 +14,10 @@ import { getRelativeResourceDirectory } from "./fs-interactions";
  * @param {*} resourceType string
  */
 export const resolveExtendableResourcePath = (
-    resourceName: string, 
+    resourceName: string,
     resourceType: ResourceType,
     strictSourceModule?: string,
-    cwd?: string
+    cwd?: string,
 ) => {
     const relativeResourceDirectory = getRelativeResourceDirectory(resourceName, resourceType);
 
@@ -40,12 +40,11 @@ export const resolveExtendableResourcePath = (
     return FallbackPlugin.getFallbackPathname(relativeResourceDirectory, cwd);
 };
 
-
 export const resolveTargetResourceDirectory = (
     relativeResourceDirectory: string,
     targetModulePath: string,
     sourceModuleType: SourceType,
-    sourceModuleName: string
+    sourceModuleName: string,
 ) => {
     // Handle specific folder structure for extensions
     // When overriding @scandipwa/paypal/src/component/Paypal
@@ -57,4 +56,4 @@ export const resolveTargetResourceDirectory = (
     }
 
     return path.join(targetModulePath, relativeResourceDirectory);
-}
+};

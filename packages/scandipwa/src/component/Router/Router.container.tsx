@@ -127,7 +127,6 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
         this.handleResize();
 
         this.handleResize = this.handleResize.bind(this);
-        this.handleCheckIfOnlyMainItemsRender();
     }
 
     componentDidMount(): void {

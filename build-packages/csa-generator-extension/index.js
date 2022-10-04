@@ -29,11 +29,11 @@ const fileSystemCreator = (templateOptions) => (
 const run = async (options) => {
     const {
         name,
-        path: pathname
+        path: pathname,
     } = options;
 
     const templateOptions = {
-        name
+        name,
     };
 
     // create filesystem from template

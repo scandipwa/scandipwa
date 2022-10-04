@@ -11,7 +11,7 @@
 
 import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Subscribe } from 'unstated';
+import { Subscribe } from 'unstated-typescript';
 
 import ImageZoomPopup from 'Component/ImageZoomPopup';
 import { ProductType } from 'Component/Product/Product.config';

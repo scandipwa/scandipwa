@@ -29,7 +29,7 @@ export interface MyAccountAddressFormContainerMapStateProps {
 export interface MyAccountAddressFormContainerMapDispatchProps {}
 
 export interface MyAccountAddressFormContainerBaseProps {
-    address: CustomerAddress;
+    address: CustomerAddress | Record<string, never>;
     onSave: (address: GQLCustomerAddressInput) => Promise<void>;
 }
 
@@ -56,7 +56,7 @@ export interface MyAccountAddressFormContainerState {
 }
 
 export interface MyAccountAddressFormComponentProps {
-    address: CustomerAddress;
+    address: CustomerAddress | Record<string, never>;
     countries: CountryOption[];
     availableRegions: Region[];
     defaultCountry: string;
@@ -107,7 +107,7 @@ MyAccountAddressFormComponentProps,
 | 'onRegionChange'
 | 'onRegionIdChange'
 | 'onSave'>
-& CustomerAddress;
+& Partial<CustomerAddress>;
 
 export interface MyAccountAddressFormEvents {
     onCountryChange: (field: string, e?: EventFieldData) => void;

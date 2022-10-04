@@ -12,6 +12,7 @@ const COOLDOWN_FILE_PATH = path.resolve(__dirname, './cooldown.json');
 const ensureStorage = () => {
     // Ensure cooldown storage
     const storageExists = fs.existsSync(COOLDOWN_FILE_PATH);
+
     if (!storageExists) {
         writeJson(COOLDOWN_FILE_PATH, {});
     }
@@ -23,12 +24,14 @@ const isCooldown = (name) => {
 
     // Check if first check
     const { checkedAt, TTL } = cooldownStorage[name] || {};
+
     if (!checkedAt) {
         return false;
     }
 
     // Check if TTL expired
     const now = Date.now();
+
     if (now - checkedAt > TTL) {
         return false;
     }
@@ -44,7 +47,7 @@ const setCooldown = (name, TTL) => {
     // Update
     cooldownStorage[name] = {
         checkedAt: Date.now(),
-        TTL
+        TTL,
     };
 
     // Save
@@ -53,6 +56,7 @@ const setCooldown = (name, TTL) => {
 
 const checkForUpdates = async (name, currentVersion, TTL = ONE_DAY_IN_MS) => {
     ensureStorage();
+
     if (isCooldown(name)) {
         return;
     }

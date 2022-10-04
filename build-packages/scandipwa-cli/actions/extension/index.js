@@ -6,32 +6,32 @@ module.exports = (yargs) => {
     yargs.command('extension <command>', 'Interact with extension', (yargs) => {
         yargs.command('install <name>', 'Install and enable ScandiPWA extension', (yargs) => {
             yargs.option('no-enable', {
-                describe: 'Do not enable installed extension.'
+                describe: 'Do not enable installed extension.',
             });
 
             yargs.option('local', {
                 alias: 'l',
                 describe: `Use a local module from ${logger.style.file('packages/<name>')}`,
                 type: 'boolean',
-                default: false
+                default: false,
             });
 
             yargs.option('use', {
                 alias: 'u',
                 describe: 'Use a local module from the specified path',
-                type: 'string'
+                type: 'string',
             });
 
             yargs.option('version', {
                 alias: 'v',
                 describe: 'Define a specific version to use',
-                type: 'string'
+                type: 'string',
             });
 
             yargs.option('save-dev', {
                 alias: 'D',
                 describe: 'Install the package as a devDependency',
-                type: 'boolean'
+                type: 'boolean',
             });
         }, async ({
             name,
@@ -39,7 +39,7 @@ module.exports = (yargs) => {
             use: explicitlyDefinedPath,
             local: useLocalPackage,
             version,
-            saveDev
+            saveDev,
         }) => {
             const installedSuccessfully = await installExtension(
                 name,
@@ -73,7 +73,7 @@ module.exports = (yargs) => {
         yargs.command('create <name>', 'Create and enable new ScandiPWA extension', (yargs) => {
             yargs.option('no-enable', {
                 describe: 'Do not enable installed extension.',
-                default: false
+                default: false,
             });
         }, async ({ name, noEnable }) => {
             const isCreatedSuccessfully = await createExtension(name, !noEnable, process.cwd(), logger);

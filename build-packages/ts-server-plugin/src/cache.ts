@@ -4,10 +4,9 @@ import ts from 'typescript/lib/tsserverlibrary';
 import { NamespaceDeclaration } from './declaration';
 import { NamespaceReference } from './reference';
 import {
-    CLASS_PLUGIN_METHOD_TYPE, CLASS_PLUGIN_PROPERTY_TYPE, CLASS_PLUGIN_STATIC_TYPE, ClassPluginTypes, FUNCTION_PLUGIN_TYPE
+    CLASS_PLUGIN_METHOD_TYPE, CLASS_PLUGIN_PROPERTY_TYPE, CLASS_PLUGIN_STATIC_TYPE, ClassPluginTypes, FUNCTION_PLUGIN_TYPE,
 } from './util/config';
 import { Ctx } from './util/context';
-import { getAllThemeFiles } from './util/parent-theme';
 
 type DeclarationCacheMap = Record<string, NamespaceDeclaration>;
 type ReferenceCacheMap = Record<string, Array<NamespaceReference>>;
@@ -29,7 +28,7 @@ export class Cache {
     // Update cache by filename
 
     constructor(
-        ctx: Ctx
+        ctx: Ctx,
     ) {
         this.ctx = ctx;
     }
@@ -54,6 +53,7 @@ export class Cache {
         // TODO: optimize this function
 
         const program = this.ctx.info.project.getLanguageService().getProgram();
+
         if (!program || tryCount > 1) {
             return;
         }
@@ -66,7 +66,7 @@ export class Cache {
         }
 
         this.ctx.info.project.projectService.logger.info(
-            `File missing in program: ${fileName}`
+            `File missing in program: ${fileName}`,
         );
 
         // vvv Add file as new source file
@@ -104,6 +104,7 @@ export class Cache {
             if (!isRef) {
                 // eslint-disable-next-line fp/no-delete
                 delete this.declarationMap[namespace];
+
                 return;
             }
 
@@ -116,6 +117,7 @@ export class Cache {
             // vvv Flush reference cache (filter out ones not matching the current)
             this.referenceMap[namespace] = this.referenceMap[namespace].filter((ref) => {
                 const isNotSameRef = ref !== decOrRef;
+
                 return isNotSameRef;
             });
         });
@@ -223,7 +225,7 @@ export class Cache {
 
         const diagnostics = refsOrDecs.reduce((
             acc: ts.Diagnostic[],
-            refOrDec: NamespaceDeclaration | NamespaceReference
+            refOrDec: NamespaceDeclaration | NamespaceReference,
         ) => {
             if (refOrDec instanceof NamespaceDeclaration) {
                 return acc;
@@ -232,10 +234,12 @@ export class Cache {
             const namespace = refOrDec.getNamespaceString();
             const declaration = this.getDeclarationByNamespace(namespace);
             const sourceFile = refOrDec.getNamespace()?.getSourceFile();
+
             if (!sourceFile) {
                 return acc;
             }
             const textSpan = refOrDec.getNamespaceTextSpan();
+
             if (!textSpan) {
                 return acc;
             }
@@ -248,15 +252,17 @@ export class Cache {
                         file: sourceFile,
                         messageText: 'Such namespace is not declared',
                         code: 191919,
-                        ...textSpan
-                    }
+                        ...textSpan,
+                    },
                 ];
             }
 
             const { config } = refOrDec;
+
             if (!config) {
                 return acc;
             }
+
             if (config[FUNCTION_PLUGIN_TYPE]) {
                 return acc;
             }
@@ -264,7 +270,7 @@ export class Cache {
             const typeDiagnostics = [
                 CLASS_PLUGIN_PROPERTY_TYPE,
                 CLASS_PLUGIN_METHOD_TYPE,
-                CLASS_PLUGIN_STATIC_TYPE
+                CLASS_PLUGIN_STATIC_TYPE,
             ].reduce((acc: ts.Diagnostic[], type) => {
                 const methodMap: Record<string, ts.Node> = config[type as ClassPluginTypes];
 
@@ -272,7 +278,7 @@ export class Cache {
                     (cAcc: ts.Diagnostic[], [methodName, referenceMethod]) => {
                         const methodDec = declaration.getNodeByTargetConfig({
                             type: type as ClassPluginTypes,
-                            name: methodName
+                            name: methodName,
                         });
 
                         if (!methodDec) {
@@ -284,14 +290,14 @@ export class Cache {
                                     category: ts.DiagnosticCategory.Warning,
                                     file: sourceFile,
                                     code: 191920,
-                                    messageText: 'Such method or property is not declared'
-                                }
+                                    messageText: 'Such method or property is not declared',
+                                },
                             ];
                         }
 
                         return cAcc;
                     },
-                    []
+                    [],
                 );
 
                 return [...acc, ...methodDiagnostics];
@@ -320,11 +326,13 @@ export class Cache {
             const referenceNodes = refOrDec.getNodesByTargetConfig();
             const pluginHints = referenceNodes.reduce((acc, node) => {
                 const nodeFileName = node.getSourceFile().fileName;
+
                 if (nodeFileName !== fileName) {
                     return acc;
                 }
                 // ^^^ we only care about nodes in the same file
                 const plugins = this.getReferencesByNamespace(refOrDec.getNamespaceString());
+
                 if (!plugins.length) {
                     return acc;
                 }
@@ -338,7 +346,7 @@ export class Cache {
                 if (ts.isMethodDeclaration(node.parent)) {
                     const [closeParenToken] = this.ctx.nodeUtils.getNodeChildByCondition(
                         node.parent,
-                        (n) => n.kind === ts.SyntaxKind.CloseParenToken
+                        (n) => n.kind === ts.SyntaxKind.CloseParenToken,
                     );
 
                     if (closeParenToken) {
@@ -352,14 +360,14 @@ export class Cache {
                         text: `⬅ has ${plugins.length} plugin${plugins.length > 1 ? 's' : ''}`,
                         position,
                         kind: ts.InlayHintKind.Parameter,
-                        whitespaceBefore: true
-                    }
+                        whitespaceBefore: true,
+                    },
                 ];
             }, [] as ts.InlayHint[]);
 
             return [
                 ...acc,
-                ...pluginHints
+                ...pluginHints,
             ];
         }, [] as ts.InlayHint[]);
     }

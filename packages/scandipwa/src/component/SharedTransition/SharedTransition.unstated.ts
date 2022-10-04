@@ -10,7 +10,7 @@
  */
 
 import { RefObject } from 'react';
-import { Container } from 'unstated';
+import { Container } from 'unstated-typescript';
 
 import { SharedTransitionPosition, SharedTransitionState } from './SharedTransition.type';
 

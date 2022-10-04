@@ -93,7 +93,7 @@ export class NewVersionPopupComponent extends PureComponent<NewVersionPopupCompo
         return (
             <Popup
               id={ NEW_VERSION_POPUP_ID }
-              clickOutside={ false }
+              isCloseOnOutsideClick={ false }
               mix={ { block: 'NewVersionPopup' } }
             >
                 { this.renderContent() }

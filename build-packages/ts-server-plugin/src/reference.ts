@@ -9,7 +9,7 @@ import {
     createNewPluginReferenceConfig,
     FUNCTION_PLUGIN_TYPE,
     PluginReferenceConfig,
-    PluginTargetConfig
+    PluginTargetConfig,
 } from './util/config';
 import { Ctx } from './util/context';
 
@@ -56,10 +56,11 @@ export class NamespaceReference {
         const [namespace] = this.ctx.nodeUtils.getNodeChildByCondition(
             this.node,
             (node) => ts.isStringLiteral(node) || ts.isIdentifier(node),
-            1 // look for the first child only
+            1, // look for the first child only
         );
 
         this.namespace = namespace;
+
         return namespace;
     }
 
@@ -72,24 +73,26 @@ export class NamespaceReference {
 
         return {
             start: this.namespace.pos + nIndex,
-            length: this.namespace.getText().length
+            length: this.namespace.getText().length,
         };
     };
 
     getNamespaceReference(): ts.ReferenceEntry | undefined {
         const namespace = this.getNamespace();
+
         if (!namespace) {
             return undefined;
         }
 
         return this.ctx.nodeUtils.getReferenceForNode(
             namespace,
-            this.getNamespaceTextSpan
+            this.getNamespaceTextSpan,
         );
     }
 
     getImplDecReferenceByTargetConfig(targetConfig: PluginTargetConfig): ts.ReferenceEntry | undefined {
         const node = this.getImplDecByTargetConfig(targetConfig);
+
         if (!node) {
             return undefined;
         }
@@ -141,7 +144,7 @@ export class NamespaceReference {
     // vvv PA = Proprty Assignment
     static constructFromKnownPANode(
         ctx: Ctx,
-        namespacePANode: ts.Node
+        namespacePANode: ts.Node,
     ): NamespaceReference | undefined {
         // We expect a property assignment,
         // which has another property assignment inside
@@ -175,6 +178,7 @@ export class NamespaceReference {
                 if (typeIdentifier === FUNCTION_PLUGIN_TYPE) {
                     // ^^^ can only then be a function
                     pluginReferenceConfig[FUNCTION_PLUGIN_TYPE] = typeIdentifierNode;
+
                     return true;
                 }
 
@@ -233,7 +237,7 @@ export class NamespaceReference {
 
     static constructFromNode(
         ctx: Ctx,
-        node: ts.Node
+        node: ts.Node,
     ): NamespaceReference | undefined {
         const namespaceReference = this.constructFromKnownPANode(ctx, node);
 
@@ -250,7 +254,7 @@ export class NamespaceReference {
         // vvv Try parent, if failed to construct from current node
         return this.constructFromNode(
             ctx,
-            parent
+            parent,
         );
     }
 }
@@ -270,8 +274,8 @@ export const getNamespacePluginsReferences = (_ctx: Ctx, cache: Cache, comment: 
             references: [reference],
             definition: {
                 ...comment.getDefinition(),
-                displayParts: comment.getDisplayParts()
-            }
+                displayParts: comment.getDisplayParts(),
+            },
         });
     });
 
@@ -282,15 +286,18 @@ export const pluginNodeReferenceEntries = (ctx: Ctx, cache: Cache, node: ts.Node
     const references: ts.ReferenceEntry[] = [];
 
     const comment = NamespaceDeclaration.constructFromNode(ctx, node);
+
     if (!comment) {
         return references;
     }
 
     const targetConfig = comment.getTargetConfigForNode(node);
+
     if (!targetConfig) {
         return references;
     }
     const plugins = cache.getReferencesByNamespace(comment.getNamespaceString());
+
     if (!plugins.length) {
         return references;
     }
@@ -311,14 +318,17 @@ export const pluginNodeReferenceEntries = (ctx: Ctx, cache: Cache, node: ts.Node
 export const implementationNodeReferenceEntries = (ctx: Ctx, cache: Cache, node: ts.Node): ts.ReferenceEntry[] => {
     const references: ts.ReferenceEntry[] = [];
     const plugin = NamespaceReference.constructFromNode(ctx, node);
+
     if (!plugin) {
         return references;
     }
     const namespace = plugin.getNamespaceString();
+
     if (!namespace) {
         return references;
     }
     const nsDeclaration = cache.getDeclarationByNamespace(namespace);
+
     if (!nsDeclaration) {
         return references;
     }
@@ -328,12 +338,14 @@ export const implementationNodeReferenceEntries = (ctx: Ctx, cache: Cache, node:
 
     if (!targetConfig) {
         const isNamespaceNode = node.getText().indexOf(namespace) !== -1;
+
         if (!isNamespaceNode) {
             return references;
         }
         reference = nsDeclaration.getNamespaceReference();
     } else {
         const nodeToReference = nsDeclaration.getNodeByTargetConfig(targetConfig);
+
         if (!nodeToReference) {
             return references;
         }
@@ -345,5 +357,6 @@ export const implementationNodeReferenceEntries = (ctx: Ctx, cache: Cache, node:
     }
 
     references.push(reference);
+
     return references;
 };

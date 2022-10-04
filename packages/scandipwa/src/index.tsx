@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,7 +10,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import App from 'Component/App';
 
@@ -25,4 +26,7 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container!);
+
+root.render(<App />);

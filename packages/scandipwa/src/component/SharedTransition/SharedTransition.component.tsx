@@ -40,6 +40,7 @@ export class SharedTransitionComponent extends PureComponent<SharedTransitionCom
         if (this.transitionInAction) {
             return;
         }
+
         this.updateSharedElement();
     }
 

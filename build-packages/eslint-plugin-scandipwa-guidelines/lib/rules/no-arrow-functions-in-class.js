@@ -8,17 +8,17 @@ module.exports = {
         docs: {
             description: 'Forbid arrow functions as class methods. Reason: they can\'t be overridden.',
             category: 'Coding standard',
-            recommended: true
-        }
+            recommended: true,
+        },
     },
     create: (context) => ({
         ClassProperty(node) {
-            if(node.value?.type === 'ArrowFunctionExpression') {
+            if (node.value?.type === 'ArrowFunctionExpression') {
                 context.report({
                     node: node.key,
-                    message: `"${node.key.name}": arrow function is forbidden`
+                    message: `"${node.key.name}": arrow function is forbidden`,
                 });
             }
-        }
-    })
+        },
+    }),
 };

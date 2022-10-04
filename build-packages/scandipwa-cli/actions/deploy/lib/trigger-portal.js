@@ -6,7 +6,7 @@ const triggerPortal = async (path, body) => {
     const options = {
         method: 'POST',
         body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
     };
 
     return fetch(`${portalUrl}${path}`, options);

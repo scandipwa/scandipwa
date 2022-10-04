@@ -16,7 +16,7 @@ module.exports = {
     create: (context) => ({
         Program(node) {
             const classes = node.body
-                .map((node) => node.type.match(/^Export/) ? node.declaration : node)
+                .map((node) => (node.type.match(/^Export/) ? node.declaration : node))
                 .filter((val) => val && val.type === 'ClassDeclaration');
 
             if (classes.length > 1) {

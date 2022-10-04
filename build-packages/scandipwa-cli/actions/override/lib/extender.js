@@ -9,7 +9,7 @@ const extender = (resourceType) => async ({
     name,
     targetModule = process.cwd(),
     sourceModule,
-    stylePostfix
+    stylePostfix,
 }) => {
     const isExtendedSuccessfully = await invokeGenerator(
         targetModule,

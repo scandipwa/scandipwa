@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import { AnyAction, Store } from 'redux';
-import { Provider as UnstatedProvider } from 'unstated';
+import { Provider as UnstatedProvider } from 'unstated-typescript';
 
 import Router from 'Component/Router';
 import SharedTransition from 'Component/SharedTransition';
@@ -175,6 +175,7 @@ export class AppComponent extends PureComponent<unknown, AppComponentState> {
             <SomethingWentWrong
               onClick={ this.handleErrorReset }
               errorDetails={ errorDetails }
+              key="something-went-wrong"
             />
         );
     }

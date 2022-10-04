@@ -9,6 +9,6 @@ module.exports = (jsonPath, error) => ({
     type: 'error',
     args: [
         `Unable to load a translation from ${jsonPath}.`,
-        `Error: ${logger.style.misc(error.message)}`
-    ]
+        `Error: ${logger.style.misc(error.message)}`,
+    ],
 });

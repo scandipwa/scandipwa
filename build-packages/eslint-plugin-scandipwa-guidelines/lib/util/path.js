@@ -1,10 +1,12 @@
 function getFilenameFromPath(path) {
-    const exploded = path.split("/");
+    const exploded = path.split('/');
+
     return exploded[exploded.length - 1];
 }
 
 function getNamePartsFromFilename(filename) {
-    const namePartsWithExtension = filename.split(".");
+    const namePartsWithExtension = filename.split('.');
+
     return namePartsWithExtension.slice(0, -1);
 }
 

@@ -10,6 +10,6 @@ module.exports = (jsonPath, error) => ({
     args: [
         `Unable to update the translation in ${jsonPath}.`,
         `Error: ${logger.style.misc(error.message)}`,
-        'Restart the compilation after you apply the corresponding changes.'
-    ]
+        'Restart the compilation after you apply the corresponding changes.',
+    ],
 });

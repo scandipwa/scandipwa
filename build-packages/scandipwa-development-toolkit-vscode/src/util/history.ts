@@ -1,32 +1,33 @@
 import * as fs from 'fs';
-import ContextManager from './managers/context';
-import { 
-    SKIP as skipSymbol,
+
+import {
+    HALT as haltSymbol,
     NONE as noneSymbol,
-    HALT as haltSymbol
+    SKIP as skipSymbol,
 } from './cwd/keys';
+import ContextManager from './managers/context';
 import UI from './ui';
 
 export const getStorage = <T>(storageKey: string, defaultValue?: any): T => {
     const context = ContextManager.getInstance().getContext();
 
     return context.workspaceState.get(storageKey, defaultValue);
-}
+};
 
 /**
  * Returns false if SKIP
  * Returns null if NONE
- * Returns value if value 
+ * Returns value if value
  */
 export const proposeFromHistory = async (
     storageKey: string,
     message: string,
     noneOption?: string,
     skipOption?: string,
-    additionalHistoryEntries: string[] = []
+    additionalHistoryEntries: string[] = [],
 ): Promise<string | Symbol | null> => {
     const targetHistory = getStorage<string>(storageKey, []);
-    
+
     // Handle no history
     if (!targetHistory.length && !additionalHistoryEntries.length) {
         return null;
@@ -37,12 +38,12 @@ export const proposeFromHistory = async (
     const SKIP = skipOption;
 
     // Additional options addition
-    const selectOptions: string[] = [...new Set([
+    const selectOptions: string[] = Array.from(new Set([
         SKIP!,
         ...targetHistory,
         ...additionalHistoryEntries,
-        NONE
-    ].filter(Boolean))];
+        NONE,
+    ].filter(Boolean)));
 
     // Attempt to serve option from the history
     const resultFromHistory = await UI.singleSelect<string>(message, selectOptions);
@@ -63,12 +64,12 @@ export const proposeFromHistory = async (
 
     // Proposed option has been selected => return
     return resultFromHistory;
-}
+};
 
 const updateHistory = <T> (
-    storageKey: string, 
-    newValue: T, 
-    updater: (history: T[], newValue: T) => T[]
+    storageKey: string,
+    newValue: T,
+    updater: (history: T[], newValue: T) => T[],
 ) => {
     const context = ContextManager.getInstance().getContext();
     const targetHistory = getStorage<T[]>(storageKey, []);
@@ -76,48 +77,38 @@ const updateHistory = <T> (
     const updatedHistory = updater(targetHistory, newValue);
 
     return context.workspaceState.update(storageKey, updatedHistory);
-}
+};
 
-export const pushToHistory = async <T> (storageKey: string, newValue: T) => {
-    return updateHistory<T>(
-        storageKey, 
-        newValue, 
-        (history: T[], newValue: T) => [...history, newValue]
-    );
-}
+export const pushToHistory = async <T> (storageKey: string, newValue: T) => updateHistory<T>(
+    storageKey,
+    newValue,
+    (history: T[], newValue: T) => [...history, newValue],
+);
 
-export const unshiftToHistory = async <T> (storageKey: string, newValue: T) => {
-    return updateHistory<T>(
-        storageKey, 
-        newValue, 
-        (history: T[], newValue: T) => [newValue, ...history]
-    );
-}
+export const unshiftToHistory = async <T> (storageKey: string, newValue: T) => updateHistory<T>(
+    storageKey,
+    newValue,
+    (history: T[], newValue: T) => [newValue, ...history],
+);
 
-const dedupeHistory = <T> (history: T[]) => [...new Set(history)];
+const dedupeHistory = <T> (history: T[]) => Array.from(new Set(history));
 
-export const unshiftUniqueToHistory = async <T> (storageKey: string, newValue: T) => {
-    return updateHistory<T>(
-        storageKey, 
-        newValue, 
-        (history: T[], newValue: T) => dedupeHistory([newValue, ...history])
-    );
-}
+export const unshiftUniqueToHistory = async <T> (storageKey: string, newValue: T) => updateHistory<T>(
+    storageKey,
+    newValue,
+    (history: T[], newValue: T) => dedupeHistory([newValue, ...history]),
+);
 
-export const pushUniqueToHistory = async <T> (storageKey: string, newValue: T) => {
-    return updateHistory<T>(
-        storageKey, 
-        newValue, 
-        (history: T[], newValue: T) => dedupeHistory([...history, newValue])
-    );
-}
+export const pushUniqueToHistory = async <T> (storageKey: string, newValue: T) => updateHistory<T>(
+    storageKey,
+    newValue,
+    (history: T[], newValue: T) => dedupeHistory([...history, newValue]),
+);
 
-export const removeDeadFsEntries = async (storageKey: string) => {
-    return updateHistory<string>(
-        storageKey,
-        '',
-        (history: string[]) => history.filter(
-            (pathname: string) => fs.existsSync(pathname)
-        )
-    )
-}
+export const removeDeadFsEntries = async (storageKey: string) => updateHistory<string>(
+    storageKey,
+    '',
+    (history: string[]) => history.filter(
+        (pathname: string) => fs.existsSync(pathname),
+    ),
+);

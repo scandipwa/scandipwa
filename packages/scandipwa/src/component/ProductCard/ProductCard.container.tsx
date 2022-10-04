@@ -11,7 +11,7 @@
 
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Subscribe } from 'unstated';
+import { Subscribe } from 'unstated-typescript';
 
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
