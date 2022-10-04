@@ -243,6 +243,7 @@ export const executeGet = async <T>(
         refreshUid();
     }
 
+    // Fetch only throws on network error, http errors have to be handled manually.
     try {
         const result = await getFetch(uri, name, signal);
 
@@ -250,7 +251,7 @@ export const executeGet = async <T>(
             const putResponse = await putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL);
 
             if (putResponse.status === HTTP_201_CREATED) {
-                return await parseResponse(await getFetch(uri, name, signal));
+                return parseResponse(await getFetch(uri, name, signal));
             }
         }
 
@@ -260,9 +261,9 @@ export const executeGet = async <T>(
         }
 
         // Successful and all other http responses go here:
-        return await parseResponse(result);
+        return parseResponse(result);
     } catch (error) {
-    // Network error
+        // Network error
         handleConnectionError(error, 'executeGet failed');
         throw new Error(error as string);
     }
