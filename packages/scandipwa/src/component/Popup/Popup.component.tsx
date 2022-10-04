@@ -27,7 +27,7 @@ import './Popup.style';
 export class PopupComponent extends Overlay<PopupComponentProps> {
     static defaultProps: Partial<PopupComponentProps> = {
         ...Overlay.defaultProps,
-        clickOutside: true,
+        isCloseOnOutsideClick: true,
         title: '',
     };
 
@@ -104,9 +104,9 @@ export class PopupComponent extends Overlay<PopupComponentProps> {
 
     // Same with click outside
     handleClickOutside(): void {
-        const { clickOutside, isMobile } = this.props;
+        const { isCloseOnOutsideClick, isMobile } = this.props;
 
-        if (!clickOutside) {
+        if (!isCloseOnOutsideClick) {
             return;
         }
 

@@ -13,7 +13,6 @@
 import { lazy, PureComponent, Suspense } from 'react';
 
 import CategoryDetails from 'Component/CategoryDetails';
-import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.config';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
@@ -61,14 +60,9 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         selectedLayoutType: undefined,
     };
 
-    __construct(props: CategoryPageComponentProps): void {
-        super.__construct?.(props);
-        this.onFilterButtonClick = this.onFilterButtonClick.bind(this);
-
-        this.state = {
-            activeLayoutType: undefined,
-        } as S;
-    }
+    state = {
+        activeLayoutType: undefined,
+    } as S;
 
     static getDerivedStateFromProps(props: CategoryPageComponentProps): Partial<CategoryPageComponentState> {
         const {
@@ -98,13 +92,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         return { activeLayoutType };
     }
 
-    onFilterButtonClick(): void {
-        const { toggleOverlayByKey } = this.props;
-
-        toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
-    }
-
-    displayProducts(): boolean {
+    displayProducts() {
         const {
             category: {
                 display_mode = CategoryDisplayMode.PRODUCTS,
@@ -159,7 +147,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
             isSearchPage,
             isCurrentCategoryLoaded,
             isMatchingInfoFilter,
-
+            onFilterButtonClick,
         } = this.props;
 
         if (!isMatchingInfoFilter) {
@@ -174,7 +162,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
             <button
               block="CategoryPage"
               elem="Filter"
-              onClick={ this.onFilterButtonClick }
+              onClick={ onFilterButtonClick }
             >
                 <FilterIcon />
                 <span>{ __('Filters') }</span>

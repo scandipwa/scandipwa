@@ -251,7 +251,7 @@ export const executeGet = async <T>(
             const putResponse = await putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL);
 
             if (putResponse.status === HTTP_201_CREATED) {
-                return parseResponse(await getFetch(uri, name, signal));
+                return await parseResponse(await getFetch(uri, name, signal));
             }
         }
 
@@ -261,7 +261,7 @@ export const executeGet = async <T>(
         }
 
         // Successful and all other http responses go here:
-        return parseResponse(result);
+        return await parseResponse(result);
     } catch (error) {
         // Network error
         handleConnectionError(error, 'executeGet failed');

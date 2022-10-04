@@ -327,6 +327,8 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
         setQueryParams({
             page: pageNumber === 1 ? '' : String(pageNumber),
         }, location, history);
+
+        scrollToTop();
     }
 
     render(): ReactElement {

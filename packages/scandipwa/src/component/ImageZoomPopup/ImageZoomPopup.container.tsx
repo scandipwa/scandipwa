@@ -84,7 +84,7 @@ export class ImageZoomPopupContainer extends PureComponent<ImageZoomPopupContain
         return (
             <Popup
               id={ popupId }
-              clickOutside={ false }
+              isCloseOnOutsideClick={ false }
               mix={ { block: 'ImageZoomPopup', mix } }
               contentMix={ { block: 'ImageZoomPopup', elem: 'PopupContent' } }
               onClose={ onClose }
