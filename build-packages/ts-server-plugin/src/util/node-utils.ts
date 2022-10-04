@@ -20,12 +20,12 @@ export class NodeUtils {
         return extendsHeritageClauses.reduce(
             (
                 acc: ts.ClassDeclaration[],
-                extendsHeritageClause: ts.HeritageClause
+                extendsHeritageClause: ts.HeritageClause,
             ) => {
                 const identifierPosition = extendsHeritageClause.types[0].getStart();
                 const classDefinitions = this.info.languageService.getDefinitionAtPosition(
                     node.getSourceFile().fileName,
-                    identifierPosition
+                    identifierPosition,
                 );
 
                 if (!classDefinitions || classDefinitions.length <= 0) {
@@ -36,7 +36,7 @@ export class NodeUtils {
 
                 const definitionNode = this.getFileNodeAtPosition(
                     classDefintion.fileName,
-                    classDefintion.textSpan.start
+                    classDefintion.textSpan.start,
                 );
 
                 if (!definitionNode) {
@@ -45,7 +45,7 @@ export class NodeUtils {
 
                 const classDeclaration = this.getParentNodeByCondition(
                     definitionNode,
-                    (node) => ts.isClassDeclaration(node)
+                    (node) => ts.isClassDeclaration(node),
                 );
 
                 if (!classDeclaration || !ts.isClassDeclaration(classDeclaration)) {
@@ -54,17 +54,19 @@ export class NodeUtils {
 
                 return [...acc, ...this.getClassNodeHeritage(classDeclaration)];
             },
-            [node] as ts.ClassDeclaration[]
+            [node] as ts.ClassDeclaration[],
         );
     }
 
     getSourceFile(fileName: string): ts.SourceFile | undefined {
         const program = this.info.project.getLanguageService().getProgram();
+
         return program ? program.getSourceFile(fileName) : undefined;
     }
 
     getFileNodeAtPosition(fileName: string, position: number): ts.Node | undefined {
         const sourceFile = this.getSourceFile(fileName);
+
         if (!sourceFile) {
             return undefined;
         }
@@ -74,6 +76,7 @@ export class NodeUtils {
                 for (let i = 0; i < node.getChildren().length; i++) {
                     const childNode = node.getChildren()[i];
                     const foundNode = find(childNode);
+
                     if (foundNode) {
                         return foundNode;
                     }
@@ -81,6 +84,8 @@ export class NodeUtils {
 
                 return node;
             }
+
+            return undefined;
         };
 
         return find(sourceFile);
@@ -89,16 +94,18 @@ export class NodeUtils {
     getParentNodeByCondition(
         node: ts.Node,
         cond: (n: ts.Node) => boolean,
-        includeInitial = true
+        includeInitial = true,
     ): ts.Node | undefined {
         if (!node) {
             return undefined;
         }
+
         if (includeInitial && cond(node)) {
             return node;
         }
 
         const { parent } = node;
+
         if (parent && cond(parent)) {
             return parent;
         }
@@ -110,7 +117,7 @@ export class NodeUtils {
         node: ts.Node,
         cond: (n: ts.Node) => boolean,
         maxDepth: number = Number.POSITIVE_INFINITY,
-        validateNode = true
+        validateNode = true,
     ): ts.Node[] {
         const result: ts.Node[] = [];
 
@@ -140,6 +147,7 @@ export class NodeUtils {
 
     getFileNodesByCondition(fileName: string, cond: (n: ts.Node) => boolean): ReadonlyArray<ts.Node> {
         const sourceFile = this.getSourceFile(fileName);
+
         if (!sourceFile) {
             return [];
         }
@@ -153,21 +161,22 @@ export class NodeUtils {
         if (!nIndex) {
             return {
                 start: node.pos,
-                length: node.end - node.pos
+                length: node.end - node.pos,
             };
         }
 
         return {
             start: node.pos + nIndex,
-            length: node.getText().length
+            length: node.getText().length,
         };
     }
 
     getReferenceForNode(
         node: ts.Node,
-        textSpanGetter: (node: ts.Node) => ts.TextSpan | undefined = this.getTextSpanForNode
+        textSpanGetter: (node: ts.Node) => ts.TextSpan | undefined = this.getTextSpanForNode,
     ): ts.ReferenceEntry | undefined {
         const textSpan = textSpanGetter(node);
+
         if (!textSpan) {
             return undefined;
         }

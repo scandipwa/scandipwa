@@ -8,18 +8,18 @@ const SOURCE_MODULE_DESCRIPTION = 'source';
 const TARGET_MODULE_DESCRIPTION = 'target';
 
 const getModule = async (
-    description: string, 
+    description: string,
     moduleKey: string,
     skipOption?: string,
     additionalHistoryEntries?: string[],
-    allowedModuleTypes?: string[]
+    allowedModuleTypes?: string[],
 ): Promise<string | null | undefined> => {
     const modulePath = await selectModuleWithHistory(
         `Select ${description} module`,
         moduleKey,
         skipOption,
         additionalHistoryEntries,
-        allowedModuleTypes
+        allowedModuleTypes,
     );
 
     if (!modulePath && !skipOption) {
@@ -27,12 +27,12 @@ const getModule = async (
     }
 
     return modulePath;
-}
+};
 
 export const getTargetModule = (
     actionType: ActionType,
     additionalHistoryEntries?: string[],
-    allowedModuleTypes?: string[]
+    allowedModuleTypes?: string[],
 ) => {
     // If only one proposal - use it by default
     if (additionalHistoryEntries?.length === 1) {
@@ -40,21 +40,21 @@ export const getTargetModule = (
     }
 
     return getModule(
-        TARGET_MODULE_DESCRIPTION, 
-        [actionType, TARGET_MODULE].join('').toUpperCase(), 
+        TARGET_MODULE_DESCRIPTION,
+        [actionType, TARGET_MODULE].join('').toUpperCase(),
         undefined,
         additionalHistoryEntries,
-        allowedModuleTypes
+        allowedModuleTypes,
     );
-}
+};
 
 export const getSourceModule = (
     actionType: ActionType,
     isSkippable?: boolean,
-    additionalHistoryEntries?: string[]
+    additionalHistoryEntries?: string[],
 ) => getModule(
-    SOURCE_MODULE_DESCRIPTION, 
-    [actionType, SOURCE_MODULE].join('').toUpperCase(), 
+    SOURCE_MODULE_DESCRIPTION,
+    [actionType, SOURCE_MODULE].join('').toUpperCase(),
     isSkippable ? 'Determine by Fallback plugin (recommended)' : undefined,
-    additionalHistoryEntries
+    additionalHistoryEntries,
 );

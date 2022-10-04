@@ -10,7 +10,7 @@ module.exports = {
             category: 'Coding standard',
             recommended: true,
         },
-		fixable: 'code'
+        fixable: 'code',
     },
 
     create: (context) => ({
@@ -27,6 +27,7 @@ module.exports = {
                             .text.slice(node.start, node.end)
                             .replace(/^export default class/, 'export class');
                         const exportDefault = `export default ${className};`;
+
                         return [
                             fixer.insertTextAfter(
                                 node,

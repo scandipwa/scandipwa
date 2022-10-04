@@ -7,20 +7,20 @@ const getIsValidCallExpression = (node) => {
     const {
         callee: {
             object: { type } = {},
-            property: { name } = {}
-        }
+            property: { name } = {},
+        },
     } = node;
 
-    return type === "ThisExpression" && name === "containerProps";
+    return type === 'ThisExpression' && name === 'containerProps';
 };
 
 const getIsValidMemberExpression = (node) => {
     const {
         object: { type } = {},
-        property: { name } = {}
+        property: { name } = {},
     } = node;
 
-    return type === "ThisExpression" && name === "containerFunctions";
+    return type === 'ThisExpression' && name === 'containerFunctions';
 };
 
 module.exports = {
@@ -30,21 +30,21 @@ module.exports = {
             category: 'Coding standard',
             recommended: true,
         },
-        fixable: 'code'
+        fixable: 'code',
     },
 
     create: (context) => ({
         JSXSpreadAttribute(node) {
             const {
                 argument,
-                argument: { type }
+                argument: { type },
             } = node;
 
             const validationMap = {
                 // allow this.containerProps()
                 CallExpression: getIsValidCallExpression,
                 // allow this.containerFunctions
-                MemberExpression: getIsValidMemberExpression
+                MemberExpression: getIsValidMemberExpression,
             };
 
             // expect those two rules, forbid everything else
@@ -56,8 +56,8 @@ module.exports = {
 
             context.report({
                 node,
-                message: "Prop spreading is forbidden"
+                message: 'Prop spreading is forbidden',
             });
-        }
+        },
     }),
 };

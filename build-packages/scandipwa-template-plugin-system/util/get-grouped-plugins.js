@@ -12,8 +12,8 @@ module.exports = (htmlPlugins) => Object.entries(htmlPlugins).reduce(
             const {
                 templatePlugin: {
                     [DOM_API_KEY]: overrideDOM,
-                    [STRING_API_KEY]: overrideString
-                }
+                    [STRING_API_KEY]: overrideString,
+                },
             } = pluginObject;
 
             // Prohibit attempting to use both DOM API and String API in a single plugin
@@ -39,6 +39,6 @@ module.exports = (htmlPlugins) => Object.entries(htmlPlugins).reduce(
     }),
     {
         [DOM_API_KEY]: [],
-        [STRING_API_KEY]: []
+        [STRING_API_KEY]: [],
     }
 );

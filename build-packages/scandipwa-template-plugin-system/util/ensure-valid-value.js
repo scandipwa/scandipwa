@@ -8,17 +8,17 @@ const validationMap = (value) => ({
         validators: [
             !value,
             typeof value !== 'object',
-            Array.isArray(value)
+            Array.isArray(value),
         ],
-        Exception: PluginInvalidDomException
+        Exception: PluginInvalidDomException,
     },
     [STRING_API_KEY]: {
         validators: [
             !value,
-            typeof value !== 'string'
+            typeof value !== 'string',
         ],
-        Exception: PluginInvalidStringException
-    }
+        Exception: PluginInvalidStringException,
+    },
 });
 
 const ensureValidValue = (apiType, value) => {

@@ -18,14 +18,14 @@ const addWelcomePageRoute = (member) => [
     {
         position: 1000,
         path: '/',
-        render: (props) => createElement(WelcomePage, props)
-    }
+        render: (props) => createElement(WelcomePage, props),
+    },
 ];
 
 export default {
     'Router/Component/Router/Component/RouterComponent': {
         'member-property': {
-            switchRoutesList: addWelcomePageRoute
-        }
-    }
+            switchRoutesList: addWelcomePageRoute,
+        },
+    },
 };

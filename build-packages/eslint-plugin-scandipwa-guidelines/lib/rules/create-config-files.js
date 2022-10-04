@@ -13,12 +13,12 @@ const extractDeclaration = (declarationOrExport) => {
 };
 
 const prohibitedOnLevelOne = [
-    'Literal'
+    'Literal',
 ];
 
 const prohibitedInPostfixes = [
     'container',
-    'component'
+    'component',
 ];
 
 module.exports = {
@@ -35,7 +35,7 @@ module.exports = {
         Program(node) {
             const filePath = context.getFilename();
             const exploded = filePath.split(path.sep);
-            const [fileName, postfix] = exploded[exploded.length - 1].split('.');
+            const [, postfix] = exploded[exploded.length - 1].split('.');
 
             /**
              * Skip all non "component" and "container" files

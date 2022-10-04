@@ -7,12 +7,13 @@ const INLINE_HINTS_CONFIG = {
     'javascript.inlayHints.propertyDeclarationTypes.enabled': true,
     'javascript.inlayHints.functionLikeReturnTypes.enabled': true,
     'typescript.inlayHints.propertyDeclarationTypes.enabled': true,
-    'typescript.inlayHints.functionLikeReturnTypes.enabled': true
+    'typescript.inlayHints.functionLikeReturnTypes.enabled': true,
 };
 
 const readJsonConfig = (pathToConfig) => {
     try {
         const rawConfigData = fs.readFileSync(pathToConfig);
+
         return JSON.parse(rawConfigData.toString());
     } catch (e) {
         return {};
@@ -22,6 +23,7 @@ const readJsonConfig = (pathToConfig) => {
 const getTsSdkPath = () => {
     try {
         const pathToTs = getPackagePath('typescript', process.cwd());
+
         return path.relative(
             process.cwd(),
             path.join(pathToTs, 'lib')
@@ -56,7 +58,7 @@ const addPluginToConfig = () => {
     }
 
     existingConfig.compilerOptions.plugins.push({
-        name: '@scandipwa/ts-server-plugin'
+        name: '@scandipwa/ts-server-plugin',
     });
 
     fs.writeFileSync(
@@ -75,9 +77,9 @@ module.exports = () => {
         ...readJsonConfig(pathToConfig),
         // vvv Enables custom TS server
         'typescript.tsdk': getTsSdkPath(),
-        'typescript.enablePromptUseWorkspaceTsdk': true
+        'typescript.enablePromptUseWorkspaceTsdk': true,
         // vvv Required for inlineHints to work
-        // ...INLINE_HINTS_CONFIG
+        ...INLINE_HINTS_CONFIG,
     };
 
     fs.writeFileSync(

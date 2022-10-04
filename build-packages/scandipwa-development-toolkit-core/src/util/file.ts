@@ -1,5 +1,6 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
+
 import { ILogger, ReplacementInstruction } from '../types';
 
 /**
@@ -9,20 +10,20 @@ export const preventOverwrite = (dest: string, logger: ILogger): boolean => {
     // Prevent overwriting existing files
     if (fs.existsSync(dest)) {
         logger.warn(
-            `File ${logger?.style?.file(dest) || dest} exists and will not be overwritten\n`
+            `File ${logger?.style?.file(dest) || dest} exists and will not be overwritten\n`,
         );
 
         return true;
     }
 
     return false;
-}
+};
 
 export const createNewFileFromTemplate = (
-    src: string, 
+    src: string,
     dest: string,
     replace: ReplacementInstruction[],
-    logger: ILogger
+    logger: ILogger,
 ) : boolean => {
     if (!src || !dest) {
         return false;
@@ -33,8 +34,8 @@ export const createNewFileFromTemplate = (
 
     // Replace all the necessary patterns
     const content = replace.reduce(
-        (data, { pattern, replacement }) => data.replace(pattern, replacement), 
-        template
+        (data, { pattern, replacement }) => data.replace(pattern, replacement),
+        template,
     );
 
     // Handle file already exists
@@ -44,6 +45,7 @@ export const createNewFileFromTemplate = (
 
     // Create the file
     fs.writeFileSync(dest, content);
+
     return true;
 };
 
@@ -53,9 +55,9 @@ export const createNewFileFromTemplate = (
  * @param contents
  */
 export const createNewFileWithContents = (
-    newFilePath: string, 
+    newFilePath: string,
     contents: string,
-    logger: ILogger
+    logger: ILogger,
 ): boolean => {
     // Make sure parent dir exists
     const parentDirectory = path.dirname(newFilePath);
@@ -70,7 +72,7 @@ export const createNewFileWithContents = (
         // Create the file
         fs.writeFileSync(
             newFilePath,
-            contents
+            contents,
         );
     } catch (e) {
         if (e instanceof Error) {

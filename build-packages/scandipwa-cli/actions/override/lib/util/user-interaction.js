@@ -10,7 +10,7 @@ class UserInteraction {
             name: QUESTION_KEY,
             choices: selectOptions.map(
                 ({ displayName, value }) => ({ name: displayName, value })
-            )
+            ),
         });
 
         const answer = answers[QUESTION_KEY];
@@ -30,7 +30,7 @@ class UserInteraction {
         const answers = await inquirer.prompt({
             message: question,
             name: QUESTION_KEY,
-            type: 'confirm'
+            type: 'confirm',
         });
 
         const answer = answers[QUESTION_KEY];

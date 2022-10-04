@@ -6,7 +6,7 @@ import {
     CLASS_PLUGIN_STATIC_TYPE,
     FUNCTION_PLUGIN_TYPE,
     PartialPluginTargetConfig,
-    PluginTargetConfig
+    PluginTargetConfig,
 } from './util/config';
 import { Ctx } from './util/context';
 
@@ -38,6 +38,7 @@ export class NamespaceDeclaration {
 
         if (!ts.isClassDeclaration(targetMainType)) {
             this.isFunctionDeclaration = true;
+
             return;
         }
 
@@ -52,6 +53,7 @@ export class NamespaceDeclaration {
 
         const namespace = (this.node as ts.JSDocTag).comment || '';
         this.namespace = Array.isArray(namespace) ? namespace[0] : namespace;
+
         return this.namespace;
     }
 
@@ -63,6 +65,7 @@ export class NamespaceDeclaration {
         const namespace = this.getNamespaceString();
         const nIndex = this.node.getText().indexOf(namespace);
         this.nIndex = nIndex;
+
         return nIndex;
     }
 
@@ -72,7 +75,7 @@ export class NamespaceDeclaration {
 
         return {
             start: this.node.pos + nIndex,
-            length: namespace.length
+            length: namespace.length,
         };
     };
 
@@ -81,7 +84,7 @@ export class NamespaceDeclaration {
 
         return [{
             kind: 'text',
-            text: namespace
+            text: namespace,
         }];
     }
 
@@ -94,7 +97,7 @@ export class NamespaceDeclaration {
             containerKind: ts.ScriptElementKind.unknown,
             containerName: namespace,
             fileName: this.node.getSourceFile().fileName,
-            textSpan: this.getTextSpan()
+            textSpan: this.getTextSpan(),
         };
     }
 
@@ -105,7 +108,7 @@ export class NamespaceDeclaration {
             textSpan: this.getTextSpan(),
             displayParts: this.getDisplayParts(),
             documentation: [],
-            tags: []
+            tags: [],
         };
     }
 
@@ -219,6 +222,7 @@ export class NamespaceDeclaration {
 
     getNodeByTargetConfig(config: PluginTargetConfig): ts.Node | undefined {
         const [result] = this.getNodesByTargetConfig(config);
+
         return result;
     }
 
@@ -233,6 +237,7 @@ export class NamespaceDeclaration {
             }
 
             namespaceDeclarationNode = jsDocTag;
+
             return true;
         });
 
@@ -246,6 +251,7 @@ export class NamespaceDeclaration {
 
 export const getCommentAtPosition = (ctx: Ctx, fileName: string, position: number): NamespaceDeclaration | undefined => {
     const node = ctx.nodeUtils.getFileNodeAtPosition(fileName, position);
+
     if (!node) {
         return undefined;
     }

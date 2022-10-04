@@ -1,21 +1,21 @@
-import { 
-    ComponentResourceParams, 
-    DispatcherType, 
-    FileMap, 
-    ResourceParams, 
-    ResourceType, 
+import {
+    ComponentResourceParams,
+    ContainerFeatures,
+    DispatcherType,
+    FileMap,
+    ResourceParams,
+    ResourceType,
     StoreResourceParams,
-    ContainerFeatures
-} from "../types";
+} from '../types';
 
 /**
  * Generate a container template name from the supplied container features
  */
 const getContainerTemplateName = (containerFeatures: ContainerFeatures) => {
-    const featuresEntries = Object.entries(containerFeatures)
+    const featuresEntries = Object.entries(containerFeatures);
 
     const enabledFeatures = featuresEntries.filter(
-        ([, enabled]) => enabled
+        ([, enabled]) => enabled,
     );
 
     // No container options -> no container
@@ -24,21 +24,19 @@ const getContainerTemplateName = (containerFeatures: ContainerFeatures) => {
     }
 
     const enabledNames = enabledFeatures.map(
-        ([featureName]) => featureName
+        ([featureName]) => featureName,
     );
 
     return ['container', ...enabledNames.sort()].join('-').concat('.js');
-}
+};
 
-const hasContainerFeatures = (containerFeatures: ContainerFeatures) => {
-    return Object.values(containerFeatures).filter(Boolean).length;
-}
+const hasContainerFeatures = (containerFeatures: ContainerFeatures) => Object.values(containerFeatures).filter(Boolean).length;
 
 /**
  * Map for Components/Routes
  */
-const getComponentMap = ({ 
-    containerFeatures
+const getComponentMap = ({
+    containerFeatures,
 }: ComponentResourceParams) => ({
     'component.js': 'component.js',
     'style.scss': 'stylesheet.scss',
@@ -49,26 +47,26 @@ const getComponentMap = ({
 /**
  * Map for Store
  */
-const getStoreMap = ({ 
-    dispatcherType = DispatcherType.NoDispatcher 
+const getStoreMap = ({
+    dispatcherType = DispatcherType.NoDispatcher,
 }: StoreResourceParams) => ({
     'action.js': 'action.js',
     'dispatcher.js': dispatcherType === DispatcherType.NoDispatcher ? null : `${dispatcherType}.js`,
-    'reducer.js': 'reducer.js'
+    'reducer.js': 'reducer.js',
 });
 
 /**
  * Map for Query
  */
 const getQueryMap = () => ({
-    'query.js': 'query.js'
+    'query.js': 'query.js',
 });
 
 const mapMap: Record<ResourceType, (params: any) => FileMap> = {
     [ResourceType.Component]: getComponentMap,
     [ResourceType.Route]: getComponentMap,
     [ResourceType.Store]: getStoreMap,
-    [ResourceType.Query]: getQueryMap
+    [ResourceType.Query]: getQueryMap,
 };
 
 /**

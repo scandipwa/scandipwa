@@ -33,5 +33,5 @@ module.exports = {
         '@typescript-eslint/naming-convention': 'off',
         'max-lines': 'off',
         'max-len': 'off',
-    }
+    },
 };

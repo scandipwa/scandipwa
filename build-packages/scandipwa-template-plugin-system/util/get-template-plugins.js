@@ -10,9 +10,9 @@ module.exports = () => extensions.reduce((acc, { packagePath, packageJson }) => 
         name,
         scandipwa: {
             build: {
-                templatePlugins: templatePluginPaths
-            } = {}
-        } = {}
+                templatePlugins: templatePluginPaths,
+            } = {},
+        } = {},
     } = packageJson;
 
     // Handle no template plugins in the module
@@ -37,5 +37,6 @@ module.exports = () => extensions.reduce((acc, { packagePath, packageJson }) => 
     );
 
     acc[name] = templatePlugins;
+
     return acc;
 }, {});

@@ -1,7 +1,7 @@
 import * as fs from 'fs';
-import { ILogger, ResourceType } from '../types';
 
-import { capitalize } from "../util/misc";
+import { ILogger, ResourceType } from '../types';
+import { capitalize } from '../util/misc';
 
 /**
  * Returns true if everything is OK
@@ -13,13 +13,13 @@ const validateResourceExistance = (
     targetModule: string,
     resourceType: ResourceType,
     resourceName: string,
-    logger: ILogger
+    logger: ILogger,
 ): boolean => {
     // Everything is OK
     if (sourceModule !== targetModule) {
         return true;
     }
-    
+
     // Handle resource falling back to the invoker directory
     const resourceIdentifier = [capitalize(resourceType), resourceName].join('/');
 
@@ -33,12 +33,12 @@ const validateResourceExistance = (
     } else {
         logger.error(
             `Resource ${logger.style.file(resourceIdentifier)} does not exist.`,
-            `Run the following command to create it: ${logger.style.command(`scandipwa create ${resourceType} ${capitalize(resourceName)}`)}`
+            `Run the following command to create it: ${logger.style.command(`scandipwa create ${resourceType} ${capitalize(resourceName)}`)}`,
         );
     }
 
     // Must interrupt
     return false;
-}
+};
 
 export default validateResourceExistance;

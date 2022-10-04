@@ -4,7 +4,7 @@
  */
 const { getIdentifierOccurrences } = require('../util/ast.js');
 const { getExpectedClassNameFromFilename, shouldClassNameBeEnforced, getUnexpectedNameMessage } = require('../util/derived-class-name.js');
-const { getFilenameFromPath } = require("../util/path.js");
+const { getFilenameFromPath } = require('../util/path.js');
 
 module.exports = {
     meta: {
@@ -16,7 +16,7 @@ module.exports = {
         fixable: 'code',
     },
 
-    create: context => ({
+    create: (context) => ({
         ClassDeclaration(node) {
             const filePath = context.getFilename();
             const fileName = getFilenameFromPath(filePath);
@@ -37,9 +37,9 @@ module.exports = {
                     context.report({
                         loc,
                         message: getUnexpectedNameMessage(fileName, expectedClassName, actualClassName),
-                        fix: fixer => fixer.replaceText(node, expectedClassName),
+                        fix: (fixer) => fixer.replaceText(node, expectedClassName),
                     });
-                })
+                });
             }
         },
     }),

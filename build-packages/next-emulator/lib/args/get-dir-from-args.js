@@ -8,13 +8,13 @@ const processArgs = (args) => {
     if (!possibleDir || possibleDir.startsWith('--')) {
         return {
             args,
-            dir: process.cwd()
+            dir: process.cwd(),
         };
     }
 
     return {
         args: args.slice(1),
-        dir: path.join(process.cwd(), possibleDir)
+        dir: path.join(process.cwd(), possibleDir),
     };
 };
 

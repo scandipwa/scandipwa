@@ -1,5 +1,6 @@
-import * as path from 'path';
 import * as fs from 'fs-extra';
+import * as path from 'path';
+
 import { FileMap, ILogger, ResourceType } from '../types';
 import { createNewFileFromTemplate } from './file';
 
@@ -10,17 +11,17 @@ const getIsNested = (resourceType: ResourceType) => resourceType !== ResourceTyp
 /**
  * Generate files from the filemap
  * Returns relative paths to the created files
- * 
- * @param fileMap 
- * @param options 
+ *
+ * @param fileMap
+ * @param options
  * @returns {string[]}
  */
 const generateFilesFromMap = (
-    fileMap: FileMap, 
-    resourceName: string, 
-    resourceType: ResourceType, 
+    fileMap: FileMap,
+    resourceName: string,
+    resourceType: ResourceType,
     targetModulePath: string,
-    logger: ILogger
+    logger: ILogger,
 ): string[] => {
     // Calculate the resource path
     const resourceTypeDirectory = path.join(targetModulePath, 'src', resourceType);
@@ -44,7 +45,7 @@ const generateFilesFromMap = (
 
             // Index.js is not a postfix, it should be handled differently
             const newFileName = postfix === 'index.js'
-                ? 'index.js' 
+                ? 'index.js'
                 : `${resourceName}.${postfix}`;
 
             // Calculate the new file path
@@ -56,12 +57,12 @@ const generateFilesFromMap = (
                 newFilePath,
                 [{
                     pattern: /Placeholder/g,
-                    replacement: resourceName
-                },{
+                    replacement: resourceName,
+                }, {
                     pattern: /PLACEHOLDER/g,
-                    replacement: resourceName.toUpperCase()
+                    replacement: resourceName.toUpperCase(),
                 }],
-                logger
+                logger,
             );
 
             // Handle file not created
@@ -72,10 +73,10 @@ const generateFilesFromMap = (
             // Preserve path to the new file
             return createdFiles.concat(newFilePath);
         },
-        [] as string[]
+        [] as string[],
     );
 
     return createdFiles;
-}
+};
 
 export default generateFilesFromMap;

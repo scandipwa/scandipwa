@@ -3,8 +3,8 @@ const path = require('path');
 module.exports = () => {
     const {
         scandipwa: {
-            locales = {}
-        } = {}
+            locales = {},
+        } = {},
     } = require(path.join(process.cwd(), 'package.json'));
 
     return Object

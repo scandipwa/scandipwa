@@ -7,7 +7,7 @@ import { getCommentAtPosition } from './declaration';
 import {
     getNamespacePluginsReferences,
     implementationNodeReferenceEntries,
-    pluginNodeReferenceEntries
+    pluginNodeReferenceEntries,
 } from './reference';
 import { Ctx } from './util/context';
 import { getAllExtensionsFiles } from './util/extension';
@@ -20,7 +20,7 @@ function init(): ts.server.PluginModule {
 
         // Diagnostic logging
         info.project.projectService.logger.info(
-            "I'm getting set up now! Check the log for this message."
+            "I'm getting set up now! Check the log for this message.",
         );
 
         // ============================
@@ -47,6 +47,7 @@ function init(): ts.server.PluginModule {
         proxy.getSemanticDiagnostics = (fileName: string): ts.Diagnostic[] => {
             const diagnostics = info.languageService.getSemanticDiagnostics(fileName);
             cache.refreshFileCache(fileName);
+
             return [...diagnostics, ...cache.getDiagnosticsByFile(fileName)];
         };
 
@@ -54,6 +55,7 @@ function init(): ts.server.PluginModule {
             const prior = info.languageService.findReferences(fileName, position);
 
             const comment = getCommentAtPosition(ctx, fileName, position);
+
             if (comment) {
                 return getNamespacePluginsReferences(ctx, cache, comment);
             }
@@ -68,7 +70,7 @@ function init(): ts.server.PluginModule {
                 const { definition } = prior[i];
                 const node = ctx.nodeUtils.getFileNodeAtPosition(
                     definition.fileName,
-                    definition.textSpan.start
+                    definition.textSpan.start,
                 );
 
                 if (!node) {
@@ -78,13 +80,13 @@ function init(): ts.server.PluginModule {
 
                 const definitionReferences = [
                     ...pluginNodeReferenceEntries(ctx, cache, node),
-                    ...implementationNodeReferenceEntries(ctx, cache, node)
+                    ...implementationNodeReferenceEntries(ctx, cache, node),
                 ];
 
                 definitionReferences.forEach((reference) => {
                     additionalReferences.push({
                         definition,
-                        references: [reference]
+                        references: [reference],
                     });
                 });
             }
@@ -96,13 +98,14 @@ function init(): ts.server.PluginModule {
             const prior = info.languageService.getDefinitionAndBoundSpan(fileName, position, ...rest);
 
             const comment = getCommentAtPosition(ctx, fileName, position);
+
             if (!comment) {
                 return prior;
             } // <-- this is not a comment, skip
 
             return {
                 textSpan: comment.getTextSpan(),
-                definitions: [comment.getDefinition()]
+                definitions: [comment.getDefinition()],
             };
         };
 
@@ -112,6 +115,7 @@ function init(): ts.server.PluginModule {
             ...rest
         ): ts.WithMetadata<ts.CompletionInfo> | undefined => {
             const prior = info.languageService.getCompletionsAtPosition(fileName, position, ...rest);
+
             return handleReferenceCompletions(fileName, position, prior, ctx, cache);
         };
 
@@ -120,7 +124,7 @@ function init(): ts.server.PluginModule {
 
     function getExternalFiles(project: ts.server.Project): string[] {
         const themeFiles = getAllThemeFiles(project.getCurrentDirectory()).sort(
-            (a, b) => (a.length - b.length)
+            (a, b) => (a.length - b.length),
             // ^^^ Sort by length to put index files first
         );
 
@@ -128,7 +132,7 @@ function init(): ts.server.PluginModule {
 
         const allFiles = [
             ...themeFiles,
-            ...extensionFiles
+            ...extensionFiles,
         ];
 
         return allFiles;

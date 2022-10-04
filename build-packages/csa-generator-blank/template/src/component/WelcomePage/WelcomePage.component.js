@@ -1,10 +1,12 @@
+/* eslint-disable react/forbid-elements */
+/* eslint-disable react/forbid-dom-props */
 import { PureComponent } from 'react';
 
 import logo from './logo.svg';
 
 import './WelcomePage.style.scss';
 
-/** @namespace Placeholder/Component/WelcomePage/Component/WelcomePageComponent */
+/** @namespace Placeholder/Component/WelcomePage/Component */
 export class WelcomePageComponent extends PureComponent {
     typeMap = {};
 

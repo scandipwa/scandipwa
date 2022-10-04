@@ -10,7 +10,7 @@ module.exports = (unusedTranslationMap) => {
         .map(
             ([localeCode, unused]) => [
                 `${logger.style.code(localeCode)}: ${logger.style.code(unused.size)}`,
-                ...Array.from(unused, (unusedString) => `  - ${unusedString}`)
+                ...Array.from(unused, (unusedString) => `  - ${unusedString}`),
             ]
         );
 
@@ -18,7 +18,7 @@ module.exports = (unusedTranslationMap) => {
         type: 'warn',
         args: [
             'Found unused translations for the following locales:',
-            ...unusedForLocales.flat()
-        ]
+            ...unusedForLocales.flat(),
+        ],
     };
 };

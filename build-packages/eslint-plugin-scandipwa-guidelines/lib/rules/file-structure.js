@@ -9,13 +9,14 @@ const path = require('path');
 /* eslint-disable no-magic-numbers */
 function checkFileName(exploded) {
     const fullFileName = exploded[exploded.length - 1];
+
     // Index.js is always OK
     if (fullFileName === 'index.js') {
         return true;
     }
 
     // Do not check paths containing these directories in them
-    if (exploded.some(elem => ['style', 'query', 'type', 'util'].includes(elem))) {
+    if (exploded.some((elem) => ['style', 'query', 'type', 'util'].includes(elem))) {
         return true;
     }
 
@@ -29,7 +30,6 @@ function checkFileName(exploded) {
 
     return false;
 }
-
 
 /**
  * Returns name of the directory, if file postfix does not match expected.
@@ -100,53 +100,56 @@ module.exports = {
         docs: {
             description: 'File structure must comply to the strict guidelines of ScandiPWA',
             category: 'Coding standard',
-            recommended: false
+            recommended: false,
         },
-        fixable: 'code'
+        fixable: 'code',
     },
 
-    create: context => ({
+    create: (context) => ({
         Program(node) {
             const filePath = context.getFilename();
+
             if (filePath.indexOf('pwa/src/app') !== -1 || filePath.indexOf('base-theme/src/app') !== -1) {
                 const pathKey = filePath.indexOf('pwa/src/app') !== -1 ? 'pwa/src/app' : 'base-theme/src/app';
                 const relativeToApp = filePath.slice(filePath.indexOf(pathKey) + pathKey.length + 1);
                 const exploded = relativeToApp.split(path.sep);
 
                 if (!([
-                    'component', 'query', 'route', 'store', 'style', 'type', 'util', 'index.js'
+                    'component', 'query', 'route', 'store', 'style', 'type', 'util', 'index.js',
                 ].includes(exploded[0]))) {
                     context.report({
                         node,
-                        message: 'Extending app directory with custom directories is prohibited.'
+                        message: 'Extending app directory with custom directories is prohibited.',
                     });
                 }
 
                 if (!checkFileName(exploded)) {
                     context.report({
                         node,
-                        message: 'File name should match directory name + postfix (if postfix is needed)'
+                        message: 'File name should match directory name + postfix (if postfix is needed)',
                     });
                 }
 
                 if (!checkDepth(exploded)) {
                     context.report({
                         node,
-                        message: 'Nesting directories is against the principle of flat file structure and is prohobited'
+                        message: 'Nesting directories is against the principle of flat file structure and is prohobited',
                     });
                 }
 
                 const fileName = exploded[exploded.length - 1];
+
                 if (fileName !== 'index.js') {
                     const directoryThatDoesNotFit = checkPostfix(exploded);
+
                     if (directoryThatDoesNotFit) {
                         context.report({
                             node,
-                            message: `Postfix of this file does not comply with the ScandiPWA naming convention for the '${directoryThatDoesNotFit}' directory`
+                            message: `Postfix of this file does not comply with the ScandiPWA naming convention for the '${directoryThatDoesNotFit}' directory`,
                         });
                     }
                 }
             }
-        }
-    })
+        },
+    }),
 };

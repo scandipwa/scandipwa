@@ -18,12 +18,12 @@ import routes from 'Pages/routes';
 import { getRouteId } from '../../util/Next';
 
 /** @namespace NextEmulator/Component/AppWrapper/Component/AppWrapperComponent */
-export const AppWrapperComponent = ({ route, query }) => {
+export function AppWrapperComponent({ route, query }) {
     const routeId = getRouteId(route);
     const {
         default: Component,
         getServerSideProps,
-        getStaticProps
+        getStaticProps,
     } = routes[routeId];
     const [componentProps, setComponentProps] = useState({});
 
@@ -35,7 +35,7 @@ export const AppWrapperComponent = ({ route, query }) => {
 
             if (result instanceof Promise) {
                 result.then(
-                    /** @namespace NextEmulator/Component/AppWrapper/Component/then */
+                    /** @namespace NextEmulator/Component/AppWrapper/Component/AppWrapperComponent/useEffect/result/then/setComponentProps */
                     ({ props }) => setComponentProps(props)
                 );
             } else {
@@ -47,15 +47,16 @@ export const AppWrapperComponent = ({ route, query }) => {
     return (
         <Component { ...componentProps } />
     );
-};
+}
 
 AppWrapperComponent.propTypes = {
     route: PropTypes.string.isRequired,
-    query: PropTypes.shape({})
+    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/forbid-prop-types-in-shape
+    query: PropTypes.shape({}),
 };
 
 AppWrapperComponent.defaultProps = {
-    query: {}
+    query: {},
 };
 
 export default AppWrapperComponent;

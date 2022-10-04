@@ -10,7 +10,7 @@ const render = (args, callback) => (
 export default {
     'Component/App/Component': {
         'member-function': {
-            render
-        }
-    }
+            render,
+        },
+    },
 };
