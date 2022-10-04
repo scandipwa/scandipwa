@@ -58,12 +58,12 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
         }
 
         return (
-                <ProductPage
-                  match={ match }
-                  productSKU={ productSKU }
-                  productID={ id }
-                  key={ id }
-                />
+            <ProductPage
+              match={ match }
+              productSKU={ productSKU }
+              productID={ id }
+              key={ id }
+            />
         );
     }
 
