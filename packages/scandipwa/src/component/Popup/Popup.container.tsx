@@ -61,7 +61,7 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
         contentMix: {},
         children: [],
         isStatic: false,
-        clickOutside: false,
+        isCloseOnOutsideClick: true,
     };
 
     containerFunctions: PopupContainerFunctions = {
@@ -87,6 +87,7 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
     PopupContainerPropsKeys
     > {
         const {
+            isCloseOnOutsideClick,
             activeOverlay,
             areOtherOverlaysOpen,
             changeHeaderState,
@@ -106,6 +107,7 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
         } = this.props;
 
         return {
+            isCloseOnOutsideClick,
             activeOverlay,
             areOtherOverlaysOpen,
             changeHeaderState,
