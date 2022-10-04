@@ -48,7 +48,7 @@
         "rebem-classname": "^0.4.0",
         "redux": "4.2.0",
         "typescript": "4.7.2",
-        "unstated": "^2.1.1"
+        "unstated-typescript": "2.1.7"
     },
     "scandipwa": {
         "themeAlias": "Source",
