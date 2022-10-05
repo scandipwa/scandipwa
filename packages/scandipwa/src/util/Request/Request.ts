@@ -77,9 +77,6 @@ export const appendTokenToHeaders = (headers: HeadersInit): HeadersInit => {
  * @namespace Util/Request/formatURI
  */
 export const formatURI = (query: string, variables: Record<string, string>, url: string): string => {
-    // eslint-disable-next-line no-param-reassign
-    variables._currency = getCurrency();
-
     const stringifyVariables = Object.keys(variables).reduce(
         (acc, variable) => [...acc, `${ variable }=${ JSON.stringify(variables[variable]) }`],
         [`?hash=${ hash(query) }`],
@@ -102,6 +99,7 @@ export const getFetch = (uri: string, name: string, signal?: AbortSignal): Promi
         signal,
         headers: appendTokenToHeaders({
             'Content-Type': 'application/json',
+            'Content-Currency': getCurrency(),
             'Application-Model': `${ name }_${ getWindowId() }`,
             Accept: 'application/json',
         }),
@@ -151,6 +149,7 @@ export const postFetch = (
         body: JSON.stringify({ query, variables }),
         headers: appendTokenToHeaders({
             'Content-Type': 'application/json',
+            'Content-Currency': getCurrency(),
             Accept: 'application/json',
         }),
     },

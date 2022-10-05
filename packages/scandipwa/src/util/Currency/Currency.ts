@@ -10,8 +10,10 @@
  */
 
 import { Currencies, CurrencyData } from 'Query/Config.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
-
+import getStore from 'Util/Store';
+import { RootState } from 'Util/Store/Store.type';
 /**
  *
  * @type {string}
@@ -40,9 +42,19 @@ export const setCurrency = (currency: string): void => {
  * @namespace Util/Currency/getCurrency
  */
 export const getCurrency = (): string => {
+    const store = getStore();
+
+    const {
+        ConfigReducer: {
+            currency: {
+                base_currency_code = GQLCurrencyEnum.USD,
+            } = {},
+        } = {},
+    } = store.getState() as RootState;
+
     const currency = BrowserDatabase.getItem(CUR_CURRENCY);
 
-    return (typeof currency === 'string') ? currency : '';
+    return (typeof currency === 'string') ? currency : base_currency_code;
 };
 
 /**

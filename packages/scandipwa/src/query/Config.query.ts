@@ -9,11 +9,9 @@
  * @link https://github.com/scandipwa/scandipwa-theme
  */
 
-import { Field, Mutation, Query } from '@tilework/opus';
+import { Field, Query } from '@tilework/opus';
 
 import { GQLCheckoutAgreementMode } from 'Type/Graphql.type';
-import { isSignedIn } from 'Util/Auth';
-import { getCartId } from 'Util/Cart';
 
 import {
     AvailableCurrency,
@@ -98,24 +96,6 @@ export class ConfigQuery {
                 new Field<'product_price_display_type', string>('product_price_display_type'),
                 new Field<'shipping_price_display_type', string>('shipping_price_display_type'),
             ]);
-    }
-
-    getSaveSelectedCurrencyMutation(newCurrency: string): Mutation<'saveSelectedCurrency', {
-        currencyData: CurrencyData;
-    }> {
-        const query = new Mutation<'saveSelectedCurrency', { currencyData: CurrencyData }>('saveSelectedCurrency')
-            .addArgument('currency', 'String', newCurrency)
-            .addFieldList([
-                this.getCurrencyData(),
-            ]);
-
-        if (!isSignedIn()) {
-            const guestQuoteId = getCartId();
-
-            query.addArgument('guestCartId', 'String', guestQuoteId);
-        }
-
-        return query;
     }
 
     _getCheckoutAgreementFields(): Array<
