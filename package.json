@@ -10,7 +10,8 @@
         "csa-blank": "create-scandipwa-app runtime-packages/csa-blank --template blank",
         "csa-cra": "create-scandipwa-app runtime-packages/csa-cra --template cra",
         "postinstall": "lerna bootstrap",
-        "compile:lockfile": "node build-tasks/compile-lockfile.js"
+        "compile:lockfile": "node build-tasks/compile-lockfile.js",
+        "ts:build": "tsc --noEmit --project ./packages/*/tsconfig.json"
     },
     "devDependencies": {
         "@scandipwa/eslint-config": "^0.1.6",
@@ -21,7 +22,8 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "npm run eslint"
+            "pre-commit": "npm run eslint",
+            "pre-push": "npm run ts:build"
         }
     },
     "eslintConfig": {
