@@ -42,6 +42,10 @@
         text-align: end;
         opacity: 0;
         animation: appear 100ms 300ms forwards;
+        min-height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
 
         @include mobile {
             text-align: start;
