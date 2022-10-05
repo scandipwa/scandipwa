@@ -48,23 +48,14 @@ export class ResetAttributesContainer extends PureComponent<ResetAttributesConta
         };
     }
 
-    getFilterOptionsForPrice(values: string[], options: AggregationOption[]): FilterOption[] {
+    getFilterOptionsForPrice(values: string[]): FilterOption[] {
+        const { currency_code } = this.props;
+        const [value_string] = values;
         // no multiselect for price, always 1 selected value
-        const [fromValue, toValue] = values[ 0 ].split('_');
+        const [fromValue, toValue] = value_string.split('_');
+        const label = getPriceFilterLabel(fromValue, toValue, currency_code as GQLCurrencyEnum);
 
-        return options
-            .filter(({ value_string }) => value_string.startsWith(fromValue))
-            .map((option) => {
-                const { currency_code } = this.props;
-                const { label: initialLabel, value_string } = option;
-
-                const [from, to] = initialLabel.split('~');
-                const rangeEnd = toValue === '*' ? toValue : to;
-
-                const label = getPriceFilterLabel(from, rangeEnd, currency_code as GQLCurrencyEnum);
-
-                return { value_string, label };
-            });
+        return [{ value_string, label }];
     }
 
     getFilterOptionsDefault(values: string[], options: AggregationOption[]): FilterOption[] {
