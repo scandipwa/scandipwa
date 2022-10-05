@@ -39,14 +39,20 @@ export class ClickOutsideComponent extends PureComponent<ClickOutsideComponentPr
 
         this.handleClick = this.handleClick.bind(this);
 
-        this.childrenRefs = Children.map(
-            children,
+        this.childrenRefs = Children.toArray(children).map(
             () => createRef<HTMLElement>(),
         ) || [];
     }
 
     componentDidMount(): void {
-        document.addEventListener('click', this.handleClick);
+        /*
+         * delaying adding the clickoutside event because of the issue with popup,
+         * where event was triggered immediatly
+         * vvv
+        */
+        setTimeout(() => {
+            document.addEventListener('click', this.handleClick);
+        }, 0);
     }
 
     componentWillUnmount(): void {

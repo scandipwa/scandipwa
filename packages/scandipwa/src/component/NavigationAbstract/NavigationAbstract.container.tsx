@@ -59,6 +59,13 @@ State extends NavigationAbstractContainerState,
 
         setNavigationState(this.getNavigationState());
         history.listen((history) => {
+            const { state } = history;
+
+            // vvv ignoring the route change for popup
+            if (state && state.popupOpen) {
+                return;
+            }
+
             this.handlePageScroll();
             this.setState(this.onRouteChanged(history));
         });
