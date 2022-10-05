@@ -50,22 +50,23 @@ export class CurrencySwitcherContainer extends DataContainer<CurrencySwitcherCon
         super.__construct(props, 'CurrencySwitcherContainer');
     }
 
-    _handleCurrencySelect(currencyCode: GQLCurrencyEnum): void {
+    async _handleCurrencySelect(currencyCode: GQLCurrencyEnum): Promise<void> {
         const { updateCurrency } = this.props;
 
-        updateCurrency({ currencyCode }).then(
-            /** @namespace Component/CurrencySwitcher/Container/CurrencySwitcherContainer/_handleCurrencySelect/updateCurrency/then */
-            () => {
-                const { pathname = '' } = location;
-                const checkoutOrCartUrlsRegex = (
-                    new RegExp(`^(${appendWithStoreCode('')})?((${CheckoutStepUrl.CHECKOUT_URL})|(${CART_URL}(/)?$))`)
-                );
+        try {
+            await updateCurrency({ currencyCode });
 
-                if (!pathname.match(checkoutOrCartUrlsRegex)) {
-                    location.reload();
-                }
-            },
-        );
+            const { pathname = '' } = location;
+            const checkoutOrCartUrlsRegex = (
+                new RegExp(`^(${appendWithStoreCode('')})?((${CheckoutStepUrl.CHECKOUT_URL})|(${CART_URL}(/)?$))`)
+            );
+
+            if (!pathname.match(checkoutOrCartUrlsRegex)) {
+                location.reload();
+            }
+        } catch (e) {
+            throw new Error(e as string);
+        }
     }
 
     containerProps(): Pick<CurrencySwitcherComponentProps, 'currencyData'> {
