@@ -69,6 +69,7 @@ export class SliderComponent extends PureComponent<SliderComponentProps, SliderC
         const { activeImage } = this.props;
 
         this.state = {
+            isInitialized: false,
             prevActiveImage: activeImage,
         };
 
@@ -146,9 +147,18 @@ export class SliderComponent extends PureComponent<SliderComponentProps, SliderC
     componentDidUpdate(prevProps: SliderComponentProps): void {
         const { activeImage: prevActiveImage } = prevProps;
         const { activeImage } = this.props;
+        const { isInitialized } = this.state;
 
         if (activeImage !== prevActiveImage && this.getIsSlider()) {
             const newTranslate = -activeImage * this.getSlideWidth() * this.getDir();
+
+            if (!isInitialized) {
+                this.setTranlateXStyle(newTranslate);
+
+                this.setState({ isInitialized: true });
+
+                return;
+            }
 
             this.setAnimationSpeedStyle(Math.abs((prevActiveImage - activeImage) * ANIMATION_DURATION));
             this.setTranlateXStyle(newTranslate);

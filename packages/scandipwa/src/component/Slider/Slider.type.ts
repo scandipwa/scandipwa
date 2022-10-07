@@ -43,6 +43,7 @@ export type SliderComponentProps = SliderContainerMapStateProps
 & SliderComponentBaseProps;
 
 export interface SliderComponentState {
+    isInitialized: boolean;
     prevActiveImage: number;
 }
 
