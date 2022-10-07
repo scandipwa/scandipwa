@@ -64,6 +64,18 @@ const fileSystemCreator = (templateOptions) => (
         );
 
         filesystem.copyTpl(
+            templatePath('tsconfig.json'),
+            destinationPath('tsconfig.json'),
+            templateOptions
+        );
+
+        filesystem.copyTpl(
+            templatePath('.eslintrc.js'),
+            destinationPath('.eslintrc.js'),
+            templateOptions
+        );
+
+        filesystem.copyTpl(
             templatePath('yarn.lock.cached'),
             destinationPath('yarn.lock'),
             templateOptions
@@ -124,6 +136,7 @@ const run = async (options) => {
     let mosaicVersion = '0.0.0';
     let eslintConfigVersion = '0.0.0';
     let mosaicCracoVersion = '0.0.0';
+    let tsServerPluginVersion = '0.0.0';
     const postcssVersion = '8.4.5';
 
     try {
@@ -136,6 +149,14 @@ const run = async (options) => {
 
     try {
         scandipwaScriptsVersion = await getLatestVersion('@scandipwa/scandipwa-scripts');
+    } catch (e) {
+        logger.warn(
+            `Package ${ logger.style.misc('@scandipwa/scandipwa-scripts') } is not yet published.`
+        );
+    }
+
+    try {
+        tsServerPluginVersion = await getLatestVersion('@scandipwa/ts-server-plugin');
     } catch (e) {
         logger.warn(
             `Package ${ logger.style.misc('@scandipwa/scandipwa-scripts') } is not yet published.`
@@ -169,6 +190,7 @@ const run = async (options) => {
     const templateOptions = {
         scandipwaVersion,
         scandipwaScriptsVersion,
+        tsServerPluginVersion,
         name,
         mosaicVersion,
         mosaicCracoVersion,

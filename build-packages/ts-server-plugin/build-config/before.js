@@ -45,7 +45,7 @@ const addPluginToConfig = () => {
         return;
     }
 
-    const existingConfig = readJsonConfig(existingConfigPath[0]);
+    const existingConfig = readJsonConfig(existingConfigPath);
 
     if (!existingConfig.compilerOptions) {
         // vvv Ensue compiler options
@@ -55,6 +55,14 @@ const addPluginToConfig = () => {
     if (!existingConfig.compilerOptions.plugins) {
         // vvv Ensue compiler plugins
         existingConfig.compilerOptions.plugins = [];
+    }
+
+    const isTsServerPluginExists = existingConfig.compilerOptions.plugins.find(
+        (plugin) => plugin.name === '@scandipwa/ts-server-plugin'
+    );
+
+    if (isTsServerPluginExists) {
+        return;
     }
 
     existingConfig.compilerOptions.plugins.push({

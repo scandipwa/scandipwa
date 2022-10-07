@@ -6,6 +6,7 @@
         "@scandipwa/scandipwa": "<%= scandipwaVersion %>",
         "@scandipwa/scandipwa-scripts": "<%= scandipwaScriptsVersion %>",
         "@scandipwa/eslint-config": "<%= eslintConfigVersion %>",
+        "@scandipwa/ts-server-plugin": "<%= tsServerPluginVersion %>",
         "@tilework/mosaic": "<%= mosaicVersion %>",
         "@tilework/mosaic-craco": "<%= mosaicCracoVersion %>",
         "postcss": "<%= postcssVersion %>"
@@ -16,7 +17,9 @@
             "en_US": true
         },
         "parentTheme": "@scandipwa/scandipwa",
-        "extensions": {}
+        "extensions": {
+            "@scandipwa/ts-server-plugin": true
+        }
     },
     "scripts": {
         "start": "scandipwa-scripts start",
