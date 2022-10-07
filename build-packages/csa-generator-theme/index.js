@@ -159,7 +159,7 @@ const run = async (options) => {
         tsServerPluginVersion = await getLatestVersion('@scandipwa/ts-server-plugin');
     } catch (e) {
         logger.warn(
-            `Package ${ logger.style.misc('@scandipwa/scandipwa-scripts') } is not yet published.`
+            `Package ${ logger.style.misc('@scandipwa/ts-server-plugin') } is not yet published.`
         );
     }
 
