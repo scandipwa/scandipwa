@@ -9,7 +9,8 @@
         "@scandipwa/ts-server-plugin": "<%= tsServerPluginVersion %>",
         "@tilework/mosaic": "<%= mosaicVersion %>",
         "@tilework/mosaic-craco": "<%= mosaicCracoVersion %>",
-        "postcss": "<%= postcssVersion %>"
+        "postcss": "<%= postcssVersion %>",
+        "@types/react": "<%= reactTypesVersion %>"
     },
     "scandipwa": {
         "type": "theme",

@@ -1,4 +1,5 @@
 {
+  "extends": "./mosaic.jsconfig.json",
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -21,8 +22,8 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "./src/**/*",
-    "./node_modules/@scandipwa/scandipwa/src/**/*"
+    "./node_modules/@scandipwa/scandipwa/src/**/*",
+    "./src/**/*"
   ],
   "exclude": []
 }
