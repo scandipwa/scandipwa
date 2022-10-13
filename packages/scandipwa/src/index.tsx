@@ -29,4 +29,15 @@ if ('serviceWorker' in navigator) {
 const container = document.getElementById('root');
 const root = createRoot(container!);
 
-root.render(<App />);
+// Code bellow enables the hot reloading of plugins
+// Why? I have no idea. Further debugging needed.
+// TODO: understand why this helps HMR
+if (module.hot) {
+    module.hot.accept();
+}
+
+function HotApp() {
+    return <App />;
+}
+
+root.render(<HotApp />);
