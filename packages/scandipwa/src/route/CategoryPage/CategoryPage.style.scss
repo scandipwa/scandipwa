@@ -10,6 +10,7 @@
  */
 
 :root {
+    --layout-button-size: 24px;
     --category-page-miscellaneous-height: 0px;
 }
 
@@ -59,7 +60,6 @@
 
     &-ItemsCount {
         padding: 0;
-        margin-block-start: -2px;
 
         @include mobile {
             order: 1;
@@ -245,6 +245,7 @@
     &-LayoutButtons {
         display: flex;
         align-items: center;
+        gap: 10px;
 
         @include mobile {
             display: none;
@@ -252,7 +253,8 @@
 
         button {
             color: transparent;
-            margin-inline-end: 10px;
+            width: var(--layout-button-size);
+            height: var(--layout-button-size);
         }
     }
 }

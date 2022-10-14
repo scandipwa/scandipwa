@@ -19,6 +19,7 @@ import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
+import history from 'Util/History';
 import DataContainer from 'Util/Request/DataContainer';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -100,7 +101,7 @@ export class ProductComparePageContainer extends DataContainer<ProductComparePag
         setHeaderState({
             name: Page.PRODUCT_COMPARE,
             title: __('Compare'),
-            onBackClick: () => history.back(),
+            onBackClick: () => history.goBack(),
         });
     }
 

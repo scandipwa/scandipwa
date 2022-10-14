@@ -15,7 +15,6 @@
     --product-compare-sidebar-padding: 30px;
     --product-compare-item-count: 3.2;
     --product-compare-item-gap: 15px;
-    --prouduct-compare-additional-gap: 18px;
     --product-compare-column-width: calc(300px + var(--product-compare-item-gap) * 2);
 }
 
@@ -72,7 +71,9 @@
         }
 
         @include mobile {
-            padding: 0;
+            &:last-child {
+                padding-inline-end: var(--product-compare-item-gap);
+            }
         }
     }
 
@@ -91,7 +92,7 @@
         align-items: center;
         position: sticky;
         inset-inline-start: 0;
-        max-width: calc(var(--product-compare-sidebar-width) + var(--product-compare-item-gap));
+        max-width: var(--product-compare-sidebar-width);
 
         @include mobile {
             display: none;
@@ -132,6 +133,10 @@
 
         @include mobile {
             margin-block-start: 26px;
+
+            &:last-child {
+                padding-inline-end: var(--product-compare-item-gap);
+            }
         }
     }
 

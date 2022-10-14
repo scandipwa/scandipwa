@@ -384,10 +384,10 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
 
         return (
             <ErrorHandler setBigOfflineNotice={ setBigOfflineNotice }>
-                    <div block="Router" elem="MainItems">
-                        { this.renderMainItems() }
-                    </div>
-                    { this.renderSectionOfType(RouterItemType.AFTER_ITEMS_TYPE) }
+                <div block="Router" elem="MainItems">
+                    { this.renderMainItems() }
+                </div>
+                { this.renderSectionOfType(RouterItemType.AFTER_ITEMS_TYPE) }
             </ErrorHandler>
         );
     }

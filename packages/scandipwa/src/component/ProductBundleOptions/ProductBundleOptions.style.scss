@@ -51,7 +51,7 @@
                         flex: 1 1;
                     }
 
-                    &_numberWithControls {
+                    &_number_with_controls {
                         display: flex;
                     }
                 }
@@ -98,7 +98,7 @@
         &_customQuantity {
             .Field {
                 &_type {
-                    &_numberWithControls {
+                    &_number_with_controls {
                         margin-inline-start: 16px;
                         margin-block-start: 0;
                     }

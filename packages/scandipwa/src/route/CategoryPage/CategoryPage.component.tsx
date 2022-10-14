@@ -279,31 +279,31 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         switch (type) {
         case CategoryPageLayout.GRID:
             return (
-                    <button
-                      key={ type }
-                      onClick={ onGridButtonClick }
-                      mix={ {
-                          block: CategoryPageLayout.GRID,
-                          mods: { isActive: activeLayoutType === CategoryPageLayout.GRID },
-                      } }
-                      aria-label="grid"
-                    >
-                        <GridIcon isActive={ activeLayoutType === CategoryPageLayout.GRID } />
-                    </button>
+                <button
+                  key={ type }
+                  onClick={ onGridButtonClick }
+                  mix={ {
+                      block: CategoryPageLayout.GRID,
+                      mods: { isActive: activeLayoutType === CategoryPageLayout.GRID },
+                  } }
+                  aria-label="grid"
+                >
+                    <GridIcon isActive={ activeLayoutType === CategoryPageLayout.GRID } />
+                </button>
             );
         case CategoryPageLayout.LIST:
             return (
-                    <button
-                      key={ type }
-                      onClick={ onListButtonClick }
-                      mix={ {
-                          block: CategoryPageLayout.LIST,
-                          mods: { isActive: activeLayoutType === CategoryPageLayout.LIST },
-                      } }
-                      aria-label="list"
-                    >
-                        <ListIcon isActive={ activeLayoutType === CategoryPageLayout.LIST } />
-                    </button>
+                <button
+                  key={ type }
+                  onClick={ onListButtonClick }
+                  mix={ {
+                      block: CategoryPageLayout.LIST,
+                      mods: { isActive: activeLayoutType === CategoryPageLayout.LIST },
+                  } }
+                  aria-label="list"
+                >
+                    <ListIcon isActive={ activeLayoutType === CategoryPageLayout.LIST } />
+                </button>
             );
         default:
             return false;

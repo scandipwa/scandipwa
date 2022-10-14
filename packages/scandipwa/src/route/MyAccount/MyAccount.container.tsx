@@ -155,7 +155,7 @@ MyAccountContainerState
     static navigateToSelectedTab(
         props: MyAccountContainerProps,
         state: Partial<MyAccountContainerState> = {},
-    ): { activeTab: string } {
+    ): { activeTab: string } | null {
         const {
             match: {
                 params: {
@@ -185,8 +185,16 @@ MyAccountContainerState
             return { activeTab: newActiveTab };
         }
 
-        return { activeTab: '' };
+        return null;
     }
+
+    state = {
+        tabName: '',
+        activeTab: '',
+        stateSubHeading: '',
+        isEditingActive: false,
+        ...MyAccountContainer.navigateToSelectedTab(this.props),
+    };
 
     containerFunctions: MyAccountContainerFunctions = {
         changeActiveTab: this.changeActiveTab.bind(this),
@@ -202,20 +210,18 @@ MyAccountContainerState
         [ MyAccountTabs.MY_WISHLIST ]: this.getMyWishlistSubHeading.bind(this),
     };
 
-    __construct(props: MyAccountContainerProps): void {
-        super.__construct?.(props);
+    static getDerivedStateFromProps(
+        props: MyAccountContainerProps,
+        state: MyAccountContainerState,
+    ): { activeTab: string } | null {
+        return MyAccountContainer.navigateToSelectedTab(props, state);
+    }
 
+    componentDidMount(): void {
         const {
             updateMeta,
             toggleOverlayByKey,
         } = this.props;
-
-        this.state = {
-            ...MyAccountContainer.navigateToSelectedTab(this.props),
-            isEditingActive: false,
-            tabName: '',
-            stateSubHeading: '',
-        };
 
         if (!isSignedIn()) {
             toggleOverlayByKey(Page.CUSTOMER_ACCOUNT);
@@ -227,13 +233,6 @@ MyAccountContainerState
         this.onSignIn();
         this.updateBreadcrumbs();
         scrollToTop();
-    }
-
-    static getDerivedStateFromProps(
-        props: MyAccountContainerProps,
-        state: MyAccountContainerState,
-    ): { activeTab: string } {
-        return MyAccountContainer.navigateToSelectedTab(props, state);
     }
 
     componentDidUpdate(prevProps: MyAccountContainerProps, prevState: MyAccountContainerState): void {

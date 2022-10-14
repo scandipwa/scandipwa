@@ -147,7 +147,7 @@ P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttri
                 attribute_id,
             } = option;
             const isUnselected = addToCartTriggeredWithError ? !parameters[attribute_code] : false;
-            const [{ swatch_data }] = attribute_options
+            const [{ swatch_data }] = Object.values(attribute_options).length
                 ? Object.values(attribute_options)
                 : [{ swatch_data: undefined }];
             const isSwatch = !!swatch_data;

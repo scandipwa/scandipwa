@@ -27,7 +27,7 @@ import {
 export const getStreetFields = (props: MyAccountAddressFormProps): Partial<FieldContainerProps>[] => {
     const {
         addressLinesQty = 1,
-        address: { street = [] },
+        address: { street = [] } = {},
     } = props;
 
     if (addressLinesQty === 1) {

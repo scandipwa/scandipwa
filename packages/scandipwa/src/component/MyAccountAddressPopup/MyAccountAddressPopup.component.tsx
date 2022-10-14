@@ -52,7 +52,7 @@ export class MyAccountAddressPopupComponent extends PureComponent<MyAccountAddre
     }
 
     renderContent(): ReactElement {
-        const { payload: { action } } = this.props;
+        const { payload: { action } = {} } = this.props;
 
         switch (action) {
         case MyAccountAddressPopupAction.EDIT_ADDRESS:

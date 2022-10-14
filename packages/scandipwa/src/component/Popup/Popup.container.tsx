@@ -20,6 +20,7 @@ import { hideActiveOverlay, hideActivePopup } from 'Store/Overlay/Overlay.action
 import { PopupPayload } from 'Store/Popup/Popup.type';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
 
 import Popup from './Popup.component';
@@ -75,7 +76,7 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
             name: Page.POPUP,
             title: this._getPopupTitle(),
             onCloseClick: () => {
-                history.back();
+                history.goBack();
             },
         });
 
@@ -99,7 +100,6 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
             contentMix,
             onClose,
             onHide,
-            onVisible,
             shouldPopupClose,
             hideActiveOverlay,
             resetHideActivePopup,
@@ -120,7 +120,6 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
             shouldPopupClose,
             onClose,
             onHide,
-            onVisible,
             hideActiveOverlay,
             resetHideActivePopup,
             goToPreviousNavigationState,

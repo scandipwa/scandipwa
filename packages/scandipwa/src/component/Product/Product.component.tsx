@@ -86,7 +86,6 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
             product: {
                 options,
             },
-
             updateSelectedValues,
         } = this.props;
 
@@ -94,7 +93,6 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
             <ProductCustomizableOptions
               options={ options }
               updateSelectedValues={ updateSelectedValues }
-
             />
         );
     }

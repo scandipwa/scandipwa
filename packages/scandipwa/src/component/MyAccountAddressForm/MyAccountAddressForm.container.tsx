@@ -129,7 +129,7 @@ export class MyAccountAddressFormContainer <
     }
 
     getCurrentAddress(): InitialDataAddress {
-        const { address, address: { id: addressId } } = this.props;
+        const { address, address: { id: addressId } = {} } = this.props;
 
         if (!addressId) {
             return {
