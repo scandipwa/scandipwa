@@ -1,16 +1,17 @@
-import { extend, ResourceType } from "@scandipwa/scandipwa-development-toolkit-core";
+import { extend, ResourceType } from '@scandipwa/scandipwa-development-toolkit-core';
 
-import { getSourceModule, getTargetModule } from "../../options/module-selection";
-import { ActionType } from "../../types";
-import { openFile } from "../../util/file";
-import logger from "../../util/logger";
+import { getSourceModule, getTargetModule } from '../../options/module-selection';
+import { ActionType } from '../../types';
+import { getWorkspaceModules, getWorkspaceThemes } from '../../util/cwd/workspace';
+import { handlePossibleError } from '../../util/error-handling';
+import { openFile } from '../../util/file';
+import logger from '../../util/logger';
 import ui from '../../util/ui';
-import { getResourceName } from "../common/options";
-import { getWorkspaceThemes, getWorkspaceModules } from '../../util/cwd/workspace';
-import { handlePossibleError } from "../../util/error-handling";
+import { getResourceName } from '../common/options';
 
 export const extender = (resourceType: ResourceType) => handlePossibleError(async () => {
     const resourceName = await getResourceName(resourceType, ActionType.Extend);
+
     if (resourceName === null) {
         return;
     }
@@ -19,11 +20,13 @@ export const extender = (resourceType: ResourceType) => handlePossibleError(asyn
     const workspaceThemes = getWorkspaceThemes(workspaceModules);
 
     const targetModule = await getTargetModule(ActionType.Extend, workspaceThemes, ['theme']);
+
     if (targetModule === null) {
         return;
     }
 
     const sourceModule = await getSourceModule(ActionType.Extend, true, workspaceModules);
+
     if (sourceModule === null) {
         return;
     }

@@ -15,7 +15,7 @@ const uploadFile = require('./lib/upload-file');
 
 const deploy = async (argv) => {
     const {
-        branch: branchName = 'master'
+        branch: branchName = 'master',
     } = argv;
 
     const { type: context, pathname: contextPathname } = walkDirectoryUp(process.cwd(), THEME_TYPE);
@@ -36,7 +36,7 @@ const deploy = async (argv) => {
     const appData = {
         appId: process.env.APP_ID || packageJson.scandipwa.staticDeploy || '',
         branchName,
-        proxyServer: packageJson.proxy || ''
+        proxyServer: packageJson.proxy || '',
     };
     let archivePath;
 
@@ -67,7 +67,7 @@ const deploy = async (argv) => {
             appId,
             jobId,
             zipUploadUrl,
-            domain
+            domain,
         } = await registerResponse.json();
 
         // upload new build version to provided url
@@ -91,7 +91,7 @@ const deploy = async (argv) => {
             {
                 appId,
                 branchName,
-                jobId
+                jobId,
             }
         );
 

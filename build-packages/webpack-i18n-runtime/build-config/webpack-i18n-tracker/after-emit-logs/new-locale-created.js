@@ -11,6 +11,6 @@ module.exports = (localeCode, filePath) => ({
     args: [
         `New locale ${ logger.style.misc(localeCode) } was discovered.`,
         `Created translation file ${ logger.style.file(`.${ path.sep }${ filePath }`) }.`,
-        `Provide translations for ${ logger.style.misc(localeCode) } locale there.`
-    ]
+        `Provide translations for ${ logger.style.misc(localeCode) } locale there.`,
+    ],
 });

@@ -16,7 +16,7 @@ const copyPages = async (rootDir, projectRoot) => {
     const possiblePaths = [
         rootDir,
         ...themePaths,
-        ...extensionsPaths
+        ...extensionsPaths,
     ].map(
         // we only allow pages inside of the src folder!
         (pathname) => path.join(pathname, 'src/pages')
@@ -26,7 +26,7 @@ const copyPages = async (rootDir, projectRoot) => {
         (source) => new Promise((resolve, reject) => {
             glob('**/*', {
                 cwd: source,
-                absolute: true
+                absolute: true,
             }, (err, files) => {
                 if (err) {
                     reject(err);
@@ -39,6 +39,7 @@ const copyPages = async (rootDir, projectRoot) => {
 
     const pages = pagePaths.reduce(
         (acc, sourcePagePaths) => {
+            // eslint-disable-next-line consistent-return
             sourcePagePaths.forEach((sourcePagePath) => {
                 const match = sourcePagePath.match(/[/\\]pages[/\\](.*)\.\D{2,3}/);
 
@@ -56,6 +57,7 @@ const copyPages = async (rootDir, projectRoot) => {
                 // default - add the page to the "copied" list
                 if (!acc[pageRoute]) {
                     acc[pageRoute] = sourcePagePath;
+
                     return acc;
                 }
 
@@ -75,10 +77,10 @@ const copyPages = async (rootDir, projectRoot) => {
     );
 
     Object.entries(pages)
-        .map(([ key, sourcePath ]) => {
+        .map(([key, sourcePath]) => {
             // we need collect source file and target file for later usages
             const targetPath = path.join(projectRoot, 'pages', `${ key }.js`);
-            
+
             copiedPages[sourcePath] = targetPath;
 
             return { sourcePath, targetPath };
@@ -86,12 +88,12 @@ const copyPages = async (rootDir, projectRoot) => {
         .forEach(({ sourcePath, targetPath }) => {
             const sourceCode = fs.readFileSync(sourcePath, 'utf-8');
             const transformedSource = transformImports(
-                sourceCode, 
+                sourceCode,
                 (importable) => {
-                    const resolvePath = importable[0] === '.' 
-                        ? path.dirname(sourcePath) 
+                    const resolvePath = importable[0] === '.'
+                        ? path.dirname(sourcePath)
                         : rootDir;
-                        
+
                     const resolvedPath = require.resolve(importable, { paths: [resolvePath] });
 
                     return copiedPages[resolvedPath] || resolvedPath;

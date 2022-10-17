@@ -48,6 +48,7 @@ class WebpackI18nTracker {
             if (!paramString) {
                 // Handle params that cannot be extracted
                 this.localizationManager.handleNonExtractableParam(parser.state.module.resource);
+
                 return expr;
             }
 

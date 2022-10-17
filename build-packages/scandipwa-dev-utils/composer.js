@@ -26,8 +26,8 @@ const getComposerDeps = (modulePath, context = modulePath, isRoot = false) => {
     const {
         dependencies = {},
         scandipwa: {
-            composer = {}
-        } = {}
+            composer = {},
+        } = {},
     } = getPackageJson(modulePath, context);
 
     if (isRoot) {
@@ -61,6 +61,7 @@ const isValidComposer = (pathname = process.cwd()) => {
 
         if (rootDeps[module] && acc[module].indexOf(rootDeps[module]) === -1) {
             acc[module].push(rootDeps[module]);
+
             return acc;
         }
 
@@ -90,6 +91,7 @@ const isValidComposer = (pathname = process.cwd()) => {
 
     if (!composerDeps) {
         logger.error(`The required field ${ logger.style.misc('require') } is missing in ${ logger.style.file('composer.json') }.`);
+
         return false;
     }
 
@@ -106,6 +108,7 @@ const isValidComposer = (pathname = process.cwd()) => {
         // Validate if the version required is valid
         if (userDepVersion && !semver.validRange(userDepVersion)) {
             logger.error(`Required composer module ${ logger.style.misc(composerModule) } version ${ logger.style.misc(userDepVersion) } is invalid.`);
+
             return false;
         }
 
@@ -117,6 +120,7 @@ const isValidComposer = (pathname = process.cwd()) => {
                 rangeRequested.push(version);
             } else {
                 logger.error(`The requested version ${ logger.style.misc(version) } of ${ logger.style.misc(composerModule) } is invalid.`);
+
                 return false;
             }
         }
@@ -183,5 +187,5 @@ const isValidComposer = (pathname = process.cwd()) => {
 module.exports = {
     isValidComposer,
     getComposerDeps,
-    getPackageJson
+    getPackageJson,
 };

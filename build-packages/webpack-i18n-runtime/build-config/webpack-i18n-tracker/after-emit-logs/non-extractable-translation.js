@@ -14,7 +14,7 @@ module.exports = (nonExtractableList) => {
             'Non-extractable translations found in your application!',
             'Consider refactoring them so that they are translatable.',
             'See a list of files containing them below:',
-            ...nonExtractable
-        ]
+            ...nonExtractable,
+        ],
     };
 };

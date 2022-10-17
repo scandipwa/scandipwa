@@ -203,12 +203,13 @@ class LocalizationManager {
                     [
                         localeData.child,
                         ...localeData.parent,
-                        ...localeData.extensions
+                        ...localeData.extensions,
                     ],
                     this.handleOverridingEmptyTranslation.bind(this, localeCode)
                 );
 
                 acc[localeCode] = localeData;
+
                 return acc;
             },
             {}

@@ -10,13 +10,14 @@ const getPackagePath = require('@scandipwa/scandipwa-dev-utils/package-path');
 const eslintFix = (destination) => {
     const eslintPath = getPackagePath('eslint', destination);
     const binPath = path.join(eslintPath, 'bin', 'eslint.js');
+
     return execCommandAsync('node', [
         binPath,
         'src',
         '--resolve-plugins-relative-to', '.',
         '--no-error-on-unmatched-pattern',
         '--ext', '.js',
-        '--fix'
+        '--fix',
     ], destination);
 };
 
@@ -92,7 +93,7 @@ const fileSystemCreator = (templateOptions) => (
 const run = async (options) => {
     const {
         name,
-        path: pathname
+        path: pathname,
     } = options;
 
     const destination = path.join(process.cwd(), pathname);
@@ -131,7 +132,7 @@ const run = async (options) => {
         scandipwaScriptsVersion,
         mosaicVersion,
         name,
-        eslintConfigVersion
+        eslintConfigVersion,
     };
 
     // create filesystem from template

@@ -15,7 +15,7 @@ class Logger {
     logMessage = (message, emitsToLive = 1) => {
         this.logs.push({
             message,
-            emitsToLive
+            emitsToLive,
         });
     };
 
@@ -37,7 +37,7 @@ class Logger {
                 if (updatedEmitsToLive > 0) {
                     acc.push({
                         message,
-                        emitsToLive: updatedEmitsToLive
+                        emitsToLive: updatedEmitsToLive,
                     });
                 }
 

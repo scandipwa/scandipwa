@@ -1,40 +1,41 @@
-import { IUserInteraction, EnquiryOption } from '@scandipwa/scandipwa-development-toolkit-core';
+import { EnquiryOption, IUserInteraction } from '@scandipwa/scandipwa-development-toolkit-core';
 import * as vscode from 'vscode';
 
 type SelectItem<T> = {
     label: string;
     target: string | T;
-}
+};
 
 const transformSelectOptions = <T>(
-    selectOptions: (EnquiryOption<T>|string)[]
+    selectOptions: (EnquiryOption<T> | string)[],
 ): SelectItem<T>[] => selectOptions.map(
-    (val) => {
-        if (typeof val === 'string') {
-            return { label: val, target: val }
-        }
+        (val) => {
+            if (typeof val === 'string') {
+                return { label: val, target: val };
+            }
 
-        const { displayName, value } = val;
-        return { label: displayName, target: value };
-    }
-);
+            const { displayName, value } = val;
+
+            return { label: displayName, target: value };
+        },
+    );
 
 class UI implements IUserInteraction {
     private async select<T>(
         question: string,
-        selectOptions: (EnquiryOption<T>|string)[],
-        isMultiSelect: boolean
+        selectOptions: (EnquiryOption<T> | string)[],
+        isMultiSelect: boolean,
     ): Promise<T | T[] | null | string> {
         if (!selectOptions.length) {
             throw new Error('Select options must have been supplied!');
         }
 
         const selected = await vscode.window.showQuickPick(
-            transformSelectOptions(selectOptions), 
+            transformSelectOptions(selectOptions),
             {
                 placeHolder: question,
-                canPickMany: isMultiSelect
-            }
+                canPickMany: isMultiSelect,
+            },
         );
 
         if (!selected) {
@@ -50,23 +51,23 @@ class UI implements IUserInteraction {
         }
 
         return selected.map(
-            (option: { label: string, target: T}) => option.target
+            (option: { label: string; target: T }) => option.target,
         );
     }
 
     singleSelect<T>(
         question: string,
-        selectOptions: EnquiryOption<T>[] | string[]
+        selectOptions: EnquiryOption<T>[] | string[],
     ): Promise<T | null> {
         return this.select<T>(question, selectOptions, false) as Promise<T | null>;
-    };
+    }
 
     multiSelect<T>(
         question: string,
-        selectOptions: EnquiryOption<T>[] | string[]
+        selectOptions: EnquiryOption<T>[] | string[],
     ): Promise<T[] | null> {
         return this.select<T>(question, selectOptions, true) as Promise<T[] | null>;
-    };
+    }
 
     async yesNo(question: string): Promise<boolean> {
         const YES = 'Yes';
@@ -74,15 +75,15 @@ class UI implements IUserInteraction {
 
         const choice = await vscode.window.showQuickPick([YES, NO], {
             canPickMany: false,
-            placeHolder: question
-        })
+            placeHolder: question,
+        });
 
         return choice === YES;
-    };
+    }
 
     async input(question: string): Promise<string | null> {
         const result = await vscode.window.showInputBox({
-            prompt: question
+            prompt: question,
         });
 
         if (result === undefined) {

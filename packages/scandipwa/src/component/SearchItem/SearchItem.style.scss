@@ -26,6 +26,12 @@
         background-color: var(--search-item-hover-color);
     }
 
+    &-Content {
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+    }
+
     &-CustomAttribute {
         color: var(--color-black);
         font-size: 12px;

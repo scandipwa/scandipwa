@@ -1,10 +1,12 @@
+/* eslint-disable react/forbid-elements */
+/* eslint-disable react/forbid-dom-props */
 import { PureComponent } from 'react';
 
 import logo from './logo.svg';
 
 import './App.style.scss';
 
-/** @namespace Placeholder/Component/App/Component/AppComponent */
+/** @namespace Placeholder/Component/App/Component */
 export class AppComponent extends PureComponent {
     renderLogo() {
         return (

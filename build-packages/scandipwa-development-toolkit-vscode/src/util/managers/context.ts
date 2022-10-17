@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 
 class ContextManager {
     static instance: ContextManager;
+
     static createInstance(context: vscode.ExtensionContext) {
         if (!this.instance) {
             this.instance = new this(context);
@@ -17,7 +18,7 @@ class ContextManager {
     }
 
     private constructor(
-        protected context: vscode.ExtensionContext
+        protected context: vscode.ExtensionContext,
     ) {}
 
     public getContext = () => this.context;

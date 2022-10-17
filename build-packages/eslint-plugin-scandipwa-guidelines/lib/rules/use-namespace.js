@@ -11,46 +11,46 @@ const getLeadingCommentsForNode = require('@tilework/eslint-plugin-mosaic/lib/ut
 const types = {
     ExportedClass: [
         'ExportNamedDeclaration',
-        'ClassDeclaration'
+        'ClassDeclaration',
     ].join(' > '),
 
     ExportedArrowFunction: [
         'ExportNamedDeclaration',
         'VariableDeclaration',
         'VariableDeclarator',
-        'ArrowFunctionExpression'
+        'ArrowFunctionExpression',
     ].join(' > '),
 
     ExportedFunction: [
         'ExportNamedDeclaration',
-        'FunctionDeclaration'
+        'FunctionDeclaration',
     ].join(' > '),
 
-    isExportedClass: node => node.type === 'ClassDeclaration'
+    isExportedClass: (node) => node.type === 'ClassDeclaration'
         && node.parent.type === 'ExportNamedDeclaration',
 
-    isExportedArrowFunction: node => node.type === 'ArrowFunctionExpression'
+    isExportedArrowFunction: (node) => node.type === 'ArrowFunctionExpression'
         && node.parent.type === 'VariableDeclarator'
         && node.parent.parent.type === 'VariableDeclaration'
         && node.parent.parent.parent.type === 'ExportNamedDeclaration',
 
-    isExportedFunction: node => node.type === 'FunctionDeclaration'
+    isExportedFunction: (node) => node.type === 'FunctionDeclaration'
         && node.parent.type === 'ExportNamedDeclaration',
 
     PromiseHandlerArrowFunction: [
         [
-            "CallExpression",
+            'CallExpression',
             "[callee.type='MemberExpression']",
-            "[callee.object.name!=/.+Dispatcher/]",
-            ":matches(",
+            '[callee.object.name!=/.+Dispatcher/]',
+            ':matches(',
             [
                 "[callee.property.name='then']",
                 "[callee.property.name='catch']",
-                "[callee.property.name='finally']"
+                "[callee.property.name='finally']",
             ].join(', '),
-            ")"
+            ')',
         ].join(''),
-        'ArrowFunctionExpression'
+        'ArrowFunctionExpression',
     ].join(' > '),
 
     isPromiseHandlerArrowFunction: (node) => {
@@ -61,15 +61,15 @@ const types = {
             node.type === 'ArrowFunctionExpression'
             && parent.type === 'CallExpression'
             && parent.callee.type === 'MemberExpression'
-            && !(parent.callee.object.name || "").endsWith('Dispatcher')
+            && !(parent.callee.object.name || '').endsWith('Dispatcher')
             && promiseHandlerNames.includes(parent.callee.property.name)
         );
     },
 
-    isHandleableArrowFunction: node => types.isExportedArrowFunction(node)
+    isHandleableArrowFunction: (node) => types.isExportedArrowFunction(node)
         || types.isPromiseHandlerArrowFunction(node),
 
-    detectType: node => {
+    detectType: (node) => {
         if (types.isPromiseHandlerArrowFunction(node)) {
             return 'promise handler arrow function';
         }
@@ -85,7 +85,9 @@ const types = {
         if (types.isExportedFunction(node)) {
             return 'exported function';
         }
-    }
+
+        return 'unknown node';
+    },
 };
 
 const getProperParentNode = (node) => {
@@ -110,7 +112,7 @@ const getProperParentNode = (node) => {
 
 const getNamespaceCommentForNode = (node, sourceCode) => {
     const getNamespaceFromComments = (comments = []) => comments.find(
-        comment => comment.value.includes('@namespace')
+        (comment) => comment.value.includes('@namespace')
     );
 
     return getNamespaceFromComments(
@@ -121,42 +123,43 @@ const getNamespaceCommentForNode = (node, sourceCode) => {
 const collectFunctionNamespace = (node, stack) => {
     const { type } = node;
 
+    // eslint-disable-next-line default-case
     switch (type) {
-        case 'ArrowFunctionExpression':
-            const name = node.body?.callee?.name;
+    case 'ArrowFunctionExpression':
+        const name = node.body?.callee?.name;
 
-            if (node.parent?.arguments?.indexOf(node) === 1) {
-                stack.push('catch');
-            }
+        if (node.parent?.arguments?.indexOf(node) === 1) {
+            stack.push('catch');
+        }
 
-            if (name) {
-                stack.push(name);
-            }
+        if (name) {
+            stack.push(name);
+        }
 
-            break;
-        case 'CallExpression':
-            if (node.callee.type === 'MemberExpression') {
-                stack.push(
-                    node.callee?.property?.name,
-                    node.callee?.object?.name
+        break;
+    case 'CallExpression':
+        if (node.callee.type === 'MemberExpression') {
+            stack.push(
+                node.callee?.property?.name,
+                node.callee?.object?.name
                         || node.callee?.object?.callee?.name
                         || node.callee?.object?.callee?.property?.name
-                );
-            } else {
-                stack.push(node.callee.name);
-            }
+            );
+        } else {
+            stack.push(node.callee.name);
+        }
 
-            break;
-        case 'Identifier':
-            stack.push(node.name);
-            break;
-        case 'MethodDefinition':
-            stack.push(node.key.name);
-            break;
-        case 'VariableDeclarator':
-        case 'FunctionDeclaration':
-        case 'ClassDeclaration':
-            stack.push(node.id.name);
+        break;
+    case 'Identifier':
+        stack.push(node.name);
+        break;
+    case 'MethodDefinition':
+        stack.push(node.key.name);
+        break;
+    case 'VariableDeclarator':
+    case 'FunctionDeclaration':
+    case 'ClassDeclaration':
+        stack.push(node.id.name);
     }
 
     if (node.parent) {
@@ -182,7 +185,7 @@ const getNodeNamespace = (node) => {
 const prepareFilePath = (pathname) => {
     const {
         name: filename,
-        dir
+        dir,
     } = path.parse(pathname);
 
     const [name, postfix = ''] = filename.split('.');
@@ -190,15 +193,15 @@ const prepareFilePath = (pathname) => {
     /**
     * We do not want the \\ paths on Windows, rather / =>
     * split and then join with correct delimiter
-    **/
+    * */
     return path.join(
         dir,
         // If dir name === file name without postfix => do not repeat it
         new RegExp(`${path.sep}${name}$`).test(dir) ? '' : name,
         postfix
-        ).split(path.sep)
+    ).split(path.sep)
         // Filter out empty strings if they exist
-        .filter(x => !!x);
+        .filter((x) => !!x);
 };
 
 const preparePackageName = (packageName) => {
@@ -238,12 +241,13 @@ const generateNamespace = (node, context) => {
         // remove @ from organization, support @scandipwa legacy namespaces
         preparePackageName(packageName),
         // Trim post-fixes if they are not present
-        ...prepareFilePath(toFile)
+        ...prepareFilePath(toFile),
     ].filter(Boolean).join('/').replace(
         // Convert to pascal-case, and trim "-"
         /\b[a-z](?=[a-z]{2})/g,
         (letter) => letter.toUpperCase()
-        ).split('-').join('');
+    ).split('-')
+        .join('');
 
     // Do not transform code to uppercase / lowercase it should be written alright
     return [pathname, getNodeNamespace(node)].filter(Boolean).join('/');
@@ -252,8 +256,8 @@ const generateNamespace = (node, context) => {
 const extractNamespaceFromComment = ({ value: comment = '' }) => {
     const {
         groups: {
-            namespace
-        } = {}
+            namespace,
+        } = {},
     } = comment.match(/@namespace +(?<namespace>[^ ]+)/) || {};
 
     return namespace;
@@ -264,17 +268,17 @@ module.exports = {
         docs: {
             description: 'Use @namespace comment-decorators',
             category: 'Extensibility',
-            recommended: true
+            recommended: true,
         },
-        fixable: 'code'
+        fixable: 'code',
     },
 
-    create: context => ({
+    create: (context) => ({
         [[
             types.ExportedClass,
             types.PromiseHandlerArrowFunction,
             types.ExportedArrowFunction,
-            types.ExportedFunction
+            types.ExportedFunction,
         ].join(',')](node) {
             const namespaceComment = getNamespaceCommentForNode(node, context.getSourceCode()) || { value: '' };
             const namespaceCommentString = namespaceComment.value.split('@namespace').pop().trim();
@@ -286,18 +290,18 @@ module.exports = {
                 context.report({
                     node,
                     message: `Provide namespace for ${types.detectType(node)} by using @namespace magic comment`,
-                    fix: fixer => fixNamespaceLack(
+                    fix: (fixer) => fixNamespaceLack(
                         fixer,
                         getProperParentNode(node),
                         context,
                         generatedNamespace
-                        ) || []
+                    ) || [],
                 });
             } else if (generatedNamespace !== namespaceCommentString) {
                 context.report({
                     node,
                     message: `Namespace for this node is not valid! Consider changing it to ${generatedNamespace}`,
-                    fix: fixer => {
+                    fix: (fixer) => {
                         const newNamespaceCommentContent = namespaceComment.value.replace(namespace, generatedNamespace);
                         const newNamespaceComment = namespaceComment.type === 'Block'
                             ? `/*${newNamespaceCommentContent}*/`
@@ -307,9 +311,9 @@ module.exports = {
                             namespaceComment,
                             newNamespaceComment
                         );
-                    }
+                    },
                 });
             }
-        }
-    })
+        },
+    }),
 };

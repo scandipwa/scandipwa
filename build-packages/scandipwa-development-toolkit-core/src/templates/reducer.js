@@ -11,7 +11,7 @@ export const PlaceholderReducer = (state = getInitialState(), action) => {
         // const { payload } = action;
 
         return {
-            ...state
+            ...state,
             // TODO implement payload handling
         };
 

@@ -12,9 +12,9 @@ const uploadFile = async (filename, uploadUrl) => {
     const { status, statusText } = await fetch(uploadUrl, {
         method: 'PUT',
         headers: {
-            'Content-length': fileSizeInBytes
+            'Content-length': fileSizeInBytes,
         },
-        body: bufferContent
+        body: bufferContent,
     });
 
     logger.log(`Code upload result: ${logger.style.misc(statusText)}. Code: ${logger.style.misc(status)}`);

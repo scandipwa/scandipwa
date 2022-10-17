@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { ResourceType } from "../types";
+import { ResourceType } from '../types';
 import extendableDirectoryMap from './extendable-dir-map';
 
 /**
@@ -13,7 +13,7 @@ import extendableDirectoryMap from './extendable-dir-map';
 export const getFileListForResource = (
     extendableType: ResourceType,
     extendableName: string,
-    resourceDirectory: string
+    resourceDirectory: string,
 ): Array<string> => {
     if ([ResourceType.Query].includes(extendableType)) {
         return [`${extendableName}.query.js`];
@@ -21,19 +21,19 @@ export const getFileListForResource = (
 
     if ([ResourceType.Component, ResourceType.Route, ResourceType.Store].includes(extendableType)) {
         return fs.readdirSync(resourceDirectory).filter(
-            fileName => fileName.match(/\.js$/) && fileName !== 'index.js'
+            (fileName) => fileName.match(/\.js$/) && fileName !== 'index.js',
         );
     }
 
     throw Error('Unexpected extendable type!');
-}
+};
 
 /**
  * Builds a path to the directory of extendable files
  */
 export const getRelativeResourceDirectory = (
     resourceName: string,
-    resourceType: ResourceType
+    resourceType: ResourceType,
 ) => {
     const resourceTypeDirectory = extendableDirectoryMap[resourceType];
 
@@ -44,4 +44,4 @@ export const getRelativeResourceDirectory = (
 
     // Other resources do have
     return path.join(resourceTypeDirectory, resourceName);
-}
+};

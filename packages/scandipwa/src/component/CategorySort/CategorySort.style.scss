@@ -42,6 +42,10 @@
         text-align: end;
         opacity: 0;
         animation: appear 100ms 300ms forwards;
+        min-height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
 
         @include mobile {
             text-align: start;
@@ -64,7 +68,7 @@
                 align-items: center;
                 align-content: center;
             }
-            
+
             .FieldSelect {
                 &-SortSelect {
                     font-size: 16px;
@@ -73,7 +77,7 @@
                     @include desktop {
                         display: none;
                     }
-                } 
+                }
             }
 
             .ChevronIcon {
@@ -82,7 +86,7 @@
                     inset-inline-end: 0;
 
                     @supports (-webkit-touch-callout: none) {
-                        /* CSS specific to iOS devices */ 
+                        /* CSS specific to iOS devices */
                         inset-block-start: 3px;
                     }
                 }
@@ -113,7 +117,7 @@
         }
     }
 
-    .Field { 
+    .Field {
         &-LabelContainer {
             .ChevronIcon {
                 margin-block-start: 3px;

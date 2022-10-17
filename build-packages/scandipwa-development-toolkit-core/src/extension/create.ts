@@ -1,29 +1,29 @@
+import * as path from 'path';
+
+import { ILogger } from '../types';
+import addDependency from './lib/add-dependency';
+import enableExtension from './lib/enable-extension';
+import injectScripts from './lib/inject-scripts';
+
 const isValidPackageName = require('@scandipwa/scandipwa-dev-utils/validate-package-name');
 const generateExtension = require('@scandipwa/csa-generator-extension');
 const installDeps = require('@scandipwa/scandipwa-dev-utils/install-deps');
-const { 
-    walkDirectoryUp, 
-    contextTypes: { 
-        THEME_TYPE
-    } 
+const {
+    walkDirectoryUp,
+    contextTypes: {
+        THEME_TYPE,
+    },
 } = require('@tilework/mosaic-dev-utils/get-context');
-
-import injectScripts from './lib/inject-scripts';
-import addDependency from './lib/add-dependency';
-import enableExtension from './lib/enable-extension';
-
-import * as path from 'path';
-import { ILogger } from "../types";
 
 const createExtension = async (
     packageName: string,
     enable = true,
     targetModule = process.cwd(),
-    logger: ILogger
+    logger: ILogger,
 ): Promise<string | null> => {
-    const { 
-        type: context, 
-        pathname: contextPathname 
+    const {
+        type: context,
+        pathname: contextPathname,
     } = walkDirectoryUp(targetModule, THEME_TYPE);
 
     if (!context) {
@@ -31,7 +31,7 @@ const createExtension = async (
         logger.error(
             'To create an extension you must be located in ScandiPWA theme directory.',
             `We looked up six folders up starting from ${ logger.style.file(process.cwd()) }!`,
-            `There was no folders containing ${ logger.style.file('package.json') }, where ${ logger.style.misc('scandipwa.type') } field was equal to ${ logger.style.misc('theme') }.`
+            `There was no folders containing ${ logger.style.file('package.json') }, where ${ logger.style.misc('scandipwa.type') } field was equal to ${ logger.style.misc('theme') }.`,
         );
 
         return null;
@@ -48,14 +48,18 @@ const createExtension = async (
     try {
         await generateExtension({
             name: packageName,
-            path: packagePath
+            path: packagePath,
         });
     } catch (e) {
-        logger.log(e);
+        if (e instanceof Error) {
+            logger.log(e.message);
+        } else {
+            logger.log(String(e));
+        }
 
         logger.error(
             `Failed to create ScandiPWA extension in ${ logger.style.file(packagePath) }.`,
-            'See the error log above.'
+            'See the error log above.',
         );
 
         return null;
@@ -67,11 +71,15 @@ const createExtension = async (
         await addDependency(contextPathname, packageName, `file:${ relativePackagePath }`);
         await installDeps(contextPathname);
     } catch (e) {
-        logger.log(e);
+        if (e instanceof Error) {
+            logger.log(e.message);
+        } else {
+            logger.log(String(e));
+        }
 
         logger.error(
             `Failed to install ScandiPWA extension in ${ logger.style.file(contextPathname) }.`,
-            'See the error log above.'
+            'See the error log above.',
         );
 
         return null;
@@ -83,9 +91,9 @@ const createExtension = async (
 
     logger.note(
         `Package ${logger.style.misc(packageName)} has been created successfully!`,
-        `See it at ${logger.style.file(relativePackagePath)}`
+        `See it at ${logger.style.file(relativePackagePath)}`,
     );
-    
+
     return relativePackagePath;
 };
 

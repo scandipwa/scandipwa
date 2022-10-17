@@ -9,7 +9,7 @@ export class AppComponent extends PureComponent {
     static propTypes = {
         errorDetails: ErrorDetailsType.isRequired,
         isSomethingWentWrong: PropTypes.bool.isRequired,
-        handleErrorReset: PropTypes.func.isRequired
+        handleErrorReset: PropTypes.func.isRequired,
     };
 
     rootComponents = [];
@@ -34,7 +34,7 @@ export class AppComponent extends PureComponent {
     renderSomethingWentWrong() {
         const {
             handleErrorReset,
-            errorDetails
+            errorDetails,
         } = this.props;
 
         return (

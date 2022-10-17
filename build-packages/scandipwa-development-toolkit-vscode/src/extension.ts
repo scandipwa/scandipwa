@@ -1,56 +1,55 @@
-import * as vscode from 'vscode';
 import {
-	ResourceType
+    ResourceType,
 } from '@scandipwa/scandipwa-development-toolkit-core';
+import * as vscode from 'vscode';
 
-import ContextManager from './util/managers/context';
 import { creator } from './commands/create';
 import { extender } from './commands/extend';
-
 import extensionCreator from './commands/extension/create';
 import { goToChildTheme } from './commands/go-to-child-theme';
 import { onWillSave } from './commands/warn-in-source';
+import ContextManager from './util/managers/context';
 
 const commandMap = {
-	'extension.createComponent': creator(ResourceType.Component),
-	'extension.createRoute': creator(ResourceType.Route),
-	'extension.createQuery': creator(ResourceType.Query),
-	'extension.createStore': creator(ResourceType.Store),
+    'extension.createComponent': creator(ResourceType.Component),
+    'extension.createRoute': creator(ResourceType.Route),
+    'extension.createQuery': creator(ResourceType.Query),
+    'extension.createStore': creator(ResourceType.Store),
 
-	'extension.extendComponent': extender(ResourceType.Component),
-	'extension.extendRoute': extender(ResourceType.Route),
-	'extension.extendQuery': extender(ResourceType.Query),
-	'extension.extendStore': extender(ResourceType.Store),
+    'extension.extendComponent': extender(ResourceType.Component),
+    'extension.extendRoute': extender(ResourceType.Route),
+    'extension.extendQuery': extender(ResourceType.Query),
+    'extension.extendStore': extender(ResourceType.Store),
 
-	'extension.extensionCreate': extensionCreator,
+    'extension.extensionCreate': extensionCreator,
 
-	'extension.goToChildTheme': goToChildTheme,
+    'extension.goToChildTheme': goToChildTheme,
 };
 
 export function activate(context: vscode.ExtensionContext) {
-	Object.entries(commandMap).forEach(([ name, handler ]) => {
-		context.subscriptions.push(
-			vscode.commands.registerCommand(
-				name,
-				() => {
-					ContextManager.createInstance(context);
+    Object.entries(commandMap).forEach(([name, handler]) => {
+        context.subscriptions.push(
+            vscode.commands.registerCommand(
+                name,
+                () => {
+                    ContextManager.createInstance(context);
 
-					handler();
-				}
-			)
-		);
-	});
+                    handler();
+                },
+            ),
+        );
+    });
 
-	vscode.commands.executeCommand('setContext', 'extension.scandipwaSupportedLangs', [
-		'javascript',
-		'javascriptreact',
-		'typescript',
-		'typescriptreact',
-		'scss',
-		'css'
-	]);
+    vscode.commands.executeCommand('setContext', 'extension.scandipwaSupportedLangs', [
+        'javascript',
+        'javascriptreact',
+        'typescript',
+        'typescriptreact',
+        'scss',
+        'css',
+    ]);
 
-	vscode.workspace.onWillSaveTextDocument(onWillSave);
+    vscode.workspace.onWillSaveTextDocument(onWillSave);
 }
 
 export function deactivate() {}

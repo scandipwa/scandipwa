@@ -7,14 +7,14 @@ const getWorkboxBabelPlugin = (cracoConfig) => ({
         // Copy MODULE options of parent to child
         childCompiler.options = {
             ...childCompiler.options,
-            module: cloneDeep(childCompiler.parentCompilation.options.module)
+            module: cloneDeep(childCompiler.parentCompilation.options.module),
         };
 
         // TODO: do that on initialize hook of compiler ???
 
         const {
             hasFoundAny: hasAnyChildBabelLoaders,
-            matches: childBabelLoaders
+            matches: childBabelLoaders,
         } = getLoaders(childCompiler.options, loaderByName('babel-loader'));
 
         if (!hasAnyChildBabelLoaders) {
@@ -22,6 +22,7 @@ const getWorkboxBabelPlugin = (cracoConfig) => ({
         }
 
         const { babel: { plugins: babelPlugins } } = cracoConfig;
+
         if (!babelPlugins) {
             return;
         }
@@ -40,7 +41,7 @@ const getWorkboxBabelPlugin = (cracoConfig) => ({
                 }
             });
         });
-    }
+    },
 });
 
 module.exports = getWorkboxBabelPlugin;

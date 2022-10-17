@@ -2,14 +2,14 @@
 const addTemplatesMiddleware = (webpackConfig, templatePath) => {
     webpackConfig.module.rules.push({
         test: templatePath,
-        loader: require.resolve('../webpack-template-plugin-loader')
+        loader: require.resolve('../webpack-template-plugin-loader'),
     });
 };
 
 const addDefaultHtmlLoader = (webpackConfig) => {
     webpackConfig.module.rules.push({
         test: /\.(p?html|php)$/,
-        loader: require.resolve('../default-html-loader')
+        loader: require.resolve('../default-html-loader'),
     });
 };
 
@@ -27,6 +27,6 @@ module.exports = {
             addTemplatesMiddleware(webpackConfig, templatePath);
 
             return webpackConfig;
-        }
-    }
+        },
+    },
 };

@@ -5,6 +5,7 @@ import localeMap from './localeMap';
 export default async function loadTranslation(locale) {
     // Get the translation fetcher from the locale map
     const loadTranslationFiles = localeMap[locale];
+
     if (!loadTranslationFiles) {
         throw new Error(`Unknown locale! Please make sure that i18n/${locale}.json exists`);
     }

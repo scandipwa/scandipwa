@@ -1,10 +1,6 @@
-const pluginForMethod = () => {
-    return 'ABC';
-};
+const pluginForMethod = () => 'ABC';
 
-const a = () => {
-    return '111';
-};
+const a = () => '111';
 
 export default {
     'Hello/World': {
@@ -13,17 +9,17 @@ export default {
             method3: () => 123,
             a,
             b: () => 11,
-        }
+        },
     },
     'Wrong/Namespace': {
-        'function': () => {}
+        function: () => {},
     },
-    'Test': {
-        'function': pluginForMethod,
+    Test: {
+        function: pluginForMethod,
     },
     'Me/1': {
         'member-function': {
-            'method': () => {}
-        }
-    }
-}
+            method: () => {},
+        },
+    },
+};
