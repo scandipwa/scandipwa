@@ -139,6 +139,7 @@ const run = async (options) => {
     let tsServerPluginVersion = '0.0.0';
     const postcssVersion = '8.4.5';
     const reactTypesVersion = '18.0.17';
+    const reactReduxVersion = '8.0.2';
 
     try {
         scandipwaVersion = await getLatestVersion('@scandipwa/scandipwa');
@@ -197,6 +198,7 @@ const run = async (options) => {
         mosaicCracoVersion,
         postcssVersion,
         reactTypesVersion,
+        reactReduxVersion,
         proxy: DEFAULT_PROXY,
         eslintConfigVersion,
     };
