@@ -8,7 +8,7 @@ const invokeGenerator = require('../../../common/invoke-generator');
 const dispatcherTypeMap = {
     no: DispatcherType.NoDispatcher,
     query: DispatcherType.QueryDispatcher,
-    regular: DispatcherType.RegularDispatcher
+    regular: DispatcherType.RegularDispatcher,
 };
 
 const creator = (resourceType) => async ({
@@ -16,7 +16,7 @@ const creator = (resourceType) => async ({
     container = false,
     redux = false,
     dispatcherType,
-    targetModule
+    targetModule,
 }) => {
     const isCreatedSuccessfully = await invokeGenerator(
         targetModule,
@@ -26,9 +26,9 @@ const creator = (resourceType) => async ({
             {
                 containerFeatures: {
                     logic: container,
-                    state: redux
+                    state: redux,
                 },
-                dispatcherType: dispatcherTypeMap[dispatcherType]
+                dispatcherType: dispatcherTypeMap[dispatcherType],
             },
             resolvedTargetModule,
             logger

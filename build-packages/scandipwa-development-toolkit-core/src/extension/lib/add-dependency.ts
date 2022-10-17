@@ -5,17 +5,17 @@ const writeJson = require('@scandipwa/scandipwa-dev-utils/write-json');
 
 /**
  * Adds a dependency to the module
- * 
+ *
  * @param contextPathname module to add dep to
  * @param packageName package to add to the deps
  * @param version version (can be path)
  * @param isDev devDependency ?
  */
 const addDependency = async (
-    contextPathname: string, 
-    packageName: string, 
-    version?: string, 
-    isDev?: boolean
+    contextPathname: string,
+    packageName: string,
+    version?: string,
+    isDev?: boolean,
 ) => {
     const packagePath = path.join(contextPathname, 'package.json');
     const packageJson = require(packagePath);
@@ -32,7 +32,7 @@ const addDependency = async (
 
     writeJson(
         packagePath,
-        packageJson
+        packageJson,
     );
 };
 

@@ -11,7 +11,7 @@ const swSrc = FallbackPlugin.getFallbackPathname('src/service-worker.js');
 module.exports = {
     plugin: {
         overrideCracoConfig: ({
-            cracoConfig
+            cracoConfig,
         }) => {
             if (!cracoConfig.paths) {
                 cracoConfig.paths = {};
@@ -19,11 +19,12 @@ module.exports = {
 
             // Modify the default path to ServiceWorker (in case CRA changes something)
             cracoConfig.paths.swSrc = swSrc;
+
             return cracoConfig;
         },
         overrideWebpackConfig: ({
             webpackConfig,
-            cracoConfig
+            cracoConfig,
         }) => {
             // remove original Workbox Inject Manifest plugin
             webpackConfig.plugins.slice().reverse().forEach((plugin, index, newPlugins) => {
@@ -46,25 +47,25 @@ module.exports = {
                 swSrc,
                 exclude: isDev ? [
                     // ignore all assets in development mode
-                    (_) => true
+                    (_) => true,
                 ] : [
                     /\.map$/,
                     /asset-manifest\.json$/,
                     /LICENSE/,
                     // append service-worker, it should not cache itself
-                    /service-worker\.js/
+                    /service-worker\.js/,
                 ],
                 webpackCompilationPlugins: [
-                    getWorkboxBabelPlugin(cracoConfig)
+                    getWorkboxBabelPlugin(cracoConfig),
                 ],
                 dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
                 // Bump up the default maximum size (2mb) that's precached,
                 // to make lazy-loading failure scenarios less likely.
                 // See https://github.com/cra-template/pwa/issues/13#issuecomment-722667270
-                maximumFileSizeToCacheInBytes: 5 * 1024 * 1024
+                maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
             }));
 
             return webpackConfig;
-        }
-    }
+        },
+    },
 };

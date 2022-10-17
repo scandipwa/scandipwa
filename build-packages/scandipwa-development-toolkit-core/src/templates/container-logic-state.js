@@ -23,7 +23,7 @@ export class PlaceholderContainer extends PureComponent {
 
     containerProps() {
         // isDisabled: this._getIsDisabled()
-    };
+    }
 
     render() {
         return (

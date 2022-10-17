@@ -1,13 +1,13 @@
-import { getPackageJson } from "@scandipwa/scandipwa-dev-utils/package-json";
-import { ModuleInformation, SourceType } from "../types";
-
+import { getPackageJson } from '@scandipwa/scandipwa-dev-utils/package-json';
 import { getMosaicConfig } from '@tilework/mosaic-dev-utils/mosaic-config';
+
+import { ModuleInformation, SourceType } from '../types';
 
 export const getModuleInformation = (sourceModule: string): ModuleInformation => {
     const buildModuleInformationObject = (
         name: string,
         type: SourceType,
-        alias: string
+        alias: string,
     ): ModuleInformation => ({ name, type, alias });
 
     const packageJson = getPackageJson(sourceModule);
@@ -15,7 +15,7 @@ export const getModuleInformation = (sourceModule: string): ModuleInformation =>
     const { name } = packageJson;
     const {
         type,
-        themeAlias
+        themeAlias,
     } = getMosaicConfig(packageJson);
 
     // TODO catch this
@@ -31,15 +31,15 @@ export const getModuleInformation = (sourceModule: string): ModuleInformation =>
 
     if (type === SourceType.Extension) {
         return buildModuleInformationObject(
-            name, 
-            type as SourceType, 
-            'Base'
+            name,
+            type as SourceType,
+            'Base',
         );
     }
 
     return buildModuleInformationObject(
-        name, 
-        type as SourceType, 
-        themeAlias!
+        name,
+        type as SourceType,
+        themeAlias!,
     );
-}
+};

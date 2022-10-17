@@ -14,18 +14,19 @@ const getDefinedPages = async (rootDir) => {
         // https://nextjs.org/docs/basic-features/pages#static-generation-without-data
         'static-no-data',
         // https://nextjs.org/docs/basic-features/pages#static-generation-with-data
-        'static-with-data'
+        'static-with-data',
     ];
 
     const pages = [
         rootDir,
         ...themePaths,
-        ...extensionsPaths
+        ...extensionsPaths,
     ].reduce(
         // we only allow pages inside of the src folder!
         (acc, pathname) => {
             const { nextPages = {} } = getMosaicConfig(pathname);
 
+            // eslint-disable-next-line fp/no-loops, fp/no-let
             for (let i = 0; i < Object.entries(nextPages).length; i++) {
                 const [page, type] = Object.entries(nextPages)[i];
 

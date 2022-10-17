@@ -21,7 +21,7 @@ const getWarningPlugin = () => ({
             'Remove Workbox Warning',
             handleAfterEmit
         );
-    }
+    },
 });
 
 module.exports = getWarningPlugin;

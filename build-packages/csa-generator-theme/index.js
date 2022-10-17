@@ -64,6 +64,18 @@ const fileSystemCreator = (templateOptions) => (
         );
 
         filesystem.copyTpl(
+            templatePath('tsconfig.json'),
+            destinationPath('tsconfig.json'),
+            templateOptions
+        );
+
+        filesystem.copyTpl(
+            templatePath('.eslintrc.js'),
+            destinationPath('.eslintrc.js'),
+            templateOptions
+        );
+
+        filesystem.copyTpl(
             templatePath('yarn.lock.cached'),
             destinationPath('yarn.lock'),
             templateOptions
@@ -114,7 +126,7 @@ const fileSystemCreator = (templateOptions) => (
 const run = async (options) => {
     const {
         name,
-        path: pathname
+        path: pathname,
     } = options;
 
     const destination = path.join(process.cwd(), pathname);
@@ -124,7 +136,10 @@ const run = async (options) => {
     let mosaicVersion = '0.0.0';
     let eslintConfigVersion = '0.0.0';
     let mosaicCracoVersion = '0.0.0';
+    let tsServerPluginVersion = '0.0.0';
     const postcssVersion = '8.4.5';
+    const reactTypesVersion = '18.0.17';
+    const reactReduxVersion = '8.0.2';
 
     try {
         scandipwaVersion = await getLatestVersion('@scandipwa/scandipwa');
@@ -139,6 +154,14 @@ const run = async (options) => {
     } catch (e) {
         logger.warn(
             `Package ${ logger.style.misc('@scandipwa/scandipwa-scripts') } is not yet published.`
+        );
+    }
+
+    try {
+        tsServerPluginVersion = await getLatestVersion('@scandipwa/ts-server-plugin');
+    } catch (e) {
+        logger.warn(
+            `Package ${ logger.style.misc('@scandipwa/ts-server-plugin') } is not yet published.`
         );
     }
 
@@ -169,12 +192,15 @@ const run = async (options) => {
     const templateOptions = {
         scandipwaVersion,
         scandipwaScriptsVersion,
+        tsServerPluginVersion,
         name,
         mosaicVersion,
         mosaicCracoVersion,
         postcssVersion,
+        reactTypesVersion,
+        reactReduxVersion,
         proxy: DEFAULT_PROXY,
-        eslintConfigVersion
+        eslintConfigVersion,
     };
 
     // create filesystem from template

@@ -26,6 +26,8 @@
         flex-direction: column;
 
         .FieldGroup-Wrapper {
+            margin-block-end: 14px;
+
             &:not(:last-child) {
                 margin-block-end: 25px;
             }
@@ -34,6 +36,10 @@
                 &_hasError, &_isValid {
                     padding-inline-start: 0;
                     border: none;
+                }
+
+                &-ErrorMessages {
+                    margin-block-start: 6px;
                 }
             }
         }

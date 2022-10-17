@@ -26,6 +26,6 @@ module.exports = function defaultHtmlLoader(source) {
         'module.exports = function (templateParams) { with(templateParams) {',
         // Execute the lodash template
         `return (${ template.source })();`,
-        '}}'
+        '}}',
     ].join('');
 };

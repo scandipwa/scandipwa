@@ -51,7 +51,7 @@
 
         flex: 0 0 auto;
         padding-block: 0;
-        padding-inline: var(--product-compare-item-gap) calc(var(--product-compare-item-gap) + var(--prouduct-compare-additional-gap));
+        padding-inline: var(--product-compare-item-gap) var(--product-compare-item-gap);
         width: var(--product-compare-column-width);
         text-align: justify;
 
@@ -65,6 +65,12 @@
 
         &:last-child {
             padding-inline-end: 0;
+        }
+
+        @include mobile {
+            &:last-child {
+                padding-inline-end: var(--product-compare-item-gap);
+            }
         }
     }
 

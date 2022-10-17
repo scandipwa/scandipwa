@@ -6,7 +6,7 @@ const actions = [
     require('./actions/extension'),
     require('./actions/create'),
     require('./actions/override'),
-    require('./actions/deploy')
+    require('./actions/deploy'),
 ];
 
 (async () => {

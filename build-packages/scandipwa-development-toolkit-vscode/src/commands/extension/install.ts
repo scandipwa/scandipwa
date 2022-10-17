@@ -1,8 +1,8 @@
 import { installExtension } from '@scandipwa/scandipwa-development-toolkit-core';
 
 import { ActionType } from '../../types';
-import { getResourceName } from '../common/options';
 import logger from '../../util/logger';
+import { getResourceName } from '../common/options';
 
 const extensionCreator = async () => {
     const resourceName = await getResourceName('extension', ActionType.Install);
@@ -21,7 +21,7 @@ const extensionCreator = async () => {
         false,
         true,
         process.cwd(),
-        logger
+        logger,
     );
 };
 

@@ -13,7 +13,7 @@ const isValidName = (packageName) => {
     }
 
     const {
-        validForNewPackages: isValid = true
+        validForNewPackages: isValid = true,
     } = validatePackageName(packageName);
 
     if (isValid) {

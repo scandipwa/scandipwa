@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 
 export const onWillSave = (e: vscode.TextDocumentWillSaveEvent) => {
-    const isDirty = e.document.isDirty;
+    const { isDirty } = e.document;
 
     if (!(/node_modules/.test(e.document.fileName))) {
         return;
@@ -14,4 +14,4 @@ export const onWillSave = (e: vscode.TextDocumentWillSaveEvent) => {
     vscode.window.showWarningMessage(
         'You are modifying a file from a node_modules folder. This is not recommended.',
     );
-}
+};

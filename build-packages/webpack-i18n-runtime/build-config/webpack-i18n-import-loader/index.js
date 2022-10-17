@@ -14,10 +14,11 @@ function getFilePathsForLocale(locale) {
     return [
         childRoot,
         ...parentRoots,
-        ...extensionsRoots
+        ...extensionsRoots,
     ].reduce(
         (acc, root) => {
             const potentialPath = path.join(root, 'i18n', `${locale}.json`);
+
             if (fs.existsSync(potentialPath)) {
                 return acc.concat(potentialPath);
             }
@@ -30,6 +31,7 @@ function getFilePathsForLocale(locale) {
 
 function generateImportDeclaration(pathname, chunkName) {
     const posixPathname = pathname.split(path.sep).join(path.posix.sep);
+
     return `import(/* webpackMode: "lazy", webpackChunkName: "${chunkName}" */ '${posixPathname}')`;
 }
 
@@ -70,19 +72,20 @@ function generateLocaleMapContents(localePathMap, defaultLocale) {
 
 module.exports = function injectImports(source) {
     const {
-        defaultLocale = 'en_US'
+        defaultLocale = 'en_US',
     } = loaderUtils.getOptions(this) || {};
 
     // Get the active locales from the current theme's package.json
     const locales = Array.from(new Set([
         ...getEnabledLocales(),
-        defaultLocale // this should be here, so map is not empty!
+        defaultLocale, // this should be here, so map is not empty!
     ]));
 
     // Build a map: langCode => paths[]
     const localePathMap = locales.reduce(
         (acc, cur) => {
             acc[cur] = getFilePathsForLocale(cur);
+
             return acc;
         },
         {}

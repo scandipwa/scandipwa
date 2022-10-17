@@ -24,7 +24,7 @@
         "@tilework/mosaic-cra-scripts": "0.1.21"
     },
     "peerDependencies": {
-        "@tilework/mosaic": "0.1.4"
+        "@tilework/mosaic": "^0.1.4"
     },
     "license": "OSL-3.0",
     "publishConfig": {

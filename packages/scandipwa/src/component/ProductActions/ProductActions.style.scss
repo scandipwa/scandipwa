@@ -214,7 +214,7 @@
         .Field {
             &-Wrapper {
                 &_type {
-                    &_numberWithControls {
+                    &_number_with_controls {
                         @include mobile {
                             display: flex;
                         }

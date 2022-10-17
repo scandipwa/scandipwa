@@ -1,14 +1,12 @@
 import { ResourceType } from '../types';
-
 import {
-    FileInformation,
-    ExportType,
-    StylesOption,
     ExportData,
+    ExportType,
+    FileInformation,
+    StylesOption,
 } from '../types/extend-component.types';
 import { getImportPath } from '../util/js-generation';
 import { capitalize, decapitalize } from '../util/misc';
-
 import { getStyleFileName } from './scss-generation';
 
 const isMapping = (name: string) => ['mapStateToProps', 'mapDispatchToProps'].includes(name);
@@ -26,58 +24,51 @@ const getPrefixedName = (name: string, moduleAlias: string) => {
     }
 
     return [decapitalize(moduleAlias), capitalize(name)].join('');
-}
+};
 
 const generateAdditionalImportString = (originalCode: string, defaultExportCode?: string): string => {
-    if (!defaultExportCode) { 
-        return ''; 
+    if (!defaultExportCode) {
+        return '';
     }
 
-    const exdfWords = [
-        ...new Set(
-            defaultExportCode.match(/\w+\(/gm)?.filter(
-                word => !['export', 'default'].includes(word)
-            ) || []
-        )
-    ].map(
-        // Cut away parentheses
-        str => str.slice(0, str.length - 1)
-    );
+    const exdfWords = Array.from(new Set(
+        defaultExportCode.match(/\w+\(/gm)?.filter(
+            (word) => !['export', 'default'].includes(word),
+        ) || [],
+    ), (str) => str.slice(0, str.length - 1));
 
-    return (exdfWords).reduce(
-        (acc, importableName): Array<string | undefined> => {
-            const library = originalCode.match(
-                new RegExp(`import.+${importableName}.+from '(?<library>.+)'`)
-            )?.groups?.library;
+    return (exdfWords).reduce((acc, importableName): Array<string | undefined> => {
+        const library = originalCode.match(
+            new RegExp(`import.+${importableName}.+from '(?<library>.+)'`),
+        )?.groups?.library;
 
-            const braces = !!originalCode.match(
-                new RegExp(`import.+{.*${importableName}.*}.+from '(?<library>.+)'`)
-            );
+        const braces = !!originalCode.match(
+            new RegExp(`import.+{.*${importableName}.*}.+from '(?<library>.+)'`),
+        );
 
-            if (!library) {
-                return acc;
-            }
-
-            acc.push(
-                [
-                    'import',
-                    braces ? '{' : '',
-                    importableName,
-                    braces ? '}' : '',
-                    `from '${library}';`
-                ].join(' ')
-            );
-
+        if (!library) {
             return acc;
-        }, new Array<string | undefined>()
-    ).join('\n');
+        }
+
+        acc.push(
+            [
+                'import',
+                braces ? '{' : '',
+                importableName,
+                braces ? '}' : '',
+                `from '${library}';`,
+            ].join(' '),
+        );
+
+        return acc;
+    }, new Array<string | undefined>()).join('\n');
 };
 
 const generateStyleImport = (
-    fileName: string, 
+    fileName: string,
     resourceName: string,
-    extendableType: ResourceType, 
-    chosenStylesOption: StylesOption
+    extendableType: ResourceType,
+    chosenStylesOption: StylesOption,
 ): string => {
     if (
         [ResourceType.Route, ResourceType.Component].includes(extendableType)
@@ -95,8 +86,8 @@ const generateStyleImport = (
 const generateImportString = (
     sourceFilePath: string,
     sourceModuleAlias: string,
-    chosenExports: ExportData[], 
-    notChosenExports: ExportData[]
+    chosenExports: ExportData[],
+    notChosenExports: ExportData[],
 ): string => {
     if (!chosenExports.length) {
         return '';
@@ -106,7 +97,7 @@ const generateImportString = (
         'import {',
         ...chosenExports.map(({ name }) => `    ${name} as ${getPrefixedName(name, sourceModuleAlias)},`),
         ...notChosenExports.map(({ name }) => `    ${name},`),
-        `} from '${sourceFilePath}';`
+        `} from '${sourceFilePath}';`,
     ].join('\n');
 };
 
@@ -118,12 +109,13 @@ const generateExportsFromSource = (notChosenExports: ExportData[]): string => {
     return [
         'export {\n',
         ...notChosenExports.map(({ name }) => `    ${name},\n`),
-        '};'
+        '};',
     ].join('');
 };
 
 const generateClassExtend = (chosenExports: ExportData[], sourceModuleAlias: string): string => {
-    const classExport = chosenExports.find(one => one.type === ExportType.class);
+    const classExport = chosenExports.find((one) => one.type === ExportType.class);
+
     if (!classExport) {
         return '';
     }
@@ -133,30 +125,28 @@ const generateClassExtend = (chosenExports: ExportData[], sourceModuleAlias: str
     return [
         `export class ${name} extends ${getPrefixedName(name, sourceModuleAlias)} {`,
         '    // TODO implement logic',
-        '};'
+        '};',
     ].join('\n');
 };
 
-const generateMappingsExtends = (chosenExports: ExportData[], sourceModuleAlias: string): Array<string> => {
-    return chosenExports
-        .filter(({ name }) => isMapping(name))
-        .map(
-            ({ name }) => {
-                const argument = name.includes('State')
-                    ? 'state'
-                    : 'dispatch';
+const generateMappingsExtends = (chosenExports: ExportData[], sourceModuleAlias: string): Array<string> => chosenExports
+    .filter(({ name }) => isMapping(name))
+    .map(
+        ({ name }) => {
+            const argument = name.includes('State')
+                ? 'state'
+                : 'dispatch';
 
-                const newExport = [
-                    `export const ${name} = ${argument} => ({`,
-                    `    ...${getPrefixedName(name, sourceModuleAlias)}(${argument}),`,
-                    `    // TODO extend ${name}`,
-                    `});`
-                ].join('\n')
-                
-                return newExport;
-            }
-        );
-};
+            const newExport = [
+                `export const ${name} = ${argument} => ({`,
+                `    ...${getPrefixedName(name, sourceModuleAlias)}(${argument}),`,
+                `    // TODO extend ${name}`,
+                '});',
+            ].join('\n');
+
+            return newExport;
+        },
+    );
 
 const generateExtendStrings = (chosenExports: ExportData[], sourceModuleAlias: string): Array<string> => {
     if (!chosenExports.length) {
@@ -164,21 +154,21 @@ const generateExtendStrings = (chosenExports: ExportData[], sourceModuleAlias: s
     }
 
     return chosenExports
-        .filter(one => one.type !== ExportType.class && !isMapping(one.name))
+        .filter((one) => one.type !== ExportType.class && !isMapping(one.name))
         .map(({ name }) => [
             `//TODO: implement ${name}`,
-            `export const ${name} = ${getPrefixedName(name, sourceModuleAlias)};`
+            `export const ${name} = ${getPrefixedName(name, sourceModuleAlias)};`,
         ].join('\n'));
 };
 
 /**
  * Generate all necessary contents for the created file
  */
-const generateNewFileContents = ({ 
-    fileName, 
-    allExports, 
-    chosenExports, 
-    defaultExportCode, 
+const generateNewFileContents = ({
+    fileName,
+    allExports,
+    chosenExports,
+    defaultExportCode,
     originalCode,
     resourceType,
     resourceName,
@@ -186,7 +176,7 @@ const generateNewFileContents = ({
     relativeResourceDirectory,
     sourceModuleName,
     sourceModuleType,
-    sourceModuleAlias
+    sourceModuleAlias,
 }: FileInformation) : string => {
     const importPath = getImportPath(
         resourceName,
@@ -195,10 +185,10 @@ const generateNewFileContents = ({
         sourceModuleAlias,
         sourceModuleType,
         sourceModuleName,
-        fileName
+        fileName,
     );
 
-    const notChosenExports = allExports.filter(one => !chosenExports.includes(one));
+    const notChosenExports = allExports.filter((one) => !chosenExports.includes(one));
 
     // Generate new file: imports + exports from source + all extendables + class template + exdf
     const result = [
@@ -209,7 +199,7 @@ const generateNewFileContents = ({
         ...generateExtendStrings(chosenExports, sourceModuleAlias),
         ...generateMappingsExtends(chosenExports, sourceModuleAlias),
         generateClassExtend(chosenExports, sourceModuleAlias),
-        defaultExportCode
+        defaultExportCode,
     ].filter(Boolean).join('\n\n').concat('\n');
 
     return result;

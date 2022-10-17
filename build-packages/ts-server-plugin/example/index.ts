@@ -1,11 +1,11 @@
 // Edit this file to trigger the TSServer commands.
 
-import { Bca } from "./inside";
+import { Bca } from './inside';
 
 /**
  * @namespace Hello/World
  * @extends me
- **/
+ * */
 class Abc extends Bca {
     static method3() {
         return '123';
@@ -30,4 +30,5 @@ class Abc extends Bca {
     }
 }
 
-new Abc()
+// eslint-disable-next-line no-new
+new Abc();

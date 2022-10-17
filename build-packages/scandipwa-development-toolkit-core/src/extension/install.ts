@@ -1,10 +1,10 @@
+import { ILogger } from '../types';
+import addDependency from './lib/add-dependency';
+import enableExtension from './lib/enable-extension';
+import getVersionConstraint from './lib/util/get-version-constraint';
+
 const installDeps = require('@scandipwa/scandipwa-dev-utils/install-deps');
 const { walkDirectoryUp, contextTypes: { THEME_TYPE } } = require('@tilework/mosaic-dev-utils/get-context');
-
-import { ILogger } from "../types";
-import enableExtension from './lib/enable-extension';
-import addDependency from './lib/add-dependency';
-import getVersionConstraint from "./lib/util/get-version-constraint";
 
 const installExtension = async (
     packageName: string,
@@ -14,11 +14,11 @@ const installExtension = async (
     targetModule = process.cwd(),
     logger: ILogger,
     explicitlyDefinedPath?: string,
-    useLocalPackage?: boolean
+    useLocalPackage?: boolean,
 ): Promise<true | null> => {
-    const { 
-        type: context, 
-        pathname: contextPathname 
+    const {
+        type: context,
+        pathname: contextPathname,
     } = walkDirectoryUp(targetModule, THEME_TYPE);
 
     if (!context) {
@@ -26,7 +26,7 @@ const installExtension = async (
         logger.error(
             'To create an extension you must be located in ScandiPWA theme directory.',
             `We looked up six folders up starting from ${ logger.style.file(targetModule) }!`,
-            `There was no folders containing ${ logger.style.file('package.json') }, where ${ logger.style.misc('scandipwa.type') } field was equal to ${ logger.style.misc('theme') }.`
+            `There was no folders containing ${ logger.style.file('package.json') }, where ${ logger.style.misc('scandipwa.type') } field was equal to ${ logger.style.misc('theme') }.`,
         );
 
         return null;
@@ -34,25 +34,31 @@ const installExtension = async (
 
     try {
         const version = getVersionConstraint(
-            packageName, 
-            packageVersion, 
-            contextPathname, 
-            explicitlyDefinedPath, 
-            useLocalPackage
+            packageName,
+            packageVersion,
+            contextPathname,
+            explicitlyDefinedPath,
+            useLocalPackage,
         );
 
         // add package as dependency and install sub-dependencies
         await addDependency(contextPathname, packageName, version, isDev);
         await installDeps(contextPathname);
     } catch (e) {
-        logger.log(e.stack);
+        if (e instanceof Error) {
+            logger.log(e.message);
+        } else {
+            logger.log(String(e));
+        }
 
         logger.error(
             `Failed to install ScandiPWA extension in ${ logger.style.file(contextPathname) }.`,
-            'See an error log below and a stack - above.'
+            'See an error log below and a stack - above.',
         );
 
-        logger.error(...e.message.split('\n'));
+        if (e instanceof Error) {
+            logger.error(...e.message.split('\n'));
+        }
 
         return null;
     }

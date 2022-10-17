@@ -6,6 +6,6 @@ module.exports = {
             webpackConfig.plugins.push(new WebpackAfterEmitLogger());
 
             return webpackConfig;
-        }
-    }
+        },
+    },
 };
