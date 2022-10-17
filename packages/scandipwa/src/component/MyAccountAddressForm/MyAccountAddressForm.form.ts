@@ -263,7 +263,7 @@ export const myAccountAddressForm = (
                     attr: {
                         id: 'address-country-id',
                         name: 'country_id',
-                        defaultValue: countryId,
+                        value: countryId,
                         selectPlaceholder: __('Select country...'),
                     },
                     events: {
