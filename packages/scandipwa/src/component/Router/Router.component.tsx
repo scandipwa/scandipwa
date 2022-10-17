@@ -178,7 +178,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
             name: RouterSwitchItemType.CONFIRM_ACCOUNT,
         },
         {
-            component: <Route path={ withStoreRegex('/sales/order/view/order_id/:orderId?') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.MY_ORDER } /> } />,
+            component: <Route path={ withStoreRegex('/sales/order/view/order_id/:orderId?') } render={ ({ match }) => <MyAccount match={ match } selectedTab={ MyAccountTabs.MY_ORDERS } /> } />,
             position: 70,
             name: RouterSwitchItemType.MY_ACCOUNT_ORDER,
         },

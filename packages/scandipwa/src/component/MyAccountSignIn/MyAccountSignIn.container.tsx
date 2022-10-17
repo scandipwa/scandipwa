@@ -13,7 +13,6 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { SignInOptions } from 'Query/MyAccount.type';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -84,7 +83,7 @@ MyAccountSignInContainerState
         const { isEmailAvailable: prevIsEmailAvailable } = prevProps;
 
         if (isCheckout && isEmailAvailable && !prevIsEmailAvailable) {
-            setSignInState(MyAccountPageState.STATE_SIGN_IN);
+            setSignInState('');
         }
     }
 
