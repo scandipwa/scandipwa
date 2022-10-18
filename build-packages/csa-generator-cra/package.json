@@ -1,11 +1,11 @@
 {
     "name": "@scandipwa/csa-generator-cra",
     "description": "Clean app template used by CSA - minimum dependencies for template.",
-    "version": "0.1.22",
+    "version": "0.1.23",
     "main": "index.js",
     "license": "OSL-3.0",
     "dependencies": {
-        "@scandipwa/scandipwa-dev-utils": "0.1.15"
+        "@scandipwa/scandipwa-dev-utils": "0.1.16"
     },
     "publishConfig": {
         "access": "public"
