@@ -2924,38 +2924,6 @@
     semver "^7.3.2"
     webpack-merge "^4.2.2"
 
-"@scandipwa/eslint-config@^0.1.41":
-  version "0.1.41"
-  resolved "https://registry.yarnpkg.com/@scandipwa/eslint-config/-/eslint-config-0.1.41.tgz#d24b518126cb4e050b8dde145123328ec57c8336"
-  integrity sha512-TIuNBsuwXeEiYsopP5AZOfZtGQyGcIMTUiZeBEAkjV+UzrGK5L01+CVg4xmDx6tJYIuO4EN7yPbk4li2l+VwBA==
-  dependencies:
-    "@scandipwa/eslint-plugin-scandipwa-guidelines" "2.0.36"
-    "@typescript-eslint/eslint-plugin" "^4.5.0"
-    "@typescript-eslint/parser" "^4.5.0"
-    babel-eslint "^10.1.0"
-    eslint-config-airbnb "^18.2.0"
-    eslint-plugin-array-func "^3.1.7"
-    eslint-plugin-babel "^5.3.1"
-    eslint-plugin-fp "^2.3.0"
-    eslint-plugin-import "^2.22.1"
-    eslint-plugin-jest "^22.1.3"
-    eslint-plugin-jsx-a11y "^6.3.1"
-    eslint-plugin-react "^7.21.5"
-    eslint-plugin-react-hooks "^4.0.0"
-    eslint-plugin-simple-import-sort "^5.0.3"
-    typescript "^4.0.3"
-
-"@scandipwa/eslint-plugin-scandipwa-guidelines@2.0.36":
-  version "2.0.36"
-  resolved "https://registry.yarnpkg.com/@scandipwa/eslint-plugin-scandipwa-guidelines/-/eslint-plugin-scandipwa-guidelines-2.0.36.tgz#598e129dd5462e7278c6035823960a862871157a"
-  integrity sha512-jC5sw/huus5v5mx9iRXbzKu/61bGbuR3hj60fhK6tMmntAnFD4Pnb4S8hnPZTiUOkKWXRuU1FLZwxzPwROt6CA==
-  dependencies:
-    "@scandipwa/scandipwa-dev-utils" "0.1.14"
-    "@tilework/eslint-plugin-mosaic" "0.0.9"
-    "@tilework/mosaic-dev-utils" "0.0.5"
-    eslint-traverse "^1.0.0"
-    requireindex "~1.1.0"
-
 "@scandipwa/scandipwa-dev-utils@0.0.25":
   version "0.0.25"
   resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-dev-utils/-/scandipwa-dev-utils-0.0.25.tgz#136accd708210871364240136e29ae9d862ed534"
@@ -2967,17 +2935,6 @@
     mem-fs-editor "^7.0.1"
     memoizee "^0.4.15"
     react-dev-utils "^10.2.1"
-    semver "^7.3.2"
-    validate-npm-package-name "^3.0.0"
-
-"@scandipwa/scandipwa-dev-utils@0.1.14":
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-dev-utils/-/scandipwa-dev-utils-0.1.14.tgz#e34e9cdb3471f481f0aa8f35d6343372126a4d89"
-  integrity sha512-WknGiI2du8adtOMNBA6HOXIu9VICjKuKZ3R59v6tilLavpyB73fWLTiU9Z1rb+I/GNLD3a6sRX9vMb+yC5wc2g==
-  dependencies:
-    "@tilework/mosaic-dev-utils" "0.2.1"
-    cross-spawn "^7.0.3"
-    react-dev-utils "^11.0.4"
     semver "^7.3.2"
     validate-npm-package-name "^3.0.0"
 
@@ -3789,15 +3746,6 @@
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
 
-"@typescript-eslint/experimental-utils@^1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-1.13.0.tgz#b08c60d780c0067de2fb44b04b432f540138301e"
-  integrity sha512-zmpS6SyqG4ZF64ffaJ6uah6tWWWgZ8m+c54XXgwFtUv0jNz8aJAVx8chMCvnk7yl6xwn8d+d96+tWp7fXzTuDg==
-  dependencies:
-    "@types/json-schema" "^7.0.3"
-    "@typescript-eslint/typescript-estree" "1.13.0"
-    eslint-scope "^4.0.0"
-
 "@typescript-eslint/experimental-utils@^3.10.1":
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-3.10.1.tgz#e179ffc81a80ebcae2ea04e0332f8b251345a686"
@@ -3869,14 +3817,6 @@
   version "5.38.1"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.38.1.tgz#74f9d6dcb8dc7c58c51e9fbc6653ded39e2e225c"
   integrity sha512-QTW1iHq1Tffp9lNfbfPm4WJabbvpyaehQ0SrvVK2yfV79SytD9XDVxqiPvdrv2LK7DGSFo91TB2FgWanbJAZXg==
-
-"@typescript-eslint/typescript-estree@1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-1.13.0.tgz#8140f17d0f60c03619798f1d628b8434913dc32e"
-  integrity sha512-b5rCmd2e6DCC6tCTN9GSUAuxdYwCM/k/2wdjHGrIRGPSJotWMCe/dGpi66u42bhuh8q3QBzqM4TMA1GUUCJvdw==
-  dependencies:
-    lodash.unescape "4.0.1"
-    semver "5.5.0"
 
 "@typescript-eslint/typescript-estree@3.10.1":
   version "3.10.1"
@@ -7635,7 +7575,7 @@ eslint-config-airbnb-typescript@^17.0.0:
   dependencies:
     eslint-config-airbnb-base "^15.0.0"
 
-eslint-config-airbnb@^18.2.0, eslint-config-airbnb@^18.2.1:
+eslint-config-airbnb@^18.2.1:
   version "18.2.1"
   resolved "https://registry.yarnpkg.com/eslint-config-airbnb/-/eslint-config-airbnb-18.2.1.tgz#b7fe2b42f9f8173e825b73c8014b592e449c98d9"
   integrity sha512-glZNDEZ36VdlZWoxn/bUR1r/sdFKPd1mHPbqUtkctgNG4yT2DLLtJ3D+yCV+jzZCc2V1nBVkmdknOJBZ5Hc0fg==
@@ -7715,13 +7655,6 @@ eslint-plugin-import@^2.22.1, eslint-plugin-import@^2.26.0:
     resolve "^1.22.0"
     tsconfig-paths "^3.14.1"
 
-eslint-plugin-jest@^22.1.3:
-  version "22.21.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-22.21.0.tgz#8137294645866636160487d9764224b9a43e2eb1"
-  integrity sha512-OaqnSS7uBgcGiqXUiEnjoqxPNKvR4JWG5mSRkzVoR6+vDwlqqp11beeql1hYs0HTbdhiwrxWLxbX0Vx7roG3Ew==
-  dependencies:
-    "@typescript-eslint/experimental-utils" "^1.13.0"
-
 eslint-plugin-jest@^24.1.0:
   version "24.7.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-24.7.0.tgz#206ac0833841e59e375170b15f8d0955219c4889"
@@ -7755,7 +7688,7 @@ eslint-plugin-jsx-a11y@^6.3.1, eslint-plugin-jsx-a11y@^6.6.1:
     minimatch "^3.1.2"
     semver "^6.3.0"
 
-eslint-plugin-react-hooks@^4.0.0, eslint-plugin-react-hooks@^4.2.0, eslint-plugin-react-hooks@^4.6.0:
+eslint-plugin-react-hooks@^4.2.0, eslint-plugin-react-hooks@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.6.0.tgz#4c3e697ad95b77e93f8646aaa1630c1ba607edd3"
   integrity sha512-oFc7Itz9Qxh2x4gNHStv3BqJq54ExXmfC+a1NjAta66IAN87Wu0R/QArgIS9qKzX3dXKPI9H5crl9QchNMY9+g==
@@ -7800,11 +7733,6 @@ eslint-plugin-react@^7.31.8:
     semver "^6.3.0"
     string.prototype.matchall "^4.0.7"
 
-eslint-plugin-simple-import-sort@^5.0.3:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-simple-import-sort/-/eslint-plugin-simple-import-sort-5.0.3.tgz#9ae258ddada6efffc55e47a134afbd279eb31fc6"
-  integrity sha512-1rf3AWiHeWNCQdAq0iXNnlccnH1UDnelGgrPbjBBHE8d2hXVtOudcmy0vTF4hri3iJ0MKz8jBhmH6lJ0ZWZLHQ==
-
 eslint-plugin-simple-import-sort@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-simple-import-sort/-/eslint-plugin-simple-import-sort-8.0.0.tgz#9d9a2372b0606e999ea841b10458a370a6ccc160"
@@ -7830,7 +7758,7 @@ eslint-scope@5.1.1, eslint-scope@^5.0.0, eslint-scope@^5.1.1:
     esrecurse "^4.3.0"
     estraverse "^4.1.1"
 
-eslint-scope@^4.0.0, eslint-scope@^4.0.3:
+eslint-scope@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-4.0.3.tgz#ca03833310f6889a3264781aa82e63eb9cfe7848"
   integrity sha512-p7VutNr1O/QrxysMo3E45FjYDTeXBy0iTltPFNSqKAIfjDSXC+4dj+qfyuD8bfAXrW/y6lW3O76VaYNPKfpKrg==
@@ -11542,11 +11470,6 @@ lodash.truncate@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
   integrity sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw==
-
-lodash.unescape@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/lodash.unescape/-/lodash.unescape-4.0.1.tgz#bf2249886ce514cda112fae9218cdc065211fc9c"
-  integrity sha512-DhhGRshNS1aX6s5YdBE3njCCouPgnG29ebyHvImlZzXZf2SHgt+J08DHgytTPnpywNbO1Y8mNUFyQuIDBq2JZg==
 
 lodash.union@^4.6.0:
   version "4.6.0"
@@ -15796,11 +15719,6 @@ semver-regex@^3.1.2:
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
   integrity sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==
 
-semver@5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.0.tgz#dc4bbc7a6ca9d916dee5d43516f0092b58f7b8ab"
-  integrity sha512-4SJ3dm0WAwWy/NVeioZh5AntkdJoWKxHxcmyP622fOkgHa4z3R0TdBJICINyaSDE6uNwVc8gZr+ZinwZAH4xIA==
-
 semver@7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.0.0.tgz#5f3ca35761e47e05b206c6daff2cf814f0316b8e"
@@ -17490,11 +17408,6 @@ typescript@4.7.2:
   version "4.7.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.7.2.tgz#1f9aa2ceb9af87cca227813b4310fff0b51593c4"
   integrity sha512-Mamb1iX2FDUpcTRzltPxgWMKy3fhg0TN378ylbktPGPK/99KbDtMQ4W1hwgsbPAsG3a0xKa1vmw4VKZQbkvz5A==
-
-typescript@^4.0.3:
-  version "4.8.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.4.tgz#c464abca159669597be5f96b8943500b238e60e6"
-  integrity sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==
 
 uglify-js@^3.1.4:
   version "3.17.0"
