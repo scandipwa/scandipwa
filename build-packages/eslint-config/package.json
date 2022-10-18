@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/eslint-config",
     "description": "Shareable ESLint configuration used by CSA.",
-    "version": "0.1.41",
+    "version": "0.2.0",
     "main": "index.js",
     "license": "OSL-3.0",
     "publishConfig": {
@@ -9,7 +9,7 @@
     },
     "dependencies": {
         "@babel/eslint-parser": "^7.19.1",
-        "@scandipwa/eslint-plugin-scandipwa-guidelines": "^2.0.36",
+        "@scandipwa/eslint-plugin-scandipwa-guidelines": "2.0.37",
         "@typescript-eslint/eslint-plugin": "^5.26.0",
         "@typescript-eslint/parser": "^5.26.0",
         "eslint-config-airbnb": "^18.2.1",

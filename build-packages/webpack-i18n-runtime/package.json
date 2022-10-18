@@ -1,11 +1,11 @@
 {
     "name": "@scandipwa/webpack-i18n-runtime",
     "description": "Webpack internationalization plugin used used by CSA.",
-    "version": "0.0.31",
+    "version": "0.0.32",
     "license": "OSL-3.0",
     "dependencies": {
-        "@scandipwa/scandipwa-dev-utils": "0.1.14",
-        "@scandipwa/webpack-after-emit-logger": "0.0.9",
+        "@scandipwa/scandipwa-dev-utils": "0.1.15",
+        "@scandipwa/webpack-after-emit-logger": "0.0.10",
         "@tilework/mosaic-dev-utils": "0.0.5",
         "loader-utils": "^2.0.0"
     },
