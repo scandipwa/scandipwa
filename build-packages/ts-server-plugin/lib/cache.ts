@@ -313,62 +313,60 @@ export class Cache {
     // + it is dependent on https://github.com/microsoft/TypeScript/issues/50300
     // and https://github.com/microsoft/TypeScript/issues/40824
 
-    getDeclarationInlayHintsForFile(fileName: string): ts.InlayHint[] {
-        // Method hints hint on amount of plugins for this method
-        const refsOrDecs = this.fileToNamespaceMap[fileName] || [];
+    // getDeclarationInlayHintsForFile(fileName: string): ts.InlayHint[] {
+    //     // Method hints hint on amount of plugins for this method
+    //     const refsOrDecs = this.fileToNamespaceMap[fileName] || [];
 
-        return refsOrDecs.reduce((acc, refOrDec) => {
-            if (refOrDec instanceof NamespaceReference) {
-                // ^^^ we only care about namespace declarations
-                return acc;
-            }
+    //     return refsOrDecs.reduce((acc, refOrDec) => {
+    //         if (refOrDec instanceof NamespaceReference) {
+    //             // ^^^ we only care about namespace declarations
+    //             return acc;
+    //         }
 
-            const referenceNodes = refOrDec.getNodesByTargetConfig();
-            const pluginHints = referenceNodes.reduce((acc, node) => {
-                const nodeFileName = node.getSourceFile().fileName;
+    //         const referenceNodes = refOrDec.getNodesByTargetConfig();
+    //         const pluginHints = referenceNodes.reduce((acc, node) => {
+    //             const nodeFileName = node.getSourceFile().fileName;
+    //             if (nodeFileName !== fileName) {
+    //                 return acc;
+    //             }
+    //             // ^^^ we only care about nodes in the same file
+    //             const plugins = this.getReferencesByNamespace(refOrDec.getNamespaceString());
+    //             if (!plugins.length) {
+    //                 return acc;
+    //             }
 
-                if (nodeFileName !== fileName) {
-                    return acc;
-                }
-                // ^^^ we only care about nodes in the same file
-                const plugins = this.getReferencesByNamespace(refOrDec.getNamespaceString());
+    //             let position = node.getEnd();
 
-                if (!plugins.length) {
-                    return acc;
-                }
+    //             if (ts.isPropertyDeclaration(node.parent)) {
+    //                 position = node.parent.name.getEnd();
+    //             }
 
-                let position = node.getEnd();
+    //             if (ts.isMethodDeclaration(node.parent)) {
+    //                 const [closeParenToken] = this.ctx.nodeUtils.getNodeChildByCondition(
+    //                     node.parent,
+    //                     (n) => n.kind === ts.SyntaxKind.CloseParenToken
+    //                 );
 
-                if (ts.isPropertyDeclaration(node.parent)) {
-                    position = node.parent.name.getEnd();
-                }
+    //                 if (closeParenToken) {
+    //                     position = closeParenToken.getEnd();
+    //                 }
+    //             }
 
-                if (ts.isMethodDeclaration(node.parent)) {
-                    const [closeParenToken] = this.ctx.nodeUtils.getNodeChildByCondition(
-                        node.parent,
-                        (n) => n.kind === ts.SyntaxKind.CloseParenToken,
-                    );
+    //             return [
+    //                 ...acc,
+    //                 {
+    //                     text: `⬅ has ${plugins.length} plugin${plugins.length > 1 ? 's' : ''}`,
+    //                     position,
+    //                     kind: ts.InlayHintKind.Parameter,
+    //                     whitespaceBefore: true
+    //                 }
+    //             ];
+    //         }, [] as ts.InlayHint[]);
 
-                    if (closeParenToken) {
-                        position = closeParenToken.getEnd();
-                    }
-                }
-
-                return [
-                    ...acc,
-                    {
-                        text: `⬅ has ${plugins.length} plugin${plugins.length > 1 ? 's' : ''}`,
-                        position,
-                        kind: ts.InlayHintKind.Parameter,
-                        whitespaceBefore: true,
-                    },
-                ];
-            }, [] as ts.InlayHint[]);
-
-            return [
-                ...acc,
-                ...pluginHints,
-            ];
-        }, [] as ts.InlayHint[]);
-    }
+    //         return [
+    //             ...acc,
+    //             ...pluginHints
+    //         ];
+    //     }, [] as ts.InlayHint[]);
+    // }
 }

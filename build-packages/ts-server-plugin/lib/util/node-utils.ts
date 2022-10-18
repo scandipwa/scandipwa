@@ -185,6 +185,7 @@ export class NodeUtils {
             textSpan,
             fileName: node.getSourceFile().fileName,
             isWriteAccess: true, // TODO: get if this plugin is editable
+            isDefinition: false
         };
     }
 }

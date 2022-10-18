@@ -36,13 +36,13 @@ function init(): ts.server.PluginModule {
         }
 
         // eslint-disable-next-line arrow-body-style
-        proxy.provideInlayHints = (fileName: string, span: ts.TextSpan): ts.InlayHint[] => {
-            // vvv Ignore original inline hints
-            // eslint-disable-next-line arrow-body-style
-            return cache.getDeclarationInlayHintsForFile(fileName).filter((inlayHint) => {
-                return inlayHint.position > span.start && inlayHint.position < span.start + span.length;
-            });
-        };
+        // proxy.provideInlayHints = (fileName: string, span: ts.TextSpan): ts.InlayHint[] => {
+        //     // vvv Ignore original inline hints
+        //     // eslint-disable-next-line arrow-body-style
+        //     return cache.getDeclarationInlayHintsForFile(fileName).filter((inlayHint) => {
+        //         return inlayHint.position > span.start && inlayHint.position < span.start + span.length;
+        //     });
+        // };
 
         proxy.getSemanticDiagnostics = (fileName: string): ts.Diagnostic[] => {
             const diagnostics = info.languageService.getSemanticDiagnostics(fileName);
