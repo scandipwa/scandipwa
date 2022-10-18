@@ -2924,6 +2924,38 @@
     semver "^7.3.2"
     webpack-merge "^4.2.2"
 
+"@scandipwa/eslint-config@^0.1.41":
+  version "0.1.41"
+  resolved "https://registry.yarnpkg.com/@scandipwa/eslint-config/-/eslint-config-0.1.41.tgz#d24b518126cb4e050b8dde145123328ec57c8336"
+  integrity sha512-TIuNBsuwXeEiYsopP5AZOfZtGQyGcIMTUiZeBEAkjV+UzrGK5L01+CVg4xmDx6tJYIuO4EN7yPbk4li2l+VwBA==
+  dependencies:
+    "@scandipwa/eslint-plugin-scandipwa-guidelines" "2.0.36"
+    "@typescript-eslint/eslint-plugin" "^4.5.0"
+    "@typescript-eslint/parser" "^4.5.0"
+    babel-eslint "^10.1.0"
+    eslint-config-airbnb "^18.2.0"
+    eslint-plugin-array-func "^3.1.7"
+    eslint-plugin-babel "^5.3.1"
+    eslint-plugin-fp "^2.3.0"
+    eslint-plugin-import "^2.22.1"
+    eslint-plugin-jest "^22.1.3"
+    eslint-plugin-jsx-a11y "^6.3.1"
+    eslint-plugin-react "^7.21.5"
+    eslint-plugin-react-hooks "^4.0.0"
+    eslint-plugin-simple-import-sort "^5.0.3"
+    typescript "^4.0.3"
+
+"@scandipwa/eslint-plugin-scandipwa-guidelines@2.0.36":
+  version "2.0.36"
+  resolved "https://registry.yarnpkg.com/@scandipwa/eslint-plugin-scandipwa-guidelines/-/eslint-plugin-scandipwa-guidelines-2.0.36.tgz#598e129dd5462e7278c6035823960a862871157a"
+  integrity sha512-jC5sw/huus5v5mx9iRXbzKu/61bGbuR3hj60fhK6tMmntAnFD4Pnb4S8hnPZTiUOkKWXRuU1FLZwxzPwROt6CA==
+  dependencies:
+    "@scandipwa/scandipwa-dev-utils" "0.1.14"
+    "@tilework/eslint-plugin-mosaic" "0.0.9"
+    "@tilework/mosaic-dev-utils" "0.0.5"
+    eslint-traverse "^1.0.0"
+    requireindex "~1.1.0"
+
 "@scandipwa/scandipwa-dev-utils@0.0.25":
   version "0.0.25"
   resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-dev-utils/-/scandipwa-dev-utils-0.0.25.tgz#136accd708210871364240136e29ae9d862ed534"
@@ -2935,6 +2967,17 @@
     mem-fs-editor "^7.0.1"
     memoizee "^0.4.15"
     react-dev-utils "^10.2.1"
+    semver "^7.3.2"
+    validate-npm-package-name "^3.0.0"
+
+"@scandipwa/scandipwa-dev-utils@0.1.14":
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-dev-utils/-/scandipwa-dev-utils-0.1.14.tgz#e34e9cdb3471f481f0aa8f35d6343372126a4d89"
+  integrity sha512-WknGiI2du8adtOMNBA6HOXIu9VICjKuKZ3R59v6tilLavpyB73fWLTiU9Z1rb+I/GNLD3a6sRX9vMb+yC5wc2g==
+  dependencies:
+    "@tilework/mosaic-dev-utils" "0.2.1"
+    cross-spawn "^7.0.3"
+    react-dev-utils "^11.0.4"
     semver "^7.3.2"
     validate-npm-package-name "^3.0.0"
 
@@ -3112,12 +3155,12 @@
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^7.28.1"
 
-"@tilework/babel-plugin-mosaic-middleware-decorator@0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@tilework/babel-plugin-mosaic-middleware-decorator/-/babel-plugin-mosaic-middleware-decorator-0.0.16.tgz#85c5b63a048c039c6031a329bd1909ae71682358"
-  integrity sha512-32C7l/A5c8TfZhbGjUSUyj3onpvLz76WtY2sv4YgWbAJYpgbCj1+D74dSjEytbL9m3DcgbCyNhVyBgcYx4s+7g==
+"@tilework/babel-plugin-mosaic-middleware-decorator@0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@tilework/babel-plugin-mosaic-middleware-decorator/-/babel-plugin-mosaic-middleware-decorator-0.0.18.tgz#d1f32e6f7fe9bccd9e0f40dcf4d2c6a1d05a184a"
+  integrity sha512-g3kxoXlJ2zofDDJytjId41CYt0QBx28seyliKjixj8mVWA5AEvhCz9q9GRCReBbNWLtW7euBGf189L6vnA8p+g==
   dependencies:
-    "@tilework/mosaic-dev-utils" "0.2.1"
+    "@tilework/mosaic-dev-utils" "0.2.3"
 
 "@tilework/eslint-plugin-mosaic@0.0.9":
   version "0.0.9"
@@ -3127,33 +3170,33 @@
     eslint-traverse "^1.0.0"
     requireindex "~1.1.0"
 
-"@tilework/mosaic-config-injectors@0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-config-injectors/-/mosaic-config-injectors-0.1.19.tgz#9af53ea2ff5c97050d76faed84ab053b35d1b356"
-  integrity sha512-qNUqYC1tU84TF83wAc9XbTrlV7c/nFmk33tBxUiYrfMM2mPiCWqDI3I2do8U4oCWnhatoiMv4x1S2E9Piseubg==
+"@tilework/mosaic-config-injectors@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-config-injectors/-/mosaic-config-injectors-0.2.1.tgz#991450f947da31619847c2a331911f153f733f83"
+  integrity sha512-d/O2fZWJqncIYp0sWs9Olqm6pQ3o2GYsL+JIe2o+N9aJ3WIt4dip0ZE9xpoURED19jtZMzdEw15nUfwUL/TyeQ==
   dependencies:
     "@babel/plugin-transform-arrow-functions" "7.13.0"
     "@babel/plugin-transform-async-to-generator" "7.13.0"
-    "@tilework/babel-plugin-mosaic-middleware-decorator" "0.0.16"
+    "@tilework/babel-plugin-mosaic-middleware-decorator" "0.0.18"
     "@tilework/mosaic-craco" "0.0.5"
-    "@tilework/mosaic-dev-utils" "0.2.1"
-    "@tilework/mosaic-webpack-fallback-plugin" "0.0.15"
-    "@tilework/mosaic-webpack-import-loader" "0.0.14"
+    "@tilework/mosaic-dev-utils" "0.2.3"
+    "@tilework/mosaic-webpack-fallback-plugin" "0.0.17"
+    "@tilework/mosaic-webpack-import-loader" "0.0.16"
     babel-loader "8.1.0"
     babel-plugin-module-resolver "^4.1.0"
     deepmerge "^4.2.2"
     globby "^11.0.2"
 
-"@tilework/mosaic-cra-scripts@0.1.21":
-  version "0.1.21"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-cra-scripts/-/mosaic-cra-scripts-0.1.21.tgz#55be99960b04d52f3f45ff0f8189fa4243250c4d"
-  integrity sha512-ZhjfBx1NGCGDTU++uWuhnFCDiJPAYZwzuaOokJ3KSzXQx193MQwb3yv6WfzjTIDiHOFZ+m0SB+PseshDJimMWw==
+"@tilework/mosaic-cra-scripts@0.1.25":
+  version "0.1.25"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-cra-scripts/-/mosaic-cra-scripts-0.1.25.tgz#f1ba8aba6d23e89d1e6157aae0ada7f45603ff56"
+  integrity sha512-X39pZQ9Nrr7oniP2uMcUN9GkxzQMwa/IzJ9140d9q28IB+MDdt+kZrldNcQPHwXeTBLsTbbybKXZ27j29y1s9Q==
   dependencies:
-    "@tilework/mosaic-config-injectors" "0.1.19"
+    "@tilework/mosaic-config-injectors" "0.2.1"
     "@tilework/mosaic-craco" "0.0.5"
-    "@tilework/mosaic-dev-utils" "0.2.1"
-    "@tilework/mosaic-test-utils" "0.0.30"
-    "@tilework/mosaic-webpack-fallback-plugin" "0.0.15"
+    "@tilework/mosaic-dev-utils" "0.2.3"
+    "@tilework/mosaic-test-utils" "0.0.34"
+    "@tilework/mosaic-webpack-fallback-plugin" "0.0.17"
     babel-jest "26.6.3"
     babel-plugin-module-resolver "^4.0.0"
     babel-plugin-transform-rebem-jsx "^0.3.3"
@@ -3204,6 +3247,18 @@
     memoizee "^0.4.15"
     node-fetch "^2.6.1"
 
+"@tilework/mosaic-dev-utils@0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-dev-utils/-/mosaic-dev-utils-0.2.3.tgz#525650bdb94048dc5efdc7b3fe24f8d4235312b1"
+  integrity sha512-Drc9d1S4Hop/7DPg7UrjIWTeFS8wuIYHP4IT8tQE3ABVQZLNWsJB+Z9RT5E7T9przQentw5Uld2V4BSdoDW7Lw==
+  dependencies:
+    chalk "^4.1.0"
+    ext-ip "^0.3.9"
+    mem-fs "^1.2.0"
+    mem-fs-editor "^7.0.1"
+    memoizee "^0.4.15"
+    node-fetch "^2.6.1"
+
 "@tilework/mosaic-dev-utils@^0.1.4":
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/@tilework/mosaic-dev-utils/-/mosaic-dev-utils-0.1.6.tgz#5ff5202ee523c7cc7ba43ac1c84a8e7e65aaaf4e"
@@ -3215,16 +3270,16 @@
     memoizee "^0.4.15"
     node-fetch "^2.6.1"
 
-"@tilework/mosaic-nextjs-scripts@0.1.22":
-  version "0.1.22"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-nextjs-scripts/-/mosaic-nextjs-scripts-0.1.22.tgz#09a617e18822575dd67408a0b52a224e691ddfd2"
-  integrity sha512-2fXLOeUTiQcwSptWJedN4nIIqXYCWm2tBQghU9fvEHY6PvszMQqB58XYPjwfUHmjce66wkfAeTha8XohYHsi0w==
+"@tilework/mosaic-nextjs-scripts@0.1.26":
+  version "0.1.26"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-nextjs-scripts/-/mosaic-nextjs-scripts-0.1.26.tgz#2ff5cb1b57fe62f1a9da3a377956e1a50c54dd98"
+  integrity sha512-vZXL9nqbROJLPlMmIMEVdo3i6K/NPid9S2la5Zf+n0KVU0x0MMb0r3yP9tFUkw+6KUCeWA/YlSxtDmHfSLtKdQ==
   dependencies:
     "@babel/core" "^7.14.0"
     "@babel/preset-react" "^7.13.13"
-    "@tilework/mosaic-config-injectors" "0.1.19"
-    "@tilework/mosaic-dev-utils" "0.2.1"
-    "@tilework/mosaic-test-utils" "0.0.30"
+    "@tilework/mosaic-config-injectors" "0.2.1"
+    "@tilework/mosaic-dev-utils" "0.2.3"
+    "@tilework/mosaic-test-utils" "0.0.34"
     chokidar "^3.5.1"
     cross-spawn "^7.0.0"
     debounce "^1.2.0"
@@ -3236,17 +3291,17 @@
     resolve "^1.20.0"
     tree-kill "^1.2.2"
 
-"@tilework/mosaic-test-utils@0.0.30":
-  version "0.0.30"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-test-utils/-/mosaic-test-utils-0.0.30.tgz#618669902b88db162b01b3873793c9d19b0859e4"
-  integrity sha512-bOj0wC/7EkC6Ae/CBX+l0sjqXs5KMqj7tclUHTXTWTO7QYKLOXE1h+L4fvUC0Md3zGRh9uHVLKsVHXFXufSZQQ==
+"@tilework/mosaic-test-utils@0.0.34":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-test-utils/-/mosaic-test-utils-0.0.34.tgz#21c0fe9cea05711de93c016bd1f7304b0939ce02"
+  integrity sha512-sQaK5O5BYUMTOsYKy2emKFp4M+vMRS/ataPgqldjdI1qXjKhReXc93uFZxS79+vPLQ5B75yzasBWfJX2/EqN3A==
   dependencies:
     "@testing-library/jest-dom" "^5.11.4"
     "@testing-library/react" "^11.2.6"
-    "@tilework/mosaic" "0.1.4"
-    "@tilework/mosaic-config-injectors" "0.1.19"
-    "@tilework/mosaic-dev-utils" "0.2.1"
-    "@tilework/mosaic-nextjs-scripts" "0.1.22"
+    "@tilework/mosaic" "0.1.7"
+    "@tilework/mosaic-config-injectors" "0.2.1"
+    "@tilework/mosaic-dev-utils" "0.2.3"
+    "@tilework/mosaic-nextjs-scripts" "0.1.26"
     babel-jest "26.6.3"
     babel-preset-react-app "10.0.0"
     react "17.0.1"
@@ -3258,12 +3313,12 @@
   dependencies:
     "@tilework/mosaic-dev-utils" "^0.1.4"
 
-"@tilework/mosaic-webpack-fallback-plugin@0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-webpack-fallback-plugin/-/mosaic-webpack-fallback-plugin-0.0.15.tgz#2d41216ed1e15ef81f32f2d03d01dfcc5c4c2e1a"
-  integrity sha512-V/0i2qvrCo+dU3K4C/xZuAna8VI44wGGDFhrn3Q1A8BOeFr8NuIgBv/sqnBCflHj2hp4TkW82Sxa/ICLR7xgVA==
+"@tilework/mosaic-webpack-fallback-plugin@0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-webpack-fallback-plugin/-/mosaic-webpack-fallback-plugin-0.0.17.tgz#2a1d02064330a5121601814d1e1aa6a5d5cf3275"
+  integrity sha512-OSqXbObo9kW/VGRkfcMNTqT2pDVB5CF+dDYa7fvzB8oN/oybbJryQqv8N8pa1muvr5YlAolKFGWdMUjHoht0Iw==
   dependencies:
-    "@tilework/mosaic-dev-utils" "0.2.1"
+    "@tilework/mosaic-dev-utils" "0.2.3"
 
 "@tilework/mosaic-webpack-fallback-plugin@0.0.5":
   version "0.0.5"
@@ -3272,17 +3327,17 @@
   dependencies:
     "@tilework/mosaic-dev-utils" "0.0.5"
 
-"@tilework/mosaic-webpack-import-loader@0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-webpack-import-loader/-/mosaic-webpack-import-loader-0.0.14.tgz#40607a5f4049d75472ba14cd29b3cb810b00fbbb"
-  integrity sha512-ZFuUcVEkvnm07bKNDfJAtmCpA0hKBEGuIW+LiV+pLhKUOJbJCxNthR/fF+th2nydVNae+8nWnhkLld8I6I+nKA==
+"@tilework/mosaic-webpack-import-loader@0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-webpack-import-loader/-/mosaic-webpack-import-loader-0.0.16.tgz#c7a8c361c0a21353a46a992bd54a0c892338bb77"
+  integrity sha512-+groXqhrPX16HGh6vUvtFhCNMpkVKGF3e3avjIECQxrtZivnDx8qwclD2Vn5kP0+Tq8b2K0FEz+sK09UF1Uu2Q==
   dependencies:
-    "@tilework/mosaic-dev-utils" "0.2.1"
+    "@tilework/mosaic-dev-utils" "0.2.3"
 
-"@tilework/mosaic@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic/-/mosaic-0.1.4.tgz#90b6f504abd0131fc5d4db315878a871e00988b0"
-  integrity sha512-r4oIG5JC/hmI48l4FJB8O23jLB0eDlUtp1HMIEVpfihFLZTUqQcfPpZjftl/4Yd/CJS/Hx5Ca1RF7/cKlqvT7Q==
+"@tilework/mosaic@0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic/-/mosaic-0.1.7.tgz#a3c4bc4dcb4214c2163c069bfdf4582ea6cfc411"
+  integrity sha512-uBVrP8vscuTO8/lhJ/K02OuzQJRQxLdlyps8CI7bxHuxR0nhDdOBPbSS6naHh+bWvX+Z9JqsFh36OtrzdBloMw==
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -3734,6 +3789,15 @@
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
 
+"@typescript-eslint/experimental-utils@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-1.13.0.tgz#b08c60d780c0067de2fb44b04b432f540138301e"
+  integrity sha512-zmpS6SyqG4ZF64ffaJ6uah6tWWWgZ8m+c54XXgwFtUv0jNz8aJAVx8chMCvnk7yl6xwn8d+d96+tWp7fXzTuDg==
+  dependencies:
+    "@types/json-schema" "^7.0.3"
+    "@typescript-eslint/typescript-estree" "1.13.0"
+    eslint-scope "^4.0.0"
+
 "@typescript-eslint/experimental-utils@^3.10.1":
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-3.10.1.tgz#e179ffc81a80ebcae2ea04e0332f8b251345a686"
@@ -3805,6 +3869,14 @@
   version "5.38.1"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.38.1.tgz#74f9d6dcb8dc7c58c51e9fbc6653ded39e2e225c"
   integrity sha512-QTW1iHq1Tffp9lNfbfPm4WJabbvpyaehQ0SrvVK2yfV79SytD9XDVxqiPvdrv2LK7DGSFo91TB2FgWanbJAZXg==
+
+"@typescript-eslint/typescript-estree@1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-1.13.0.tgz#8140f17d0f60c03619798f1d628b8434913dc32e"
+  integrity sha512-b5rCmd2e6DCC6tCTN9GSUAuxdYwCM/k/2wdjHGrIRGPSJotWMCe/dGpi66u42bhuh8q3QBzqM4TMA1GUUCJvdw==
+  dependencies:
+    lodash.unescape "4.0.1"
+    semver "5.5.0"
 
 "@typescript-eslint/typescript-estree@3.10.1":
   version "3.10.1"
@@ -7563,7 +7635,7 @@ eslint-config-airbnb-typescript@^17.0.0:
   dependencies:
     eslint-config-airbnb-base "^15.0.0"
 
-eslint-config-airbnb@^18.2.1:
+eslint-config-airbnb@^18.2.0, eslint-config-airbnb@^18.2.1:
   version "18.2.1"
   resolved "https://registry.yarnpkg.com/eslint-config-airbnb/-/eslint-config-airbnb-18.2.1.tgz#b7fe2b42f9f8173e825b73c8014b592e449c98d9"
   integrity sha512-glZNDEZ36VdlZWoxn/bUR1r/sdFKPd1mHPbqUtkctgNG4yT2DLLtJ3D+yCV+jzZCc2V1nBVkmdknOJBZ5Hc0fg==
@@ -7643,6 +7715,13 @@ eslint-plugin-import@^2.22.1, eslint-plugin-import@^2.26.0:
     resolve "^1.22.0"
     tsconfig-paths "^3.14.1"
 
+eslint-plugin-jest@^22.1.3:
+  version "22.21.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-22.21.0.tgz#8137294645866636160487d9764224b9a43e2eb1"
+  integrity sha512-OaqnSS7uBgcGiqXUiEnjoqxPNKvR4JWG5mSRkzVoR6+vDwlqqp11beeql1hYs0HTbdhiwrxWLxbX0Vx7roG3Ew==
+  dependencies:
+    "@typescript-eslint/experimental-utils" "^1.13.0"
+
 eslint-plugin-jest@^24.1.0:
   version "24.7.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-24.7.0.tgz#206ac0833841e59e375170b15f8d0955219c4889"
@@ -7676,7 +7755,7 @@ eslint-plugin-jsx-a11y@^6.3.1, eslint-plugin-jsx-a11y@^6.6.1:
     minimatch "^3.1.2"
     semver "^6.3.0"
 
-eslint-plugin-react-hooks@^4.2.0, eslint-plugin-react-hooks@^4.6.0:
+eslint-plugin-react-hooks@^4.0.0, eslint-plugin-react-hooks@^4.2.0, eslint-plugin-react-hooks@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.6.0.tgz#4c3e697ad95b77e93f8646aaa1630c1ba607edd3"
   integrity sha512-oFc7Itz9Qxh2x4gNHStv3BqJq54ExXmfC+a1NjAta66IAN87Wu0R/QArgIS9qKzX3dXKPI9H5crl9QchNMY9+g==
@@ -7721,6 +7800,11 @@ eslint-plugin-react@^7.31.8:
     semver "^6.3.0"
     string.prototype.matchall "^4.0.7"
 
+eslint-plugin-simple-import-sort@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-simple-import-sort/-/eslint-plugin-simple-import-sort-5.0.3.tgz#9ae258ddada6efffc55e47a134afbd279eb31fc6"
+  integrity sha512-1rf3AWiHeWNCQdAq0iXNnlccnH1UDnelGgrPbjBBHE8d2hXVtOudcmy0vTF4hri3iJ0MKz8jBhmH6lJ0ZWZLHQ==
+
 eslint-plugin-simple-import-sort@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-simple-import-sort/-/eslint-plugin-simple-import-sort-8.0.0.tgz#9d9a2372b0606e999ea841b10458a370a6ccc160"
@@ -7746,7 +7830,7 @@ eslint-scope@5.1.1, eslint-scope@^5.0.0, eslint-scope@^5.1.1:
     esrecurse "^4.3.0"
     estraverse "^4.1.1"
 
-eslint-scope@^4.0.3:
+eslint-scope@^4.0.0, eslint-scope@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-4.0.3.tgz#ca03833310f6889a3264781aa82e63eb9cfe7848"
   integrity sha512-p7VutNr1O/QrxysMo3E45FjYDTeXBy0iTltPFNSqKAIfjDSXC+4dj+qfyuD8bfAXrW/y6lW3O76VaYNPKfpKrg==
@@ -11458,6 +11542,11 @@ lodash.truncate@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
   integrity sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw==
+
+lodash.unescape@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/lodash.unescape/-/lodash.unescape-4.0.1.tgz#bf2249886ce514cda112fae9218cdc065211fc9c"
+  integrity sha512-DhhGRshNS1aX6s5YdBE3njCCouPgnG29ebyHvImlZzXZf2SHgt+J08DHgytTPnpywNbO1Y8mNUFyQuIDBq2JZg==
 
 lodash.union@^4.6.0:
   version "4.6.0"
@@ -15707,6 +15796,11 @@ semver-regex@^3.1.2:
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
   integrity sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==
 
+semver@5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.0.tgz#dc4bbc7a6ca9d916dee5d43516f0092b58f7b8ab"
+  integrity sha512-4SJ3dm0WAwWy/NVeioZh5AntkdJoWKxHxcmyP622fOkgHa4z3R0TdBJICINyaSDE6uNwVc8gZr+ZinwZAH4xIA==
+
 semver@7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.0.0.tgz#5f3ca35761e47e05b206c6daff2cf814f0316b8e"
@@ -17396,6 +17490,11 @@ typescript@4.7.2:
   version "4.7.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.7.2.tgz#1f9aa2ceb9af87cca227813b4310fff0b51593c4"
   integrity sha512-Mamb1iX2FDUpcTRzltPxgWMKy3fhg0TN378ylbktPGPK/99KbDtMQ4W1hwgsbPAsG3a0xKa1vmw4VKZQbkvz5A==
+
+typescript@^4.0.3:
+  version "4.8.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.4.tgz#c464abca159669597be5f96b8943500b238e60e6"
+  integrity sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==
 
 uglify-js@^3.1.4:
   version "3.17.0"
