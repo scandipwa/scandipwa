@@ -140,6 +140,7 @@ const run = async (options) => {
     const postcssVersion = '8.4.5';
     const reactTypesVersion = '18.0.17';
     const reactReduxVersion = '8.0.2';
+    const nodeTypesVersion = '18.7.15';
 
     try {
         scandipwaVersion = await getLatestVersion('@scandipwa/scandipwa');
@@ -199,6 +200,7 @@ const run = async (options) => {
         postcssVersion,
         reactTypesVersion,
         reactReduxVersion,
+        nodeTypesVersion,
         proxy: DEFAULT_PROXY,
         eslintConfigVersion,
     };
