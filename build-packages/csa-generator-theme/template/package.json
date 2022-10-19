@@ -10,6 +10,7 @@
         "@tilework/mosaic": "<%= mosaicVersion %>",
         "@tilework/mosaic-craco": "<%= mosaicCracoVersion %>",
         "@types/react": "<%= reactTypesVersion %>",
+        "@types/node": "<%= nodeTypesVersion %>",
         "postcss": "<%= postcssVersion %>",
         "react-redux": "<%= reactReduxVersion %>"
     },
