@@ -8,6 +8,7 @@ module.exports = {
         requireConfigFile: false,
     },
     rules: {
+        '@typescript-eslint/object-curly-spacing': 'off',
         // TODO: disable or enable rules here
     },
 };
