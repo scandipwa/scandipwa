@@ -16,7 +16,7 @@ export interface ValidationRule {
     inputType?: string;
     selector?: string;
     match?: string
-    | ((value: string | Record<string, string>[] | undefined) => boolean)
+    | ((value: string | Record<string, string | boolean>[] | undefined) => boolean)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     | ((...args: any[]) => boolean | string);
     range?: { min?: number; max?: number; showLengthError?: boolean };
@@ -32,7 +32,7 @@ export interface ValidationOutput {
 export interface ValidationDOMOutput {
     values?: {
         name: string;
-        value: string;
+        value: string | boolean;
         type: string;
     }[];
     errorFields?: unknown[];
