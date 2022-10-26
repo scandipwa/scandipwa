@@ -59,14 +59,7 @@ export class CartDispatcher {
                 cartData: {
                     is_virtual = false,
                     shipping_addresses: [{
-                        selected_shipping_method: {
-                            address,
-                            address: {
-                                street = null,
-                                email = '',
-                            } = {},
-                            method_code = '',
-                        } = {},
+                        selected_shipping_method = null,
                     } = {}] = [],
                 } = {},
             } = await fetchQuery(
@@ -75,17 +68,28 @@ export class CartDispatcher {
                 ),
             );
 
-            if (address && street) {
-                if (!is_virtual) {
-                    await dispatch(
-                        updateShippingFields({
-                            ...this.prepareCheckoutAddressFormat(address as CartAddress),
-                            method_code,
-                        }),
-                    );
-                }
+            if (selected_shipping_method) {
+                const {
+                    address,
+                    address: {
+                        email = '',
+                        street = '',
+                    } = {},
+                    method_code = '',
+                } = selected_shipping_method;
 
-                await dispatch(updateEmail(email));
+                if (address && street) {
+                    if (!is_virtual) {
+                        await dispatch(
+                            updateShippingFields({
+                                ...this.prepareCheckoutAddressFormat(address as CartAddress),
+                                method_code,
+                            }),
+                        );
+                    }
+
+                    await dispatch(updateEmail(email));
+                }
             }
 
             if (isForCustomer && !getAuthorizationToken()) {
