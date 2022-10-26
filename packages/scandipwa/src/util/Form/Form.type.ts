@@ -57,4 +57,4 @@ export type GetFieldsData<AsObject extends boolean = false> = AsObject extends t
 
 export type FieldValue<
     T = unknown, isUnknownValue = true,
-> = isUnknownValue extends true ? string | number | boolean | Date : T;
+> = isUnknownValue extends true ? string | number | boolean | undefined | Date : T;
