@@ -488,7 +488,7 @@ S extends ProductContainerState = ProductContainerState,
      * @param errors
      * @returns {boolean}
     */
-    filterAddToCartFileErrors(errors: Array<{ type: string; value: string }>): boolean {
+    filterAddToCartFileErrors(errors: Array<{ type: string; value: string | boolean }>): boolean {
         return errors ? errors.filter((e) => (e.type === 'file' && e.value !== '')).length !== 0 : false;
     }
 

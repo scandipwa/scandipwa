@@ -286,7 +286,7 @@ export const getFieldsData = <AsObject extends boolean = false>(
                 : field.value;
 
         const dateValue = field.getAttribute('data-date');
-        const formattedValue = dateValue ? getDateValue(dateValue) : value || '';
+        const formattedValue = dateValue ? getDateValue(dateValue) : value;
 
         if (!excludeEmpty || value) {
             output.push({

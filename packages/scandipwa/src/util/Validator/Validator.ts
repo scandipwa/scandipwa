@@ -155,8 +155,7 @@ export const validateGroup = (DOM: HTMLElement, rule?: ValidationRule): true | V
         } = field;
 
         const fieldType = tagName.toLowerCase() === FieldType.TEXTAREA ? FieldType.TEXTAREA : type;
-        // eslint-disable-next-line max-len
-        const fieldValue = fieldType === (FieldType.CHECKBOX || fieldType === FieldType.RADIO) && field.checked ? '' : value;
+        const fieldValue = fieldType === FieldType.CHECKBOX || fieldType === FieldType.RADIO ? field.checked : value;
 
         output.values?.push({ name, value: fieldValue, type: fieldType });
 
