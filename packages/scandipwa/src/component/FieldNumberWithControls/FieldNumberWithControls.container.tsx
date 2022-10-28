@@ -59,7 +59,7 @@ FieldNumberWitControlsContainerState
             this.setState({ value: min });
         }
 
-        if (defaultValue < min) {
+        if (defaultValue < min || prevDefaultValue < min) {
             this.handleInitialLoad(min);
         }
     }

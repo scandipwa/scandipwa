@@ -235,7 +235,7 @@ export class CartDispatcher {
                     dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
                 });
 
-                return await Promise.reject();
+                return await Promise.resolve();
             }
 
             await this.updateInitialCartData(dispatch);
