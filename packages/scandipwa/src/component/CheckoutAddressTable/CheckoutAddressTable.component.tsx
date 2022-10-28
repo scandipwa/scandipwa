@@ -25,9 +25,7 @@ export class CheckoutAddressTableComponent extends MyAccountAddressTable<Checkou
         isSelected: false,
     };
 
-    __construct(props: CheckoutAddressTableComponentProps): void {
-        this.__construct?.(props);
-
+    __construct(): void {
         this.onAddressClick = this.onAddressClick.bind(this);
     }
 
