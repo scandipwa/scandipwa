@@ -42,6 +42,10 @@ export class NotificationComponent extends PureComponent<NotificationComponentPr
 
     CSSHideTimeout: ReturnType<typeof setTimeout> = setTimeout(noopFn);
 
+    __construct() {
+        this.hideNotification = this.hideNotification.bind(this);
+    }
+
     componentDidMount(): void {
         const { notification: { msgType }, lifeTime } = this.props;
 
