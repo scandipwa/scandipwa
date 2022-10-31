@@ -65,10 +65,7 @@ export class FieldSelectComponent extends PureComponent<FieldSelectComponentProp
             options,
             handleSelectListOptionClick,
             isSelectedOptionAvailable,
-            value,
         } = this.props;
-
-        const { value: placeholder } = options.find(({ isPlaceholder }) => isPlaceholder) || {};
 
         return (
             <select
@@ -77,7 +74,6 @@ export class FieldSelectComponent extends PureComponent<FieldSelectComponentProp
               mods={ { isDisabled: !isSelectedOptionAvailable } }
               ref={ (elem) => setRef(elem) }
               disabled={ isDisabled }
-              value={ value || placeholder }
               // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
               { ...attr }
               // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
