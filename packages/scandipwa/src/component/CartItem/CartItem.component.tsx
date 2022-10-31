@@ -104,8 +104,8 @@ export class CartItemComponent extends PureComponent<CartItemComponentProps> {
                 { this.renderProductName() }
                 { this.renderOutOfStockMessage() }
                 { this.renderProductConfigurations() }
-                { this.renderProductOptions(customizable_options) }
                 { this.renderProductBundleOptions(bundle_options) }
+                { this.renderProductOptions(customizable_options) }
                 { this.renderProductLinks(links) }
             </div>
         );
