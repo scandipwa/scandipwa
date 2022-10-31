@@ -154,7 +154,7 @@ export class FieldContainer extends PureComponent<FieldContainerProps, FieldCont
             ? !!(this.fieldRef as HTMLInputElement)?.checked
             : this.fieldRef?.value;
 
-        if (!value) {
+        if (!value && value !== '') {
             return false;
         }
 
