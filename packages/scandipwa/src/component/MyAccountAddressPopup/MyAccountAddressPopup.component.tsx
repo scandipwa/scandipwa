@@ -71,7 +71,6 @@ export class MyAccountAddressPopupComponent extends PureComponent<MyAccountAddre
         return (
             <Popup
               id={ MyAccountAddressPopupAction.ADDRESS_POPUP_ID }
-              isCloseOnOutsideClick={ false }
               mix={ { block: 'MyAccountAddressPopup' } }
             >
                 <div>
