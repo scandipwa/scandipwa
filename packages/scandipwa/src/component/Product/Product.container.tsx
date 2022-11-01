@@ -414,7 +414,7 @@ S extends ProductContainerState = ProductContainerState,
 
             // For product configurable attributes
             if (attributes) {
-                attributes.scrollIntoView({ block: 'center', behavior: 'smooth' });
+                attributes.scrollIntoView({ block: 'center' });
 
                 return;
             }
