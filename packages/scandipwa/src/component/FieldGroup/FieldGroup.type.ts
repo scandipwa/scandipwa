@@ -14,7 +14,6 @@ import {
     FocusEventHandler,
     FormHTMLAttributes,
     MutableRefObject,
-    ReactEventHandler,
     RefObject,
     SyntheticEvent,
 } from 'react';
@@ -77,7 +76,6 @@ DOMAttributes<HTMLDivElement>,
 >
 & {
     onBlur: (event: FocusEventHandler, fields: FieldGroupEventData) => void;
-    onLoad: (event: ReactEventHandler, fields: FieldGroupEventData) => void;
 };
 
 export interface FieldGroupEventData {

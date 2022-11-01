@@ -38,6 +38,26 @@ export class CheckoutAddressFormComponent extends MyAccountAddressForm<CheckoutA
         this.onAddressChange = this.onAddressChange.bind(this);
     }
 
+    componentDidMount() {
+        const {
+            currentCity: city,
+            currentRegionId: region_id,
+            currentRegion: region,
+            currentZipcode: postcode,
+            countryId,
+            onShippingEstimationFieldsChange,
+            defaultCountry,
+        } = this.props;
+
+        onShippingEstimationFieldsChange({
+            country_id: countryId || defaultCountry,
+            region_id,
+            region,
+            city,
+            postcode,
+        });
+    }
+
     fieldMap(): (Partial<FieldContainerProps> | FormSection)[] {
         const {
             address,
@@ -97,8 +117,6 @@ export class CheckoutAddressFormComponent extends MyAccountAddressForm<CheckoutA
             addressGroup.events = {
                 // Updates shipping methods on address blurt
                 onBlur: this.onAddressChange,
-                // Updates shipping methods on start
-                onLoad: this.onAddressChange,
             };
         }
 
