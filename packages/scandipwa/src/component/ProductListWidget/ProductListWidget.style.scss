@@ -16,6 +16,12 @@
         min-height: auto;
     }
 
+    ul.ProductListWidget-Page {
+        @include mobile {
+            padding-inline: 0;
+        }
+    }
+
     &-Page {
         display: grid;
         grid-auto-rows: max-content;

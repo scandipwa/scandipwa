@@ -10,6 +10,10 @@
  */
 
 .NewProducts {
+    ul.NewProducts-Products {
+        padding-inline-start: 0;
+    }
+
     &-Products {
         display: grid;
         grid-auto-rows: max-content;
