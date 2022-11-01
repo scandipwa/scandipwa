@@ -46,15 +46,13 @@ export const getCurrency = (): string => {
 
     const {
         ConfigReducer: {
-            currency: {
-                base_currency_code = GQLCurrencyEnum.USD,
-            } = {},
+            default_display_currency_code = GQLCurrencyEnum.USD,
         } = {},
     } = store.getState() as RootState;
 
     const currency = BrowserDatabase.getItem(CUR_CURRENCY);
 
-    return (typeof currency === 'string') ? currency : base_currency_code;
+    return (typeof currency === 'string') ? currency : default_display_currency_code;
 };
 
 /**
