@@ -35,7 +35,7 @@ export class OverlayComponent<P extends OverlayComponentProps = OverlayComponent
 
     overlayRef = createRef<HTMLDivElement>();
 
-    YoffsetWhenScrollDisabled = window.pageYOffset || document.body.scrollTop;
+    YoffsetWhenScrollDisabled = 0;
 
     componentDidUpdate(prevProps: P): void {
         const prevWasVisible = this.getIsVisible(prevProps);
@@ -91,6 +91,7 @@ export class OverlayComponent<P extends OverlayComponentProps = OverlayComponent
     }
 
     freezeScroll(): void {
+        this.YoffsetWhenScrollDisabled = window.pageYOffset || document.body.scrollTop;
         toggleScroll(false);
         document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
     }
