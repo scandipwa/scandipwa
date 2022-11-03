@@ -34,7 +34,6 @@ export class CheckoutTermsAndConditionsPopupComponent extends PureComponent<Chec
         return (
             <Popup
               id={ TERMS_AND_CONDITIONS_POPUP_ID }
-              isCloseOnOutsideClick={ false }
               mix={ { block: 'CheckoutTermsAndConditionsPopup' } }
             >
                 { this.renderContent() }
