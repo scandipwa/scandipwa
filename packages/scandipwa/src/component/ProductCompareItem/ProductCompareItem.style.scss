@@ -69,13 +69,17 @@
         margin: 0;
     }
 
-    &-AddToCartBtn.AddToCart {
-        width: 222px;
+    &-AddToCartBtn {
+        width: 100%;
     }
 
     &-CloseBtn {
         inset-inline-end: 0;
         position: absolute;
         margin-block-start: -4px;
+    }
+
+    .ProductWishlistButton {
+        margin-inline: 16px;
     }
 }
