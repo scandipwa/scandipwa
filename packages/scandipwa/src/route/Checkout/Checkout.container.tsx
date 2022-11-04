@@ -415,7 +415,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         this.setState({ selectedShippingMethod: method_code });
     }
 
-    onShippingEstimationFieldsChange(address: GQLEstimateShippingCostsAddress) {
+    onShippingEstimationFieldsChange(address: GQLEstimateShippingCostsAddress): void {
         const cartId = getCartId();
 
         if (!cartId) {
