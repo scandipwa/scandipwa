@@ -115,8 +115,9 @@ export class CheckoutAddressFormComponent extends MyAccountAddressForm<CheckoutA
 
         if (addressGroup) {
             addressGroup.events = {
-                // Updates shipping methods on address blurt
+                // Updates shipping methods on address blur
                 onBlur: this.onAddressChange,
+                onChange: this.onAddressChange,
             };
         }
 
