@@ -10,6 +10,7 @@
  */
 
 export const IMAGE_HUNDRED_PERCENT = '100%';
+export const IMAGE_EAGER_LOADING_POSITION_FROM_TOP = 1000;
 
 export enum ImageState {
     IMAGE_LOADING = 'IMAGE_LOADING',

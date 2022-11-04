@@ -16,7 +16,7 @@ import { createRef, PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
-import { ImageState } from './Image.config';
+import { IMAGE_EAGER_LOADING_POSITION_FROM_TOP, ImageState } from './Image.config';
 import { ImageComponentProps, ImageComponentState, ImageRatio } from './Image.type';
 
 import './Image.style';
@@ -50,7 +50,10 @@ S extends ImageComponentState = ImageComponentState,
 
     image = createRef();
 
-    state: S = { imageStatus: ImageState.IMAGE_LOADING } as unknown as S;
+    state: S = {
+        imageStatus: ImageState.IMAGE_LOADING,
+        isLazyLoading: false,
+    } as unknown as S;
 
     renderMap = {
         [ImageState.IMAGE_NOT_FOUND]: this.renderImageNotFound.bind(this),
@@ -67,7 +70,14 @@ S extends ImageComponentState = ImageComponentState,
     }
 
     componentDidMount(): void {
+        const { imageRef } = this.props;
         this.onImageChange();
+
+        const top = imageRef?.current?.getBoundingClientRect()?.top || 0;
+
+        if (top > IMAGE_EAGER_LOADING_POSITION_FROM_TOP) {
+            this.setState({ isLazyLoading: true });
+        }
     }
 
     componentDidUpdate(prevProps: ImageComponentProps): void {
@@ -123,7 +133,7 @@ S extends ImageComponentState = ImageComponentState,
             style,
             title,
         } = this.props;
-        const { imageStatus } = this.state;
+        const { imageStatus, isLazyLoading } = this.state;
 
         return (
             <img
@@ -136,7 +146,7 @@ S extends ImageComponentState = ImageComponentState,
               title={ title }
               onLoad={ this.onLoad }
               onError={ this.onError }
-              loading="lazy"
+              loading={ isLazyLoading ? 'lazy' : 'eager' }
             />
         );
     }
@@ -149,6 +159,7 @@ S extends ImageComponentState = ImageComponentState,
             title,
             className,
         } = this.props;
+        const { isLazyLoading } = this.state;
 
         return (
             <img
@@ -159,7 +170,7 @@ S extends ImageComponentState = ImageComponentState,
               title={ title }
               onLoad={ this.onLoad }
               onError={ this.onError }
-              loading="lazy"
+              loading={ isLazyLoading ? 'lazy' : 'eager' }
             />
         );
     }
