@@ -71,11 +71,12 @@ export type FieldGroupEvents = Omit<
 DOMAttributes<HTMLDivElement>,
 'children'
 | 'onBlur'
-| 'onLoad'
+| 'onChange'
 | 'dangerouslySetInnerHTML'
 >
 & {
     onBlur: (event: FocusEventHandler, fields: FieldGroupEventData) => void;
+    onChange: (event: FocusEventHandler, fields: FieldGroupEventData) => void;
 };
 
 export interface FieldGroupEventData {
