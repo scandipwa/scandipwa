@@ -13,6 +13,7 @@ import { ChangeEvent } from 'react';
 
 import { ShippingMethod } from 'Query/Checkout.type';
 import { Store } from 'Query/StoreInPickUp.type';
+import { CartTotals } from 'Store/Cart/Cart.type';
 import { CheckoutStore } from 'Store/Checkout/Checkout.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -26,6 +27,7 @@ export interface StoreInPickUpPopupContainerMapStateProps {
     defaultCountry: string;
     selectedStore: Store | null;
     countryId?: string;
+    totals: CartTotals;
 }
 
 export interface StoreInPickUpPopupContainerDispatchProps {

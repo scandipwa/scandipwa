@@ -12,23 +12,25 @@
 import { CartDisplayConfig } from 'Query/Cart.type';
 import { ShippingMethod } from 'Query/Checkout.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
+import { CheckoutStore } from 'Store/Checkout/Checkout.type';
 
 export interface CheckoutDeliveryOptionContainerMapStateProps {
     totals: CartTotals;
     cartDisplayConfig: CartDisplayConfig;
     getCartShippingItemPrice: (props: ShippingMethod) => number;
     getCartShippingItemSubPrice: (props: ShippingMethod) => number | null;
+    isPickInStoreMethodSelected: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface CheckoutDeliveryOptionContainerMapDispatchProps {}
+export interface CheckoutDeliveryOptionContainerMapDispatchProps {
+    updateCheckoutStore: (state: Partial<CheckoutStore>) => void;
+}
 
 export interface CheckoutDeliveryOptionContainerFunctions {
     onOptionClick: () => void;
 }
 
 export interface CheckoutDeliveryOptionContainerBaseProps {
-    onClick: (shippingMethod: ShippingMethod) => void;
     isSelected: boolean;
     option: ShippingMethod;
 }

@@ -38,6 +38,7 @@ export interface CheckoutStore {
     estimateAddress?: GQLEstimateShippingCostsAddress;
     isVisibleEmailRequired: boolean;
     password: string;
+    isPickInStoreMethodSelected: boolean;
 }
 
 declare module 'Util/Store/Store.type' {

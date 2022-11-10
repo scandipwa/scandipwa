@@ -35,7 +35,6 @@ export class CheckoutDeliveryOptionsComponent extends PureComponent<CheckoutDeli
 
     renderDeliveryOption(option: ShippingMethod): ReactElement {
         const {
-            selectShippingMethod,
             selectedShippingMethod: { method_code: selectedMethodCode = '' } = {},
         } = this.props;
 
@@ -47,7 +46,6 @@ export class CheckoutDeliveryOptionsComponent extends PureComponent<CheckoutDeli
               key={ carrier_code }
               isSelected={ isSelected }
               option={ option }
-              onClick={ selectShippingMethod }
             />
         );
     }

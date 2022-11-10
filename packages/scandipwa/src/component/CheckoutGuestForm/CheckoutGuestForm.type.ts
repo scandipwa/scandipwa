@@ -59,7 +59,6 @@ export interface CheckoutGuestFormContainerBaseProps {
     onCreateUserChange: () => void;
     onPasswordChange: (password: string) => void ;
     onEmailChange: (email: string) => void;
-    onSignIn: () => void;
 }
 
 export type CheckoutGuestFormContainerProps = CheckoutGuestFormContainerMapStateProps
@@ -76,7 +75,6 @@ export interface CheckoutGuestFormComponentProps extends CheckoutGuestFormContai
     isEmailAvailable: boolean;
     emailValue: string;
     signInState: MyAccountPageState | '';
-    onSignIn: () => void;
     range: ValidationRule['range'];
     minimumPasswordCharacter: string;
     isLoading: boolean;
@@ -90,7 +88,6 @@ export type CheckoutGuestFormContainerPropsKeys =
 | 'isEmailAvailable'
 | 'isLoading'
 | 'signInState'
-| 'onSignIn'
 | 'range'
 | 'minimumPasswordCharacter'
 | 'isCreateUser'

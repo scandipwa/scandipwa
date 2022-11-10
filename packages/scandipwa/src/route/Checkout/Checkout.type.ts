@@ -46,6 +46,7 @@ export interface CheckoutContainerMapStateProps {
     isCreateUser: boolean;
     isVisibleEmailRequired: boolean;
     password: string;
+    isPickInStoreMethodSelected: boolean;
 }
 
 export interface CheckoutContainerDispatchProps {
@@ -73,7 +74,6 @@ export interface CheckoutContainerFunctions {
     saveAddressInformation: (addressInformation: AddressInformation) => Promise<void>;
     savePaymentInformation: (paymentInformation: PaymentInformation) => Promise<void>;
     setDetailsStep: (orderID: string) => void;
-    setLoading: (isLoading: boolean) => void;
     onChangeEmailRequired: () => void;
 }
 
@@ -90,7 +90,6 @@ export interface CheckoutContainerState {
     checkoutStep: CheckoutSteps;
     email: string;
     isLoading: boolean;
-    isPickInStoreMethodSelected: boolean;
     orderID: string;
     paymentTotals: TotalsObject | undefined;
     requestsSent: number;

@@ -27,6 +27,7 @@ import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { ReactElement } from 'Type/Common.type';
 import { GQLCountryCodeEnum } from 'Type/Graphql.type';
 import { checkIfStoreIncluded, transformCountriesToOptions } from 'Util/Address';
+import { getAllCartItemsSku } from 'Util/Cart';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -63,6 +64,7 @@ export const mapStateToProps = (state: RootState): StoreInPickUpPopupContainerMa
     defaultCountry: state.ConfigReducer.default_country,
     selectedStore: state.StoreInPickUpReducer.store,
     countryId: state.CheckoutReducer.estimateAddress?.country_id,
+    totals: state.CartReducer.cartTotals,
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container */
@@ -205,9 +207,9 @@ StoreInPickUpPopupContainerState
     async handleStoresSearch(): Promise<void> {
         const {
             showNotification,
-            cartItemsSku,
             selectedStore,
             clearPickUpStore,
+            totals: { items },
         } = this.props;
         const { storeSearchCriteria, selectedCountryId } = this.state;
 
@@ -216,7 +218,7 @@ StoreInPickUpPopupContainerState
                 getStores: {
                     stores = null,
                 } = {},
-            } = await fetchQuery(StoreInPickUpQuery.getStores(selectedCountryId, storeSearchCriteria, cartItemsSku));
+            } = await fetchQuery(StoreInPickUpQuery.getStores(selectedCountryId, storeSearchCriteria, getAllCartItemsSku(items || [])));
 
             if (stores) {
                 this.setState({ stores });

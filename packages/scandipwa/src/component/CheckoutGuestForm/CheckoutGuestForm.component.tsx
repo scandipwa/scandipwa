@@ -111,7 +111,6 @@ export class CheckoutGuestFormComponent extends FieldForm<CheckoutGuestFormCompo
             handleForgotPassword,
             handleCreateAccount,
             setLoadingState,
-            onSignIn,
             emailValue,
             handleEmailInput,
             setSignInState,
@@ -129,7 +128,6 @@ export class CheckoutGuestFormComponent extends FieldForm<CheckoutGuestFormCompo
               setSignInState={ setSignInState }
               emailValue={ emailValue }
               setLoadingState={ setLoadingState }
-              onSignIn={ onSignIn }
               isLoading={ isLoading }
             />
         );
@@ -188,7 +186,6 @@ export class CheckoutGuestFormComponent extends FieldForm<CheckoutGuestFormCompo
             handleForgotPassword,
             handleCreateAccount,
             setLoadingState,
-            onSignIn,
         } = this.props;
 
         return (
@@ -199,7 +196,6 @@ export class CheckoutGuestFormComponent extends FieldForm<CheckoutGuestFormCompo
               handleCreateAccount={ handleCreateAccount }
               isCheckout
               setLoadingState={ setLoadingState }
-              onSignIn={ onSignIn }
             />
         );
     }

@@ -26,7 +26,6 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
-import { noopFn } from 'Util/Common';
 import scrollToError from 'Util/Form/Form';
 import { debounce, getErrorMessage } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
@@ -84,7 +83,6 @@ CheckoutGuestFormContainerState
     static defaultProps: Partial<CheckoutGuestFormContainerProps> = {
         emailValue: '',
         isGuestEmailSaved: false,
-        onSignIn: noopFn,
     };
 
     state: CheckoutGuestFormContainerState = {
@@ -133,7 +131,6 @@ CheckoutGuestFormContainerState
         const {
             emailValue,
             isEmailAvailable,
-            onSignIn,
             minimumPasswordLength,
             minimumPasswordCharacter,
             isCreateUser,
@@ -148,7 +145,6 @@ CheckoutGuestFormContainerState
             isEmailAvailable,
             isLoading,
             signInState,
-            onSignIn,
             range,
             minimumPasswordCharacter,
             isCreateUser,

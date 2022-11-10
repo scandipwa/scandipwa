@@ -104,6 +104,7 @@ export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProp
     isCreateUser: state.CheckoutReducer.isCreateUser,
     isVisibleEmailRequired: state.CheckoutReducer.isVisibleEmailRequired,
     password: state.CheckoutReducer.password,
+    isPickInStoreMethodSelected: state.CheckoutReducer.isPickInStoreMethodSelected,
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
@@ -146,7 +147,6 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     };
 
     containerFunctions: CheckoutContainerFunctions = {
-        setLoading: this.setLoading.bind(this),
         setDetailsStep: this.setDetailsStep.bind(this),
         savePaymentInformation: this.savePaymentInformation.bind(this),
         saveAddressInformation: this.saveAddressInformation.bind(this),
@@ -186,7 +186,6 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || undefined,
             email: savedEmail || '',
-            isPickInStoreMethodSelected: false,
         };
     }
 
@@ -477,9 +476,9 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     }
 
     handleSelectDeliveryMethod(): void {
-        const { isPickInStoreMethodSelected } = this.state;
+        const { updateCheckoutStore, isPickInStoreMethodSelected } = this.props;
 
-        this.setState({ isPickInStoreMethodSelected: !isPickInStoreMethodSelected });
+        updateCheckoutStore({ isPickInStoreMethodSelected: !isPickInStoreMethodSelected });
     }
 
     onChangeEmailRequired(): void {
@@ -526,10 +525,6 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         });
     }
 
-    setLoading(isLoading = true): void {
-        this.setState({ isLoading });
-    }
-
     async setShippingAddress(isDefaultShipping = false): Promise<boolean> {
         const { shippingAddress, updateCheckoutStore } = this.props;
         const { region, region_id, ...address } = shippingAddress || {};
@@ -565,6 +560,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             isSignedIn,
             isCartLoading,
             shippingMethods,
+            isPickInStoreMethodSelected,
         } = this.props;
         const {
             billingAddress,
@@ -572,7 +568,6 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             email,
             isLoading,
             orderID,
-            isPickInStoreMethodSelected,
         } = this.state;
 
         return {

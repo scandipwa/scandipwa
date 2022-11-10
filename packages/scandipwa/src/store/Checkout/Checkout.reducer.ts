@@ -31,6 +31,7 @@ export const getInitialState = (): CheckoutStore => ({
     estimateAddress: undefined,
     isVisibleEmailRequired: false,
     password: '',
+    isPickInStoreMethodSelected: false,
 });
 
 /** @namespace Store/Checkout/Reducer/CheckoutReducer */

@@ -66,10 +66,6 @@ export const ExpandableContent = lazy(() => import(
 
 /** @namespace Route/Checkout/Component */
 export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
-    static defaultProps: Partial<CheckoutComponentProps> = {
-        isLoading: false,
-    };
-
     stepMap: Record<CheckoutSteps, CheckoutMapStep> = {
         [CheckoutSteps.SHIPPING_STEP]: {
             number: 1,
@@ -192,8 +188,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
         const {
             onShippingEstimationFieldsChange,
             saveAddressInformation,
-            isPickInStoreMethodSelected,
-            handleSelectDeliveryMethod,
             onChangeEmailRequired,
         } = this.props;
 
@@ -202,8 +196,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
                  <CheckoutShipping
                    saveAddressInformation={ saveAddressInformation }
                    onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
-                   handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
-                   isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
                    onChangeEmailRequired={ onChangeEmailRequired }
                  />
              </Suspense>
@@ -212,7 +204,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
 
     renderBillingStep(): ReactElement {
         const {
-            setLoading,
             setDetailsStep,
             savePaymentInformation,
             onChangeEmailRequired,
@@ -221,7 +212,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
         return (
              <Suspense fallback={ <Loader /> }>
                  <CheckoutBilling
-                   setLoading={ setLoading }
                    setDetailsStep={ setDetailsStep }
                    savePaymentInformation={ savePaymentInformation }
                    onChangeEmailRequired={ onChangeEmailRequired }

@@ -11,8 +11,9 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { ShippingMethod } from 'Query/Checkout.type';
+import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -30,55 +31,37 @@ import {
 export const mapStateToProps = (state: RootState): CheckoutDeliveryOptionsContainerMapStateProps => ({
     shippingMethods: state.CheckoutReducer.shippingMethods,
     selectedShippingMethod: state.CheckoutReducer.selectedShippingMethod,
+    isPickInStoreMethodSelected: state.CheckoutReducer.isPickInStoreMethodSelected,
 });
 
 /** @namespace Component/CheckoutDeliveryOptions/Container/mapDispatchToProps */
-export const mapDispatchToProps = (): CheckoutDeliveryOptionsContainerMapDispatchProps => ({});
+export const mapDispatchToProps = (dispatch: Dispatch): CheckoutDeliveryOptionsContainerMapDispatchProps => ({
+    updateCheckoutStore: (state) => dispatch(updateCheckoutStore(state)),
+});
 
 /** @namespace Component/CheckoutDeliveryOptions/Container */
 export class CheckoutDeliveryOptionsContainer extends PureComponent<
 CheckoutDeliveryOptionsContainerProps,
 CheckoutDeliveryOptionsContainerState
 > {
-    containerFunctions = {
-        selectShippingMethod: this.selectShippingMethod.bind(this),
-    };
-
     dataMap = {};
 
     containerProps(): Pick<CheckoutDeliveryOptionsComponentProps, CheckoutDeliveryOptionsContainerPropsKeys> {
         const {
             shippingMethods,
-            handleSelectDeliveryMethod,
             selectedShippingMethod,
         } = this.props;
 
         return {
             selectedShippingMethod,
             shippingMethods,
-            handleSelectDeliveryMethod,
         };
-    }
-
-    // eslint-disable-next-line consistent-return
-    selectShippingMethod(shippingMethod: ShippingMethod): void {
-        const { onShippingMethodSelect, handleSelectDeliveryMethod } = this.props;
-        const { method_code } = shippingMethod;
-
-        if (method_code === 'pickup') {
-            handleSelectDeliveryMethod();
-
-            return;
-        }
-
-        onShippingMethodSelect(shippingMethod);
     }
 
     render(): ReactElement {
         return (
              <CheckoutDeliveryOptions
                { ...this.containerProps() }
-               { ...this.containerFunctions }
              />
         );
     }

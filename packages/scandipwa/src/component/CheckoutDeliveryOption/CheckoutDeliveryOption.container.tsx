@@ -11,7 +11,10 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
+import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config';
+import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
 import { ReactElement } from 'Type/Common.type';
 import { getCartShippingItemPrice, getCartShippingItemSubPrice } from 'Util/Cart';
 import { RootState } from 'Util/Store/Store.type';
@@ -32,10 +35,13 @@ export const mapStateToProps = (state: RootState): CheckoutDeliveryOptionContain
     cartDisplayConfig: state.ConfigReducer.cartDisplayConfig,
     getCartShippingItemPrice: getCartShippingItemPrice(state),
     getCartShippingItemSubPrice: getCartShippingItemSubPrice(state),
+    isPickInStoreMethodSelected: state.CheckoutReducer.isPickInStoreMethodSelected,
 });
 
 /** @namespace Component/CheckoutDeliveryOption/Container/mapDispatchToProps */
-export const mapDispatchToProps = (): CheckoutDeliveryOptionContainerMapDispatchProps => ({});
+export const mapDispatchToProps = (dispatch: Dispatch): CheckoutDeliveryOptionContainerMapDispatchProps => ({
+    updateCheckoutStore: (state) => dispatch(updateCheckoutStore(state)),
+});
 
 /** @namespace Component/CheckoutDeliveryOption/Container */
 export class CheckoutDeliveryOptionContainer extends PureComponent<CheckoutDeliveryOptionContainerProps> {
@@ -66,13 +72,24 @@ export class CheckoutDeliveryOptionContainer extends PureComponent<CheckoutDeliv
     }
 
     onOptionClick(): void {
-        const { onClick, option } = this.props;
+        const {
+            updateCheckoutStore,
+            option,
+            option: { method_code, available },
+            isPickInStoreMethodSelected,
+        } = this.props;
 
-        if (!option.available) {
+        if (!available) {
             return;
         }
 
-        onClick(option);
+        if (method_code === StoreInPickUpCode.METHOD_CODE) {
+            updateCheckoutStore({ isPickInStoreMethodSelected: !isPickInStoreMethodSelected });
+
+            return;
+        }
+
+        updateCheckoutStore({ selectedShippingMethod: option });
     }
 
     render(): ReactElement {

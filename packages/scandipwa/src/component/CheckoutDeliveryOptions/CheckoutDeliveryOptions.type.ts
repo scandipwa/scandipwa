@@ -10,17 +10,19 @@
  */
 
 import { ShippingMethod } from 'Query/Checkout.type';
+import { CheckoutStore } from 'Store/Checkout/Checkout.type';
 
 export interface CheckoutDeliveryOptionsContainerMapStateProps {
     shippingMethods: ShippingMethod[];
     selectedShippingMethod?: ShippingMethod;
+    isPickInStoreMethodSelected: boolean;
 }
 
-export interface CheckoutDeliveryOptionsContainerMapDispatchProps {}
+export interface CheckoutDeliveryOptionsContainerMapDispatchProps {
+    updateCheckoutStore: (state: Partial<CheckoutStore>) => void;
+}
 
 export interface CheckoutDeliveryOptionsBaseContainerProps {
-    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
-    handleSelectDeliveryMethod: () => void;
     selectedShippingMethod?: Partial<ShippingMethod>;
 }
 
@@ -34,13 +36,10 @@ export interface CheckoutDeliveryOptionsContainerState {
 
 export interface CheckoutDeliveryOptionsComponentProps {
     shippingMethods: ShippingMethod[];
-    selectShippingMethod: (shippingMethod: ShippingMethod) => void;
-    handleSelectDeliveryMethod: () => void;
     selectedShippingMethod?: Partial<ShippingMethod>;
     isShippingMethodPreSelected: boolean;
 }
 
 export type CheckoutDeliveryOptionsContainerPropsKeys =
 | 'selectedShippingMethod'
-| 'shippingMethods'
-| 'handleSelectDeliveryMethod';
+| 'shippingMethods';

@@ -104,7 +104,6 @@ CheckoutShippingContainerState
     containerProps(): Pick<CheckoutShippingComponentProps, CheckoutShippingContainerPropsKeys> {
         const {
             cartTotalSubPrice,
-            handleSelectDeliveryMethod,
             isDeliveryOptionsLoading,
             isPickInStoreMethodSelected,
             totals,
@@ -113,7 +112,6 @@ CheckoutShippingContainerState
 
         return {
             cartTotalSubPrice,
-            handleSelectDeliveryMethod,
             isDeliveryOptionsLoading,
             isPickInStoreMethodSelected,
             totals,

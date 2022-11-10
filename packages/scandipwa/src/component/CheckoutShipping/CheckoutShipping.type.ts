@@ -52,7 +52,6 @@ export interface CheckoutShippingContainerFunctions {
 export interface CheckoutShippingContainerBaseProps {
     saveAddressInformation: (addressInformation: AddressInformation) => Promise<void>;
     shippingMethods: ShippingMethod[];
-    handleSelectDeliveryMethod: () => void;
     isPickInStoreMethodSelected: boolean;
     onShippingEstimationFieldsChange: (address: EstimateAddress) => void;
     onStoreSelect: (address: StoreWithCountryId) => void;
@@ -85,13 +84,11 @@ export interface CheckoutShippingComponentProps {
     onAddressSelect: (id: number) => void;
     isDeliveryOptionsLoading: boolean;
     onChangeEmailRequired: () => void;
-    handleSelectDeliveryMethod: () => void;
     isPickInStoreMethodSelected: boolean;
 }
 
 export type CheckoutShippingContainerPropsKeys =
 | 'cartTotalSubPrice'
-| 'handleSelectDeliveryMethod'
 | 'isDeliveryOptionsLoading'
 | 'isPickInStoreMethodSelected'
 | 'totals'

@@ -20,7 +20,6 @@ import StoreInPickUpComponent from 'Component/StoreInPickUp';
 import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { ReactElement } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
-import { getAllCartItemsSku } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
 
 import { CheckoutShippingComponentProps } from './CheckoutShipping.type';
@@ -113,28 +112,18 @@ export class CheckoutShippingComponent extends PureComponent<CheckoutShippingCom
     renderPickInStoreMethod(): ReactElement {
         const {
             onShippingMethodSelect,
-            totals: { items },
         } = this.props;
 
         return (
             <StoreInPickUpComponent
               onShippingMethodSelect={ onShippingMethodSelect }
-              cartItemsSku={ getAllCartItemsSku(items || []) }
             />
         );
     }
 
     renderDelivery(): ReactElement {
-        const {
-            onShippingMethodSelect,
-            handleSelectDeliveryMethod,
-        } = this.props;
-
         return (
-            <CheckoutDeliveryOptions
-              onShippingMethodSelect={ onShippingMethodSelect }
-              handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
-            />
+            <CheckoutDeliveryOptions />
         );
     }
 

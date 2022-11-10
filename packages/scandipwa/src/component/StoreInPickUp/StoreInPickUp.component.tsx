@@ -80,7 +80,6 @@ export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponent
             shippingMethods,
             onShippingMethodSelect,
             setSelectedStore,
-            cartItemsSku,
         } = this.props;
 
         return (
@@ -88,7 +87,6 @@ export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponent
               shippingMethods={ shippingMethods }
               onShippingMethodSelect={ onShippingMethodSelect }
               setSelectedStore={ setSelectedStore }
-              cartItemsSku={ cartItemsSku }
             />
         );
     }

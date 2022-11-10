@@ -47,7 +47,6 @@ export const mapStateToProps = (state: RootState): StoreInPickUpContainerMapStat
 /** @namespace Component/StoreInPickUp/Container */
 export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainerProps> {
     static defaultProps: Partial<StoreInPickUpContainerProps> = {
-        cartItemsSku: [],
         selectedStore: null,
     };
 
@@ -60,7 +59,6 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
         const {
             onShippingMethodSelect,
             shippingMethods,
-            cartItemsSku,
             selectedStore,
         } = this.props;
 
@@ -68,7 +66,6 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
             onShippingMethodSelect,
             selectedStore,
             shippingMethods,
-            cartItemsSku,
         };
     }
 

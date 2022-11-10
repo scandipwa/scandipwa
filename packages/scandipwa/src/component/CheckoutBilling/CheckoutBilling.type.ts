@@ -44,7 +44,6 @@ export interface CheckoutBillingContainerMapDispatchProps {
 export interface CheckoutBillingContainerBaseProps {
     savePaymentInformation: (paymentInformation: PaymentInformation) => Promise<void>;
     setDetailsStep: (orderID: string) => void;
-    setLoading: (isLoading: boolean) => void;
     onChangeEmailRequired: () => void;
 }
 
@@ -74,7 +73,6 @@ export interface CheckoutBillingContainerState {
 }
 
 export interface CheckoutBillingComponentProps extends CheckoutBillingContainerFunctions {
-    setLoading: (isLoading: boolean) => void;
     setDetailsStep: (orderID: string) => void;
     isSameAsShipping: boolean;
     termsAreEnabled: boolean;
@@ -100,7 +98,6 @@ export type CheckoutBillingContainerPropsKeys =
 | 'isSameAsShipping'
 | 'selectedShippingMethod'
 | 'setDetailsStep'
-| 'setLoading'
 | 'termsAndConditions'
 | 'termsAreEnabled'
 | 'totals';
