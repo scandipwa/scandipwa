@@ -55,7 +55,6 @@ CheckoutAddressBookContainerState
         isBilling: false,
         onAddressSelect: noopFn,
         onShippingEstimationFieldsChange: noopFn,
-        isSubmitted: false,
         is_virtual: false,
     };
 
@@ -146,7 +145,6 @@ CheckoutAddressBookContainerState
             customer,
             onShippingEstimationFieldsChange,
             isBilling,
-            isSubmitted,
             is_virtual,
         } = this.props;
         const { selectedAddressId } = this.state;
@@ -156,7 +154,6 @@ CheckoutAddressBookContainerState
             onShippingEstimationFieldsChange,
             isBilling,
             selectedAddressId,
-            isSubmitted,
             is_virtual,
         };
     }

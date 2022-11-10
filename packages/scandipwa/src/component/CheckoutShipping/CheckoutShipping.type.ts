@@ -15,7 +15,7 @@ import { ShippingMethod } from 'Query/Checkout.type';
 import { Customer } from 'Query/MyAccount.type';
 import { AddressInformation, EstimateAddress } from 'Route/Checkout/Checkout.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
-import { GQLEstimateShippingCostsAddress } from 'Type/Graphql.type';
+import { CheckoutStore } from 'Store/Checkout/Checkout.type';
 import { FieldData } from 'Util/Form/Form.type';
 import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
@@ -25,10 +25,14 @@ export interface CheckoutShippingContainerMapStateProps {
     totals: CartTotals;
     cartTotalSubPrice: number | null;
     savedShippingMethodCode: string;
+    isDeliveryOptionsLoading: boolean;
+    selectedStoreAddress?: StoreWithCountryId;
+    selectedShippingMethod?: ShippingMethod;
+    shippingMethods: ShippingMethod[];
 }
 
 export interface CheckoutShippingContainerMapDispatchProps {
-    updateShippingFields: (fields: Record<string, unknown>) => void;
+    updateCheckoutStore: (state: Partial<CheckoutStore>) => void;
 }
 
 export interface CheckoutShippingContainerFunctions {
@@ -48,15 +52,10 @@ export interface CheckoutShippingContainerFunctions {
 export interface CheckoutShippingContainerBaseProps {
     saveAddressInformation: (addressInformation: AddressInformation) => Promise<void>;
     shippingMethods: ShippingMethod[];
-    estimateAddress?: GQLEstimateShippingCostsAddress;
     handleSelectDeliveryMethod: () => void;
-    isLoading: boolean;
     isPickInStoreMethodSelected: boolean;
-    isSubmitted: boolean;
     onShippingEstimationFieldsChange: (address: EstimateAddress) => void;
-    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
     onStoreSelect: (address: StoreWithCountryId) => void;
-    selectedStoreAddress: StoreWithCountryId;
     onChangeEmailRequired: () => void;
 }
 
@@ -66,8 +65,6 @@ export type CheckoutShippingContainerProps = CheckoutShippingContainerMapStatePr
 
 export interface CheckoutShippingContainerState {
     selectedCustomerAddressId: number;
-    isSubmitted: boolean;
-    selectedShippingMethod: ShippingMethod | undefined;
 }
 
 export interface CheckoutShippingComponentProps {
@@ -83,28 +80,20 @@ export interface CheckoutShippingComponentProps {
         validation: boolean | ValidationDOMOutput
     ) => void;
     onShippingEstimationFieldsChange: (address: EstimateAddress) => void;
-    shippingMethods: ShippingMethod[];
     onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
     selectedShippingMethod: ShippingMethod | undefined;
     onAddressSelect: (id: number) => void;
-    isLoading: boolean;
+    isDeliveryOptionsLoading: boolean;
     onChangeEmailRequired: () => void;
-    isSubmitted: boolean;
-    onStoreSelect: (address: StoreWithCountryId) => void;
-    estimateAddress?: GQLEstimateShippingCostsAddress;
     handleSelectDeliveryMethod: () => void;
     isPickInStoreMethodSelected: boolean;
 }
 
 export type CheckoutShippingContainerPropsKeys =
 | 'cartTotalSubPrice'
-| 'estimateAddress'
 | 'handleSelectDeliveryMethod'
-| 'isLoading'
+| 'isDeliveryOptionsLoading'
 | 'isPickInStoreMethodSelected'
-| 'isSubmitted'
-| 'shippingMethods'
 | 'totals'
 | 'selectedShippingMethod'
-| 'onStoreSelect'
 | 'onShippingEstimationFieldsChange';

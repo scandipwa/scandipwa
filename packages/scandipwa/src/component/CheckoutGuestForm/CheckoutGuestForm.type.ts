@@ -15,6 +15,7 @@ import { EventFieldData } from 'Component/Field/Field.type';
 import { FormFields } from 'Component/Form/Form.type';
 import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { SignInOptions } from 'Query/MyAccount.type';
+import { CheckoutStore } from 'Store/Checkout/Checkout.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { ValidationDOMOutput, ValidationRule } from 'Util/Validator/Validator.type';
@@ -25,15 +26,16 @@ export interface CheckoutGuestFormContainerMapStateProps {
     isEmailAvailable: boolean;
     minimumPasswordLength: number;
     minimumPasswordCharacter: string;
+    isGuestEmailSaved: boolean;
+    isVisibleEmailRequired: boolean;
 }
 
 export interface CheckoutGuestFormContainerMapDispatchProps {
     signIn: (options: SignInOptions) => void;
     showNotification: (type: NotificationType, message: string) => void;
     showErrorNotification: (error: NetworkError | NetworkError[]) => void;
-    clearEmailStatus: () => void;
     checkEmailAvailability: (email: string) => void;
-    updateEmail: (email: string) => void;
+    updateCheckoutStore: (state: Partial<CheckoutStore>) => void;
 }
 
 export interface CheckoutGuestFormContainerFunctions {
@@ -54,8 +56,6 @@ export interface CheckoutGuestFormContainerFunctions {
 
 export interface CheckoutGuestFormContainerBaseProps {
     isCreateUser: boolean;
-    isGuestEmailSaved: boolean;
-    isVisibleEmailRequired: boolean;
     onCreateUserChange: () => void;
     onPasswordChange: (password: string) => void ;
     onEmailChange: (email: string) => void;

@@ -13,7 +13,7 @@ import { CustomerAddress } from 'Query/MyAccount.type';
 import { OrderAddress } from 'Query/Order.type';
 import { Country, Region } from 'Query/Region.type';
 import { Store } from 'Query/StoreInPickUp.type';
-import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
+import { CheckoutAddress } from 'Store/Checkout/Checkout.type';
 import { GQLCountryCodeEnum, GQLCustomerAddressInput } from 'Type/Graphql.type';
 import getStore from 'Util/Store';
 import { RootState } from 'Util/Store/Store.type';

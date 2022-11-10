@@ -21,7 +21,7 @@ import {
     MyAccountPageState,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CheckoutSteps, UPDATE_EMAIL_CHECK_FREQUENCY } from 'Route/Checkout/Checkout.config';
-import { updateEmail, updateEmailAvailable } from 'Store/Checkout/Checkout.action';
+import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
@@ -59,6 +59,8 @@ export const mapStateToProps = (state: RootState): CheckoutGuestFormContainerMap
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
     minimumPasswordLength: state.ConfigReducer.minimun_password_length,
     minimumPasswordCharacter: state.ConfigReducer.required_character_classes_number,
+    isGuestEmailSaved: state.CheckoutReducer.isGuestEmailSaved,
+    isVisibleEmailRequired: state.CheckoutReducer.isVisibleEmailRequired,
 });
 
 /** @namespace Component/CheckoutGuestForm/Container/mapDispatchToProps */
@@ -68,11 +70,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutGuestFormContain
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
-    clearEmailStatus: () => dispatch(updateEmailAvailable(true)),
     checkEmailAvailability: (email) => CheckoutDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, email),
     ),
-    updateEmail: (email) => dispatch(updateEmail(email)),
+    updateCheckoutStore: (state) => dispatch(updateCheckoutStore(state)),
 });
 
 /** @namespace Component/CheckoutGuestForm/Container */
@@ -114,23 +115,10 @@ CheckoutGuestFormContainerState
     __construct(props: CheckoutGuestFormContainerProps): void {
         super.__construct?.(props);
 
-        const { clearEmailStatus } = props;
+        const { updateCheckoutStore } = props;
 
-        clearEmailStatus();
+        updateCheckoutStore({ isEmailAvailable: true });
     }
-
-    // componentDidMount(): void {
-    //     setTimeout(
-    //         () => {
-    //             const field = document.getElementById(GUEST_EMAIL_FIELD_ID);
-
-    //             if (field) {
-    //                 this.handleEmailInput(field.value);
-    //             }
-    //         },
-    //         AUTOFILL_CHECK_TIMER
-    //     );
-    // }
 
     componentDidUpdate(prevProps: CheckoutGuestFormContainerProps): void {
         const { isVisibleEmailRequired } = this.props;
@@ -210,23 +198,23 @@ CheckoutGuestFormContainerState
         this.checkEmailAvailability(email);
         onEmailChange(email);
 
-        const { updateEmail, isEmailAvailable } = this.props;
+        const { updateCheckoutStore, isEmailAvailable } = this.props;
 
         if (isEmailAvailable) {
-            updateEmail(email);
+            updateCheckoutStore({ email });
         }
     }
 
     handleCreateUser(): void {
-        const { onCreateUserChange } = this.props;
+        const { updateCheckoutStore, isCreateUser } = this.props;
 
-        onCreateUserChange();
+        updateCheckoutStore({ isCreateUser: !isCreateUser });
     }
 
     handlePasswordInput(password: string): void {
-        const { onPasswordChange } = this.props;
+        const { updateCheckoutStore } = this.props;
 
-        onPasswordChange(password);
+        updateCheckoutStore({ password });
     }
 
     render(): ReactElement {

@@ -41,6 +41,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpContainerDi
 /** @namespace Component/StoreInPickUp/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): StoreInPickUpContainerMapStateProps => ({
     selectedStore: state.StoreInPickUpReducer.store,
+    shippingMethods: state.CheckoutReducer.shippingMethods,
 });
 
 /** @namespace Component/StoreInPickUp/Container */
@@ -57,18 +58,14 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
 
     containerProps(): Pick<StoreInPickUpComponentProps, StoreInPickUpComponentPropsKeys> {
         const {
-            countryId,
             onShippingMethodSelect,
-            onStoreSelect,
             shippingMethods,
             cartItemsSku,
             selectedStore,
         } = this.props;
 
         return {
-            countryId,
             onShippingMethodSelect,
-            onStoreSelect,
             selectedStore,
             shippingMethods,
             cartItemsSku,

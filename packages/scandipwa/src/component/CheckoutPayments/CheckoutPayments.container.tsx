@@ -54,21 +54,7 @@ CheckoutPaymentsContainerState
         selectedPaymentCode: '',
     };
 
-    dataMap = {
-        // [ PaymentMethods.KLARNA ]: this.getKlarnaData.bind(this)
-    };
-
-    // componentDidMount(): void {
-    //     if (window.formPortalCollector) {
-    //         window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData, 'CheckoutPaymentsContainer');
-    //     }
-    // }
-
-    // componentWillUnmount(): void {
-    //     if (window.formPortalCollector) {
-    //         window.formPortalCollector.unsubscribe(CheckoutSteps.BILLING_STEP, 'CheckoutPaymentsContainer');
-    //     }
-    // }
+    dataMap = {};
 
     containerProps(): Pick<CheckoutPaymentsComponentProps, CheckoutPaymentsContainerPropsKeys> {
         const {
@@ -86,26 +72,6 @@ CheckoutPaymentsContainerState
             showError,
         };
     }
-
-    // getKlarnaData() {
-    //     return { asyncData: KlarnaContainer.authorize() };
-    // }
-
-    // collectAdditionalData() {
-    //     const { selectedPaymentCode } = this.state;
-
-    //     if (!selectedPaymentCode) {
-    //         return {};
-    //     }
-
-    //     const additionalDataGetter = this.dataMap[ selectedPaymentCode ];
-
-    //     if (!additionalDataGetter) {
-    //         return {};
-    //     }
-
-    //     return additionalDataGetter();
-    // }
 
     selectPaymentMethod({ code }: PaymentMethod): void {
         const {

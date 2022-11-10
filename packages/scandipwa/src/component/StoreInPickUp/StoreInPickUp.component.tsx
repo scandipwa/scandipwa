@@ -77,9 +77,7 @@ export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponent
 
     renderPopup(): ReactElement {
         const {
-            countryId,
             shippingMethods,
-            onStoreSelect,
             onShippingMethodSelect,
             setSelectedStore,
             cartItemsSku,
@@ -87,9 +85,7 @@ export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponent
 
         return (
             <StoreInPickUpPopupComponent
-              countryId={ countryId }
               shippingMethods={ shippingMethods }
-              onStoreSelect={ onStoreSelect }
               onShippingMethodSelect={ onShippingMethodSelect }
               setSelectedStore={ setSelectedStore }
               cartItemsSku={ cartItemsSku }

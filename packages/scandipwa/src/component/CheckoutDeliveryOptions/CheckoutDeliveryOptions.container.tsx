@@ -10,27 +10,36 @@
  */
 
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
 import { ShippingMethod } from 'Query/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 import {
     CheckoutDeliveryOptionsComponentProps,
+    CheckoutDeliveryOptionsContainerMapDispatchProps,
+    CheckoutDeliveryOptionsContainerMapStateProps,
     CheckoutDeliveryOptionsContainerProps,
     CheckoutDeliveryOptionsContainerPropsKeys,
     CheckoutDeliveryOptionsContainerState,
 } from './CheckoutDeliveryOptions.type';
+
+/** @namespace Component/CheckoutDeliveryOptions/Container/mapStateToProps */
+export const mapStateToProps = (state: RootState): CheckoutDeliveryOptionsContainerMapStateProps => ({
+    shippingMethods: state.CheckoutReducer.shippingMethods,
+    selectedShippingMethod: state.CheckoutReducer.selectedShippingMethod,
+});
+
+/** @namespace Component/CheckoutDeliveryOptions/Container/mapDispatchToProps */
+export const mapDispatchToProps = (): CheckoutDeliveryOptionsContainerMapDispatchProps => ({});
 
 /** @namespace Component/CheckoutDeliveryOptions/Container */
 export class CheckoutDeliveryOptionsContainer extends PureComponent<
 CheckoutDeliveryOptionsContainerProps,
 CheckoutDeliveryOptionsContainerState
 > {
-    static defaultProps: Partial<CheckoutDeliveryOptionsContainerProps> = {
-        selectedShippingMethod: {},
-    };
-
     containerFunctions = {
         selectShippingMethod: this.selectShippingMethod.bind(this),
     };
@@ -54,8 +63,9 @@ CheckoutDeliveryOptionsContainerState
     // eslint-disable-next-line consistent-return
     selectShippingMethod(shippingMethod: ShippingMethod): void {
         const { onShippingMethodSelect, handleSelectDeliveryMethod } = this.props;
+        const { method_code } = shippingMethod;
 
-        if (shippingMethod.method_code === 'pickup') {
+        if (method_code === 'pickup') {
             handleSelectDeliveryMethod();
 
             return;
@@ -74,4 +84,4 @@ CheckoutDeliveryOptionsContainerState
     }
 }
 
-export default CheckoutDeliveryOptionsContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutDeliveryOptionsContainer);

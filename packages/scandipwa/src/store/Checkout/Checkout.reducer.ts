@@ -12,8 +12,6 @@
 import { Reducer } from 'redux';
 
 import {
-    CheckoutAction,
-    CheckoutActionType,
     CheckoutStore,
 } from './Checkout.type';
 
@@ -22,44 +20,32 @@ export const getInitialState = (): CheckoutStore => ({
     shippingFields: {},
     email: '',
     isEmailAvailable: true,
+    isDeliveryOptionsLoading: false,
+    shippingMethods: [],
+    paymentMethods: [],
+    shippingAddress: {},
+    selectedStoreAddress: undefined,
+    selectedShippingMethod: undefined,
+    isGuestEmailSaved: false,
+    isCreateUser: false,
+    estimateAddress: undefined,
+    isVisibleEmailRequired: false,
+    password: '',
 });
 
 /** @namespace Store/Checkout/Reducer/CheckoutReducer */
 export const CheckoutReducer: Reducer<
-CheckoutStore,
-CheckoutAction
+CheckoutStore
 > = (
     state = getInitialState(),
     action,
 ) => {
-    switch (action.type) {
-    case CheckoutActionType.UPDATE_SHIPPING_FIELDS:
-        const { shippingFields } = action;
+    const { state: newState } = action;
 
-        return {
-            ...state,
-            shippingFields,
-        };
-
-    case CheckoutActionType.UPDATE_EMAIL:
-        const { email } = action;
-
-        return {
-            ...state,
-            email,
-        };
-
-    case CheckoutActionType.UPDATE_EMAIL_AVAILABLE:
-        const { isEmailAvailable } = action;
-
-        return {
-            ...state,
-            isEmailAvailable,
-        };
-
-    default:
-        return state;
-    }
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default CheckoutReducer;

@@ -19,8 +19,8 @@ import {
 } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.type';
 import { ShippingMethod } from 'Query/Checkout.type';
-import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
-import { updateShippingFields } from 'Store/Checkout/Checkout.action';
+import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
+import { CheckoutAddress } from 'Store/Checkout/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
 import {
     trimCheckoutAddress,
@@ -50,13 +50,17 @@ export const mapStateToProps = (state: RootState): CheckoutShippingContainerMapS
     customer: state.MyAccountReducer.customer,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
     totals: state.CartReducer.cartTotals,
+    isDeliveryOptionsLoading: state.CheckoutReducer.isDeliveryOptionsLoading,
     cartTotalSubPrice: getCartTotalSubPrice(state),
     savedShippingMethodCode: state.CheckoutReducer.shippingFields.shippingMethod as string,
+    selectedStoreAddress: state.CheckoutReducer.selectedStoreAddress,
+    selectedShippingMethod: state.CheckoutReducer.selectedShippingMethod,
+    shippingMethods: state.CheckoutReducer.shippingMethods,
 });
 
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutShippingContainerMapDispatchProps => ({
-    updateShippingFields: (fields) => dispatch(updateShippingFields(fields)),
+    updateCheckoutStore: (state) => dispatch(updateCheckoutStore(state)),
 });
 
 /** @namespace Component/CheckoutShipping/Container */
@@ -65,8 +69,6 @@ CheckoutShippingContainerProps,
 CheckoutShippingContainerState
 > {
     static defaultProps: Partial<CheckoutShippingContainerProps> = {
-        selectedStoreAddress: undefined,
-        isSubmitted: false,
         cartTotalSubPrice: null,
     };
 
@@ -80,22 +82,8 @@ CheckoutShippingContainerState
     __construct(props: CheckoutShippingContainerProps): void {
         super.__construct?.(props);
 
-        const { shippingMethods = [], savedShippingMethodCode } = props;
-
-        const previousShippingMethod = shippingMethods.find(
-            (method) => `${method.carrier_code}_${method.method_code}` === savedShippingMethodCode,
-        );
-
-        const [defaultShippingMethod] = shippingMethods.filter((method) => method.available);
-        const selectedShippingMethod = previousShippingMethod || defaultShippingMethod || {};
-        const { method_code = '' } = selectedShippingMethod;
-
         this.state = {
             selectedCustomerAddressId: 0,
-            isSubmitted: false,
-            selectedShippingMethod: method_code && method_code !== StoreInPickUpCode.METHOD_CODE
-                ? selectedShippingMethod
-                : undefined,
         };
     }
 
@@ -116,31 +104,41 @@ CheckoutShippingContainerState
     containerProps(): Pick<CheckoutShippingComponentProps, CheckoutShippingContainerPropsKeys> {
         const {
             cartTotalSubPrice,
-            estimateAddress,
             handleSelectDeliveryMethod,
-            isLoading,
+            isDeliveryOptionsLoading,
             isPickInStoreMethodSelected,
-            isSubmitted,
-            shippingMethods,
             totals,
-            onStoreSelect,
             onShippingEstimationFieldsChange,
         } = this.props;
-        const { selectedShippingMethod } = this.state;
 
         return {
             cartTotalSubPrice,
-            estimateAddress,
             handleSelectDeliveryMethod,
-            isLoading,
+            isDeliveryOptionsLoading,
             isPickInStoreMethodSelected,
-            isSubmitted,
-            shippingMethods,
             totals,
-            selectedShippingMethod,
-            onStoreSelect,
             onShippingEstimationFieldsChange,
+            selectedShippingMethod: this.handleSelectedShippingMethod(),
         };
+    }
+
+    handleSelectedShippingMethod(): ShippingMethod | undefined {
+        const {
+            shippingMethods = [],
+            savedShippingMethodCode,
+        } = this.props;
+
+        const previousShippingMethod = shippingMethods.find(
+            (method) => `${method.carrier_code}_${method.method_code}` === savedShippingMethodCode,
+        );
+
+        const [defaultShippingMethod] = shippingMethods.filter((method) => method.available);
+        const selectedShippingMethod = previousShippingMethod || defaultShippingMethod || {};
+        const { method_code = '' } = selectedShippingMethod;
+
+        return method_code && method_code !== StoreInPickUpCode.METHOD_CODE
+            ? selectedShippingMethod
+            : undefined;
     }
 
     returnInStorePickupMethod(): ShippingMethod | undefined {
@@ -201,15 +199,14 @@ CheckoutShippingContainerState
         this.setState({ selectedCustomerAddressId: id });
     }
 
-    onShippingMethodSelect(method?: ShippingMethod): void {
-        const { onShippingMethodSelect } = this.props;
+    onShippingMethodSelect(selectedShippingMethod?: ShippingMethod): void {
+        const { updateCheckoutStore } = this.props;
 
-        if (!method) {
+        if (!selectedShippingMethod) {
             return;
         }
 
-        this.setState({ selectedShippingMethod: method });
-        onShippingMethodSelect(method);
+        updateCheckoutStore({ selectedShippingMethod });
     }
 
     onShippingError(
@@ -217,12 +214,9 @@ CheckoutShippingContainerState
         fields: FormFields | null,
         validation: boolean | ValidationDOMOutput,
     ): void {
-        // TODO: implement notification if some data in Form can not display error
-        const { isSubmitted } = this.state;
         const { onChangeEmailRequired } = this.props;
 
         onChangeEmailRequired();
-        this.setState({ isSubmitted: !isSubmitted });
         scrollToError(fields, validation);
     }
 
@@ -232,15 +226,15 @@ CheckoutShippingContainerState
     ): void {
         const {
             saveAddressInformation,
-            updateShippingFields,
+            updateCheckoutStore,
             addressLinesQty,
             selectedStoreAddress,
             customer: { default_shipping },
+            selectedShippingMethod,
         } = this.props;
 
         const {
             selectedCustomerAddressId,
-            selectedShippingMethod,
         } = this.state;
 
         const formattedFields = transformToNameValuePair <CheckoutAddress & Record<string, unknown>>(fields);
@@ -286,15 +280,17 @@ CheckoutShippingContainerState
         const shippingMethod = `${shipping_carrier_code}_${shipping_method_code}`;
         const { street = [] } = formattedFields;
 
-        updateShippingFields({
-            ...(
-                street.length
+        updateCheckoutStore({
+            shippingFields: {
+                ...(
+                    street.length
                     || ('id' in data.shipping_address
                     && default_shipping
                     && parseInt(default_shipping, 10) === data.shipping_address.id)
-                    ? formattedFields : data.shipping_address
-            ),
-            shippingMethod,
+                        ? formattedFields : data.shipping_address
+                ),
+                shippingMethod,
+            },
         });
     }
 

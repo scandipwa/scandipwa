@@ -24,7 +24,6 @@ export interface CheckoutAddressBookContainerBaseProps {
     onShippingEstimationFieldsChange: (address: EstimateAddress) => void;
     onAddressSelect: (id: number) => void;
     isBilling: boolean;
-    isSubmitted: boolean;
     is_virtual: boolean;
 }
 
@@ -43,7 +42,6 @@ export interface CheckoutAddressBookComponentProps {
     onShippingEstimationFieldsChange: ((address: EstimateAddress) => void) | (() => void);
     selectedAddressId: number;
     isBilling: boolean;
-    isSubmitted: boolean;
     is_virtual: boolean;
 }
 
@@ -56,5 +54,4 @@ export type CheckoutAddressBookContainerPropsKeys =
 | 'onShippingEstimationFieldsChange'
 | 'isBilling'
 | 'selectedAddressId'
-| 'isSubmitted'
 | 'is_virtual';

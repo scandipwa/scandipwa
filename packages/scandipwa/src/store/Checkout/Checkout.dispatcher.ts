@@ -16,7 +16,7 @@ import CheckEmailQuery from 'Query/CheckEmail.query';
 import { NetworkError } from 'Type/Common.type';
 import { QueryDispatcher } from 'Util/Request';
 
-import { updateEmailAvailable } from './Checkout.action';
+import { updateCheckoutStore } from './Checkout.action';
 import { CheckoutDispatcherData } from './Checkout.type';
 
 /**
@@ -33,11 +33,11 @@ export class CheckoutDispatcher extends QueryDispatcher<string, CheckoutDispatch
     onSuccess(data: CheckoutDispatcherData, dispatch: Dispatch): void {
         const { isEmailAvailable: { is_email_available } } = data;
 
-        dispatch(updateEmailAvailable(is_email_available));
+        dispatch(updateCheckoutStore({ isEmailAvailable: is_email_available }));
     }
 
     onError(error: NetworkError | NetworkError[], dispatch: Dispatch): unknown {
-        dispatch(updateEmailAvailable(true));
+        dispatch(updateCheckoutStore({ isEmailAvailable: true }));
 
         return error;
     }

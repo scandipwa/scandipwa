@@ -15,7 +15,7 @@ import CartQuery from 'Query/Cart.query';
 import { CartAddress, CartItem, CartTotals as QuoteData } from 'Query/Cart.type';
 import { ProductLink } from 'Query/ProductList.type';
 import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
-import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
+import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -81,14 +81,16 @@ export class CartDispatcher {
                 if (address && street) {
                     if (!is_virtual) {
                         await dispatch(
-                            updateShippingFields({
-                                ...this.prepareCheckoutAddressFormat(address as CartAddress),
-                                method_code,
+                            updateCheckoutStore({
+                                shippingFields: {
+                                    ...this.prepareCheckoutAddressFormat(address as CartAddress),
+                                    method_code,
+                                },
                             }),
                         );
                     }
 
-                    await dispatch(updateEmail(email));
+                    await dispatch(updateCheckoutStore({ email }));
                 }
             }
 

@@ -13,6 +13,7 @@ import { ChangeEvent } from 'react';
 
 import { ShippingMethod } from 'Query/Checkout.type';
 import { Store } from 'Query/StoreInPickUp.type';
+import { CheckoutStore } from 'Store/Checkout/Checkout.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { Merge } from 'Type/Common.type';
@@ -24,6 +25,7 @@ export interface StoreInPickUpPopupContainerMapStateProps {
     countries: CountryOption[];
     defaultCountry: string;
     selectedStore: Store | null;
+    countryId?: string;
 }
 
 export interface StoreInPickUpPopupContainerDispatchProps {
@@ -31,6 +33,8 @@ export interface StoreInPickUpPopupContainerDispatchProps {
     showNotification: (type: NotificationType, message: string) => void;
     clearPickUpStore: () => void;
     goToPreviousNavigationState: () => void;
+
+    updateCheckoutStore: (state: Partial<CheckoutStore>) => void;
 }
 
 export interface StoreInPickUpPopupContainerFunctions {
@@ -41,9 +45,7 @@ export interface StoreInPickUpPopupContainerFunctions {
 }
 
 export interface StoreInPickUpPopupContainerBaseProps {
-    countryId: string;
     onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
-    onStoreSelect: (store: StoreWithCountryId) => void;
     setSelectedStore: (store: Store) => void;
     shippingMethods: ShippingMethod[];
     cartItemsSku: { sku: string }[];

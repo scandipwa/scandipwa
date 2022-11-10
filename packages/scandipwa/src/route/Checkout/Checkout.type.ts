@@ -18,10 +18,10 @@ import { CreateAccountOptions, Customer } from 'Query/MyAccount.type';
 import { Country } from 'Query/Region.type';
 import { Store } from 'Query/StoreInPickUp.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
+import { CheckoutAddress, CheckoutStore } from 'Store/Checkout/Checkout.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
-import { GQLCountryCodeEnum, GQLEstimateShippingCostsAddress } from 'Type/Graphql.type';
 
 import { CheckoutSteps } from './Checkout.config';
 
@@ -41,6 +41,11 @@ export interface CheckoutContainerMapStateProps {
     isCartLoading: boolean;
     shippingFields: Record<string, unknown>;
     minimumOrderAmount: MinimumOrderAmount | undefined;
+    shippingMethods: ShippingMethod[];
+    shippingAddress: Partial<CheckoutAddress>;
+    isCreateUser: boolean;
+    isVisibleEmailRequired: boolean;
+    password: string;
 }
 
 export interface CheckoutContainerDispatchProps {
@@ -54,22 +59,17 @@ export interface CheckoutContainerDispatchProps {
     showInfoNotification: (message: string) => void;
     showSuccessNotification: (message: string) => void;
     toggleBreadcrumbs: (state: boolean) => void;
-    updateEmail: (email: string) => void;
     updateMeta: (meta: Partial<PageMeta>) => void;
-    updateShippingFields: (fields: Record<string, unknown>) => void;
     updateShippingPrice: (data: TotalsObject) => void;
     setPickUpStore: (store: Store | null) => void;
+    updateCheckoutStore: (state: Partial<CheckoutStore>) => void;
 }
 
 export interface CheckoutContainerFunctions {
     goBack: () => void;
     handleSelectDeliveryMethod: () => void;
-    onCreateUserChange: () => void;
     onEmailChange: (email: string) => void;
-    onPasswordChange: (password: string) => void ;
     onShippingEstimationFieldsChange: (address: EstimateAddress) => void;
-    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
-    onStoreSelect: (address: StoreWithCountryId) => void;
     saveAddressInformation: (addressInformation: AddressInformation) => Promise<void>;
     savePaymentInformation: (paymentInformation: PaymentInformation) => Promise<void>;
     setDetailsStep: (orderID: string) => void;
@@ -89,35 +89,20 @@ export interface CheckoutContainerState {
     billingAddress: CheckoutAddress | undefined;
     checkoutStep: CheckoutSteps;
     email: string;
-    estimateAddress?: GQLEstimateShippingCostsAddress;
-    isCreateUser: boolean;
-    isDeliveryOptionsLoading: boolean;
-    isGuestEmailSaved: boolean;
     isLoading: boolean;
     isPickInStoreMethodSelected: boolean;
     orderID: string;
-    paymentMethods: PaymentMethod[];
     paymentTotals: TotalsObject | undefined;
     requestsSent: number;
-    selectedShippingMethod: string;
-    password: string;
-    shippingAddress: Partial<CheckoutAddress> | undefined;
-    shippingMethods: ShippingMethod[];
-    selectedStoreAddress: StoreWithCountryId | undefined;
-    isVisibleEmailRequired: boolean;
 }
 
 export interface CheckoutComponentProps extends CheckoutContainerFunctions {
-    billingAddress: CheckoutAddress | undefined;
+    billingAddress?: CheckoutAddress;
     cartTotalSubPrice: number | null;
     checkoutStep: CheckoutSteps;
     checkoutTotals: CartTotals;
     email: string;
-    estimateAddress: GQLEstimateShippingCostsAddress | undefined;
-    isCreateUser: boolean;
-    isDeliveryOptionsLoading: boolean;
     isEmailAvailable: boolean;
-    isGuestEmailSaved: boolean;
     isInStoreActivated: boolean;
     isLoading: boolean;
     isCartLoading: boolean;
@@ -125,15 +110,9 @@ export interface CheckoutComponentProps extends CheckoutContainerFunctions {
     isPickInStoreMethodSelected: boolean;
     isSignedIn: boolean;
     orderID: string;
-    paymentMethods: PaymentMethod[];
-    paymentTotals: TotalsObject | undefined;
-    selectedShippingMethod: string;
-    selectedStoreAddress: StoreWithCountryId | undefined;
     setHeaderState: (stateName: NavigationState) => void;
-    shippingAddress: Partial<CheckoutAddress> | undefined;
     shippingMethods: ShippingMethod[];
     totals: CartTotals;
-    isVisibleEmailRequired: boolean;
 }
 
 export type CheckoutContainerPropsKeys =
@@ -142,59 +121,23 @@ export type CheckoutContainerPropsKeys =
 | 'checkoutStep'
 | 'checkoutTotals'
 | 'email'
-| 'estimateAddress'
-| 'isCreateUser'
-| 'isDeliveryOptionsLoading'
 | 'isEmailAvailable'
-| 'isGuestEmailSaved'
 | 'isInStoreActivated'
 | 'isSignedIn'
 | 'isLoading'
 | 'isCartLoading'
 | 'isMobile'
 | 'orderID'
-| 'paymentMethods'
-| 'paymentTotals'
-| 'selectedShippingMethod'
 | 'setHeaderState'
-| 'shippingAddress'
 | 'shippingMethods'
 | 'totals'
-| 'selectedStoreAddress'
-| 'isPickInStoreMethodSelected'
-| 'isVisibleEmailRequired';
+| 'isPickInStoreMethodSelected';
 
 export interface AddressInformation {
     billing_address: CheckoutAddress | Partial<StoreWithCountryId>;
     shipping_address: CheckoutAddress | Partial<StoreWithCountryId>;
     shipping_carrier_code: string;
     shipping_method_code: string;
-}
-
-export interface CheckoutAddress {
-    city: string;
-    company?: string;
-    country_id: GQLCountryCodeEnum;
-    email?: string;
-    extension_attributes?: {
-        attribute_code: string;
-        value: string;
-    }[];
-    firstname: string;
-    lastname: string;
-    method?: string;
-    postcode: string;
-    region?: string;
-    region_code?: string;
-    region_id?: number;
-    street?: Array<string | null>;
-    telephone: string;
-    vat_id?: string;
-    guest_email?: string;
-    save_in_address_book?: boolean;
-    purchaseOrderNumber?: string;
-    id?: number;
-    region_string?: string;
 }
 
 export interface EstimateAddress {

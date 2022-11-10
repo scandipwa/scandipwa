@@ -11,12 +11,22 @@
 
 import { ShippingMethod } from 'Query/Checkout.type';
 
-export interface CheckoutDeliveryOptionsContainerProps {
-    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
+export interface CheckoutDeliveryOptionsContainerMapStateProps {
     shippingMethods: ShippingMethod[];
+    selectedShippingMethod?: ShippingMethod;
+}
+
+export interface CheckoutDeliveryOptionsContainerMapDispatchProps {}
+
+export interface CheckoutDeliveryOptionsBaseContainerProps {
+    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
     handleSelectDeliveryMethod: () => void;
     selectedShippingMethod?: Partial<ShippingMethod>;
 }
+
+export type CheckoutDeliveryOptionsContainerProps = CheckoutDeliveryOptionsBaseContainerProps
+& CheckoutDeliveryOptionsContainerMapStateProps
+& CheckoutDeliveryOptionsContainerMapDispatchProps;
 
 export interface CheckoutDeliveryOptionsContainerState {
     isShippingMethodPreSelected: boolean;

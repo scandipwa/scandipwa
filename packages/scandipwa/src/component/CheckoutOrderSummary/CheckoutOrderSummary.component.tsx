@@ -39,7 +39,6 @@ export class CheckoutOrderSummaryComponent extends PureComponent<CheckoutOrderSu
     static defaultProps: Partial<CheckoutOrderSummaryComponentProps> = {
         totals: undefined,
         isLoading: false,
-        isExpandable: false,
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
         cartTotalSubPrice: null,
@@ -417,9 +416,9 @@ export class CheckoutOrderSummaryComponent extends PureComponent<CheckoutOrderSu
     }
 
     renderContent(): ReactElement {
-        const { isExpandable } = this.props;
+        const { isMobile } = this.props;
 
-        if (isExpandable) {
+        if (isMobile) {
             return this.renderExpandableContent();
         }
 

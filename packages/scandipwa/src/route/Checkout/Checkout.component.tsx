@@ -67,8 +67,6 @@ export const ExpandableContent = lazy(() => import(
 /** @namespace Route/Checkout/Component */
 export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
     static defaultProps: Partial<CheckoutComponentProps> = {
-        paymentTotals: undefined,
-        selectedStoreAddress: undefined,
         isLoading: false,
     };
 
@@ -174,13 +172,8 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
     renderGuestForm(): ReactElement {
         const {
             checkoutStep,
-            isCreateUser,
             onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved,
             isSignedIn,
-            isVisibleEmailRequired,
         } = this.props;
         const isBilling = checkoutStep === CheckoutSteps.BILLING_STEP;
 
@@ -190,44 +183,27 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
 
         return (
              <CheckoutGuestForm
-               isCreateUser={ isCreateUser }
                onEmailChange={ onEmailChange }
-               onCreateUserChange={ onCreateUserChange }
-               onPasswordChange={ onPasswordChange }
-               isGuestEmailSaved={ isGuestEmailSaved }
-               isVisibleEmailRequired={ isVisibleEmailRequired }
              />
         );
     }
 
     renderShippingStep(): ReactElement {
         const {
-            shippingMethods,
             onShippingEstimationFieldsChange,
             saveAddressInformation,
-            isDeliveryOptionsLoading,
-            estimateAddress,
             isPickInStoreMethodSelected,
             handleSelectDeliveryMethod,
-            onShippingMethodSelect,
-            onStoreSelect,
-            selectedStoreAddress,
             onChangeEmailRequired,
         } = this.props;
 
         return (
              <Suspense fallback={ <Loader /> }>
                  <CheckoutShipping
-                   isLoading={ isDeliveryOptionsLoading }
-                   shippingMethods={ shippingMethods }
                    saveAddressInformation={ saveAddressInformation }
                    onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
-                   onShippingMethodSelect={ onShippingMethodSelect }
-                   estimateAddress={ estimateAddress }
                    handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
                    isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
-                   onStoreSelect={ onStoreSelect }
-                   selectedStoreAddress={ selectedStoreAddress }
                    onChangeEmailRequired={ onChangeEmailRequired }
                  />
              </Suspense>
@@ -238,10 +214,7 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
         const {
             setLoading,
             setDetailsStep,
-            shippingAddress,
-            paymentMethods = [],
             savePaymentInformation,
-            selectedShippingMethod,
             onChangeEmailRequired,
         } = this.props;
 
@@ -249,11 +222,8 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
              <Suspense fallback={ <Loader /> }>
                  <CheckoutBilling
                    setLoading={ setLoading }
-                   paymentMethods={ paymentMethods }
                    setDetailsStep={ setDetailsStep }
-                   shippingAddress={ shippingAddress }
                    savePaymentInformation={ savePaymentInformation }
-                   selectedShippingMethod={ selectedShippingMethod }
                    onChangeEmailRequired={ onChangeEmailRequired }
                  />
              </Suspense>
@@ -339,7 +309,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
         const {
             checkoutTotals,
             checkoutStep,
-            paymentTotals,
             isMobile,
         } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
@@ -353,8 +322,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
                  <CheckoutOrderSummary
                    checkoutStep={ checkoutStep }
                    totals={ checkoutTotals }
-                   paymentTotals={ paymentTotals }
-                   isExpandable={ isMobile }
                    showItems
                  />
                  { !showOnMobile && this.renderDiscountCode() }

@@ -15,7 +15,6 @@ import { Dispatch } from 'redux';
 
 import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
 import { ProductType } from 'Component/Product/Product.config';
-import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.type';
 import CheckoutQuery from 'Query/Checkout.query';
 import { PaymentMethod, SetGuestEmailOnCartOutput, ShippingMethod } from 'Query/Checkout.type';
 import MyAccountQuery from 'Query/MyAccount.query';
@@ -24,7 +23,8 @@ import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateShippingPrice } from 'Store/Cart/Cart.action';
 import { CartTotals } from 'Store/Cart/Cart.type';
-import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
+import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
+import { CheckoutAddress } from 'Store/Checkout/Checkout.type';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
@@ -59,7 +59,6 @@ import {
 } from './Checkout.config';
 import {
     AddressInformation,
-    CheckoutAddress,
     CheckoutComponentProps,
     CheckoutContainerDispatchProps,
     CheckoutContainerFunctions,
@@ -100,6 +99,11 @@ export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProp
     isSignedIn: state.MyAccountReducer.isSignedIn,
     shippingFields: state.CheckoutReducer.shippingFields,
     minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount,
+    shippingMethods: state.CheckoutReducer.shippingMethods,
+    shippingAddress: state.CheckoutReducer.shippingAddress,
+    isCreateUser: state.CheckoutReducer.isCreateUser,
+    isVisibleEmailRequired: state.CheckoutReducer.isVisibleEmailRequired,
+    password: state.CheckoutReducer.password,
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
@@ -126,12 +130,11 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
     createAccount: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch),
     ),
-    updateShippingFields: (fields) => dispatch(updateShippingFields(fields)),
-    updateEmail: (email) => dispatch(updateEmail(email)),
     checkEmailAvailability: (email) => CheckoutDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, email),
     ),
     updateShippingPrice: (data) => dispatch(updateShippingPrice(data)),
+    updateCheckoutStore: (state) => dispatch(updateCheckoutStore(state)),
 });
 
 /** @namespace Route/Checkout/Container */
@@ -149,12 +152,8 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         saveAddressInformation: this.saveAddressInformation.bind(this),
         onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this),
         onEmailChange: this.onEmailChange.bind(this),
-        onCreateUserChange: this.onCreateUserChange.bind(this),
-        onPasswordChange: this.onPasswordChange.bind(this),
         goBack: this.goBack.bind(this),
         handleSelectDeliveryMethod: this.handleSelectDeliveryMethod.bind(this),
-        onStoreSelect: this.onStoreSelect.bind(this),
-        onShippingMethodSelect: this.onShippingMethodSelect.bind(this),
         onChangeEmailRequired: this.onChangeEmailRequired.bind(this),
     };
 
@@ -181,24 +180,13 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
         this.state = {
             isLoading: !!is_virtual,
-            isDeliveryOptionsLoading: false,
             requestsSent: 0,
-            paymentMethods: [],
-            shippingMethods: [],
-            shippingAddress: undefined,
             billingAddress: undefined,
-            selectedShippingMethod: '',
             checkoutStep: this.determineCheckoutStepFromUrl(),
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || undefined,
             email: savedEmail || '',
-            isGuestEmailSaved: false,
-            isCreateUser: false,
-            estimateAddress: undefined,
             isPickInStoreMethodSelected: false,
-            isVisibleEmailRequired: false,
-            selectedStoreAddress: undefined,
-            password: '',
         };
     }
 
@@ -242,7 +230,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
                 },
             },
             isEmailAvailable,
-            updateEmail,
+            updateCheckoutStore,
             isCartLoading,
             shippingFields,
             shippingFields: {
@@ -251,6 +239,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             totals: {
                 is_virtual,
             },
+            isVisibleEmailRequired,
             showInfoNotification,
         } = this.props;
 
@@ -261,10 +250,11 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
                 },
             },
             isCartLoading: prevIsCartLoading,
+            isVisibleEmailRequired: prevIsVisibleEmailRequired,
         } = prevProps;
 
-        const { email, checkoutStep, isVisibleEmailRequired } = this.state;
-        const { email: prevEmail, isVisibleEmailRequired: prevIsVisibleEmailRequired } = prevState;
+        const { email, checkoutStep } = this.state;
+        const { email: prevEmail } = prevState;
         const { location: { pathname = '' } } = history;
 
         this.handleRedirectIfNoItemsInCart();
@@ -304,10 +294,11 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         ) {
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
+            updateCheckoutStore({ isGuestEmailSaved: false });
+
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 checkoutStep: CheckoutSteps.SHIPPING_STEP,
-                isGuestEmailSaved: false,
             });
         }
 
@@ -329,7 +320,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         }
 
         if (!isEmailAvailable) {
-            updateEmail(email);
+            updateCheckoutStore({ email });
         }
     }
 
@@ -348,20 +339,22 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             shipping_method,
             ...data
         } = address;
-        const { savedEmail } = this.props;
+        const { savedEmail, updateCheckoutStore } = this.props;
         const { checkoutStep } = this.state;
 
-        const checkoutData = (
+        updateCheckoutStore(
             is_virtual
-                ? { shippingAddress: {}, isGuestEmailSaved: false }
+                ? {
+                    shippingAddress: {},
+                    isGuestEmailSaved: false,
+                }
                 : {
                     shippingAddress: data,
                     isGuestEmailSaved: savedEmail ? checkoutStep !== CheckoutSteps.SHIPPING_STEP : false,
-                }
+                },
         );
 
         this.setState({
-            ...checkoutData,
             email: savedEmail,
         });
     }
@@ -370,23 +363,8 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         this.setState({ email });
     }
 
-    onCreateUserChange(): void {
-        const { isCreateUser } = this.state;
-
-        this.setState({ isCreateUser: !isCreateUser });
-    }
-
-    onPasswordChange(password: string): void {
-        this.setState({ password });
-    }
-
-    onShippingMethodSelect(selectedShippingMethod: ShippingMethod): void {
-        const { method_code } = selectedShippingMethod;
-
-        this.setState({ selectedShippingMethod: method_code });
-    }
-
     onShippingEstimationFieldsChange(address: GQLEstimateShippingCostsAddress): void {
+        const { updateCheckoutStore } = this.props;
         const { requestsSent } = this.state;
         const cartId = getCartId();
 
@@ -394,10 +372,12 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             return;
         }
 
-        this.setState({
+        updateCheckoutStore({
             isDeliveryOptionsLoading: true,
-            requestsSent: requestsSent + 1,
             estimateAddress: address,
+        });
+        this.setState({
+            requestsSent: requestsSent + 1,
         });
 
         fetchMutation<'estimateShippingCosts', ShippingMethod, true>(CheckoutQuery.getEstimateShippingCosts(
@@ -407,10 +387,8 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             /** @namespace Route/Checkout/Container/CheckoutContainer/onShippingEstimationFieldsChange/fetchMutation/then */
             ({ estimateShippingCosts: shippingMethods }) => {
                 const { requestsSent } = this.state;
-
+                updateCheckoutStore({ isDeliveryOptionsLoading: requestsSent > 1, shippingMethods });
                 this.setState({
-                    shippingMethods,
-                    isDeliveryOptionsLoading: requestsSent > 1,
                     requestsSent: requestsSent - 1,
                 });
             },
@@ -504,14 +482,11 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         this.setState({ isPickInStoreMethodSelected: !isPickInStoreMethodSelected });
     }
 
-    onStoreSelect(address: StoreWithCountryId): void {
-        this.setState({ selectedStoreAddress: address });
-    }
-
     onChangeEmailRequired(): void {
+        const { updateCheckoutStore } = this.props;
         const { email } = this.state;
 
-        this.setState({ isVisibleEmailRequired: !email });
+        updateCheckoutStore({ isVisibleEmailRequired: !email });
     }
 
     goBack(): void {
@@ -556,7 +531,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     }
 
     async setShippingAddress(isDefaultShipping = false): Promise<boolean> {
-        const { shippingAddress } = this.state;
+        const { shippingAddress, updateCheckoutStore } = this.props;
         const { region, region_id, ...address } = shippingAddress || {};
 
         const mutation = MyAccountQuery.getCreateAddressMutation({
@@ -568,7 +543,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         const data = await fetchMutation(mutation);
 
         if (data?.createCustomerAddress) {
-            this.setState({
+            updateCheckoutStore({
                 shippingAddress: {
                     ...shippingAddress,
                     id: data.createCustomerAddress.id,
@@ -589,25 +564,15 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             isInStoreActivated,
             isSignedIn,
             isCartLoading,
+            shippingMethods,
         } = this.props;
         const {
             billingAddress,
             checkoutStep,
             email,
-            estimateAddress,
-            isCreateUser,
-            isDeliveryOptionsLoading,
-            isGuestEmailSaved,
             isLoading,
             orderID,
-            paymentMethods,
-            paymentTotals,
-            selectedShippingMethod,
-            shippingAddress,
-            shippingMethods,
-            selectedStoreAddress,
             isPickInStoreMethodSelected,
-            isVisibleEmailRequired,
         } = this.state;
 
         return {
@@ -616,37 +581,27 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             checkoutStep,
             checkoutTotals: this._getCheckoutTotals(),
             email,
-            estimateAddress,
-            isCreateUser,
-            isDeliveryOptionsLoading,
             isEmailAvailable,
-            isGuestEmailSaved,
             isInStoreActivated,
             isSignedIn,
             isLoading,
             isMobile,
             orderID,
-            paymentMethods,
-            paymentTotals,
-            selectedShippingMethod,
             setHeaderState,
-            shippingAddress,
             shippingMethods,
             totals,
-            selectedStoreAddress,
             isPickInStoreMethodSelected,
             isCartLoading,
-            isVisibleEmailRequired,
         };
     }
 
     _handleError(error: NetworkError | NetworkError[]): boolean {
-        const { showErrorNotification } = this.props;
+        const { showErrorNotification, updateCheckoutStore } = this.props;
 
         this.setState({
-            isDeliveryOptionsLoading: false,
             isLoading: false,
         }, () => {
+            updateCheckoutStore({ isDeliveryOptionsLoading: false });
             showErrorNotification(getErrorMessage(error));
         });
 
@@ -654,6 +609,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     }
 
     _getPaymentMethods(): void {
+        const { updateCheckoutStore } = this.props;
         const cartId = getCartId();
 
         if (!cartId) {
@@ -665,7 +621,10 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         )).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/_getPaymentMethods/fetchQuery/then */
             ({ getPaymentMethods: paymentMethods }) => {
-                this.setState({ isLoading: false, paymentMethods });
+                updateCheckoutStore({
+                    paymentMethods,
+                });
+                this.setState({ isLoading: false });
             },
             this._handleError,
         );
@@ -682,11 +641,12 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
     saveGuestEmail(): Promise<SetGuestEmailOnCartOutput | boolean> | null {
         const { email } = this.state;
-        const { updateEmail } = this.props;
+        const { updateCheckoutStore } = this.props;
         const guestCartId = getCartId();
 
         if (!email) {
-            this.setState({ isVisibleEmailRequired: false }, this.onChangeEmailRequired);
+            updateCheckoutStore({ isVisibleEmailRequired: false });
+            this.onChangeEmailRequired();
         }
 
         if (!guestCartId || !email) {
@@ -695,13 +655,13 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
         const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
 
-        updateEmail(email);
+        updateCheckoutStore({ email });
 
         return fetchMutation(mutation).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/saveGuestEmail/fetchMutation/then */
             ({ setGuestEmailOnCart: data }) => {
                 if (data) {
-                    this.setState({ isGuestEmailSaved: true });
+                    updateCheckoutStore({ isGuestEmailSaved: true });
                 }
 
                 return data;
@@ -716,16 +676,16 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             totals: { is_virtual },
             showSuccessNotification,
             isEmailAvailable,
-        } = this.props;
-
-        const {
-            email,
-            password,
-            isCreateUser,
             shippingAddress: {
                 firstname,
                 lastname,
             } = {},
+            isCreateUser,
+            password,
+        } = this.props;
+
+        const {
+            email,
         } = this.state;
 
         if (!isCreateUser || !isEmailAvailable) {
@@ -790,13 +750,20 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     }
 
     async saveAddressInformation(addressInformation: AddressInformation): Promise<void> {
-        const { updateShippingPrice } = this.props;
+        const { updateShippingPrice, updateCheckoutStore, shippingMethods } = this.props;
         const { shipping_address, shipping_method_code } = addressInformation;
+
+        const selectedShippingMethod = shippingMethods.find(
+            (method) => `${method.carrier_code}_${method.method_code}` === shipping_method_code,
+        );
+
+        updateCheckoutStore({
+            shippingAddress: shipping_address,
+            selectedShippingMethod,
+        });
 
         this.setState({
             isLoading: true,
-            shippingAddress: shipping_address,
-            selectedShippingMethod: shipping_method_code,
         });
 
         if (!isSignedIn()) {
@@ -820,7 +787,9 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             /** @namespace Route/Checkout/Container/CheckoutContainer/saveAddressInformation/fetchMutation/then */
             ({ saveAddressInformation: data }) => {
                 const { payment_methods, totals } = data;
-
+                updateCheckoutStore({
+                    paymentMethods: payment_methods,
+                });
                 updateShippingPrice(totals);
 
                 BrowserDatabase.setItem(
@@ -831,7 +800,6 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
                 this.setState({
                     isLoading: false,
-                    paymentMethods: payment_methods,
                     checkoutStep: CheckoutSteps.BILLING_STEP,
                     paymentTotals: totals,
                 });
@@ -841,7 +809,12 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     }
 
     async savePaymentInformation(paymentInformation: PaymentInformation): Promise<void> {
-        const { totals: { is_virtual } } = this.props;
+        const {
+            totals: {
+                is_virtual,
+            },
+            updateCheckoutStore,
+        } = this.props;
         const {
             billing_address: {
                 firstname: billingFirstName,
@@ -855,7 +828,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
           * from billing step into shippingAddress for user creating.
           */
         if (is_virtual) {
-            this.setState({
+            updateCheckoutStore({
                 shippingAddress: {
                     firstname: billingFirstName,
                     lastname: billingLastName,
@@ -949,7 +922,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             shippingAddress: {
                 id: shippingAddressId = null,
             } = {},
-        } = this.state;
+        } = this.props;
         const billingAddress: { address: GQLCartAddressInput; customer_address_id?: number } = {
             address: this.trimAddressMagentoStyle(billing_address),
         };

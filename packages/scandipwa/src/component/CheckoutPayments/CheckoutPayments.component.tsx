@@ -56,12 +56,6 @@ export class CheckoutPaymentsComponent extends PureComponent<CheckoutPaymentsCom
         );
     }
 
-    // renderKlarnaPayment(): ReactElement {
-    //     const { setOrderButtonEnableStatus } = this.props;
-
-    //     return <Klarna setOrderButtonEnableStatus={ setOrderButtonEnableStatus } />;
-    // }
-
     renderPurchaseOrderPayment(): ReactElement {
         return <PurchaseOrderComponent id={ CheckoutSteps.BILLING_STEP } />;
     }

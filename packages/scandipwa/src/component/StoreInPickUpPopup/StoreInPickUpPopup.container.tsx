@@ -17,6 +17,7 @@ import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config'
 import { ShippingMethod } from 'Query/Checkout.type';
 import StoreInPickUpQuery from 'Query/StoreInPickUp.query';
 import { Store } from 'Query/StoreInPickUp.type';
+import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -50,6 +51,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpPopupContai
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(
         NavigationType.TOP_NAVIGATION_TYPE,
     )),
+    updateCheckoutStore: (state) => dispatch(updateCheckoutStore(state)),
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container/mapStateToProps */
@@ -60,6 +62,7 @@ export const mapStateToProps = (state: RootState): StoreInPickUpPopupContainerMa
     countries: transformCountriesToOptions(state.ConfigReducer.countries),
     defaultCountry: state.ConfigReducer.default_country,
     selectedStore: state.StoreInPickUpReducer.store,
+    countryId: state.CheckoutReducer.estimateAddress?.country_id,
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container */
@@ -164,7 +167,7 @@ StoreInPickUpPopupContainerState
 
     selectStore(store: Store): void {
         const {
-            onStoreSelect,
+            updateCheckoutStore,
             onShippingMethodSelect,
             setSelectedStore,
             countryId,
@@ -173,9 +176,9 @@ StoreInPickUpPopupContainerState
 
         // TODO: refactore handling country id from string to GQLCountryCodeEnum.
         // Since from BE we can get full list of country codes as enum which will be most updated information.
-        const updateStore: StoreWithCountryId = { country_id: countryId as GQLCountryCodeEnum, ...store };
+        const selectedStoreAddress: StoreWithCountryId = { country_id: countryId as GQLCountryCodeEnum, ...store };
 
-        onStoreSelect(updateStore);
+        updateCheckoutStore({ selectedStoreAddress });
         setSelectedStore(store);
 
         if (method) {

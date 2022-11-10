@@ -235,14 +235,14 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
             isSameAsShipping,
             onSameAsShippingChange,
             totals: { is_virtual },
-            selectedShippingMethod,
+            selectedShippingMethod: { method_code = '' } = {},
         } = this.props;
 
         if (is_virtual) {
             return null;
         }
 
-        if (selectedShippingMethod === StoreInPickUpCode.METHOD_CODE) {
+        if (method_code === StoreInPickUpCode.METHOD_CODE) {
             return null;
         }
 
@@ -253,14 +253,14 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
                   id: 'sameAsShippingAddress',
                   name: 'sameAsShippingAddress',
                   value: 'sameAsShippingAddress',
-                  checked: isSameAsShipping && selectedShippingMethod !== StoreInPickUpCode.METHOD_CODE,
+                  checked: isSameAsShipping && method_code !== StoreInPickUpCode.METHOD_CODE,
               } }
               events={ {
                   onChange: onSameAsShippingChange,
               } }
               mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
               label={ __('My billing and shipping are the same') }
-              isDisabled={ selectedShippingMethod === StoreInPickUpCode.METHOD_CODE }
+              isDisabled={ method_code === StoreInPickUpCode.METHOD_CODE }
             />
         );
     }
@@ -287,9 +287,6 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
         const {
             paymentMethods,
             onPaymentMethodSelect,
-            // setLoading,
-            // setDetailsStep,
-            // shippingAddress
         } = this.props;
 
         if (!paymentMethods.length) {
@@ -298,12 +295,8 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
 
         return (
             <CheckoutPayments
-            //   setLoading={ setLoading }
-            //   setDetailsStep={ setDetailsStep }
               paymentMethods={ paymentMethods }
               onPaymentMethodSelect={ onPaymentMethodSelect }
-            //   setOrderButtonVisibility={ this.setOrderButtonVisibility }
-            //   billingAddress={ shippingAddress }
               setOrderButtonEnableStatus={ this.setOrderButtonEnableStatus }
             />
         );

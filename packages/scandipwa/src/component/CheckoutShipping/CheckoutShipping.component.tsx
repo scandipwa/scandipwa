@@ -90,9 +90,9 @@ export class CheckoutShippingComponent extends PureComponent<CheckoutShippingCom
     }
 
     renderActions(): ReactElement {
-        const { selectedShippingMethod } = this.props;
+        const { selectedShippingMethod: { carrier_code } = {} } = this.props;
 
-        const isDisabled = !selectedShippingMethod?.carrier_code;
+        const isDisabled = !carrier_code;
 
         return (
             <div block="Checkout" elem="StickyButtonWrapper">
@@ -112,18 +112,12 @@ export class CheckoutShippingComponent extends PureComponent<CheckoutShippingCom
 
     renderPickInStoreMethod(): ReactElement {
         const {
-            estimateAddress: { country_id } = {},
-            shippingMethods,
-            onStoreSelect,
             onShippingMethodSelect,
             totals: { items },
         } = this.props;
 
         return (
             <StoreInPickUpComponent
-              countryId={ country_id || 'US' }
-              shippingMethods={ shippingMethods }
-              onStoreSelect={ onStoreSelect }
               onShippingMethodSelect={ onShippingMethodSelect }
               cartItemsSku={ getAllCartItemsSku(items || []) }
             />
@@ -132,18 +126,14 @@ export class CheckoutShippingComponent extends PureComponent<CheckoutShippingCom
 
     renderDelivery(): ReactElement {
         const {
-            shippingMethods,
             onShippingMethodSelect,
             handleSelectDeliveryMethod,
-            selectedShippingMethod,
         } = this.props;
 
         return (
             <CheckoutDeliveryOptions
-              shippingMethods={ shippingMethods }
               onShippingMethodSelect={ onShippingMethodSelect }
               handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
-              selectedShippingMethod={ selectedShippingMethod }
             />
         );
     }
@@ -152,20 +142,18 @@ export class CheckoutShippingComponent extends PureComponent<CheckoutShippingCom
         const {
             onAddressSelect,
             onShippingEstimationFieldsChange,
-            isSubmitted,
         } = this.props;
 
         return (
             <CheckoutAddressBook
               onAddressSelect={ onAddressSelect }
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
-              isSubmitted={ isSubmitted }
             />
         );
     }
 
     renderContent(): ReactElement {
-        const { isLoading, isPickInStoreMethodSelected } = this.props;
+        const { isDeliveryOptionsLoading, isPickInStoreMethodSelected } = this.props;
 
         if (isPickInStoreMethodSelected) {
             return this.renderPickInStoreMethod();
@@ -175,7 +163,7 @@ export class CheckoutShippingComponent extends PureComponent<CheckoutShippingCom
             <>
                 { this.renderAddressBook() }
                 <div>
-                    <Loader isLoading={ isLoading } />
+                    <Loader isLoading={ isDeliveryOptionsLoading } />
                     { this.renderDelivery() }
                     { this.renderActions() }
                 </div>

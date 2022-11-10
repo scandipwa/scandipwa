@@ -10,7 +10,6 @@
  */
 
 import { CartDisplayConfig } from 'Query/Cart.type';
-import { TotalsObject } from 'Query/Checkout.type';
 import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { Children } from 'Type/Common.type';
@@ -32,10 +31,8 @@ export interface CheckoutOrderSummaryContainerMapDispatchProps {}
 export interface CheckoutOrderSummaryComponentBaseProps {
     totals: CartTotals;
     checkoutStep?: CheckoutSteps;
-    isExpandable?: boolean;
     showItems: boolean;
     children?: Children;
-    paymentTotals?: TotalsObject;
 }
 export type CheckoutOrderSummaryComponentProps = CheckoutOrderSummaryContainerMapStateProps
 & CheckoutOrderSummaryContainerMapDispatchProps

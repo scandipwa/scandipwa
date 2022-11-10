@@ -10,25 +10,12 @@
 
 import {
     CheckoutActionType,
-    UpdateEmailAction,
-    UpdateEmailAvailableAction,
-    UpdateShippingFieldsAction,
+    CheckoutStore,
+    UpdateCheckoutStoreAction,
 } from './Checkout.type';
 
-/** @namespace Store/Checkout/Action/updateShippingFields */
-export const updateShippingFields = (shippingFields: Record<string, unknown>): UpdateShippingFieldsAction => ({
-    type: CheckoutActionType.UPDATE_SHIPPING_FIELDS,
-    shippingFields,
-});
-
-/** @namespace Store/Checkout/Action/updateEmail */
-export const updateEmail = (email: string): UpdateEmailAction => ({
-    type: CheckoutActionType.UPDATE_EMAIL,
-    email,
-});
-
-/** @namespace Store/Checkout/Action/updateEmailAvailable */
-export const updateEmailAvailable = (isEmailAvailable: boolean): UpdateEmailAvailableAction => ({
-    type: CheckoutActionType.UPDATE_EMAIL_AVAILABLE,
-    isEmailAvailable,
+/** @namespace Store/Checkout/Action/updateCheckoutStore */
+export const updateCheckoutStore = (state: Partial<CheckoutStore>): UpdateCheckoutStoreAction => ({
+    type: CheckoutActionType.UPDATE_CHECKOUT_STORE,
+    state,
 });

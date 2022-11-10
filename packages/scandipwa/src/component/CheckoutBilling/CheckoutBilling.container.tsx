@@ -20,7 +20,8 @@ import {
 import { FormFields } from 'Component/Form/Form.type';
 import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { Customer, CustomerAddress } from 'Query/MyAccount.type';
-import { CheckoutAddress, PaymentInformation } from 'Route/Checkout/Checkout.type';
+import { PaymentInformation } from 'Route/Checkout/Checkout.type';
+import { CheckoutAddress } from 'Store/Checkout/Checkout.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
@@ -59,6 +60,9 @@ export const mapStateToProps = (state: RootState): CheckoutBillingContainerMapSt
     cartTotalSubPrice: getCartTotalSubPrice(state),
     newShippingId: state.CheckoutReducer.shippingFields.id as number,
     newShippingStreet: state.CheckoutReducer.shippingFields.street as string[],
+    paymentMethods: state.CheckoutReducer.paymentMethods,
+    shippingAddress: state.CheckoutReducer.shippingAddress,
+    selectedShippingMethod: state.CheckoutReducer.selectedShippingMethod,
 });
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
@@ -175,7 +179,7 @@ CheckoutBillingContainerState
     }: Partial<Customer>): boolean {
         const {
             totals: { is_virtual },
-            selectedShippingMethod,
+            selectedShippingMethod: { method_code = '' } = {},
             newShippingId,
         } = this.props;
 
@@ -183,7 +187,7 @@ CheckoutBillingContainerState
             return false;
         }
 
-        if (selectedShippingMethod === StoreInPickUpCode.METHOD_CODE) {
+        if (method_code === StoreInPickUpCode.METHOD_CODE) {
             return false;
         }
 
@@ -264,9 +268,9 @@ CheckoutBillingContainerState
     }
 
     getBillingSameAsShipping(): Partial<CheckoutAddress> {
-        const { selectedShippingMethod, shippingAddress } = this.props;
+        const { selectedShippingMethod: { method_code = '' } = {}, shippingAddress } = this.props;
 
-        if (selectedShippingMethod === StoreInPickUpCode.METHOD_CODE) {
+        if (method_code === StoreInPickUpCode.METHOD_CODE) {
             const { extension_attributes, ...billingAddress } = shippingAddress || {};
 
             return billingAddress;

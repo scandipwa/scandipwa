@@ -13,11 +13,12 @@ import {
     CheckoutTermsAndConditionsPopupPayload,
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.component.type';
 import { FormFields } from 'Component/Form/Form.type';
-import { PaymentMethod } from 'Query/Checkout.type';
+import { PaymentMethod, ShippingMethod } from 'Query/Checkout.type';
 import { CheckoutAgreement } from 'Query/Config.type';
 import { Customer } from 'Query/MyAccount.type';
-import { CheckoutAddress, PaymentInformation } from 'Route/Checkout/Checkout.type';
+import { PaymentInformation } from 'Route/Checkout/Checkout.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
+import { CheckoutAddress } from 'Store/Checkout/Checkout.type';
 import { FieldData } from 'Util/Form/Form.type';
 import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
@@ -30,6 +31,9 @@ export interface CheckoutBillingContainerMapStateProps {
     cartTotalSubPrice: number | null;
     newShippingId: number;
     newShippingStreet: string[];
+    paymentMethods: PaymentMethod[];
+    shippingAddress: Partial<CheckoutAddress>;
+    selectedShippingMethod?: ShippingMethod;
 }
 
 export interface CheckoutBillingContainerMapDispatchProps {
@@ -38,10 +42,7 @@ export interface CheckoutBillingContainerMapDispatchProps {
 }
 
 export interface CheckoutBillingContainerBaseProps {
-    paymentMethods: PaymentMethod[];
     savePaymentInformation: (paymentInformation: PaymentInformation) => Promise<void>;
-    shippingAddress?: Partial<CheckoutAddress>;
-    selectedShippingMethod: string;
     setDetailsStep: (orderID: string) => void;
     setLoading: (isLoading: boolean) => void;
     onChangeEmailRequired: () => void;
@@ -82,7 +83,7 @@ export interface CheckoutBillingComponentProps extends CheckoutBillingContainerF
     cartTotalSubPrice: number | null;
     shippingAddress?: Partial<CheckoutAddress>;
     termsAndConditions: CheckoutAgreement[];
-    selectedShippingMethod: string;
+    selectedShippingMethod?: ShippingMethod;
     paymentMethod: string;
 }
 

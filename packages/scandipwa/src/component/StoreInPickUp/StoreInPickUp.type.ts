@@ -5,16 +5,16 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.type';
 import { ShippingMethod } from 'Query/Checkout.type';
 import { Store } from 'Query/StoreInPickUp.type';
 
 export interface StoreInPickUpContainerMapStateProps {
     selectedStore: Store | null;
+    shippingMethods: ShippingMethod[];
 }
 
 export interface StoreInPickUpContainerDispatchProps {
@@ -24,8 +24,6 @@ export interface StoreInPickUpContainerDispatchProps {
 }
 
 export interface StoreInPickUpContainerBaseProps {
-    shippingMethods: ShippingMethod[];
-    onStoreSelect: (address: StoreWithCountryId) => void;
     onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
     countryId: string;
     cartItemsSku: { sku: string }[];
@@ -42,18 +40,14 @@ export type StoreInPickUpContainerProps =
      & StoreInPickUpContainerBaseProps;
 
 export interface StoreInPickUpComponentProps extends StoreInPickUpContainerFunctions {
-    countryId: string;
     shippingMethods: ShippingMethod[];
-    onStoreSelect: (address: StoreWithCountryId) => void;
     onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
     cartItemsSku: { sku: string }[];
     selectedStore: Store | null;
     selectStore: (store: Store) => void;
 }
 
-export type StoreInPickUpComponentPropsKeys = 'countryId'
-| 'onShippingMethodSelect'
-| 'onStoreSelect'
+export type StoreInPickUpComponentPropsKeys = 'onShippingMethodSelect'
 | 'selectedStore'
 | 'shippingMethods'
 | 'cartItemsSku';
