@@ -170,11 +170,10 @@ StoreInPickUpPopupContainerState
     selectStore(store: Store): void {
         const {
             updateCheckoutStore,
-            onShippingMethodSelect,
             setSelectedStore,
             countryId,
         } = this.props;
-        const method = this.getShippingMethod();
+        const selectedShippingMethod = this.getShippingMethod();
 
         // TODO: refactore handling country id from string to GQLCountryCodeEnum.
         // Since from BE we can get full list of country codes as enum which will be most updated information.
@@ -183,8 +182,8 @@ StoreInPickUpPopupContainerState
         updateCheckoutStore({ selectedStoreAddress });
         setSelectedStore(store);
 
-        if (method) {
-            onShippingMethodSelect(method);
+        if (selectedShippingMethod) {
+            updateCheckoutStore({ selectedShippingMethod });
         }
 
         this.closeOverlay();

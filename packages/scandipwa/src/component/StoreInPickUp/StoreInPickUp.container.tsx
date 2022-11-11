@@ -57,13 +57,11 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
 
     containerProps(): Pick<StoreInPickUpComponentProps, StoreInPickUpComponentPropsKeys> {
         const {
-            onShippingMethodSelect,
             shippingMethods,
             selectedStore,
         } = this.props;
 
         return {
-            onShippingMethodSelect,
             selectedStore,
             shippingMethods,
         };

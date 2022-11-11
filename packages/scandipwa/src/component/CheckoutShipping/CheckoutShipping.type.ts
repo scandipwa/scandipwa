@@ -46,7 +46,6 @@ export interface CheckoutShippingContainerFunctions {
         fields: FormFields | null,
         validation: boolean | ValidationDOMOutput
     ) => void;
-    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
     onAddressSelect: (id: number) => void;
 }
 

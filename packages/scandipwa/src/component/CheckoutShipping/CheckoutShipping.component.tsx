@@ -110,14 +110,8 @@ export class CheckoutShippingComponent extends PureComponent<CheckoutShippingCom
     }
 
     renderPickInStoreMethod(): ReactElement {
-        const {
-            onShippingMethodSelect,
-        } = this.props;
-
         return (
-            <StoreInPickUpComponent
-              onShippingMethodSelect={ onShippingMethodSelect }
-            />
+            <StoreInPickUpComponent />
         );
     }
 

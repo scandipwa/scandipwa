@@ -24,7 +24,6 @@ export interface StoreInPickUpContainerDispatchProps {
 }
 
 export interface StoreInPickUpContainerBaseProps {
-    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
     countryId: string;
 }
 
@@ -40,11 +39,8 @@ export type StoreInPickUpContainerProps =
 
 export interface StoreInPickUpComponentProps extends StoreInPickUpContainerFunctions {
     shippingMethods: ShippingMethod[];
-    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
     selectedStore: Store | null;
-    selectStore: (store: Store) => void;
 }
 
-export type StoreInPickUpComponentPropsKeys = 'onShippingMethodSelect'
-| 'selectedStore'
+export type StoreInPickUpComponentPropsKeys = 'selectedStore'
 | 'shippingMethods';

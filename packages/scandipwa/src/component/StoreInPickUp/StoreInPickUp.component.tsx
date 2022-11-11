@@ -14,7 +14,6 @@ import { PureComponent } from 'react';
 import StoreInPickUpPopupComponent from 'Component/StoreInPickUpPopup';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
 import { ReactElement } from 'Type/Common.type';
-import { noopFn } from 'Util/Common';
 
 import { StoreInPickUpComponentProps } from './StoreInPickUp.type';
 
@@ -24,7 +23,6 @@ import './StoreInPickUp.style';
 export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponentProps> {
     static defaultProps: Partial<StoreInPickUpComponentProps> = {
         selectedStore: null,
-        selectStore: noopFn,
     };
 
     renderEmptyResult(): ReactElement {
@@ -48,13 +46,12 @@ export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponent
     }
 
     renderStore(): ReactElement {
-        const { selectStore, selectedStore } = this.props;
+        const { selectedStore } = this.props;
         const { pickup_location_code } = selectedStore || {};
 
         return (
             <StoreInPickUpStoreComponent
               store={ selectedStore }
-              selectStore={ selectStore }
               key={ pickup_location_code }
               isSelectedStore
             />
@@ -78,14 +75,12 @@ export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponent
     renderPopup(): ReactElement {
         const {
             shippingMethods,
-            onShippingMethodSelect,
             setSelectedStore,
         } = this.props;
 
         return (
             <StoreInPickUpPopupComponent
               shippingMethods={ shippingMethods }
-              onShippingMethodSelect={ onShippingMethodSelect }
               setSelectedStore={ setSelectedStore }
             />
         );

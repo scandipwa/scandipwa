@@ -84,7 +84,6 @@ CheckoutShippingContainerState
         onShippingSuccess: this.onShippingSuccess.bind(this),
         onShippingError: this.onShippingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
-        onShippingMethodSelect: this.onShippingMethodSelect.bind(this),
     };
 
     __construct(props: CheckoutShippingContainerProps): void {

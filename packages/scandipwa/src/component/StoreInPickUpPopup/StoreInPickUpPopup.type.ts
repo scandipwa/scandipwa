@@ -46,7 +46,6 @@ export interface StoreInPickUpPopupContainerFunctions {
 }
 
 export interface StoreInPickUpPopupContainerBaseProps {
-    onShippingMethodSelect: (selectedShippingMethod: ShippingMethod) => void;
     setSelectedStore: (store: Store) => void;
     shippingMethods: ShippingMethod[];
     cartItemsSku: { sku: string }[];
