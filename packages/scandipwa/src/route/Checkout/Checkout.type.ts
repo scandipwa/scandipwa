@@ -13,7 +13,9 @@ import { match as Match } from 'react-router-dom';
 
 import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.type';
 import { MinimumOrderAmount } from 'Query/Cart.type';
-import { PaymentMethod, ShippingMethod, TotalsObject } from 'Query/Checkout.type';
+import {
+    PaymentMethod, SetGuestEmailOnCartOutput, ShippingMethod, TotalsObject,
+} from 'Query/Checkout.type';
 import { CreateAccountOptions, Customer } from 'Query/MyAccount.type';
 import { Country } from 'Query/Region.type';
 import { Store } from 'Query/StoreInPickUp.type';
@@ -21,7 +23,7 @@ import { CartTotals } from 'Store/Cart/Cart.type';
 import { CheckoutAddress, CheckoutStore } from 'Store/Checkout/Checkout.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
-import { ReactElement } from 'Type/Common.type';
+import { NetworkError, ReactElement } from 'Type/Common.type';
 
 import { CheckoutSteps } from './Checkout.config';
 
@@ -36,7 +38,7 @@ export interface CheckoutContainerMapStateProps {
     isMobile: boolean;
     isInStoreActivated: boolean;
     isGuestNotAllowDownloadable: boolean;
-    savedEmail: string;
+    email: string;
     isSignedIn: boolean;
     isCartLoading: boolean;
     shippingFields: Record<string, unknown>;
@@ -47,6 +49,7 @@ export interface CheckoutContainerMapStateProps {
     isVisibleEmailRequired: boolean;
     password: string;
     isPickInStoreMethodSelected: boolean;
+    isCheckoutLoading: boolean;
 }
 
 export interface CheckoutContainerDispatchProps {
@@ -64,17 +67,21 @@ export interface CheckoutContainerDispatchProps {
     updateShippingPrice: (data: TotalsObject) => void;
     setPickUpStore: (store: Store | null) => void;
     updateCheckoutStore: (state: Partial<CheckoutStore>) => void;
+    setShippingAddress: (isDefaultShipping: boolean) => Promise<void>;
+    saveBillingAddress: (paymentInformation: PaymentInformation) => Promise<void>;
+    getPaymentMethods: () => Promise<void>;
+    saveGuestEmail: (email: string) => Promise<SetGuestEmailOnCartOutput | boolean | void>;
+    handleCheckoutError: (error: NetworkError) => void;
+    onChangeEmailRequired: () => void;
 }
 
 export interface CheckoutContainerFunctions {
     goBack: () => void;
     handleSelectDeliveryMethod: () => void;
-    onEmailChange: (email: string) => void;
     onShippingEstimationFieldsChange: (address: EstimateAddress) => void;
     saveAddressInformation: (addressInformation: AddressInformation) => Promise<void>;
     savePaymentInformation: (paymentInformation: PaymentInformation) => Promise<void>;
     setDetailsStep: (orderID: string) => void;
-    onChangeEmailRequired: () => void;
 }
 
 export interface CheckoutContainerBaseProps {
@@ -88,8 +95,6 @@ export type CheckoutContainerProps = CheckoutContainerMapStateProps
 export interface CheckoutContainerState {
     billingAddress: CheckoutAddress | undefined;
     checkoutStep: CheckoutSteps;
-    email: string;
-    isLoading: boolean;
     orderID: string;
     paymentTotals: TotalsObject | undefined;
     requestsSent: number;
@@ -103,7 +108,7 @@ export interface CheckoutComponentProps extends CheckoutContainerFunctions {
     email: string;
     isEmailAvailable: boolean;
     isInStoreActivated: boolean;
-    isLoading: boolean;
+    isCheckoutLoading: boolean;
     isCartLoading: boolean;
     isMobile: boolean;
     isPickInStoreMethodSelected: boolean;
@@ -123,7 +128,7 @@ export type CheckoutContainerPropsKeys =
 | 'isEmailAvailable'
 | 'isInStoreActivated'
 | 'isSignedIn'
-| 'isLoading'
+| 'isCheckoutLoading'
 | 'isCartLoading'
 | 'isMobile'
 | 'orderID'

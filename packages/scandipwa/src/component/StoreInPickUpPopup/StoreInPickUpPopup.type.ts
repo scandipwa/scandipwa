@@ -35,7 +35,6 @@ export interface StoreInPickUpPopupContainerDispatchProps {
     showNotification: (type: NotificationType, message: string) => void;
     clearPickUpStore: () => void;
     goToPreviousNavigationState: () => void;
-
     updateCheckoutStore: (state: Partial<CheckoutStore>) => void;
 }
 

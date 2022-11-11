@@ -57,8 +57,7 @@ export interface CheckoutGuestFormContainerFunctions {
 export interface CheckoutGuestFormContainerBaseProps {
     isCreateUser: boolean;
     onCreateUserChange: () => void;
-    onPasswordChange: (password: string) => void ;
-    onEmailChange: (email: string) => void;
+    onPasswordChange: (password: string) => void;
 }
 
 export type CheckoutGuestFormContainerProps = CheckoutGuestFormContainerMapStateProps

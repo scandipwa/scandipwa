@@ -50,6 +50,11 @@ import {
     CheckoutBillingContainerState,
 } from './CheckoutBilling.type';
 
+export const CheckoutDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Checkout/Checkout.dispatcher'
+);
+
 /** @namespace Component/CheckoutBilling/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CheckoutBillingContainerMapStateProps => ({
     customer: state.MyAccountReducer.customer,
@@ -69,6 +74,9 @@ export const mapStateToProps = (state: RootState): CheckoutBillingContainerMapSt
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutBillingContainerMapDispatchProps => ({
     showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     showPopup: (payload) => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload)),
+    onChangeEmailRequired: () => CheckoutDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.onChangeEmailRequired(dispatch),
+    ),
 });
 
 /** @namespace Component/CheckoutBilling/Container */
@@ -222,7 +230,10 @@ CheckoutBillingContainerState
     }
 
     onBillingSuccess(form: HTMLFormElement, fields: FieldData[]): void {
-        const { savePaymentInformation, onChangeEmailRequired } = this.props;
+        const {
+            savePaymentInformation,
+            onChangeEmailRequired,
+        } = this.props;
 
         const extractedFields = transformToNameValuePair<Record<string, unknown>>(fields);
         const address = this._getAddress(extractedFields);

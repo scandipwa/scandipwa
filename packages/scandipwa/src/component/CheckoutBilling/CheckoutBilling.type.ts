@@ -39,12 +39,12 @@ export interface CheckoutBillingContainerMapStateProps {
 export interface CheckoutBillingContainerMapDispatchProps {
     showErrorNotification: (message: string) => void;
     showPopup: (payload: CheckoutTermsAndConditionsPopupPayload) => void;
+    onChangeEmailRequired: () => void;
 }
 
 export interface CheckoutBillingContainerBaseProps {
     savePaymentInformation: (paymentInformation: PaymentInformation) => Promise<void>;
     setDetailsStep: (orderID: string) => void;
-    onChangeEmailRequired: () => void;
 }
 
 export interface CheckoutBillingContainerFunctions {

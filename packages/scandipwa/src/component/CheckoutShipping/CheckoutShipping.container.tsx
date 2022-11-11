@@ -45,6 +45,11 @@ import {
     CheckoutShippingContainerState,
 } from './CheckoutShipping.type';
 
+export const CheckoutDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Checkout/Checkout.dispatcher'
+);
+
 /** @namespace Component/CheckoutShipping/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CheckoutShippingContainerMapStateProps => ({
     customer: state.MyAccountReducer.customer,
@@ -61,6 +66,9 @@ export const mapStateToProps = (state: RootState): CheckoutShippingContainerMapS
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutShippingContainerMapDispatchProps => ({
     updateCheckoutStore: (state) => dispatch(updateCheckoutStore(state)),
+    onChangeEmailRequired: () => CheckoutDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.onChangeEmailRequired(dispatch),
+    ),
 });
 
 /** @namespace Component/CheckoutShipping/Container */

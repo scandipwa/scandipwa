@@ -33,6 +33,7 @@ export interface CheckoutShippingContainerMapStateProps {
 
 export interface CheckoutShippingContainerMapDispatchProps {
     updateCheckoutStore: (state: Partial<CheckoutStore>) => void;
+    onChangeEmailRequired: () => void;
 }
 
 export interface CheckoutShippingContainerFunctions {
@@ -55,7 +56,6 @@ export interface CheckoutShippingContainerBaseProps {
     isPickInStoreMethodSelected: boolean;
     onShippingEstimationFieldsChange: (address: EstimateAddress) => void;
     onStoreSelect: (address: StoreWithCountryId) => void;
-    onChangeEmailRequired: () => void;
 }
 
 export type CheckoutShippingContainerProps = CheckoutShippingContainerMapStateProps
@@ -83,7 +83,6 @@ export interface CheckoutShippingComponentProps {
     selectedShippingMethod: ShippingMethod | undefined;
     onAddressSelect: (id: number) => void;
     isDeliveryOptionsLoading: boolean;
-    onChangeEmailRequired: () => void;
     isPickInStoreMethodSelected: boolean;
 }
 

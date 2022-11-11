@@ -32,6 +32,7 @@ export const getInitialState = (): CheckoutStore => ({
     isVisibleEmailRequired: false,
     password: '',
     isPickInStoreMethodSelected: false,
+    isCheckoutLoading: false,
 });
 
 /** @namespace Store/Checkout/Reducer/CheckoutReducer */

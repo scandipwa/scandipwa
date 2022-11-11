@@ -39,6 +39,7 @@ export interface CheckoutStore {
     isVisibleEmailRequired: boolean;
     password: string;
     isPickInStoreMethodSelected: boolean;
+    isCheckoutLoading: boolean;
 }
 
 declare module 'Util/Store/Store.type' {

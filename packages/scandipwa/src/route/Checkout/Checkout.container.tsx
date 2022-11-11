@@ -16,15 +16,13 @@ import { Dispatch } from 'redux';
 import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
 import { ProductType } from 'Component/Product/Product.config';
 import CheckoutQuery from 'Query/Checkout.query';
-import { PaymentMethod, SetGuestEmailOnCartOutput, ShippingMethod } from 'Query/Checkout.type';
-import MyAccountQuery from 'Query/MyAccount.query';
+import { SetGuestEmailOnCartOutput, ShippingMethod } from 'Query/Checkout.type';
 import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateShippingPrice } from 'Store/Cart/Cart.action';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
-import { CheckoutAddress } from 'Store/Checkout/Checkout.type';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
@@ -32,18 +30,12 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { NetworkError, ReactElement } from 'Type/Common.type';
-import { GQLCartAddressInput, GQLEstimateShippingCostsAddress, GQLSaveAddressInformation } from 'Type/Graphql.type';
-import { removeEmptyStreets } from 'Util/Address';
+import { GQLEstimateShippingCostsAddress, GQLSaveAddressInformation } from 'Type/Graphql.type';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteCartId, getCartId, getCartTotalSubPrice } from 'Util/Cart';
 import history from 'Util/History';
-import {
-    debounce,
-    fetchMutation,
-    fetchQuery,
-    getErrorMessage,
-} from 'Util/Request';
+import { debounce, fetchMutation } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
@@ -95,7 +87,7 @@ export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProp
     isMobile: state.ConfigReducer.device.isMobile,
     isInStoreActivated: state.ConfigReducer.delivery_instore_active,
     isGuestNotAllowDownloadable: state.ConfigReducer.downloadable_disable_guest_checkout,
-    savedEmail: state.CheckoutReducer.email,
+    email: state.CheckoutReducer.email,
     isSignedIn: state.MyAccountReducer.isSignedIn,
     shippingFields: state.CheckoutReducer.shippingFields,
     minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount,
@@ -105,6 +97,7 @@ export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProp
     isVisibleEmailRequired: state.CheckoutReducer.isVisibleEmailRequired,
     password: state.CheckoutReducer.password,
     isPickInStoreMethodSelected: state.CheckoutReducer.isPickInStoreMethodSelected,
+    isCheckoutLoading: state.CheckoutReducer.isCheckoutLoading,
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
@@ -132,7 +125,25 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
         ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch),
     ),
     checkEmailAvailability: (email) => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, email),
+        ({ default: dispatcher }) => dispatcher.checkIsEmailAvailable(dispatch, email),
+    ),
+    setShippingAddress: (isDefaultShipping) => CheckoutDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.setShippingAddress(dispatch, isDefaultShipping),
+    ),
+    saveBillingAddress: (paymentInformation) => CheckoutDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.saveBillingAddress(paymentInformation),
+    ),
+    getPaymentMethods: () => CheckoutDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.getPaymentMethods(dispatch),
+    ),
+    saveGuestEmail: (email) => CheckoutDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.saveGuestEmail(dispatch, email),
+    ),
+    handleCheckoutError: (error) => CheckoutDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.handleError(dispatch, error),
+    ),
+    onChangeEmailRequired: () => CheckoutDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.onChangeEmailRequired(dispatch),
     ),
     updateShippingPrice: (data) => dispatch(updateShippingPrice(data)),
     updateCheckoutStore: (state) => dispatch(updateCheckoutStore(state)),
@@ -151,10 +162,8 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         savePaymentInformation: this.savePaymentInformation.bind(this),
         saveAddressInformation: this.saveAddressInformation.bind(this),
         onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this),
-        onEmailChange: this.onEmailChange.bind(this),
         goBack: this.goBack.bind(this),
         handleSelectDeliveryMethod: this.handleSelectDeliveryMethod.bind(this),
-        onChangeEmailRequired: this.onChangeEmailRequired.bind(this),
     };
 
     checkEmailAvailability = debounce((email: string) => {
@@ -166,26 +175,18 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     __construct(props: CheckoutContainerProps): void {
         super.__construct?.(props);
 
-        this._handleError = this._handleError.bind(this);
-
         const {
             toggleBreadcrumbs,
-            totals: {
-                is_virtual,
-            },
-            savedEmail,
         } = props;
 
         toggleBreadcrumbs(false);
 
         this.state = {
-            isLoading: !!is_virtual,
             requestsSent: 0,
             billingAddress: undefined,
             checkoutStep: this.determineCheckoutStepFromUrl(),
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || undefined,
-            email: savedEmail || '',
         };
     }
 
@@ -194,9 +195,8 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             guest_checkout,
             updateMeta,
             isGuestNotAllowDownloadable,
+            email,
         } = this.props;
-
-        const { email } = this.state;
 
         this.handleRedirectIfNoItemsInCart();
         this.handleRedirectIfLessThanMinAmountInCart();
@@ -220,7 +220,6 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
     componentDidUpdate(
         prevProps: CheckoutContainerProps,
-        prevState: CheckoutContainerState,
     ): void {
         const {
             match: {
@@ -240,6 +239,9 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             },
             isVisibleEmailRequired,
             showInfoNotification,
+            getPaymentMethods,
+            onChangeEmailRequired,
+            email,
         } = this.props;
 
         const {
@@ -250,10 +252,10 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             },
             isCartLoading: prevIsCartLoading,
             isVisibleEmailRequired: prevIsVisibleEmailRequired,
+            email: prevEmail,
         } = prevProps;
 
-        const { email, checkoutStep } = this.state;
-        const { email: prevEmail } = prevState;
+        const { checkoutStep } = this.state;
         const { location: { pathname = '' } } = history;
 
         this.handleRedirectIfNoItemsInCart();
@@ -263,7 +265,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             if (checkoutStep === CheckoutSteps.SHIPPING_STEP) {
                 if (is_virtual) {
                     history.replace(appendWithStoreCode(CheckoutStepUrl.BILLING_URL));
-                    this._getPaymentMethods();
+                    getPaymentMethods();
                     // eslint-disable-next-line react/no-did-update-set-state
                     this.setState({ checkoutStep: CheckoutSteps.BILLING_STEP });
                 } else if (pathname.match(CHECKOUT_URL_REGEX)) {
@@ -314,7 +316,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             this.checkEmailAvailability(email);
 
             if (email && isVisibleEmailRequired !== prevIsVisibleEmailRequired) {
-                this.onChangeEmailRequired();
+                onChangeEmailRequired();
             }
         }
 
@@ -338,7 +340,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             shipping_method,
             ...data
         } = address;
-        const { savedEmail, updateCheckoutStore } = this.props;
+        const { email, updateCheckoutStore } = this.props;
         const { checkoutStep } = this.state;
 
         updateCheckoutStore(
@@ -349,21 +351,13 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
                 }
                 : {
                     shippingAddress: data,
-                    isGuestEmailSaved: savedEmail ? checkoutStep !== CheckoutSteps.SHIPPING_STEP : false,
+                    isGuestEmailSaved: email ? checkoutStep !== CheckoutSteps.SHIPPING_STEP : false,
                 },
         );
-
-        this.setState({
-            email: savedEmail,
-        });
-    }
-
-    onEmailChange(email: string): void {
-        this.setState({ email });
     }
 
     onShippingEstimationFieldsChange(address: GQLEstimateShippingCostsAddress): void {
-        const { updateCheckoutStore } = this.props;
+        const { updateCheckoutStore, handleCheckoutError } = this.props;
         const { requestsSent } = this.state;
         const cartId = getCartId();
 
@@ -391,7 +385,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
                     requestsSent: requestsSent - 1,
                 });
             },
-            this._handleError,
+            handleCheckoutError,
         );
     }
 
@@ -405,6 +399,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             totals: {
                 is_virtual,
             },
+            getPaymentMethods,
         } = this.props;
         const { location: { pathname = '' } } = history;
 
@@ -417,7 +412,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
                 history.replace(appendWithStoreCode(CheckoutStepUrl.BILLING_URL));
             }
 
-            this._getPaymentMethods();
+            getPaymentMethods();
 
             return CheckoutSteps.BILLING_STEP;
         }
@@ -481,20 +476,11 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         updateCheckoutStore({ isPickInStoreMethodSelected: !isPickInStoreMethodSelected });
     }
 
-    onChangeEmailRequired(): void {
-        const { updateCheckoutStore } = this.props;
-        const { email } = this.state;
-
-        updateCheckoutStore({ isVisibleEmailRequired: !email });
-    }
-
     goBack(): void {
         const { checkoutStep } = this.state;
 
         if (checkoutStep === CheckoutSteps.BILLING_STEP) {
-            this.setState({
-                isLoading: false,
-            });
+            updateCheckoutStore({ isCheckoutLoading: false });
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
         }
 
@@ -514,39 +500,15 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         }
 
         this.setState({
-            isLoading: false,
             paymentTotals: undefined,
             checkoutStep: CheckoutSteps.DETAILS_STEP,
             orderID,
         });
+        updateCheckoutStore({ isCheckoutLoading: false });
 
         setNavigationState({
             name: NavigationTabsMap.CART_TAB,
         });
-    }
-
-    async setShippingAddress(isDefaultShipping = false): Promise<boolean> {
-        const { shippingAddress, updateCheckoutStore } = this.props;
-        const { region, region_id, ...address } = shippingAddress || {};
-
-        const mutation = MyAccountQuery.getCreateAddressMutation({
-            ...address,
-            region: { region, region_id },
-            default_shipping: isDefaultShipping,
-        });
-
-        const data = await fetchMutation(mutation);
-
-        if (data?.createCustomerAddress) {
-            updateCheckoutStore({
-                shippingAddress: {
-                    ...shippingAddress,
-                    id: data.createCustomerAddress.id,
-                },
-            });
-        }
-
-        return true;
     }
 
     containerProps(): Pick<CheckoutComponentProps, CheckoutContainerPropsKeys> {
@@ -561,12 +523,12 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             isCartLoading,
             shippingMethods,
             isPickInStoreMethodSelected,
+            isCheckoutLoading,
+            email,
         } = this.props;
         const {
             billingAddress,
             checkoutStep,
-            email,
-            isLoading,
             orderID,
         } = this.state;
 
@@ -579,7 +541,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             isEmailAvailable,
             isInStoreActivated,
             isSignedIn,
-            isLoading,
+            isCheckoutLoading,
             isMobile,
             orderID,
             setHeaderState,
@@ -588,41 +550,6 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             isPickInStoreMethodSelected,
             isCartLoading,
         };
-    }
-
-    _handleError(error: NetworkError | NetworkError[]): boolean {
-        const { showErrorNotification, updateCheckoutStore } = this.props;
-
-        this.setState({
-            isLoading: false,
-        }, () => {
-            updateCheckoutStore({ isDeliveryOptionsLoading: false });
-            showErrorNotification(getErrorMessage(error));
-        });
-
-        return false;
-    }
-
-    _getPaymentMethods(): void {
-        const { updateCheckoutStore } = this.props;
-        const cartId = getCartId();
-
-        if (!cartId) {
-            return;
-        }
-
-        fetchQuery<'getPaymentMethods', PaymentMethod, true>(CheckoutQuery.getPaymentMethodsQuery(
-            cartId,
-        )).then(
-            /** @namespace Route/Checkout/Container/CheckoutContainer/_getPaymentMethods/fetchQuery/then */
-            ({ getPaymentMethods: paymentMethods }) => {
-                updateCheckoutStore({
-                    paymentMethods,
-                });
-                this.setState({ isLoading: false });
-            },
-            this._handleError,
-        );
     }
 
     _getCheckoutTotals(): CartTotals | CartTotals & { shipping_amount: number } {
@@ -634,38 +561,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             : cartTotals;
     }
 
-    saveGuestEmail(): Promise<SetGuestEmailOnCartOutput | boolean> | null {
-        const { email } = this.state;
-        const { updateCheckoutStore } = this.props;
-        const guestCartId = getCartId();
-
-        if (!email) {
-            updateCheckoutStore({ isVisibleEmailRequired: false });
-            this.onChangeEmailRequired();
-        }
-
-        if (!guestCartId || !email) {
-            return null;
-        }
-
-        const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
-
-        updateCheckoutStore({ email });
-
-        return fetchMutation(mutation).then(
-            /** @namespace Route/Checkout/Container/CheckoutContainer/saveGuestEmail/fetchMutation/then */
-            ({ setGuestEmailOnCart: data }) => {
-                if (data) {
-                    updateCheckoutStore({ isGuestEmailSaved: true });
-                }
-
-                return data;
-            },
-            this._handleError,
-        );
-    }
-
-    async createUserOrSaveGuest(): Promise<boolean | SetGuestEmailOnCartOutput | 'confirmation_required' | null> {
+    async createUserOrSaveGuest(): Promise<boolean | SetGuestEmailOnCartOutput | 'confirmation_required' | void> {
         const {
             createAccount,
             totals: { is_virtual },
@@ -677,14 +573,13 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             } = {},
             isCreateUser,
             password,
+            setShippingAddress,
+            saveGuestEmail,
+            email,
         } = this.props;
 
-        const {
-            email,
-        } = this.state;
-
         if (!isCreateUser || !isEmailAvailable) {
-            return this.saveGuestEmail();
+            return saveGuestEmail(email);
         }
 
         const options = {
@@ -705,7 +600,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         showSuccessNotification(__('Your account has been created successfully!'));
 
         if (!is_virtual) {
-            return this.setShippingAddress(true);
+            return setShippingAddress(true);
         }
 
         return true;
@@ -745,7 +640,12 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     }
 
     async saveAddressInformation(addressInformation: AddressInformation): Promise<void> {
-        const { updateShippingPrice, updateCheckoutStore, shippingMethods } = this.props;
+        const {
+            updateShippingPrice,
+            updateCheckoutStore,
+            handleCheckoutError,
+            shippingMethods,
+        } = this.props;
         const { shipping_address, shipping_method_code } = addressInformation;
 
         const selectedShippingMethod = shippingMethods.find(
@@ -757,13 +657,11 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             selectedShippingMethod,
         });
 
-        this.setState({
-            isLoading: true,
-        });
+        updateCheckoutStore({ isCheckoutLoading: true });
 
         if (!isSignedIn()) {
             if (!(await this.createUserOrSaveGuest())) {
-                this.setState({ isLoading: false });
+                updateCheckoutStore({ isCheckoutLoading: false });
 
                 return;
             }
@@ -794,12 +692,12 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
                 );
 
                 this.setState({
-                    isLoading: false,
                     checkoutStep: CheckoutSteps.BILLING_STEP,
                     paymentTotals: totals,
                 });
+                updateCheckoutStore({ isCheckoutLoading: false });
             },
-            this._handleError,
+            handleCheckoutError,
         );
     }
 
@@ -809,6 +707,8 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
                 is_virtual,
             },
             updateCheckoutStore,
+            saveBillingAddress,
+            handleCheckoutError,
         } = this.props;
         const {
             billing_address: {
@@ -831,108 +731,26 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             });
         }
 
-        this.setState({ isLoading: true, billingAddress });
+        this.setState({ billingAddress });
+        updateCheckoutStore({ isCheckoutLoading: true });
 
         if (!isSignedIn()) {
             if (!(await this.createUserOrSaveGuest())) {
-                this.setState({ isLoading: false });
+                updateCheckoutStore({ isCheckoutLoading: false });
 
                 return;
             }
         }
 
-        await this.saveBillingAddress(paymentInformation).then(
+        await saveBillingAddress(paymentInformation).then(
             /** @namespace Route/Checkout/Container/CheckoutContainer/savePaymentInformation/saveBillingAddress/then */
             () => this.savePaymentMethodAndPlaceOrder(paymentInformation),
-            this._handleError,
+            handleCheckoutError,
         );
     }
 
-    trimAddressMagentoStyle(address: CheckoutAddress): GQLCartAddressInput {
-        const { countries } = this.props;
-
-        const {
-            id, // drop this
-            country_id,
-            region_code, // drop this
-            purchaseOrderNumber, // drop this
-            region_id,
-            region,
-            street,
-            guest_email,
-            ...restOfBillingAddress
-        } = address;
-
-        const newAddress = {
-            ...restOfBillingAddress,
-            country_code: country_id,
-            region,
-            region_id,
-            street: removeEmptyStreets(street || ['']),
-        };
-
-        /**
-          * If there is no region specified, but there is region ID
-          * get the region code by the country ID
-          */
-        if (region_id) {
-            // find a country by country ID
-            const { available_regions } = countries.find(
-                ({ id }) => id === country_id,
-            ) || {};
-
-            if (!available_regions) {
-                return newAddress;
-            }
-
-            // find region by region ID
-            const { code } = available_regions.find(
-                ({ id }) => +id === +region_id,
-            ) || {};
-
-            if (!code) {
-                return newAddress;
-            }
-
-            newAddress.region = code;
-        }
-
-        return newAddress;
-    }
-
-    async saveBillingAddress(paymentInformation: PaymentInformation): Promise<void> {
-        const isCustomerSignedIn = isSignedIn();
-        const cart_id = getCartId();
-
-        if (!isCustomerSignedIn && !cart_id) {
-            return;
-        }
-
-        if (!cart_id) {
-            return;
-        }
-
-        const { billing_address, same_as_shipping } = paymentInformation;
-        const {
-            shippingAddress: {
-                id: shippingAddressId = null,
-            } = {},
-        } = this.props;
-        const billingAddress: { address: GQLCartAddressInput; customer_address_id?: number } = {
-            address: this.trimAddressMagentoStyle(billing_address),
-        };
-
-        if (same_as_shipping && shippingAddressId) {
-            billingAddress.customer_address_id = shippingAddressId;
-        }
-
-        await fetchMutation(CheckoutQuery.getSetBillingAddressOnCart({
-            cart_id,
-            billing_address: billingAddress,
-        }));
-    }
-
     async savePaymentMethodAndPlaceOrder(paymentInformation: PaymentInformation): Promise<void> {
+        const { handleCheckoutError } = this.props;
         const { paymentMethod: { code, additional_data, purchase_order_number } } = paymentInformation;
         const isCustomerSignedIn = isSignedIn();
         const cart_id = getCartId();
@@ -960,7 +778,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
             this.setDetailsStep(order_id);
         } catch (e) {
-            this._handleError(e as unknown as NetworkError | NetworkError[]);
+            handleCheckoutError(e as NetworkError);
         }
     }
 

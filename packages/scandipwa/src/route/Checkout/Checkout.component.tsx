@@ -168,7 +168,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
     renderGuestForm(): ReactElement {
         const {
             checkoutStep,
-            onEmailChange,
             isSignedIn,
         } = this.props;
         const isBilling = checkoutStep === CheckoutSteps.BILLING_STEP;
@@ -178,9 +177,7 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
         }
 
         return (
-             <CheckoutGuestForm
-               onEmailChange={ onEmailChange }
-             />
+             <CheckoutGuestForm />
         );
     }
 
@@ -188,7 +185,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
         const {
             onShippingEstimationFieldsChange,
             saveAddressInformation,
-            onChangeEmailRequired,
         } = this.props;
 
         return (
@@ -196,7 +192,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
                  <CheckoutShipping
                    saveAddressInformation={ saveAddressInformation }
                    onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
-                   onChangeEmailRequired={ onChangeEmailRequired }
                  />
              </Suspense>
         );
@@ -206,7 +201,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
         const {
             setDetailsStep,
             savePaymentInformation,
-            onChangeEmailRequired,
         } = this.props;
 
         return (
@@ -214,7 +208,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
                  <CheckoutBilling
                    setDetailsStep={ setDetailsStep }
                    savePaymentInformation={ savePaymentInformation }
-                   onChangeEmailRequired={ onChangeEmailRequired }
                  />
              </Suspense>
         );
@@ -282,9 +275,9 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
     }
 
     renderLoader(): ReactElement {
-        const { isLoading } = this.props;
+        const { isCheckoutLoading } = this.props;
 
-        return <Loader isLoading={ isLoading } />;
+        return <Loader isLoading={ isCheckoutLoading } />;
     }
 
     renderFullPageLoader(): ReactElement {
