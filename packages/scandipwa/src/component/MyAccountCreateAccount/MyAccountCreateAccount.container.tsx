@@ -54,7 +54,7 @@ export const mapStateToProps = (state: RootState): MyAccountCreateAccountContain
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountCreateAccountContainerMapDispatchProps => ({
     createAccount: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch),
+        ({ default: dispatcher }) => dispatcher.createAccount(options),
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
 });

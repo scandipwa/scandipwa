@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { BreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { FieldData } from 'Util/Form/Form.type';
@@ -17,7 +18,7 @@ import { FieldData } from 'Util/Form/Form.type';
 export interface SendConfirmationPageContainerMapStateProps {}
 
 export interface SendConfirmationPageContainerMapDispatchProps {
-    toggleBreadcrumbs: (isVisible: boolean) => void;
+    updateBreadcrumbsStore: (state: Partial<BreadcrumbsStore>) => void;
     updateMeta: (meta: Partial<PageMeta>) => void;
     resendConfirmation: (options: { email: string }) => Promise<boolean>;
     showNotification: (type: NotificationType, message: string) => void;

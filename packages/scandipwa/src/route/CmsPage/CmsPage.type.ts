@@ -12,6 +12,7 @@
 import { match as Match } from 'react-router';
 
 import { CmsPageFields } from 'Query/CmsPage.type';
+import { BreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 
@@ -24,7 +25,7 @@ export interface CmsPageContainerDispatchStateProps {
     setHeaderState: (stateName: NavigationState) => void;
     setBigOfflineNotice: (isBig: boolean) => void;
     updateMeta: (meta: Partial<PageMeta>) => void;
-    toggleBreadcrumbs: (isActive: boolean) => void;
+    updateBreadcrumbsStore: (state: Partial<BreadcrumbsStore>) => void;
 }
 
 export interface CmsPageContainerBaseProps {

@@ -52,7 +52,7 @@ export const mapStateToProps = (state: RootState): MyAccountSignInContainerMapSt
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountSignInContainerMapDispatchProps => ({
     signIn: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch),
+        ({ default: dispatcher }) => dispatcher.signIn(options),
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
 });

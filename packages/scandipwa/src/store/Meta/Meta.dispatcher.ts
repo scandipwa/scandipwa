@@ -8,9 +8,9 @@
  * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
-import { Dispatch } from 'redux';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 import { appendWithStoreCode } from 'Util/Url';
 
 import { Category, PageMeta, ProductMeta } from './Meta.type';
@@ -19,17 +19,17 @@ import { Category, PageMeta, ProductMeta } from './Meta.type';
  * Meta Dispatcher
  * @class MetaDispatcher
  * @namespace Store/Meta/Dispatcher */
-export class MetaDispatcher {
+export class MetaDispatcher extends SimpleDispatcher {
     /**
      * Set meta for category
      * @param {Object} category
      * @param {Function} dispatch
      * @memberof MetaDispatcher
      */
-    updateWithCategory(category: Category, dispatch: Dispatch): void {
+    updateWithCategory(category: Category): void {
         const meta = this._getCategoryMeta(category);
 
-        dispatch(updateMeta(meta));
+        this.dispatch(updateMeta(meta));
     }
 
     /**
@@ -38,10 +38,10 @@ export class MetaDispatcher {
      * @param {Function} dispatch
      * @memberof MetaDispatcher
      */
-    updateWithProduct(product: ProductMeta, dispatch: Dispatch): void {
+    updateWithProduct(product: ProductMeta): void {
         const meta = this._getProductMeta(product);
 
-        dispatch(updateMeta(meta));
+        this.dispatch(updateMeta(meta));
     }
 
     /**

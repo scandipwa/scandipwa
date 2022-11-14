@@ -110,10 +110,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
     ),
     updateBreadcrumbs: (breadcrumbs) => ((Object.keys(breadcrumbs).length)
         ? BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs, dispatch),
+            ({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs),
         )
         : BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update([], dispatch),
+            ({ default: dispatcher }) => dispatcher.update([]),
         )
     ),
     requestProductListInfo: (options) => ProductListInfoDispatcher.then(
@@ -121,11 +121,11 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
     ),
     updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
     updateNoMatch: (options) => NoMatchDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.updateNoMatch(options),
     ),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateMetaFromCategory: (category) => MetaDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch),
+        ({ default: dispatcher }) => dispatcher.updateWithCategory(category),
     ),
     clearCategory: () => dispatch(updateCurrentCategory({})),
 });

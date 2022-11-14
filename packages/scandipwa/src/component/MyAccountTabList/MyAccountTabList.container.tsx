@@ -11,7 +11,6 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
@@ -36,9 +35,9 @@ export const MyAccountDispatcher = import(
 export const mapStateToProps = (): MyAccountTabListContainerMapStateProps => ({});
 
 /** @namespace Component/MyAccountTabList/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): MyAccountTabListContainerDispatchProps => ({
+export const mapDispatchToProps = (): MyAccountTabListContainerDispatchProps => ({
     logout: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.logout(false, true, dispatch),
+        ({ default: dispatcher }) => dispatcher.logout(false, true),
     ),
 });
 

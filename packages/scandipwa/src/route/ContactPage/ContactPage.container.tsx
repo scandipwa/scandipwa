@@ -27,7 +27,10 @@ import { RootState } from 'Util/Store/Store.type';
 import ContactPage from './ContactPage.component';
 import {
     ContactPageComponentProps,
-    ContactPageContainerProps, ContactPageContainerState, ContactPageMapDispatchProps, ContactPageMapStateProps,
+    ContactPageContainerProps,
+    ContactPageContainerState,
+    ContactPageMapDispatchProps,
+    ContactPageMapStateProps,
 } from './ContactPage.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -47,7 +50,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): ContactPageMapDispatchPr
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
+            ({ default: dispatcher }) => dispatcher.update(breadcrumbs),
         );
     },
 });

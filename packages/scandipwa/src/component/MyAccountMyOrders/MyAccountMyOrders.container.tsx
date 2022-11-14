@@ -13,7 +13,6 @@ import { Location } from 'history';
 import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Dispatch } from 'redux';
 
 import { MyAccountContainerProps } from 'Route/MyAccount/MyAccount.type';
 import { ReactElement } from 'Type/Common.type';
@@ -43,9 +42,9 @@ export const mapStateToProps = (state: RootState): MyAccountMyOrdersContainerMap
 });
 
 /** @namespace Component/MyAccountMyOrders/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyOrdersContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): MyAccountMyOrdersContainerMapDispatchProps => ({
     getOrderList: (page) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch, page),
+        ({ default: dispatcher }) => dispatcher.requestOrders(page),
     ),
 });
 

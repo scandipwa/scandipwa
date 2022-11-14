@@ -54,7 +54,7 @@ export const mapStateToProps = (state: RootState): ProductCompareItemContainerMa
 /** @namespace Component/ProductCompareItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareItemContainerMapDispatchProps => ({
     removeComparedProduct: (productId) => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch),
+        ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId),
     ),
     addProductToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(options),

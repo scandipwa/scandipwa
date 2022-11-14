@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 
 import { ERROR_TYPE } from 'Component/Notification/Notification.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
@@ -50,14 +50,14 @@ export const mapStateToProps = (): ConfirmAccountPageContainerMapStateProps => (
 
 /** @namespace Route/ConfirmAccountPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ConfirmAccountPageContainerMapDispatchProps => ({
-    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
+    updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     confirmAccount: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.confirmAccount(options, dispatch),
+        ({ default: dispatcher }) => dispatcher.confirmAccount(options),
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     signIn: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch),
+        ({ default: dispatcher }) => dispatcher.signIn(options),
     ),
 });
 
@@ -81,14 +81,14 @@ ConfirmAccountPageContainerState
     }
 
     componentDidMount(): void {
-        const { updateMeta, toggleBreadcrumbs } = this.props;
+        const { updateMeta, updateBreadcrumbsStore } = this.props;
 
         if (isSignedIn()) {
             history.replace({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL) });
         }
 
         updateMeta({ title: __('Confirm account') });
-        toggleBreadcrumbs(false);
+        updateBreadcrumbsStore({ areBreadcrumbsVisible: false });
     }
 
     containerProps(): Pick<ConfirmAccountPageComponentProps, ConfirmAccountPageContainerPropsKeys> {

@@ -48,16 +48,16 @@ export const mapStateToProps = (state: RootState): MyAccountMyWishlistContainerM
 /** @namespace Component/MyAccountMyWishlist/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyWishlistContainerMapDispatchProps => ({
     clearWishlist: () => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch),
+        ({ default: dispatcher }) => dispatcher.clearWishlist(),
     ),
     moveWishlistToCart: () => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch),
+        ({ default: dispatcher }) => dispatcher.moveWishlistToCart(),
     ),
     showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
     showNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     removeSelectedFromWishlist: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeItemsFromWishlist(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.removeItemsFromWishlist(options),
     ),
 });
 

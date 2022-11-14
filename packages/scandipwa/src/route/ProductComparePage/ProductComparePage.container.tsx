@@ -49,7 +49,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductComparePageContai
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
+            ({ default: dispatcher }) => dispatcher.update(breadcrumbs),
         );
     },
 });

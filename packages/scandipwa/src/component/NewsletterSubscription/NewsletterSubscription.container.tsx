@@ -43,7 +43,7 @@ export const mapStateToProps = (state: RootState): NewsletterSubscriptionMapStat
 /** @namespace Component/NewsletterSubscription/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): NewsletterSubscriptionMapDispatchProps => ({
     subscribeToNewsletter: (email) => NewsletterSubscriptionDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.subscribeToNewsletter(dispatch, email),
+        ({ default: dispatcher }) => dispatcher.subscribeToNewsletter(email),
     ),
     showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
 });

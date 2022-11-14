@@ -87,7 +87,7 @@ export const mapStateToProps = (state: RootState): CartPageContainerMapStateProp
 export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDispatchProps => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs),
     ),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),

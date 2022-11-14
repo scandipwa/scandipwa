@@ -16,7 +16,7 @@ import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
@@ -58,11 +58,11 @@ export const mapStateToProps = (state: RootState): PasswordChangePageContainerMa
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): PasswordChangePageContainerMapDispatchProps => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    toggleBreadcrumbs: (visibility) => dispatch(toggleBreadcrumbs(visibility)),
+    updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState)),
     resetPassword(options) {
         MyAccountDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch),
+            ({ default: dispatcher }) => dispatcher.resetPassword(options),
         );
     },
     showNotification(type, message) {
@@ -115,10 +115,10 @@ PasswordChangePageContainerState
     };
 
     componentDidMount(): void {
-        const { setHeaderState } = this.props;
+        const { setHeaderState, updateBreadcrumbsStore } = this.props;
 
         this.updateMeta();
-        this.toggleBreadcrumbs(false);
+        updateBreadcrumbsStore({ areBreadcrumbsVisible: false });
 
         if (isSignedIn()) {
             history.replace({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL) });
@@ -182,12 +182,6 @@ PasswordChangePageContainerState
         const { updateMeta } = this.props;
 
         updateMeta({ title: __('Password Change Page') });
-    }
-
-    toggleBreadcrumbs(visibility: boolean): void {
-        const { toggleBreadcrumbs } = this.props;
-
-        toggleBreadcrumbs(visibility);
     }
 
     render(): ReactElement {

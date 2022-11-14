@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Dispatch } from 'redux';
-
 import OrderQuery from 'Query/Order.query';
 import { OrderItem, ReorderOutput } from 'Query/Order.type';
 import { CART_URL } from 'Route/CartPage/CartPage.config';
@@ -22,6 +20,7 @@ import { getAuthorizationToken } from 'Util/Auth';
 import { decodeBase64 } from 'Util/Base64';
 import history from 'Util/History';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 import { appendWithStoreCode } from 'Util/Url';
 
 export const CartDispatcher = import(
@@ -30,31 +29,31 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Store/Order/Dispatcher */
-export class OrderDispatcher {
-    requestOrders(dispatch: Dispatch, page = 1): Promise<void> {
+export class OrderDispatcher extends SimpleDispatcher {
+    requestOrders(page = 1): Promise<void> {
         const query = OrderQuery.getOrderListQuery({ page });
 
-        dispatch(setLoadingStatus(true));
+        this.dispatch(setLoadingStatus(true));
 
         return fetchQuery(query).then(
             /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then */
             ({ customer: { orders } }) => {
-                dispatch(getOrderList(orders, false));
+                this.dispatch(getOrderList(orders, false));
             },
             /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then/catch */
             (error) => {
-                dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
-                dispatch(setLoadingStatus(false));
+                this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+                this.dispatch(setLoadingStatus(false));
             },
         );
     }
 
-    async reorder(dispatch: Dispatch, incrementId: string): Promise<void> {
+    async reorder(incrementId: string): Promise<void> {
         const {
             reorderItems: {
                 userInputErrors = [],
             } = {},
-        } = await this.handleReorderMutation(dispatch, incrementId) || {};
+        } = (await this.handleReorderMutation(incrementId)) || {};
 
         const cartDispatcher = (await CartDispatcher).default;
 
@@ -65,24 +64,23 @@ export class OrderDispatcher {
         if (userInputErrors.length) {
             userInputErrors.map((
                 { message }: NetworkError,
-            ) => dispatch(showNotification(NotificationType.ERROR, message)));
+            ) => this.dispatch(showNotification(NotificationType.ERROR, message)));
         }
     }
 
     handleReorderMutation(
-        dispatch: Dispatch,
         incrementId: string,
     ): Promise<Record<'reorderItems', ReorderOutput>> | null {
         try {
             return fetchMutation(OrderQuery.getReorder(incrementId));
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError | NetworkError[])));
+            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError | NetworkError[])));
 
             return null;
         }
     }
 
-    async getOrderById(dispatch: Dispatch, orderId: number): Promise<OrderItem | null> {
+    async getOrderById(orderId: number): Promise<OrderItem | null> {
         try {
             const {
                 customer: {
@@ -94,13 +92,13 @@ export class OrderDispatcher {
 
             return items[0];
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError | NetworkError[])));
+            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError | NetworkError[])));
 
             return null;
         }
     }
 
-    async getOrderInvoice(dispatch: Dispatch, invoiceId: number): Promise<OrderItem | null> {
+    async getOrderInvoice(invoiceId: number): Promise<OrderItem | null> {
         try {
             const {
                 orderByInvoice,
@@ -116,13 +114,13 @@ export class OrderDispatcher {
 
             return orderByInvoice;
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return null;
         }
     }
 
-    async getOrderShipment(dispatch: Dispatch, shipmentId: number): Promise<OrderItem | null> {
+    async getOrderShipment(shipmentId: number): Promise<OrderItem | null> {
         try {
             const {
                 orderByShipment,
@@ -138,13 +136,13 @@ export class OrderDispatcher {
 
             return orderByShipment;
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return null;
         }
     }
 
-    async getOrderRefund(dispatch: Dispatch, refundId: number): Promise<OrderItem | null> {
+    async getOrderRefund(refundId: number): Promise<OrderItem | null> {
         try {
             const {
                 orderByRefund,
@@ -160,7 +158,7 @@ export class OrderDispatcher {
 
             return orderByRefund;
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return null;
         }

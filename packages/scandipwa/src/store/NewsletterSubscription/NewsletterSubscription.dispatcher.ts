@@ -9,12 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Dispatch } from 'redux';
-
 import NewsletterSubscriptionQuery from 'Query/NewsletterSubscription.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 export const NOT_ACTIVE = 'NOT_ACTIVE';
 
@@ -23,8 +22,8 @@ export const NOT_ACTIVE = 'NOT_ACTIVE';
  * @class NewsletterSubscriptionDispatcher
  * @namespace Store/NewsletterSubscription/Dispatcher
  */
-export class NewsletterSubscriptionDispatcher {
-    subscribeToNewsletter(dispatch: Dispatch, email: string): Promise<ShowNotificationAction> {
+export class NewsletterSubscriptionDispatcher extends SimpleDispatcher {
+    subscribeToNewsletter(email: string): Promise<ShowNotificationAction> {
         return fetchMutation(NewsletterSubscriptionQuery.getSubscribeToNewsletterMutation(email)).then(
             /** @namespace Store/NewsletterSubscription/Dispatcher/NewsletterSubscriptionDispatcher/subscribeToNewsletter/fetchMutation/then */
             ({ subscribeEmailToNewsletter: { status } }) => {
@@ -33,10 +32,10 @@ export class NewsletterSubscriptionDispatcher {
                     ? __('Confirmation request has been sent.')
                     : __('Thank you for your subscription.');
 
-                return dispatch(showNotification(NotificationType.SUCCESS, message));
+                return this.dispatch(showNotification(NotificationType.SUCCESS, message));
             },
-            /** @namespace Store/NewsletterSubscription/Dispatcher/NewsletterSubscriptionDispatcher/subscribeToNewsletter/fetchMutation/then/dispatch/catch */
-            (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
+            /** @namespace Store/NewsletterSubscription/Dispatcher/NewsletterSubscriptionDispatcher/subscribeToNewsletter/fetchMutation/then/catch */
+            (error) => this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
         );
     }
 }

@@ -65,7 +65,7 @@ export const mapStateToProps = (state: RootState): CheckoutGuestFormContainerMap
 /** @namespace Component/CheckoutGuestForm/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutGuestFormContainerMapDispatchProps => ({
     signIn: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch),
+        ({ default: dispatcher }) => dispatcher.signIn(options),
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),

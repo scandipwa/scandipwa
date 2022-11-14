@@ -16,9 +16,10 @@ import {
     MyAccountOverlayContainerMapStateProps,
     MyAccountOverlayContainerProps,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.type';
+import { BreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.type';
 
 export interface ForgotPasswordContainerMapDispatchProps extends MyAccountOverlayContainerMapDispatchProps {
-    toggleBreadcrumbs: (isVisible: boolean) => void;
+    updateBreadcrumbsStore: (state: Partial<BreadcrumbsStore>) => void;
 }
 
 export type ForgotPasswordContainerProps = ForgotPasswordContainerMapDispatchProps

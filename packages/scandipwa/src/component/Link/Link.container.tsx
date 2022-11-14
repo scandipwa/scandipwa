@@ -13,7 +13,6 @@
 
 import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { ReactElement, Url } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
@@ -40,9 +39,9 @@ export const mapStateToProps = (state: RootState): LinkContainerMapStateProps =>
 });
 
 /** @namespace Component/Link/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): LinkContainerDispatchProps => ({
+export const mapDispatchToProps = (): LinkContainerDispatchProps => ({
     updateNoMatch: (noMatch) => NoMatchDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, { noMatch }),
+        ({ default: dispatcher }) => dispatcher.updateNoMatch({ noMatch }),
     ),
 });
 

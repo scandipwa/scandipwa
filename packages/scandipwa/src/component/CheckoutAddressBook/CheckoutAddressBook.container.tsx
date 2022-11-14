@@ -11,7 +11,6 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { CustomerAddress } from 'Query/MyAccount.type';
 import { ReactElement } from 'Type/Common.type';
@@ -40,9 +39,9 @@ export const mapStateToProps = (state: RootState): CheckoutAddressBookContainerM
 });
 
 /** @namespace Component/CheckoutAddressBook/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): CheckoutAddressBookContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): CheckoutAddressBookContainerMapDispatchProps => ({
     requestCustomerData: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch),
+        ({ default: dispatcher }) => dispatcher.requestCustomerData(),
     ),
 });
 

@@ -21,7 +21,7 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
 import { MyAccountOverlayContainerState } from 'Component/MyAccountOverlay/MyAccountOverlay.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
@@ -39,7 +39,7 @@ import {
 /** @namespace Route/LoginAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): LoginAccountContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
-    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
+    updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
 });
 
@@ -61,7 +61,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer<LoginAccoun
     componentDidMount(): void {
         const {
             setHeaderState,
-            toggleBreadcrumbs,
+            updateBreadcrumbsStore,
         } = this.props;
         const {
             location: {
@@ -77,7 +77,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer<LoginAccoun
         }
 
         setHeaderState({ name: Page.CUSTOMER_ACCOUNT, title: __('Sign in') });
-        toggleBreadcrumbs(false);
+        updateBreadcrumbsStore({ areBreadcrumbsVisible: false });
         scrollToTop({ behavior: 'smooth' });
     }
 

@@ -41,7 +41,7 @@ export const BreadcrumbsDispatcher = import(
 export const mapDispatchToProps = (dispatch: Dispatch): NoMatchContainerMapDispatchProps => ({
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
+            ({ default: dispatcher }) => dispatcher.update(breadcrumbs),
         );
     },
     updateMeta: (meta) => dispatch(updateMeta(meta)),

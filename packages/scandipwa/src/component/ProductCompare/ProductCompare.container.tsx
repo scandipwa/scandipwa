@@ -11,7 +11,6 @@
 
 import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import {
     PRODUCT_COMPARE_FIRST_COLUMN_WIDTH,
@@ -47,12 +46,12 @@ export const mapStateToProps = (state: RootState): ProductCompareContainerMapSta
 });
 
 /** @namespace Component/ProductCompare/Container/mapDispatchToProps  */
-export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): ProductCompareContainerMapDispatchProps => ({
     fetchCompareList: () => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getCompareList(dispatch),
+        ({ default: dispatcher }) => dispatcher.getCompareList(),
     ),
     clearCompareList: () => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.clearComparedProducts(dispatch),
+        ({ default: dispatcher }) => dispatcher.clearComparedProducts(),
     ),
 });
 

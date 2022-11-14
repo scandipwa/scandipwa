@@ -11,7 +11,6 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import {
     OrderTabs,
@@ -42,15 +41,15 @@ export const OrderDispatcher = import(
 );
 
 /** @namespace Route/OrderPrintPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): OrderPrintPageContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): OrderPrintPageContainerMapDispatchProps => ({
     getOrderInvoice: (invoiceId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getOrderInvoice(dispatch, invoiceId),
+        ({ default: dispatcher }) => dispatcher.getOrderInvoice(invoiceId),
     ),
     getOrderShipment: (shipmentId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getOrderShipment(dispatch, shipmentId),
+        ({ default: dispatcher }) => dispatcher.getOrderShipment(shipmentId),
     ),
     getOrderRefund: (refundId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getOrderRefund(dispatch, refundId),
+        ({ default: dispatcher }) => dispatcher.getOrderRefund(refundId),
     ),
 });
 

@@ -9,19 +9,18 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Dispatch } from 'redux';
-
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 /**
  * NoMatch Dispatcher
  * @class NoMatchDispatcher
  * @namespace Store/NoMatch/Dispatcher
  */
-export class NoMatchDispatcher {
-    updateNoMatch(dispatch: Dispatch, options: { noMatch: boolean }): void {
+export class NoMatchDispatcher extends SimpleDispatcher {
+    updateNoMatch(options: { noMatch: boolean }): void {
         const { noMatch } = options;
 
-        dispatch(updateNoMatch(noMatch));
+        this.dispatch(updateNoMatch(noMatch));
     }
 }
 

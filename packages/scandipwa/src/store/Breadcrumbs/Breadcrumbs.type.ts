@@ -40,19 +40,15 @@ export interface Product {
 export enum BreadcrumbsActionType {
     UPDATE_BREADCRUMBS = 'UPDATE_BREADCRUMBS',
     TOGGLE_BREADCRUMBS = 'TOGGLE_BREADCRUMBS',
+    UPDATE_BREADCRUMBS_STORE = 'UPDATE_BREADCRUMBS_STORE',
 }
 
-export interface ToggleBreadcrumbsAction extends AnyAction {
-    type: BreadcrumbsActionType.TOGGLE_BREADCRUMBS;
-    areBreadcrumbsVisible?: boolean;
+export interface UpdateBreadcrumbsActionStore extends AnyAction {
+    type: BreadcrumbsActionType.UPDATE_BREADCRUMBS_STORE;
+    state: Partial<BreadcrumbsStore>;
 }
 
-export interface UpdateBreadcrumbsAction extends AnyAction {
-    type: BreadcrumbsActionType.UPDATE_BREADCRUMBS;
-    breadcrumbs?: Breadcrumb[];
-}
-
-export type BreadcrumbsAction = ToggleBreadcrumbsAction | UpdateBreadcrumbsAction;
+export type BreadcrumbsAction = UpdateBreadcrumbsActionStore;
 
 export interface BreadcrumbsStore {
     breadcrumbs: Breadcrumb[];

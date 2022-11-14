@@ -11,7 +11,6 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
@@ -41,9 +40,9 @@ export const mapStateToProps = (state: RootState): MenuItemMapStateProps => ({
 });
 
 /** @namespace Component/MenuItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): MenuItemMapDispatchProps => ({
+export const mapDispatchToProps = (): MenuItemMapDispatchProps => ({
     updateBreadcrumbs: () => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update([], dispatch),
+        ({ default: dispatcher }) => dispatcher.update([]),
     ),
 });
 

@@ -65,7 +65,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountInformationCont
     showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status)),
     logout: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.logout(false, false, dispatch),
+        ({ default: dispatcher }) => dispatcher.logout(false, false),
     ),
     updateIsLocked: (isLocked) => dispatch(updateIsLocked(isLocked)),
 });

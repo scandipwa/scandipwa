@@ -10,30 +10,13 @@
  */
 
 import {
-    Breadcrumb,
     BreadcrumbsActionType,
-    ToggleBreadcrumbsAction,
-    UpdateBreadcrumbsAction,
+    BreadcrumbsStore,
+    UpdateBreadcrumbsActionStore,
 } from './Breadcrumbs.type';
 
-/**
- * Update current breadcrumbs with new breadcrumbs (rewrite if already exists).
- * @param  {Array<Object>} breadcrumbs List of breadcrumbs
- * @return {void}
- * @namespace Store/Breadcrumbs/Action/updateBreadcrumbs
- */
-export const updateBreadcrumbs = (breadcrumbs: Breadcrumb[]): UpdateBreadcrumbsAction => ({
-    type: BreadcrumbsActionType.UPDATE_BREADCRUMBS,
-    breadcrumbs,
-});
-
-/**
- * Toggle breadcrumbs display/hide
- * @param  {Boolean} areBreadcrumbsVisible
- * @return {void}
- * @namespace Store/Breadcrumbs/Action/toggleBreadcrumbs
- */
-export const toggleBreadcrumbs = (areBreadcrumbsVisible: boolean): ToggleBreadcrumbsAction => ({
-    type: BreadcrumbsActionType.TOGGLE_BREADCRUMBS,
-    areBreadcrumbsVisible,
+/** @namespace Store/Breadcrumbs/Action/updateBreadcrumbsStore */
+export const updateBreadcrumbsStore = (state: Partial<BreadcrumbsStore>): UpdateBreadcrumbsActionStore => ({
+    type: BreadcrumbsActionType.UPDATE_BREADCRUMBS_STORE,
+    state,
 });

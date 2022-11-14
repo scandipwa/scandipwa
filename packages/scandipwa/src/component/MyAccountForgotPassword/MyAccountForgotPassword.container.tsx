@@ -40,7 +40,7 @@ export const mapStateToProps = (): MyAccountForgotPasswordContainerMapStateProps
 /** @namespace Component/MyAccountForgotPassword/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountForgotPasswordContainerMapDispatchProps => ({
     forgotPassword: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch),
+        ({ default: dispatcher }) => dispatcher.forgotPassword(options),
     ),
     forgotPasswordEmail: (email) => dispatch(updateCustomerPasswordForgotEmail(email)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),

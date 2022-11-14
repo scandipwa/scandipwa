@@ -10,6 +10,7 @@
  */
 
 import { ConfirmAccountOptions, SignInOptions } from 'Query/MyAccount.type';
+import { BreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
 import { FieldData } from 'Util/Form/Form.type';
@@ -18,7 +19,7 @@ import { FieldData } from 'Util/Form/Form.type';
 export interface ConfirmAccountPageContainerMapStateProps {}
 
 export interface ConfirmAccountPageContainerMapDispatchProps {
-    toggleBreadcrumbs: (isVisible: boolean) => void;
+    updateBreadcrumbsStore: (state: Partial<BreadcrumbsStore>) => void;
     updateMeta: (meta: Partial<PageMeta>) => void;
     confirmAccount: (options: ConfirmAccountOptions) => Promise<ShowNotificationAction>;
     showNotification: (type: NotificationType, message: string) => void;

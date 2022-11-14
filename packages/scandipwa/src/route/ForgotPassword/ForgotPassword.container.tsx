@@ -21,7 +21,7 @@ import {
     MyAccountOverlayContainer,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
@@ -37,7 +37,7 @@ import {
 /** @namespace Route/ForgotPassword/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ForgotPasswordContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
-    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
+    updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
 });
 
 /** @namespace Route/ForgotPassword/Container */
@@ -49,9 +49,9 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer<ForgotPas
     };
 
     componentDidMount(): void {
-        const { setHeaderState, toggleBreadcrumbs } = this.props;
+        const { setHeaderState, updateBreadcrumbsStore } = this.props;
 
-        toggleBreadcrumbs(false);
+        updateBreadcrumbsStore({ areBreadcrumbsVisible: false });
         setHeaderState({
             name: Page.CUSTOMER_SUB_ACCOUNT,
             title: __('Forgot password'),

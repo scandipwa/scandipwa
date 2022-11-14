@@ -48,10 +48,10 @@ export const mapStateToProps = (state: RootState): ProductWishlistButtonContaine
 /** @namespace Component/ProductWishlistButton/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductWishlistButtonContainerMapDispatchProps => ({
     addProductToWishlist: (wishlistItem) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addItemToWishlist(dispatch, wishlistItem),
+        ({ default: dispatcher }) => dispatcher.addItemToWishlist(wishlistItem),
     ),
     removeProductFromWishlist: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(options),
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
 });

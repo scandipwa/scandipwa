@@ -9,12 +9,10 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Dispatch } from 'redux';
-
 import {
-    toggleBreadcrumbs,
-    updateBreadcrumbs,
+    updateBreadcrumbsStore,
 } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { Breadcrumb, Category, Product } from './Breadcrumbs.type';
 
@@ -23,16 +21,15 @@ import { Breadcrumb, Category, Product } from './Breadcrumbs.type';
  * @class BreadcrumbsDispatcher
  * @namespace Store/Breadcrumbs/Dispatcher
  */
-export class BreadcrumbsDispatcher {
+export class BreadcrumbsDispatcher extends SimpleDispatcher {
     /**
      * Set breadcrumbs
      * @param {Array<Object>} breadcrumbs Breadcrumbs array
      * @param {Function} dispatch
      * @memberof BreadcrumbsDispatcher
      */
-    update(breadcrumbs: Breadcrumb[], dispatch: Dispatch): void {
-        dispatch(toggleBreadcrumbs(true));
-        dispatch(updateBreadcrumbs(breadcrumbs));
+    update(breadcrumbs: Breadcrumb[]): void {
+        this.dispatch(updateBreadcrumbsStore({ breadcrumbs, areBreadcrumbsVisible: true }));
     }
 
     /**
@@ -41,11 +38,10 @@ export class BreadcrumbsDispatcher {
      * @param {Function} dispatch
      * @memberof BreadcrumbsDispatcher
      */
-    updateWithCategory(category: Category, dispatch: Dispatch): void {
+    updateWithCategory(category: Category): void {
         const breadcrumbs = this._getCategoryBreadcrumbs(category);
 
-        dispatch(toggleBreadcrumbs(true));
-        dispatch(updateBreadcrumbs(breadcrumbs));
+        this.dispatch(updateBreadcrumbsStore({ breadcrumbs, areBreadcrumbsVisible: true }));
     }
 
     /**
@@ -55,11 +51,10 @@ export class BreadcrumbsDispatcher {
      * @param {Function} dispatch
      * @memberof BreadcrumbsDispatcher
      */
-    updateWithProduct(product: Product, prevCategoryId: number, dispatch: Dispatch): void {
+    updateWithProduct(product: Product, prevCategoryId: number): void {
         const breadcrumbs = this._getProductBreadcrumbs(product, prevCategoryId);
 
-        dispatch(toggleBreadcrumbs(true));
-        dispatch(updateBreadcrumbs(breadcrumbs));
+        this.dispatch(updateBreadcrumbsStore({ breadcrumbs, areBreadcrumbsVisible: true }));
     }
 
     /**
@@ -68,7 +63,7 @@ export class BreadcrumbsDispatcher {
      * @param {Function} dispatch
      * @memberof BreadcrumbsDispatcher
      */
-    updateWithCmsPage({ title }: { title: string }, dispatch: Dispatch): void {
+    updateWithCmsPage({ title }: { title: string }): void {
         const breadcrumbs = title
             ? [
                 {
@@ -78,7 +73,7 @@ export class BreadcrumbsDispatcher {
             ]
             : [];
 
-        dispatch(updateBreadcrumbs(breadcrumbs));
+        this.dispatch(updateBreadcrumbsStore({ breadcrumbs }));
     }
 
     /**

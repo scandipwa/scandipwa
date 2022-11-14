@@ -11,7 +11,6 @@
 
 import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
@@ -38,12 +37,12 @@ export const mapStateToProps = (state: RootState): ProductCompareButtonContainer
 });
 
 /** @namespace Component/ProductCompareButton/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareButtonContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): ProductCompareButtonContainerMapDispatchProps => ({
     addProductToCompare: (productId) => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCompare(productId, dispatch),
+        ({ default: dispatcher }) => dispatcher.addProductToCompare(productId),
     ),
     removeComparedProduct: (productId) => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch),
+        ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId),
     ),
 });
 

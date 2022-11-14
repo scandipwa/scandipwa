@@ -11,7 +11,6 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { ReactElement } from 'Type/Common.type';
 import { GQLContactForm } from 'Type/Graphql.type';
@@ -39,9 +38,9 @@ export const mapStateToProps = (state: RootState): ContactFormContainerMapStateP
 });
 
 /** @namespace Component/ContactForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): ContactFormContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): ContactFormContainerMapDispatchProps => ({
     sendMessage: (data) => ContactFormDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.prepareRequest(data, dispatch),
+        ({ default: dispatcher }) => dispatcher.prepareRequest(data),
     ),
 });
 

@@ -9,12 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Dispatch } from 'redux';
-
 import ContactFormQuery from 'Query/ContactForm.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { updateContactForm } from './ContactForm.action';
 import { ContactFormDispatcherOptions } from './ContactForm.type';
@@ -25,13 +24,13 @@ import { ContactFormDispatcherOptions } from './ContactForm.type';
  * @extends QueryDispatcher
  * @namespace Store/ContactForm/Dispatcher
  */
-export class ContactFormDispatcher {
-    prepareRequest(options: ContactFormDispatcherOptions, dispatch: Dispatch): Promise<void> {
+export class ContactFormDispatcher extends SimpleDispatcher {
+    prepareRequest(options: ContactFormDispatcherOptions): Promise<void> {
         const { form = {}, fields = {} } = options;
 
         const mutation = ContactFormQuery.getSendContactFormMutation(fields);
 
-        dispatch(updateContactForm({
+        this.dispatch(updateContactForm({
             isLoading: true,
         }));
 
@@ -39,8 +38,8 @@ export class ContactFormDispatcher {
             .then(
                 /** @namespace Store/ContactForm/Dispatcher/ContactFormDispatcher/prepareRequest/fetchMutation/then */
                 (data) => {
-                    dispatch(showNotification(NotificationType.SUCCESS, data.contactForm.message || ''));
-                    dispatch(updateContactForm({
+                    this.dispatch(showNotification(NotificationType.SUCCESS, data.contactForm.message || ''));
+                    this.dispatch(updateContactForm({
                         isLoading: false,
                     }));
 
@@ -51,8 +50,8 @@ export class ContactFormDispatcher {
                 },
                 /** @namespace Store/ContactForm/Dispatcher/ContactFormDispatcher/prepareRequest/fetchMutation/then/catch */
                 (error) => {
-                    dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
-                    dispatch(updateContactForm({
+                    this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+                    this.dispatch(updateContactForm({
                         isLoading: false,
                     }));
                 },

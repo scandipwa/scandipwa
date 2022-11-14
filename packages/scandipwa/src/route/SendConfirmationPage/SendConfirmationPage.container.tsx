@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -48,10 +48,10 @@ export const mapStateToProps = (): SendConfirmationPageContainerMapStateProps =>
 
 /** @namespace Route/SendConfirmationPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): SendConfirmationPageContainerMapDispatchProps => ({
-    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
+    updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     resendConfirmation: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.resendConfirmation(options, dispatch),
+        ({ default: dispatcher }) => dispatcher.resendConfirmation(options),
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
 });
@@ -77,10 +77,10 @@ SendConfirmationPageContainerState
     }
 
     componentDidMount(): void {
-        const { updateMeta, toggleBreadcrumbs } = this.props;
+        const { updateMeta, updateBreadcrumbsStore } = this.props;
 
         updateMeta({ title: __('Send confirmation link') });
-        toggleBreadcrumbs(false);
+        updateBreadcrumbsStore({ areBreadcrumbsVisible: false });
     }
 
     containerProps(): Pick<SendConfirmationPageComponentProps, SendConfirmationPageContainerPropsKeys> {

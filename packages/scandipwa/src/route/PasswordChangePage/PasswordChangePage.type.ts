@@ -12,6 +12,7 @@
 import { RouteComponentProps } from 'react-router';
 
 import { ResetPasswordOptions } from 'Query/MyAccount.type';
+import { BreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -28,7 +29,7 @@ export interface PasswordChangePageContainerMapStateProps {
 
 export interface PasswordChangePageContainerMapDispatchProps {
     updateMeta: (meta: Partial<PageMeta>) => void;
-    toggleBreadcrumbs: (visibility: boolean) => void;
+    updateBreadcrumbsStore: (state: Partial<BreadcrumbsStore>) => void;
     setHeaderState: (headerState: NavigationState) => void;
     resetPassword: (options: ResetPasswordOptions) => void;
     showNotification: (type: NotificationType, message: string) => void;

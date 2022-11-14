@@ -84,10 +84,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductPageContainerMapD
     },
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateBreadcrumbs: (breadcrumbs, prevCategoryId) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, prevCategoryId, dispatch),
+        ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, prevCategoryId),
     ),
     updateMetaFromProduct: (product) => MetaDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch),
+        ({ default: dispatcher }) => dispatcher.updateWithProduct(product),
     ),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
     addRecentlyViewedProduct: (product, store) => dispatch(addRecentlyViewedProduct(product, store)),

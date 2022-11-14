@@ -70,17 +70,17 @@ export const mapStateToProps = (state: RootState): MyAccountContainerMapStatePro
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountContainerMapDispatchProps => ({
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs),
     ),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     requestCustomerData: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch),
+        ({ default: dispatcher }) => dispatcher.requestCustomerData(),
     ),
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     logout: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.logout(false, false, dispatch),
+        ({ default: dispatcher }) => dispatcher.logout(false, false),
     ),
     updateIsLocked: (isLocked) => dispatch(updateIsLocked(isLocked)),
 });

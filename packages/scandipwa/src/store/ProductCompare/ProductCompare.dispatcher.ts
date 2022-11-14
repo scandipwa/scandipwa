@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Dispatch } from 'redux';
-
 import ProductCompareQuery from 'Query/ProductCompare.query';
 import { CompareList } from 'Query/ProductCompare.type';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -25,6 +23,7 @@ import {
 import { getAuthorizationToken } from 'Util/Auth';
 import { getUid, removeUid, setUid } from 'Util/Compare';
 import { fetchMutation, fetchQuery } from 'Util/Request';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -32,26 +31,26 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Store/ProductCompare/Dispatcher */
-export class ProductCompareDispatcher {
-    async getCompareList(dispatch: Dispatch): Promise<boolean> {
+export class ProductCompareDispatcher extends SimpleDispatcher {
+    async getCompareList(): Promise<boolean> {
         const uid = getUid() || '';
 
         if (!uid) {
             return false;
         }
 
-        dispatch(toggleLoader(true));
+        this.dispatch(toggleLoader(true));
 
         try {
             const { compareList } = await fetchQuery(
                 ProductCompareQuery.getCompareList(uid),
             );
 
-            dispatch(toggleLoader(false));
-            dispatch(setCompareList(compareList));
+            this.dispatch(toggleLoader(false));
+            this.dispatch(setCompareList(compareList));
         } catch (error) {
-            dispatch(toggleLoader(false));
-            dispatch(showNotification(NotificationType.ERROR, __('Unable to fetch compare list'), error));
+            this.dispatch(toggleLoader(false));
+            this.dispatch(showNotification(NotificationType.ERROR, __('Unable to fetch compare list'), error));
 
             return false;
         }
@@ -91,7 +90,7 @@ export class ProductCompareDispatcher {
         return addProductsToCompareList;
     }
 
-    async addProductToCompare(productId: string, dispatch: Dispatch): Promise<CompareList | null> {
+    async addProductToCompare(productId: string): Promise<CompareList | null> {
         const uid = getUid();
 
         try {
@@ -99,18 +98,18 @@ export class ProductCompareDispatcher {
                 ? await this.addToCompareList(uid, productId)
                 : await this.createCompareList(productId);
 
-            dispatch(setCompareList(result));
-            dispatch(showNotification(NotificationType.SUCCESS, __('Product is added to the compare list')));
+            this.dispatch(setCompareList(result));
+            this.dispatch(showNotification(NotificationType.SUCCESS, __('Product is added to the compare list')));
 
             return result;
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, __('Unable to add product to the compare list'), error));
+            this.dispatch(showNotification(NotificationType.ERROR, __('Unable to add product to the compare list'), error));
 
             return null;
         }
     }
 
-    async removeComparedProduct(productId: string, dispatch: Dispatch): Promise<CompareList | null> {
+    async removeComparedProduct(productId: string): Promise<CompareList | null> {
         const uid = getUid();
 
         if (!uid) {
@@ -127,12 +126,12 @@ export class ProductCompareDispatcher {
                 ),
             );
 
-            dispatch(setCompareList(removeProductsFromCompareList));
-            dispatch(showNotification(NotificationType.SUCCESS, __('Product is removed from the compare list')));
+            this.dispatch(setCompareList(removeProductsFromCompareList));
+            this.dispatch(showNotification(NotificationType.SUCCESS, __('Product is removed from the compare list')));
 
             return removeProductsFromCompareList;
         } catch (error) {
-            dispatch(showNotification(
+            this.dispatch(showNotification(
                 NotificationType.SUCCESS,
                 __('Unable to remove product from the compare list'),
                 error,
@@ -142,7 +141,7 @@ export class ProductCompareDispatcher {
         }
     }
 
-    async fetchCustomersList(dispatch: Dispatch): Promise<void> {
+    async fetchCustomersList(): Promise<void> {
         const {
             createCompareList,
             createCompareList: {
@@ -160,14 +159,14 @@ export class ProductCompareDispatcher {
             setUid(uid);
         }
 
-        dispatch(setCompareList(createCompareList));
+        this.dispatch(setCompareList(createCompareList));
     }
 
-    async assignCompareList(dispatch: Dispatch): Promise<boolean> {
+    async assignCompareList(): Promise<boolean> {
         const uid = getUid();
 
         if (!uid) {
-            await this.fetchCustomersList(dispatch);
+            await this.fetchCustomersList();
 
             return false;
         }
@@ -193,27 +192,25 @@ export class ProductCompareDispatcher {
 
             if (result) {
                 setUid(newUid);
-                dispatch(setCompareList(compare_list));
+                this.dispatch(setCompareList(compare_list));
             }
 
             return result;
         } catch (error) {
-            dispatch(toggleLoader(false));
+            this.dispatch(toggleLoader(false));
 
             return false;
         }
     }
 
-    async clearComparedProducts(
-        dispatch: Dispatch,
-    ): Promise<Record<'deleteCompareList', { result: boolean }> | null> {
+    async clearComparedProducts(): Promise<Record<'deleteCompareList', { result: boolean }> | null> {
         const uid = getUid();
 
         if (!uid) {
             return null;
         }
 
-        dispatch(toggleLoader(true));
+        this.dispatch(toggleLoader(true));
 
         try {
             const result = await fetchMutation(
@@ -221,29 +218,27 @@ export class ProductCompareDispatcher {
             );
 
             removeUid();
-            dispatch(clearComparedProducts());
-            dispatch(showNotification(NotificationType.SUCCESS, __('Compare list is cleared')));
-            dispatch(toggleLoader(false));
+            this.dispatch(clearComparedProducts());
+            this.dispatch(showNotification(NotificationType.SUCCESS, __('Compare list is cleared')));
+            this.dispatch(toggleLoader(false));
 
             return result;
         } catch (error) {
-            dispatch(toggleLoader(false));
-            dispatch(showNotification(NotificationType.ERROR, __('Unable to clear product compare list'), error));
+            this.dispatch(toggleLoader(false));
+            this.dispatch(showNotification(NotificationType.ERROR, __('Unable to clear product compare list'), error));
 
             return null;
         }
     }
 
-    async updateInitialProductCompareData(
-        dispatch: Dispatch,
-    ): Promise<boolean> {
+    async updateInitialProductCompareData(): Promise<boolean> {
         const uid = getUid();
 
         if (!uid) {
             return false;
         }
 
-        dispatch(toggleLoader(true));
+        this.dispatch(toggleLoader(true));
 
         try {
             const { compareList } = await fetchQuery(
@@ -252,12 +247,12 @@ export class ProductCompareDispatcher {
             const { items = [] } = compareList || {};
             const compareIds = items.map((data) => data?.product?.id);
 
-            dispatch(toggleLoader(false));
-            dispatch(setCompareListIds(compareIds));
-            dispatch(updateCompareTotals(compareIds.length));
+            this.dispatch(toggleLoader(false));
+            this.dispatch(setCompareListIds(compareIds));
+            this.dispatch(updateCompareTotals(compareIds.length));
         } catch (error) {
-            dispatch(toggleLoader(false));
-            dispatch(showNotification(NotificationType.ERROR, __('Unable to fetch compare list'), error));
+            this.dispatch(toggleLoader(false));
+            this.dispatch(showNotification(NotificationType.ERROR, __('Unable to fetch compare list'), error));
 
             return false;
         }
@@ -265,8 +260,8 @@ export class ProductCompareDispatcher {
         return true;
     }
 
-    resetComparedProducts(dispatch: Dispatch): void {
-        dispatch(clearComparedProducts());
+    resetComparedProducts(): void {
+        this.dispatch(clearComparedProducts());
     }
 }
 

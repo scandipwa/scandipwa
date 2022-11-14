@@ -20,7 +20,7 @@ import {
     MyAccountOverlayContainer,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.container';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
@@ -42,7 +42,7 @@ export const BreadcrumbsDispatcher = import(
 /** @namespace Route/CreateAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CreateAccountContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
-    toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
+    updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
 });
 
 /** @namespace Route/CreateAccount/Container */
@@ -53,7 +53,7 @@ export class CreateAccountContainer extends MyAccountOverlayContainer<CreateAcco
     };
 
     componentDidMount(): void {
-        const { setHeaderState, toggleBreadcrumbs } = this.props;
+        const { setHeaderState, updateBreadcrumbsStore } = this.props;
 
         if (isSignedIn()) {
             // remove login url from history to skip it when navigating back after account create
@@ -61,7 +61,7 @@ export class CreateAccountContainer extends MyAccountOverlayContainer<CreateAcco
             history.replace(appendWithStoreCode(AccountPageUrl.ACCOUNT_URL));
         }
 
-        toggleBreadcrumbs(false);
+        updateBreadcrumbsStore({ areBreadcrumbsVisible: false });
 
         setHeaderState({
             name: Page.CUSTOMER_SUB_ACCOUNT,

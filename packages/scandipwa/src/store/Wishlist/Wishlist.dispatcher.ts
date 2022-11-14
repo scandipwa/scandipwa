@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Dispatch } from 'redux';
-
 import WishlistQuery from 'Query/Wishlist.query';
 import { Wishlist } from 'Query/Wishlist.type';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -26,6 +24,7 @@ import { GQLWishlistItemInput, GQLWishlistItemUpdateInput } from 'Type/Graphql.t
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 import getStore from 'Util/Store';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 import { RootState } from 'Util/Store/Store.type';
 import { getPriceRange } from 'Util/Wishlist';
 
@@ -53,16 +52,16 @@ export const isWishlistEnabled = (): boolean => {
  * @class WishlistDispatcher
  * @namespace Store/Wishlist/Dispatcher
  */
-export class WishlistDispatcher {
-    updateInitialWishlistData(dispatch: Dispatch): void {
+export class WishlistDispatcher extends SimpleDispatcher {
+    updateInitialWishlistData(): void {
         if (isSignedIn() && isWishlistEnabled()) {
-            this._syncWishlistWithBE(dispatch);
+            this._syncWishlistWithBE();
         } else {
-            dispatch(updateAllProductsInWishlist({}));
+            this.dispatch(updateAllProductsInWishlist({}));
         }
     }
 
-    _syncWishlistWithBE(dispatch: Dispatch): Promise<void> {
+    _syncWishlistWithBE(): Promise<void> {
         // Need to get current wishlist from BE, update wishlist
         return fetchQuery<'wishlist', Wishlist>(WishlistQuery.getWishlistQuery()).then(
             /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/_syncWishlistWithBE/fetchQuery/then */
@@ -119,20 +118,19 @@ export class WishlistDispatcher {
                         };
                     }, {});
 
-                    dispatch(updateAllProductsInWishlist(productsToAdd));
+                    this.dispatch(updateAllProductsInWishlist(productsToAdd));
                 } else {
-                    dispatch(updateIsLoading(false));
+                    this.dispatch(updateIsLoading(false));
                 }
             },
             /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/_syncWishlistWithBE/fetchQuery/then/catch */
             () => {
-                dispatch(updateIsLoading(false));
+                this.dispatch(updateIsLoading(false));
             },
         );
     }
 
     async addItemToWishlist(
-        dispatch: Dispatch,
         options: { items: GQLWishlistItemInput[]; wishlistId: string },
     ): Promise<void> {
         if (!isSignedIn()) {
@@ -142,31 +140,30 @@ export class WishlistDispatcher {
         try {
             const { items = [], wishlistId = '' } = options;
 
-            dispatch(updateIsLoading(true));
+            this.dispatch(updateIsLoading(true));
             const {
                 addProductsToWishlist: { user_errors },
             } = await fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, items));
 
             if (user_errors.length > 0) {
-                user_errors.map(({ message }: NetworkError) => dispatch(
+                user_errors.map(({ message }: NetworkError) => this.dispatch(
                     showNotification(
                         NotificationType.ERROR,
                         __('We can`t add the item to Wishlist right now: %s', message).toString(),
                     ),
                 ));
             } else {
-                dispatch(showNotification(NotificationType.SUCCESS, __('Product added to wish-list!')));
-                await this._syncWishlistWithBE(dispatch);
+                this.dispatch(showNotification(NotificationType.SUCCESS, __('Product added to wish-list!')));
+                await this._syncWishlistWithBE();
             }
         } catch {
-            dispatch(showNotification(NotificationType.ERROR, __('Error updating wish list!')));
+            this.dispatch(showNotification(NotificationType.ERROR, __('Error updating wish list!')));
         } finally {
-            dispatch(updateIsLoading(false));
+            this.dispatch(updateIsLoading(false));
         }
     }
 
     updateWishlistItem(
-        dispatch: Dispatch,
         options: { wishlistItems: GQLWishlistItemUpdateInput[]; wishlistId: string },
     ): Promise<void> {
         if (!isSignedIn()) {
@@ -178,28 +175,28 @@ export class WishlistDispatcher {
         return fetchMutation(WishlistQuery.updateProductsInWishlist(wishlistId, wishlistItems)).then(
             /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/updateWishlistItem/fetchMutation/then */
             () => {
-                this._syncWishlistWithBE(dispatch);
+                this._syncWishlistWithBE();
             },
         );
     }
 
-    clearWishlist(dispatch: Dispatch): Promise<ClearWishlistAction | ShowNotificationAction> {
+    clearWishlist(): Promise<ClearWishlistAction | ShowNotificationAction> {
         if (!isSignedIn()) {
             return Promise.reject();
         }
 
         return fetchMutation<'clearWishlist', boolean>(WishlistQuery.getClearWishlist())
             .then(
-                /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/clearWishlist/then/catch/fetchMutation/then/dispatch */
-                () => dispatch(clearWishlist()),
+                /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/clearWishlist/then/catch/fetchMutation/then */
+                () => this.dispatch(clearWishlist()),
             )
             .catch(
-                /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/clearWishlist/then/catch/dispatch */
-                () => dispatch(showNotification(NotificationType.ERROR, __('Error clearing wish list!'))),
+                /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/clearWishlist/then/catch */
+                () => this.dispatch(showNotification(NotificationType.ERROR, __('Error clearing wish list!'))),
             );
     }
 
-    async moveWishlistToCart(dispatch: Dispatch, sharingCode = ''): Promise<void> {
+    async moveWishlistToCart(sharingCode = ''): Promise<void> {
         if (!isSignedIn()) {
             await Promise.reject();
         }
@@ -207,45 +204,44 @@ export class WishlistDispatcher {
         try {
             await fetchMutation<'moveWishlistToCart', boolean>(WishlistQuery.getMoveWishlistToCart(sharingCode));
         } finally {
-            await this._syncWishlistWithBE(dispatch);
+            await this._syncWishlistWithBE();
             CartDispatcher.then(
                 ({ default: dispatcher }) => dispatcher.updateInitialCartData(!!getAuthorizationToken()),
             );
-            dispatch(showNotification(NotificationType.SUCCESS, __('Available items moved to cart')));
+            this.dispatch(showNotification(NotificationType.SUCCESS, __('Available items moved to cart')));
         }
     }
 
     async removeItemFromWishlist(
-        dispatch: Dispatch,
         { item_id, noMessages }: { item_id: string; noMessages?: boolean },
     ): Promise<void> {
         if (!item_id || !isSignedIn()) {
             return Promise.reject();
         }
 
-        dispatch(updateIsLoading(true));
+        this.dispatch(updateIsLoading(true));
 
         try {
             await fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(item_id));
         } catch (e) {
             if (!noMessages) {
-                dispatch(showNotification(NotificationType.ERROR, __('Error updating wish list!')));
+                this.dispatch(showNotification(NotificationType.ERROR, __('Error updating wish list!')));
             }
 
             return Promise.reject();
         }
 
-        dispatch(removeItemFromWishlist(item_id));
+        this.dispatch(removeItemFromWishlist(item_id));
 
         if (!noMessages) {
-            dispatch(showNotification(NotificationType.SUCCESS, __('Product has been removed from your Wish List!')));
+            this.dispatch(showNotification(NotificationType.SUCCESS, __('Product has been removed from your Wish List!')));
         }
 
         return Promise.resolve();
     }
 
     // TODO: Need to make it in one request
-    removeItemsFromWishlist(dispatch: Dispatch, itemIdMap: string[]): Promise<never> | Promise<void>[] {
+    removeItemsFromWishlist(itemIdMap: string[]): Promise<never> | Promise<void>[] {
         if (!itemIdMap.length || !isSignedIn()) {
             return Promise.reject();
         }
@@ -256,15 +252,15 @@ export class WishlistDispatcher {
             ).then(
                 /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemsFromWishlist/itemIdMap/map/fetchMutation/then */
                 () => {
-                    dispatch(removeItemFromWishlist(id));
-                    dispatch(showNotification(
+                    this.dispatch(removeItemFromWishlist(id));
+                    this.dispatch(showNotification(
                         NotificationType.SUCCESS,
                         __('Product has been removed from your Wish List!'),
                     ));
                 },
                 /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemsFromWishlist/itemIdMap/map/fetchMutation/then/catch */
                 (error) => {
-                    dispatch(showNotification(
+                    this.dispatch(showNotification(
                         NotificationType.ERROR,
                         getErrorMessage(error, __('Error updating wishlist!')),
                     ));
@@ -273,8 +269,8 @@ export class WishlistDispatcher {
         ));
     }
 
-    resetWishlist(dispatch: Dispatch): void {
-        dispatch(clearWishlist());
+    resetWishlist(): void {
+        this.dispatch(clearWishlist());
     }
 }
 

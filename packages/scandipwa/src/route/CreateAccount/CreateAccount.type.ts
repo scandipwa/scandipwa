@@ -17,10 +17,11 @@ import {
     MyAccountOverlayContainerMapDispatchProps,
     MyAccountOverlayContainerProps,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.type';
+import { BreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { Device } from 'Type/Device.type';
 
 export interface CreateAccountContainerMapDispatchProps extends MyAccountOverlayContainerMapDispatchProps {
-    toggleBreadcrumbs: (isVisible: boolean) => void;
+    updateBreadcrumbsStore: (state: Partial<BreadcrumbsStore>) => void;
 }
 
 export type CreateAccountContainerProps = CreateAccountContainerMapDispatchProps

@@ -42,7 +42,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): NoMatchHandlerContainerM
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateNoMatch: (options) => {
         NoMatchDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options),
+            ({ default: dispatcher }) => dispatcher.updateNoMatch(options),
         );
     },
 });

@@ -11,10 +11,7 @@
 
 import { Reducer } from 'redux';
 
-import {
-    BreadcrumbsAction,
-    BreadcrumbsActionType, BreadcrumbsStore,
-} from './Breadcrumbs.type';
+import { BreadcrumbsStore } from './Breadcrumbs.type';
 
 /** @namespace Store/Breadcrumbs/Reducer/getInitialState */
 export const getInitialState = (): BreadcrumbsStore => ({
@@ -24,32 +21,17 @@ export const getInitialState = (): BreadcrumbsStore => ({
 
 /** @namespace Store/Breadcrumbs/Reducer/BreadcrumbsReducer */
 export const BreadcrumbsReducer: Reducer<
-BreadcrumbsStore,
-BreadcrumbsAction
+BreadcrumbsStore
 > = (
     state = getInitialState(),
     action,
 ) => {
-    switch (action.type) {
-    case BreadcrumbsActionType.UPDATE_BREADCRUMBS:
-        const { breadcrumbs = [] } = action;
+    const { state: newState } = action;
 
-        return {
-            ...state,
-            breadcrumbs,
-        };
-
-    case BreadcrumbsActionType.TOGGLE_BREADCRUMBS:
-        const { areBreadcrumbsVisible = false } = action;
-
-        return {
-            ...state,
-            areBreadcrumbsVisible,
-        };
-
-    default:
-        return state;
-    }
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default BreadcrumbsReducer;

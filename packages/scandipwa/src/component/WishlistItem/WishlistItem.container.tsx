@@ -65,10 +65,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): WishlistItemContainerMap
         ({ default: dispatcher }) => dispatcher.addProductToCart(options),
     ),
     updateWishlistItem: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.updateWishlistItem(options),
     ),
     removeFromWishlist: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(options),
     ),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
 });

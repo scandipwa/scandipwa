@@ -19,7 +19,7 @@ import CheckoutQuery from 'Query/Checkout.query';
 import { SetGuestEmailOnCartOutput, ShippingMethod } from 'Query/Checkout.type';
 import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -112,7 +112,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
             dispatcher.createGuestEmptyCart();
         },
     ),
-    toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
+    updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
     showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     showInfoNotification: (message) => dispatch(showNotification(NotificationType.INFO, message)),
     showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
@@ -121,7 +121,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
         changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName),
     ),
     createAccount: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch),
+        ({ default: dispatcher }) => dispatcher.createAccount(options),
     ),
     checkEmailAvailability: (email) => CheckoutDispatcher.then(
         ({ default: dispatcher }) => dispatcher.checkIsEmailAvailable(email),
@@ -177,10 +177,10 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         super.__construct?.(props);
 
         const {
-            toggleBreadcrumbs,
+            updateBreadcrumbsStore,
         } = props;
 
-        toggleBreadcrumbs(false);
+        updateBreadcrumbsStore({ areBreadcrumbsVisible: false });
 
         this.state = {
             requestsSent: 0,
@@ -327,9 +327,9 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     }
 
     componentWillUnmount(): void {
-        const { toggleBreadcrumbs, setPickUpStore } = this.props;
+        const { updateBreadcrumbsStore, setPickUpStore } = this.props;
 
-        toggleBreadcrumbs(true);
+        updateBreadcrumbsStore({ areBreadcrumbsVisible: true });
         setPickUpStore(null);
     }
 

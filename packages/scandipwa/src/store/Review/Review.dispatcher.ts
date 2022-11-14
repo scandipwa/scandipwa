@@ -9,13 +9,12 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Dispatch } from 'redux';
-
 import ReviewQuery from 'Query/Review.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { GQLCreateProductReviewInput } from 'Type/Graphql.type';
 import { fetchMutation } from 'Util/Request';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { ReviewItem } from './Review.type';
 
@@ -24,7 +23,7 @@ import { ReviewItem } from './Review.type';
  * @class WishlistDispatcher
  * @namespace Store/Review/Dispatcher
  */
-export class ReviewDispatcher {
+export class ReviewDispatcher extends SimpleDispatcher {
     prepareReviewData(reviewItem: ReviewItem): GQLCreateProductReviewInput {
         const {
             rating_data,
@@ -48,9 +47,10 @@ export class ReviewDispatcher {
         };
     }
 
-    async submitProductReview(dispatch: Dispatch, options: ReviewItem): Promise<void> {
+    async submitProductReview(options: ReviewItem): Promise<void> {
         await fetchMutation(ReviewQuery.getAddProductReviewMutation(this.prepareReviewData(options)));
-        dispatch(showNotification(NotificationType.SUCCESS, 'You submitted your review for moderation.'));
+
+        this.dispatch(showNotification(NotificationType.SUCCESS, 'You submitted your review for moderation.'));
     }
 }
 

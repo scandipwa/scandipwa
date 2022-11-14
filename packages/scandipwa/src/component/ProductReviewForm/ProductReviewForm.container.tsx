@@ -50,7 +50,7 @@ export const mapStateToProps = (state: RootState): ProductReviewFormContainerMap
 /** @namespace Component/ProductReviewForm/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductReviewFormContainerMapDispatchProps => ({
     addReview: (options) => ReviewDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.submitProductReview(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.submitProductReview(options),
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),

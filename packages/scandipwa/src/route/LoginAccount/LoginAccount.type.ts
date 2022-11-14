@@ -17,11 +17,12 @@ import {
     MyAccountOverlayContainerMapDispatchProps,
     MyAccountOverlayContainerProps,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.type';
+import { BreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { HistoryState } from 'Util/History/History.type';
 
 export interface LoginAccountContainerMapDispatchProps extends MyAccountOverlayContainerMapDispatchProps {
-    toggleBreadcrumbs: (isVisible: boolean) => void;
+    updateBreadcrumbsStore: (state: Partial<BreadcrumbsStore>) => void;
     showNotification: (type: NotificationType, message: string) => void;
 }
 

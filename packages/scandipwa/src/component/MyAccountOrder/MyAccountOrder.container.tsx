@@ -55,10 +55,10 @@ export const mapStateToProps = (state: RootState): MyAccountOrderContainerMapSta
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     getOrderById: (orderId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getOrderById(dispatch, orderId),
+        ({ default: dispatcher }) => dispatcher.getOrderById(orderId),
     ),
     reorder: (incrementId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.reorder(dispatch, incrementId),
+        ({ default: dispatcher }) => dispatcher.reorder(incrementId),
     ),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE)),

@@ -54,7 +54,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): WishlistSharedPageContai
     ...sourceMapDispatchToProps(dispatch),
     showNoMatch: () => dispatch(updateNoMatch(true)),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs),
     ),
 });
 

@@ -19,6 +19,7 @@ import {
 import { CreateAccountOptions, Customer } from 'Query/MyAccount.type';
 import { Country } from 'Query/Region.type';
 import { Store } from 'Query/StoreInPickUp.type';
+import { BreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { CheckoutAddress, CheckoutStore } from 'Store/Checkout/Checkout.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
@@ -62,7 +63,7 @@ export interface CheckoutContainerDispatchProps {
     showErrorNotification: (message: string) => void;
     showInfoNotification: (message: string) => void;
     showSuccessNotification: (message: string) => void;
-    toggleBreadcrumbs: (state: boolean) => void;
+    updateBreadcrumbsStore: (state: Partial<BreadcrumbsStore>) => void;
     updateMeta: (meta: Partial<PageMeta>) => void;
     updateShippingPrice: (data: TotalsObject) => void;
     setPickUpStore: (store: Store | null) => void;

@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 import { Page } from 'Component/Header/Header.config';
 import CmsPageQuery from 'Query/CmsPage.query';
 import { CmsPageFields, CmsPageQueryOptions } from 'Query/CmsPage.type';
-import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
@@ -52,17 +52,12 @@ export const mapStateToProps = (state: RootState): CmsPageContainerMapStateProps
 /** @namespace Route/CmsPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CmsPageContainerDispatchStateProps => ({
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs, dispatch),
+        ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs),
     ),
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    toggleBreadcrumbs: (isActive) => {
-        BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update([], dispatch),
-        );
-        dispatch(toggleBreadcrumbs(isActive));
-    },
+    updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
 });
 
 /** @namespace Route/CmsPage/Container */
@@ -93,11 +88,11 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
 
     updateBreadcrumbs(): void {
         const {
-            toggleBreadcrumbs,
+            updateBreadcrumbsStore,
             isBreadcrumbsActive,
         } = this.props;
 
-        toggleBreadcrumbs(isBreadcrumbsActive);
+        updateBreadcrumbsStore({ areBreadcrumbsVisible: isBreadcrumbsActive, breadcrumbs: [] });
     }
 
     containerProps(): Pick<

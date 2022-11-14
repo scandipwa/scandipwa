@@ -112,7 +112,7 @@ export const isSignedIn = (): boolean => {
         const MyAccountDispatcher = import('../../store/MyAccount/MyAccount.dispatcher');
 
         MyAccountDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.logout(true, true, dispatch),
+            ({ default: dispatcher }) => dispatcher.logout(true, true),
         );
     }
 
