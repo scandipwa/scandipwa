@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Dispatch } from 'redux';
-
 import CheckEmailQuery from 'Query/CheckEmail.query';
 import CheckoutQuery from 'Query/Checkout.query';
 import { PaymentMethod, SetGuestEmailOnCartOutput } from 'Query/Checkout.type';
@@ -24,8 +22,7 @@ import { trimAddressMagentoStyle } from 'Util/Address';
 import { isSignedIn } from 'Util/Auth';
 import { getCartId } from 'Util/Cart';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
-import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/Store.type';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { updateCheckoutStore } from './Checkout.action';
 
@@ -35,19 +32,19 @@ import { updateCheckoutStore } from './Checkout.action';
  * @extends QueryDispatcher
  * @namespace Store/Checkout/Dispatcher
  */
-export class CheckoutDispatcher {
-    async checkIsEmailAvailable(dispatch: Dispatch, email: string) {
+export class CheckoutDispatcher extends SimpleDispatcher {
+    async checkIsEmailAvailable(email: string) {
         try {
             const { isEmailAvailable: { is_email_available } } = await fetchQuery(CheckEmailQuery.getIsEmailAvailableQuery(email));
 
-            dispatch(updateCheckoutStore({ isEmailAvailable: is_email_available }));
+            this.dispatch(updateCheckoutStore({ isEmailAvailable: is_email_available }));
         } catch (error) {
-            dispatch(updateCheckoutStore({ isEmailAvailable: true }));
+            this.dispatch(updateCheckoutStore({ isEmailAvailable: true }));
         }
     }
 
-    async setShippingAddress(dispatch: Dispatch, isDefaultShipping = false): Promise<void> {
-        const { CheckoutReducer: { shippingAddress } } = getStore().getState() as RootState;
+    async setShippingAddress(isDefaultShipping = false): Promise<void> {
+        const { CheckoutReducer: { shippingAddress } } = this.storeState;
         const { region, region_id, ...address } = shippingAddress || {};
 
         const mutation = MyAccountQuery.getCreateAddressMutation({
@@ -60,7 +57,7 @@ export class CheckoutDispatcher {
             const data = await fetchMutation(mutation);
 
             if (data?.createCustomerAddress) {
-                dispatch(updateCheckoutStore({
+                this.dispatch(updateCheckoutStore({
                     shippingAddress: {
                         ...shippingAddress,
                         id: data.createCustomerAddress.id,
@@ -68,7 +65,7 @@ export class CheckoutDispatcher {
                 }));
             }
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
         }
     }
 
@@ -84,7 +81,7 @@ export class CheckoutDispatcher {
             ConfigReducer: {
                 countries,
             },
-        } = getStore().getState() as RootState;
+        } = this.storeState;
         const isCustomerSignedIn = isSignedIn();
         const cart_id = getCartId();
 
@@ -111,18 +108,18 @@ export class CheckoutDispatcher {
         }));
     }
 
-    async saveGuestEmail(dispatch: Dispatch, email: string): Promise<SetGuestEmailOnCartOutput | boolean | void> {
+    async saveGuestEmail(email: string): Promise<SetGuestEmailOnCartOutput | boolean | void> {
         const guestCartId = getCartId();
 
         if (!email) {
-            dispatch(updateCheckoutStore({ isVisibleEmailRequired: !email }));
+            this.dispatch(updateCheckoutStore({ isVisibleEmailRequired: !email }));
         }
 
         if (!guestCartId || !email) {
             return;
         }
 
-        dispatch(updateCheckoutStore({ email }));
+        this.dispatch(updateCheckoutStore({ email }));
 
         try {
             const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
@@ -130,14 +127,14 @@ export class CheckoutDispatcher {
             const { setGuestEmailOnCart: data } = await fetchMutation(mutation);
 
             if (data) {
-                dispatch(updateCheckoutStore({ isGuestEmailSaved: true }));
+                this.dispatch(updateCheckoutStore({ isGuestEmailSaved: true }));
             }
         } catch (error) {
-            this.handleError(dispatch, error as NetworkError);
+            this.handleError(error as NetworkError);
         }
     }
 
-    async getPaymentMethods(dispatch: Dispatch): Promise<void> {
+    async getPaymentMethods(): Promise<void> {
         const cartId = getCartId();
 
         if (!cartId) {
@@ -149,33 +146,33 @@ export class CheckoutDispatcher {
 
             const { getPaymentMethods: paymentMethods } = await fetchQuery<'getPaymentMethods', PaymentMethod, true>(query);
 
-            dispatch(updateCheckoutStore({
+            this.dispatch(updateCheckoutStore({
                 paymentMethods,
                 isCheckoutLoading: false,
             }));
         } catch (error) {
-            this.handleError(dispatch, error as NetworkError);
+            this.handleError(error as NetworkError);
         }
     }
 
-    handleError(dispatch: Dispatch, error: NetworkError | NetworkError[]): boolean {
-        dispatch(updateCheckoutStore({
+    handleError(error: NetworkError | NetworkError[]): boolean {
+        this.dispatch(updateCheckoutStore({
             isDeliveryOptionsLoading: false,
             isCheckoutLoading: false,
         }));
-        dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+        this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
 
         return false;
     }
 
-    onChangeEmailRequired(dispatch: Dispatch) {
+    onChangeEmailRequired() {
         const {
             CheckoutReducer: {
                 email,
             },
-        } = getStore().getState() as RootState;
+        } = this.storeState;
 
-        dispatch(updateCheckoutStore({ isVisibleEmailRequired: !email }));
+        this.dispatch(updateCheckoutStore({ isVisibleEmailRequired: !email }));
     }
 }
 

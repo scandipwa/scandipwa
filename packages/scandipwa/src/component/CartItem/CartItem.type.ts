@@ -25,6 +25,7 @@ import { IndexedProduct, IndexedVariant } from 'Util/Product/Product.type';
 export interface CartItemContainerMapStateProps {
     isMobile: boolean;
     cartId: string;
+    currencyCode: string;
 }
 
 export interface CartItemContainerMapDispatchProps {
@@ -37,7 +38,6 @@ export interface CartItemContainerMapDispatchProps {
 
 export interface CartItemContainerBaseProps {
     item: Partial<IndexedCartItem>;
-    currency_code: string;
     updateCrossSellsOnRemove: boolean;
     isCartOverlay: boolean;
     isEditing: boolean;
@@ -62,7 +62,7 @@ export interface CartItemContainerState {
 
 export interface CartItemComponentProps {
     item: Partial<IndexedCartItem>;
-    currency_code: string;
+    currencyCode: string;
     isEditing: boolean;
     isCartOverlay: boolean;
     isMobile: boolean;
@@ -83,7 +83,7 @@ export interface CartItemComponentProps {
 
 export type CartItemComponentContainerPropKeys =
     | 'item'
-    | 'currency_code'
+    | 'currencyCode'
     | 'isEditing'
     | 'isCartOverlay'
     | 'isMobile'

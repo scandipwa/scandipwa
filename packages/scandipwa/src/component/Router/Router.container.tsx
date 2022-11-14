@@ -85,13 +85,13 @@ export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispat
 
         const { default: dispatcher } = await MyAccountDispatcher;
 
-        await dispatcher.handleCustomerDataOnInit(dispatch);
+        await dispatcher.handleCustomerDataOnInit();
 
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch),
         );
         CartDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch),
+            ({ default: dispatcher }) => dispatcher.updateInitialCartData(),
         );
         ProductCompareDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch),

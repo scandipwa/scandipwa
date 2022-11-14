@@ -20,7 +20,6 @@ import ExpandableContent from 'Component/ExpandableContent';
 import Loader from 'Component/Loader';
 import LockIcon from 'Component/LockIcon';
 import ProductLinks from 'Component/ProductLinks';
-import { CartTotals } from 'Store/Cart/Cart.type';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
@@ -40,9 +39,6 @@ export class CartPageComponent extends PureComponent<CartPageComponentProps> {
         const {
             totals: {
                 items = [],
-                prices: {
-                    quote_currency_code = '',
-                } = {},
             },
             onCartItemLoading,
             isInitialLoad,
@@ -74,7 +70,6 @@ export class CartPageComponent extends PureComponent<CartPageComponentProps> {
                         <CartItem
                           key={ item.id }
                           item={ item }
-                          currency_code={ quote_currency_code }
                           onCartItemLoading={ onCartItemLoading }
                           showLoader
                           isEditing
@@ -90,9 +85,6 @@ export class CartPageComponent extends PureComponent<CartPageComponentProps> {
         const {
             totals: {
                 items = [],
-                prices: {
-                    coupon_code,
-                } = {},
             },
         } = this.props;
 
@@ -106,7 +98,7 @@ export class CartPageComponent extends PureComponent<CartPageComponentProps> {
               mix={ { block: 'CartPage', elem: 'Discount' } }
               isArrow
             >
-                <CartCoupon couponCode={ coupon_code } />
+                <CartCoupon />
             </ExpandableContent>
         );
     }
@@ -151,13 +143,8 @@ export class CartPageComponent extends PureComponent<CartPageComponentProps> {
     }
 
     renderSummary(): ReactElement {
-        const {
-            totals,
-        } = this.props;
-
         return (
             <CheckoutOrderSummary
-              totals={ totals as CartTotals }
               showItems={ false }
             >
                 { this.renderSecureCheckoutButton() }
@@ -178,13 +165,10 @@ export class CartPageComponent extends PureComponent<CartPageComponentProps> {
     }
 
     renderCrossSellProducts(): ReactElement {
-        const { areDetailsLoaded } = this.props;
-
         return (
             <ProductLinks
               linkType={ LinkedProductType.CROSS_SELL }
               title={ __('Frequently bought together') }
-              areDetailsLoaded={ areDetailsLoaded }
             />
         );
     }

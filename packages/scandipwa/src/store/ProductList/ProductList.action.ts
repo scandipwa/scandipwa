@@ -13,7 +13,7 @@ import { ProductItem, ProductListOptionArgs } from 'Query/ProductList.type';
 
 import {
     AppendPageAction,
-    ProductListActionType, UpdateLoadStatusAction, UpdatePageLoadingStatusAction, UpdateProductListItemsAction,
+    ProductListActionType, UpdateLoadStatusAction, UpdatePageLoadingStatusAction, UpdateProductListItemsAction, UpdateSearchCriteriaAction,
 } from './ProductList.type';
 
 /**
@@ -67,4 +67,10 @@ export const updateLoadStatus = (status: boolean): UpdateLoadStatusAction => ({
 /** @namespace Store/ProductList/Action/updatePageLoadingStatus */
 export const updatePageLoadingStatus = (): UpdatePageLoadingStatusAction => ({
     type: ProductListActionType.UPDATE_PAGE_LOAD_STATUS,
+});
+
+/** @namespace Store/ProductList/Action/updateSearchCriteria */
+export const updateSearchCriteria = (searchCriteria: string): UpdateSearchCriteriaAction => ({
+    type: ProductListActionType.UPDATE_SEARCH_CRITERIA,
+    searchCriteria,
 });

@@ -20,7 +20,6 @@ import { SetGuestEmailOnCartOutput, ShippingMethod } from 'Query/Checkout.type';
 import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
-import { updateShippingPrice } from 'Store/Cart/Cart.action';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -105,12 +104,12 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
     setPickUpStore: (store) => dispatch(setPickUpStore(store)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     resetCart: () => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken()),
+        ({ default: dispatcher }) => dispatcher.updateInitialCartData(!!getAuthorizationToken()),
     ),
     resetGuestCart: () => CartDispatcher.then(
         ({ default: dispatcher }) => {
-            dispatcher.resetGuestCart(dispatch);
-            dispatcher.createGuestEmptyCart(dispatch);
+            dispatcher.resetGuestCart();
+            dispatcher.createGuestEmptyCart();
         },
     ),
     toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
@@ -125,27 +124,29 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
         ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch),
     ),
     checkEmailAvailability: (email) => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.checkIsEmailAvailable(dispatch, email),
+        ({ default: dispatcher }) => dispatcher.checkIsEmailAvailable(email),
     ),
     setShippingAddress: (isDefaultShipping) => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.setShippingAddress(dispatch, isDefaultShipping),
+        ({ default: dispatcher }) => dispatcher.setShippingAddress(isDefaultShipping),
     ),
     saveBillingAddress: (paymentInformation) => CheckoutDispatcher.then(
         ({ default: dispatcher }) => dispatcher.saveBillingAddress(paymentInformation),
     ),
     getPaymentMethods: () => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getPaymentMethods(dispatch),
+        ({ default: dispatcher }) => dispatcher.getPaymentMethods(),
     ),
     saveGuestEmail: (email) => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.saveGuestEmail(dispatch, email),
+        ({ default: dispatcher }) => dispatcher.saveGuestEmail(email),
     ),
     handleCheckoutError: (error) => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleError(dispatch, error),
+        ({ default: dispatcher }) => dispatcher.handleError(error),
     ),
     onChangeEmailRequired: () => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.onChangeEmailRequired(dispatch),
+        ({ default: dispatcher }) => dispatcher.onChangeEmailRequired(),
     ),
-    updateShippingPrice: (data) => dispatch(updateShippingPrice(data)),
+    updateShippingPrice: (data) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateShippingPrice(data),
+    ),
     updateCheckoutStore: (state) => dispatch(updateCheckoutStore(state)),
 });
 

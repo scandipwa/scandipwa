@@ -38,6 +38,7 @@ export const mapStateToProps = (state: RootState): CheckoutOrderSummaryContainer
     cartTotalSubPrice: getCartTotalSubPrice(state),
     isLoading: state.CartReducer.isLoading,
     isMobile: state.ConfigReducer.device.isMobile,
+    totals: state.CartReducer.cartTotals,
 });
 
 /** @namespace Component/CheckoutOrderSummary/Container/mapDispatchToProps */

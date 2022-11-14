@@ -11,9 +11,9 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import CartCoupon from './CartCoupon.component';
 import {
@@ -31,22 +31,23 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/CartCoupon/Container/mapStateToProps */
-export const mapStateToProps = (): CartCouponContainerMapStateProps => ({});
+export const mapStateToProps = (state: RootState): CartCouponContainerMapStateProps => ({
+    couponCode: state.CartReducer.cartTotals.prices?.coupon_code || '',
+});
 
 /** @namespace Component/CartCoupon/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): CartCouponContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): CartCouponContainerMapDispatchProps => ({
     applyCouponToCart: (couponCode: string) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.applyCouponToCart(dispatch, couponCode),
+        ({ default: dispatcher }) => dispatcher.applyCouponToCart(couponCode),
     ),
     removeCouponFromCart: () => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeCouponFromCart(dispatch),
+        ({ default: dispatcher }) => dispatcher.removeCouponFromCart(),
     ),
 });
 
 /** @namespace Component/CartCoupon/Container */
 export class CartCouponContainer extends PureComponent<CartCouponContainerProps, CartCouponContainerState> {
     static defaultProps: Partial<CartCouponContainerProps> = {
-        couponCode: '',
         mix: {},
         title: '',
     };

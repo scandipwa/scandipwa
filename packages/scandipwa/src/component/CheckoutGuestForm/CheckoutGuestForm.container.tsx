@@ -70,7 +70,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutGuestFormContain
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
     checkEmailAvailability: (email) => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.checkIsEmailAvailable(dispatch, email),
+        ({ default: dispatcher }) => dispatcher.checkIsEmailAvailable(email),
     ),
     updateCheckoutStore: (state) => dispatch(updateCheckoutStore(state)),
 });

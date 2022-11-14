@@ -236,14 +236,7 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
 
     renderSearchField(isVisible = false): ReactElement {
         const {
-            searchCriteria,
-            onSearchOutsideClick,
-            onSearchBarFocus,
-            onSearchBarChange,
-            onClearSearchButtonClick,
-            navigationState: { name },
             isCheckout,
-            hideActiveOverlay,
         } = this.props;
 
         if (isCheckout) {
@@ -253,14 +246,7 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
         return (
             <SearchField
               key="search"
-              searchCriteria={ searchCriteria }
-              onSearchOutsideClick={ onSearchOutsideClick }
-              onSearchBarFocus={ onSearchBarFocus }
-              onSearchBarChange={ onSearchBarChange }
-              onClearSearchButtonClick={ onClearSearchButtonClick }
               isVisible={ isVisible }
-              isActive={ name === Page.SEARCH }
-              hideActiveOverlay={ hideActiveOverlay }
             />
         );
     }

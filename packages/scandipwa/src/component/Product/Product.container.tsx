@@ -58,7 +58,7 @@ export const CartDispatcher = import(
 /** @namespace Component/Product/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductContainerMapDispatchProps => ({
     addProductToCart: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.addProductToCart(options),
     ),
     showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
 });

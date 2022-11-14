@@ -11,8 +11,9 @@
 
 import { Mix } from 'Type/Common.type';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface CartCouponContainerMapStateProps {}
+export interface CartCouponContainerMapStateProps {
+    couponCode: string;
+}
 
 export interface CartCouponContainerMapDispatchProps {
     applyCouponToCart: (couponCode: string) => Promise<boolean | void>;
@@ -26,7 +27,6 @@ export interface CartCouponContainerFunctions {
 }
 
 export interface CartCouponContainerBaseProps {
-    couponCode: string;
     mix: Mix;
     title: string;
 }

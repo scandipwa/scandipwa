@@ -19,6 +19,7 @@ import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccou
 import { CartItem } from 'Query/Cart.type';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
+import { updateCartStore } from 'Store/Cart/Cart.action';
 import { IndexedCartItem } from 'Store/Cart/Cart.type';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -92,8 +93,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDisp
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateCrossSellProducts: (items) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items as unknown as CartItem[], dispatch),
+        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items as unknown as CartItem[]),
     ),
+    updateCartStore: (state) => dispatch(updateCartStore(state)),
 });
 
 /** @namespace Route/CartPage/Container */
@@ -104,7 +106,6 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
     };
 
     state: CartPageContainerState = {
-        areDetailsLoaded: false,
         isCartItemLoading: false,
         isInitialLoad: true,
     };
@@ -172,7 +173,7 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
             } = {},
         } = this.props;
 
-        const { areDetailsLoaded, isCartItemLoading, isInitialLoad } = this.state;
+        const { isCartItemLoading, isInitialLoad } = this.state;
 
         return {
             hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items),
@@ -182,7 +183,6 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
             isInitialLoad,
             minimumOrderAmountReached,
             minimumOrderDescription,
-            areDetailsLoaded,
         };
     }
 
@@ -268,6 +268,7 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
     async _updateCrossSellProducts(): Promise<void> {
         const {
             updateCrossSellProducts,
+            updateCartStore,
             totals: {
                 items = [],
             } = {},
@@ -277,7 +278,7 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
 
         await updateCrossSellProducts(list);
 
-        this.setState({ areDetailsLoaded: true });
+        updateCartStore({ areDetailsLoaded: true });
     }
 
     render(): ReactElement {

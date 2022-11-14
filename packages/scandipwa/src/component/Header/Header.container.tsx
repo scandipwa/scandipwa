@@ -10,7 +10,7 @@
  */
 
 import { Location } from 'history';
-import { ChangeEvent, MouseEvent } from 'react';
+import { MouseEvent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -26,6 +26,7 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { NavigationState, NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
+import { updateSearchCriteria } from 'Store/ProductList/ProductList.action';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
@@ -61,6 +62,7 @@ export const mapStateToProps = (state: RootState): HeaderContainerMapStateProps 
     activeOverlay: state.OverlayReducer.activeOverlay,
     isWishlistLoading: state.WishlistReducer.isLoading,
     productsInWishlist: state.WishlistReducer.productsInWishlist,
+    searchCriteria: state.ProductListReducer.searchCriteria,
 });
 
 /** @namespace Component/Header/Container/mapDispatchToProps */
@@ -70,6 +72,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): HeaderMapDispatchToProps
     setNavigationState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
+    updateSearchCriteria: (searchCriteria) => dispatch(updateSearchCriteria(searchCriteria)),
 });
 
 export const DEFAULT_HEADER_STATE = {
@@ -117,20 +120,15 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     containerFunctions: HeaderContainerFunctions = {
         onBackButtonClick: this.onBackButtonClick.bind(this),
         onCloseButtonClick: this.onCloseButtonClick.bind(this),
-        onSearchBarFocus: this.onSearchBarFocus.bind(this),
-        onClearSearchButtonClick: this.onClearSearchButtonClick.bind(this),
         onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
-        onSearchBarChange: this.onSearchBarChange.bind(this),
         onEditButtonClick: this.onEditButtonClick.bind(this),
         onMinicartButtonClick: this.onMinicartButtonClick.bind(this),
         onOkButtonClick: this.onOkButtonClick.bind(this),
         onCancelButtonClick: this.onCancelButtonClick.bind(this),
-        onSearchOutsideClick: this.onSearchOutsideClick.bind(this),
         onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
         onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this),
         onSignIn: this.onSignIn.bind(this),
         shareWishlist: this.shareWishlist.bind(this),
-        hideActiveOverlay: this.props.hideActiveOverlay,
     };
 
     containerProps(): Pick<HeaderComponentProps, HeaderContainerPropsKeys> {
@@ -148,11 +146,11 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
             device,
             isWishlistLoading,
             productsInWishlist,
+            searchCriteria,
         } = this.props;
 
         const {
             isClearEnabled,
-            searchCriteria,
             showMyAccountLogin,
             shouldRenderCartOverlay,
         } = this.state;
@@ -193,7 +191,6 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
 
         this.state = {
             prevPathname: '',
-            searchCriteria: '',
             isClearEnabled: this.getIsClearEnabled(),
             showMyAccountLogin: false,
         };
@@ -204,8 +201,7 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
         super.componentDidMount();
     }
 
-    componentDidUpdate(prevProps: HeaderContainerProps): void {
-        this.hideSearchOnStateChange(prevProps);
+    componentDidUpdate(): void {
         this.handleHeaderVisibility();
     }
 
@@ -244,29 +240,6 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
         const { firstname }: { firstname?: string } = BrowserDatabase.getItem(CUSTOMER) || {};
 
         return firstname;
-    }
-
-    hideSearchOnStateChange(prevProps: HeaderContainerProps): void {
-        const { navigationState: { name: prevName } } = prevProps;
-        const { navigationState: { name } } = this.props;
-
-        if (prevName === Page.SEARCH && prevName !== name) {
-            this.hideSearchOverlay();
-        }
-    }
-
-    hideSearchOverlay(): void {
-        const { hideActiveOverlay, activeOverlay } = this.props;
-
-        this.setState({ searchCriteria: '' });
-
-        if (document.activeElement instanceof HTMLElement) {
-            document.activeElement.blur();
-        }
-
-        if (activeOverlay === Page.SEARCH) {
-            hideActiveOverlay();
-        }
     }
 
     handleHeaderVisibility(): void {
@@ -311,9 +284,14 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     }
 
     onBackButtonClick(e: MouseEvent): void {
-        const { navigationState: { onBackClick } } = this.props;
+        const {
+            navigationState: {
+                onBackClick,
+            },
+            updateSearchCriteria,
+        } = this.props;
 
-        this.setState({ searchCriteria: '' });
+        updateSearchCriteria('');
 
         if (onBackClick) {
             onBackClick(e);
@@ -324,7 +302,7 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
         const { hideActiveOverlay, goToPreviousNavigationState } = this.props;
         const { navigationState: { onCloseClick } } = this.props;
 
-        this.setState({ searchCriteria: '' });
+        updateSearchCriteria('');
 
         if (onCloseClick) {
             onCloseClick(e);
@@ -332,55 +310,6 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
 
         hideActiveOverlay();
         goToPreviousNavigationState();
-    }
-
-    onSearchOutsideClick(): void {
-        const {
-            goToPreviousNavigationState,
-            navigationState: { name },
-        } = this.props;
-
-        if (name === Page.SEARCH) {
-            this.hideSearchOverlay();
-            goToPreviousNavigationState();
-        }
-    }
-
-    onSearchBarFocus(): void {
-        const {
-            setNavigationState,
-            goToPreviousNavigationState,
-            showOverlay,
-            navigationState: { name },
-            device,
-        } = this.props;
-
-        if (
-            (!device.isMobile && name === Page.SEARCH)
-            || (device.isMobile && name !== Page.MENU)
-        ) {
-            return;
-        }
-
-        showOverlay(Page.SEARCH);
-
-        setNavigationState({
-            name: Page.SEARCH,
-            onBackClick: () => {
-                showOverlay(Page.MENU);
-                goToPreviousNavigationState();
-            },
-        });
-    }
-
-    onSearchBarChange(
-        { target: { value: searchCriteria } }: ChangeEvent<HTMLInputElement> | { target: { value: string } },
-    ): void {
-        this.setState({ searchCriteria });
-    }
-
-    onClearSearchButtonClick(): void {
-        this.setState({ searchCriteria: '' });
     }
 
     onMyAccountButtonClick(): void {

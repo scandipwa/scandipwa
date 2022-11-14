@@ -11,22 +11,47 @@
 
 import { ChangeEvent } from 'react';
 
+import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { Device } from 'Type/Device.type';
 
 export interface SearchFieldContainerMapStateToProps {
     device: Device;
+    navigationState: NavigationState;
+    searchCriteria: string;
+    activeOverlay: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SearchFieldContainerMapDispatchToProps {}
+export interface SearchFieldContainerMapDispatchToProps {
+    hideActiveOverlay: () => void;
+    setNavigationState: (stateName: NavigationState) => void;
+    goToPreviousNavigationState: () => void;
+    showOverlay: (overlayKey: string) => void;
+    updateSearchCriteria: (searchCriteria: string) => void;
+}
 
-export interface SearchFieldComponentProps extends SearchFieldContainerMapStateToProps {
-    searchCriteria: string;
+export interface SearchFieldContainerBaseProps {
+    isVisible: boolean;
+}
+
+export interface SearchFieldContainerFunctions {
     onSearchBarFocus: () => void;
     onSearchBarChange: (e: ChangeEvent<HTMLInputElement> | { target: { value: string } }) => void;
     onSearchOutsideClick: () => void;
     onClearSearchButtonClick: () => void;
-    isVisible: boolean;
-    isActive: boolean;
-    hideActiveOverlay: () => void;
 }
+
+export type SearchFieldContainerProps = SearchFieldContainerMapStateToProps
+& SearchFieldContainerMapDispatchToProps
+& SearchFieldContainerBaseProps;
+
+export interface SearchFieldComponentProps extends SearchFieldContainerFunctions {
+    onSearchBarChange: (e: ChangeEvent<HTMLInputElement> | { target: { value: string } }) => void;
+    isVisible: boolean;
+    hideActiveOverlay: () => void;
+    device: Device;
+    navigationState: NavigationState;
+    searchCriteria: string;
+}
+
+export type SearchFieldComponentContainerPropKeys = 'searchCriteria'
+| 'isVisible';

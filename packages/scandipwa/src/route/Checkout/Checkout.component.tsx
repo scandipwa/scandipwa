@@ -242,9 +242,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
             checkoutStep,
             totals: {
                 items = [],
-                prices: {
-                    coupon_code,
-                } = {},
             },
         } = this.props;
 
@@ -258,7 +255,7 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
                mix={ { block: 'Checkout', elem: 'Discount' } }
                isArrow
              >
-                 <CartCoupon couponCode={ coupon_code } />
+                 <CartCoupon />
              </ExpandableContent>
         );
     }
@@ -290,7 +287,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
 
     renderSummary(showOnMobile = false): ReactElement {
         const {
-            checkoutTotals,
             checkoutStep,
             isMobile,
         } = this.props;
@@ -304,7 +300,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
             <>
                  <CheckoutOrderSummary
                    checkoutStep={ checkoutStep }
-                   totals={ checkoutTotals }
                    showItems
                  />
                  { !showOnMobile && this.renderDiscountCode() }

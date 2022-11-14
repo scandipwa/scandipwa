@@ -14,11 +14,62 @@ import { OrderAddress } from 'Query/Order.type';
 import { Country, Region } from 'Query/Region.type';
 import { Store } from 'Query/StoreInPickUp.type';
 import { CheckoutAddress } from 'Store/Checkout/Checkout.type';
-import { GQLCountryCodeEnum, GQLCustomerAddressInput } from 'Type/Graphql.type';
+import { GQLCartAddressInput, GQLCountryCodeEnum, GQLCustomerAddressInput } from 'Type/Graphql.type';
 import getStore from 'Util/Store';
 import { RootState } from 'Util/Store/Store.type';
 
 import { CountryOption, FormattedRegion, ZippopotamResponseResult } from './Address.type';
+
+/** @namespace Util/Address/Index/trimAddressMagentoStyle */
+export const trimAddressMagentoStyle = (address: CheckoutAddress, countries: Country[]): GQLCartAddressInput => {
+    const {
+        id, // drop this
+        country_id,
+        region_code, // drop this
+        purchaseOrderNumber, // drop this
+        region_id,
+        region,
+        street,
+        guest_email,
+        ...restOfBillingAddress
+    } = address;
+
+    const newAddress = {
+        ...restOfBillingAddress,
+        country_code: country_id,
+        region,
+        region_id,
+        street: removeEmptyStreets(street || ['']),
+    };
+
+    /**
+      * If there is no region specified, but there is region ID
+      * get the region code by the country ID
+      */
+    if (region_id) {
+        // find a country by country ID
+        const { available_regions } = countries.find(
+            ({ id }) => id === country_id,
+        ) || {};
+
+        if (!available_regions) {
+            return newAddress;
+        }
+
+        // find region by region ID
+        const { code } = available_regions.find(
+            ({ id }) => +id === +region_id,
+        ) || {};
+
+        if (!code) {
+            return newAddress;
+        }
+
+        newAddress.region = code;
+    }
+
+    return newAddress;
+};
 
 /** @namespace Util/Address/Index/trimCustomerAddress */
 export const trimCustomerAddress = (customerAddress: Partial<CustomerAddress>): GQLCustomerAddressInput => {

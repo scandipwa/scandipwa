@@ -67,7 +67,7 @@ export const mapStateToProps = (state: RootState): CheckoutShippingContainerMapS
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutShippingContainerMapDispatchProps => ({
     updateCheckoutStore: (state) => dispatch(updateCheckoutStore(state)),
     onChangeEmailRequired: () => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.onChangeEmailRequired(dispatch),
+        ({ default: dispatcher }) => dispatcher.onChangeEmailRequired(),
     ),
 });
 

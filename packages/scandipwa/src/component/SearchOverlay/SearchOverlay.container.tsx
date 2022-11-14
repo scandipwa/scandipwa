@@ -37,6 +37,8 @@ export const SearchBarDispatcher = import(
 export const mapStateToProps = (state: RootState): SearchOverlayContainerMapStateProps => ({
     searchResults: state.SearchBarReducer.productsInSearch,
     isLoading: state.SearchBarReducer.isLoading,
+    isMobile: state.ConfigReducer.device.isMobile,
+    searchCriteria: state.ProductListReducer.searchCriteria,
 });
 
 /** @namespace Component/SearchOverlay/Container/mapDispatchToProps */
@@ -51,10 +53,6 @@ export const mapDispatchToProps = (dispatch: Dispatch): SearchOverlayContainerMa
 
 /** @namespace Component/SearchOverlay/Container */
 export class SearchOverlayContainer extends PureComponent<SearchOverlayContainerProps> {
-    static defaultProps: Partial<SearchOverlayContainerProps> = {
-        isHideOverlay: false,
-    };
-
     containerFunctions: SearchOverlayContainerFunctions = {
         makeSearchRequest: this.makeSearchRequest.bind(this),
     };
@@ -62,7 +60,7 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
     containerProps(): Pick<SearchOverlayComponentProps, SearchOverlayComponentContainerPropKeys> {
         const {
             clearSearchResults,
-            isHideOverlay,
+            isMobile,
             isLoading,
             searchCriteria,
             searchResults,
@@ -70,7 +68,7 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
 
         return {
             clearSearchResults,
-            isHideOverlay,
+            isMobile,
             isLoading,
             searchCriteria,
             searchResults,

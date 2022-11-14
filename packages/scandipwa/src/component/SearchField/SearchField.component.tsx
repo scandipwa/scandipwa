@@ -11,15 +11,12 @@
  */
 
 import {
-    ChangeEvent,
-    createRef,
-    KeyboardEvent,
-    MouseEvent,
-    PureComponent,
+    createRef, KeyboardEvent, MouseEvent, PureComponent,
 } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
 import CloseIcon from 'Component/CloseIcon';
+import { Page } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
 import SearchIcon from 'Component/SearchIcon';
 import SearchOverlay from 'Component/SearchOverlay';
@@ -37,8 +34,6 @@ import './SearchField.style';
 export class SearchFieldComponent extends PureComponent<SearchFieldComponentProps> {
     static defaultProps: Partial<SearchFieldComponentProps> = {
         isVisible: true,
-        isActive: true,
-        searchCriteria: '',
         hideActiveOverlay: noopFn,
     };
 
@@ -46,9 +41,9 @@ export class SearchFieldComponent extends PureComponent<SearchFieldComponentProp
 
     __construct(props: SearchFieldComponentProps): void {
         super.__construct?.(props);
+
         this.closeSearch = this.closeSearch.bind(this);
         this.onSearchEnterPress = this.onSearchEnterPress.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
 
     onClearSearchButtonClick(e: MouseEvent | null, isFocusOnSearchBar = true): void {
@@ -92,12 +87,6 @@ export class SearchFieldComponent extends PureComponent<SearchFieldComponentProp
         onSearchOutsideClick();
     }
 
-    handleChange(e: ChangeEvent<HTMLInputElement>): void {
-        const { onSearchBarChange } = this.props;
-
-        onSearchBarChange(e);
-    }
-
     renderClearSearch(): ReactElement {
         const { isVisible } = this.props;
 
@@ -123,8 +112,8 @@ export class SearchFieldComponent extends PureComponent<SearchFieldComponentProp
         const {
             searchCriteria,
             onSearchBarFocus,
-            isActive,
-            device,
+            onSearchBarChange,
+            navigationState: { name },
         } = this.props;
 
         return (
@@ -138,27 +127,24 @@ export class SearchFieldComponent extends PureComponent<SearchFieldComponentProp
                   block="SearchField"
                   elem="Input"
                   onFocus={ onSearchBarFocus }
-                  onChange={ this.handleChange }
+                  onChange={ onSearchBarChange }
                   onKeyDown={ this.onSearchEnterPress }
                   value={ searchCriteria }
-                  mods={ { isActive } }
+                  mods={ { isActive: name === Page.SEARCH } }
                   placeholder={ __('Search products') }
                   autoComplete="off"
                   aria-label={ __('Search') }
                 />
                 { this.renderSearchIcon() }
-                <SearchOverlay
-                  isHideOverlay={ !device.isMobile }
-                  searchCriteria={ searchCriteria }
-                />
+                <SearchOverlay />
             </div>
         );
     }
 
     renderSearchIcon(): ReactElement {
-        const { isActive } = this.props;
+        const { navigationState: { name } } = this.props;
 
-        if (isActive) {
+        if (name === Page.SEARCH) {
             return (
                 <div
                   block="SearchField"
@@ -190,11 +176,17 @@ export class SearchFieldComponent extends PureComponent<SearchFieldComponentProp
     render(): ReactElement {
         const {
             isVisible,
-            isActive,
+            navigationState: { name },
         } = this.props;
 
         return (
-            <div block="SearchField" mods={ { isVisible, isActive } }>
+            <div
+              block="SearchField"
+              mods={ {
+                  isVisible,
+                  isActive: name === Page.SEARCH,
+              } }
+            >
                 <ClickOutside onClick={ this.closeSearch }>
                     <div block="SearchField" elem="Wrapper">
                         { this.renderSearch() }

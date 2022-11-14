@@ -91,7 +91,6 @@ export class CheckoutOrderSummaryComponent extends PureComponent<CheckoutOrderSu
             <CartItem
               key={ id }
               item={ item as unknown as IndexedCartItem }
-              currency_code={ quote_currency_code }
             />
         );
     }
@@ -124,7 +123,7 @@ export class CheckoutOrderSummaryComponent extends PureComponent<CheckoutOrderSu
         );
     }
 
-    renderMobileDiscount(coupon_code?: string): ReactElement {
+    renderMobileDiscount(): ReactElement {
         return (
             <>
                 <div
@@ -134,7 +133,7 @@ export class CheckoutOrderSummaryComponent extends PureComponent<CheckoutOrderSu
                 >
                     { __('Have a discount code?') }
                 </div>
-                <CartCoupon couponCode={ coupon_code } />
+                <CartCoupon />
             </>
         );
     }
@@ -142,9 +141,6 @@ export class CheckoutOrderSummaryComponent extends PureComponent<CheckoutOrderSu
     renderDiscountCode(): ReactElement {
         const {
             totals: {
-                prices: {
-                    coupon_code = '',
-                } = {},
                 items = [],
             },
             checkoutStep,
@@ -156,7 +152,7 @@ export class CheckoutOrderSummaryComponent extends PureComponent<CheckoutOrderSu
         }
 
         if (isMobile) {
-            return this.renderMobileDiscount(coupon_code);
+            return this.renderMobileDiscount();
         }
 
         return (
@@ -165,7 +161,7 @@ export class CheckoutOrderSummaryComponent extends PureComponent<CheckoutOrderSu
               mix={ { block: 'CheckoutOrderSummary', elem: 'Discount' } }
               isArrow
             >
-                <CartCoupon couponCode={ coupon_code } />
+                <CartCoupon />
             </ExpandableContent>
         );
     }

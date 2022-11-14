@@ -9,23 +9,40 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Dispatch } from 'redux';
-
 import CartQuery from 'Query/Cart.query';
-import { CartAddress, CartItem, CartTotals as QuoteData } from 'Query/Cart.type';
-import { ProductLink } from 'Query/ProductList.type';
-import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
+import {
+    AppliedTax,
+    CartAddress,
+    CartItem,
+    CartItemProduct,
+    CartTotals as QuoteData,
+    SelectedShippingMethod,
+} from 'Query/Cart.type';
+import { TotalsObject } from 'Query/Checkout.type';
+import { ProductItem, ProductLink } from 'Query/ProductList.type';
+import { updateCartStore } from 'Store/Cart/Cart.action';
 import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
+import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { getRegionIdOfRegionName } from 'Util/Address';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import { getCartId, setCartId } from 'Util/Cart';
+import { getIndexedProduct } from 'Util/Product';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
-import { AddProductToCartOptions, CheckoutAddress, UpdateProductInCartOptions } from './Cart.type';
+import { CART_TOTALS } from './Cart.reducer';
+import {
+    AddProductToCartOptions,
+    CartTotals,
+    CheckoutAddress,
+    IndexedCartItem,
+    UpdateProductInCartOptions,
+} from './Cart.type';
 
 export const CURRENT_WEBSITE = 'base';
 
@@ -39,9 +56,9 @@ export const LinkedProductsDispatcher = import(
  * @class CartDispatcher
  * @namespace Store/Cart/Dispatcher
  */
-export class CartDispatcher {
+export class CartDispatcher extends SimpleDispatcher {
     async updateInitialCartData(
-        dispatch: Dispatch,
+
         isForCustomer = false,
         disableLoader = false,
     ): Promise<string | null> {
@@ -50,10 +67,10 @@ export class CartDispatcher {
             // ! Get quote token first (local or from the backend) just to make sure it exists
 
             if (!disableLoader) {
-                dispatch(updateIsLoadingCart(true));
+                this.dispatch(updateCartStore({ isLoading: true }));
             }
             // ! Get quote token first (local or from the backend) just to make sure it exists
-            const quoteId = await this._getCartId(dispatch);
+            const quoteId = await this._getCartId();
             const {
                 cartData = {},
                 cartData: {
@@ -80,7 +97,7 @@ export class CartDispatcher {
 
                 if (address && street) {
                     if (!is_virtual) {
-                        await dispatch(
+                        await this.dispatch(
                             updateCheckoutStore({
                                 shippingFields: {
                                     ...this.prepareCheckoutAddressFormat(address as CartAddress),
@@ -90,27 +107,27 @@ export class CartDispatcher {
                         );
                     }
 
-                    await dispatch(updateCheckoutStore({ email }));
+                    await this.dispatch(updateCheckoutStore({ email }));
                 }
             }
 
             if (isForCustomer && !getAuthorizationToken()) {
-                dispatch(updateIsLoadingCart(false));
+                this.dispatch(updateCartStore({ isLoading: false }));
 
                 return null;
             }
 
-            await this._updateCartData(cartData, dispatch);
+            await this.updateCartTotals(cartData);
 
             if (!disableLoader) {
-                dispatch(updateIsLoadingCart(false));
+                this.dispatch(updateCartStore({ isLoading: false }));
             }
 
             return null;
         } catch (error) {
-            dispatch(updateIsLoadingCart(false));
+            this.dispatch(updateCartStore({ isLoading: false }));
 
-            return this.createGuestEmptyCart(dispatch);
+            return this.createGuestEmptyCart();
         }
     }
 
@@ -141,9 +158,9 @@ export class CartDispatcher {
         };
     }
 
-    async createGuestEmptyCart(dispatch: Dispatch): Promise<string | null> {
+    async createGuestEmptyCart(): Promise<string | null> {
         try {
-            dispatch(updateIsLoadingCart(true));
+            this.dispatch(updateCartStore({ isLoading: true }));
 
             const quoteId = await this._getNewQuoteId();
 
@@ -151,7 +168,7 @@ export class CartDispatcher {
 
             return quoteId;
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return null;
         }
@@ -160,7 +177,6 @@ export class CartDispatcher {
     async mergeCarts(
         sourceCartId: string,
         destinationCartId: string,
-        dispatch: Dispatch,
     ): Promise<string | null> {
         try {
             const {
@@ -173,17 +189,17 @@ export class CartDispatcher {
 
             return id;
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return null;
         }
     }
 
-    resetGuestCart(dispatch: Dispatch): void {
-        return this._updateCartData({}, dispatch);
+    resetGuestCart(): void {
+        return this.updateCartTotals({});
     }
 
-    async changeItemQty(dispatch: Dispatch, options: UpdateProductInCartOptions): Promise<string | null> {
+    async changeItemQty(options: UpdateProductInCartOptions): Promise<string | null> {
         const { uid, quantity = 1, cartId: originalCartId } = options;
 
         const cartId = !originalCartId ? getCartId() : originalCartId;
@@ -205,16 +221,16 @@ export class CartDispatcher {
                 }),
             );
 
-            return await this.updateInitialCartData(dispatch);
+            return await this.updateInitialCartData();
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return Promise.reject();
         }
     }
 
     async addProductToCart(
-        dispatch: Dispatch,
+
         options: AddProductToCartOptions,
     ): Promise<void> {
         const { products = [], cartId: userCartId } = options;
@@ -222,7 +238,7 @@ export class CartDispatcher {
         const cartId = userCartId || getCartId();
 
         if (!Array.isArray(products) || products.length === 0) {
-            dispatch(showNotification(NotificationType.ERROR, __('No product data!')));
+            this.dispatch(showNotification(NotificationType.ERROR, __('No product data!')));
 
             return Promise.reject();
         }
@@ -238,22 +254,22 @@ export class CartDispatcher {
 
             if (Array.isArray(errors) && errors.length > 0) {
                 errors.forEach((error) => {
-                    dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+                    this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
                 });
 
                 return await Promise.resolve();
             }
 
-            await this.updateInitialCartData(dispatch);
-            dispatch(showNotification(NotificationType.SUCCESS, __('Product was added to cart!')));
+            await this.updateInitialCartData();
+            this.dispatch(showNotification(NotificationType.SUCCESS, __('Product was added to cart!')));
         } catch (error) {
             if (!navigator.onLine) {
-                dispatch(showNotification(NotificationType.ERROR, __('Not possible to fetch while offline')));
+                this.dispatch(showNotification(NotificationType.ERROR, __('Not possible to fetch while offline')));
 
                 return Promise.reject();
             }
 
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return Promise.reject();
         }
@@ -261,7 +277,7 @@ export class CartDispatcher {
         return Promise.resolve();
     }
 
-    async removeProductFromCart(dispatch: Dispatch, item_id: number): Promise<Partial<QuoteData> | null> {
+    async removeProductFromCart(item_id: number): Promise<Partial<QuoteData> | null> {
         try {
             const isCustomerSignedIn = isSignedIn();
             const cartId = getCartId() || '';
@@ -274,17 +290,17 @@ export class CartDispatcher {
                 CartQuery.getRemoveCartItemMutation(item_id, cartId),
             );
 
-            this._updateCartData(cartData, dispatch);
+            this.updateCartTotals(cartData);
 
             return cartData;
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
 
             return null;
         }
     }
 
-    async applyCouponToCart(dispatch: Dispatch, couponCode: string): Promise<void> {
+    async applyCouponToCart(couponCode: string): Promise<void> {
         try {
             const isCustomerSignedIn = isSignedIn();
             const cartId = getCartId() || '';
@@ -297,14 +313,14 @@ export class CartDispatcher {
                 CartQuery.getApplyCouponMutation(couponCode, cartId),
             );
 
-            this._updateCartData(cartData, dispatch);
-            dispatch(showNotification(NotificationType.SUCCESS, __('Coupon was applied!')));
+            this.updateCartTotals(cartData);
+            this.dispatch(showNotification(NotificationType.SUCCESS, __('Coupon was applied!')));
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
         }
     }
 
-    async removeCouponFromCart(dispatch: Dispatch): Promise<void> {
+    async removeCouponFromCart(): Promise<void> {
         try {
             const isCustomerSignedIn = isSignedIn();
             const cartId = getCartId() || '';
@@ -317,14 +333,14 @@ export class CartDispatcher {
                 CartQuery.getRemoveCouponMutation(cartId),
             );
 
-            this._updateCartData(cartData, dispatch);
-            dispatch(showNotification(NotificationType.SUCCESS, __('Coupon was removed!')));
+            this.updateCartTotals(cartData);
+            this.dispatch(showNotification(NotificationType.SUCCESS, __('Coupon was removed!')));
         } catch (error) {
-            dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
         }
     }
 
-    updateCrossSellProducts(items: CartItem[], dispatch: Dispatch): void {
+    updateCrossSellProducts(items: CartItem[]): void {
         if (items && items.length) {
             const product_links = items.reduce((links: ProductLink[], product) => {
                 const { product: { product_links, variants = [] }, sku: variantSku } = product;
@@ -356,45 +372,174 @@ export class CartDispatcher {
 
             if (product_links.length !== 0) {
                 LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.fetchCrossSellProducts(dispatch, product_links),
+                    ({ default: dispatcher }) => dispatcher.fetchCrossSellProducts(this.dispatch, product_links),
                 );
             } else {
                 LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(dispatch),
+                    ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(this.dispatch),
                 );
             }
         } else {
             LinkedProductsDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(dispatch),
+                ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(this.dispatch),
             );
         }
     }
 
-    _updateCartData(cartData: Partial<QuoteData>, dispatch: Dispatch): void {
-        dispatch(updateTotals(cartData));
-    }
-
     /**
      * Get quote id. If quote id is missing, fetch it from the BE.
-     * @param Dispatch dispatch
      * @return string quote id
      */
-    _getCartId(dispatch: Dispatch): string | Promise<string | null> {
+    _getCartId(): string | Promise<string | null> {
         const cartId = getCartId();
 
         if (cartId) {
             return cartId;
         }
 
-        return this.createGuestEmptyCart(dispatch);
+        return this.createGuestEmptyCart();
     }
 
     async _getNewQuoteId(): Promise<string> {
-        const { createEmptyCart: quoteId = '' } = (await fetchMutation(
+        const { createEmptyCart: quoteId = '' } = ((await fetchMutation(
             CartQuery.getCreateEmptyCartMutation(),
-        ) || {}) as unknown as { createEmptyCart: string };
+        )) || {}) as unknown as { createEmptyCart: string };
 
         return quoteId;
+    }
+
+    updateShippingPrice(
+        data: TotalsObject,
+
+    ): void {
+        const {
+            discount_amount = 0,
+            grand_total = 0,
+            shipping_amount = 0,
+            shipping_incl_tax = 0,
+            shipping_tax_amount = 0,
+            subtotal = 0,
+            subtotal_incl_tax = 0,
+            subtotal_with_discount = 0,
+            tax_amount = 0,
+        } = data;
+
+        const cartStoreState = this.storeState.CartReducer;
+
+        const {
+            cartTotals: {
+                prices: {
+                    quote_currency_code = GQLCurrencyEnum.USD,
+                } = {},
+            } = {},
+        } = cartStoreState;
+
+        const shipping = {
+            prices: {
+                ...cartStoreState.cartTotals.prices,
+                applied_taxes: [
+                    {
+                        ...cartStoreState.cartTotals.prices?.applied_taxes?.[0],
+                        amount: {
+                            value: tax_amount,
+                            currency: quote_currency_code,
+                        },
+                    } as AppliedTax,
+                ],
+                discount: {
+                    ...cartStoreState.cartTotals.prices?.discount,
+                    label: cartStoreState.cartTotals.prices?.discount?.label || '',
+                    amount: {
+                        value: discount_amount,
+                        currency: quote_currency_code as GQLCurrencyEnum,
+                    },
+                },
+                grand_total: {
+                    value: grand_total,
+                    currency: quote_currency_code as GQLCurrencyEnum,
+                },
+                subtotal_excluding_tax: {
+                    value: subtotal,
+                    currency: quote_currency_code as GQLCurrencyEnum,
+                },
+                subtotal_including_tax: {
+                    value: subtotal_incl_tax,
+                    currency: quote_currency_code as GQLCurrencyEnum,
+                },
+                subtotal_with_discount_excluding_tax: {
+                    value: subtotal_with_discount,
+                    currency: quote_currency_code as GQLCurrencyEnum,
+                },
+            },
+            shipping_addresses: {
+                ...cartStoreState.cartTotals.shipping_addresses,
+                selected_shipping_method: {
+                    amount: {
+                        value: shipping_amount,
+                        currency: quote_currency_code as GQLCurrencyEnum,
+                    },
+                    amount_incl_tax: shipping_incl_tax,
+                    tax_amount: shipping_tax_amount,
+                } as SelectedShippingMethod,
+            },
+        };
+
+        this.dispatch(updateCartStore({
+            ...cartStoreState,
+            cartTotals: {
+                ...cartStoreState.cartTotals,
+                ...shipping,
+            },
+        }));
+    }
+
+    /** @namespace Store/Cart/Reducer/updateCartTotals */
+    updateCartTotals(cartData: Partial<QuoteData>): void {
+        const { items = [], shipping_addresses = [], ...rest } = cartData;
+
+        const cartTotals: CartTotals = {
+            ...rest,
+            items: [],
+            shipping_addresses: {},
+        };
+
+        if (items.length) {
+            const normalizedItemsProduct = items.map((item) => {
+                const {
+                    bundle_customizable_options,
+                    configurable_customizable_options,
+                    downloadable_customizable_options,
+                    virtual_customizable_options,
+                    simple_customizable_options,
+                    ...normalizedItem
+                } = item;
+
+                normalizedItem.product = getIndexedProduct(
+                    item.product as unknown as Partial<ProductItem>,
+                    item.sku,
+                ) as unknown as CartItemProduct;
+
+                normalizedItem.customizable_options = bundle_customizable_options
+                || configurable_customizable_options
+                || downloadable_customizable_options
+                || virtual_customizable_options
+                || simple_customizable_options
+                || [];
+
+                return normalizedItem;
+            });
+
+            cartTotals.items = normalizedItemsProduct as unknown as IndexedCartItem[];
+        }
+
+        cartTotals.shipping_addresses = shipping_addresses[0] || [];
+
+        BrowserDatabase.setItem(
+            cartTotals,
+            CART_TOTALS,
+        );
+
+        this.dispatch(updateCartStore({ cartTotals, isLoading: false }));
     }
 }
 

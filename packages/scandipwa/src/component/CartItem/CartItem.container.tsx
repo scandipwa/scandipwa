@@ -48,21 +48,22 @@ export const CartDispatcher = import(
 export const mapStateToProps = (state: RootState): CartItemContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile,
     cartId: state.CartReducer.cartTotals?.id || '',
+    currencyCode: state.CartReducer.cartTotals?.prices?.quote_currency_code || '',
 });
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CartItemContainerMapDispatchProps => ({
     addProduct: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.addProductToCart(options),
     ),
     changeItemQty: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.changeItemQty(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.changeItemQty(options),
     ),
     removeProduct: (itemId) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, itemId),
+        ({ default: dispatcher }) => dispatcher.removeProductFromCart(itemId),
     ),
     updateCrossSellProducts: (items) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items, dispatch),
+        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items),
     ),
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error)),
 });
@@ -135,7 +136,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
     containerProps(): Pick<CartItemComponentProps, CartItemComponentContainerPropKeys> {
         const {
             item,
-            currency_code,
+            currencyCode,
             isEditing,
             isCartOverlay,
             isMobile,
@@ -145,7 +146,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
 
         return {
             item,
-            currency_code,
+            currencyCode,
             isEditing,
             isCartOverlay,
             isMobile,

@@ -209,7 +209,7 @@ export class WishlistDispatcher {
         } finally {
             await this._syncWishlistWithBE(dispatch);
             CartDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken()),
+                ({ default: dispatcher }) => dispatcher.updateInitialCartData(!!getAuthorizationToken()),
             );
             dispatch(showNotification(NotificationType.SUCCESS, __('Available items moved to cart')));
         }

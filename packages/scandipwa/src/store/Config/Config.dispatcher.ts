@@ -51,7 +51,7 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
             setCurrency(currencyCode);
 
             CartDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, true),
+                ({ default: dispatcher }) => dispatcher.updateInitialCartData(true),
             );
         } catch (e) {
             dispatch(updateConfig({}));

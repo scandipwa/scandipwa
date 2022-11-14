@@ -53,7 +53,7 @@ export const mapStateToProps = (state: RootState): AddToCartContainerMapStatePro
 export const mapDispatchToProps = (dispatch: Dispatch): AddToCartContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     fallbackAddToCart: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.addProductToCart(options),
     ),
 });
 

@@ -75,7 +75,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutBillingContainer
     showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     showPopup: (payload) => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload)),
     onChangeEmailRequired: () => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.onChangeEmailRequired(dispatch),
+        ({ default: dispatcher }) => dispatcher.onChangeEmailRequired(),
     ),
 });
 

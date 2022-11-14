@@ -137,8 +137,8 @@ export class MyAccountDispatcher {
         // There is no need to fetch it from the backend.
         CartDispatcher.then(
             ({ default: dispatcher }) => {
-                dispatcher.resetGuestCart(dispatch);
-                dispatcher.createGuestEmptyCart(dispatch);
+                dispatcher.resetGuestCart();
+                dispatcher.createGuestEmptyCart();
             },
         );
         WishlistDispatcher.then(
@@ -304,15 +304,15 @@ export class MyAccountDispatcher {
         const cartDispatcher = (await CartDispatcher).default;
         const guestCartToken = getCartId() || '';
         // if customer is authorized, `createEmptyCart` mutation returns customer cart token
-        const customerCartToken = await cartDispatcher.createGuestEmptyCart(dispatch) || '';
+        const customerCartToken = await cartDispatcher.createGuestEmptyCart() || '';
 
         if (guestCartToken && guestCartToken !== customerCartToken) {
             // merge guest cart id and customer cart id using magento capabilities
-            await cartDispatcher.mergeCarts(guestCartToken, customerCartToken, dispatch);
+            await cartDispatcher.mergeCarts(guestCartToken, customerCartToken);
         }
 
         setCartId(customerCartToken);
-        cartDispatcher.updateInitialCartData(dispatch, true);
+        cartDispatcher.updateInitialCartData(true);
 
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch),
@@ -343,14 +343,14 @@ export class MyAccountDispatcher {
         }
     }
 
-    handleCustomerDataOnInit(dispatch: Dispatch): void {
+    handleCustomerDataOnInit(): void {
         if (isSignedIn()) {
             return;
         }
 
         BrowserDatabase.deleteItem(CUSTOMER);
         CartDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.resetGuestCart(dispatch),
+            ({ default: dispatcher }) => dispatcher.resetGuestCart(),
         );
     }
 }

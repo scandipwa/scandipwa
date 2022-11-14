@@ -36,6 +36,7 @@ export interface HeaderContainerMapStateProps {
     activeOverlay: string;
     isWishlistLoading: boolean;
     productsInWishlist: Record<string, IndexedWishlistProduct>;
+    searchCriteria: string;
 }
 
 export interface HeaderMapDispatchToProps {
@@ -44,6 +45,7 @@ export interface HeaderMapDispatchToProps {
     setNavigationState: (stateName: NavigationState) => void;
     showPopup: <T>(payload: T) => void;
     goToPreviousNavigationState: () => void;
+    updateSearchCriteria: (searchCriteria: string) => void;
 }
 
 export interface HeaderContainerFunctions {
@@ -51,18 +53,13 @@ export interface HeaderContainerFunctions {
     onMinicartButtonClick: () => void;
     onOkButtonClick: (e: MouseEvent) => void;
     onCancelButtonClick: () => void;
-    onSearchOutsideClick: () => void;
     onMyAccountOutsideClick: () => void;
     onMinicartOutsideClick: () => void;
     onBackButtonClick: (e: MouseEvent) => void;
     onCloseButtonClick: (e: MouseEvent) => void;
-    onSearchBarFocus: () => void;
-    onClearSearchButtonClick: () => void;
     onMyAccountButtonClick: () => void;
-    onSearchBarChange: (e: ChangeEvent<HTMLInputElement> | { target: { value: string } }) => void;
     shareWishlist: () => void;
     onSignIn: () => void;
-    hideActiveOverlay: () => void;
 
 }
 
@@ -74,7 +71,6 @@ export interface HeaderContainerProps extends
 
 export interface HeaderContainerState {
     prevPathname: string;
-    searchCriteria: string;
     isClearEnabled: boolean;
     showMyAccountLogin: boolean;
     shouldRenderCartOverlay?: boolean;

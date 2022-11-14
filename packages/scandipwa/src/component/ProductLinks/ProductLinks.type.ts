@@ -13,16 +13,15 @@ import { LinkedProducts, LinkedProductType } from 'Store/LinkedProducts/LinkedPr
 
 export interface ProductLinksContainerMapStateProps {
     linkedProducts: Partial<Record<LinkedProductType, Partial<LinkedProducts>>>;
+    areDetailsLoaded: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ProductLinksContainerMapDispatchProps {}
 
 export interface ProductLinksContainerBaseProps {
     linkType: LinkedProductType;
     title: string;
     numberOfProductsToDisplay: number;
-    areDetailsLoaded: boolean;
 }
 
 export type ProductLinksContainerProps = ProductLinksContainerMapStateProps

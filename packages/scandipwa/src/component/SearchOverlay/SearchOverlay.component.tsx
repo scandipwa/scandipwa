@@ -81,13 +81,13 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
     }
 
     render(): ReactElement {
-        const { isHideOverlay, searchCriteria } = this.props;
+        const { isMobile, searchCriteria } = this.props;
 
         if (!searchCriteria.trim()) {
             return null;
         }
 
-        if (isHideOverlay) {
+        if (!isMobile) {
             return (
                 <article
                   block="SearchOverlay"

@@ -23,13 +23,13 @@ export interface CheckoutOrderSummaryContainerMapStateProps {
     cartTotalSubPrice: number | null;
     isLoading: boolean;
     isMobile: boolean;
+    totals: CartTotals;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CheckoutOrderSummaryContainerMapDispatchProps {}
 
 export interface CheckoutOrderSummaryComponentBaseProps {
-    totals: CartTotals;
     checkoutStep?: CheckoutSteps;
     showItems: boolean;
     children?: Children;

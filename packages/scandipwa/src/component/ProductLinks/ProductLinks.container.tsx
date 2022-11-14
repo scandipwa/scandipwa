@@ -28,6 +28,7 @@ import {
 /** @namespace Component/ProductLinks/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductLinksContainerMapStateProps => ({
     linkedProducts: state.LinkedProductsReducer.linkedProducts,
+    areDetailsLoaded: state.CartReducer.areDetailsLoaded,
 });
 
 /** @namespace Component/ProductLinks/Container/mapDispatchToProps */
@@ -37,7 +38,6 @@ export const mapDispatchToProps = (): ProductLinksContainerMapDispatchProps => (
 export class ProductLinksContainer extends PureComponent<ProductLinksContainerProps, ProductLinksContainerState> {
     static defaultProps: Partial<ProductLinksContainerProps> = {
         numberOfProductsToDisplay: 4,
-        areDetailsLoaded: true,
     };
 
     state: ProductLinksContainerState = {

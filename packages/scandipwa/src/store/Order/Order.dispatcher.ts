@@ -58,7 +58,7 @@ export class OrderDispatcher {
 
         const cartDispatcher = (await CartDispatcher).default;
 
-        cartDispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken());
+        cartDispatcher.updateInitialCartData(!!getAuthorizationToken());
 
         history.push(appendWithStoreCode(CART_URL));
 

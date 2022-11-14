@@ -29,20 +29,6 @@ export class ProductLinksComponent extends PureComponent<ProductLinksComponentPr
     }
 
     renderProductCard(product: IndexedProduct, i: number): ReactElement {
-        // const {
-        // productCardProps: {
-        //     siblingsHaveBrands,
-        //     siblingsHavePriceBadge,
-        //     siblingsHaveTierPrice,
-        //     siblingsHaveConfigurableOptions
-        // },
-        // productCardFunctions: {
-        //     setSiblingsHaveBrands,
-        //     setSiblingsHavePriceBadge,
-        //     setSiblingsHaveTierPrice,
-        //     setSiblingsHaveConfigurableOptions
-        // }
-        // } = this.props;
         const { id = i } = product;
 
         return (
@@ -51,15 +37,6 @@ export class ProductLinksComponent extends PureComponent<ProductLinksComponentPr
               elem="Card"
               product={ product }
               key={ id }
-            // !FIXME: This seems to be the obsolete code. We should remove it from all components.
-            //   siblingsHaveBrands={ siblingsHaveBrands }
-            //   siblingsHavePriceBadge={ siblingsHavePriceBadge }
-            //   siblingsHaveTierPrice={ siblingsHaveTierPrice }
-            //   siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
-            //   setSiblingsHaveBrands={ setSiblingsHaveBrands }
-            //   setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
-            //   setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
-            //   setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
             />
         );
     }

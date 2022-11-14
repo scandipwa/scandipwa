@@ -19,6 +19,7 @@ export enum ProductListActionType {
     UPDATE_PRODUCT_LIST_ITEMS = 'UPDATE_PRODUCT_LIST_ITEMS',
     UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS',
     UPDATE_PAGE_LOAD_STATUS = 'UPDATE_PAGE_LOAD_STATUS',
+    UPDATE_SEARCH_CRITERIA = 'UPDATE_SEARCH_CRITERIA',
 }
 
 export interface AppendPageAction extends AnyAction {
@@ -45,10 +46,15 @@ export interface UpdatePageLoadingStatusAction extends AnyAction {
     type: ProductListActionType.UPDATE_PAGE_LOAD_STATUS;
 }
 
+export interface UpdateSearchCriteriaAction extends AnyAction {
+    type: ProductListActionType.UPDATE_SEARCH_CRITERIA;
+}
+
 export type ProductListAction = AppendPageAction
 | UpdateProductListItemsAction
 | UpdateLoadStatusAction
-| UpdatePageLoadingStatusAction;
+| UpdatePageLoadingStatusAction
+| UpdateSearchCriteriaAction;
 
 export interface ProductListStore {
     pages: Record<number, IndexedProduct[]>;
@@ -57,6 +63,7 @@ export interface ProductListStore {
     isLoading: boolean;
     isPageLoading: boolean;
     currentArgs: ProductListOptionArgs;
+    searchCriteria: string;
 }
 
 declare module 'Util/Store/Store.type' {

@@ -62,7 +62,7 @@ export const mapStateToProps = (state: RootState): WishlistItemContainerMapState
 export const mapDispatchToProps = (dispatch: Dispatch): WishlistItemContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     addProductToCart: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.addProductToCart(options),
     ),
     updateWishlistItem: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options),

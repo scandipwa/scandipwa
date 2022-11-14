@@ -194,7 +194,7 @@ export class CartItemComponent extends PureComponent<CartItemComponentProps> {
         const {
             label, quantity, price, id,
         } = value;
-        const { currency_code: currencyCode } = this.props;
+        const { currencyCode } = this.props;
         const formattedPrice = formatPrice(price, currencyCode as GQLCurrencyEnum);
 
         return (
@@ -332,7 +332,7 @@ export class CartItemComponent extends PureComponent<CartItemComponentProps> {
 
     renderProductPrice(): ReactElement {
         const {
-            currency_code,
+            currencyCode,
             item: {
                 prices: {
                     row_total: {
@@ -351,7 +351,7 @@ export class CartItemComponent extends PureComponent<CartItemComponentProps> {
             <CartItemPrice
               row_total={ row_total }
               row_total_incl_tax={ row_total_incl_tax }
-              currency_code={ currency_code }
+              currency_code={ currencyCode }
               mix={ {
                   block: 'CartItem',
                   elem: 'Price',

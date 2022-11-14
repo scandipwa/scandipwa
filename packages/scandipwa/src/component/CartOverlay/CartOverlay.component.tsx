@@ -55,9 +55,6 @@ export class CartOverlayComponent extends PureComponent<CartOverlayComponentProp
         const {
             totals: {
                 items = [],
-                prices: {
-                    quote_currency_code,
-                } = {},
             },
             onCartItemLoading,
         } = this.props;
@@ -72,7 +69,6 @@ export class CartOverlayComponent extends PureComponent<CartOverlayComponentProp
                     <CartItem
                       key={ item.id }
                       item={ item }
-                      currency_code={ quote_currency_code }
                       onCartItemLoading={ onCartItemLoading }
                       showLoader
                       isCartOverlay

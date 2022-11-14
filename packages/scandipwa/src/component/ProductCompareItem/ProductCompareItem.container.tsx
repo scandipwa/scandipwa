@@ -57,7 +57,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareItemContai
         ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch),
     ),
     addProductToCart: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.addProductToCart(options),
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
 });

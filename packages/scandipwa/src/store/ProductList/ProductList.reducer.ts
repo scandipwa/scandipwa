@@ -23,6 +23,7 @@ export const getInitialState = (): ProductListStore => ({
     isLoading: true,
     isPageLoading: false,
     currentArgs: {},
+    searchCriteria: '',
 });
 
 export const defaultConfig = {
@@ -42,6 +43,7 @@ export const ProductListReducer: Reducer<ProductListStore, ProductListAction> = 
         currentPage,
         isLoading,
         args: currentArgs,
+        searchCriteria,
     } = action;
 
     switch (type) {
@@ -75,6 +77,13 @@ export const ProductListReducer: Reducer<ProductListStore, ProductListAction> = 
         return {
             ...state,
             isLoading,
+        };
+
+    case ProductListActionType.UPDATE_SEARCH_CRITERIA:
+
+        return {
+            ...state,
+            searchCriteria,
         };
 
     default:

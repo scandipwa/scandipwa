@@ -15,6 +15,8 @@ import { IndexedProduct } from 'Util/Product/Product.type';
 export interface SearchOverlayContainerMapStateProps {
     searchResults: IndexedProduct[];
     isLoading: boolean;
+    isMobile: boolean;
+    searchCriteria: string;
 }
 
 export interface SearchOverlayContainerMapDispatchProps {
@@ -23,7 +25,6 @@ export interface SearchOverlayContainerMapDispatchProps {
 }
 
 export interface SearchOverlayContainerBaseProps {
-    searchCriteria: string;
     isHideOverlay: boolean;
 }
 
@@ -37,7 +38,7 @@ export type SearchOverlayContainerProps = SearchOverlayContainerMapStateProps
 
 export interface SearchOverlayComponentProps extends SearchOverlayContainerFunctions {
     clearSearchResults: () => void;
-    isHideOverlay: boolean;
+    isMobile: boolean;
     isLoading: boolean;
     searchCriteria: string;
     searchResults: IndexedProduct[];
@@ -45,7 +46,7 @@ export interface SearchOverlayComponentProps extends SearchOverlayContainerFunct
 
 export type SearchOverlayComponentContainerPropKeys =
     | 'clearSearchResults'
-    | 'isHideOverlay'
+    | 'isMobile'
     | 'isLoading'
     | 'searchCriteria'
     | 'searchResults';
