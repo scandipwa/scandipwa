@@ -9,11 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Query } from '@tilework/opus';
-import { Dispatch } from 'redux';
-
 import ProductListQuery from 'Query/ProductList.query';
-import { ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
+import { ProductListOptions } from 'Query/ProductList.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -22,7 +19,8 @@ import {
     updateProductListInfo,
 } from 'Store/ProductListInfo/ProductListInfo.action';
 import { NetworkError } from 'Type/Common.type';
-import { QueryDispatcher } from 'Util/Request';
+import { fetchQuery, isAbortError } from 'Util/Request/BroadCast';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { ProductListInfoDispatcherData } from './ProductListInfo.type';
 
@@ -32,43 +30,33 @@ import { ProductListInfoDispatcherData } from './ProductListInfo.type';
  * @extends QueryDispatcher
  * @namespace Store/ProductListInfo/Dispatcher
  */
-export class ProductListInfoDispatcher extends QueryDispatcher<
-Partial<ProductListOptions>,
-ProductListInfoDispatcherData
-> {
-    __construct(): void {
-        super.__construct('ProductListInfo');
-    }
-
-    onSuccess(
-        { products }: ProductListInfoDispatcherData,
-        dispatch: Dispatch,
+export class ProductListInfoDispatcher extends SimpleDispatcher {
+    async getProductListInfo(
         options: Partial<ProductListOptions>,
-    ): void {
-        const {
-            args: {
-                filter = {},
-            } = {},
-        } = options;
+    ) {
+        this.dispatch(updateInfoLoadStatus(true));
 
-        dispatch(updateProductListInfo(products, filter));
-    }
+        try {
+            const rawQueries = ProductListQuery.getQuery({
+                ...options,
+                requireInfo: true,
+            });
 
-    onError(error: NetworkError | NetworkError[], dispatch: Dispatch): void {
-        dispatch(showNotification(NotificationType.ERROR, __('Error fetching Product List Information!'), error));
-        dispatch(updateNoMatch(true));
-    }
+            const { products } = await fetchQuery<ProductListInfoDispatcherData>(rawQueries, 'ProductListInfo');
 
-    prepareRequest(
-        options: Partial<ProductListOptions>,
-        dispatch: Dispatch,
-    ): Query<'products', ProductsQueryOutput> {
-        dispatch(updateInfoLoadStatus(true));
+            const {
+                args: {
+                    filter = {},
+                } = {},
+            } = options;
 
-        return ProductListQuery.getQuery({
-            ...options,
-            requireInfo: true,
-        });
+            this.dispatch(updateProductListInfo(products, filter));
+        } catch (err) {
+            if (!isAbortError(err as NetworkError)) {
+                this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching Product List Information!'), err));
+                this.dispatch(updateNoMatch(true));
+            }
+        }
     }
 }
 

@@ -9,12 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Query } from '@tilework/opus';
-import { Dispatch } from 'redux';
-
 import ProductListQuery from 'Query/ProductList.query';
-import { ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
-import { QueryDispatcher } from 'Util/Request';
+import { ProductListOptions } from 'Query/ProductList.type';
+import { NetworkError } from 'Type/Common.type';
+import { fetchQuery, isAbortError } from 'Util/Request/BroadCast';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { clearSearchResults, updateLoadStatus, updateSearchBar } from './SearchBar.action';
 import { SearchBarDispatcherData } from './SearchBar.type';
@@ -25,35 +24,30 @@ import { SearchBarDispatcherData } from './SearchBar.type';
  * @extends QueryDispatcher
  * @namespace Store/SearchBar/Dispatcher
  */
-export class SearchBarDispatcher extends QueryDispatcher<
-Partial<ProductListOptions>,
-SearchBarDispatcherData
-> {
-    __construct(): void {
-        super.__construct('SearchBar');
+export class SearchBarDispatcher extends SimpleDispatcher {
+    clearSearchResults(): void {
+        this.dispatch(clearSearchResults());
     }
 
-    onSuccess(data: SearchBarDispatcherData, dispatch: Dispatch): void {
-        dispatch(updateLoadStatus(false));
-        dispatch(updateSearchBar(data));
-    }
-
-    onError(_: unknown, dispatch: Dispatch): void {
-        dispatch(updateLoadStatus(false));
-    }
-
-    clearSearchResults(dispatch: Dispatch): void {
-        dispatch(clearSearchResults());
-    }
-
-    prepareRequest(options: Partial<ProductListOptions>, dispatch: Dispatch): Query<'products', ProductsQueryOutput> {
-        dispatch(updateLoadStatus(true));
-
-        return ProductListQuery.getQuery({
+    async getSearchProductList(
+        options: Partial<ProductListOptions>,
+    ) {
+        const rawQueries = ProductListQuery.getQuery({
             ...options,
             notRequireInfo: true,
             noVariants: true,
         });
+
+        try {
+            const result = await fetchQuery<SearchBarDispatcherData>(rawQueries, 'SearchBar');
+
+            this.dispatch(updateLoadStatus(false));
+            this.dispatch(updateSearchBar(result));
+        } catch (err) {
+            if (!isAbortError(err as NetworkError)) {
+                this.dispatch(updateLoadStatus(false));
+            }
+        }
     }
 }
 

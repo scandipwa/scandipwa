@@ -11,7 +11,6 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
@@ -49,10 +48,10 @@ export const mapStateToProps = (state: RootState): UrlRewritesContainerMapStateP
 });
 
 /** @namespace Route/UrlRewrites/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): UrlRewritesContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): UrlRewritesContainerMapDispatchProps => ({
     requestUrlRewrite: (urlParam) => {
         UrlRewritesDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, { urlParam }),
+            ({ default: dispatcher }) => dispatcher.getUrlRewrites({ urlParam }),
         );
     },
 });

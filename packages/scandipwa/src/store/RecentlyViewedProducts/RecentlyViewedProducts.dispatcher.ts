@@ -10,7 +10,6 @@
  */
 
 import { Query } from '@tilework/opus';
-import { Dispatch } from 'redux';
 
 import ProductListQuery from 'Query/ProductList.query';
 import { ProductsQueryOutput } from 'Query/ProductList.type';
@@ -21,9 +20,8 @@ import {
     updateRecentlyViewedProducts,
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { NetworkError } from 'Type/Common.type';
-import { QueryDispatcher } from 'Util/Request';
-import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/Store.type';
+import { fetchQuery, isAbortError } from 'Util/Request/BroadCast';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import {
     RecentlyViewedProductsDispatcherData,
@@ -36,40 +34,15 @@ import {
  * @extends QueryDispatcher
  * @namespace Store/RecentlyViewedProducts/Dispatcher
  */
-export class RecentlyViewedProductsDispatcher extends QueryDispatcher<
-RecentlyViewedProductsDispatcherOptions,
-RecentlyViewedProductsDispatcherData
-> {
-    __construct(): void {
-        super.__construct('recentlyViewedProducts');
-    }
-
-    onSuccess({ products: { items } }: RecentlyViewedProductsDispatcherData, dispatch: Dispatch): void {
-        const state = getStore().getState() as RootState;
-        const {
-            code: storeCode,
-        } = state.ConfigReducer;
-
-        dispatch(updateRecentlyViewedProducts(items, storeCode));
-    }
-
-    onError(error: NetworkError | NetworkError[], dispatch: Dispatch): void {
-        dispatch(showNotification(
-            NotificationType.ERROR,
-            __('Error fetching Recently Viewed Products Information!'),
-            error,
-        ));
-    }
-
+export class RecentlyViewedProductsDispatcher extends SimpleDispatcher {
     /**
      * Prepare recentlyViewedProducts query
      * @return {Query} RecentlyViewedProducts query
      * @memberof recentlyViewedProductsDispatcher
      * @param recentlyViewedProducts
      */
-    prepareRequest(
+    _getRecentlyViewedProductsQuery(
         options: RecentlyViewedProductsDispatcherOptions,
-        dispatch: Dispatch,
     ): Query<'products', ProductsQueryOutput>[] {
         const { store } = options;
         const {
@@ -88,7 +61,7 @@ RecentlyViewedProductsDispatcherData
             return [...productSKUs, `${sku.replace(/ /g, '%20')}`];
         }, []);
 
-        dispatch(updateLoadStatus(true));
+        this.dispatch(updateLoadStatus(true));
 
         return [
             ProductListQuery.getQuery({
@@ -100,6 +73,32 @@ RecentlyViewedProductsDispatcherData
                 notRequireInfo: true,
             }),
         ];
+    }
+
+    async getRecentlyViewedProducts(
+        options: RecentlyViewedProductsDispatcherOptions,
+    ) {
+        const rawQueries = this._getRecentlyViewedProductsQuery(options);
+
+        try {
+            const {
+                products: { items },
+            } = await fetchQuery<RecentlyViewedProductsDispatcherData>(rawQueries, 'recentlyViewedProducts');
+
+            const {
+                code: storeCode,
+            } = this.storeState.ConfigReducer;
+
+            this.dispatch(updateRecentlyViewedProducts(items, storeCode));
+        } catch (err) {
+            if (!isAbortError(err as NetworkError)) {
+                this.dispatch(showNotification(
+                    NotificationType.ERROR,
+                    __('Error fetching Recently Viewed Products Information!'),
+                    err,
+                ));
+            }
+        }
     }
 }
 

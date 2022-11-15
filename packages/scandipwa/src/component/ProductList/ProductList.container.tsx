@@ -12,7 +12,6 @@ import { Location } from 'history';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Dispatch } from 'redux';
 
 import { FilterPriceRange } from 'Query/ProductList.type';
 import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
@@ -40,8 +39,8 @@ export const mapStateToProps = (state: RootState): ProductListContainerMapStateP
 });
 
 /** @namespace Component/ProductList/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): ProductListContainerMapDispatchProps => ({
-    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options),
+export const mapDispatchToProps = (): ProductListContainerMapDispatchProps => ({
+    requestProductListInfo: (options) => ProductListInfoDispatcher.getProductListInfo(options),
 });
 
 /** @namespace Component/ProductList/Container */

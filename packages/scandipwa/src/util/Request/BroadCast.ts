@@ -11,6 +11,7 @@
 
 import { Query } from '@tilework/opus';
 
+import { NetworkError } from 'Type/Common.type';
 import { prepareQuery } from 'Util/Query';
 
 import { executeGet, listenForBroadCast } from './Request';
@@ -19,16 +20,28 @@ export const ONE_MONTH_IN_SECONDS = 2592000;
 
 window.abortControllers = {};
 
+/** @namespace Util/Request/BroadCast/isAbortError */
+export const isAbortError = (error: NetworkError): boolean => {
+    if (error.message.includes('AbortError')) {
+        return true;
+    }
+
+    return false;
+};
+
 /** @namespace Util/Request/BroadCast/fetchQuery */
 export const fetchQuery = async <Data>(
-    rawQueries: any,
+    rawQueries: Query<any, any, any> | Query<any, any, any>[],
     name: string,
     cacheTTL = ONE_MONTH_IN_SECONDS,
 ): Promise<Data> => {
+    const { abortControllers } = window;
+    const { [name]: existingController, ...rest } = abortControllers;
+
     const queries = rawQueries instanceof Query ? [rawQueries] : rawQueries;
 
-    if (window.abortControllers[name]) {
-        window.abortControllers[name].abort();
+    if (existingController) {
+        existingController.abort();
     }
 
     window.abortControllers[name] = new AbortController();
@@ -36,14 +49,14 @@ export const fetchQuery = async <Data>(
     const promise = await executeGet<Data>(prepareQuery(queries), name, cacheTTL, window.abortControllers[name].signal);
 
     if (promise) {
-        delete window.abortControllers[name];
+        window.abortControllers = { ...rest };
 
         return promise;
     }
 
     const broadcast = await listenForBroadCast<Data>(name);
 
-    delete window.abortControllers[name];
+    window.abortControllers = { ...rest };
 
     return broadcast;
 };

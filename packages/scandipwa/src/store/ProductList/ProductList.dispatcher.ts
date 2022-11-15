@@ -9,11 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Query } from '@tilework/opus';
-import { Dispatch } from 'redux';
-
 import ProductListQuery from 'Query/ProductList.query';
-import { ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
+import { ProductListOptions } from 'Query/ProductList.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -24,13 +21,10 @@ import {
     updateProductListItems,
 } from 'Store/ProductList/ProductList.action';
 import { NetworkError } from 'Type/Common.type';
-import { QueryDispatcher } from 'Util/Request';
+import { fetchQuery, isAbortError } from 'Util/Request/BroadCast';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
-import {
-    AppendPageAction,
-    ProductListDispatcherData,
-    UpdateProductListItemsAction,
-} from './ProductList.type';
+import { ProductListDispatcherData } from './ProductList.type';
 
 /**
  * Product List Dispatcher
@@ -38,68 +32,54 @@ import {
  * @extends QueryDispatcher
  * @namespace Store/ProductList/Dispatcher
  */
-export class ProductListDispatcher extends QueryDispatcher<
-Partial<ProductListOptions>,
-ProductListDispatcherData
-> {
-    __construct(): void {
-        super.__construct('ProductList');
-    }
-
-    onSuccess(
-        data: ProductListDispatcherData,
-        dispatch: Dispatch,
-        options: Partial<ProductListOptions>,
-    ): AppendPageAction | UpdateProductListItemsAction {
-        const {
-            products: {
-                items = [],
-                total_count = 0,
-                page_info: { total_pages = 0 } = {},
-            } = {},
-        } = data;
-
-        const { args = {}, isNext } = options;
-        const { currentPage = 0 } = args;
-
-        if (isNext) {
-            return dispatch(
-                appendPage(
-                    items,
-                    currentPage,
-                ),
-            );
-        }
-
-        return dispatch(
-            updateProductListItems(
-                items,
-                currentPage,
-                total_count,
-                total_pages,
-                args,
-            ),
-        );
-    }
-
-    onError(error: NetworkError | NetworkError[], dispatch: Dispatch): void {
-        dispatch(showNotification(NotificationType.ERROR, __('Error fetching Product List!'), error));
-        dispatch(updateNoMatch(true));
-    }
-
-    prepareRequest(
-        options: Partial<ProductListOptions>,
-        dispatch: Dispatch,
-    ): Query<'products', ProductsQueryOutput> {
+export class ProductListDispatcher extends SimpleDispatcher {
+    async getProductList(options: Partial<ProductListOptions>) {
         const { isNext } = options;
 
         if (!isNext) {
-            dispatch(updateLoadStatus(true));
+            this.dispatch(updateLoadStatus(true));
         } else {
-            dispatch(updatePageLoadingStatus());
+            this.dispatch(updatePageLoadingStatus());
         }
 
-        return ProductListQuery.getQuery(options);
+        try {
+            const {
+                products: {
+                    items = [],
+                    total_count = 0,
+                    page_info: { total_pages = 0 } = {},
+                } = {},
+            } = await fetchQuery<ProductListDispatcherData>(ProductListQuery.getQuery(options), 'ProductList');
+
+            const { args = {}, isNext } = options;
+            const { currentPage = 0 } = args;
+
+            if (isNext) {
+                this.dispatch(
+                    appendPage(
+                        items,
+                        currentPage,
+                    ),
+                );
+
+                return;
+            }
+
+            this.dispatch(
+                updateProductListItems(
+                    items,
+                    currentPage,
+                    total_count,
+                    total_pages,
+                    args,
+                ),
+            );
+        } catch (err) {
+            if (!isAbortError(err as NetworkError)) {
+                this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching Product List!'), err));
+                this.dispatch(updateNoMatch(true));
+            }
+        }
     }
 }
 

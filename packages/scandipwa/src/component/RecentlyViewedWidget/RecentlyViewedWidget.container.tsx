@@ -11,7 +11,6 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import RecentlyViewedProductsDispatcher from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.dispatcher';
 import RecentlyViewedProductsReducer from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.reducer';
@@ -36,9 +35,9 @@ export const mapStateToProps = (state: RootState): RecentlyViewedWidgetContainer
 });
 
 /** @namespace Component/RecentlyViewedWidget/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): RecentlyViewedWidgetContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): RecentlyViewedWidgetContainerMapDispatchProps => ({
     updateRecentViewedProductsInfo:
-        (options) => RecentlyViewedProductsDispatcher.handleData(dispatch, options),
+        (options) => RecentlyViewedProductsDispatcher.getRecentlyViewedProducts(options),
 });
 
 /** @namespace Component/RecentlyViewedWidget/Container */

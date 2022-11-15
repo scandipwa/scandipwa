@@ -11,7 +11,6 @@
 
 import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import SearchBarReducer from 'Store/SearchBar/SearchBar.reducer';
 import { ReactElement } from 'Type/Common.type';
@@ -42,12 +41,12 @@ export const mapStateToProps = (state: RootState): SearchOverlayContainerMapStat
 });
 
 /** @namespace Component/SearchOverlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): SearchOverlayContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): SearchOverlayContainerMapDispatchProps => ({
     makeSearchRequest: (options) => SearchBarDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.getSearchProductList(options),
     ),
     clearSearchResults: () => SearchBarDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.clearSearchResults(dispatch),
+        ({ default: dispatcher }) => dispatcher.clearSearchResults(),
     ),
 });
 

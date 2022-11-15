@@ -9,17 +9,15 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Query } from '@tilework/opus';
-import { Dispatch } from 'redux';
-
 import UrlRewritesQuery from 'Query/UrlRewrites.query';
-import { UrlRewritesOutput, UrlRewritesQueryOptions } from 'Query/UrlRewrites.type';
+import { UrlRewritesQueryOptions } from 'Query/UrlRewrites.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { setIsUrlRewritesLoading, updateUrlRewrite } from 'Store/UrlRewrites/UrlRewrites.action';
 import { NetworkError } from 'Type/Common.type';
-import { QueryDispatcher } from 'Util/Request';
+import { fetchQuery, isAbortError } from 'Util/Request/BroadCast';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { UrlRewritesDispatcherData } from './UrlRewrites.type';
 
@@ -29,45 +27,7 @@ import { UrlRewritesDispatcherData } from './UrlRewrites.type';
  * @extends RequestDispatcher
  * @namespace Store/UrlRewrites/Dispatcher
  */
-export class UrlRewritesDispatcher extends QueryDispatcher<UrlRewritesQueryOptions, UrlRewritesDispatcherData> {
-    __construct(): void {
-        super.__construct('UrlRewrites');
-    }
-
-    onSuccess(
-        { urlResolver }: UrlRewritesDispatcherData,
-        dispatch: Dispatch,
-        { urlParam }: UrlRewritesQueryOptions,
-    ): void {
-        dispatch(updateUrlRewrite(urlResolver || { notFound: true }, urlParam));
-        dispatch(updateNoMatch(!urlResolver));
-    }
-
-    onError(
-        error: NetworkError | NetworkError[],
-        dispatch: Dispatch,
-        { urlParam }: UrlRewritesQueryOptions,
-    ): void {
-        dispatch(setIsUrlRewritesLoading(false));
-        dispatch(updateUrlRewrite({ notFound: true }, urlParam));
-        dispatch(updateNoMatch(true));
-        dispatch(showNotification(NotificationType.ERROR, __('Error fetching URL-rewrites!'), error));
-    }
-
-    /**
-     * Prepare UrlRewrite requests
-     * @param {Object} options A object containing different aspects of query, each item can be omitted
-     * @return {Query} UrlRewrite query
-     * @memberof UrlRewritesDispatcher
-     */
-    prepareRequest(options: UrlRewritesQueryOptions, dispatch: Dispatch): Query<'urlResolver', UrlRewritesOutput>[] {
-        dispatch(setIsUrlRewritesLoading(true));
-
-        return [
-            UrlRewritesQuery.getQuery(this.processUrlOptions(options)),
-        ];
-    }
-
+export class UrlRewritesDispatcher extends SimpleDispatcher {
     processUrlOptions(options: UrlRewritesQueryOptions): UrlRewritesQueryOptions {
         const { urlParam } = options;
 
@@ -78,6 +38,27 @@ export class UrlRewritesDispatcher extends QueryDispatcher<UrlRewritesQueryOptio
             ...options,
             urlParam: trimmedParam.replace(new RegExp(window.storeRegexText), ''),
         };
+    }
+
+    async getUrlRewrites(
+        options: UrlRewritesQueryOptions,
+    ) {
+        const { urlParam } = options;
+        const rawQueries = UrlRewritesQuery.getQuery(this.processUrlOptions(options));
+
+        try {
+            const { urlResolver } = await fetchQuery<UrlRewritesDispatcherData>(rawQueries, 'UrlRewrites');
+
+            this.dispatch(updateUrlRewrite(urlResolver || { notFound: true }, urlParam));
+            this.dispatch(updateNoMatch(!urlResolver));
+        } catch (err) {
+            if (!isAbortError(err as NetworkError)) {
+                this.dispatch(setIsUrlRewritesLoading(false));
+                this.dispatch(updateUrlRewrite({ notFound: true }, urlParam));
+                this.dispatch(updateNoMatch(true));
+                this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching URL-rewrites!'), err));
+            }
+        }
     }
 }
 

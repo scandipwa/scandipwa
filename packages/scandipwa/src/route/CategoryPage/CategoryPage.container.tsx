@@ -117,7 +117,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
         )
     ),
     requestProductListInfo: (options) => ProductListInfoDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.getProductListInfo(options),
     ),
     updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
     updateNoMatch: (options) => NoMatchDispatcher.then(
