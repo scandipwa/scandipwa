@@ -30,6 +30,7 @@ declare global {
         contentConfiguration?: ContentConfiguration;
         prompt_event?: BeforeInstallPromptEvent;
         website_code: string;
+        abortControllers: Record<string, AbortController>;
     }
 
     interface BeforeInstallPromptEvent extends Event {

@@ -9,17 +9,15 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Query } from '@tilework/opus';
-import { Dispatch } from 'redux';
-
 import CategoryQuery from 'Query/Category.query';
-import { Category, CategoryQueryOptions } from 'Query/Category.type';
+import { CategoryQueryOptions } from 'Query/Category.type';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
-import { QueryDispatcher } from 'Util/Request';
+import { fetchQuery } from 'Util/Request/BroadCast';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { CategoryDispatcherData } from './Category.type';
 
@@ -29,43 +27,37 @@ import { CategoryDispatcherData } from './Category.type';
  * @extends QueryDispatcher
  * @namespace Store/Category/Dispatcher
  */
-export class CategoryDispatcher extends QueryDispatcher<CategoryQueryOptions, CategoryDispatcherData> {
-    __construct(): void {
-        super.__construct('Category');
-    }
-
-    onSuccess(
-        data: CategoryDispatcherData,
-        dispatch: Dispatch,
-        { isSearchPage }: CategoryQueryOptions,
-    ): void {
-        const {
-            category,
-            category: { id },
-        } = data;
-
-        if (!id && !isSearchPage) {
-            dispatch(updateNoMatch(true));
-        }
-
-        dispatch(updateCurrentCategory(category));
-    }
-
-    onError(error: NetworkError | NetworkError[], dispatch: Dispatch, { isSearchPage }: CategoryQueryOptions): void {
-        if (!isSearchPage) {
-            dispatch(updateNoMatch(true));
-            dispatch(showNotification(NotificationType.ERROR, __('Error fetching Category!'), error));
-        } else {
-            dispatch(updateCurrentCategory({
-                id: 'all-products',
-            }));
-        }
-    }
-
-    prepareRequest(
+export class CategoryDispatcher extends SimpleDispatcher {
+    async getCategory(
         options: CategoryQueryOptions,
-    ): Query<'category', Category, false> {
-        return CategoryQuery.getQuery(options);
+    ){
+        const { isSearchPage } = options;
+
+        try {
+            const {
+                category,
+                category: {
+                    id,
+                },
+            } = await fetchQuery<CategoryDispatcherData>(CategoryQuery.getQuery(options), 'Category');
+
+            if (!id && !isSearchPage) {
+                this.dispatch(updateNoMatch(true));
+            }
+
+            this.dispatch(updateCurrentCategory(category));
+        } catch (err) {
+            if (!(err as NetworkError).message.includes('abort')) {
+                if (!isSearchPage) {
+                    this.dispatch(updateNoMatch(true));
+                    this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching Category!'), err));
+                } else {
+                    this.dispatch(updateCurrentCategory({
+                        id: 'all-products',
+                    }));
+                }
+            }
+        }
     }
 }
 

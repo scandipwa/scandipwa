@@ -106,7 +106,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
     requestCategory: (options) => CategoryDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.getCategory(options),
     ),
     updateBreadcrumbs: (breadcrumbs) => ((Object.keys(breadcrumbs).length)
         ? BreadcrumbsDispatcher.then(
