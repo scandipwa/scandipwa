@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,7 +12,9 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
+import { setIsUrlRewritesLoading } from 'Store/UrlRewrites/UrlRewrites.action';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
@@ -35,11 +38,6 @@ export const UrlRewritesDispatcher = import(
     'Store/UrlRewrites/UrlRewrites.dispatcher'
 );
 
-export const NoMatchDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/NoMatch/NoMatch.dispatcher'
-);
-
 /** @namespace Route/UrlRewrites/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): UrlRewritesContainerMapStateProps => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
@@ -48,12 +46,13 @@ export const mapStateToProps = (state: RootState): UrlRewritesContainerMapStateP
 });
 
 /** @namespace Route/UrlRewrites/Container/mapDispatchToProps */
-export const mapDispatchToProps = (): UrlRewritesContainerMapDispatchProps => ({
+export const mapDispatchToProps = (dispatch: Dispatch): UrlRewritesContainerMapDispatchProps => ({
     requestUrlRewrite: (urlParam) => {
         UrlRewritesDispatcher.then(
             ({ default: dispatcher }) => dispatcher.getUrlRewrites({ urlParam }),
         );
     },
+    setIsUrlRewritesLoading: (isLoading) => dispatch(setIsUrlRewritesLoading(isLoading)),
 });
 
 /** @namespace Route/UrlRewrites/Container */
@@ -240,7 +239,8 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
     }
 
     requestUrlRewrite(): void {
-        const { requestUrlRewrite } = this.props;
+        const { requestUrlRewrite, setIsUrlRewritesLoading } = this.props;
+        setIsUrlRewritesLoading(true);
 
         return requestUrlRewrite(location.pathname);
     }

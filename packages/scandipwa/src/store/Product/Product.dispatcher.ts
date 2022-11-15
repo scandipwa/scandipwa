@@ -9,14 +9,13 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Query } from '@tilework/opus';
-import { Dispatch } from 'redux';
-
 import ProductListQuery from 'Query/ProductList.query';
-import { ProductLink, ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
+import { ProductLink, ProductListOptions } from 'Query/ProductList.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { updateProductDetails } from 'Store/Product/Product.action';
-import { QueryDispatcher } from 'Util/Request';
+import { NetworkError } from 'Type/Common.type';
+import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { ProductDispatcherData } from './Product.type';
 
@@ -31,57 +30,53 @@ export const LinkedProductsDispatcher = import(
  * @extends ProductDispatcher
  * @namespace Store/Product/Dispatcher
  */
-export class ProductDispatcher extends QueryDispatcher<Partial<ProductListOptions>, ProductDispatcherData> {
-    __construct(): void {
-        super.__construct('Product');
-    }
+export class ProductDispatcher extends SimpleDispatcher {
+    async getProduct(options: Partial<ProductListOptions>) {
+        const rawQueries = ProductListQuery.getQuery(options);
 
-    onSuccess(data: ProductDispatcherData, dispatch: Dispatch): void {
-        const { products: { items } } = data;
+        try {
+            const { products: { items } } = await fetchCancelableQuery<ProductDispatcherData>(rawQueries, 'Product');
 
-        /**
-         * In case there are no items, or item count is
-         * smaller then 0 => the product was not found.
-         */
-        if (!items || items.length <= 0) {
-            dispatch(updateNoMatch(true));
+            /**
+             * In case there are no items, or item count is
+             * smaller then 0 => the product was not found.
+             */
+            if (!items || items.length <= 0) {
+                this.dispatch(updateNoMatch(true));
 
-            return;
-        }
-
-        const [product] = items;
-
-        const product_links = items.reduce((links: ProductLink[], product) => {
-            const { product_links } = product;
-
-            if (product_links) {
-                Object.values(product_links).forEach((item) => {
-                    links.push(item);
-                });
+                return;
             }
 
-            return links;
-        }, []);
+            const [product] = items;
 
-        LinkedProductsDispatcher.then(
-            ({ default: dispatcher }) => {
-                if (product_links.length > 0) {
-                    dispatcher.handleData(dispatch, product_links);
-                } else {
-                    dispatcher.clearLinkedProducts(dispatch);
+            const product_links = items.reduce((links: ProductLink[], product) => {
+                const { product_links } = product;
+
+                if (product_links) {
+                    Object.values(product_links).forEach((item) => {
+                        links.push(item);
+                    });
                 }
-            },
-        );
 
-        dispatch(updateProductDetails(product));
-    }
+                return links;
+            }, []);
 
-    onError(_: unknown, dispatch: Dispatch): void {
-        dispatch(updateNoMatch(true));
-    }
+            LinkedProductsDispatcher.then(
+                ({ default: dispatcher }) => {
+                    if (product_links.length > 0) {
+                        dispatcher.getLinkedProducts(product_links);
+                    } else {
+                        dispatcher.clearLinkedProducts();
+                    }
+                },
+            );
 
-    prepareRequest(options: Partial<ProductListOptions>): Query<'products', ProductsQueryOutput> {
-        return ProductListQuery.getQuery(options);
+            this.dispatch(updateProductDetails(product));
+        } catch (err) {
+            if (!isAbortError(err as NetworkError)) {
+                this.dispatch(updateNoMatch(true));
+            }
+        }
     }
 }
 

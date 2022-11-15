@@ -77,9 +77,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductPageContainerMapD
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: (options) => {
-        // TODO: check linked products, there might be issues :'(
         ProductDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
+            ({ default: dispatcher }) => dispatcher.getProduct(options),
         );
     },
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),

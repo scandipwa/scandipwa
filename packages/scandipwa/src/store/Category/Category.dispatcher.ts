@@ -16,7 +16,7 @@ import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
-import { fetchQuery } from 'Util/Request/BroadCast';
+import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { CategoryDispatcherData } from './Category.type';
@@ -39,7 +39,7 @@ export class CategoryDispatcher extends SimpleDispatcher {
                 category: {
                     id,
                 },
-            } = await fetchQuery<CategoryDispatcherData>(CategoryQuery.getQuery(options), 'Category');
+            } = await fetchCancelableQuery<CategoryDispatcherData>(CategoryQuery.getQuery(options), 'Category');
 
             if (!id && !isSearchPage) {
                 this.dispatch(updateNoMatch(true));
@@ -47,7 +47,7 @@ export class CategoryDispatcher extends SimpleDispatcher {
 
             this.dispatch(updateCurrentCategory(category));
         } catch (err) {
-            if (!(err as NetworkError).message.includes('abort')) {
+            if (!isAbortError(err as NetworkError)) {
                 if (!isSearchPage) {
                     this.dispatch(updateNoMatch(true));
                     this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching Category!'), err));

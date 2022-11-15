@@ -12,7 +12,7 @@
 import ProductListQuery from 'Query/ProductList.query';
 import { ProductListOptions } from 'Query/ProductList.type';
 import { NetworkError } from 'Type/Common.type';
-import { fetchQuery, isAbortError } from 'Util/Request/BroadCast';
+import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { clearSearchResults, updateLoadStatus, updateSearchBar } from './SearchBar.action';
@@ -39,7 +39,7 @@ export class SearchBarDispatcher extends SimpleDispatcher {
         });
 
         try {
-            const result = await fetchQuery<SearchBarDispatcherData>(rawQueries, 'SearchBar');
+            const result = await fetchCancelableQuery<SearchBarDispatcherData>(rawQueries, 'SearchBar');
 
             this.dispatch(updateLoadStatus(false));
             this.dispatch(updateSearchBar(result));

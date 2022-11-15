@@ -19,7 +19,7 @@ import {
     updateProductListInfo,
 } from 'Store/ProductListInfo/ProductListInfo.action';
 import { NetworkError } from 'Type/Common.type';
-import { fetchQuery, isAbortError } from 'Util/Request/BroadCast';
+import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { ProductListInfoDispatcherData } from './ProductListInfo.type';
@@ -42,7 +42,7 @@ export class ProductListInfoDispatcher extends SimpleDispatcher {
                 requireInfo: true,
             });
 
-            const { products } = await fetchQuery<ProductListInfoDispatcherData>(rawQueries, 'ProductListInfo');
+            const { products } = await fetchCancelableQuery<ProductListInfoDispatcherData>(rawQueries, 'ProductListInfo');
 
             const {
                 args: {

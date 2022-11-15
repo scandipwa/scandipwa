@@ -25,12 +25,12 @@ import { ReviewRatingItem } from 'Query/Review.type';
 import { updateConfig } from 'Store/Config/Config.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { NetworkError } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { returnFilteredCurrencies, setCurrency } from 'Util/Currency';
-import { QueryDispatcher } from 'Util/Request';
+import { fetchCancelableQuery } from 'Util/Request/BroadCast';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { ConfigStore } from './Config.type';
 
@@ -39,11 +39,7 @@ export const CartDispatcher = import(
     'Store/Cart/Cart.dispatcher'
 );
 /** @namespace Store/Config/Dispatcher */
-export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
-    __construct(): void {
-        super.__construct('Config');
-    }
-
+export class ConfigDispatcher extends SimpleDispatcher {
     static async updateCurrency(dispatch: Dispatch, options: { currencyCode: GQLCurrencyEnum }): Promise<void> {
         const { currencyCode } = options;
 
@@ -56,20 +52,6 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
         } catch (e) {
             dispatch(updateConfig({}));
         }
-    }
-
-    onSuccess(data: ConfigStore, dispatch: Dispatch): void {
-        if (data) {
-            const { currencyData, currency } = data;
-            const filteredData = { ...data, ...returnFilteredCurrencies(currencyData, currency) };
-
-            BrowserDatabase.setItem(filteredData, 'config', ONE_MONTH_IN_SECONDS);
-            dispatch(updateConfig(filteredData));
-        }
-    }
-
-    onError(error: NetworkError | NetworkError[], dispatch: Dispatch): void {
-        dispatch(showNotification(NotificationType.ERROR, __('Error fetching Config!'), error));
     }
 
     prepareRequest(): Array<
@@ -90,6 +72,24 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
             ConfigQuery.getCurrencyRates(),
             CartQuery.getCartDisplayConfig(),
         ];
+    }
+
+    async getConfigs() {
+        const rawQueries = this.prepareRequest();
+
+        try {
+            const data = await fetchCancelableQuery<ConfigStore>(rawQueries, 'Config');
+
+            if (data) {
+                const { currencyData, currency } = data;
+                const filteredData = { ...data, ...returnFilteredCurrencies(currencyData, currency) };
+
+                BrowserDatabase.setItem(filteredData, 'config', ONE_MONTH_IN_SECONDS);
+                this.dispatch(updateConfig(filteredData));
+            }
+        } catch (err) {
+            this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching Config!'), err));
+        }
     }
 }
 

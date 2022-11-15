@@ -10,13 +10,9 @@
  */
 
 import { Query } from '@tilework/opus';
-import { Dispatch } from 'redux';
 
 import ProductListQuery from 'Query/ProductList.query';
-import {
-    ProductLink,
-    ProductsQueryOutput,
-} from 'Query/ProductList.type';
+import { ProductLink, ProductsQueryOutput } from 'Query/ProductList.type';
 import { updateLinkedProducts } from 'Store/LinkedProducts/LinkedProducts.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -24,8 +20,9 @@ import { NetworkError } from 'Type/Common.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
 import { IndexedProduct } from 'Util/Product/Product.type';
-import { fetchQuery, QueryDispatcher } from 'Util/Request';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { fetchQuery } from 'Util/Request';
+import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
+import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import {
     LinkedProducts,
@@ -42,25 +39,7 @@ export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';
  * @extends QueryDispatcher
  * @namespace Store/LinkedProducts/Dispatcher
  */
-export class LinkedProductsDispatcher extends QueryDispatcher<
-ProductLink[],
-LinkedProductsDispatcherData
-> {
-    __construct(): void {
-        super.__construct('LinkedProducts', ONE_MONTH_IN_SECONDS);
-    }
-
-    onSuccess(data: LinkedProductsDispatcherData, dispatch: Dispatch, product_links: ProductLink[]): void {
-        const linkedProducts = this._processResponse(data, product_links);
-
-        BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
-        dispatch(updateLinkedProducts(linkedProducts));
-    }
-
-    onError(error: NetworkError | NetworkError[], dispatch: Dispatch): void {
-        dispatch(showNotification(NotificationType.ERROR, __('Error fetching LinkedProducts!'), error));
-    }
-
+export class LinkedProductsDispatcher extends SimpleDispatcher {
     /**
      * Prepare LinkedProducts query
      * @return {Query} ProductList query
@@ -92,7 +71,7 @@ LinkedProductsDispatcherData
      * @return {Query} ProductList query
      * @memberof LinkedProductsDispatcher
      */
-    clearLinkedProducts(dispatch: Dispatch, updateCrossSell = false): void {
+    clearLinkedProducts(updateCrossSell = false): void {
         const linkedProducts = {
             upsell: { total_count: 0, items: [] },
             related: { total_count: 0, items: [] },
@@ -101,13 +80,13 @@ LinkedProductsDispatcherData
 
         BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
 
-        dispatch(updateLinkedProducts({
+        this.dispatch(updateLinkedProducts({
             ...linkedProducts,
             updateCrossSell,
         }));
     }
 
-    async fetchCrossSellProducts(dispatch: Dispatch, product_links: ProductLink[]): Promise<void> {
+    async fetchCrossSellProducts(product_links: ProductLink[]): Promise<void> {
         const query = this.prepareRequest(product_links);
         const data = await fetchQuery(query);
         const { crosssell } = this._processResponse(data, product_links);
@@ -120,10 +99,10 @@ LinkedProductsDispatcherData
             updateCrossSell: true,
         });
 
-        dispatch(updateLinkedProducts(linkedProducts));
+        this.dispatch(updateLinkedProducts(linkedProducts));
     }
 
-    clearCrossSellProducts(dispatch: Dispatch): void {
+    clearCrossSellProducts(): void {
         const linkedProducts: LinkedProductsMap & {
             updateCrossSell?: boolean;
         } = BrowserDatabase.getItem(LINKED_PRODUCTS) || {};
@@ -133,7 +112,7 @@ LinkedProductsDispatcherData
             updateCrossSell: true,
         });
 
-        dispatch(updateLinkedProducts(linkedProducts));
+        this.dispatch(updateLinkedProducts(linkedProducts));
     }
 
     _processResponse(
@@ -173,6 +152,23 @@ LinkedProductsDispatcherData
         });
 
         return linkedProducts;
+    }
+
+    async getLinkedProducts(product_links: ProductLink[]) {
+        const rawQueries = this.prepareRequest(product_links);
+
+        try {
+            const result = await fetchCancelableQuery<LinkedProductsDispatcherData>(rawQueries, 'LinkedProducts');
+
+            const linkedProducts = this._processResponse(result, product_links);
+
+            BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
+            this.dispatch(updateLinkedProducts(linkedProducts));
+        } catch (err) {
+            if (!isAbortError(err as NetworkError)) {
+                this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching LinkedProducts!'), err));
+            }
+        }
     }
 }
 

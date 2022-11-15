@@ -16,7 +16,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { setIsUrlRewritesLoading, updateUrlRewrite } from 'Store/UrlRewrites/UrlRewrites.action';
 import { NetworkError } from 'Type/Common.type';
-import { fetchQuery, isAbortError } from 'Util/Request/BroadCast';
+import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { UrlRewritesDispatcherData } from './UrlRewrites.type';
@@ -46,14 +46,15 @@ export class UrlRewritesDispatcher extends SimpleDispatcher {
         const { urlParam } = options;
         const rawQueries = UrlRewritesQuery.getQuery(this.processUrlOptions(options));
 
+        this.dispatch(setIsUrlRewritesLoading(true));
+
         try {
-            const { urlResolver } = await fetchQuery<UrlRewritesDispatcherData>(rawQueries, 'UrlRewrites');
+            const { urlResolver } = await fetchCancelableQuery<UrlRewritesDispatcherData>(rawQueries, 'UrlRewrites');
 
             this.dispatch(updateUrlRewrite(urlResolver || { notFound: true }, urlParam));
             this.dispatch(updateNoMatch(!urlResolver));
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {
-                this.dispatch(setIsUrlRewritesLoading(false));
                 this.dispatch(updateUrlRewrite({ notFound: true }, urlParam));
                 this.dispatch(updateNoMatch(true));
                 this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching URL-rewrites!'), err));

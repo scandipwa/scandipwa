@@ -29,8 +29,8 @@ export const isAbortError = (error: NetworkError): boolean => {
     return false;
 };
 
-/** @namespace Util/Request/BroadCast/fetchQuery */
-export const fetchQuery = async <Data>(
+/** @namespace Util/Request/BroadCast/fetchCancelableQuery */
+export const fetchCancelableQuery = async <Data>(
     rawQueries: Query<any, any, any> | Query<any, any, any>[],
     name: string,
     cacheTTL = ONE_MONTH_IN_SECONDS,

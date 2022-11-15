@@ -80,7 +80,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispat
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     init: async () => {
         ConfigDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, undefined),
+            ({ default: dispatcher }) => dispatcher.getConfigs(),
         );
 
         const { default: dispatcher } = await MyAccountDispatcher;

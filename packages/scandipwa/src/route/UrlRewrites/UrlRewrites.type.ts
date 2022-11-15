@@ -21,6 +21,7 @@ export interface UrlRewritesContainerMapStateProps {
 
 export interface UrlRewritesContainerMapDispatchProps {
     requestUrlRewrite: (urlParam: string) => void;
+    setIsUrlRewritesLoading: (isLoading: boolean) => void;
 }
 
 export type UrlRewritesContainerProps = UrlRewritesContainerMapStateProps

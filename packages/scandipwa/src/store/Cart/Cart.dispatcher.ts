@@ -372,16 +372,16 @@ export class CartDispatcher extends SimpleDispatcher {
 
             if (product_links.length !== 0) {
                 LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.fetchCrossSellProducts(this.dispatch, product_links),
+                    ({ default: dispatcher }) => dispatcher.fetchCrossSellProducts(product_links),
                 );
             } else {
                 LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(this.dispatch),
+                    ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(),
                 );
             }
         } else {
             LinkedProductsDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(this.dispatch),
+                ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(),
             );
         }
     }

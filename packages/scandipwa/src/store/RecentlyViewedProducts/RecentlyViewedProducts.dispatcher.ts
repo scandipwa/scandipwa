@@ -20,7 +20,7 @@ import {
     updateRecentlyViewedProducts,
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { NetworkError } from 'Type/Common.type';
-import { fetchQuery, isAbortError } from 'Util/Request/BroadCast';
+import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import {
@@ -83,7 +83,7 @@ export class RecentlyViewedProductsDispatcher extends SimpleDispatcher {
         try {
             const {
                 products: { items },
-            } = await fetchQuery<RecentlyViewedProductsDispatcherData>(rawQueries, 'recentlyViewedProducts');
+            } = await fetchCancelableQuery<RecentlyViewedProductsDispatcherData>(rawQueries, 'recentlyViewedProducts');
 
             const {
                 code: storeCode,

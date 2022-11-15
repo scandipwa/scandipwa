@@ -21,7 +21,7 @@ import {
     updateProductListItems,
 } from 'Store/ProductList/ProductList.action';
 import { NetworkError } from 'Type/Common.type';
-import { fetchQuery, isAbortError } from 'Util/Request/BroadCast';
+import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { ProductListDispatcherData } from './ProductList.type';
@@ -49,7 +49,7 @@ export class ProductListDispatcher extends SimpleDispatcher {
                     total_count = 0,
                     page_info: { total_pages = 0 } = {},
                 } = {},
-            } = await fetchQuery<ProductListDispatcherData>(ProductListQuery.getQuery(options), 'ProductList');
+            } = await fetchCancelableQuery<ProductListDispatcherData>(ProductListQuery.getQuery(options), 'ProductList');
 
             const { args = {}, isNext } = options;
             const { currentPage = 0 } = args;
