@@ -186,7 +186,7 @@ export const bundleOptionToLabel = (
     const renderLabel = label ?? fallbackLabel;
 
     return {
-        baseLabel: !canChangeQuantity && quantity >= 0 ? `${ quantity } x ${ renderLabel } ` : `${ renderLabel } `,
+        baseLabel: !canChangeQuantity && quantity > 0 ? `${ quantity } x ${ renderLabel } ` : `${ renderLabel } `,
         priceLabel: `${ priceLabel } ${ percentLabel }`,
     };
 };

@@ -47,6 +47,7 @@ import {
     CheckoutUrlSteps,
     PAYMENT_TOTALS,
     UPDATE_EMAIL_CHECK_FREQUENCY,
+    UPDATE_SHIPPING_COST_ESTIMATES_FREQUENCY,
 } from './Checkout.config';
 import {
     AddressInformation,
@@ -172,6 +173,35 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
 
         checkEmailAvailability(email);
     }, UPDATE_EMAIL_CHECK_FREQUENCY);
+
+    handleFetchEstimateShippingCosts = debounce(({ address, cartId } : { address: GQLEstimateShippingCostsAddress; cartId: string }) => {
+        const { updateCheckoutStore, handleCheckoutError } = this.props;
+        const { requestsSent } = this.state;
+
+        updateCheckoutStore({
+            isDeliveryOptionsLoading: true,
+            estimateAddress: address,
+        });
+        this.setState({
+            requestsSent: requestsSent + 1,
+        });
+
+        fetchMutation<'estimateShippingCosts', ShippingMethod, true>(CheckoutQuery.getEstimateShippingCosts(
+            address,
+            cartId,
+        )).then(
+            /** @namespace Route/Checkout/Container/CheckoutContainer/debounce/fetchMutation/then */
+            ({ estimateShippingCosts: shippingMethods }) => {
+                const { requestsSent } = this.state;
+
+                updateCheckoutStore({ isDeliveryOptionsLoading: requestsSent > 1, shippingMethods });
+                this.setState({
+                    requestsSent: requestsSent - 1,
+                });
+            },
+            handleCheckoutError,
+        );
+    }, UPDATE_SHIPPING_COST_ESTIMATES_FREQUENCY);
 
     __construct(props: CheckoutContainerProps): void {
         super.__construct?.(props);
@@ -358,36 +388,12 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     }
 
     onShippingEstimationFieldsChange(address: GQLEstimateShippingCostsAddress): void {
-        const { updateCheckoutStore, handleCheckoutError } = this.props;
-        const { requestsSent } = this.state;
         const cartId = getCartId();
 
         if (!cartId) {
             return;
         }
-
-        updateCheckoutStore({
-            isDeliveryOptionsLoading: true,
-            estimateAddress: address,
-        });
-        this.setState({
-            requestsSent: requestsSent + 1,
-        });
-
-        fetchMutation<'estimateShippingCosts', ShippingMethod, true>(CheckoutQuery.getEstimateShippingCosts(
-            address,
-            cartId,
-        )).then(
-            /** @namespace Route/Checkout/Container/CheckoutContainer/onShippingEstimationFieldsChange/fetchMutation/then */
-            ({ estimateShippingCosts: shippingMethods }) => {
-                const { requestsSent } = this.state;
-                updateCheckoutStore({ isDeliveryOptionsLoading: requestsSent > 1, shippingMethods });
-                this.setState({
-                    requestsSent: requestsSent - 1,
-                });
-            },
-            handleCheckoutError,
-        );
+        this.handleFetchEstimateShippingCosts({ address, cartId });
     }
 
     determineCheckoutStepFromUrl(): CheckoutSteps {

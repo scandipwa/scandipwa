@@ -17,7 +17,6 @@
 .WishlistItem {
     @include mobile {
         padding-block: 14px;
-        margin-inline: var(--my-account-wrapper-margin-mobile);
         border-block-start: 1px solid var(--wishlist-item-border-color);
     }
 

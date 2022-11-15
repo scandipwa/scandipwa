@@ -34,3 +34,4 @@ export const CHECKOUT_URL_REGEX = new RegExp(`^(${appendWithStoreCode('')})?${Ch
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
 
 export const UPDATE_EMAIL_CHECK_FREQUENCY = 1500; // ms
+export const UPDATE_SHIPPING_COST_ESTIMATES_FREQUENCY = 800; // ms
