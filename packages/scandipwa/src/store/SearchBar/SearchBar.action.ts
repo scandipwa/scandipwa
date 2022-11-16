@@ -9,27 +9,10 @@
  * @link https://github.com/scandipwa/scandipwa-theme
  */
 
-import {
-    ClearSearchResultsAction,
-    SearchBarActionType,
-    SearchBarDispatcherData,
-    UpdateLoadStatusAction,
-    UpdateSearchBarAction,
-} from './SearchBar.type';
+import { SearchBarActionType, SearchBarStore, UpdateSearchBarStoreAction } from './SearchBar.type';
 
-/** @namespace Store/SearchBar/Action/updateSearchBar */
-export const updateSearchBar = (result: SearchBarDispatcherData): UpdateSearchBarAction => ({
-    type: SearchBarActionType.UPDATE_SEARCH_BAR,
-    result,
-});
-
-/** @namespace Store/SearchBar/Action/updateLoadStatus */
-export const updateLoadStatus = (status: boolean): UpdateLoadStatusAction => ({
-    type: SearchBarActionType.UPDATE_SEARCH_LOAD_STATUS,
-    isLoading: status,
-});
-
-/** @namespace Store/SearchBar/Action/clearSearchResults */
-export const clearSearchResults = (): ClearSearchResultsAction => ({
-    type: SearchBarActionType.CLEAR_SEARCH_RESULTS,
+/** @namespace Store/SearchBar/Action/updateSearchBarStore */
+export const updateSearchBarStore = (state: Partial<SearchBarStore>): UpdateSearchBarStoreAction => ({
+    type: SearchBarActionType.UPDATE_SEARCH_BAR_STORE,
+    state,
 });

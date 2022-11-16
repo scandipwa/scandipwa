@@ -18,7 +18,7 @@ import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.confi
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import ProductReducer from 'Store/Product/Product.reducer';
 import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { ReactElement } from 'Type/Common.type';
@@ -81,7 +81,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductPageContainerMapD
             ({ default: dispatcher }) => dispatcher.getProduct(options),
         );
     },
-    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateOfflineStore: (state) => dispatch(updateOfflineStore(state)),
     updateBreadcrumbs: (breadcrumbs, prevCategoryId) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, prevCategoryId),
     ),
@@ -318,7 +318,7 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
     }
 
     setOfflineNoticeSize(): void {
-        const { setBigOfflineNotice, productSKU } = this.props;
+        const { updateOfflineStore, productSKU } = this.props;
         const { sku } = this.getDataSource();
 
         /**
@@ -327,9 +327,9 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
          * show the small offline notice, else - show larger one.
          */
         if (sku !== productSKU) {
-            setBigOfflineNotice(true);
+            updateOfflineStore({ isBig: true });
         } else {
-            setBigOfflineNotice(false);
+            updateOfflineStore({ isBig: false });
         }
     }
 

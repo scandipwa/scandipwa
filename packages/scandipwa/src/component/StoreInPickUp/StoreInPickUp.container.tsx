@@ -17,7 +17,7 @@ import { STORE_IN_PICK_UP_POPUP_ID } from 'Component/StoreInPickUpPopup/StoreInP
 import { Store } from 'Query/StoreInPickUp.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
+import { updateStoreInPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -35,7 +35,7 @@ import {
 export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpContainerDispatchProps => ({
     showPopup: (payload) => dispatch(showPopup(STORE_IN_PICK_UP_POPUP_ID, payload)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    setPickUpStore: (store) => dispatch(setPickUpStore(store)),
+    updateStoreInPickUpStore: (state) => dispatch(updateStoreInPickUpStore(state)),
 });
 
 /** @namespace Component/StoreInPickUp/Container/mapStateToProps */
@@ -74,9 +74,9 @@ export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainer
     }
 
     setSelectedStore(store: Store): void {
-        const { setPickUpStore } = this.props;
+        const { updateStoreInPickUpStore } = this.props;
 
-        setPickUpStore(store);
+        updateStoreInPickUpStore({ store });
     }
 
     render(): ReactElement {

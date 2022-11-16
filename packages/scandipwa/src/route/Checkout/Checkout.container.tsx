@@ -22,12 +22,12 @@ import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
-import { updateMeta } from 'Store/Meta/Meta.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
+import { updateStoreInPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { GQLEstimateShippingCostsAddress, GQLSaveAddressInformation } from 'Type/Graphql.type';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
@@ -102,8 +102,8 @@ export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProp
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatchProps => ({
-    setPickUpStore: (store) => dispatch(setPickUpStore(store)),
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateStoreInPickUpStore: (state) => dispatch(updateStoreInPickUpStore(state)),
+    updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     resetCart: () => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateInitialCartData(!!getAuthorizationToken()),
     ),
@@ -224,7 +224,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     componentDidMount(): void {
         const {
             guest_checkout,
-            updateMeta,
+            updateMetaStore,
             isGuestNotAllowDownloadable,
             email,
         } = this.props;
@@ -246,7 +246,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             this.checkEmailAvailability(email);
         }
 
-        updateMeta({ title: __('Checkout') });
+        updateMetaStore({ title: __('Checkout') });
     }
 
     componentDidUpdate(
@@ -357,10 +357,10 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     }
 
     componentWillUnmount(): void {
-        const { updateBreadcrumbsStore, setPickUpStore } = this.props;
+        const { updateBreadcrumbsStore, updateStoreInPickUpStore } = this.props;
 
         updateBreadcrumbsStore({ areBreadcrumbsVisible: true });
-        setPickUpStore(null);
+        updateStoreInPickUpStore({ store: null });
     }
 
     saveShippingFieldsAsShippingAddress(address: Record<string, unknown>, is_virtual: boolean): void {

@@ -11,7 +11,7 @@
 
 import UrlRewritesQuery from 'Query/UrlRewrites.query';
 import { UrlRewritesQueryOptions } from 'Query/UrlRewrites.type';
-import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { setIsUrlRewritesLoading, updateUrlRewrite } from 'Store/UrlRewrites/UrlRewrites.action';
@@ -52,11 +52,11 @@ export class UrlRewritesDispatcher extends SimpleDispatcher {
             const { urlResolver } = await fetchCancelableQuery<UrlRewritesDispatcherData>(rawQueries, 'UrlRewrites');
 
             this.dispatch(updateUrlRewrite(urlResolver || { notFound: true }, urlParam));
-            this.dispatch(updateNoMatch(!urlResolver));
+            this.dispatch(updateNoMatchStore({ noMatch: !urlResolver }));
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {
                 this.dispatch(updateUrlRewrite({ notFound: true }, urlParam));
-                this.dispatch(updateNoMatch(true));
+                this.dispatch(updateNoMatchStore({ noMatch: true }));
                 this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching URL-rewrites!'), err));
             }
         }

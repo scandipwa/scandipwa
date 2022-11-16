@@ -10,6 +10,7 @@
  */
 
 import { Customer } from 'Query/MyAccount.type';
+import { MyAccountStore } from 'Store/MyAccount/MyAccount.type';
 import { NetworkError } from 'Type/Common.type';
 
 export interface MyAccountNewsletterSubscriptionContainerMapStateProps {
@@ -18,7 +19,7 @@ export interface MyAccountNewsletterSubscriptionContainerMapStateProps {
 }
 
 export interface MyAccountNewsletterSubscriptionContainerMapDispatchProps {
-    updateCustomer: (customer: Partial<Customer>) => void;
+    updateMyAccountStore: (state: Partial<MyAccountStore>) => void;
     showErrorNotification: (error: NetworkError) => void;
     showSuccessNotification: (message: string) => void;
 }

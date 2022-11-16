@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
-import { updateMeta } from 'Store/Meta/Meta.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
@@ -49,7 +49,7 @@ export const mapStateToProps = (): SendConfirmationPageContainerMapStateProps =>
 /** @namespace Route/SendConfirmationPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): SendConfirmationPageContainerMapDispatchProps => ({
     updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     resendConfirmation: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.resendConfirmation(options),
     ),
@@ -77,9 +77,9 @@ SendConfirmationPageContainerState
     }
 
     componentDidMount(): void {
-        const { updateMeta, updateBreadcrumbsStore } = this.props;
+        const { updateMetaStore, updateBreadcrumbsStore } = this.props;
 
-        updateMeta({ title: __('Send confirmation link') });
+        updateMetaStore({ title: __('Send confirmation link') });
         updateBreadcrumbsStore({ areBreadcrumbsVisible: false });
     }
 

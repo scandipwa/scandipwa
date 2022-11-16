@@ -10,11 +10,7 @@
  */
 import { Reducer } from 'redux';
 
-import {
-    StoreInPickUpAction,
-    StoreInPickUpActionType,
-    StoreInPickUpStore,
-} from './StoreInPickUp.type';
+import { StoreInPickUpStore } from './StoreInPickUp.type';
 
 /** @namespace Store/StoreInPickUp/Reducer/getInitialState */
 export const getInitialState = (): StoreInPickUpStore => ({
@@ -23,32 +19,17 @@ export const getInitialState = (): StoreInPickUpStore => ({
 
 /** @namespace Store/StoreInPickUp/Reducer/StoreInPickUpReducer */
 export const StoreInPickUpReducer: Reducer<
-StoreInPickUpStore,
-StoreInPickUpAction
+StoreInPickUpStore
 > = (
     state = getInitialState(),
     action,
 ) => {
-    const { type } = action;
+    const { state: newState } = action;
 
-    switch (type) {
-    case StoreInPickUpActionType.SET_PICK_UP_STORE:
-        const { store } = action;
-
-        return {
-            ...state,
-            store,
-        };
-
-    case StoreInPickUpActionType.CLEAR_PICK_UP_STORE:
-        return {
-            ...state,
-            store: null,
-        };
-
-    default:
-        return state;
-    }
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default StoreInPickUpReducer;

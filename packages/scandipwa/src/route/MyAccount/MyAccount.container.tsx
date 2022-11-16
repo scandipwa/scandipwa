@@ -14,8 +14,8 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
-import { updateMeta } from 'Store/Meta/Meta.action';
-import { updateIsLocked } from 'Store/MyAccount/MyAccount.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
+import { updateMyAccountStore } from 'Store/MyAccount/MyAccount.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -77,12 +77,12 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountContainerMapDis
         ({ default: dispatcher }) => dispatcher.requestCustomerData(),
     ),
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateMetaStore: (meta) => dispatch(updateMetaStore(meta)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     logout: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.logout(false, false),
     ),
-    updateIsLocked: (isLocked) => dispatch(updateIsLocked(isLocked)),
+    updateMyAccountStore: (state) => dispatch(updateMyAccountStore(state)),
 });
 
 /** @namespace Route/MyAccount/Container */
@@ -219,7 +219,7 @@ MyAccountContainerState
 
     componentDidMount(): void {
         const {
-            updateMeta,
+            updateMetaStore,
             toggleOverlayByKey,
         } = this.props;
 
@@ -227,7 +227,7 @@ MyAccountContainerState
             toggleOverlayByKey(Page.CUSTOMER_ACCOUNT);
         }
 
-        updateMeta({ title: __('My account') });
+        updateMetaStore({ title: __('My account') });
 
         this.redirectIfNotSignedIn();
         this.onSignIn();
@@ -490,7 +490,7 @@ MyAccountContainerState
 
     handleLocked(): void {
         const {
-            logout, updateIsLocked, baseLinkUrl, showNotification,
+            logout, updateMyAccountStore, baseLinkUrl, showNotification,
         } = this.props;
 
         const path = baseLinkUrl
@@ -500,7 +500,7 @@ MyAccountContainerState
         history.replace({ pathname: path, state: { isFromLocked: true } });
         showNotification(NotificationType.ERROR, LOCKED_ACCOUNT_ERROR_MESSAGE);
         logout();
-        updateIsLocked(false);
+        updateMyAccountStore({ isLocked: false });
     }
     // #endregion
 

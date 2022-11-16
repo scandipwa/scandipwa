@@ -12,6 +12,7 @@
 import { RouteComponentProps } from 'react-router';
 
 import { ChangeCustomerPasswordOptions, Customer, SignInOptions } from 'Query/MyAccount.type';
+import { MyAccountStore } from 'Store/MyAccount/MyAccount.type';
 import { NetworkError } from 'Type/Common.type';
 import { GQLCustomerUpdateInput } from 'Type/Graphql.type';
 
@@ -24,14 +25,12 @@ export interface MyAccountInformationContainerMapStateProps {
 }
 
 export interface MyAccountInformationContainerMapDispatchProps {
-    updateCustomer: (customer: Partial<Customer>) => void;
+    updateMyAccountStore: (state: Partial<MyAccountStore>) => void;
 
     showSuccessNotification: (message: string) => void;
     showErrorNotification: (error: NetworkError | NetworkError[] | string) => void;
 
-    updateCustomerLoadingStatus: (status: boolean) => void;
     logout: () => void;
-    updateIsLocked: (isLocked: boolean) => void;
 }
 
 export interface MyAccountInformationContainerFunctions {

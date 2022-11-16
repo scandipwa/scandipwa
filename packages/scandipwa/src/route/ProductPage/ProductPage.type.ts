@@ -15,6 +15,7 @@ import { ProductListOptions } from 'Query/ProductList.type';
 import { Product as BreadcrumbProduct } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { ProductMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
+import { OfflineStore } from 'Store/Offline/Offline.type';
 import { RecentlyViewedProductItem } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.type';
 import { Merge, ReactElement } from 'Type/Common.type';
 import { HistoryState } from 'Util/History/History.type';
@@ -33,7 +34,7 @@ export interface ProductPageContainerMapDispatchProps {
     changeHeaderState: (state: NavigationState) => void;
     changeNavigationState: (state: NavigationState) => void;
     requestProduct: (options: Partial<ProductListOptions>) => void;
-    setBigOfflineNotice: (isBig: boolean) => void;
+    updateOfflineStore: (state: Partial<OfflineStore>) => void;
     updateBreadcrumbs: (breadcrumbs: BreadcrumbProduct, prevCategoryId: number) => void;
     updateMetaFromProduct: (product: ProductMeta) => void;
     goToPreviousNavigationState: () => void;

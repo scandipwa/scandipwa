@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ProductCardDisplayProps, ProductCartDisplayFunctions } from 'Component/ProductLinks/ProductLinks.type';
 import {
     RecentlyViewedProductItem,
     RecentlyViewedProductsDispatcherOptions,
@@ -41,8 +40,6 @@ export interface RecentlyViewedWidgetContainerState {
 }
 
 export interface RecentlyViewedWidgetComponentProps {
-    productCardFunctions: ProductCartDisplayFunctions;
-    productCardProps: ProductCardDisplayProps;
     products: RecentlyViewedProductItem[];
     isLoading: boolean;
     pageSize: number;

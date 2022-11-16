@@ -34,13 +34,13 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
 
     componentDidUpdate(prevProps: SearchOverlayComponentProps): void {
         const { searchCriteria: prevSearchCriteria } = prevProps;
-        const { searchCriteria, clearSearchResults, makeSearchRequest } = this.props;
+        const { searchCriteria, updateSearchBarStore, makeSearchRequest } = this.props;
 
         if (searchCriteria !== prevSearchCriteria) {
             if (this.timeout) {
                 clearTimeout(this.timeout);
             }
-            clearSearchResults();
+            updateSearchBarStore({ productsInSearch: [] });
             this.timeout = setTimeout(() => {
                 this.timeout = null;
                 makeSearchRequest();

@@ -14,28 +14,13 @@ import { ProductsQueryOutput } from 'Query/ProductList.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export enum SearchBarActionType {
-    UPDATE_SEARCH_BAR = 'UPDATE_SEARCH_BAR',
-    UPDATE_SEARCH_LOAD_STATUS = 'UPDATE_SEARCH_LOAD_STATUS',
-    CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS',
+    UPDATE_SEARCH_BAR_STORE = 'UPDATE_SEARCH_BAR_STORE',
 }
 
-export interface UpdateSearchBarAction extends AnyAction {
-    type: SearchBarActionType.UPDATE_SEARCH_BAR;
-    result: SearchBarDispatcherData;
+export interface UpdateSearchBarStoreAction extends AnyAction {
+    type: SearchBarActionType.UPDATE_SEARCH_BAR_STORE;
+    state: Partial<SearchBarStore>;
 }
-
-export interface UpdateLoadStatusAction extends AnyAction {
-    type: SearchBarActionType.UPDATE_SEARCH_LOAD_STATUS;
-    isLoading: boolean;
-}
-
-export interface ClearSearchResultsAction extends AnyAction {
-    type: SearchBarActionType.CLEAR_SEARCH_RESULTS;
-}
-
-export type SearchBarAction = UpdateSearchBarAction
-| UpdateLoadStatusAction
-| ClearSearchResultsAction;
 
 export interface SearchBarStore {
     productsInSearch: IndexedProduct[];

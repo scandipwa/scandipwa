@@ -12,7 +12,7 @@
 import { Location } from 'history';
 import { RouteComponentProps } from 'react-router';
 
-import { PageMeta } from 'Store/Meta/Meta.type';
+import { MetaStore } from 'Store/Meta/Meta.type';
 import { Children } from 'Type/Common.type';
 
 export interface NoMatchHandlerContainerMapStateProps {
@@ -20,7 +20,7 @@ export interface NoMatchHandlerContainerMapStateProps {
 }
 
 export interface NoMatchHandlerContainerMapDispatchProps {
-    updateMeta: (meta: Partial<PageMeta>) => void;
+    updateMetaStore: (state: Partial<MetaStore>) => void;
     updateNoMatch: (options: { noMatch: boolean }) => void;
 }
 

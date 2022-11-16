@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 
-import { setBigOfflineNotice, showOfflineNotice } from 'Store/Offline/Offline.action';
+import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -35,8 +35,7 @@ export const mapStateToProps = (state: RootState): OfflineNoticeContainerMapStat
 
 /** @namespace Component/OfflineNotice/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): OfflineNoticeContainerMapDispatchProps => ({
-    showOfflineNotice: (isOffline) => dispatch(showOfflineNotice(isOffline)),
-    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateOfflineStore: (state) => dispatch(updateOfflineStore(state)),
 });
 
 /** @namespace Component/OfflineNotice/Container */
@@ -59,7 +58,7 @@ export class OfflineNoticeContainer extends PureComponent<OfflineNoticeContainer
         const {
             location: { pathname },
             isBig,
-            setBigOfflineNotice,
+            updateOfflineStore,
         } = this.props;
 
         const {
@@ -77,7 +76,7 @@ export class OfflineNoticeContainer extends PureComponent<OfflineNoticeContainer
 
         if (pathname !== prevPathname) {
             if (isBig) {
-                setBigOfflineNotice(false);
+                updateOfflineStore({ isBig: false });
             }
         }
     }
@@ -106,19 +105,18 @@ export class OfflineNoticeContainer extends PureComponent<OfflineNoticeContainer
     handleNetworkChange(): void {
         const {
             isBig,
-            showOfflineNotice,
-            setBigOfflineNotice,
+            updateOfflineStore,
         } = this.props;
 
         if (navigator.onLine) {
             document.documentElement.classList.remove('offline');
-            showOfflineNotice(false);
+            updateOfflineStore({ isOffline: false });
         } else {
             document.documentElement.classList.add('offline');
-            showOfflineNotice(true);
+            updateOfflineStore({ isOffline: true });
 
             if (isBig) {
-                setBigOfflineNotice(false);
+                updateOfflineStore({ isBig: false });
             }
         }
     }

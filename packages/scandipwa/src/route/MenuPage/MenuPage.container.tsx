@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import Menu from 'Component/Menu';
-import { updateMeta } from 'Store/Meta/Meta.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
@@ -35,7 +35,7 @@ export const mapStateToProps = (state: RootState): MenuPageContainerMapStateProp
 
 /** @namespace Route/MenuPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MenuPageContainerMapDispatchProps => ({
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
 });
 
@@ -46,9 +46,9 @@ export class MenuPageContainer extends PureComponent<MenuPageContainerProps> {
     }
 
     componentDidMount(): void {
-        const { updateMeta, changeHeaderState } = this.props;
+        const { updateMetaStore, changeHeaderState } = this.props;
 
-        updateMeta({ title: __('Menu') });
+        updateMetaStore({ title: __('Menu') });
         changeHeaderState({
             name: Page.MENU,
             onBackClick: () => history.goBack(),

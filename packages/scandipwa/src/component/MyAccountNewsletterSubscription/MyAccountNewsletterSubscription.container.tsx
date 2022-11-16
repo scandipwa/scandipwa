@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 
 import Loader from 'Component/Loader';
 import MyAccountQuery from 'Query/MyAccount.query';
-import { updateCustomerDetails } from 'Store/MyAccount/MyAccount.action';
+import { updateMyAccountStore } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -45,7 +45,7 @@ export const mapStateToProps = (state: RootState): MyAccountNewsletterSubscripti
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountNewsletterSubscriptionContainerMapDispatchProps => ({
-    updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
+    updateMyAccountStore: (state) => dispatch(updateMyAccountStore(state)),
     showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
     showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
 });
@@ -131,7 +131,7 @@ MyAccountNewsletterSubscriptionContainerState
 
     async onCustomerSave(form: unknown, fields: { isSubscribed: { value: boolean } }): Promise<void> {
         const {
-            updateCustomer,
+            updateMyAccountStore,
             customer: {
                 is_subscribed: wasSubscribed,
             },
@@ -159,7 +159,7 @@ MyAccountNewsletterSubscriptionContainerState
             const { is_subscribed } = customer;
 
             this.setState({ isLoading: false }, () => {
-                updateCustomer(customer);
+                updateMyAccountStore({ customer });
                 this.showSubscriptionUpdateNotification(is_subscribed, wasSubscribed);
             });
         } catch (e) {

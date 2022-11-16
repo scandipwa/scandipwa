@@ -13,20 +13,13 @@ import { AnyAction } from 'redux';
 import { Store } from 'Query/StoreInPickUp.type';
 
 export enum StoreInPickUpActionType {
-    SET_PICK_UP_STORE = 'SET_PICK_UP_STORE',
-    CLEAR_PICK_UP_STORE = 'CLEAR_PICK_UP_STORE',
+    UPDATE_PICK_UP_STORE = 'UPDATE_PICK_UP_STORE',
 }
 
-export interface SetPickUpStoreAction extends AnyAction {
-    type: StoreInPickUpActionType.SET_PICK_UP_STORE;
-    store: Store | null;
+export interface UpdateStoreInPickUpStoreAction extends AnyAction {
+    type: StoreInPickUpActionType.UPDATE_PICK_UP_STORE;
+    state: Partial<StoreInPickUpStore>;
 }
-
-export interface ClearPickUpStoreAction extends AnyAction {
-    type: StoreInPickUpActionType.CLEAR_PICK_UP_STORE;
-}
-
-export type StoreInPickUpAction = SetPickUpStoreAction | ClearPickUpStoreAction;
 
 export interface StoreInPickUpStore {
     store: Store | null;

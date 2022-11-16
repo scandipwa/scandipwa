@@ -59,34 +59,10 @@ export class NewProductsComponent extends Component<NewProductsComponentProps> {
     }
 
     renderProductCard(product: IndexedProduct, i: number): ReactElement {
-        // const {
-        //     productCardProps: {
-        //         siblingsHaveBrands,
-        //         siblingsHavePriceBadge,
-        //         siblingsHaveTierPrice,
-        //         siblingsHaveConfigurableOptions
-        //     },
-        //     productCardFunctions: {
-        //         setSiblingsHaveBrands,
-        //         setSiblingsHavePriceBadge,
-        //         setSiblingsHaveTierPrice,
-        //         setSiblingsHaveConfigurableOptions
-        //     }
-        // } = this.props;
-
         return (
             <ProductCard
               key={ product.id || i }
               product={ product }
-            // !FIXME: This seems to be the obsolete code. We should remove it from all components.
-            //   siblingsHaveBrands={ siblingsHaveBrands }
-            //   siblingsHavePriceBadge={ siblingsHavePriceBadge }
-            //   siblingsHaveTierPrice={ siblingsHaveTierPrice }
-            //   siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
-            //   setSiblingsHaveBrands={ setSiblingsHaveBrands }
-            //   setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
-            //   setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
-            //   setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
             />
         );
     }

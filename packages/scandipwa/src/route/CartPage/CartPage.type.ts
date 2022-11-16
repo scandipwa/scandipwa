@@ -14,7 +14,7 @@ import { MouseEvent } from 'react';
 import { CartDisplayConfig, MinimumOrderAmount } from 'Query/Cart.type';
 import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { CartStore, CartTotals, IndexedCartItem } from 'Store/Cart/Cart.type';
-import { PageMeta } from 'Store/Meta/Meta.type';
+import { MetaStore } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { Device } from 'Type/Device.type';
@@ -39,21 +39,19 @@ export interface CartPageContainerMapDispatchProps {
     updateBreadcrumbs: (breadcrumbs: Breadcrumb[]) => void;
     showOverlay: (overlayKey: string) => void;
     showNotification: (type: NotificationType, message: string) => void;
-    updateMeta: (meta: Partial<PageMeta>) => void;
+    updateMetaStore: (meta: Partial<MetaStore>) => void;
     updateCrossSellProducts: (items: IndexedCartItem[]) => void;
     updateCartStore: (state: Partial<CartStore>) => void;
 }
 
 export interface CartPageContainerFunctions {
     onCheckoutButtonClick: (e: MouseEvent) => void;
-    onCartItemLoading: (isCartItemLoading: boolean) => void;
 }
 
 export type CartPageContainerProps = CartPageContainerMapStateProps
 & CartPageContainerMapDispatchProps;
 
 export interface CartPageContainerState {
-    isCartItemLoading: boolean;
     isInitialLoad: boolean;
 }
 
@@ -66,13 +64,11 @@ export interface CartPageComponentProps {
     minimumOrderDescription: string;
     device: Device;
     onCheckoutButtonClick: (e: MouseEvent) => void;
-    onCartItemLoading: (isCartItemLoading: boolean) => void;
 }
 
 export type CartPageComponentContainerPropKeys =
     | 'hasOutOfStockProductsInCart'
     | 'totals'
-    | 'isCartItemLoading'
     | 'isInitialLoad'
     | 'minimumOrderAmountReached'
     | 'minimumOrderDescription'

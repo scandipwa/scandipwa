@@ -12,12 +12,12 @@
 
 import {
     MetaActionType,
-    PageMeta,
-    UpdateMetaAction,
+    MetaStore,
+    UpdateMetaStoreAction,
 } from './Meta.type';
 
-/** @namespace Store/Meta/Action/updateMeta */
-export const updateMeta = (metadata: Partial<PageMeta>): UpdateMetaAction => ({
-    type: MetaActionType.UPDATE_META,
-    payload: metadata,
+/** @namespace Store/Meta/Action/updateMetaStore */
+export const updateMetaStore = (state: Partial<MetaStore>): UpdateMetaStoreAction => ({
+    type: MetaActionType.UPDATE_META_STORE,
+    state,
 });

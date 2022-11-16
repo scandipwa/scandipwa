@@ -13,7 +13,8 @@ import { Location } from 'history';
 import { match as Match } from 'react-router';
 
 import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
-import { PageMeta } from 'Store/Meta/Meta.type';
+import { MetaStore } from 'Store/Meta/Meta.type';
+import { MyAccountStore } from 'Store/MyAccount/MyAccount.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { MyAccountTabs, MyAccountTabsSection } from 'Type/Account.type';
@@ -36,10 +37,10 @@ export interface MyAccountContainerMapDispatchProps {
     changeHeaderState: (state: NavigationState) => void;
     requestCustomerData: () => void;
     toggleOverlayByKey: (key: string) => void;
-    updateMeta: (meta: Partial<PageMeta>) => void;
+    updateMetaStore: (meta: Partial<MetaStore>) => void;
     showNotification: (type: NotificationType, message: string) => void;
     logout: () => void;
-    updateIsLocked: (isLocked: boolean) => void;
+    updateMyAccountStore: (state: Partial<MyAccountStore>) => void;
 }
 
 export type MyAccountContainerProps = MyAccountContainerMapStateProps

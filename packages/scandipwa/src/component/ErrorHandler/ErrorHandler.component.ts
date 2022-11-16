@@ -35,7 +35,7 @@ export class ErrorHandlerComponent extends PureComponent<ErrorHandlerComponentPr
     }
 
     componentDidUpdate(_: ErrorHandlerComponentProps, prevState: ErrorHandlerComponentState): void {
-        const { setBigOfflineNotice } = this.props;
+        const { updateOfflineStore } = this.props;
         const { hasError, pathname = '' } = this.state;
         const { hasError: prevHasError } = prevState;
 
@@ -47,7 +47,7 @@ export class ErrorHandlerComponent extends PureComponent<ErrorHandlerComponentPr
         }
 
         if (hasError && hasError !== prevHasError && !navigator.onLine) {
-            setBigOfflineNotice(true);
+            updateOfflineStore({ isOffline: true });
         }
     }
 

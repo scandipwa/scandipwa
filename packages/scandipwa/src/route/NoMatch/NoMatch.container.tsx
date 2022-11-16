@@ -16,10 +16,10 @@ import { Subscribe } from 'unstated-typescript';
 
 import { Page } from 'Component/Header/Header.config';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import { updateMeta } from 'Store/Meta/Meta.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -44,9 +44,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): NoMatchContainerMapDispa
             ({ default: dispatcher }) => dispatcher.update(breadcrumbs),
         );
     },
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
-    updateNoMatch: (options) => dispatch(updateNoMatch(options)),
+    updateNoMatchStore: (state) => dispatch(updateNoMatchStore(state)),
 });
 
 /** @namespace Route/NoMatch/Container/mapStateToProps */
@@ -63,9 +63,9 @@ export class NoMatchContainer extends PureComponent<NoMatchContainerProps> {
     }
 
     componentWillUnmount(): void {
-        const { updateNoMatch } = this.props;
+        const { updateNoMatchStore } = this.props;
 
-        updateNoMatch(false);
+        updateNoMatchStore({ noMatch: false });
     }
 
     containerProps(): Pick<NoMatchComponentProps, NoMatchContainerPropsKeys> {
@@ -85,15 +85,15 @@ export class NoMatchContainer extends PureComponent<NoMatchContainerProps> {
     }
 
     updateMeta(): void {
-        const { updateMeta } = this.props;
+        const { updateMetaStore } = this.props;
 
-        updateMeta({ title: __('Page not found'), status_code: '404' });
+        updateMetaStore({ title: __('Page not found'), status_code: '404' });
     }
 
     updateNoMatch(): void {
-        const { updateNoMatch } = this.props;
+        const { updateNoMatchStore } = this.props;
 
-        updateNoMatch(true);
+        updateNoMatchStore({ noMatch: true });
     }
 
     render(): ReactElement {

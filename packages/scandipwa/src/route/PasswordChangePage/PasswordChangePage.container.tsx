@@ -17,7 +17,7 @@ import { Dispatch } from 'redux';
 import { Page } from 'Component/Header/Header.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
-import { updateMeta } from 'Store/Meta/Meta.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -57,7 +57,7 @@ export const mapStateToProps = (state: RootState): PasswordChangePageContainerMa
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): PasswordChangePageContainerMapDispatchProps => ({
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState)),
     resetPassword(options) {
@@ -179,9 +179,9 @@ PasswordChangePageContainerState
     }
 
     updateMeta(): void {
-        const { updateMeta } = this.props;
+        const { updateMetaStore } = this.props;
 
-        updateMeta({ title: __('Password Change Page') });
+        updateMetaStore({ title: __('Password Change Page') });
     }
 
     render(): ReactElement {

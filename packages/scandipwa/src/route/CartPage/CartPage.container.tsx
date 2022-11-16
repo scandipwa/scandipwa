@@ -21,7 +21,7 @@ import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateCartStore } from 'Store/Cart/Cart.action';
 import { IndexedCartItem } from 'Store/Cart/Cart.type';
-import { updateMeta } from 'Store/Meta/Meta.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -91,7 +91,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDisp
     ),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     updateCrossSellProducts: (items) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items as unknown as CartItem[]),
     ),
@@ -102,18 +102,16 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDisp
 export class CartPageContainer extends PureComponent<CartPageContainerProps, CartPageContainerState> {
     containerFunctions: CartPageContainerFunctions = {
         onCheckoutButtonClick: this.onCheckoutButtonClick.bind(this),
-        onCartItemLoading: this.onCartItemLoading.bind(this),
     };
 
     state: CartPageContainerState = {
-        isCartItemLoading: false,
         isInitialLoad: true,
     };
 
     componentDidMount(): void {
-        const { updateMeta } = this.props;
+        const { updateMetaStore } = this.props;
 
-        updateMeta({ title: __('Cart') });
+        updateMetaStore({ title: __('Cart') });
 
         this._updateBreadcrumbs();
         this._changeHeaderState();
@@ -173,12 +171,11 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
             } = {},
         } = this.props;
 
-        const { isCartItemLoading, isInitialLoad } = this.state;
+        const { isInitialLoad } = this.state;
 
         return {
             hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items),
             totals,
-            isCartItemLoading,
             device,
             isInitialLoad,
             minimumOrderAmountReached,
@@ -239,10 +236,6 @@ export class CartPageContainer extends PureComponent<CartPageContainerProps, Car
 
         // for desktop, just open customer overlay
         showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
-    }
-
-    onCartItemLoading(isCartItemLoading: boolean): void {
-        this.setState({ isCartItemLoading });
     }
 
     _updateBreadcrumbs(): void {

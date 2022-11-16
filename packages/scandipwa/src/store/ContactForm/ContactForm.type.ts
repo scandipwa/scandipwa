@@ -14,14 +14,12 @@ import { AnyAction } from 'redux';
 import { GQLContactForm } from 'Type/Graphql.type';
 
 export enum ContactFormActionType {
-    UPDATE_CONTACT_FORM = 'UPDATE_CONTACT_FORM',
+    UPDATE_CONTACT_STORE = 'UPDATE_CONTACT_STORE',
 }
 
-export interface UpdateContactFormAction extends AnyAction {
-    type: ContactFormActionType.UPDATE_CONTACT_FORM;
-    data: {
-        isLoading: boolean;
-    };
+export interface UpdateContactFormStoreAction extends AnyAction {
+    type: ContactFormActionType.UPDATE_CONTACT_STORE;
+    state: Partial<ContactFormStore>;
 }
 
 export interface ContactFormStore {

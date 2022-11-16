@@ -75,7 +75,6 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         isCartOverlay: false,
         isEditing: false,
         cartId: '',
-        onCartItemLoading: undefined,
         showLoader: true,
     };
 
@@ -103,8 +102,6 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
     }
 
     componentWillUnmount(): void {
-        this.notifyAboutLoadingStateChange(false);
-
         if (this.handlers.length) {
             [].forEach.call(this.handlers, (cancelablePromise: CancelablePromise) => cancelablePromise.cancel());
         }
@@ -129,7 +126,6 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
     }
 
     setStateNotLoading(): void {
-        this.notifyAboutLoadingStateChange(false);
         this.setState({ isLoading: false });
     }
 
@@ -183,7 +179,6 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
                 cartId,
             }));
         });
-        this.notifyAboutLoadingStateChange(true);
     }
 
     /**
@@ -191,7 +186,6 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
      */
     handleRemoveItem(e: MouseEvent): void {
         this.handleRemoveItemOnSwipe(e);
-        this.notifyAboutLoadingStateChange(true);
     }
 
     handleRemoveItemOnSwipe(e?: MouseEvent): void {
@@ -375,14 +369,6 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         }
 
         return (configurable_options as Array<{ value_label: string }>).map(({ value_label }) => value_label);
-    }
-
-    notifyAboutLoadingStateChange(isLoading: boolean): void {
-        const { onCartItemLoading } = this.props;
-
-        if (onCartItemLoading) {
-            onCartItemLoading(isLoading);
-        }
     }
 
     renderRightSideContent(): ReactElement {

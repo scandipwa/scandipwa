@@ -11,33 +11,23 @@
 
 import { Reducer } from 'redux';
 
-import {
-    ContactFormActionType,
-    ContactFormStore,
-    UpdateContactFormAction,
-} from './ContactForm.type';
+import { ContactFormStore } from './ContactForm.type';
 
 export const initialState = {
     isLoading: false,
 };
 
 /** @namespace Store/ContactForm/Reducer/ContactFormReducer */
-export const ContactFormReducer: Reducer<ContactFormStore, UpdateContactFormAction> = (
+export const ContactFormReducer: Reducer<ContactFormStore> = (
     state = initialState,
     action,
 ) => {
-    const {
-        type,
-        data,
-    } = action;
+    const { state: newState } = action;
 
-    switch (type) {
-    case ContactFormActionType.UPDATE_CONTACT_FORM:
-        return { ...state, ...data };
-
-    default:
-        return state;
-    }
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default ContactFormReducer;

@@ -19,7 +19,7 @@ import {
 } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
 import WishlistQuery from 'Query/Wishlist.query';
 import { Wishlist } from 'Query/Wishlist.type';
-import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
 import { ReactElement } from 'Type/Common.type';
 import { getIndexedProduct } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
@@ -52,7 +52,7 @@ export const mapStateToProps = (state: RootState): WishlistSharedPageContainerMa
 /** @namespace Route/WishlistSharedPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): WishlistSharedPageContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
-    showNoMatch: () => dispatch(updateNoMatch(true)),
+    showNoMatch: () => dispatch(updateNoMatchStore({ noMatch: true })),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs),
     ),

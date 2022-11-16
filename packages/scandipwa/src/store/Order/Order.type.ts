@@ -11,11 +11,10 @@
 
 import { AnyAction } from 'redux';
 
-import { CustomerOrders, OrderItem, SearchResultPageInfo } from 'Query/Order.type';
+import { OrderItem, SearchResultPageInfo } from 'Query/Order.type';
 
 export enum OrderActionType {
-    GET_ORDER_LIST = 'GET_ORDER_LIST',
-    SET_ORDER_LOADING_STATUS = 'SET_ORDER_LOADING_STATUS',
+    UPDATE_ORDER_STORE = 'UPDATE_ORDER_STORE',
 }
 
 export interface OrderList {
@@ -23,18 +22,10 @@ export interface OrderList {
     pageInfo: SearchResultPageInfo;
 }
 
-export interface GetOrderListAction extends AnyAction {
-    type: OrderActionType.GET_ORDER_LIST;
-    orderList: CustomerOrders;
-    status?: boolean;
+export interface UpdateOrderStoreAction extends AnyAction {
+    type: OrderActionType.UPDATE_ORDER_STORE;
+    state: Partial<OrderStore>;
 }
-
-export interface SetLoadingStatusAction extends AnyAction {
-    type: OrderActionType.SET_ORDER_LOADING_STATUS;
-    status?: boolean;
-}
-
-export type OrderAction = GetOrderListAction | SetLoadingStatusAction;
 
 export interface OrderStore {
     orderList: Partial<OrderList>;

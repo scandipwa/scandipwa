@@ -16,10 +16,10 @@ import { Page } from 'Component/Header/Header.config';
 import CmsPageQuery from 'Query/CmsPage.query';
 import { CmsPageFields, CmsPageQueryOptions } from 'Query/CmsPage.type';
 import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
-import { updateMeta } from 'Store/Meta/Meta.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
@@ -55,8 +55,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): CmsPageContainerDispatch
         ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs),
     ),
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
-    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateOfflineStore: (state) => dispatch(updateOfflineStore(state)),
+    updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
 });
 
@@ -152,19 +152,19 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
     }
 
     setOfflineNoticeSize(): void {
-        const { setBigOfflineNotice } = this.props;
+        const { updateOfflineStore } = this.props;
         const { isLoading } = this.state;
 
         if (isLoading) {
-            setBigOfflineNotice(true);
+            updateOfflineStore({ isOffline: true });
         } else {
-            setBigOfflineNotice(false);
+            updateOfflineStore({ isOffline: false });
         }
     }
 
     onPageLoad({ cmsPage: page }: { cmsPage: CmsPageFields }): void {
         const {
-            updateMeta,
+            updateMetaStore,
             setHeaderState,
             updateBreadcrumbs,
         } = this.props;
@@ -180,7 +180,7 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
         debounce(this.setOfflineNoticeSize, LOADING_TIME)();
 
         updateBreadcrumbs(page);
-        updateMeta({
+        updateMetaStore({
             title: meta_title || title,
             description: meta_description,
             keywords: meta_keywords,

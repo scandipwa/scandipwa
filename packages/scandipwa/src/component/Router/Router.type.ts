@@ -12,7 +12,8 @@
 import { ErrorInfo, ReactElement } from 'react';
 
 import { PrintTypes } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
-import { PageMeta } from 'Store/Meta/Meta.type';
+import { MetaStore } from 'Store/Meta/Meta.type';
+import { OfflineStore } from 'Store/Offline/Offline.type';
 import { Device } from 'Type/Device.type';
 
 import { RouterAfterItemType, RouterBeforeItemType, RouterSwitchItemType } from './Router.config';
@@ -33,8 +34,8 @@ export interface RouterContainerMapStateProps {
 }
 
 export interface RouterContainerMapDispatchProps {
-    updateMeta: (meta: Partial<PageMeta>) => void;
-    setBigOfflineNotice: (isBig: boolean) => void;
+    updateMetaStore: (state: Partial<MetaStore>) => void;
+    updateOfflineStore: (state: Partial<OfflineStore>) => void;
     updateConfigDevice: (device: Device) => void;
     init: () => void;
 }
@@ -50,12 +51,12 @@ export interface RouterContainerState {
 export interface RouterComponentProps {
     isBigOffline: boolean;
     currentUrl: string;
-    setBigOfflineNotice: (isBig: boolean) => void;
+    updateOfflineStore: (state: Partial<OfflineStore>) => void;
     isOnlyMainItems: boolean;
 }
 
 export type RouterContainerPropsKeys = 'isBigOffline'
-| 'setBigOfflineNotice'
+| 'updateOfflineStore'
 | 'isOnlyMainItems'
 | 'currentUrl';
 

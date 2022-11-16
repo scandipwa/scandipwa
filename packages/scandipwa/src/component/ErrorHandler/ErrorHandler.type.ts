@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { OfflineStore } from 'Store/Offline/Offline.type';
 import { Children } from 'Type/Common.type';
 
 export interface ErrorHandlerComponentProps {
     children: Children;
-    setBigOfflineNotice: (value: boolean) => void;
+    updateOfflineStore: (state: Partial<OfflineStore>) => void;
 }
 
 export interface ErrorHandlerComponentState {

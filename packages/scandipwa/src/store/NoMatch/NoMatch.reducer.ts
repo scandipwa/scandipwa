@@ -11,11 +11,7 @@
 
 import { Reducer } from 'redux';
 
-import {
-    NoMatchActionType,
-    NoMatchStore,
-    UpdateNoMatchAction,
-} from './NoMatch.type';
+import { NoMatchStore } from './NoMatch.type';
 
 /** @namespace Store/NoMatch/Reducer/getInitialState */
 export const getInitialState = (): NoMatchStore => ({
@@ -23,19 +19,16 @@ export const getInitialState = (): NoMatchStore => ({
 });
 
 /** @namespace Store/NoMatch/Reducer/NoMatchReducer */
-export const NoMatchReducer: Reducer<NoMatchStore, UpdateNoMatchAction> = (
+export const NoMatchReducer: Reducer<NoMatchStore> = (
     state = getInitialState(),
     action,
 ) => {
-    switch (action.type) {
-    case NoMatchActionType.UPDATE_NOMATCH:
-        const { noMatch } = action;
+    const { state: newState } = action;
 
-        return { noMatch };
-
-    default:
-        return state;
-    }
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default NoMatchReducer;

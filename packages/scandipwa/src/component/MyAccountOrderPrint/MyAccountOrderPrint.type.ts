@@ -22,7 +22,7 @@ import {
     MyAccountOrderContainerState,
 } from 'Component/MyAccountOrder/MyAccountOrder.type';
 import { OrderPrintMapItems } from 'Route/OrderPrintPage/OrderPrintPage.type';
-import { PageMeta } from 'Store/Meta/Meta.type';
+import { MetaStore } from 'Store/Meta/Meta.type';
 
 import { PrintTypes } from './MyAccountOrderPrint.config';
 
@@ -37,7 +37,7 @@ export interface MyAccountOrderPrintContainerMapStateProps
 
 export interface MyAccountOrderPrintContainerMapDispatchProps
     extends MyAccountOrderContainerMapDispatchProps {
-    updateMeta: (meta: Partial<PageMeta>) => void;
+    updateMetaStore: (state: Partial<MetaStore>) => void;
 }
 
 export interface MyAccountOrderPrintContainerFunctions

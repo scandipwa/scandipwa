@@ -10,14 +10,13 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ContactFormActionType, UpdateContactFormAction } from './ContactForm.type';
+import { ContactFormActionType, ContactFormStore, UpdateContactFormStoreAction } from './ContactForm.type';
 
 /**
  * Send message
  * @param {Object} data
- * @namespace Store/ContactForm/Action/updateContactForm
- */
-export const updateContactForm = (data: { isLoading: boolean }): UpdateContactFormAction => ({
-    type: ContactFormActionType.UPDATE_CONTACT_FORM,
-    data,
+ * @namespace Store/ContactForm/Action/updateContactStore */
+export const updateContactStore = (state: Partial<ContactFormStore>): UpdateContactFormStoreAction => ({
+    type: ContactFormActionType.UPDATE_CONTACT_STORE,
+    state,
 });

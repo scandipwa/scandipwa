@@ -10,22 +10,20 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Category } from 'Query/Category.type';
-
 import {
     CategoryActionType,
-    UpdateCurrentCategoryAction,
+    CategoryStore,
+    UpdateCategoryStore,
 } from './Category.type';
 
 /**
  * Update Current Category
  * @param {String} categoryUrlPath url path Main Category object
  * @return {void}
- * @namespace Store/Category/Action/updateCurrentCategory
- */
-export const updateCurrentCategory = (
-    category: Partial<Category>,
-): UpdateCurrentCategoryAction => ({
-    type: CategoryActionType.UPDATE_CURRENT_CATEGORY,
-    category,
+ * @namespace Store/Category/Action/updateCategoryStore */
+export const updateCategoryStore = (
+    state: Partial<CategoryStore>,
+): UpdateCategoryStore => ({
+    type: CategoryActionType.UPDATE_CATEGORY_STORE,
+    state,
 });

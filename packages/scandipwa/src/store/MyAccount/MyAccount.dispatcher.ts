@@ -21,12 +21,7 @@ import {
     SendConfirmationStatus,
 } from 'Route/SendConfirmationPage/SendConfirmationPage.config';
 import {
-    updateCustomerDetails,
-    updateCustomerPasswordForgotStatus,
-    updateCustomerPasswordResetStatus,
-    updateCustomerSignInStatus,
-    updateIsLoading,
-    updateIsLocked,
+    updateMyAccountStore,
 } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
@@ -47,7 +42,7 @@ import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation, getErrorMessage } from 'Util/Request';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
-import { UpdateCustomerPasswordForgotStatusAction, UpdateCustomerPasswordResetStatusAction } from './MyAccount.type';
+import { UpdateMyAccountStoreAction } from './MyAccount.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -91,8 +86,8 @@ export class MyAccountDispatcher extends SimpleDispatcher {
                     return;
                 }
 
-                this.dispatch(updateIsLocked(false));
-                this.dispatch(updateCustomerDetails(customer));
+                this.dispatch(updateMyAccountStore({ isLocked: false }));
+                this.dispatch(updateMyAccountStore({ customer }));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/requestCustomerData/executePost/then/catch */
@@ -100,7 +95,7 @@ export class MyAccountDispatcher extends SimpleDispatcher {
                 const { extensions: { category } } = error[0];
 
                 if (category === GRAPHQL_AUTH) {
-                    this.dispatch(updateIsLocked(true));
+                    this.dispatch(updateMyAccountStore({ isLocked: true }));
                 }
                 this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
             },
@@ -129,8 +124,8 @@ export class MyAccountDispatcher extends SimpleDispatcher {
         BrowserDatabase.deleteItem(CUSTOMER);
         removeUid();
 
-        this.dispatch(updateCustomerSignInStatus(false));
-        this.dispatch(updateCustomerDetails({}));
+        this.dispatch(updateMyAccountStore({ isLoading: false }));
+        this.dispatch(updateMyAccountStore({ customer: {} }));
 
         // After logout cart, wishlist and compared product list is always empty.
         // There is no need to fetch it from the backend.
@@ -145,7 +140,7 @@ export class MyAccountDispatcher extends SimpleDispatcher {
         );
 
         this.dispatch(clearComparedProducts());
-        this.dispatch(updateCustomerDetails({}));
+        this.dispatch(updateMyAccountStore({ customer: {} }));
     }
 
     /**
@@ -157,12 +152,13 @@ export class MyAccountDispatcher extends SimpleDispatcher {
     forgotPassword(
         options: { email: string },
 
-    ): Promise<UpdateCustomerPasswordForgotStatusAction | ShowNotificationAction> {
+    ): Promise<UpdateMyAccountStoreAction | ShowNotificationAction> {
         const mutation = MyAccountQuery.getForgotPasswordMutation(options);
+        const { isPasswordForgotSend } = this.storeState.MyAccountReducer;
 
         return fetchMutation(mutation).then(
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/forgotPassword/fetchMutation/then */
-            () => this.dispatch(updateCustomerPasswordForgotStatus()),
+            () => this.dispatch(updateMyAccountStore({ isPasswordForgotSend: !isPasswordForgotSend })),
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/forgotPassword/fetchMutation/then/catch */
             (error) => this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
         );
@@ -174,14 +170,14 @@ export class MyAccountDispatcher extends SimpleDispatcher {
      * @returns {Promise<{status: String}>} Reset password token
      * @memberof MyAccountDispatcher
      */
-    resetPassword(options: ResetPasswordOptions): Promise<UpdateCustomerPasswordResetStatusAction> {
+    resetPassword(options: ResetPasswordOptions): Promise<UpdateMyAccountStoreAction> {
         const mutation = MyAccountQuery.getResetPasswordMutation(options || {});
 
         return fetchMutation(mutation).then(
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/resetPassword/fetchMutation/then */
-            ({ s_resetPassword: { status } }) => this.dispatch(updateCustomerPasswordResetStatus(status, '')),
+            ({ s_resetPassword: { status } }) => this.dispatch(updateMyAccountStore({ passwordResetStatus: status, passwordResetMessage: '' })),
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/resetPassword/fetchMutation/then/catch */
-            (errors) => this.dispatch(updateCustomerPasswordResetStatus(NotificationType.ERROR, getErrorMessage(errors))),
+            (errors) => this.dispatch(updateMyAccountStore({ passwordResetStatus: NotificationType.ERROR, passwordResetMessage: getErrorMessage(errors) })),
         );
     }
 
@@ -194,7 +190,7 @@ export class MyAccountDispatcher extends SimpleDispatcher {
         const { customer: { email = '' }, password } = options || {};
         const mutation = MyAccountQuery.getCreateAccountMutation(options);
 
-        this.dispatch(updateIsLoading(true));
+        this.dispatch(updateMyAccountStore({ isLoading: true }));
 
         try {
             const data = await fetchMutation(mutation);
@@ -204,10 +200,10 @@ export class MyAccountDispatcher extends SimpleDispatcher {
             sessionStorage.setItem(ORDER_ID, '');
 
             if (confirmation_required) {
-                this.dispatch(updateIsLoading(false));
+                this.dispatch(updateMyAccountStore({ isLoading: false }));
 
                 if (confirmation_required) {
-                    this.dispatch(updateIsLoading(false));
+                    this.dispatch(updateMyAccountStore({ isLoading: false }));
 
                     return CONFIRMATION_REQUIRED;
                 }
@@ -217,7 +213,7 @@ export class MyAccountDispatcher extends SimpleDispatcher {
 
             return await this.signIn({ email, password });
         } catch (error) {
-            this.dispatch(updateIsLoading(false));
+            this.dispatch(updateMyAccountStore({ isLoading: false }));
             this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as Error)));
 
             return false;
@@ -319,8 +315,7 @@ export class MyAccountDispatcher extends SimpleDispatcher {
 
         await this.requestCustomerData();
 
-        this.dispatch(updateCustomerSignInStatus(true));
-        this.dispatch(updateIsLoading(false));
+        this.dispatch(updateMyAccountStore({ isSignedIn: true, isLoading: true }));
         this.dispatch(hideActiveOverlay());
         this.dispatch(showNotification(NotificationType.SUCCESS, __('You are successfully logged in!')));
 

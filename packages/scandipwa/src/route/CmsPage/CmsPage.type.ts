@@ -13,8 +13,9 @@ import { match as Match } from 'react-router';
 
 import { CmsPageFields } from 'Query/CmsPage.type';
 import { BreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.type';
-import { PageMeta } from 'Store/Meta/Meta.type';
+import { MetaStore } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
+import { OfflineStore } from 'Store/Offline/Offline.type';
 
 export interface CmsPageContainerMapStateProps {
     isOffline: boolean;
@@ -23,8 +24,8 @@ export interface CmsPageContainerMapStateProps {
 export interface CmsPageContainerDispatchStateProps {
     updateBreadcrumbs: (breadcrumbs: CmsPageFields) => void;
     setHeaderState: (stateName: NavigationState) => void;
-    setBigOfflineNotice: (isBig: boolean) => void;
-    updateMeta: (meta: Partial<PageMeta>) => void;
+    updateOfflineStore: (state: Partial<OfflineStore>) => void;
+    updateMetaStore: (state: Partial<MetaStore>) => void;
     updateBreadcrumbsStore: (state: Partial<BreadcrumbsStore>) => void;
 }
 

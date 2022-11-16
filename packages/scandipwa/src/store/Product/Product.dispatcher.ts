@@ -11,7 +11,7 @@
 
 import ProductListQuery from 'Query/ProductList.query';
 import { ProductLink, ProductListOptions } from 'Query/ProductList.type';
-import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
 import { updateProductDetails } from 'Store/Product/Product.action';
 import { NetworkError } from 'Type/Common.type';
 import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
@@ -42,7 +42,7 @@ export class ProductDispatcher extends SimpleDispatcher {
              * smaller then 0 => the product was not found.
              */
             if (!items || items.length <= 0) {
-                this.dispatch(updateNoMatch(true));
+                this.dispatch(updateNoMatchStore({ noMatch: true }));
 
                 return;
             }
@@ -74,7 +74,7 @@ export class ProductDispatcher extends SimpleDispatcher {
             this.dispatch(updateProductDetails(product));
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {
-                this.dispatch(updateNoMatch(true));
+                this.dispatch(updateNoMatchStore({ noMatch: true }));
             }
         }
     }

@@ -12,9 +12,7 @@
 import { Reducer } from 'redux';
 
 import {
-    CategoryActionType,
     CategoryStore,
-    UpdateCurrentCategoryAction,
 } from './Category.type';
 
 /** @namespace Store/Category/Reducer/getInitialState */
@@ -24,22 +22,17 @@ export const getInitialState = (): CategoryStore => ({
 
 /** @namespace Store/Category/Reducer/CategoryReducer */
 export const CategoryReducer: Reducer<
-CategoryStore,
-UpdateCurrentCategoryAction
+CategoryStore
 > = (
     state = getInitialState(),
-    { type, category },
+    action,
 ) => {
-    switch (type) {
-    case CategoryActionType.UPDATE_CURRENT_CATEGORY:
-        return {
-            ...state,
-            category: { ...category },
-        };
+    const { state: newState } = action;
 
-    default:
-        return state;
-    }
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default CategoryReducer;

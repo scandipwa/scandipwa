@@ -10,8 +10,9 @@
  */
 
 import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
-import { PageMeta } from 'Store/Meta/Meta.type';
+import { MetaStore } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
+import { NoMatchStore } from 'Store/NoMatch/NoMatch.type';
 import { UrlRewrite } from 'Store/UrlRewrites/UrlRewrites.type';
 
 export interface NoMatchContainerMapStateProps {
@@ -20,9 +21,9 @@ export interface NoMatchContainerMapStateProps {
 
 export interface NoMatchContainerMapDispatchProps {
     updateBreadcrumbs: (breadcrumbs: Breadcrumb[]) => void;
-    updateMeta: (meta: Partial<PageMeta>) => void;
+    updateMetaStore: (state: Partial<MetaStore>) => void;
     changeHeaderState: (state: NavigationState) => void;
-    updateNoMatch: (options: boolean) => void;
+    updateNoMatchStore: (state: Partial<NoMatchStore>) => void;
 }
 
 export type NoMatchContainerProps = NoMatchContainerMapStateProps

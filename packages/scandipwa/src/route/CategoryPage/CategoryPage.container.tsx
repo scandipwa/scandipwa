@@ -25,11 +25,10 @@ import {
     LAYOUT_KEY,
     SortDirections,
 } from 'Route/CategoryPage/CategoryPage.config';
-import { updateCurrentCategory } from 'Store/Category/Category.action';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
 import { ReactElement } from 'Type/Common.type';
@@ -123,11 +122,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
     updateNoMatch: (options) => NoMatchDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateNoMatch(options),
     ),
-    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateOfflineStore: (state) => dispatch(updateOfflineStore(state)),
     updateMetaFromCategory: (category) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithCategory(category),
     ),
-    clearCategory: () => dispatch(updateCurrentCategory({})),
 });
 
 /** @namespace Route/CategoryPage/Container */
@@ -353,12 +351,12 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     }
 
     setOfflineNoticeSize(): void {
-        const { setBigOfflineNotice, isInfoLoading } = this.props;
+        const { updateOfflineStore, isInfoLoading } = this.props;
 
         if (isInfoLoading) {
-            setBigOfflineNotice(true);
+            updateOfflineStore({ isBig: true });
         } else {
-            setBigOfflineNotice(false);
+            updateOfflineStore({ isBig: false });
         }
     }
 

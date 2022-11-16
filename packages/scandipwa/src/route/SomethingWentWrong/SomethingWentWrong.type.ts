@@ -11,10 +11,10 @@
 
 import { ErrorInfo } from 'react';
 
-import { PageMeta } from 'Store/Meta/Meta.type';
+import { MetaStore } from 'Store/Meta/Meta.type';
 
 export interface SomethingWentWrongContainerMapDispatchProps {
-    updateMeta: (meta: Partial<PageMeta>) => void;
+    updateMetaStore: (state: Partial<MetaStore>) => void;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

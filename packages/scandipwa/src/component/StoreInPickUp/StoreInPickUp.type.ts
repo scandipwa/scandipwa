@@ -11,6 +11,7 @@
 
 import { ShippingMethod } from 'Query/Checkout.type';
 import { Store } from 'Query/StoreInPickUp.type';
+import { StoreInPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.type';
 
 export interface StoreInPickUpContainerMapStateProps {
     selectedStore: Store | null;
@@ -20,7 +21,7 @@ export interface StoreInPickUpContainerMapStateProps {
 export interface StoreInPickUpContainerDispatchProps {
     showPopup: <T>(payload: T) => void;
     hideActiveOverlay: () => void;
-    setPickUpStore: (store: Store) => void;
+    updateStoreInPickUpStore: (state: Partial<StoreInPickUpStore>) => void;
 }
 
 export interface StoreInPickUpContainerBaseProps {

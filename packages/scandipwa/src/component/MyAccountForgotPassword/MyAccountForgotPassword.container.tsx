@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import { updateCustomerPasswordForgotEmail } from 'Store/MyAccount/MyAccount.action';
+import { updateMyAccountStore } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
@@ -42,7 +42,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountForgotPasswordC
     forgotPassword: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.forgotPassword(options),
     ),
-    forgotPasswordEmail: (email) => dispatch(updateCustomerPasswordForgotEmail(email)),
+    updateMyAccountStore: (state) => dispatch(updateMyAccountStore(state)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
 
 });
@@ -76,7 +76,11 @@ export class MyAccountForgotPasswordContainer extends PureComponent<MyAccountFor
 
     async onForgotPasswordSuccess(form: HTMLFormElement): Promise<void> {
         const {
-            forgotPassword, setSignInState, setLoadingState, forgotPasswordEmail, isOverlayVisible,
+            forgotPassword,
+            setSignInState,
+            setLoadingState,
+            updateMyAccountStore,
+            isOverlayVisible,
         } = this.props;
         const submittedEmail = (form[0] as HTMLInputElement).value as string;
 
@@ -85,7 +89,7 @@ export class MyAccountForgotPasswordContainer extends PureComponent<MyAccountFor
         try {
             await forgotPassword({ email: submittedEmail });
             setSignInState(MyAccountPageState.STATE_FORGOT_PASSWORD_SUCCESS);
-            forgotPasswordEmail(submittedEmail);
+            updateMyAccountStore({ email: submittedEmail });
 
             // if on route /forgotpassword
             if (!isOverlayVisible) {

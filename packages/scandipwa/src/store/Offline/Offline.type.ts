@@ -11,21 +11,13 @@
 import { AnyAction } from 'redux';
 
 export enum OfflineActionType {
-    SHOW_OFFLINE_NOTICE = 'SHOW_OFFLINE_NOTICE',
-    SET_BIG_OFFLINE_NOTICE = 'SET_BIG_OFFLINE_NOTICE',
+    UPDATE_OFFLINE_STORE = 'UPDATE_OFFLINE_STORE',
 }
 
-export interface ShowOfflineNoticeAction extends AnyAction {
-    type: OfflineActionType.SHOW_OFFLINE_NOTICE;
-    isOffline: boolean;
+export interface UpdateOfflineStoreAction extends AnyAction {
+    type: OfflineActionType.UPDATE_OFFLINE_STORE;
+    state: Partial<OfflineStore>;
 }
-
-export interface SetBigOfflineNoticeAction extends AnyAction {
-    type: OfflineActionType.SET_BIG_OFFLINE_NOTICE;
-    isBig: boolean;
-}
-
-export type OfflineAction = ShowOfflineNoticeAction | SetBigOfflineNoticeAction;
 
 export interface OfflineStore {
     isOffline: boolean;

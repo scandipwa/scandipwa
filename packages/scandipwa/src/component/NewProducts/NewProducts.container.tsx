@@ -53,10 +53,6 @@ export class NewProductsContainer extends PureComponent<NewProductsContainerProp
 
     state: NewProductsContainerState = {
         products: undefined,
-        siblingsHaveBrands: false,
-        siblingsHavePriceBadge: false,
-        siblingsHaveTierPrice: false,
-        siblingsHaveConfigurableOptions: false,
     };
 
     componentDidMount(): void {
@@ -89,27 +85,11 @@ export class NewProductsContainer extends PureComponent<NewProductsContainerProp
         const { productsPerPage } = this.props;
         const {
             products = [],
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions,
         } = this.state;
 
         return {
             productsPerPage,
             products,
-            productCardFunctions: {
-                setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
-                setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
-                setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
-                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true }),
-            },
-            productCardProps: {
-                siblingsHaveBrands,
-                siblingsHavePriceBadge,
-                siblingsHaveTierPrice,
-                siblingsHaveConfigurableOptions,
-            },
         };
     }
 

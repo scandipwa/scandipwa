@@ -22,6 +22,7 @@ import {
 import { Category as BreadcrumbCategory } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { Category as MetaCategory } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
+import { OfflineStore } from 'Store/Offline/Offline.type';
 import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
 import { HistoryState } from 'Util/History/History.type';
 
@@ -51,9 +52,8 @@ export interface CategoryPageContainerMapDispatchProps {
     requestProductListInfo: (options: Partial<ProductListOptions>) => void;
     updateLoadStatus: (isLoading: boolean) => void;
     updateNoMatch: (options: { noMatch: boolean }) => void;
-    setBigOfflineNotice: (isBig: boolean) => void;
+    updateOfflineStore: (state: Partial<OfflineStore>) => void;
     updateMetaFromCategory: (category: MetaCategory) => void;
-    clearCategory: () => void;
 }
 
 export interface CategoryPageContainerFunctions {

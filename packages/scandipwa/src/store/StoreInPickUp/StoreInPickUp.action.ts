@@ -9,23 +9,14 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Store } from 'Query/StoreInPickUp.type';
-
 import {
-    ClearPickUpStoreAction,
-    SetPickUpStoreAction,
     StoreInPickUpActionType,
+    StoreInPickUpStore,
+    UpdateStoreInPickUpStoreAction,
 } from './StoreInPickUp.type';
 
-/** @namespace Store/StoreInPickUp/Action/setPickUpStore */
-export const setPickUpStore = (
-    store: Store | null,
-): SetPickUpStoreAction => ({
-    type: StoreInPickUpActionType.SET_PICK_UP_STORE,
-    store,
-});
-
-/** @namespace Store/StoreInPickUp/Action/clearPickUpStore */
-export const clearPickUpStore = (): ClearPickUpStoreAction => ({
-    type: StoreInPickUpActionType.CLEAR_PICK_UP_STORE,
+/** @namespace Store/StoreInPickUp/Action/updateStoreInPickUpStore */
+export const updateStoreInPickUpStore = (state: Partial<StoreInPickUpStore>): UpdateStoreInPickUpStoreAction => ({
+    type: StoreInPickUpActionType.UPDATE_PICK_UP_STORE,
+    state,
 });

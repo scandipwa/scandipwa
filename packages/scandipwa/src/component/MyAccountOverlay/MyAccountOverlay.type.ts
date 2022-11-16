@@ -13,6 +13,7 @@ import { MouseEvent } from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import { Customer } from 'Query/MyAccount.type';
+import { MyAccountStore } from 'Store/MyAccount/MyAccount.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
 import { Device } from 'Type/Device.type';
@@ -35,7 +36,7 @@ export interface MyAccountOverlayContainerMapDispatchProps {
     showOverlay: (overlayKey: string) => void;
     setHeaderState: (headerState: NavigationState) => void;
     goToPreviousHeaderState: () => void;
-    updateCustomerLoadingStatus: (status: boolean) => void;
+    updateMyAccountStore: (state: Partial<MyAccountStore>) => void;
 }
 
 export interface MyAccountOverlayContainerFunctions {

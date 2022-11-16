@@ -41,7 +41,6 @@ export interface CartItemContainerBaseProps {
     updateCrossSellsOnRemove: boolean;
     isCartOverlay: boolean;
     isEditing: boolean;
-    onCartItemLoading: (isLoading: boolean) => void;
     showLoader: boolean;
 }
 

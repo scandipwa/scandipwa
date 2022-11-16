@@ -20,7 +20,7 @@ import { Dispatch } from 'redux';
 import { Page } from 'Component/Header/Header.config';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { updateIsLoading } from 'Store/MyAccount/MyAccount.action';
+import { updateMyAccountStore } from 'Store/MyAccount/MyAccount.action';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
@@ -64,7 +64,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOverlayContaine
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
-    updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status)),
+    updateMyAccountStore: (state) => dispatch(updateMyAccountStore(state)),
 });
 
 /** @namespace Component/MyAccountOverlay/Container */
@@ -227,9 +227,9 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState,
     }
 
     setLoadingState(isLoading: boolean): void {
-        const { updateCustomerLoadingStatus } = this.props;
+        const { updateMyAccountStore } = this.props;
 
-        updateCustomerLoadingStatus(isLoading);
+        updateMyAccountStore({ isLoading });
     }
 
     redirectOrGetState(props: MyAccountOverlayContainerProps): MyAccountOverlayContainerState {
@@ -287,15 +287,15 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState,
     }
 
     onFormError(): void {
-        const { updateCustomerLoadingStatus } = this.props;
+        const { updateMyAccountStore } = this.props;
 
-        updateCustomerLoadingStatus(false);
+        updateMyAccountStore({ isLoading: false });
     }
 
     stopLoadingAndHideOverlay(): void {
-        const { hideActiveOverlay, updateCustomerLoadingStatus } = this.props;
+        const { hideActiveOverlay, updateMyAccountStore } = this.props;
 
-        updateCustomerLoadingStatus(false);
+        updateMyAccountStore({ isLoading: false });
         hideActiveOverlay();
     }
 

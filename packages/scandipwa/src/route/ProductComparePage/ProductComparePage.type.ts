@@ -12,7 +12,7 @@
 import { RouteComponentProps } from 'react-router';
 
 import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
-import { PageMeta } from 'Store/Meta/Meta.type';
+import { MetaStore } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { Device } from 'Type/Device.type';
@@ -24,7 +24,7 @@ export interface ProductComparePageContainerMapStateProps {
 
 export interface ProductComparePageContainerMapDispatchProps {
     showNotification: (type: NotificationType, message: string) => void;
-    updateMeta: (meta: Partial<PageMeta>) => void;
+    updateMetaStore: (state: Partial<MetaStore>) => void;
     setHeaderState: (stateName: NavigationState) => void;
     updateBreadcrumbs: (breadcrumbs: Breadcrumb[]) => void;
 }

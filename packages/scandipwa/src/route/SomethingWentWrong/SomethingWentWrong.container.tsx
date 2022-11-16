@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { updateMeta } from 'Store/Meta/Meta.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { ReactElement } from 'Type/Common.type';
 
 import SomethingWentWrong from './SomethingWentWrong.component';
@@ -27,15 +27,15 @@ import {
 
 /** @namespace Route/SomethingWentWrong/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): SomethingWentWrongContainerMapDispatchProps => ({
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateMetaStore: (state) => dispatch(updateMetaStore(state)),
 });
 
 /** @namespace Route/SomethingWentWrong/Container */
 export class SomethingWentWrongContainer extends PureComponent<SomethingWentWrongContainerProps> {
     componentDidMount(): void {
-        const { updateMeta } = this.props;
+        const { updateMetaStore } = this.props;
 
-        updateMeta({ title: __('Something went wrong!') });
+        updateMetaStore({ title: __('Something went wrong!') });
     }
 
     containerProps(): Pick<SomethingWentWrongComponentProps, SomethingWentWrongContainerPropsKeys> {

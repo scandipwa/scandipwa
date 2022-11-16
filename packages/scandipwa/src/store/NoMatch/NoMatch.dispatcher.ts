@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 /**
  * NoMatch Dispatcher
@@ -20,7 +20,7 @@ export class NoMatchDispatcher extends SimpleDispatcher {
     updateNoMatch(options: { noMatch: boolean }): void {
         const { noMatch } = options;
 
-        this.dispatch(updateNoMatch(noMatch));
+        this.dispatch(updateNoMatchStore({ noMatch }));
     }
 }
 

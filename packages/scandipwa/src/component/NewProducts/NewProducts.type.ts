@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ProductCardDisplayProps, ProductCartDisplayFunctions } from 'Component/ProductLinks/ProductLinks.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
@@ -34,15 +33,9 @@ export type NewProductsContainerProps = NewProductsContainerMapStateProps
 
 export interface NewProductsContainerState {
     products?: IndexedProduct[];
-    siblingsHaveBrands: boolean;
-    siblingsHavePriceBadge: boolean;
-    siblingsHaveTierPrice: boolean;
-    siblingsHaveConfigurableOptions: boolean;
 }
 
 export interface NewProductsComponentProps {
     productsPerPage: number;
     products: IndexedProduct[];
-    productCardFunctions: ProductCartDisplayFunctions;
-    productCardProps: ProductCardDisplayProps;
 }

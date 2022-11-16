@@ -21,7 +21,7 @@ import {
     mapStateToProps as sourceMapStateToProps,
 } from 'Route/CategoryPage/CategoryPage.container';
 import CategoryReducer from 'Store/Category/Category.reducer';
-import { updateMeta } from 'Store/Meta/Meta.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { ReactElement } from 'Type/Common.type';
 import { decodeString, noopFn } from 'Util/Common';
 import { withReducers } from 'Util/DynamicReducer';
@@ -71,7 +71,7 @@ export const mapStateToProps = (state: RootState): SearchPageContainerMapStatePr
 /** @namespace Route/SearchPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): SearchPageContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateMetaStore: (state) => dispatch(updateMetaStore(state)),
 });
 
 /** @namespace Route/SearchPage/Container */
@@ -91,9 +91,9 @@ SearchPageContainerState
     };
 
     updateMeta(): void {
-        const { updateMeta } = this.props;
+        const { updateMetaStore } = this.props;
 
-        updateMeta({ title: __('Search') });
+        updateMetaStore({ title: __('Search') });
     }
 
     updateBreadcrumbs(): void {

@@ -11,13 +11,7 @@
 
 import { Reducer } from 'redux';
 
-import { formatOrders } from 'Util/Orders';
-
-import {
-    OrderAction,
-    OrderActionType,
-    OrderStore,
-} from './Order.type';
+import { OrderStore } from './Order.type';
 
 /** @namespace Store/Order/Reducer/getInitialState */
 export const getInitialState = (): OrderStore => ({
@@ -26,42 +20,16 @@ export const getInitialState = (): OrderStore => ({
 });
 
 /** @namespace Store/Order/Reducer/OrderReducer */
-export const OrderReducer: Reducer<OrderStore, OrderAction> = (
+export const OrderReducer: Reducer<OrderStore> = (
     state = getInitialState(),
     action,
 ) => {
-    const { type } = action;
+    const { state: newState } = action;
 
-    switch (type) {
-    case OrderActionType.GET_ORDER_LIST: {
-        const {
-            orderList,
-            status,
-        } = action;
-        const { items = [], page_info } = orderList;
-        const formattedOrders = formatOrders(items);
-
-        return {
-            ...state,
-            isLoading: status,
-            orderList: { items: formattedOrders, pageInfo: page_info },
-        };
-    }
-
-    case OrderActionType.SET_ORDER_LOADING_STATUS: {
-        const {
-            status,
-        } = action;
-
-        return {
-            ...state,
-            isLoading: status,
-        };
-    }
-
-    default:
-        return state;
-    }
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default OrderReducer;

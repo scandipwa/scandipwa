@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import ProductList from 'Component/ProductList';
 import ProductListQuery from 'Query/ProductList.query';
 import { ProductListOptions } from 'Query/ProductList.type';
-import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
@@ -39,7 +39,7 @@ export const mapStateToProps = (): ProductListWidgetContainerMapStateProps => ({
 
 /** @namespace Component/ProductListWidget/Container/mapDispatchToProps */
 export const mapDispatchToProps = (): ProductListWidgetContainerMapDispatchProps => ({
-    updateNoMatch,
+    updateNoMatchStore,
     showNotification,
 });
 
@@ -107,10 +107,10 @@ ProductListWidgetContainerState
     dataModelName = 'ProductListWidget';
 
     onError(error: NetworkError | NetworkError[]): void {
-        const { showNotification, updateNoMatch } = this.props;
+        const { showNotification, updateNoMatchStore } = this.props;
 
         showNotification(NotificationType.ERROR, __('Error fetching Product List!'), error);
-        updateNoMatch(true);
+        updateNoMatchStore({ noMatch: true });
     }
 
     getIsNewCategory(): boolean {

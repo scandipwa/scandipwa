@@ -12,7 +12,7 @@ import { Reducer } from 'redux';
 
 import { isInitiallySignedIn } from 'Util/Auth';
 
-import { MyAccountAction, MyAccountActionType, MyAccountStore } from './MyAccount.type';
+import { MyAccountStore } from './MyAccount.type';
 
 /** @namespace Store/MyAccount/Reducer/getInitialState */
 export const getInitialState = (): MyAccountStore => ({
@@ -30,78 +30,17 @@ export const getInitialState = (): MyAccountStore => ({
 
 /** @namespace Store/MyAccount/Reducer/MyAccountReducer */
 export const MyAccountReducer: Reducer<
-MyAccountStore,
-MyAccountAction
+MyAccountStore
 > = (
     state = getInitialState(),
     action,
 ) => {
-    switch (action.type) {
-    case MyAccountActionType.UPDATE_CUSTOMER_SIGN_IN_STATUS: {
-        const { status } = action;
+    const { state: newState } = action;
 
-        return {
-            ...state,
-            isSignedIn: status,
-        };
-    }
-
-    case MyAccountActionType.UPDATE_CUSTOMER_PASSWORD_RESET_STATUS: {
-        const { status, message } = action;
-
-        return {
-            ...state,
-            passwordResetStatus: status,
-            passwordResetMessage: message,
-        };
-    }
-
-    case MyAccountActionType.UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS: {
-        return {
-            ...state,
-            isPasswordForgotSend: !state.isPasswordForgotSend,
-        };
-    }
-
-    case MyAccountActionType.UPDATE_CUSTOMER_DETAILS: {
-        const { customer } = action;
-
-        return {
-            ...state,
-            customer,
-        };
-    }
-
-    case MyAccountActionType.UPDATE_CUSTOMER_PASSWORD_FORGOT_EMAIL: {
-        const { email } = action;
-
-        return {
-            ...state,
-            email,
-        };
-    }
-
-    case MyAccountActionType.UPDATE_CUSTOMER_IS_LOADING: {
-        const { isLoading } = action;
-
-        return {
-            ...state,
-            isLoading,
-        };
-    }
-
-    case MyAccountActionType.UPDATE_CUSTOMER_IS_LOCKED: {
-        const { isLocked } = action;
-
-        return {
-            ...state,
-            isLocked,
-        };
-    }
-
-    default:
-        return state;
-    }
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default MyAccountReducer;

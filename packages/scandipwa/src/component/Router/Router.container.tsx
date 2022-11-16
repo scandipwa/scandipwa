@@ -14,8 +14,8 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { updateConfigDevice } from 'Store/Config/Config.action';
-import { updateMeta } from 'Store/Meta/Meta.action';
-import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
+import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import { ReactElement } from 'Type/Common.type';
 import { history } from 'Util/History';
 import {
@@ -75,9 +75,9 @@ export const mapStateToProps = (state: RootState): RouterContainerMapStateProps 
 
 /** @namespace Component/Router/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispatchProps => ({
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
-    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateOfflineStore: (state) => dispatch(updateOfflineStore(state)),
     init: async () => {
         ConfigDispatcher.then(
             ({ default: dispatcher }) => dispatcher.getConfigs(),
@@ -134,7 +134,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
     }
 
     componentDidUpdate(prevProps: RouterContainerProps): void {
-        const { isLoading, updateMeta } = this.props;
+        const { isLoading, updateMetaStore } = this.props;
         const { isLoading: prevIsLoading } = prevProps;
 
         if (!this.handleCheckIfOnlyMainItemsRender()) {
@@ -154,7 +154,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
                 status_code,
             } = this.props;
 
-            updateMeta({
+            updateMetaStore({
                 default_title,
                 title: meta_title || default_title,
                 default_description,
@@ -219,12 +219,12 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
     }
 
     containerProps(): Pick<RouterComponentProps, RouterContainerPropsKeys> {
-        const { isBigOffline, setBigOfflineNotice } = this.props;
+        const { isBigOffline, updateOfflineStore } = this.props;
         const { isOnlyMainItems, currentUrl } = this.state;
 
         return {
             isBigOffline,
-            setBigOfflineNotice,
+            updateOfflineStore,
             isOnlyMainItems,
             currentUrl,
         };

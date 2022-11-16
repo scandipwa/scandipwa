@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PageMeta } from 'Store/Meta/Meta.type';
+import { MetaStore } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 
 export interface MenuPageContainerMapStateProps {
@@ -17,7 +17,7 @@ export interface MenuPageContainerMapStateProps {
 }
 
 export interface MenuPageContainerMapDispatchProps {
-    updateMeta: (meta: Partial<PageMeta>) => void;
+    updateMetaStore: (state: Partial<MetaStore>) => void;
     changeHeaderState: (state: NavigationState) => void;
 }
 

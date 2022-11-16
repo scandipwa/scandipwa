@@ -14,11 +14,12 @@ import { OrderItem, ReorderOutput } from 'Query/Order.type';
 import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
+import { updateOrderStore } from 'Store/Order/Order.action';
 import { NetworkError } from 'Type/Common.type';
 import { getAuthorizationToken } from 'Util/Auth';
 import { decodeBase64 } from 'Util/Base64';
 import history from 'Util/History';
+import { formatOrders } from 'Util/Orders';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 import { appendWithStoreCode } from 'Util/Url';
@@ -33,17 +34,19 @@ export class OrderDispatcher extends SimpleDispatcher {
     requestOrders(page = 1): Promise<void> {
         const query = OrderQuery.getOrderListQuery({ page });
 
-        this.dispatch(setLoadingStatus(true));
+        this.dispatch(updateOrderStore({ isLoading: true }));
 
         return fetchQuery(query).then(
             /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then */
-            ({ customer: { orders } }) => {
-                this.dispatch(getOrderList(orders, false));
+            ({ customer: { orders: { page_info, items = [] } } }) => {
+                const formattedOrders = formatOrders(items);
+
+                this.dispatch(updateOrderStore({ orderList: { items: formattedOrders, pageInfo: page_info }, isLoading: false }));
             },
             /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then/catch */
             (error) => {
                 this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
-                this.dispatch(setLoadingStatus(false));
+                this.dispatch(updateOrderStore({ isLoading: false }));
             },
         );
     }

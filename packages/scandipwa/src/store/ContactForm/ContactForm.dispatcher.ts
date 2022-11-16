@@ -15,7 +15,7 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
-import { updateContactForm } from './ContactForm.action';
+import { updateContactStore } from './ContactForm.action';
 import { ContactFormDispatcherOptions } from './ContactForm.type';
 
 /**
@@ -30,7 +30,7 @@ export class ContactFormDispatcher extends SimpleDispatcher {
 
         const mutation = ContactFormQuery.getSendContactFormMutation(fields);
 
-        this.dispatch(updateContactForm({
+        this.dispatch(updateContactStore({
             isLoading: true,
         }));
 
@@ -39,7 +39,7 @@ export class ContactFormDispatcher extends SimpleDispatcher {
                 /** @namespace Store/ContactForm/Dispatcher/ContactFormDispatcher/prepareRequest/fetchMutation/then */
                 (data) => {
                     this.dispatch(showNotification(NotificationType.SUCCESS, data.contactForm.message || ''));
-                    this.dispatch(updateContactForm({
+                    this.dispatch(updateContactStore({
                         isLoading: false,
                     }));
 
@@ -51,7 +51,7 @@ export class ContactFormDispatcher extends SimpleDispatcher {
                 /** @namespace Store/ContactForm/Dispatcher/ContactFormDispatcher/prepareRequest/fetchMutation/then/catch */
                 (error) => {
                     this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
-                    this.dispatch(updateContactForm({
+                    this.dispatch(updateContactStore({
                         isLoading: false,
                     }));
                 },

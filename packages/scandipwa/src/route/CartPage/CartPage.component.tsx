@@ -22,7 +22,6 @@ import LockIcon from 'Component/LockIcon';
 import ProductLinks from 'Component/ProductLinks';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { ReactElement } from 'Type/Common.type';
-import { noopFn } from 'Util/Common';
 
 import { CartPageComponentProps } from './CartPage.type';
 
@@ -32,7 +31,6 @@ import './CartPage.style';
 export class CartPageComponent extends PureComponent<CartPageComponentProps> {
     static defaultProps: Partial<CartPageComponentProps> = {
         hasOutOfStockProductsInCart: false,
-        onCartItemLoading: noopFn,
     };
 
     renderCartItems(): ReactElement {
@@ -40,7 +38,6 @@ export class CartPageComponent extends PureComponent<CartPageComponentProps> {
             totals: {
                 items = [],
             },
-            onCartItemLoading,
             isInitialLoad,
         } = this.props;
 
@@ -70,7 +67,6 @@ export class CartPageComponent extends PureComponent<CartPageComponentProps> {
                         <CartItem
                           key={ item.id }
                           item={ item }
-                          onCartItemLoading={ onCartItemLoading }
                           showLoader
                           isEditing
                           updateCrossSellsOnRemove

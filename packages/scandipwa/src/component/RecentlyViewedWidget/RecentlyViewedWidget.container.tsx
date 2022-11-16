@@ -24,7 +24,6 @@ import {
     RecentlyViewedWidgetContainerMapDispatchProps,
     RecentlyViewedWidgetContainerMapStateProps,
     RecentlyViewedWidgetContainerProps,
-    RecentlyViewedWidgetContainerState,
 } from './RecentlyViewedWidget.type';
 
 /** @namespace Component/RecentlyViewedWidget/Container/mapStateToProps */
@@ -42,18 +41,10 @@ export const mapDispatchToProps = (): RecentlyViewedWidgetContainerMapDispatchPr
 
 /** @namespace Component/RecentlyViewedWidget/Container */
 export class RecentlyViewedWidgetContainer extends PureComponent<
-RecentlyViewedWidgetContainerProps,
-RecentlyViewedWidgetContainerState
+RecentlyViewedWidgetContainerProps
 > {
     static defaultProps: Partial<RecentlyViewedWidgetContainerProps> = {
         pageSize: 6,
-    };
-
-    state: RecentlyViewedWidgetContainerState = {
-        siblingsHaveBrands: false,
-        siblingsHavePriceBadge: false,
-        siblingsHaveTierPrice: false,
-        siblingsHaveConfigurableOptions: false,
     };
 
     componentDidMount(): void {
@@ -70,13 +61,6 @@ RecentlyViewedWidgetContainerState
 
     containerProps(): RecentlyViewedWidgetComponentProps {
         const {
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions,
-        } = this.state;
-
-        const {
             store,
             recentProducts,
             pageSize,
@@ -86,18 +70,6 @@ RecentlyViewedWidgetContainerState
         const products = recentProducts[ store ] ?? [];
 
         return {
-            productCardFunctions: {
-                setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
-                setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
-                setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
-                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true }),
-            },
-            productCardProps: {
-                siblingsHaveBrands,
-                siblingsHavePriceBadge,
-                siblingsHaveTierPrice,
-                siblingsHaveConfigurableOptions,
-            },
             products,
             isLoading,
             pageSize,

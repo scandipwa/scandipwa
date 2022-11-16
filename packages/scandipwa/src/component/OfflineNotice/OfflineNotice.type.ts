@@ -11,14 +11,15 @@
 
 import { RouteComponentProps } from 'react-router';
 
+import { OfflineStore } from 'Store/Offline/Offline.type';
+
 export interface OfflineNoticeContainerMapStateProps {
     isOffline: boolean;
     isBig: boolean;
 }
 
 export interface OfflineNoticeContainerMapDispatchProps {
-    showOfflineNotice: (isOffline: boolean) => void;
-    setBigOfflineNotice: (isBig: boolean) => void;
+    updateOfflineStore: (state: Partial<OfflineStore>) => void;
 }
 
 export interface OfflineNoticeContainerBaseProps {

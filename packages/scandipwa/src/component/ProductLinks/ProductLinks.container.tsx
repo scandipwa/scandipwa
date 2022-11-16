@@ -22,7 +22,6 @@ import {
     ProductLinksContainerMapDispatchProps,
     ProductLinksContainerMapStateProps,
     ProductLinksContainerProps,
-    ProductLinksContainerState,
 } from './ProductLinks.type';
 
 /** @namespace Component/ProductLinks/Container/mapStateToProps */
@@ -35,16 +34,9 @@ export const mapStateToProps = (state: RootState): ProductLinksContainerMapState
 export const mapDispatchToProps = (): ProductLinksContainerMapDispatchProps => ({});
 
 /** @namespace Component/ProductLinks/Container */
-export class ProductLinksContainer extends PureComponent<ProductLinksContainerProps, ProductLinksContainerState> {
+export class ProductLinksContainer extends PureComponent<ProductLinksContainerProps> {
     static defaultProps: Partial<ProductLinksContainerProps> = {
         numberOfProductsToDisplay: 4,
-    };
-
-    state: ProductLinksContainerState = {
-        siblingsHaveBrands: false,
-        siblingsHavePriceBadge: false,
-        siblingsHaveTierPrice: false,
-        siblingsHaveConfigurableOptions: false,
     };
 
     containerProps(): ProductLinksComponentProps {
@@ -55,12 +47,6 @@ export class ProductLinksContainer extends PureComponent<ProductLinksContainerPr
             numberOfProductsToDisplay,
             title,
         } = this.props;
-        const {
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions,
-        } = this.state;
 
         return {
             areDetailsLoaded,
@@ -68,18 +54,6 @@ export class ProductLinksContainer extends PureComponent<ProductLinksContainerPr
             linkedProducts,
             numberOfProductsToDisplay,
             title,
-            productCardFunctions: {
-                setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
-                setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
-                setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
-                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true }),
-            },
-            productCardProps: {
-                siblingsHaveBrands,
-                siblingsHavePriceBadge,
-                siblingsHaveTierPrice,
-                siblingsHaveConfigurableOptions,
-            },
         };
     }
 

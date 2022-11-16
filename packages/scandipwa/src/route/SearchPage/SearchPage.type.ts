@@ -22,7 +22,7 @@ import {
     CategoryPageContainerPropsKeys,
     CategoryPageContainerState,
 } from 'Route/CategoryPage/CategoryPage.type';
-import { PageMeta } from 'Store/Meta/Meta.type';
+import { MetaStore } from 'Store/Meta/Meta.type';
 
 export interface SearchPageContainerMapStateProps extends CategoryPageContainerMapStateProps {
     minPriceRange: number;
@@ -30,7 +30,7 @@ export interface SearchPageContainerMapStateProps extends CategoryPageContainerM
 }
 
 export interface SearchPageContainerMapDispatchProps extends CategoryPageContainerMapDispatchProps {
-    updateMeta: (meta: Partial<PageMeta>) => void;
+    updateMetaStore: (state: Partial<MetaStore>) => void;
 }
 
 export interface SearchPageContainerBaseProps extends CategoryPageContainerBaseProps {

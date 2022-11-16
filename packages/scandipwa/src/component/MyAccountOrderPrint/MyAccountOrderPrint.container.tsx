@@ -19,7 +19,7 @@ import {
 } from 'Component/MyAccountOrder/MyAccountOrder.container';
 import { OrderItem } from 'Query/Order.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { updateMeta } from 'Store/Meta/Meta.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import history from 'Util/History';
@@ -50,7 +50,7 @@ export const mapStateToProps = (state: RootState): MyAccountOrderPrintContainerM
 /** @namespace Component/MyAccountOrderPrint/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderPrintContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateMetaStore: (state) => dispatch(updateMetaStore(state)),
 });
 
 /** @namespace Component/MyAccountOrderPrint/Container */
@@ -125,10 +125,10 @@ MyAccountOrderPrintContainerState
     }
 
     handleSetOrder(order: OrderItem): void {
-        const { updateMeta } = this.props;
+        const { updateMetaStore } = this.props;
         const { id: uid, increment_id, ...newOrder } = order;
 
-        updateMeta({ title: __('Order # %s', increment_id) });
+        updateMetaStore({ title: __('Order # %s', increment_id) });
         this.setState({ order: { increment_id, id: atob(uid), ...newOrder }, isLoading: false });
     }
 

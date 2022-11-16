@@ -12,7 +12,7 @@ import { MouseEvent } from 'react';
 
 import { FormFields } from 'Component/Form/Form.type';
 import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import { UpdateCustomerPasswordForgotStatusAction } from 'Store/MyAccount/MyAccount.type';
+import { MyAccountStore, UpdateMyAccountStoreAction } from 'Store/MyAccount/MyAccount.type';
 import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
 import { FieldData } from 'Util/Form/Form.type';
 import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
@@ -23,8 +23,8 @@ export interface MyAccountForgotPasswordContainerMapStateProps {}
 export interface MyAccountForgotPasswordContainerMapDispatchProps {
     forgotPassword: (options: {
         email: string;
-    }) => Promise<UpdateCustomerPasswordForgotStatusAction | ShowNotificationAction>;
-    forgotPasswordEmail: (email: string) => void;
+    }) => Promise<UpdateMyAccountStoreAction | ShowNotificationAction>;
+    updateMyAccountStore: (state: Partial<MyAccountStore>) => void;
     showNotification: (type: NotificationType, message: string) => void;
 }
 

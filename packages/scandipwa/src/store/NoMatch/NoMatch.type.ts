@@ -12,12 +12,12 @@
 import { AnyAction } from 'redux';
 
 export enum NoMatchActionType {
-    UPDATE_NOMATCH = 'UPDATE_NOMATCH',
+    UPDATE_NOMATCH_STORE = 'UPDATE_NOMATCH_STORE',
 }
 
-export interface UpdateNoMatchAction extends AnyAction {
-    type: NoMatchActionType.UPDATE_NOMATCH;
-    noMatch: boolean;
+export interface UpdateNoMatchStoreAction extends AnyAction {
+    type: NoMatchActionType.UPDATE_NOMATCH_STORE;
+    state: Partial<NoMatchStore>;
 }
 
 export interface NoMatchStore {

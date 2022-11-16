@@ -17,6 +17,7 @@ import { CartTotals } from 'Store/Cart/Cart.type';
 import { CheckoutStore } from 'Store/Checkout/Checkout.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
+import { StoreInPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.type';
 import { Merge } from 'Type/Common.type';
 import { GQLCountryCodeEnum } from 'Type/Graphql.type';
 import { CountryOption } from 'Util/Address/Address.type';
@@ -33,7 +34,7 @@ export interface StoreInPickUpPopupContainerMapStateProps {
 export interface StoreInPickUpPopupContainerDispatchProps {
     hideActiveOverlay: () => void;
     showNotification: (type: NotificationType, message: string) => void;
-    clearPickUpStore: () => void;
+    updateStoreInPickUpStore: (state: Partial<StoreInPickUpStore>) => void;
     goToPreviousNavigationState: () => void;
     updateCheckoutStore: (state: Partial<CheckoutStore>) => void;
 }

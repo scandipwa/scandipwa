@@ -16,7 +16,7 @@ import { Dispatch } from 'redux';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { ChangeCustomerPasswordOptions, SignInOptions } from 'Query/MyAccount.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { updateCustomerDetails, updateIsLoading, updateIsLocked } from 'Store/MyAccount/MyAccount.action';
+import { updateMyAccountStore } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -57,17 +57,15 @@ export const mapStateToProps = (state: RootState): MyAccountInformationContainer
 
 /** @namespace Component/MyAccountInformation/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountInformationContainerMapDispatchProps => ({
-    updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
+    updateMyAccountStore: (state) => dispatch(updateMyAccountStore(state)),
     showErrorNotification: (error) => dispatch(showNotification(
         NotificationType.ERROR,
         typeof error === 'string' ? error : getErrorMessage(error),
     )),
     showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
-    updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status)),
     logout: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.logout(false, false),
     ),
-    updateIsLocked: (isLocked) => dispatch(updateIsLocked(isLocked)),
 });
 
 /** @namespace Component/MyAccountInformation/Container */
@@ -126,7 +124,7 @@ MyAccountInformationContainerState
     ChangeCustomerPasswordOptions
     & SignInOptions
     & GQLCustomerUpdateInput): Promise<void> {
-        const { updateCustomerLoadingStatus } = this.props;
+        const { updateMyAccountStore } = this.props;
         const { showPasswordChangeField, showEmailChangeField } = this.state;
         const {
             firstname = '',
@@ -141,7 +139,8 @@ MyAccountInformationContainerState
             return;
         }
 
-        updateCustomerLoadingStatus(true);
+        updateMyAccountStore({ isLoading: true });
+
         try {
             if (showPasswordChangeField) {
                 await this.handlePasswordChange({ password, newPassword });
@@ -161,13 +160,14 @@ MyAccountInformationContainerState
 
     handleSuccessChange(): void {
         const {
-            showSuccessNotification, updateCustomerLoadingStatus,
+            showSuccessNotification,
+            updateMyAccountStore,
         } = this.props;
         const {
             showEmailChangeField, showPasswordChangeField,
         } = this.state;
 
-        updateCustomerLoadingStatus(false);
+        updateMyAccountStore({ isLoading: false });
 
         if (showEmailChangeField || showPasswordChangeField) {
             this.handleLogout();
@@ -201,7 +201,7 @@ MyAccountInformationContainerState
 
     async handleInformationChange(options: GQLCustomerUpdateInput): Promise<void> {
         const {
-            updateCustomer,
+            updateMyAccountStore,
         } = this.props;
 
         const mutation = MyAccountQuery.getUpdateInformationMutation(options);
@@ -209,7 +209,7 @@ MyAccountInformationContainerState
         const { updateCustomerV2: { customer } } = await fetchMutation(mutation);
 
         BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
-        updateCustomer(customer);
+        updateMyAccountStore({ customer });
     }
 
     async handleEmailChange(fields: SignInOptions): Promise<void> {
@@ -219,13 +219,13 @@ MyAccountInformationContainerState
     }
 
     handleLockAccount(e: NetworkError[]): void {
-        const { updateIsLocked, updateCustomerLoadingStatus } = this.props;
+        const { updateMyAccountStore } = this.props;
         const { message } = e[ 0 ];
 
-        updateCustomerLoadingStatus(false);
+        updateMyAccountStore({ isLoading: false });
 
         if (message.includes('locked')) {
-            updateIsLocked(true);
+            updateMyAccountStore({ isLocked: true });
 
             return;
         }

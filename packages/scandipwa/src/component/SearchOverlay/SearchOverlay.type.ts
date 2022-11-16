@@ -10,6 +10,7 @@
  */
 
 import { ProductListOptions } from 'Query/ProductList.type';
+import { SearchBarStore } from 'Store/SearchBar/SearchBar.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export interface SearchOverlayContainerMapStateProps {
@@ -21,7 +22,7 @@ export interface SearchOverlayContainerMapStateProps {
 
 export interface SearchOverlayContainerMapDispatchProps {
     makeSearchRequest: (options: Partial<ProductListOptions>) => void;
-    clearSearchResults: () => void;
+    updateSearchBarStore: (state: Partial<SearchBarStore>) => void;
 }
 
 export interface SearchOverlayContainerBaseProps {
@@ -37,7 +38,7 @@ export type SearchOverlayContainerProps = SearchOverlayContainerMapStateProps
 & SearchOverlayContainerBaseProps;
 
 export interface SearchOverlayComponentProps extends SearchOverlayContainerFunctions {
-    clearSearchResults: () => void;
+    updateSearchBarStore: (state: Partial<SearchBarStore>) => void;
     isMobile: boolean;
     isLoading: boolean;
     searchCriteria: string;
@@ -45,7 +46,7 @@ export interface SearchOverlayComponentProps extends SearchOverlayContainerFunct
 }
 
 export type SearchOverlayComponentContainerPropKeys =
-    | 'clearSearchResults'
+    | 'updateSearchBarStore'
     | 'isMobile'
     | 'isLoading'
     | 'searchCriteria'

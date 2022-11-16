@@ -87,13 +87,11 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
 
     state: CartOverlayContainerState = {
         isEditing: false,
-        isCartItemLoading: false,
     };
 
     containerFunctions = {
         changeHeaderState: this.changeHeaderState.bind(this),
         handleCheckoutClick: this.handleCheckoutClick.bind(this),
-        onCartItemLoading: this.onCartItemLoading.bind(this),
         scrollToTop: this.scrollToTop.bind(this),
     };
 
@@ -115,7 +113,7 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
                 minimum_order_amount_reached: minimumOrderAmountReached = true,
             },
         } = this.props;
-        const { isEditing, isCartItemLoading } = this.state;
+        const { isEditing } = this.state;
 
         return {
             totals,
@@ -128,7 +126,6 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
             isMobile,
             cartShippingPrice,
             cartShippingSubPrice,
-            isCartItemLoading,
             minimumOrderAmountReached,
             hasOutOfStockProductsInCart: this.hasOutOfStockProductsInCartItems(items),
         };
@@ -200,10 +197,6 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
             },
             onCloseClick: () => this.setState({ isEditing: false }),
         });
-    }
-
-    onCartItemLoading(isCartItemLoading: boolean): void {
-        this.setState({ isCartItemLoading });
     }
 
     scrollToTop(): void {

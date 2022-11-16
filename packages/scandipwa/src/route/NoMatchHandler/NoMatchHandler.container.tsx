@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { updateMeta } from 'Store/Meta/Meta.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
@@ -39,7 +39,7 @@ export const mapStateToProps = (state: RootState): NoMatchHandlerContainerMapSta
 
 /** @namespace Route/NoMatchHandler/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): NoMatchHandlerContainerMapDispatchProps => ({
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     updateNoMatch: (options) => {
         NoMatchDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateNoMatch(options),
@@ -54,11 +54,11 @@ export class NoMatchHandlerContainer extends PureComponent<NoMatchHandlerContain
     };
 
     componentDidUpdate(prevProps: NoMatchHandlerContainerProps): void {
-        const { noMatch, updateMeta } = this.props;
+        const { noMatch, updateMetaStore } = this.props;
         const { noMatch: prevNoMatch } = prevProps;
 
         if (noMatch !== prevNoMatch) {
-            updateMeta({ title: __('Page not found') });
+            updateMetaStore({ title: __('Page not found') });
         }
     }
 

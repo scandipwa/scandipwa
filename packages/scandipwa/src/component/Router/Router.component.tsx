@@ -376,14 +376,14 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
 
     renderDefaultRouterContent(): ReactElement {
         const { isOnlyMainItems } = this.props;
-        const { setBigOfflineNotice } = this.props;
+        const { updateOfflineStore } = this.props;
 
         if (isOnlyMainItems) {
             return this.renderMainItems();
         }
 
         return (
-            <ErrorHandler setBigOfflineNotice={ setBigOfflineNotice }>
+            <ErrorHandler updateOfflineStore={ updateOfflineStore }>
                 <div block="Router" elem="MainItems">
                     { this.renderMainItems() }
                 </div>

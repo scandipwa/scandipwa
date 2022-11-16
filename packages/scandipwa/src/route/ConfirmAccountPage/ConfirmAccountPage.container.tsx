@@ -16,7 +16,7 @@ import { Dispatch } from 'redux';
 import { ERROR_TYPE } from 'Component/Notification/Notification.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
-import { updateMeta } from 'Store/Meta/Meta.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
@@ -51,7 +51,7 @@ export const mapStateToProps = (): ConfirmAccountPageContainerMapStateProps => (
 /** @namespace Route/ConfirmAccountPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ConfirmAccountPageContainerMapDispatchProps => ({
     updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     confirmAccount: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.confirmAccount(options),
     ),
@@ -81,13 +81,13 @@ ConfirmAccountPageContainerState
     }
 
     componentDidMount(): void {
-        const { updateMeta, updateBreadcrumbsStore } = this.props;
+        const { updateMetaStore, updateBreadcrumbsStore } = this.props;
 
         if (isSignedIn()) {
             history.replace({ pathname: appendWithStoreCode(AccountPageUrl.ACCOUNT_URL) });
         }
 
-        updateMeta({ title: __('Confirm account') });
+        updateMetaStore({ title: __('Confirm account') });
         updateBreadcrumbsStore({ areBreadcrumbsVisible: false });
     }
 

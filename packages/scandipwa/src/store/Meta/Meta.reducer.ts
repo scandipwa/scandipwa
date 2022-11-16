@@ -12,31 +12,8 @@
 import { Reducer } from 'redux';
 
 import {
-    MetaActionType,
     MetaStore,
-    PageMeta,
-    UpdateMetaAction,
 } from './Meta.type';
-
-export const updateEveryTime: Array<keyof PageMeta> = [
-    'title',
-    'description',
-    'keywords',
-    'canonical_url',
-    'robots',
-    'status_code',
-];
-
-/** @namespace Store/Meta/Reducer/filterData */
-export const filterData = (data: Partial<PageMeta>): Partial<PageMeta> => {
-    const updated = updateEveryTime.reduce((acc: Partial<PageMeta>, key) => {
-        acc[key] = data[key];
-
-        return acc;
-    }, {});
-
-    return { ...data, ...updated };
-};
 
 /** @namespace Store/Meta/Reducer/getInitialState */
 export const getInitialState = (): MetaStore => ({
@@ -51,24 +28,16 @@ export const getInitialState = (): MetaStore => ({
 });
 
 /** @namespace Store/Meta/Reducer/MetaReducer */
-export const MetaReducer: Reducer<MetaStore, UpdateMetaAction> = (
+export const MetaReducer: Reducer<MetaStore> = (
     state = getInitialState(),
     action,
 ) => {
-    const { payload = {}, type } = action;
+    const { state: newState } = action;
 
-    switch (type) {
-    case MetaActionType.UPDATE_META:
-        const filteredData = filterData(payload);
-
-        return {
-            ...state,
-            ...filteredData,
-        };
-
-    default:
-        return state;
-    }
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default MetaReducer;

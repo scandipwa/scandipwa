@@ -45,7 +45,6 @@ export interface CartOverlayContainerMapDispatchProps {
 export interface CartOverlayContainerFunctions {
     changeHeaderState: () => void;
     handleCheckoutClick: (e: MouseEvent) => void;
-    onCartItemLoading: (isCartItemLoading: boolean) => void;
     scrollToTop: () => void;
 }
 
@@ -58,7 +57,6 @@ export type CartOverlayContainerProps = CartOverlayContainerMapStateProps
 
 export interface CartOverlayContainerState {
     isEditing: boolean;
-    isCartItemLoading: boolean;
 }
 
 export interface CartOverlayComponentProps {
@@ -72,11 +70,9 @@ export interface CartOverlayComponentProps {
     isMobile: boolean;
     cartShippingPrice: number;
     cartShippingSubPrice: number | null;
-    isCartItemLoading: boolean;
     hasOutOfStockProductsInCart: boolean;
     changeHeaderState: () => void;
     handleCheckoutClick: (e: MouseEvent) => void;
-    onCartItemLoading: (isCartItemLoading: boolean) => void;
     scrollToTop: () => void;
     minimumOrderAmountReached: boolean;
 }
@@ -92,6 +88,5 @@ export type CartOverlayComponentContainerPropKeys =
     | 'isMobile'
     | 'cartShippingPrice'
     | 'cartShippingSubPrice'
-    | 'isCartItemLoading'
     | 'hasOutOfStockProductsInCart'
     | 'minimumOrderAmountReached';

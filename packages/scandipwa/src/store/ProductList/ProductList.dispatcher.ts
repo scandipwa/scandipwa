@@ -11,7 +11,7 @@
 
 import ProductListQuery from 'Query/ProductList.query';
 import { ProductListOptions } from 'Query/ProductList.type';
-import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import {
@@ -77,7 +77,7 @@ export class ProductListDispatcher extends SimpleDispatcher {
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {
                 this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching Product List!'), err));
-                this.dispatch(updateNoMatch(true));
+                this.dispatch(updateNoMatchStore({ noMatch: true }));
             }
         }
     }

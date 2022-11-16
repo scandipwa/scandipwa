@@ -9,17 +9,36 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { updateMeta } from 'Store/Meta/Meta.action';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 import { appendWithStoreCode } from 'Util/Url';
 
+import { updateMetaStore } from './Meta.action';
 import { Category, PageMeta, ProductMeta } from './Meta.type';
+
+export const updateEveryTime: Array<keyof PageMeta> = [
+    'title',
+    'description',
+    'keywords',
+    'canonical_url',
+    'robots',
+    'status_code',
+];
 
 /**
  * Meta Dispatcher
  * @class MetaDispatcher
  * @namespace Store/Meta/Dispatcher */
 export class MetaDispatcher extends SimpleDispatcher {
+    filterData(data: Partial<PageMeta>): Partial<PageMeta> {
+        const updated = updateEveryTime.reduce((acc: Partial<PageMeta>, key) => {
+            acc[key] = data[key];
+
+            return acc;
+        }, {});
+
+        return { ...data, ...updated };
+    }
+
     /**
      * Set meta for category
      * @param {Object} category
@@ -29,7 +48,7 @@ export class MetaDispatcher extends SimpleDispatcher {
     updateWithCategory(category: Category): void {
         const meta = this._getCategoryMeta(category);
 
-        this.dispatch(updateMeta(meta));
+        this.dispatch(updateMetaStore(this.filterData(meta)));
     }
 
     /**
@@ -41,7 +60,7 @@ export class MetaDispatcher extends SimpleDispatcher {
     updateWithProduct(product: ProductMeta): void {
         const meta = this._getProductMeta(product);
 
-        this.dispatch(updateMeta(meta));
+        this.dispatch(updateMetaStore(this.filterData(meta)));
     }
 
     /**

@@ -11,7 +11,7 @@
 
 import jwtDecode from 'jwt-decode';
 
-import { updateCustomerSignInStatus } from 'Store/MyAccount/MyAccount.action';
+import { updateMyAccountStore } from 'Store/MyAccount/MyAccount.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteCartId } from 'Util/Cart';
 import { removeUid } from 'Util/Compare';
@@ -106,7 +106,7 @@ export const isSignedIn = (): boolean => {
         // since logout is async and slow, remove cart id / compare uid
         // and set customer sign in status here on auth token expiration
         deleteCartId();
-        dispatch(updateCustomerSignInStatus(false));
+        dispatch(updateMyAccountStore({ isSignedIn: false }));
         removeUid();
 
         const MyAccountDispatcher = import('../../store/MyAccount/MyAccount.dispatcher');

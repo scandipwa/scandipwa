@@ -11,7 +11,9 @@
 
 import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
+import { updateSearchBarStore } from 'Store/SearchBar/SearchBar.action';
 import SearchBarReducer from 'Store/SearchBar/SearchBar.reducer';
 import { ReactElement } from 'Type/Common.type';
 import { withReducers } from 'Util/DynamicReducer';
@@ -41,13 +43,11 @@ export const mapStateToProps = (state: RootState): SearchOverlayContainerMapStat
 });
 
 /** @namespace Component/SearchOverlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = (): SearchOverlayContainerMapDispatchProps => ({
+export const mapDispatchToProps = (dispatch: Dispatch): SearchOverlayContainerMapDispatchProps => ({
     makeSearchRequest: (options) => SearchBarDispatcher.then(
         ({ default: dispatcher }) => dispatcher.getSearchProductList(options),
     ),
-    clearSearchResults: () => SearchBarDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.clearSearchResults(),
-    ),
+    updateSearchBarStore: (state) => dispatch(updateSearchBarStore(state)),
 });
 
 /** @namespace Component/SearchOverlay/Container */
@@ -58,7 +58,7 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
 
     containerProps(): Pick<SearchOverlayComponentProps, SearchOverlayComponentContainerPropKeys> {
         const {
-            clearSearchResults,
+            updateSearchBarStore,
             isMobile,
             isLoading,
             searchCriteria,
@@ -66,7 +66,7 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
         } = this.props;
 
         return {
-            clearSearchResults,
+            updateSearchBarStore,
             isMobile,
             isLoading,
             searchCriteria,
@@ -77,12 +77,12 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
     makeSearchRequest(): void {
         const {
             makeSearchRequest,
-            clearSearchResults,
+            updateSearchBarStore,
             searchCriteria,
         } = this.props;
 
         if (searchCriteria) {
-            clearSearchResults();
+            updateSearchBarStore({ productsInSearch: [] });
             const search = encodeURIComponent(searchCriteria.trim().replace(/%/g, '%25'));
 
             makeSearchRequest({

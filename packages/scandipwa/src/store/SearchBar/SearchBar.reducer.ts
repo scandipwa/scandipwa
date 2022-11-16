@@ -11,9 +11,7 @@
 
 import { Reducer } from 'redux';
 
-import { getIndexedProducts } from 'Util/Product';
-
-import { SearchBarAction, SearchBarActionType, SearchBarStore } from './SearchBar.type';
+import { SearchBarStore } from './SearchBar.type';
 
 /** @namespace Store/SearchBar/Reducer/getInitialState */
 export const getInitialState = (): SearchBarStore => ({
@@ -23,38 +21,17 @@ export const getInitialState = (): SearchBarStore => ({
 
 /** @namespace Store/SearchBar/Reducer/SearchBarReducer */
 export const SearchBarReducer: Reducer<
-SearchBarStore,
-SearchBarAction
+SearchBarStore
 > = (
     state = getInitialState(),
     action,
 ) => {
-    switch (action.type) {
-    case SearchBarActionType.UPDATE_SEARCH_BAR:
-        const { result: { products: { items: initialItems } } } = action;
+    const { state: newState } = action;
 
-        return {
-            ...state,
-            productsInSearch: getIndexedProducts(initialItems),
-        };
-
-    case SearchBarActionType.UPDATE_SEARCH_LOAD_STATUS:
-        const { isLoading } = action;
-
-        return {
-            ...state,
-            isLoading,
-        };
-
-    case SearchBarActionType.CLEAR_SEARCH_RESULTS:
-        return {
-            ...state,
-            productsInSearch: getInitialState().productsInSearch,
-        };
-
-    default:
-        return state;
-    }
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default SearchBarReducer;

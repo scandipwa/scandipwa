@@ -23,7 +23,7 @@ import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
+import { updateStoreInPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { ReactElement } from 'Type/Common.type';
 import { GQLCountryCodeEnum } from 'Type/Graphql.type';
 import { checkIfStoreIncluded, transformCountriesToOptions } from 'Util/Address';
@@ -48,7 +48,7 @@ import {
 export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpPopupContainerDispatchProps => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    clearPickUpStore: () => dispatch(clearPickUpStore()),
+    updateStoreInPickUpStore: (state) => dispatch(updateStoreInPickUpStore(state)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(
         NavigationType.TOP_NAVIGATION_TYPE,
     )),
@@ -207,7 +207,7 @@ StoreInPickUpPopupContainerState
         const {
             showNotification,
             selectedStore,
-            clearPickUpStore,
+            updateStoreInPickUpStore,
             totals: { items },
         } = this.props;
         const { storeSearchCriteria, selectedCountryId } = this.state;
@@ -223,7 +223,7 @@ StoreInPickUpPopupContainerState
                 this.setState({ stores });
 
                 if (selectedStore && !checkIfStoreIncluded(stores, selectedStore)) {
-                    clearPickUpStore();
+                    updateStoreInPickUpStore({ store: null });
                 }
             }
 

@@ -11,8 +11,8 @@
 
 import CategoryQuery from 'Query/Category.query';
 import { CategoryQueryOptions } from 'Query/Category.type';
-import { updateCurrentCategory } from 'Store/Category/Category.action';
-import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { updateCategoryStore } from 'Store/Category/Category.action';
+import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
@@ -42,18 +42,20 @@ export class CategoryDispatcher extends SimpleDispatcher {
             } = await fetchCancelableQuery<CategoryDispatcherData>(CategoryQuery.getQuery(options), 'Category');
 
             if (!id && !isSearchPage) {
-                this.dispatch(updateNoMatch(true));
+                this.dispatch(updateNoMatchStore({ noMatch: true }));
             }
 
-            this.dispatch(updateCurrentCategory(category));
+            this.dispatch(updateCategoryStore({ category }));
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {
                 if (!isSearchPage) {
-                    this.dispatch(updateNoMatch(true));
+                    this.dispatch(updateNoMatchStore({ noMatch: true }));
                     this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching Category!'), err));
                 } else {
-                    this.dispatch(updateCurrentCategory({
-                        id: 'all-products',
+                    this.dispatch(updateCategoryStore({
+                        category: {
+                            id: 'all-products',
+                        },
                     }));
                 }
             }

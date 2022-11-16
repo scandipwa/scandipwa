@@ -10,6 +10,7 @@
  */
 
 import { ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
+import { NoMatchStore } from 'Store/NoMatch/NoMatch.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { Mix } from 'Type/Common.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
@@ -18,7 +19,7 @@ import { IndexedProduct } from 'Util/Product/Product.type';
 export interface ProductListWidgetContainerMapStateProps {}
 
 export interface ProductListWidgetContainerMapDispatchProps {
-    updateNoMatch: (noMatch: boolean) => void;
+    updateNoMatchStore: (state: Partial<NoMatchStore>) => void;
     showNotification: (type: NotificationType, text: string, debug?: unknown) => void;
 }
 

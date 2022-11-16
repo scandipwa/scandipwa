@@ -22,8 +22,9 @@ import { Store } from 'Query/StoreInPickUp.type';
 import { BreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { CheckoutAddress, CheckoutStore } from 'Store/Checkout/Checkout.type';
-import { PageMeta } from 'Store/Meta/Meta.type';
+import { MetaStore } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
+import { StoreInPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 
 import { CheckoutSteps } from './Checkout.config';
@@ -64,9 +65,9 @@ export interface CheckoutContainerDispatchProps {
     showInfoNotification: (message: string) => void;
     showSuccessNotification: (message: string) => void;
     updateBreadcrumbsStore: (state: Partial<BreadcrumbsStore>) => void;
-    updateMeta: (meta: Partial<PageMeta>) => void;
+    updateMetaStore: (meta: Partial<MetaStore>) => void;
     updateShippingPrice: (data: TotalsObject) => void;
-    setPickUpStore: (store: Store | null) => void;
+    updateStoreInPickUpStore: (state: Partial<StoreInPickUpStore>) => void;
     updateCheckoutStore: (state: Partial<CheckoutStore>) => void;
     setShippingAddress: (isDefaultShipping: boolean) => Promise<void>;
     saveBillingAddress: (paymentInformation: PaymentInformation) => Promise<void>;

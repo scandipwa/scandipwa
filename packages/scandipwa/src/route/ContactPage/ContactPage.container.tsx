@@ -14,7 +14,7 @@ import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import ContactFormQuery from 'Query/ContactForm.query';
-import { updateMeta } from 'Store/Meta/Meta.action';
+import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -46,7 +46,7 @@ export const mapStateToProps = (state: RootState): ContactPageMapStateProps => (
 /** @namespace Route/ContactPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ContactPageMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateMetaStore: (meta) => dispatch(updateMetaStore(meta)),
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
@@ -87,9 +87,9 @@ export class ContactPageContainer extends DataContainer<ContactPageContainerProp
     }
 
     updateMeta(): void {
-        const { updateMeta } = this.props;
+        const { updateMetaStore } = this.props;
 
-        updateMeta({ title: __('Contact Us') });
+        updateMetaStore({ title: __('Contact Us') });
     }
 
     updateBreadcrumbs(): void {

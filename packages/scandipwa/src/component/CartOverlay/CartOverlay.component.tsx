@@ -31,7 +31,6 @@ import './CartOverlay.style';
 export class CartOverlayComponent extends PureComponent<CartOverlayComponentProps> {
     static defaultProps: Partial<CartOverlayComponentProps> = {
         hasOutOfStockProductsInCart: false,
-        onCartItemLoading: undefined,
         currencyCode: undefined,
         cartTotalSubPrice: null,
         minimumOrderAmountReached: true,
@@ -56,7 +55,6 @@ export class CartOverlayComponent extends PureComponent<CartOverlayComponentProp
             totals: {
                 items = [],
             },
-            onCartItemLoading,
         } = this.props;
 
         if (items.length < 1) {
@@ -69,7 +67,6 @@ export class CartOverlayComponent extends PureComponent<CartOverlayComponentProp
                     <CartItem
                       key={ item.id }
                       item={ item }
-                      onCartItemLoading={ onCartItemLoading }
                       showLoader
                       isCartOverlay
                     />

@@ -15,7 +15,7 @@ import { CategoryTree } from 'Query/Category.type';
 import { Merge } from 'Type/Common.type';
 
 export enum MetaActionType {
-    UPDATE_META = 'UPDATE_META',
+    UPDATE_META_STORE = 'UPDATE_META_STORE',
 }
 
 export interface PageMeta {
@@ -32,9 +32,9 @@ export interface PageMeta {
     robots: string;
 }
 
-export interface UpdateMetaAction extends AnyAction {
-    type: MetaActionType.UPDATE_META;
-    payload: Partial<PageMeta>;
+export interface UpdateMetaStoreAction extends AnyAction {
+    type: MetaActionType.UPDATE_META_STORE;
+    state: Partial<MetaStore>;
 }
 
 export type MetaStore = Partial<PageMeta>;

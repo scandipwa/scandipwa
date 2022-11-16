@@ -13,12 +13,12 @@ import { AnyAction } from 'redux';
 import { Category } from 'Query/Category.type';
 
 export enum CategoryActionType {
-    UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY',
+    UPDATE_CATEGORY_STORE = 'UPDATE_CATEGORY_STORE',
 }
 
-export interface UpdateCurrentCategoryAction extends AnyAction {
-    type: CategoryActionType.UPDATE_CURRENT_CATEGORY;
-    category?: Partial<Category>;
+export interface UpdateCategoryStore extends AnyAction {
+    type: CategoryActionType.UPDATE_CATEGORY_STORE;
+    state: Partial<CategoryStore>;
 }
 
 export interface CategoryStore {

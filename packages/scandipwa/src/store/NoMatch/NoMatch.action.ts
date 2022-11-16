@@ -10,15 +10,14 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { NoMatchActionType, UpdateNoMatchAction } from './NoMatch.type';
+import { NoMatchActionType, NoMatchStore, UpdateNoMatchStoreAction } from './NoMatch.type';
 
 /**
  * Update router to show NoMatch page
  * @param  {Boolean} noMatch New noMatch value
  * @return {void}
- * @namespace Store/NoMatch/Action/updateNoMatch
- */
-export const updateNoMatch = (noMatch: boolean): UpdateNoMatchAction => ({
-    type: NoMatchActionType.UPDATE_NOMATCH,
-    noMatch,
+ * @namespace Store/NoMatch/Action/updateNoMatchStore */
+export const updateNoMatchStore = (state: Partial<NoMatchStore>): UpdateNoMatchStoreAction => ({
+    type: NoMatchActionType.UPDATE_NOMATCH_STORE,
+    state,
 });
