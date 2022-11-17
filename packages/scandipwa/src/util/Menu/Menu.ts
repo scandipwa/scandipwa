@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Menu as MenuData, MenuItem } from 'Query/Menu.type';
+import { MenuItem } from 'Query/Menu.type';
 
-import { FormattedMenuItem, MenuItemType, MenuLocation } from './Menu.type';
+import { FormattedMenuItem, MenuLocation } from './Menu.type';
 
 /**
  * Given an array of menu items, returns a copy of the array, sorted by their parent ID, then by their sort order (position)
@@ -34,36 +34,23 @@ export class Menu {
     menuPositionReference: Record<string, number[]> = {};
 
     getMenuUrl(
-        { url, url_type, category_id }: Pick<MenuItem, 'url' | 'url_type' | 'category_id'>,
+        { url, category_id }: Pick<MenuItem, 'url' | 'category_id'>,
     ): MenuLocation | string {
-        switch (url_type) {
-        case MenuItemType.TYPE_CATEGORY:
-            return {
-                pathname: url,
-                search: '',
-                state: { category: category_id },
-            };
-        case MenuItemType.TYPE_CMS_PAGE:
-            return {
-                pathname: url,
-                search: '',
-                state: { page: true },
-            };
-        default:
-            return url;
-        }
+        return {
+            pathname: url,
+            search: '',
+            state: { category: category_id },
+        };
     }
 
     getMenuData({
-        cms_page_identifier,
         url,
-        url_type,
         category_id,
         ...item
     }: MenuItem): FormattedMenuItem {
         return {
             ...item,
-            url: this.getMenuUrl({ url, url_type, category_id }),
+            url: this.getMenuUrl({ url, category_id }),
             children: {},
         };
     }
@@ -86,26 +73,26 @@ export class Menu {
     }
 
     createItem(data: MenuItem): void {
-        const { parent_id, item_id } = data;
+        const { parent_id, category_id } = data;
 
         if (parent_id === 0) {
-            this.menuPositionReference[item_id] = [];
-            this.menu[item_id] = this.getMenuData(data);
+            this.menuPositionReference[category_id] = [];
+            this.menu[category_id] = this.getMenuData(data);
         } else if (this.menuPositionReference[parent_id] !== undefined) {
-            this.menuPositionReference[item_id] = [
+            this.menuPositionReference[category_id] = [
                 ...this.menuPositionReference[parent_id],
                 parent_id,
             ];
 
             this.setToValue(
                 this.menu,
-                `${this.menuPositionReference[item_id].join('.children.')}.children.${item_id}`,
+                `${this.menuPositionReference[category_id].join('.children.')}.children.${category_id}`,
                 this.getMenuData(data),
             );
         }
     }
 
-    reduce({ items: unsortedItems }: MenuData): Record<string, FormattedMenuItem> {
+    reduce(unsortedItems: MenuItem[]): Record<string, FormattedMenuItem> {
         this.menu = {};
         this.menuPositionReference = {};
 

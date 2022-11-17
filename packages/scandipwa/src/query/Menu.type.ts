@@ -11,16 +11,12 @@
 
 export interface MenuItem {
     url: string;
-    icon: string;
     title: string;
     item_id: string;
     position: number;
-    url_type: number;
     parent_id: number;
     is_active: boolean;
-    item_class: string;
     category_id: number;
-    cms_page_identifier: string;
 }
 
 export interface Menu {

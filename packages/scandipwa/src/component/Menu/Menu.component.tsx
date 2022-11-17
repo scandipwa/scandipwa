@@ -17,7 +17,7 @@ import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
 import StoreSwitcher from 'Component/StoreSwitcher';
-import { Mods, ReactElement } from 'Type/Common.type';
+import { ReactElement } from 'Type/Common.type';
 import { getSortedItems } from 'Util/Menu';
 import { FormattedMenuItem } from 'Util/Menu/Menu.type';
 import { debounce } from 'Util/Request';
@@ -45,7 +45,7 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
         }
     }
 
-    renderDesktopSubLevelItems(item: FormattedMenuItem, mods: Mods): ReactElement {
+    renderDesktopSubLevelItems(item: FormattedMenuItem): ReactElement {
         const { item_id } = item;
         const { closeMenu, activeMenuItemsStack } = this.props;
 
@@ -53,7 +53,6 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
             <MenuItem
               activeMenuItemsStack={ activeMenuItemsStack }
               item={ item }
-              itemMods={ mods }
               closeMenu={ closeMenu }
               isLink
               key={ item_id }
@@ -63,17 +62,12 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
 
     renderDesktopSubLevel(category: FormattedMenuItem): ReactElement {
         const { device } = this.props;
-        const { children, item_class, item_id } = category;
+        const { children, item_id } = category;
         const childrenArray = getSortedItems(Object.values(children));
 
         if (device.isMobile || !childrenArray.length) {
             return null;
         }
-
-        const isLogo = item_class === 'Menu-ItemFigure_type_logo';
-        const mods = {
-            isLogo: !!isLogo,
-        };
 
         return (
             <div
@@ -84,9 +78,8 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
                 <div
                   block="Menu"
                   elem="ItemList"
-                  mods={ mods }
                 >
-                    { childrenArray.map((item) => this.renderDesktopSubLevelItems(item, mods)) }
+                    { childrenArray.map((item) => this.renderDesktopSubLevelItems(item)) }
                 </div>
             </div>
         );
