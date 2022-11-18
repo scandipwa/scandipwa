@@ -15,13 +15,5 @@ export interface MenuItem {
     item_id: string;
     position: number;
     parent_id: number;
-    is_active: boolean;
     category_id: number;
-}
-
-export interface Menu {
-    menu_id: string;
-    is_active: boolean;
-    css_class: string;
-    items: MenuItem[];
 }

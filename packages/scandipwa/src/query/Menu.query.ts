@@ -34,7 +34,6 @@ export class MenuQuery {
     | Field<'item_id', string>
     | Field<'position', number>
     | Field<'parent_id', number>
-    | Field<'is_active', boolean>
     | Field<'category_id', number>
     > {
         return [
@@ -43,7 +42,6 @@ export class MenuQuery {
             new Field<'item_id', string>('item_id'),
             new Field<'position', number>('position'),
             new Field<'parent_id', number>('parent_id'),
-            new Field<'is_active', boolean>('is_active'),
             new Field<'category_id', number>('category_id'),
         ];
     }
