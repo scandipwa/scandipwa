@@ -137,7 +137,6 @@
     "Play video": null,
     "Play video %s": null,
     "Please, select product options!": null,
-    "Please, select required options!": null,
     "Please sign in first!": null,
     "Please sign-in to complete checkout!": null,
     "Please, try removing selected filters and try again!": null,
@@ -609,5 +608,6 @@
     "County": null,
     "State/Province": null,
     "Region": null,
-    "You %s the address": null
+    "You %s the address": null,
+    "You need to choose options for your item.": null
 }

@@ -46,7 +46,7 @@ export type ProductCompareItemContainerProps = ProductCompareItemContainerMapSta
 
 export interface ProductCompareItemContainerState {
     isLoading: boolean;
-    currentQty: number | Record<number, number>;
+    overrideAddToCartBtnBehavior: boolean;
 }
 
 export interface ProductCompareItemComponentProps extends ProductCompareItemContainerFunctions {

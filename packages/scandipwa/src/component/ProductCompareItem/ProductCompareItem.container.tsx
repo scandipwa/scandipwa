@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { ProductType } from 'Component/Product/Product.config';
+import ProductListQuery from 'Query/ProductList.query';
 import { GroupedProductItem } from 'Query/ProductList.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -22,6 +23,7 @@ import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
 import { IndexedProduct, ProductTransformData } from 'Util/Product/Product.type';
 import { magentoProductTransform } from 'Util/Product/Transform';
+import { fetchQuery } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -43,6 +45,10 @@ export const ProductCompareDispatcher = import(
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
+);
+export const ProductDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Product/Product.dispatcher'
 );
 
 /** @namespace Component/ProductCompareItem/Container/mapStateToProps */
@@ -69,7 +75,7 @@ ProductCompareItemContainerState
 > {
     state: ProductCompareItemContainerState = {
         isLoading: false,
-        currentQty: 0,
+        overrideAddToCartBtnBehavior: false,
     };
 
     containerFunctions: ProductCompareItemContainerFunctions = {
@@ -80,15 +86,19 @@ ProductCompareItemContainerState
         addItemToCart: this.addItemToCart.bind(this),
     };
 
+    componentDidMount(): void {
+        this.getOverrideAddToCartBtnBehavior();
+    }
+
     containerProps(): Pick<ProductCompareItemComponentProps, ProductCompareItemComponentContainerPropKeys> {
         const { product, isInStock, isWishlistEnabled } = this.props;
-        const { isLoading } = this.state;
+        const { isLoading, overrideAddToCartBtnBehavior } = this.state;
 
         return {
             product,
             isLoading,
             imgUrl: this.getProductImage(),
-            overrideAddToCartBtnBehavior: this.getOverrideAddToCartBtnBehavior(),
+            overrideAddToCartBtnBehavior,
             linkTo: this.getLinkTo(),
             isInStock,
             isWishlistEnabled,
@@ -165,17 +175,41 @@ ProductCompareItemContainerState
         };
     }
 
-    getOverrideAddToCartBtnBehavior(): boolean {
-        const { product: { type_id, options } } = this.props;
+    getOverrideAddToCartBtnBehavior(): void {
+        const { product: { type_id, id: productID } } = this.props;
         const types: string[] = [ProductType.BUNDLE, ProductType.CONFIGURABLE, ProductType.GROUPED];
 
-        return !!(types.indexOf(type_id) !== -1 || options?.length);
+        const options = {
+            isSingleProduct: true,
+            args: {
+                filter: { productID },
+            },
+        };
+
+        fetchQuery(ProductListQuery.getQuery(options)).then(
+            /** @namespace Component/ProductCompareItem/Container/ProductCompareItemContainer/getOverrideAddToCartBtnBehavior/fetchQuery/then */
+            ({ products: { items = [] } }) => {
+                const hasRequiredOptions = items.some(({ options = [] }) => options?.some(({
+                    required = false,
+                }) => required));
+
+                const isLinksRequired = items.some(({
+                    links_purchased_separately = 0,
+                }) => links_purchased_separately === 1);
+
+                this.setState({
+                    overrideAddToCartBtnBehavior: !!(types.indexOf(type_id) !== -1)
+                        || hasRequiredOptions
+                        || isLinksRequired,
+                });
+            },
+        );
     }
 
     overriddenAddToCartBtnHandler(): void {
         const { showNotification } = this.props;
 
-        showNotification(NotificationType.INFO, __('Please, select required options!'));
+        showNotification(NotificationType.INFO, __('You need to choose options for your item.'));
     }
 
     redirectToProductPage(): void {
@@ -186,11 +220,15 @@ ProductCompareItemContainerState
 
     getProducts(): ProductTransformData[] {
         const {
+            product: {
+                stock_item: {
+                    min_sale_qty: quantity = 1,
+                } = {},
+            },
             product: item,
         } = this.props;
-        const { currentQty } = this.state;
 
-        return magentoProductTransform(ADD_TO_CART, item as unknown as IndexedProduct, currentQty);
+        return magentoProductTransform(ADD_TO_CART, item as unknown as IndexedProduct, quantity);
     }
 
     async addItemToCart(): Promise<void> {
