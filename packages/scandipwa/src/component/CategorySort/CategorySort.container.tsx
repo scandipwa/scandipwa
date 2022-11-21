@@ -10,51 +10,83 @@
  */
 
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
 import { ReactElement } from 'Type/Common.type';
+import { getIsMatchingInfoFilter } from 'Util/Category/Category';
+import { getSelectedSortFromUrl } from 'Util/Category/Sort';
+import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
+import { setQueryParams } from 'Util/Url';
 
 import CategorySort from './CategorySort.component';
 import {
     CategorySortComponentProps,
+    CategorySortComponentPropsKey,
     CategorySortContainerMapDispatchProps,
     CategorySortContainerMapStateProps,
     CategorySortContainerProps, CategorySortField, CategorySortOption, CategorySortOptionLabelMap,
 } from './CategorySort.type';
 
+export const MetaDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Meta/Meta.dispatcher'
+);
+
 /** @namespace Component/CategorySort/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CategorySortContainerMapStateProps => ({
     sortFields: state.ProductListInfoReducer.sortFields,
+    category: state.CategoryReducer.category,
 });
 
 /** @namespace Component/CategorySort/Container/mapDispatchToProps */
 export const mapDispatchToProps = (): CategorySortContainerMapDispatchProps => ({
+    updateMetaFromCategory: (category) => MetaDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithCategory(category),
+    ),
 });
 
 /** @namespace Component/CategorySort/Container */
 export class CategorySortContainer extends PureComponent<CategorySortContainerProps> {
     static defaultProps: Partial<CategorySortContainerProps> = {
-        isMatchingInfoFilter: false,
         isCurrentCategoryLoaded: false,
     };
 
-    containerProps(): CategorySortComponentProps {
+    containerFunctions = {
+        onSortChange: this.onSortChange.bind(this),
+    };
+
+    containerProps(): Pick<CategorySortComponentProps, CategorySortComponentPropsKey> {
         const {
             isCurrentCategoryLoaded,
-            isMatchingInfoFilter,
-            onSortChange,
-            sortDirection,
-            sortKey,
         } = this.props;
+
+        const { sortDirection, sortKey } = getSelectedSortFromUrl();
 
         return {
             isCurrentCategoryLoaded,
-            isMatchingInfoFilter,
-            onSortChange,
+            isMatchingInfoFilter: getIsMatchingInfoFilter(),
             sortDirection,
             sortKey,
             selectOptions: this._prepareOptions(),
         };
+    }
+
+    onSortChange(value: string): void {
+        const { updateMetaFromCategory, category } = this.props;
+
+        const [direction, ...sortKey] = value.split(' ');
+        const { location: { search }, location } = history;
+        const meta_robots = search
+            ? ''
+            : 'follow, index';
+
+        setQueryParams({ sortKey: sortKey.join(','), sortDirection: direction, page: '' }, location, history);
+
+        updateMetaFromCategory({
+            ...category,
+            meta_robots,
+        });
     }
 
     _getLabel(option: CategorySortField): Partial<CategorySortOptionLabelMap> {
@@ -134,10 +166,11 @@ export class CategorySortContainer extends PureComponent<CategorySortContainerPr
     render(): ReactElement {
         return (
             <CategorySort
+              { ...this.containerFunctions }
               { ...this.containerProps() }
             />
         );
     }
 }
 
-export default CategorySortContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(CategorySortContainer);

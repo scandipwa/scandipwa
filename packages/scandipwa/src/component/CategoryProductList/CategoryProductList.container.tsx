@@ -19,6 +19,7 @@ import { ProductListOptions } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
 import { ReactElement } from 'Type/Common.type';
+import { getIsMatchingInfoFilter, getIsMatchingListFilter } from 'Util/Category/Category';
 import { RootState } from 'Util/Store/Store.type';
 
 import {
@@ -56,8 +57,6 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryProductListConta
 /** @namespace Component/CategoryProductList/Container */
 export class CategoryProductListContainer extends PureComponent<CategoryProductListContainerProps> {
     static defaultProps: Partial<CategoryProductListContainerProps> = {
-        isMatchingListFilter: false,
-        isMatchingInfoFilter: false,
         isCurrentCategoryLoaded: false,
         filter: {},
         layout: CategoryPageLayout.GRID,
@@ -76,7 +75,6 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
         const {
             filter,
             isLoading,
-            isMatchingListFilter,
             isCurrentCategoryLoaded,
         } = this.props;
 
@@ -103,7 +101,7 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
         }
 
         // if the filter expected matches the last requested filter
-        if (isMatchingListFilter) {
+        if (getIsMatchingListFilter()) {
             return false;
         }
 
@@ -111,9 +109,7 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
     }
 
     getIsPreventRequest(): boolean {
-        const { isMatchingListFilter, isMatchingInfoFilter } = this.props;
-
-        return isMatchingListFilter && isMatchingInfoFilter; // if filter match - prevent request
+        return getIsMatchingListFilter() && getIsMatchingInfoFilter(); // if filter match - prevent request
     }
 
     getLayout(): CategoryPageLayout {
@@ -130,11 +126,11 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
 
     containerProps(): Pick<ProductListContainerProps, CategoryProductListContainerPropKeys> {
         const {
-            filter,
+            sort,
             isPageLoading,
             pages,
             search,
-            sort,
+            filter,
             totalItems,
             totalPages,
             isPlp,

@@ -15,7 +15,6 @@ import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
-import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
 
 import { CategorySortComponentProps } from './CategorySort.type';
@@ -28,19 +27,6 @@ import './CategorySort.style';
  * @namespace Component/CategorySort/Component
  */
 export class CategorySortComponent extends PureComponent<CategorySortComponentProps> {
-    __construct(props: CategorySortComponentProps): void {
-        super.__construct?.(props);
-
-        this.onChange = this.onChange.bind(this);
-    }
-
-    onChange(value: string): void {
-        const { onSortChange } = this.props;
-        const [direction, ...key] = value.split(' ');
-
-        onSortChange(direction as SortDirections, key);
-    }
-
     renderPlaceholder(): ReactElement {
         return (
             <p block="CategorySort" elem="Placeholder">
@@ -56,6 +42,7 @@ export class CategorySortComponent extends PureComponent<CategorySortComponentPr
             selectOptions,
             isMatchingInfoFilter,
             isCurrentCategoryLoaded,
+            onSortChange,
         } = this.props;
 
         if (!isMatchingInfoFilter || !isCurrentCategoryLoaded) {
@@ -72,7 +59,7 @@ export class CategorySortComponent extends PureComponent<CategorySortComponentPr
                   noPlaceholder: true,
               } }
               events={ {
-                  onChange: this.onChange,
+                  onChange: onSortChange,
               } }
               isSortSelect
               options={ selectOptions }

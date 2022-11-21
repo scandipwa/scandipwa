@@ -22,6 +22,8 @@ import {
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { ReactElement } from 'Type/Common.type';
+import { getSelectedFiltersFromUrl } from 'Util/Category';
+import { isSearchPage } from 'Util/Category/Category';
 import { decodeString, noopFn } from 'Util/Common';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
@@ -79,7 +81,7 @@ SearchPageContainerState
 > {
     static defaultProps: Partial<SearchPageContainerProps> = {
         ...CategoryPageContainer.defaultProps,
-        isSearchPage: true,
+        isSearchPage: isSearchPage(),
         updateMetaFromCategory: noopFn,
     };
 
@@ -125,22 +127,6 @@ SearchPageContainerState
         });
     }
 
-    getIsMatchingListFilter(): boolean {
-        const { currentArgs: { search: currentSearch } } = this.props;
-        const search = this.getSearchParam();
-
-        // if the search requested is equal to search from URL
-        return super.getIsMatchingListFilter() && search === currentSearch;
-    }
-
-    getIsMatchingInfoFilter(): boolean {
-        const { currentArgs: { search: currentSearch } } = this.props;
-        const search = this.getSearchParam();
-
-        // if the search requested is equal to search from URL
-        return search === currentSearch;
-    }
-
     componentDidMount(): void {
         this.updateMeta();
         this.updateBreadcrumbs();
@@ -175,8 +161,8 @@ SearchPageContainerState
             this.updateHeaderState();
         }
 
-        if (JSON.stringify(selectedFilters) !== JSON.stringify(this.getSelectedFiltersFromUrl())) {
-            updateCategoryStore({ selectedFilters: this.getSelectedFiltersFromUrl() });
+        if (JSON.stringify(selectedFilters) !== JSON.stringify(getSelectedFiltersFromUrl())) {
+            updateCategoryStore({ selectedFilters: getSelectedFiltersFromUrl() });
         }
     }
 

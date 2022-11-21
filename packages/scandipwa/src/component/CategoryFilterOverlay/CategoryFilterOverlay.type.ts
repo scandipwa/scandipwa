@@ -44,8 +44,6 @@ export interface CategoryFilterOverlayContainerBaseProps {
     history: History;
     renderPlaceholder: (block: string) => ReactElement;
     location: Location;
-    isMatchingInfoFilter: boolean;
-    isSearchPage: boolean;
 }
 
 export type CategoryFilterOverlayContainerProps = CategoryFilterOverlayContainerMapStateProps
@@ -57,8 +55,6 @@ export interface CategoryFilterOverlayComponentProps {
     isCategoryAnchor: boolean;
     isInfoLoading: boolean;
     isProductsLoading: boolean;
-    isMatchingInfoFilter: boolean;
-    isSearchPage: boolean;
     totalPages: number;
     customFiltersValues: Record<string, string[]>;
     areFiltersEmpty: boolean;
@@ -75,8 +71,6 @@ export type CategoryFilterComponentContainerPropsKey =
     | 'isCategoryAnchor'
     | 'isInfoLoading'
     | 'isProductsLoading'
-    | 'isMatchingInfoFilter'
-    | 'isSearchPage'
     | 'totalPages'
     | 'customFiltersValues'
     | 'areFiltersEmpty'

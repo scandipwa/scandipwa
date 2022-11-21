@@ -13,25 +13,21 @@ import { PureComponent } from 'react';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ReactElement } from 'Type/Common.type';
+import { getIsMatchingListFilter } from 'Util/Category/Category';
 
 import { CategoryItemsCountComponentProps } from './CategoryItemsCount.type';
 
 /** @namespace Component/CategoryItemsCount/Component */
 export class CategoryItemsCountComponent extends PureComponent<CategoryItemsCountComponentProps> {
-    static defaultProps: Partial<CategoryItemsCountComponentProps> = {
-        isMatchingListFilter: false,
-    };
-
     render(): ReactElement {
         const {
             totalItems,
-            isMatchingListFilter,
         } = this.props;
 
         return (
             <p block="CategoryPage" elem="ItemsCount">
                 <TextPlaceholder
-                  content={ (!isMatchingListFilter
+                  content={ (!getIsMatchingListFilter()
                       ? __('Products are loading...')
                       : __('%s items found', totalItems)
                   ) }

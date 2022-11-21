@@ -17,6 +17,7 @@ import {
     ProductConfigurableAttribute,
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
 import { ReactElement } from 'Type/Common.type';
+import { isSearchPage } from 'Util/Category/Category';
 import { RootState } from 'Util/Store/Store.type';
 
 import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.component';
@@ -78,7 +79,6 @@ CategoryConfigurableAttributesContainerProps
     }
 
     getSubCategories(option: Partial<ProductConfigurableAttribute>): Partial<ProductConfigurableAttribute> {
-        const { isSearchPage } = this.props;
         const optionWithSubcategories = { ...option };
         const { attribute_values = [] } = option;
 

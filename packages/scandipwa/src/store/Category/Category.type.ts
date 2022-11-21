@@ -26,6 +26,7 @@ export interface CategoryStore {
     breadcrumbsWereUpdated: boolean;
     currentCategoryIds: number;
     selectedFilters: Record<string, string[]>;
+    categoryIds: number;
 }
 
 declare module 'Util/Store/Store.type' {

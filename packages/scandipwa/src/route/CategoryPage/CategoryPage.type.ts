@@ -39,6 +39,7 @@ export interface CategoryPageContainerMapStateProps {
     breadcrumbsWereUpdated: boolean;
     currentCategoryIds: number;
     selectedFilters: Record<string, string[]>;
+    categoryIds: number;
 }
 
 export interface CategoryPageContainerMapDispatchProps {
@@ -56,7 +57,6 @@ export interface CategoryPageContainerMapDispatchProps {
 }
 
 export interface CategoryPageContainerFunctions {
-    onSortChange: (sortDirection: SortDirections, sortKey: string[]) => void;
     onGridButtonClick: () => void;
     onListButtonClick: () => void;
     onFilterButtonClick: () => void;
@@ -66,7 +66,6 @@ export interface CategoryPageContainerBaseProps {
     history: History<HistoryState>;
     location: Location<HistoryState>;
     match: Match;
-    categoryIds: number;
     isSearchPage: boolean;
 }
 
@@ -92,9 +91,7 @@ export interface CategoryPageComponentProps extends CategoryPageContainerFunctio
     isContentFiltered: boolean;
     isCurrentCategoryLoaded: boolean;
     isMatchingInfoFilter: boolean;
-    isMatchingListFilter: boolean;
     isMobile: boolean;
-    isSearchPage: boolean;
     plpTypes: CategoryPageLayout[];
     selectedSort: CategorySortOptions;
     totalPages: number;
@@ -116,9 +113,7 @@ export type CategoryPageContainerPropsKeys =
     | 'isContentFiltered'
     | 'isCurrentCategoryLoaded'
     | 'isMatchingInfoFilter'
-    | 'isMatchingListFilter'
     | 'isMobile'
-    | 'isSearchPage'
     | 'plpTypes'
     | 'selectedSort'
     | 'totalPages'

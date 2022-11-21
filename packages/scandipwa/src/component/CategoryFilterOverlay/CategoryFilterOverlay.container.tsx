@@ -57,7 +57,6 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryFilterOverlayCon
 export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilterOverlayContainerProps> {
     static defaultProps: Partial<CategoryFilterOverlayContainerProps> = {
         isCategoryAnchor: true,
-        isMatchingInfoFilter: false,
     };
 
     containerFunctions: CategoryFilterOverlayContainerFunctions = {
@@ -223,9 +222,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
             customFiltersValues,
             isCategoryAnchor,
             isInfoLoading,
-            isMatchingInfoFilter,
             isProductsLoading,
-            isSearchPage,
             totalPages,
         } = this.props;
 
@@ -234,8 +231,6 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
             isCategoryAnchor,
             isInfoLoading,
             isProductsLoading,
-            isMatchingInfoFilter,
-            isSearchPage,
             totalPages,
             customFiltersValues,
             areFiltersEmpty: this.getAreFiltersEmpty(),

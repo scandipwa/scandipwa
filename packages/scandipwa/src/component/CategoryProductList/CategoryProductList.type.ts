@@ -33,8 +33,6 @@ export interface CategoryProductListContainerFunctions {
 }
 
 export interface CategoryProductListContainerBaseProps {
-    isMatchingListFilter: boolean;
-    isMatchingInfoFilter: boolean;
     layout: CategoryPageLayout;
     filter: ProductAttributeFilterOptions;
     isCurrentCategoryLoaded: boolean;

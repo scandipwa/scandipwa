@@ -27,6 +27,7 @@ import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder
 import { ReactElement } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { isSearchPage } from 'Util/Category/Category';
 
 import {
     CategoryDisplayMode,
@@ -48,9 +49,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
 > extends PureComponent<P, S> {
     static defaultProps: Partial<CategoryPageComponentProps> = {
         isContentFiltered: true,
-        isMatchingListFilter: false,
         isCurrentCategoryLoaded: false,
-        isMatchingInfoFilter: false,
         totalPages: 1,
         defaultPlpType: undefined,
         plpTypes: [],
@@ -131,7 +130,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
             isContentFiltered,
             totalPages,
             category: { is_anchor },
-            isSearchPage,
             isCurrentCategoryLoaded,
             isMatchingInfoFilter,
             onFilterButtonClick,
@@ -141,7 +139,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
             return this.renderFilterButtonPlaceholder();
         }
 
-        if ((!isContentFiltered && totalPages === 0) || (!is_anchor && !isSearchPage) || !isCurrentCategoryLoaded) {
+        if ((!isContentFiltered && totalPages === 0) || (!is_anchor && !isSearchPage()) || !isCurrentCategoryLoaded) {
             return null;
         }
 
@@ -198,11 +196,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
     }
 
     renderFilterOverlay(): ReactElement {
-        const {
-            isMatchingInfoFilter,
-            isSearchPage,
-        } = this.props;
-
         if (!this.displayProducts()) {
             return null;
         }
@@ -210,8 +203,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         return (
             <Suspense fallback={ this.renderFilterPlaceholder() || null }>
                 <CategoryFilterOverlay
-                  isMatchingInfoFilter={ isMatchingInfoFilter }
-                  isSearchPage={ isSearchPage }
                   renderPlaceholder={ this.renderPlaceholder }
                 />
             </Suspense>
@@ -220,14 +211,10 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
 
     renderCategorySort(): ReactElement {
         const {
-            selectedSort,
-            onSortChange,
             isMatchingInfoFilter,
             isCurrentCategoryLoaded,
             isMobile,
         } = this.props;
-
-        const { sortDirection, sortKey } = selectedSort;
 
         if (isMobile && !isMatchingInfoFilter) {
             return this.renderFilterButtonPlaceholder();
@@ -236,10 +223,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         return (
             <CategorySort
               isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
-              isMatchingInfoFilter={ isMatchingInfoFilter }
-              onSortChange={ onSortChange }
-              sortKey={ sortKey }
-              sortDirection={ sortDirection }
             />
         );
     }
@@ -305,27 +288,23 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
     }
 
     renderItemsCount(isVisibleOnMobile = false): ReactElement {
-        const { isMatchingListFilter, isMobile } = this.props;
+        const { isMobile } = this.props;
 
         if ((isVisibleOnMobile && !isMobile) || (!isVisibleOnMobile && isMobile)) {
             return null;
         }
 
         return (
-            <CategoryItemsCount
-              isMatchingListFilter={ isMatchingListFilter }
-            />
+            <CategoryItemsCount />
         );
     }
 
     renderCategoryProductList(): ReactElement {
         const {
-            filter,
             search,
+            filter,
             selectedSort,
-            isMatchingListFilter,
             isCurrentCategoryLoaded,
-            isMatchingInfoFilter,
         } = this.props;
 
         const { activeLayoutType } = this.state;
@@ -346,8 +325,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
                   search={ search }
                   sort={ selectedSort }
                   isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
-                  isMatchingListFilter={ isMatchingListFilter }
-                  isMatchingInfoFilter={ isMatchingInfoFilter }
                   layout={ activeLayoutType || CategoryPageLayout.GRID }
                 />
             </div>

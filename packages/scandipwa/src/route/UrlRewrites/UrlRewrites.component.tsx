@@ -86,13 +86,11 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
         const { props } = this.props;
         const {
             match,
-            categoryIds,
         } = props;
 
         return (
             <CategoryPage
               match={ match }
-              categoryIds={ categoryIds }
             />
         );
     }

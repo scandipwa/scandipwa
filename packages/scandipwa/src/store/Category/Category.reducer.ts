@@ -21,6 +21,7 @@ export const getInitialState = (): CategoryStore => ({
     category: {},
     breadcrumbsWereUpdated: false,
     currentCategoryIds: -1,
+    categoryIds: -1,
     selectedFilters: {},
 });
 

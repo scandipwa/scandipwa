@@ -13,12 +13,9 @@ export interface CategoryItemsCountContainerMapStateProps {
     totalItems: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CategoryItemsCountContainerMapDispatchProps {}
 
-export interface CategoryItemsCountComponentBaseProps {
-    isMatchingListFilter: boolean;
-}
+export interface CategoryItemsCountComponentBaseProps {}
 
 export type CategoryItemsCountComponentProps = CategoryItemsCountContainerMapStateProps
 & CategoryItemsCountComponentBaseProps;

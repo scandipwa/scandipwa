@@ -31,9 +31,7 @@ export interface CategoryConfigurableAttributesContainerMapStateProps {
 export interface CategoryConfigurableAttributesContainerMapDispatchProps {}
 
 export interface CategoryConfigurableAttributesContainerBaseProps
-    extends ProductConfigurableAttributesContainerProps {
-    isSearchPage: boolean;
-}
+    extends ProductConfigurableAttributesContainerProps {}
 
 export type CategoryConfigurableAttributesContainerProps =
 CategoryConfigurableAttributesContainerMapStateProps

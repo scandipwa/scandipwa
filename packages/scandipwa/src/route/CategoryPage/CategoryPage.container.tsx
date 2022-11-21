@@ -17,10 +17,6 @@ import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/Cate
 import { Page } from 'Component/Header/Header.config';
 import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
 import {
-    FilterPriceRange,
-    ProductAttributeFilterOptions,
-} from 'Query/ProductList.type';
-import {
     CategoryPageLayout,
     LAYOUT_KEY,
     SortDirections,
@@ -35,16 +31,14 @@ import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.acti
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { getFiltersCount } from 'Util/Category';
+import { getFilter, getFiltersCount, getSelectedFiltersFromUrl } from 'Util/Category';
+import { getIsMatchingInfoFilter, isSearchPage } from 'Util/Category/Category';
+import { getSelectedSortFromUrl } from 'Util/Category/Sort';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
-import {
-    appendWithStoreCode,
-    getQueryParam,
-    setQueryParams,
-} from 'Util/Url';
+import { appendWithStoreCode } from 'Util/Url';
 
 import CategoryPage from './CategoryPage.component';
 import { LOADING_TIME } from './CategoryPage.config';
@@ -56,7 +50,6 @@ import {
     CategoryPageContainerProps,
     CategoryPageContainerPropsKeys,
     CategoryPageContainerState,
-    CategorySortOptions,
     CategoryUrlParams,
 } from './CategoryPage.type';
 
@@ -100,6 +93,7 @@ export const mapStateToProps = (state: RootState): CategoryPageContainerMapState
     breadcrumbsWereUpdated: state.CategoryReducer.breadcrumbsWereUpdated,
     currentCategoryIds: state.CategoryReducer.currentCategoryIds,
     selectedFilters: state.CategoryReducer.selectedFilters,
+    categoryIds: state.CategoryReducer.categoryIds,
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -138,10 +132,9 @@ P extends CategoryPageContainerProps = CategoryPageContainerProps,
 S extends CategoryPageContainerState = CategoryPageContainerState,
 > extends PureComponent<P, S> {
     static defaultProps: Partial<CategoryPageContainerProps> = {
-        categoryIds: -1,
-        isSearchPage: false,
         currentArgs: {},
         selectedInfoFilter: {},
+        isSearchPage: isSearchPage(),
         plpType: '',
     };
 
@@ -151,7 +144,6 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     };
 
     containerFunctions: CategoryPageContainerFunctions = {
-        onSortChange: this.onSortChange.bind(this),
         onGridButtonClick: this.onGridButtonClick.bind(this),
         onListButtonClick: this.onListButtonClick.bind(this),
         onFilterButtonClick: this.onFilterButtonClick.bind(this),
@@ -236,7 +228,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          */
         this.updateHistory();
 
-        updateCategoryStore({ selectedFilters: this.getSelectedFiltersFromUrl() });
+        updateCategoryStore({ selectedFilters: getSelectedFiltersFromUrl() });
 
         /**
          * Make sure to update header state, if the category visited
@@ -303,8 +295,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             this.requestCategory();
         }
 
-        if (JSON.stringify(selectedFilters) !== JSON.stringify(this.getSelectedFiltersFromUrl())) {
-            updateCategoryStore({ selectedFilters: this.getSelectedFiltersFromUrl() });
+        if (JSON.stringify(selectedFilters) !== JSON.stringify(getSelectedFiltersFromUrl())) {
+            updateCategoryStore({ selectedFilters: getSelectedFiltersFromUrl() });
         }
 
         /**
@@ -345,13 +337,6 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         this.setState({ selectedLayoutType: CategoryPageLayout.LIST });
     }
 
-    onSortChange(sortDirection: SortDirections, sortKey: string[]): void {
-        const { location } = history;
-
-        setQueryParams({ sortKey: sortKey.join(','), sortDirection, page: '' }, location, history);
-        this.updateMeta();
-    }
-
     onFilterButtonClick(): void {
         const { toggleOverlayByKey } = this.props;
 
@@ -361,44 +346,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     setOfflineNoticeSize(): void {
         const { updateOfflineStore, isInfoLoading } = this.props;
 
-        if (isInfoLoading) {
-            updateOfflineStore({ isBig: true });
-        } else {
-            updateOfflineStore({ isBig: false });
-        }
-    }
-
-    getIsMatchingListFilter(): boolean {
-        const {
-            currentArgs: {
-                currentPage,
-                sort,
-                filter,
-            } = {},
-        } = this.props;
-        const { location } = history;
-
-        /**
-         * ? implementation bellow blinks, implementation with categoryIds check only does not show loading when selecting filters.
-         * TODO: resolve it to be a combination of these two behaviour
-         */
-
-        // Data used to request category matches current data
-        return JSON.stringify(filter) === JSON.stringify(this.getFilter())
-            && JSON.stringify(sort) === JSON.stringify(this.getSelectedSortFromUrl())
-            && currentPage === +(getQueryParam('page', location) || 1);
-    }
-
-    getIsMatchingInfoFilter(): boolean {
-        const {
-            categoryIds,
-            selectedInfoFilter: {
-                categoryIds: selectedCategoryIds,
-            },
-        } = this.props;
-
-        // Requested category is equal to current category
-        return categoryIds === selectedCategoryIds;
+        updateOfflineStore({ isBig: isInfoLoading });
     }
 
     getAppliedFiltersCount(): number {
@@ -428,27 +376,25 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             isMobile,
             totalPages,
             totalItems,
-            isSearchPage,
         } = this.props;
 
         const {
             selectedLayoutType,
+            plpTypes,
         } = this.state;
 
         return {
             appliedFiltersCount: this.getAppliedFiltersCount(),
             category,
             defaultPlpType: this.getDefaultPlpType(),
-            filter: this.getFilter(),
+            selectedSort: getSelectedSortFromUrl(),
+            filter: getFilter(),
             filters,
             isContentFiltered: this.isContentFiltered(),
             isCurrentCategoryLoaded: this.isCurrentCategoryLoaded(),
-            isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
-            isMatchingListFilter: this.getIsMatchingListFilter(),
+            isMatchingInfoFilter: getIsMatchingInfoFilter(),
             isMobile,
-            isSearchPage,
-            plpTypes: this.getPlpTypes(),
-            selectedSort: this.getSelectedSortFromUrl(),
+            plpTypes,
             totalPages,
             totalItems,
             selectedLayoutType,
@@ -475,95 +421,12 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         }, {});
     }
 
-    getSelectedFiltersFromUrl(): Record<string, string[]> {
-        const { location } = history;
-        const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
-
-        return selectedFiltersString.reduce((acc, filter) => {
-            if (!filter) {
-                return acc;
-            }
-            const [key, value] = filter.split(':');
-
-            return { ...acc, [ key ]: value.split(',') };
-        }, {});
-    }
-
-    getSelectedSortFromUrl(): CategorySortOptions {
-        const {
-            category: {
-                default_sort_by,
-            },
-        } = this.props;
-        const { location } = history;
-
-        const {
-            sortKey: globalDefaultSortKey,
-            sortDirection: defaultSortDirection,
-        } = this.config;
-
-        /**
-         * Default SORT DIRECTION is taken from (sequentially):
-         * - URL param "sortDirection"
-         * - CategoryPage class property "config"
-         * */
-        const sortDirection: SortDirections = (getQueryParam('sortDirection', location) as SortDirections)
-            || defaultSortDirection;
-
-        /**
-         * Default SORT KEY is taken from (sequentially):
-         * - URL param "sortKey"
-         * - Category default sort key (Magento 2 configuration)
-         * - CategoryPage class property "config"
-         * */
-        const defaultSortKey = default_sort_by || globalDefaultSortKey;
-        const sortKey = getQueryParam('sortKey', location) || defaultSortKey;
-
-        return {
-            sortDirection,
-            sortKey,
-        };
-    }
-
-    getSelectedPriceRangeFromUrl(): FilterPriceRange {
-        const { location } = history;
-        const min = +getQueryParam('priceMin', location);
-        const max = +getQueryParam('priceMax', location);
-
-        return { min, max };
-    }
-
     getDefaultPlpType(): CategoryPageLayout {
         const {
             defaultPlpType = CategoryPageLayout.GRID,
         } = this.state;
 
         return defaultPlpType;
-    }
-
-    getPlpTypes(): CategoryPageLayout[] {
-        const { plpTypes } = this.state;
-
-        return plpTypes;
-    }
-
-    getFilter(): ProductAttributeFilterOptions {
-        const { categoryIds } = this.props;
-        const customFilters = this.getSelectedFiltersFromUrl();
-        const priceRange = this.getSelectedPriceRangeFromUrl();
-
-        if (categoryIds === -1) {
-            return {
-                priceRange,
-                customFilters,
-            };
-        }
-
-        return {
-            priceRange,
-            customFilters,
-            categoryIds,
-        };
     }
 
     updateHistory(): void {

@@ -20,6 +20,7 @@ import {
 import ResetAttributes from 'Component/ResetAttributes';
 import ResetButton from 'Component/ResetButton';
 import { ReactElement } from 'Type/Common.type';
+import { getIsMatchingInfoFilter, isSearchPage } from 'Util/Category/Category';
 
 import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
 import { CategoryFilterOverlayComponentProps } from './CategoryFilterOverlay.type';
@@ -32,9 +33,7 @@ export class CategoryFilterOverlayComponent extends PureComponent<CategoryFilter
         const {
             availableFilters = {},
             toggleCustomFilter,
-            isMatchingInfoFilter,
             getFilterUrl,
-            isSearchPage,
         } = this.props;
 
         const filters = availableFilters as unknown as Record<string, Partial<ProductConfigurableAttribute>>;
@@ -42,11 +41,10 @@ export class CategoryFilterOverlayComponent extends PureComponent<CategoryFilter
         return (
             <CategoryConfigurableAttributes
               mix={ { block: 'CategoryFilterOverlay', elem: 'Attributes' } }
-              isReady={ isMatchingInfoFilter }
+              isReady={ getIsMatchingInfoFilter() }
               configurable_options={ filters }
               getLink={ getFilterUrl }
               updateConfigurableVariant={ toggleCustomFilter }
-              isSearchPage={ isSearchPage }
             />
         );
     }
@@ -186,11 +184,10 @@ export class CategoryFilterOverlayComponent extends PureComponent<CategoryFilter
             isProductsLoading,
             isContentFiltered,
             isCategoryAnchor,
-            isSearchPage,
         } = this.props;
 
         // show CategoryFilterOverlay for 1. categories marked as `anchor` in Magento admin 2. Search page
-        if ((!isProductsLoading && totalPages === 0 && !isContentFiltered) || (!isCategoryAnchor && !isSearchPage)) {
+        if ((!isProductsLoading && totalPages === 0 && !isContentFiltered) || (!isCategoryAnchor && !isSearchPage())) {
             return (
                 <div block="CategoryFilterOverlay" />
             );

@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { updateCategoryStore } from 'Store/Category/Category.action';
 import { setIsUrlRewritesLoading } from 'Store/UrlRewrites/UrlRewrites.action';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
@@ -53,6 +54,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): UrlRewritesContainerMapD
         );
     },
     setIsUrlRewritesLoading: (isLoading) => dispatch(setIsUrlRewritesLoading(isLoading)),
+    updateCategoryStore: (state) => dispatch(updateCategoryStore(state)),
 });
 
 /** @namespace Route/UrlRewrites/Container */
@@ -120,6 +122,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
                 id,
                 sku,
             },
+            updateCategoryStore,
         } = this.props;
 
         const isLoading = this.getIsLoading();
@@ -162,11 +165,17 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
                 const category = history?.location?.state?.category;
 
                 if (category && category !== true) {
+                    updateCategoryStore({ categoryIds: category });
+
                     return { categoryIds: category };
                 }
 
+                updateCategoryStore({ categoryIds: -1 });
+
                 return {};
             }
+
+            updateCategoryStore({ categoryIds: id || -1 });
 
             return { categoryIds: id };
         case UrlRewritePageType.NOTFOUND:

@@ -9,21 +9,25 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { Category } from 'Query/Category.type';
 import { SortFields } from 'Query/ProductList.type';
 import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
+import { Category as MetaCategory } from 'Store/Meta/Meta.type';
 
 export interface CategorySortContainerMapStateProps {
     sortFields: Partial<SortFields>;
+    category: Partial<Category>;
 }
 
-export interface CategorySortContainerMapDispatchProps {}
+export interface CategorySortContainerMapDispatchProps {
+    updateMetaFromCategory: (category: MetaCategory) => void;
+}
+
+export interface CategorySortContainerFunctions {
+    onSortChange: (value: string) => void;
+}
 
 export interface CategorySortContainerBaseProps {
-    // sortFields: CategorySortField[];
-    isMatchingInfoFilter: boolean;
-    onSortChange: (sortDirection: SortDirections, sortKey: string[]) => void;
-    sortKey: string;
-    sortDirection: SortDirections;
     isCurrentCategoryLoaded: boolean;
 }
 
@@ -31,14 +35,20 @@ export type CategorySortContainerProps = CategorySortContainerMapStateProps
 & CategorySortContainerMapDispatchProps
 & CategorySortContainerBaseProps;
 
-export interface CategorySortComponentProps {
+export interface CategorySortComponentProps extends CategorySortContainerFunctions {
     isMatchingInfoFilter: boolean;
-    onSortChange: (sortDirection: SortDirections, sortKey: string[]) => void;
     sortDirection: SortDirections;
     sortKey: string;
     selectOptions: CategorySortOption[];
     isCurrentCategoryLoaded: boolean;
 }
+
+export type CategorySortComponentPropsKey =
+| 'isCurrentCategoryLoaded'
+| 'isMatchingInfoFilter'
+| 'sortDirection'
+| 'sortKey'
+| 'selectOptions';
 
 export interface CategorySortField {
     id: string;

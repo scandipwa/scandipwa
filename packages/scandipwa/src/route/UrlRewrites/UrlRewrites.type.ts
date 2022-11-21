@@ -11,6 +11,7 @@
 
 import { match as Match } from 'react-router';
 
+import { CategoryStore } from 'Store/Category/Category.type';
 import { UrlRewrite } from 'Store/UrlRewrites/UrlRewrites.type';
 
 export interface UrlRewritesContainerMapStateProps {
@@ -22,6 +23,7 @@ export interface UrlRewritesContainerMapStateProps {
 export interface UrlRewritesContainerMapDispatchProps {
     requestUrlRewrite: (urlParam: string) => void;
     setIsUrlRewritesLoading: (isLoading: boolean) => void;
+    updateCategoryStore: (state: Partial<CategoryStore>) => void;
 }
 
 export type UrlRewritesContainerProps = UrlRewritesContainerMapStateProps
