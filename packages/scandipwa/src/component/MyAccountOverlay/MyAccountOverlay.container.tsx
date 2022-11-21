@@ -9,11 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import {
-    ComponentType,
-    MouseEvent,
-    PureComponent,
-} from 'react';
+import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -351,5 +347,5 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    MyAccountOverlayContainer as unknown as ComponentType<MyAccountOverlayContainerProps>,
+    MyAccountOverlayContainer,
 );

@@ -12,17 +12,28 @@
 import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import CategorySort from './CategorySort.component';
 import {
     CategorySortComponentProps,
+    CategorySortContainerMapDispatchProps,
+    CategorySortContainerMapStateProps,
     CategorySortContainerProps, CategorySortField, CategorySortOption, CategorySortOptionLabelMap,
 } from './CategorySort.type';
+
+/** @namespace Component/CategorySort/Container/mapStateToProps */
+export const mapStateToProps = (state: RootState): CategorySortContainerMapStateProps => ({
+    sortFields: state.ProductListInfoReducer.sortFields,
+});
+
+/** @namespace Component/CategorySort/Container/mapDispatchToProps */
+export const mapDispatchToProps = (): CategorySortContainerMapDispatchProps => ({
+});
 
 /** @namespace Component/CategorySort/Container */
 export class CategorySortContainer extends PureComponent<CategorySortContainerProps> {
     static defaultProps: Partial<CategorySortContainerProps> = {
-        sortFields: [],
         isMatchingInfoFilter: false,
         isCurrentCategoryLoaded: false,
     };
@@ -88,7 +99,10 @@ export class CategorySortContainer extends PureComponent<CategorySortContainerPr
             return [];
         }
 
-        const selectOptions = sortFields.reduce((acc: CategorySortOption[], option) => {
+        const { options = [] } = sortFields;
+        const updatedSortFields: CategorySortField[] = options.map(({ value: id, label }) => ({ id, label }));
+
+        const selectOptions = updatedSortFields.reduce((acc: CategorySortOption[], option) => {
             const { id } = option;
             const label = this._getLabel(option);
             const { asc, desc } = label;

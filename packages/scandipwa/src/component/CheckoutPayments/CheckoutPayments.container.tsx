@@ -39,6 +39,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutPaymentsContaine
 export const mapStateToProps = (state: RootState): CheckoutPaymentsContainerMapStateProps => ({
     totals: state.CartReducer.cartTotals,
     email: state.CheckoutReducer.email,
+    paymentMethods: state.CheckoutReducer.paymentMethods,
 });
 
 /** @namespace Component/CheckoutPayments/Container */

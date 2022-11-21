@@ -108,7 +108,7 @@ export class CheckoutDispatcher extends SimpleDispatcher {
         }));
     }
 
-    async saveGuestEmail(email: string): Promise<SetGuestEmailOnCartOutput | boolean | void> {
+    async saveGuestEmail(email: string): Promise<SetGuestEmailOnCartOutput | boolean | void | null> {
         const guestCartId = getCartId();
 
         if (!email) {
@@ -116,7 +116,7 @@ export class CheckoutDispatcher extends SimpleDispatcher {
         }
 
         if (!guestCartId || !email) {
-            return;
+            return null;
         }
 
         this.dispatch(updateCheckoutStore({ email }));
@@ -129,9 +129,13 @@ export class CheckoutDispatcher extends SimpleDispatcher {
             if (data) {
                 this.dispatch(updateCheckoutStore({ isGuestEmailSaved: true }));
             }
+
+            return data;
         } catch (error) {
             this.handleError(error as NetworkError);
         }
+
+        return null;
     }
 
     async getPaymentMethods(): Promise<void> {

@@ -64,7 +64,6 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
         totalPages: 1,
         search: '',
         sort: undefined,
-        selectedFilters: {},
         isPageLoading: false,
         isPlp: true,
     };
@@ -135,7 +134,6 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
             isPageLoading,
             pages,
             search,
-            selectedFilters,
             sort,
             totalItems,
             totalPages,
@@ -147,7 +145,6 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
             isPageLoading,
             pages,
             search,
-            selectedFilters,
             sort,
             totalItems,
             totalPages,

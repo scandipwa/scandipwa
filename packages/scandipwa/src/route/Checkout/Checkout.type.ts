@@ -72,7 +72,7 @@ export interface CheckoutContainerDispatchProps {
     setShippingAddress: (isDefaultShipping: boolean) => Promise<void>;
     saveBillingAddress: (paymentInformation: PaymentInformation) => Promise<void>;
     getPaymentMethods: () => Promise<void>;
-    saveGuestEmail: (email: string) => Promise<SetGuestEmailOnCartOutput | boolean | void>;
+    saveGuestEmail: (email: string) => Promise<SetGuestEmailOnCartOutput | boolean | null | void>;
     handleCheckoutError: (error: NetworkError) => void;
     onChangeEmailRequired: () => void;
 }

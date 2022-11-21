@@ -23,7 +23,6 @@ import './MyAccountInformation.style';
 export class MyAccountInformationComponent extends PureComponent<MyAccountInformationComponentProps> {
     renderCustomerForm(): ReactElement {
         const {
-            customer,
             onCustomerSave,
             showEmailChangeField,
             showPasswordChangeField,
@@ -33,7 +32,6 @@ export class MyAccountInformationComponent extends PureComponent<MyAccountInform
 
         return (
             <MyAccountCustomerForm
-              customer={ customer }
               onSave={ onCustomerSave }
               showEmailChangeField={ showEmailChangeField }
               showPasswordChangeField={ showPasswordChangeField }

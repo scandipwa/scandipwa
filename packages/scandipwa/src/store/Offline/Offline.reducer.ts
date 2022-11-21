@@ -10,7 +10,7 @@
  */
 import { Reducer } from 'redux';
 
-import { OfflineStore } from './Offline.type';
+import { OfflineActionType, OfflineStore } from './Offline.type';
 
 /** @namespace Store/Offline/Reducer/getInitialState */
 export const getInitialState = (): OfflineStore => ({
@@ -25,7 +25,11 @@ OfflineStore
     state = getInitialState(),
     action,
 ) => {
-    const { state: newState } = action;
+    const { state: newState, type } = action;
+
+    if (OfflineActionType.UPDATE_OFFLINE_STORE !== type) {
+        return state;
+    }
 
     return {
         ...state,

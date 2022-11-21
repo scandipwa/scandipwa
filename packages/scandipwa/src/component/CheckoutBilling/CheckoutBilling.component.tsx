@@ -31,7 +31,6 @@ import './CheckoutBilling.style';
 export class CheckoutBillingComponent extends PureComponent<CheckoutBillingComponentProps, CheckoutBillingComponentState> {
     state: CheckoutBillingComponentState = {
         isOrderButtonVisible: true,
-        isOrderButtonEnabled: true,
         isTACAccepted: false,
     };
 
@@ -43,21 +42,8 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
     __construct(props: CheckoutBillingComponentProps): void {
         super.__construct?.(props);
 
-        this.setOrderButtonEnableStatus = this.setOrderButtonEnableStatus.bind(this);
         this.setTACAccepted = this.setTACAccepted.bind(this);
         this.handleShowPopup = this.handleShowPopup.bind(this);
-    }
-
-    componentDidMount(): void {
-        const { termsAreEnabled } = this.props;
-
-        if (!termsAreEnabled) {
-            this.setState({ isOrderButtonEnabled: true });
-        }
-    }
-
-    setOrderButtonEnableStatus(isOrderButtonEnabled: boolean): void {
-        this.setState({ isOrderButtonEnabled });
     }
 
     setTACAccepted(): void {
@@ -176,11 +162,10 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
     }
 
     renderActions(): ReactElement {
-        const { paymentMethod } = this.props;
+        const { paymentMethod, isOrderButtonEnabled } = this.props;
 
         const {
             isOrderButtonVisible,
-            isOrderButtonEnabled,
             isTACAccepted,
         } = this.state;
 
@@ -285,19 +270,14 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
 
     renderPayments(): ReactElement {
         const {
-            paymentMethods,
             onPaymentMethodSelect,
+            setOrderButtonEnableStatus,
         } = this.props;
-
-        if (!paymentMethods.length) {
-            return null;
-        }
 
         return (
             <CheckoutPayments
-              paymentMethods={ paymentMethods }
               onPaymentMethodSelect={ onPaymentMethodSelect }
-              setOrderButtonEnableStatus={ this.setOrderButtonEnableStatus }
+              setOrderButtonEnableStatus={ setOrderButtonEnableStatus }
             />
         );
     }

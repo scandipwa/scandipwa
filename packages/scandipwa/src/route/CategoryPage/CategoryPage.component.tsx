@@ -16,7 +16,6 @@ import CategoryDetails from 'Component/CategoryDetails';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
-import { CategorySortField } from 'Component/CategorySort/CategorySort.type';
 import ContentWrapper from 'Component/ContentWrapper';
 import FilterIcon from 'Component/FilterIcon';
 import GridIcon from 'Component/GridIcon';
@@ -60,10 +59,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         selectedLayoutType: undefined,
     };
 
-    state = {
-        activeLayoutType: undefined,
-    } as S;
-
     static getDerivedStateFromProps(props: CategoryPageComponentProps): Partial<CategoryPageComponentState> {
         const {
             isMobile,
@@ -77,17 +72,9 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         */
         const storedPlpType = BrowserDatabase.getItem<CategoryPageLayout>(LAYOUT_KEY) || selectedLayoutType;
 
-        if (storedPlpType) {
-            const activeLayoutType = isMobile
-                ? CategoryPageLayout.GRID
-                : storedPlpType || defaultPlpType;
-
-            return { activeLayoutType };
-        }
-
         const activeLayoutType = isMobile
             ? CategoryPageLayout.GRID
-            : selectedLayoutType || defaultPlpType;
+            : storedPlpType || selectedLayoutType || defaultPlpType;
 
         return { activeLayoutType };
     }
@@ -212,13 +199,9 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
 
     renderFilterOverlay(): ReactElement {
         const {
-            filters,
-            selectedFilters,
             isMatchingInfoFilter,
             isSearchPage,
         } = this.props;
-
-        const { category: { is_anchor } } = this.props;
 
         if (!this.displayProducts()) {
             return null;
@@ -227,10 +210,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         return (
             <Suspense fallback={ this.renderFilterPlaceholder() || null }>
                 <CategoryFilterOverlay
-                  availableFilters={ filters }
-                  customFiltersValues={ selectedFilters }
                   isMatchingInfoFilter={ isMatchingInfoFilter }
-                  isCategoryAnchor={ !!is_anchor }
                   isSearchPage={ isSearchPage }
                   renderPlaceholder={ this.renderPlaceholder }
                 />
@@ -240,7 +220,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
 
     renderCategorySort(): ReactElement {
         const {
-            sortFields,
             selectedSort,
             onSortChange,
             isMatchingInfoFilter,
@@ -248,8 +227,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
             isMobile,
         } = this.props;
 
-        const { options = [] } = sortFields;
-        const updatedSortFields: CategorySortField[] = options.map(({ value: id, label }) => ({ id, label }));
         const { sortDirection, sortKey } = selectedSort;
 
         if (isMobile && !isMatchingInfoFilter) {
@@ -261,7 +238,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
               isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
               isMatchingInfoFilter={ isMatchingInfoFilter }
               onSortChange={ onSortChange }
-              sortFields={ updatedSortFields }
               sortKey={ sortKey }
               sortDirection={ sortDirection }
             />
@@ -347,7 +323,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
             filter,
             search,
             selectedSort,
-            selectedFilters,
             isMatchingListFilter,
             isCurrentCategoryLoaded,
             isMatchingInfoFilter,
@@ -370,7 +345,6 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
                   filter={ filter }
                   search={ search }
                   sort={ selectedSort }
-                  selectedFilters={ selectedFilters }
                   isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
                   isMatchingListFilter={ isMatchingListFilter }
                   isMatchingInfoFilter={ isMatchingInfoFilter }

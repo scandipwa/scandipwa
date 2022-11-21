@@ -35,6 +35,7 @@ export const mapStateToProps = (state: RootState): MyAccountCustomerFormContaine
     showTaxVatNumber: state.ConfigReducer.show_tax_vat_number,
     minimunPasswordLength: state.ConfigReducer.minimun_password_length,
     minimunPasswordCharacter: state.ConfigReducer.required_character_classes_number,
+    customer: state.MyAccountReducer.customer,
 });
 
 /** @namespace Component/MyAccountCustomerForm/Container/mapDispatchToProps */
@@ -72,7 +73,9 @@ MyAccountCustomerFormContainerState
             minimunPasswordCharacter,
         } = this.props;
         const {
-            email, currentPassword, isEmailEdit,
+            email,
+            currentPassword,
+            isEmailEdit,
         } = this.state;
 
         const range = { min: minimunPasswordLength, max: 64 };

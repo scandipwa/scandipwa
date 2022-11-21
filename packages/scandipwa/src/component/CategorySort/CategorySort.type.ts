@@ -9,16 +9,27 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { SortFields } from 'Query/ProductList.type';
 import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
 
-export interface CategorySortContainerProps {
-    sortFields: CategorySortField[];
+export interface CategorySortContainerMapStateProps {
+    sortFields: Partial<SortFields>;
+}
+
+export interface CategorySortContainerMapDispatchProps {}
+
+export interface CategorySortContainerBaseProps {
+    // sortFields: CategorySortField[];
     isMatchingInfoFilter: boolean;
     onSortChange: (sortDirection: SortDirections, sortKey: string[]) => void;
     sortKey: string;
     sortDirection: SortDirections;
     isCurrentCategoryLoaded: boolean;
 }
+
+export type CategorySortContainerProps = CategorySortContainerMapStateProps
+& CategorySortContainerMapDispatchProps
+& CategorySortContainerBaseProps;
 
 export interface CategorySortComponentProps {
     isMatchingInfoFilter: boolean;

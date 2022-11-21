@@ -49,7 +49,6 @@ export const MyAccountDispatcher = import(
 /** @namespace Component/MyAccountInformation/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountInformationContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile,
-    customer: state.MyAccountReducer.customer,
     isLoading: state.MyAccountReducer.isLoading,
     isLocked: state.MyAccountReducer.isLocked,
     baseLinkUrl: state.ConfigReducer.base_link_url,
@@ -103,12 +102,11 @@ MyAccountInformationContainerState
     MyAccountInformationComponentProps,
     MyAccountInformationContainerPropsKeys
     > {
-        const { customer, isLoading } = this.props;
+        const { isLoading } = this.props;
         const { showEmailChangeField, showPasswordChangeField } = this.state;
 
         return {
             isLoading,
-            customer,
             showEmailChangeField,
             showPasswordChangeField,
         };

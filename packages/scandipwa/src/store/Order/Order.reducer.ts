@@ -11,7 +11,7 @@
 
 import { Reducer } from 'redux';
 
-import { OrderStore } from './Order.type';
+import { OrderActionType, OrderStore } from './Order.type';
 
 /** @namespace Store/Order/Reducer/getInitialState */
 export const getInitialState = (): OrderStore => ({
@@ -24,7 +24,11 @@ export const OrderReducer: Reducer<OrderStore> = (
     state = getInitialState(),
     action,
 ) => {
-    const { state: newState } = action;
+    const { state: newState, type } = action;
+
+    if (OrderActionType.UPDATE_ORDER_STORE !== type) {
+        return state;
+    }
 
     return {
         ...state,

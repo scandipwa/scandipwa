@@ -38,8 +38,6 @@ export interface Product {
 }
 
 export enum BreadcrumbsActionType {
-    UPDATE_BREADCRUMBS = 'UPDATE_BREADCRUMBS',
-    TOGGLE_BREADCRUMBS = 'TOGGLE_BREADCRUMBS',
     UPDATE_BREADCRUMBS_STORE = 'UPDATE_BREADCRUMBS_STORE',
 }
 

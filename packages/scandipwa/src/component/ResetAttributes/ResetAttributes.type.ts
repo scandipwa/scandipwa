@@ -13,14 +13,13 @@ import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
 
 export interface ResetAttributesContainerMapStateProps {
     currency_code: string;
+    customFiltersValues: Record<string, string[]>;
+    availableFilters: Record<string, ProductListFilter>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ResetAttributesContainerMapDispatchProps {}
 
 export interface ResetAttributesContainerBaseProps {
-    availableFilters: Record<string, ProductListFilter>;
-    customFiltersValues: Record<string, string[]>;
     toggleCustomFilter: (requestVar: string, value: string) => void;
 }
 

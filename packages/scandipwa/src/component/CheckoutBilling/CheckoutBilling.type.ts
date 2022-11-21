@@ -58,6 +58,7 @@ export interface CheckoutBillingContainerFunctions {
         fields: FormFields | null,
         validation: boolean | ValidationDOMOutput
     ): void;
+    setOrderButtonEnableStatus: (isOrderButtonEnabled: boolean) => void;
 }
 
 export type CheckoutBillingContainerProps = CheckoutBillingContainerMapStateProps
@@ -70,34 +71,34 @@ export interface CheckoutBillingContainerState {
     prevPaymentMethods: PaymentMethod[];
     paymentMethod: string;
     isMounted: boolean;
+    isOrderButtonEnabled: boolean;
 }
 
 export interface CheckoutBillingComponentProps extends CheckoutBillingContainerFunctions {
     setDetailsStep: (orderID: string) => void;
     isSameAsShipping: boolean;
     termsAreEnabled: boolean;
-    paymentMethods: PaymentMethod[];
     totals: CartTotals;
     cartTotalSubPrice: number | null;
     shippingAddress?: Partial<CheckoutAddress>;
     termsAndConditions: CheckoutAgreement[];
     selectedShippingMethod?: ShippingMethod;
     paymentMethod: string;
+    isOrderButtonEnabled: boolean;
 }
 
 export interface CheckoutBillingComponentState {
     isOrderButtonVisible: boolean;
-    isOrderButtonEnabled: boolean;
     isTACAccepted: boolean;
 }
 
 export type CheckoutBillingContainerPropsKeys =
 | 'cartTotalSubPrice'
-| 'paymentMethods'
 | 'paymentMethod'
 | 'isSameAsShipping'
 | 'selectedShippingMethod'
 | 'setDetailsStep'
 | 'termsAndConditions'
 | 'termsAreEnabled'
-| 'totals';
+| 'totals'
+| 'isOrderButtonEnabled';

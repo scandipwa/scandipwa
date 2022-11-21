@@ -31,7 +31,6 @@ export class CategoryFilterOverlayComponent extends PureComponent<CategoryFilter
     renderFilters(): ReactElement {
         const {
             availableFilters = {},
-            customFiltersValues,
             toggleCustomFilter,
             isMatchingInfoFilter,
             getFilterUrl,
@@ -46,7 +45,6 @@ export class CategoryFilterOverlayComponent extends PureComponent<CategoryFilter
               isReady={ isMatchingInfoFilter }
               configurable_options={ filters }
               getLink={ getFilterUrl }
-              parameters={ customFiltersValues }
               updateConfigurableVariant={ toggleCustomFilter }
               isSearchPage={ isSearchPage }
             />
@@ -85,12 +83,10 @@ export class CategoryFilterOverlayComponent extends PureComponent<CategoryFilter
     }
 
     renderResetAttributes(): ReactElement {
-        const { customFiltersValues, availableFilters, toggleCustomFilter } = this.props;
+        const { toggleCustomFilter } = this.props;
 
         return (
             <ResetAttributes
-              customFiltersValues={ customFiltersValues }
-              availableFilters={ availableFilters }
               toggleCustomFilter={ toggleCustomFilter }
             />
         );

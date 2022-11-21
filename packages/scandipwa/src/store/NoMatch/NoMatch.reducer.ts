@@ -11,7 +11,7 @@
 
 import { Reducer } from 'redux';
 
-import { NoMatchStore } from './NoMatch.type';
+import { NoMatchActionType, NoMatchStore } from './NoMatch.type';
 
 /** @namespace Store/NoMatch/Reducer/getInitialState */
 export const getInitialState = (): NoMatchStore => ({
@@ -23,7 +23,11 @@ export const NoMatchReducer: Reducer<NoMatchStore> = (
     state = getInitialState(),
     action,
 ) => {
-    const { state: newState } = action;
+    const { state: newState, type } = action;
+
+    if (NoMatchActionType.UPDATE_NOMATCH_STORE !== type) {
+        return state;
+    }
 
     return {
         ...state,

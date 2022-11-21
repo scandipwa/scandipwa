@@ -115,7 +115,6 @@ S extends ProductContainerState = ProductContainerState,
         // TODO: There is a strange error when type isn't compatible with the same type.
         // Probably this is related to the fact that the class is generic.
         // Need to investigate this later.
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         this.state = {
             // Used for customizable & bundle options

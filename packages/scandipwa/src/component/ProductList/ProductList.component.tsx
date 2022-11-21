@@ -34,7 +34,6 @@ export class ProductListComponent extends PureComponent<ProductListComponentProp
         title: '',
         isInfiniteLoaderEnabled: false,
         isPaginationEnabled: false,
-        selectedFilters: {},
         isLoading: false,
         updatePage: noopFn,
         totalPages: 1,
@@ -240,9 +239,7 @@ export class ProductListComponent extends PureComponent<ProductListComponentProp
         } = this.props;
         const {
             items = [],
-            // keys = [],
             pageNumber = 0,
-            selectedFilters = {},
             wrapperRef,
             key,
         } = this._processProps(props);
@@ -256,9 +253,7 @@ export class ProductListComponent extends PureComponent<ProductListComponentProp
               isVisible={ isVisible }
               mix={ mix }
               items={ items }
-            //   keys={ keys }
               pageNumber={ pageNumber }
-              selectedFilters={ selectedFilters }
               wrapperRef={ wrapperRef }
               isPlp={ isPlp }
             />
@@ -266,13 +261,11 @@ export class ProductListComponent extends PureComponent<ProductListComponentProp
     }
 
     renderProductPage([k, items = []]: [k: string, items: IndexedProduct[]]): ReactElement {
-        const { selectedFilters } = this.props;
         const key = Number(k);
 
         const pageNumber = key;
 
         return this.renderPage({
-            selectedFilters,
             pageNumber,
             items,
             key,

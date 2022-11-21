@@ -12,7 +12,7 @@ import { Reducer } from 'redux';
 
 import { isInitiallySignedIn } from 'Util/Auth';
 
-import { MyAccountStore } from './MyAccount.type';
+import { MyAccountActionType, MyAccountStore } from './MyAccount.type';
 
 /** @namespace Store/MyAccount/Reducer/getInitialState */
 export const getInitialState = (): MyAccountStore => ({
@@ -35,7 +35,11 @@ MyAccountStore
     state = getInitialState(),
     action,
 ) => {
-    const { state: newState } = action;
+    const { state: newState, type } = action;
+
+    if (MyAccountActionType.UPDATE_MY_ACCOUNT_STORE !== type) {
+        return state;
+    }
 
     return {
         ...state,

@@ -11,7 +11,6 @@
 
 import { match as Match } from 'react-router';
 
-import { SortFields } from 'Query/ProductList.type';
 import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
 import {
     CategoryPageComponentProps,
@@ -46,12 +45,10 @@ export interface SearchPageContainerState extends CategoryPageContainerState {}
 
 export interface SearchPageComponentProps extends CategoryPageComponentProps {
     search: string;
-    sortFields: SortFields;
 }
 
 export type SearchPageComponentContainerPropKeys = CategoryPageContainerPropsKeys
-| 'search'
-| 'sortFields';
+| 'search';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SearchPageComponentState extends CategoryPageComponentState {}

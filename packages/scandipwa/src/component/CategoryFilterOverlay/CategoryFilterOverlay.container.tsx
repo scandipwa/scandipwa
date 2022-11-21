@@ -39,6 +39,9 @@ export const mapStateToProps = (state: RootState): CategoryFilterOverlayContaine
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     isProductsLoading: state.ProductListReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
+    availableFilters: state.ProductListInfoReducer.filters,
+    isCategoryAnchor: !!state.CategoryReducer.category.is_anchor,
+    customFiltersValues: state.CategoryReducer.selectedFilters,
 });
 
 /** @namespace Component/CategoryFilterOverlay/Container/mapDispatchToProps */

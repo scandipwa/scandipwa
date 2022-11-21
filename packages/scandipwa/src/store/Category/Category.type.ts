@@ -23,6 +23,9 @@ export interface UpdateCategoryStore extends AnyAction {
 
 export interface CategoryStore {
     category: Partial<Category>;
+    breadcrumbsWereUpdated: boolean;
+    currentCategoryIds: number;
+    selectedFilters: Record<string, string[]>;
 }
 
 declare module 'Util/Store/Store.type' {

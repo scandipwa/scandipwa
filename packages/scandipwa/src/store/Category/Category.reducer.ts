@@ -12,12 +12,16 @@
 import { Reducer } from 'redux';
 
 import {
+    CategoryActionType,
     CategoryStore,
 } from './Category.type';
 
 /** @namespace Store/Category/Reducer/getInitialState */
 export const getInitialState = (): CategoryStore => ({
     category: {},
+    breadcrumbsWereUpdated: false,
+    currentCategoryIds: -1,
+    selectedFilters: {},
 });
 
 /** @namespace Store/Category/Reducer/CategoryReducer */
@@ -27,7 +31,11 @@ CategoryStore
     state = getInitialState(),
     action,
 ) => {
-    const { state: newState } = action;
+    const { state: newState, type } = action;
+
+    if (CategoryActionType.UPDATE_CATEGORY_STORE !== type) {
+        return state;
+    }
 
     return {
         ...state,

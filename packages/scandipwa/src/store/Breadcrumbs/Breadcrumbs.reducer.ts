@@ -11,7 +11,7 @@
 
 import { Reducer } from 'redux';
 
-import { BreadcrumbsStore } from './Breadcrumbs.type';
+import { BreadcrumbsActionType, BreadcrumbsStore } from './Breadcrumbs.type';
 
 /** @namespace Store/Breadcrumbs/Reducer/getInitialState */
 export const getInitialState = (): BreadcrumbsStore => ({
@@ -26,7 +26,11 @@ BreadcrumbsStore
     state = getInitialState(),
     action,
 ) => {
-    const { state: newState } = action;
+    const { state: newState, type } = action;
+
+    if (BreadcrumbsActionType.UPDATE_BREADCRUMBS_STORE !== type) {
+        return state;
+    }
 
     return {
         ...state,

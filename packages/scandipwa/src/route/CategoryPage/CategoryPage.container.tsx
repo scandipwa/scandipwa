@@ -25,6 +25,7 @@ import {
     LAYOUT_KEY,
     SortDirections,
 } from 'Route/CategoryPage/CategoryPage.config';
+import { updateCategoryStore } from 'Store/Category/Category.action';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
@@ -89,7 +90,6 @@ export const mapStateToProps = (state: RootState): CategoryPageContainerMapState
     category: state.CategoryReducer.category,
     isOffline: state.OfflineReducer.isOffline,
     filters: state.ProductListInfoReducer.filters,
-    sortFields: state.ProductListInfoReducer.sortFields,
     currentArgs: state.ProductListReducer.currentArgs,
     selectedInfoFilter: state.ProductListInfoReducer.selectedFilter,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
@@ -97,6 +97,9 @@ export const mapStateToProps = (state: RootState): CategoryPageContainerMapState
     totalItems: state.ProductListReducer.totalItems,
     plpType: state.ConfigReducer.plp_list_mode,
     isMobile: state.ConfigReducer.device.isMobile,
+    breadcrumbsWereUpdated: state.CategoryReducer.breadcrumbsWereUpdated,
+    currentCategoryIds: state.CategoryReducer.currentCategoryIds,
+    selectedFilters: state.CategoryReducer.selectedFilters,
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -126,6 +129,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
     updateMetaFromCategory: (category) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithCategory(category),
     ),
+    updateCategoryStore: (state) => dispatch(updateCategoryStore(state)),
 });
 
 /** @namespace Route/CategoryPage/Container */
@@ -157,11 +161,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         super.__construct?.(props);
 
         this.state = {
-            currentCategoryIds: -1,
-            breadcrumbsWereUpdated: false,
             selectedLayoutType: undefined,
             defaultPlpType: undefined,
-            activeLayoutType: undefined,
             plpTypes: [] as CategoryPageLayout[],
         } as S;
 
@@ -173,7 +174,6 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         state: CategoryPageContainerState,
     ): Partial<CategoryPageContainerState> | null {
         const {
-            currentCategoryIds,
             defaultPlpType,
             plpTypes,
         } = state;
@@ -181,6 +181,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         const {
             category: { id },
             plpType,
+            currentCategoryIds,
+            updateCategoryStore,
         } = props;
 
         const update = {};
@@ -202,7 +204,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * If the category we expect to load is loaded - reset it
          */
         if (currentCategoryIds === id) {
-            Object.assign(update, { currentCategoryIds: -1 });
+            updateCategoryStore({ currentCategoryIds: -1 });
         }
 
         if (!Object.keys(update).length) {
@@ -218,6 +220,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             category: {
                 id,
             },
+            updateCategoryStore,
         } = this.props;
 
         scrollToTop();
@@ -232,6 +235,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * Always update the history, ensure the history contains category
          */
         this.updateHistory();
+
+        updateCategoryStore({ selectedFilters: this.getSelectedFiltersFromUrl() });
 
         /**
          * Make sure to update header state, if the category visited
@@ -261,11 +266,10 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             currentArgs: {
                 filter,
             } = {},
-        } = this.props;
-
-        const {
             breadcrumbsWereUpdated,
-        } = this.state;
+            selectedFilters,
+            updateCategoryStore,
+        } = this.props;
 
         const {
             categoryIds: prevCategoryIds,
@@ -297,6 +301,10 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          */
         if (categoryIds !== id) {
             this.requestCategory();
+        }
+
+        if (JSON.stringify(selectedFilters) !== JSON.stringify(this.getSelectedFiltersFromUrl())) {
+            updateCategoryStore({ selectedFilters: this.getSelectedFiltersFromUrl() });
         }
 
         /**
@@ -398,7 +406,6 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             selectedInfoFilter: { customFilters = {} },
         } = this.props;
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return getFiltersCount(customFilters as Record<string, any[]>);
     }
 
@@ -419,7 +426,6 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             category,
             filters,
             isMobile,
-            sortFields,
             totalPages,
             totalItems,
             isSearchPage,
@@ -427,7 +433,6 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
 
         const {
             selectedLayoutType,
-            activeLayoutType,
         } = this.state;
 
         return {
@@ -443,13 +448,10 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             isMobile,
             isSearchPage,
             plpTypes: this.getPlpTypes(),
-            selectedFilters: this.getSelectedFiltersFromUrl(),
             selectedSort: this.getSelectedSortFromUrl(),
-            sortFields,
             totalPages,
             totalItems,
             selectedLayoutType,
-            activeLayoutType,
         };
     }
 
@@ -622,7 +624,11 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     }
 
     updateBreadcrumbs(isUnmatchedCategory = false): void {
-        const { updateBreadcrumbs, category } = this.props;
+        const {
+            updateBreadcrumbs,
+            updateCategoryStore,
+            category,
+        } = this.props;
         const {
             id = 0,
             url = '',
@@ -637,7 +643,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             breadcrumbs,
         });
 
-        this.setState({ breadcrumbsWereUpdated: true });
+        updateCategoryStore({ breadcrumbsWereUpdated: true });
     }
 
     updateNavigationState(): void {
@@ -678,11 +684,9 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             categoryIds,
             isSearchPage,
             requestCategory,
-        } = this.props;
-
-        const {
+            updateCategoryStore,
             currentCategoryIds,
-        } = this.state;
+        } = this.props;
 
         /**
          * Prevent non-existent category from being requested
@@ -703,9 +707,9 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * Update current category to track if it is loaded or not - useful,
          * to prevent category from requesting itself multiple times.
          */
-        this.setState({
-            currentCategoryIds: categoryIds,
+        updateCategoryStore({
             breadcrumbsWereUpdated: false,
+            currentCategoryIds: categoryIds,
         });
 
         requestCategory({

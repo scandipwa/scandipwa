@@ -18,9 +18,9 @@ export interface MyAccountCustomerFormContainerMapStateProps {
     showTaxVatNumber: string;
     minimunPasswordLength: number;
     minimunPasswordCharacter: string;
+    customer: Partial<Customer>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MyAccountCustomerFormContainerMapDispatchProps {}
 
 export interface MyAccountCustomerFormContainerFunctions {

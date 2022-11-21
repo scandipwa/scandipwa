@@ -34,18 +34,10 @@ ProductListPageComponentState
     static defaultProps: Partial<ProductListPageComponentProps> = {
         numberOfPlaceholders: DEFAULT_PLACEHOLDER_COUNT,
         wrapperRef: noopFn,
-        selectedFilters: {},
         pageNumber: undefined,
         items: [],
         mix: {},
     };
-
-    // state: ProductListPageComponentState = {
-    //     siblingsHaveBrands: false,
-    //     siblingsHavePriceBadge: false,
-    //     siblingsHaveTierPrice: false,
-    //     siblingsHaveConfigurableOptions: false
-    // };
 
     observer?: IntersectionObserver;
 
@@ -172,7 +164,6 @@ ProductListPageComponentState
     renderPageItems(): ReactElement {
         const {
             items,
-            selectedFilters,
             mix: {
                 mods: {
                     layout = CategoryPageLayout.GRID,
@@ -185,7 +176,6 @@ ProductListPageComponentState
               product={ product }
               // eslint-disable-next-line react/no-array-index-key
               key={ i }
-              selectedFilters={ selectedFilters }
               layout={ layout as CategoryPageLayout }
               { ...this.containerProps() }
             />

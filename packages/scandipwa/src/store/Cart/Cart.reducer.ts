@@ -13,7 +13,7 @@ import { Reducer } from 'redux';
 
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-import { CartStore, CartTotals } from './Cart.type';
+import { CartActionType, CartStore, CartTotals } from './Cart.type';
 
 export const CART_TOTALS = 'cart_totals';
 
@@ -29,7 +29,11 @@ export const CartReducer: Reducer<CartStore> = (
     state = getInitialState(),
     action,
 ) => {
-    const { state: newState } = action;
+    const { state: newState, type } = action;
+
+    if (CartActionType.UPDATE_CART_STORE !== type) {
+        return state;
+    }
 
     return {
         ...state,

@@ -40,7 +40,6 @@ export interface CategoryProductListContainerBaseProps {
     isCurrentCategoryLoaded: boolean;
     search: string;
     sort: CategorySortOptions;
-    selectedFilters: Record<string, string[]>;
     isPlp: boolean;
 }
 
@@ -53,7 +52,6 @@ export type CategoryProductListContainerPropKeys =
     | 'isPageLoading'
     | 'pages'
     | 'search'
-    | 'selectedFilters'
     | 'sort'
     | 'totalItems'
     | 'totalPages'

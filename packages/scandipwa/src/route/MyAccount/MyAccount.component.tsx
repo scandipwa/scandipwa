@@ -112,7 +112,6 @@ export class MyAccountComponent extends Component<MyAccountComponentProps> {
         return (
             <MyAccountOverlay
               onSignIn={ onSignIn }
-              isCheckout={ false }
             />
         );
     }

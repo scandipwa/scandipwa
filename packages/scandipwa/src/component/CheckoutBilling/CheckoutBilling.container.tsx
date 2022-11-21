@@ -117,12 +117,13 @@ CheckoutBillingContainerState
         onSameAsShippingChange: this.onSameAsShippingChange.bind(this),
         onPaymentMethodSelect: this.onPaymentMethodSelect.bind(this),
         showPopup: this.showPopup.bind(this),
+        setOrderButtonEnableStatus: this.setOrderButtonEnableStatus.bind(this),
     };
 
     __construct(props: CheckoutBillingContainerProps): void {
         super.__construct?.(props);
 
-        const { paymentMethods } = props;
+        const { paymentMethods, termsAreEnabled } = props;
 
         this.state = {
             isSameAsShipping: false,
@@ -130,6 +131,7 @@ CheckoutBillingContainerState
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
             paymentMethod: '',
+            isOrderButtonEnabled: termsAreEnabled,
         };
     }
 
@@ -157,18 +159,20 @@ CheckoutBillingContainerState
     containerProps(): Pick<CheckoutBillingComponentProps, CheckoutBillingContainerPropsKeys>{
         const {
             cartTotalSubPrice,
-            paymentMethods,
             selectedShippingMethod,
             setDetailsStep,
             termsAndConditions,
             termsAreEnabled,
             totals,
         } = this.props;
-        const { isSameAsShipping, paymentMethod } = this.state;
+        const {
+            isSameAsShipping,
+            paymentMethod,
+            isOrderButtonEnabled,
+        } = this.state;
 
         return {
             cartTotalSubPrice,
-            paymentMethods,
             isSameAsShipping,
             selectedShippingMethod,
             setDetailsStep,
@@ -176,6 +180,7 @@ CheckoutBillingContainerState
             termsAreEnabled,
             totals,
             paymentMethod,
+            isOrderButtonEnabled,
         };
     }
 
@@ -216,6 +221,10 @@ CheckoutBillingContainerState
 
     onPaymentMethodSelect(code: string): void {
         this.setState({ paymentMethod: code });
+    }
+
+    setOrderButtonEnableStatus(isOrderButtonEnabled: boolean): void {
+        this.setState({ isOrderButtonEnabled });
     }
 
     onBillingError(

@@ -35,7 +35,6 @@ export interface ProductListContainerBaseProps {
     isPageLoading?: boolean;
     totalItems: number;
     requestProductList: (options: Partial<ProductListOptions>) => void;
-    selectedFilters: Record<string, string[]>;
     isPreventRequest?: boolean;
     isInfiniteLoaderEnabled?: boolean;
     isPaginationEnabled?: boolean;
@@ -72,7 +71,6 @@ export interface ProductListComponentProps {
     isWidget: boolean;
     mix: Mix;
     pages: Record<number, IndexedProduct[]>;
-    selectedFilters: Record<string, string[]>;
     title: string;
     totalPages: number;
     currentPage: number;
@@ -93,7 +91,6 @@ export type ProductListComponentContainerPropKeys =
     | 'isWidget'
     | 'mix'
     | 'pages'
-    | 'selectedFilters'
     | 'title'
     | 'totalPages'
     | 'currentPage'

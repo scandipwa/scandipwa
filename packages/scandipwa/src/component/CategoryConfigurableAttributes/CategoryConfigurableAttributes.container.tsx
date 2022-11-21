@@ -34,6 +34,7 @@ export const mapStateToProps = (state: RootState): CategoryConfigurableAttribute
     currencyCode: state.ConfigReducer.currencyData.current_currency_code,
     showProductCount: state.ConfigReducer.layered_navigation_product_count_enabled,
     childrenCategories: state.CategoryReducer.category.children || [],
+    parameters: state.CategoryReducer.selectedFilters,
 });
 
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapDispatchToProps */

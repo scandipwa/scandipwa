@@ -32,6 +32,8 @@ import {
 /** @namespace Component/ResetAttributes/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ResetAttributesContainerMapStateProps => ({
     currency_code: state.ConfigReducer.currencyData.current_currency_code,
+    customFiltersValues: state.CategoryReducer.selectedFilters,
+    availableFilters: state.ProductListInfoReducer.filters,
 });
 
 /** @namespace Component/ResetAttributes/Container/mapDispatchToProps */

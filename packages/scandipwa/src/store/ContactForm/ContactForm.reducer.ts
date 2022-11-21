@@ -11,7 +11,7 @@
 
 import { Reducer } from 'redux';
 
-import { ContactFormStore } from './ContactForm.type';
+import { ContactFormActionType, ContactFormStore } from './ContactForm.type';
 
 export const initialState = {
     isLoading: false,
@@ -22,7 +22,11 @@ export const ContactFormReducer: Reducer<ContactFormStore> = (
     state = initialState,
     action,
 ) => {
-    const { state: newState } = action;
+    const { state: newState, type } = action;
+
+    if (ContactFormActionType.UPDATE_CONTACT_STORE !== type) {
+        return state;
+    }
 
     return {
         ...state,

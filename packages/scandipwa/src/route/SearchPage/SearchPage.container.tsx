@@ -13,7 +13,6 @@ import { Dispatch } from 'redux';
 
 // TODO: try SEARCH type
 import { Page } from 'Component/Header/Header.config';
-import { SortFields } from 'Query/ProductList.type';
 import { LOADING_TIME, SortDirections } from 'Route/CategoryPage/CategoryPage.config';
 import {
     CategoryPageContainer,
@@ -31,7 +30,6 @@ import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import SearchPage from './SearchPage.component';
-import { BEST_MATCH_SORT_OPTION_VALUE, NONE_SORT_OPTION } from './SearchPage.config';
 import {
     SearchPageComponentContainerPropKeys,
     SearchPageComponentProps,
@@ -154,6 +152,8 @@ SearchPageContainerState
         const {
             isOffline,
             match: { params = {} },
+            selectedFilters,
+            updateCategoryStore,
         } = this.props;
         const { query } = params as Record<string, string>;
 
@@ -174,6 +174,10 @@ SearchPageContainerState
             this.updateBreadcrumbs();
             this.updateHeaderState();
         }
+
+        if (JSON.stringify(selectedFilters) !== JSON.stringify(this.getSelectedFiltersFromUrl())) {
+            updateCategoryStore({ selectedFilters: this.getSelectedFiltersFromUrl() });
+        }
     }
 
     getSearchParam(): string {
@@ -183,23 +187,6 @@ SearchPageContainerState
         return query;
     }
 
-    getSortFields(): SortFields {
-        const {
-            sortFields: {
-                options = [],
-            } = {},
-        } = this.props;
-
-        const filteredOptions = options.filter(({ value }) => value !== BEST_MATCH_SORT_OPTION_VALUE);
-
-        return {
-            options: [
-                NONE_SORT_OPTION,
-                ...filteredOptions,
-            ],
-        };
-    }
-
     containerProps(): Pick<
     SearchPageComponentProps,
     SearchPageComponentContainerPropKeys
@@ -207,7 +194,6 @@ SearchPageContainerState
         return {
             ...super.containerProps(),
             search: this.getSearchParam(),
-            sortFields: this.getSortFields(),
         };
     }
 

@@ -12,6 +12,7 @@
 import { Reducer } from 'redux';
 
 import {
+    MetaActionType,
     MetaStore,
 } from './Meta.type';
 
@@ -32,7 +33,11 @@ export const MetaReducer: Reducer<MetaStore> = (
     state = getInitialState(),
     action,
 ) => {
-    const { state: newState } = action;
+    const { state: newState, type } = action;
+
+    if (MetaActionType.UPDATE_META_STORE !== type) {
+        return state;
+    }
 
     return {
         ...state,

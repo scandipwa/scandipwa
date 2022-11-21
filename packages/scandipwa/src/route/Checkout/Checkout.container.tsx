@@ -568,7 +568,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             : cartTotals;
     }
 
-    async createUserOrSaveGuest(): Promise<boolean | SetGuestEmailOnCartOutput | 'confirmation_required' | void> {
+    async createUserOrSaveGuest(): Promise<boolean | SetGuestEmailOnCartOutput | 'confirmation_required' | void | null> {
         const {
             createAccount,
             totals: { is_virtual },
@@ -757,7 +757,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
     }
 
     async savePaymentMethodAndPlaceOrder(paymentInformation: PaymentInformation): Promise<void> {
-        const { handleCheckoutError } = this.props;
+        const { handleCheckoutError, updateCheckoutStore } = this.props;
         const { paymentMethod: { code, additional_data, purchase_order_number } } = paymentInformation;
         const isCustomerSignedIn = isSignedIn();
         const cart_id = getCartId();
@@ -784,6 +784,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             const { placeOrder: { order: { order_id } } } = orderData;
 
             this.setDetailsStep(order_id);
+            updateCheckoutStore({ isCheckoutLoading: false });
         } catch (e) {
             handleCheckoutError(e as NetworkError);
         }

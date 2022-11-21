@@ -21,7 +21,6 @@ import { ReactElement } from 'Type/Common.type';
 import { OrderTabs } from './MyAccountOrder.config';
 
 export interface MyAccountOrderContainerMapStateProps {
-    display_tax_in_shipping_amount: string;
     is_allowed_reorder: boolean;
     rss_order_subscribe_allow: boolean;
     isMobile: boolean;
@@ -67,14 +66,12 @@ export interface MyAccountOrderComponentProps {
     handleChangeActiveTab: (tab: OrderTabs) => void;
     activeTab: OrderTabs;
     isMobile: boolean;
-    display_tax_in_shipping_amount: string;
     setTabSubheading: (subHeading: string) => void;
 }
 
 export type MyAccountOrderContainerPropsKeys = 'order'
 | 'isLoading'
 | 'activeTab'
-| 'display_tax_in_shipping_amount'
 | 'is_allowed_reorder'
 | 'rss_order_subscribe_allow'
 | 'setTabSubheading'

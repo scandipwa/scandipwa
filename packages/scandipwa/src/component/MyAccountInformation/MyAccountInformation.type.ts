@@ -11,13 +11,12 @@
 
 import { RouteComponentProps } from 'react-router';
 
-import { ChangeCustomerPasswordOptions, Customer, SignInOptions } from 'Query/MyAccount.type';
+import { ChangeCustomerPasswordOptions, SignInOptions } from 'Query/MyAccount.type';
 import { MyAccountStore } from 'Store/MyAccount/MyAccount.type';
 import { NetworkError } from 'Type/Common.type';
 import { GQLCustomerUpdateInput } from 'Type/Graphql.type';
 
 export interface MyAccountInformationContainerMapStateProps {
-    customer: Partial<Customer>;
     isMobile: boolean;
     isLoading: boolean;
     isLocked: boolean;
@@ -60,14 +59,12 @@ export interface MyAccountInformationComponentProps {
     & GQLCustomerUpdateInput
     ) => Promise<void>;
     isLoading: boolean;
-    customer: Partial<Customer>;
     showEmailChangeField: boolean;
     showPasswordChangeField: boolean;
     handleChangeEmailCheckbox: () => void;
     handleChangePasswordCheckbox: () => void;
 }
 
-export type MyAccountInformationContainerPropsKeys = 'customer'
-| 'isLoading'
+export type MyAccountInformationContainerPropsKeys = 'isLoading'
 | 'showEmailChangeField'
 | 'showPasswordChangeField';

@@ -13,13 +13,9 @@ import { History, Location } from 'history';
 import { match as Match } from 'react-router';
 
 import { Category, CategoryQueryOptions } from 'Query/Category.type';
-import {
-    ProductAttributeFilterOptions,
-    ProductListOptionArgs,
-    ProductListOptions,
-    SortFields,
-} from 'Query/ProductList.type';
+import { ProductAttributeFilterOptions, ProductListOptionArgs, ProductListOptions } from 'Query/ProductList.type';
 import { Category as BreadcrumbCategory } from 'Store/Breadcrumbs/Breadcrumbs.type';
+import { CategoryStore } from 'Store/Category/Category.type';
 import { Category as MetaCategory } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { OfflineStore } from 'Store/Offline/Offline.type';
@@ -32,7 +28,6 @@ export interface CategoryPageContainerMapStateProps {
     category: Partial<Category>;
     isOffline: boolean;
     filters: Record<string, ProductListFilter>;
-    sortFields: Partial<SortFields>;
 
     currentArgs: ProductListOptionArgs;
     selectedInfoFilter: Partial<ProductAttributeFilterOptions>;
@@ -41,6 +36,9 @@ export interface CategoryPageContainerMapStateProps {
     totalItems: number;
     plpType: string;
     isMobile: boolean;
+    breadcrumbsWereUpdated: boolean;
+    currentCategoryIds: number;
+    selectedFilters: Record<string, string[]>;
 }
 
 export interface CategoryPageContainerMapDispatchProps {
@@ -54,6 +52,7 @@ export interface CategoryPageContainerMapDispatchProps {
     updateNoMatch: (options: { noMatch: boolean }) => void;
     updateOfflineStore: (state: Partial<OfflineStore>) => void;
     updateMetaFromCategory: (category: MetaCategory) => void;
+    updateCategoryStore: (state: Partial<CategoryStore>) => void;
 }
 
 export interface CategoryPageContainerFunctions {
@@ -77,7 +76,6 @@ export type CategoryPageContainerProps = CategoryPageContainerMapStateProps
 
 export interface CategoryPageContainerState {
     currentCategoryIds: number;
-    breadcrumbsWereUpdated: boolean;
     selectedLayoutType?: CategoryPageLayout;
     defaultPlpType?: CategoryPageLayout;
     activeLayoutType?: CategoryPageLayout;
@@ -98,9 +96,7 @@ export interface CategoryPageComponentProps extends CategoryPageContainerFunctio
     isMobile: boolean;
     isSearchPage: boolean;
     plpTypes: CategoryPageLayout[];
-    selectedFilters: Record<string, string[]>;
     selectedSort: CategorySortOptions;
-    sortFields: Partial<SortFields>;
     totalPages: number;
     totalItems: number;
     selectedLayoutType?: CategoryPageLayout;
@@ -124,9 +120,7 @@ export type CategoryPageContainerPropsKeys =
     | 'isMobile'
     | 'isSearchPage'
     | 'plpTypes'
-    | 'selectedFilters'
     | 'selectedSort'
-    | 'sortFields'
     | 'totalPages'
     | 'totalItems'
     | 'selectedLayoutType'

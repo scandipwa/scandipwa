@@ -15,6 +15,7 @@ import { CartTotals } from 'Store/Cart/Cart.type';
 export interface CheckoutPaymentsContainerMapStateProps {
     totals: CartTotals;
     email: string;
+    paymentMethods: PaymentMethod[];
 }
 
 export interface CheckoutPaymentsContainerMapDispatchProps {
@@ -28,7 +29,6 @@ export interface CheckoutPaymentsContainerFunctions {
 export interface CheckoutPaymentsContainerBaseProps {
     onPaymentMethodSelect: (code: string) => void;
     setOrderButtonEnableStatus: (isOrderButtonEnabled: boolean) => void;
-    paymentMethods: PaymentMethod[];
 }
 
 export type CheckoutPaymentsContainerProps = CheckoutPaymentsContainerMapStateProps

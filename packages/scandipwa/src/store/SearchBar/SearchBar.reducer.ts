@@ -11,7 +11,7 @@
 
 import { Reducer } from 'redux';
 
-import { SearchBarStore } from './SearchBar.type';
+import { SearchBarActionType, SearchBarStore } from './SearchBar.type';
 
 /** @namespace Store/SearchBar/Reducer/getInitialState */
 export const getInitialState = (): SearchBarStore => ({
@@ -26,7 +26,11 @@ SearchBarStore
     state = getInitialState(),
     action,
 ) => {
-    const { state: newState } = action;
+    const { state: newState, type } = action;
+
+    if (SearchBarActionType.UPDATE_SEARCH_BAR_STORE !== type) {
+        return state;
+    }
 
     return {
         ...state,

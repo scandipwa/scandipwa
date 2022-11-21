@@ -45,7 +45,6 @@ export const OrderDispatcher = import(
 
 /** @namespace Component/MyAccountOrder/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountOrderContainerMapStateProps => ({
-    display_tax_in_shipping_amount: state.ConfigReducer.cartDisplayConfig.display_tax_in_shipping_amount,
     is_allowed_reorder: state.ConfigReducer.is_allowed_reorder,
     rss_order_subscribe_allow: state.ConfigReducer.rss_order_subscribe_allow,
     isMobile: state.ConfigReducer.device.isMobile,
@@ -109,7 +108,6 @@ State extends MyAccountOrderContainerState = MyAccountOrderContainerState,
     > {
         const { order: stateOrder, isLoading, activeTab } = this.state;
         const {
-            display_tax_in_shipping_amount,
             is_allowed_reorder,
             rss_order_subscribe_allow,
             setTabSubheading,
@@ -117,7 +115,6 @@ State extends MyAccountOrderContainerState = MyAccountOrderContainerState,
         } = this.props;
 
         return {
-            display_tax_in_shipping_amount,
             isLoading,
             is_allowed_reorder,
             activeTab,

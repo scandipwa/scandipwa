@@ -12,6 +12,7 @@
 import { Reducer } from 'redux';
 
 import {
+    CheckoutActionType,
     CheckoutStore,
 } from './Checkout.type';
 
@@ -42,7 +43,11 @@ CheckoutStore
     state = getInitialState(),
     action,
 ) => {
-    const { state: newState } = action;
+    const { state: newState, type } = action;
+
+    if (CheckoutActionType.UPDATE_CHECKOUT_STORE !== type) {
+        return state;
+    }
 
     return {
         ...state,

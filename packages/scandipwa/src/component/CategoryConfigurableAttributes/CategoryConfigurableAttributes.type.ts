@@ -24,6 +24,7 @@ export interface CategoryConfigurableAttributesContainerMapStateProps {
     currencyCode: GQLCurrencyEnum;
     showProductCount: boolean;
     childrenCategories: CategoryTree[];
+    parameters: Record<string, string | string[]>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -31,7 +32,6 @@ export interface CategoryConfigurableAttributesContainerMapDispatchProps {}
 
 export interface CategoryConfigurableAttributesContainerBaseProps
     extends ProductConfigurableAttributesContainerProps {
-    parameters: Record<string, string | string[]>;
     isSearchPage: boolean;
 }
 
