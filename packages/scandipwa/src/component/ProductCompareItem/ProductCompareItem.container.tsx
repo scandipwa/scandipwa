@@ -44,10 +44,6 @@ export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
 );
-export const ProductDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Product/Product.dispatcher'
-);
 
 /** @namespace Component/ProductCompareItem/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductCompareItemContainerMapStateProps => ({
