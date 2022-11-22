@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { ProductType } from 'Component/Product/Product.config';
-import ProductListQuery from 'Query/ProductList.query';
 import { GroupedProductItem } from 'Query/ProductList.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -23,7 +22,6 @@ import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
 import { IndexedProduct, ProductTransformData } from 'Util/Product/Product.type';
 import { magentoProductTransform } from 'Util/Product/Transform';
-import { fetchQuery } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -75,7 +73,6 @@ ProductCompareItemContainerState
 > {
     state: ProductCompareItemContainerState = {
         isLoading: false,
-        overrideAddToCartBtnBehavior: false,
     };
 
     containerFunctions: ProductCompareItemContainerFunctions = {
@@ -86,19 +83,15 @@ ProductCompareItemContainerState
         addItemToCart: this.addItemToCart.bind(this),
     };
 
-    componentDidMount(): void {
-        this.getOverrideAddToCartBtnBehavior();
-    }
-
     containerProps(): Pick<ProductCompareItemComponentProps, ProductCompareItemComponentContainerPropKeys> {
         const { product, isInStock, isWishlistEnabled } = this.props;
-        const { isLoading, overrideAddToCartBtnBehavior } = this.state;
+        const { isLoading } = this.state;
 
         return {
             product,
             isLoading,
             imgUrl: this.getProductImage(),
-            overrideAddToCartBtnBehavior,
+            overrideAddToCartBtnBehavior: this.getOverrideAddToCartBtnBehavior(),
             linkTo: this.getLinkTo(),
             isInStock,
             isWishlistEnabled,
@@ -175,35 +168,21 @@ ProductCompareItemContainerState
         };
     }
 
-    getOverrideAddToCartBtnBehavior(): void {
-        const { product: { type_id, id: productID } } = this.props;
+    getOverrideAddToCartBtnBehavior(): boolean {
+        const {
+            product: {
+                type_id,
+                options = [],
+                links_purchased_separately = 0,
+            },
+        } = this.props;
         const types: string[] = [ProductType.BUNDLE, ProductType.CONFIGURABLE, ProductType.GROUPED];
 
-        const options = {
-            isSingleProduct: true,
-            args: {
-                filter: { productID },
-            },
-        };
+        const hasRequiredOptions = options?.some(({ required = false }) => required);
 
-        fetchQuery(ProductListQuery.getQuery(options)).then(
-            /** @namespace Component/ProductCompareItem/Container/ProductCompareItemContainer/getOverrideAddToCartBtnBehavior/fetchQuery/then */
-            ({ products: { items = [] } }) => {
-                const hasRequiredOptions = items.some(({ options = [] }) => options?.some(({
-                    required = false,
-                }) => required));
-
-                const isLinksRequired = items.some(({
-                    links_purchased_separately = 0,
-                }) => links_purchased_separately === 1);
-
-                this.setState({
-                    overrideAddToCartBtnBehavior: !!(types.indexOf(type_id) !== -1)
-                        || hasRequiredOptions
-                        || isLinksRequired,
-                });
-            },
-        );
+        return !!(types.indexOf(type_id) !== -1)
+        || hasRequiredOptions
+        || links_purchased_separately === 1;
     }
 
     overriddenAddToCartBtnHandler(): void {
