@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { updateConfigDevice } from 'Store/Config/Config.action';
+import { updateConfigState } from 'Store/Config/Config.action';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import { ReactElement } from 'Type/Common.type';
@@ -76,7 +76,7 @@ export const mapStateToProps = (state: RootState): RouterContainerMapStateProps 
 /** @namespace Component/Router/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispatchProps => ({
     updateMetaStore: (state) => dispatch(updateMetaStore(state)),
-    updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
+    updateConfigState: (state) => dispatch(updateConfigState(state)),
     updateOfflineStore: (state) => dispatch(updateOfflineStore(state)),
     init: async () => {
         ConfigDispatcher.then(
@@ -173,30 +173,38 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
     }
 
     async handleResize(): Promise<void> {
-        const { updateConfigDevice } = this.props;
+        const { updateConfigState } = this.props;
 
         if (isUsingClientHints) {
             const { platform, model } = await isMobileClientHints.getDeviceData();
 
-            updateConfigDevice({
-                isMobile: isMobile.any(),
-                android: isMobile.android(platform),
-                ios: isMobile.iOS(platform),
-                blackberry: isMobile.blackBerry(model),
-                opera: isMobile.opera(model),
-                safari: isMobile.safari(model),
-                windows: isMobile.windows(model),
-            });
+            updateConfigState(
+                {
+                    device: {
+                        isMobile: isMobile.any(),
+                        android: isMobile.android(platform),
+                        ios: isMobile.iOS(platform),
+                        blackberry: isMobile.blackBerry(model),
+                        opera: isMobile.opera(model),
+                        safari: isMobile.safari(model),
+                        windows: isMobile.windows(model),
+                    },
+                },
+            );
         } else {
-            updateConfigDevice({
-                isMobile: isMobile.any(),
-                android: isMobile.android(),
-                ios: isMobile.iOS(),
-                blackberry: isMobile.blackBerry(),
-                opera: isMobile.opera(),
-                safari: isMobile.safari(),
-                windows: isMobile.windows(),
-            });
+            updateConfigState(
+                {
+                    device: {
+                        isMobile: isMobile.any(),
+                        android: isMobile.android(),
+                        ios: isMobile.iOS(),
+                        blackberry: isMobile.blackBerry(),
+                        opera: isMobile.opera(),
+                        safari: isMobile.safari(),
+                        windows: isMobile.windows(),
+                    },
+                },
+            );
         }
     }
 

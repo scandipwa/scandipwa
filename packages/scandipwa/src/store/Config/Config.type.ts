@@ -24,27 +24,15 @@ import { ReviewRatingItem } from 'Query/Review.type';
 import { Device } from 'Type/Device.type';
 
 export enum ConfigActionType {
-    UPDATE_CONFIG = 'UPDATE_CONFIG',
-    UPDATE_CONFIG_DEVICE = 'UPDATE_CONFIG_DEVICE',
-    UPDATE_CURRENT_CURRENCY = 'UPDATE_CURRENT_CURRENCY',
+    UPDATE_CONFIG_STATE = 'UPDATE_CONFIG',
 }
 
-export interface UpdateConfigAction extends AnyAction {
-    type: ConfigActionType.UPDATE_CONFIG;
-    config: Partial<ConfigStore>;
+export interface UpdateConfigStateAction extends AnyAction {
+    type: ConfigActionType.UPDATE_CONFIG_STATE;
+    state: Partial<ConfigStore>;
 }
 
-export interface UpdateConfigDeviceAction extends AnyAction {
-    type: ConfigActionType.UPDATE_CONFIG_DEVICE;
-    device: Device;
-}
-
-export interface UpdateConfigCurrencyAction extends AnyAction {
-    type: ConfigActionType.UPDATE_CURRENT_CURRENCY;
-    selectedCurrency: string;
-}
-
-export type ConfigAction = UpdateConfigAction | UpdateConfigDeviceAction | UpdateConfigCurrencyAction;
+export type ConfigAction = UpdateConfigStateAction;
 
 export interface ReviewRatings {
     items: ReviewRatingItem[];

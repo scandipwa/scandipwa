@@ -12,6 +12,7 @@
 import { ErrorInfo, ReactElement } from 'react';
 
 import { PrintTypes } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
+import { ConfigStore } from 'Store/Config/Config.type';
 import { MetaStore } from 'Store/Meta/Meta.type';
 import { OfflineStore } from 'Store/Offline/Offline.type';
 import { Device } from 'Type/Device.type';
@@ -36,7 +37,7 @@ export interface RouterContainerMapStateProps {
 export interface RouterContainerMapDispatchProps {
     updateMetaStore: (state: Partial<MetaStore>) => void;
     updateOfflineStore: (state: Partial<OfflineStore>) => void;
-    updateConfigDevice: (device: Device) => void;
+    updateConfigState: (state: Partial<ConfigStore>) => void;
     init: () => void;
 }
 
