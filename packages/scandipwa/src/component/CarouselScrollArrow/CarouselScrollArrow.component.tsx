@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import Button from '@scandipwa/ui-library/src/component/Button';
 import { PureComponent } from 'react';
 
 import ChevronIcon from 'Component/ChevronIcon';
@@ -30,14 +31,13 @@ export class CarouselScrollArrowComponent extends PureComponent<CarouselScrollAr
         const { mods, onClick } = this.props;
 
         return (
-            <button
-              block="CarouselScrollArrow"
-              mods={ mods }
+            <Button
+              mix={ { block: 'CarouselScrollArrow', mods } }
               onClick={ onClick }
               aria-label="Arrow"
             >
                 <ChevronIcon />
-            </button>
+            </Button>
         );
     }
 }

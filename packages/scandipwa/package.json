@@ -6,7 +6,9 @@
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
         "build": "scandipwa-scripts build",
-        "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
+        "build:magento": "BUILD_MODE=magento scandipwa-scripts build",
+        "sb": "start-storybook -p 6006 --ci",
+        "build-sb": "build-storybook"
     },
     "dependencies": {
         "@scandipwa/chunk-optimizer": "0.0.9",
@@ -16,6 +18,7 @@
         "@scandipwa/scandipwa-scripts": "2.4.23",
         "@scandipwa/service-worker": "0.0.18",
         "@scandipwa/stylelint-config": "0.0.8",
+        "@scandipwa/ui-library": "file:../ui-library",
         "@scandipwa/webpack-i18n-runtime": "0.0.33",
         "@tilework/opus": "0.0.12",
         "@types/react": "18.0.17",
@@ -81,7 +84,8 @@
             "@scandipwa/postcss-config": true,
             "@scandipwa/chunk-optimizer": true,
             "@scandipwa/next-emulator": false,
-            "@scandipwa/stylelint-config": true
+            "@scandipwa/stylelint-config": true,
+            "@scandipwa/ui-library": true
         },
         "composer": {
             "magento/framework": "*",
@@ -128,6 +132,6 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://demo100-ors-1588667385-csa-hcx.scandipwa.cloud/",
+    "proxy": "https://scandipwapmrev.indvp.com/",
     "gitHead": "187276597fcf17521bcccdac1238b4e0061e5418"
 }

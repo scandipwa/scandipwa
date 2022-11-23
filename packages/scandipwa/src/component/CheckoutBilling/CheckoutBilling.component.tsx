@@ -8,7 +8,8 @@
  * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
-
+import Button from '@scandipwa/ui-library/src/component/Button';
+import Checkbox from '@scandipwa/ui-library/src/component/Checkbox';
 import { MouseEvent, PureComponent } from 'react';
 
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
@@ -115,14 +116,13 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
                     />
                    <div>
                         { `${checkbox_text } - ` }
-                        <button
-                          block="CheckoutBilling"
-                          elem="TACLink"
+                        <Button
+                          mix={ { block: 'CheckoutBilling', elem: 'TACLink' } }
                           onClick={ this.handleShowPopup }
                           type="button"
                         >
                             { __('read more') }
-                        </button>
+                        </Button>
                    </div>
                 </label>
             </div>
@@ -198,14 +198,13 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
         return (
             <div block="Checkout" elem="StickyButtonWrapper">
                 { this.renderOrderTotal() }
-                <button
+                <Button
                   type="submit"
-                  block="Button"
                   disabled={ isDisabled }
-                  mix={ { block: 'CheckoutBilling', elem: 'Button' } }
+                  mix={ { block: 'Button', mix: { block: 'CheckoutBilling', elem: 'Button' } } }
                 >
                     { __('Complete order') }
-                </button>
+                </Button>
             </div>
         );
     }
@@ -232,10 +231,10 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
 
     renderSameAsShippingCheckbox(): ReactElement {
         const {
-            isSameAsShipping,
-            onSameAsShippingChange,
             totals: { is_virtual },
             selectedShippingMethod,
+            onSameAsShippingChange,
+            isSameAsShipping,
         } = this.props;
 
         if (is_virtual) {
@@ -247,20 +246,11 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
         }
 
         return (
-            <Field
-              type={ FieldType.CHECKBOX }
-              attr={ {
-                  id: 'sameAsShippingAddress',
-                  name: 'sameAsShippingAddress',
-                  value: 'sameAsShippingAddress',
-                  checked: isSameAsShipping && selectedShippingMethod !== StoreInPickUpCode.METHOD_CODE,
-              } }
-              events={ {
-                  onChange: onSameAsShippingChange,
-              } }
-              mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
+            <Checkbox
+              id="sameAsShippingAddress"
               label={ __('My billing and shipping are the same') }
-              isDisabled={ selectedShippingMethod === StoreInPickUpCode.METHOD_CODE }
+              onCheckedChange={ onSameAsShippingChange }
+              checked={ isSameAsShipping && selectedShippingMethod !== StoreInPickUpCode.METHOD_CODE }
             />
         );
     }

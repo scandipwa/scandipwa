@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import Button from '@scandipwa/ui-library/src/component/Button';
 import { PureComponent } from 'react';
 
 import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
@@ -61,14 +62,14 @@ export class CategoryFilterOverlayComponent extends PureComponent<CategoryFilter
               block="CategoryFilterOverlay"
               elem="SeeResults"
             >
-                <button
+                <Button
                   block="CategoryFilterOverlay"
                   elem="Button"
                   mix={ { block: 'Button' } }
                   onClick={ onSeeResultsClick }
                 >
                     { __('SEE RESULTS') }
-                </button>
+                </Button>
             </div>
         );
     }

@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import Button from '@scandipwa/ui-library/src/component/Button';
 import { ChangeEvent, PureComponent } from 'react';
 
 import Field from 'Component/Field';
@@ -120,16 +121,14 @@ export class CartCouponComponent extends PureComponent<CartCouponComponentProps,
                       mix={ { mods: { hasError: isFieldWithError }, block: 'Field' } }
                     />
                 </div>
-                <button
-                  block="CartCoupon"
-                  elem="Button"
-                  type={ FieldType.BUTTON }
-                  mods={ { isHollow: true } }
+                <Button
                   disabled={ !enteredCouponCode }
                   onClick={ this.handleApplyCoupon }
+                  type="button"
+                  mix={ { block: 'CartCoupon', elem: 'Button', mods: { isHollow: true } } }
                 >
                     { __('Submit') }
-                </button>
+                </Button>
             </>
         );
     }
@@ -145,15 +144,13 @@ export class CartCouponComponent extends PureComponent<CartCouponComponentProps,
                         <strong>{ couponCode.toUpperCase() }</strong>
                     </p>
                 </div>
-                <button
-                  block="CartCoupon"
-                  elem="Button"
+                <Button
                   type="button"
-                  mix={ { block: 'Button' } }
+                  mix={ { block: 'Button CartCoupon', elem: 'Button', mix: { block: 'Button' } } }
                   onClick={ this.handleRemoveCoupon }
                 >
                     { __('Remove Coupon') }
-                </button>
+                </Button>
             </>
         );
     }

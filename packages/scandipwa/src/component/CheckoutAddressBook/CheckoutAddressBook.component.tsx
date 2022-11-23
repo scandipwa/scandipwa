@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import Button from '@scandipwa/ui-library/src/component/Button';
 import { PureComponent } from 'react';
 
 import CheckoutAddressForm from 'Component/CheckoutAddressForm';
@@ -147,16 +148,18 @@ CheckoutAddressBookComponentState
               block="CheckoutAddressBook"
               elem="CustomAddressWrapper"
             >
-                <button
-                  block="CheckoutAddressBook"
-                  elem="Button"
-                  mods={ { isCustomAddressExpanded } }
-                  mix={ { block: 'Button', mods: { isHollow: true } } }
+                <Button
+                  mix={ {
+                      block: 'CheckoutAddressBook',
+                      elem: 'Button',
+                      mods: { isCustomAddressExpanded },
+                      mix: { block: 'Button', mods: { isHollow: true } },
+                  } }
                   type="button"
                   onClick={ this.expandCustomAddress }
                 >
                     { __('Use custom address') }
-                </button>
+                </Button>
                 { isCustomAddressExpanded && this.renderCustomAddress() }
             </div>
         );

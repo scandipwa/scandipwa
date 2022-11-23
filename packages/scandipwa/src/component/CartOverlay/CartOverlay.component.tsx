@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import Button from '@scandipwa/ui-library/src/component/Button';
 import { PureComponent } from 'react';
 
 import CartItem from 'Component/CartItem';
@@ -205,16 +206,14 @@ export class CartOverlayComponent extends PureComponent<CartOverlayComponentProp
         } = this.props;
 
         return (
-            <button
-              block="CartOverlay"
-              elem="CheckoutButton"
-              mix={ { block: 'Button' } }
+            <Button
+              mix={ { block: 'CartOverlay', elem: 'CheckoutButton', mix: { block: 'Button' } } }
               onClick={ handleCheckoutClick }
               disabled={ hasOutOfStockProductsInCart || !minimumOrderAmountReached }
             >
                 <LockIcon />
                 { __('Secure checkout') }
-            </button>
+            </Button>
         );
     }
 

@@ -10,6 +10,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import Button from '@scandipwa/ui-library/src/component/Button';
 import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -388,14 +389,13 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         const { handleRemoveItem } = this.containerFunctions;
 
         return (
-            <button
-              block="CartItem"
-              elem="SwipeToDeleteRightSide"
+            <Button
+              mix={ { block: 'CartItem', elem: 'SwipeToDeleteRightSide' } }
               onClick={ handleRemoveItem }
               aria-label={ __('Remove') }
             >
                 { __('Delete') }
-            </button>
+            </Button>
         );
     }
 

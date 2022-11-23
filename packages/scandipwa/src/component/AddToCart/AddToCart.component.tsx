@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import Button from '@scandipwa/ui-library/src/component/Button';
 import { PureComponent } from 'react';
 
 import CartIcon from 'Component/CartIcon';
@@ -44,16 +45,14 @@ export class AddToCartComponent extends PureComponent<AddToCartComponentProps> {
         } = this.props;
 
         return (
-            <button
+            <Button
               onClick={ handleButtonClick }
-              block="Button AddToCart"
-              mix={ mix }
-              mods={ { layout } }
+              mix={ { block: 'Button AddToCart', mods: { layout }, mix } }
               disabled={ isDisabled || isAdding }
             >
                 { this.renderCartIcon() }
                 <span>{ isAdding ? __('Adding...') : __('Add to cart') }</span>
-            </button>
+            </Button>
         );
     }
 }

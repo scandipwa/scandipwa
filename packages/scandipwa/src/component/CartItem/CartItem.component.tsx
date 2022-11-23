@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import Button from '@scandipwa/ui-library/src/component/Button';
 import { KeyboardEvent, MouseEvent, PureComponent } from 'react';
 
 import CartItemPrice from 'Component/CartItemPrice';
@@ -444,12 +445,10 @@ export class CartItemComponent extends PureComponent<CartItemComponentProps> {
         const { handleRemoveItem, isMobileLayout } = this.props;
 
         return (
-            <button
-              block="CartItem"
+            <Button
+              mix={ { block: 'CartItem', elem: 'Delete', mods: { isMobileLayout } } }
               id="RemoveItem"
               name="RemoveItem"
-              elem="Delete"
-              mods={ { isMobileLayout } }
               aria-label="Remove item from cart"
               onClick={ handleRemoveItem }
             >
@@ -457,7 +456,7 @@ export class CartItemComponent extends PureComponent<CartItemComponentProps> {
                 <span block="CartItem" elem="DeleteButtonText" mods={ { isMobileLayout } }>
                     { __('Delete') }
                 </span>
-            </button>
+            </Button>
         );
     }
 
