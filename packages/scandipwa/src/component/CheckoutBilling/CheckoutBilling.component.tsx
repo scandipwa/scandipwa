@@ -8,8 +8,7 @@
  * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
-import Button from '@scandipwa/ui-library/src/component/Button';
-import Checkbox from '@scandipwa/ui-library/src/component/Checkbox';
+
 import { MouseEvent, PureComponent } from 'react';
 
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
@@ -20,6 +19,8 @@ import { FieldType } from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
+import Button from 'Src/ui-library/Button';
+import { ButtonType } from 'Src/ui-library/Button/Button.config';
 import { ReactElement } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
@@ -118,8 +119,12 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
                         { `${checkbox_text } - ` }
                         <Button
                           mix={ { block: 'CheckoutBilling', elem: 'TACLink' } }
-                          onClick={ this.handleShowPopup }
-                          type="button"
+                          attr={ {
+                              type: 'button',
+                          } }
+                          events={ {
+                              onClick: this.handleShowPopup,
+                          } }
                         >
                             { __('read more') }
                         </Button>
@@ -199,8 +204,7 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
             <div block="Checkout" elem="StickyButtonWrapper">
                 { this.renderOrderTotal() }
                 <Button
-                  type="submit"
-                  disabled={ isDisabled }
+                  attr={ { type: ButtonType.SUBMIT, disabled: isDisabled } }
                   mix={ { block: 'Button', mix: { block: 'CheckoutBilling', elem: 'Button' } } }
                 >
                     { __('Complete order') }
@@ -233,8 +237,6 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
         const {
             totals: { is_virtual },
             selectedShippingMethod,
-            onSameAsShippingChange,
-            isSameAsShipping,
         } = this.props;
 
         if (is_virtual) {
@@ -245,14 +247,7 @@ export class CheckoutBillingComponent extends PureComponent<CheckoutBillingCompo
             return null;
         }
 
-        return (
-            <Checkbox
-              id="sameAsShippingAddress"
-              label={ __('My billing and shipping are the same') }
-              onCheckedChange={ onSameAsShippingChange }
-              checked={ isSameAsShipping && selectedShippingMethod !== StoreInPickUpCode.METHOD_CODE }
-            />
-        );
+        return null;
     }
 
     renderHeading(): ReactElement {

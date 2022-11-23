@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import Button from '@scandipwa/ui-library/src/component/Button';
 import { PureComponent } from 'react';
 
 import CheckoutAddressForm from 'Component/CheckoutAddressForm';
@@ -18,6 +17,8 @@ import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { CustomerAddress } from 'Query/MyAccount.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
+import Button from 'Src/ui-library/Button';
+import { ButtonType } from 'Src/ui-library/Button/Button.config';
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import { getDefaultAddressLabel } from 'Util/Address';
@@ -155,8 +156,8 @@ CheckoutAddressBookComponentState
                       mods: { isCustomAddressExpanded },
                       mix: { block: 'Button', mods: { isHollow: true } },
                   } }
-                  type="button"
-                  onClick={ this.expandCustomAddress }
+                  attr={ { type: ButtonType.BUTTON } }
+                  events={ { onClick: this.expandCustomAddress } }
                 >
                     { __('Use custom address') }
                 </Button>

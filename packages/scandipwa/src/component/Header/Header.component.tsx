@@ -38,6 +38,7 @@ import SearchField from 'Component/SearchField';
 import ShareIcon from 'Component/ShareIcon';
 import StoreSwitcher from 'Component/StoreSwitcher';
 import UserIcon from 'Component/UserIcon';
+import Button from 'Src/ui-library/Button';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { isCrawler, isSSR } from 'Util/Browser';
@@ -446,16 +447,16 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
         }
 
         return (
-            <button
-              block="Header"
-              elem="MyAccountWrapper"
-              tabIndex={ 0 }
-              onClick={ onMyAccountButtonClick }
-              aria-label="Open my account"
-              id="myAccount"
+            <Button
+              mix={ {
+                  block: 'Header',
+                  elem: 'MyAccountWrapper',
+              } }
+              attr={ { id: 'myAccount', 'aria-label': 'Open my account', tabIndex: 0 } }
+              events={ { onClick: onMyAccountButtonClick } }
             >
                 <UserIcon />
-            </button>
+            </Button>
         );
     }
 

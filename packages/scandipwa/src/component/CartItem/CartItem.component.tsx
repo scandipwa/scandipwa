@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import Button from '@scandipwa/ui-library/src/component/Button';
 import { KeyboardEvent, MouseEvent, PureComponent } from 'react';
 
 import CartItemPrice from 'Component/CartItemPrice';
@@ -21,6 +20,7 @@ import { ImageRatio } from 'Component/Image/Image.type';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { CartBundleOption, CartCustomizableOption } from 'Query/Cart.type';
+import Button from 'Src/ui-library/Button';
 import { ReactElement } from 'Type/Common.type';
 import {
     GQLCurrencyEnum,
@@ -446,11 +446,9 @@ export class CartItemComponent extends PureComponent<CartItemComponentProps> {
 
         return (
             <Button
+              attr={ { name: 'RemoveItem', id: 'RemovedItem', 'aria-label': 'Remove item from cart' } }
+              events={ { onClick: handleRemoveItem } }
               mix={ { block: 'CartItem', elem: 'Delete', mods: { isMobileLayout } } }
-              id="RemoveItem"
-              name="RemoveItem"
-              aria-label="Remove item from cart"
-              onClick={ handleRemoveItem }
             >
                 <CloseIcon />
                 <span block="CartItem" elem="DeleteButtonText" mods={ { isMobileLayout } }>

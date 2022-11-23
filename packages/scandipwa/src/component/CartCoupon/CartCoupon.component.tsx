@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import Button from '@scandipwa/ui-library/src/component/Button';
 import { ChangeEvent, PureComponent } from 'react';
 
 import Field from 'Component/Field';
@@ -17,6 +16,8 @@ import { FieldType } from 'Component/Field/Field.config';
 import { EventFieldData } from 'Component/Field/Field.type';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
+import Button from 'Src/ui-library/Button';
+import { ButtonType } from 'Src/ui-library/Button/Button.config';
 import { ReactElement } from 'Type/Common.type';
 
 import { CartCouponComponentProps, CartCouponComponentState } from './CartCoupon.type';
@@ -122,9 +123,8 @@ export class CartCouponComponent extends PureComponent<CartCouponComponentProps,
                     />
                 </div>
                 <Button
-                  disabled={ !enteredCouponCode }
-                  onClick={ this.handleApplyCoupon }
-                  type="button"
+                  attr={ { disabled: !enteredCouponCode, type: ButtonType.BUTTON } }
+                  events={ { onClick: this.handleApplyCoupon } }
                   mix={ { block: 'CartCoupon', elem: 'Button', mods: { isHollow: true } } }
                 >
                     { __('Submit') }
@@ -145,9 +145,9 @@ export class CartCouponComponent extends PureComponent<CartCouponComponentProps,
                     </p>
                 </div>
                 <Button
-                  type="button"
+                  attr={ { type: ButtonType.BUTTON } }
+                  events={ { onClick: this.handleRemoveCoupon } }
                   mix={ { block: 'Button CartCoupon', elem: 'Button', mix: { block: 'Button' } } }
-                  onClick={ this.handleRemoveCoupon }
                 >
                     { __('Remove Coupon') }
                 </Button>

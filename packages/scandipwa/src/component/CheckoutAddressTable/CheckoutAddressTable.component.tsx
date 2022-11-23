@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import Button from '@scandipwa/ui-library/src/component/Button';
-
 import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable/MyAccountAddressTable.component';
 import { CustomerAddress } from 'Query/MyAccount.type';
+import Button from 'Src/ui-library/Button';
+import { ButtonType } from 'Src/ui-library/Button/Button.config';
 import { ReactElement } from 'Type/Common.type';
 
 import { CheckoutAddressTableComponentProps } from './CheckoutAddressTable.type';
@@ -47,9 +47,8 @@ export class CheckoutAddressTableComponent extends MyAccountAddressTable<Checkou
                   elem: 'Button',
                   mods: { isSelected },
               } }
-              type="button"
-              mods={ { isSelected } }
-              onClick={ this.onAddressClick }
+              attr={ { type: ButtonType.BUTTON } }
+              events={ { onClick: this.onAddressClick } }
             >
                 { super.renderTable() }
             </Button>

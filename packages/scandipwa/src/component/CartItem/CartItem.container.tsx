@@ -10,7 +10,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import Button from '@scandipwa/ui-library/src/component/Button';
 import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -18,6 +17,7 @@ import { Dispatch } from 'redux';
 import { ProductType } from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { CartTotals } from 'Query/Cart.type';
+import Button from 'Src/ui-library/Button';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement, Url } from 'Type/Common.type';
 import { encodeBase64 } from 'Util/Base64';
@@ -391,8 +391,8 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         return (
             <Button
               mix={ { block: 'CartItem', elem: 'SwipeToDeleteRightSide' } }
-              onClick={ handleRemoveItem }
-              aria-label={ __('Remove') }
+              attr={ { 'aria-label': __('Remove') } }
+              events={ { onClick: handleRemoveItem } }
             >
                 { __('Delete') }
             </Button>

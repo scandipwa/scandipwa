@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import Button from '@scandipwa/ui-library/src/component/Button';
 import { PureComponent } from 'react';
 
 import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
@@ -20,6 +19,7 @@ import {
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
 import ResetAttributes from 'Component/ResetAttributes';
 import ResetButton from 'Component/ResetButton';
+import Button from 'Src/ui-library/Button';
 import { ReactElement } from 'Type/Common.type';
 
 import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
@@ -63,10 +63,8 @@ export class CategoryFilterOverlayComponent extends PureComponent<CategoryFilter
               elem="SeeResults"
             >
                 <Button
-                  block="CategoryFilterOverlay"
-                  elem="Button"
-                  mix={ { block: 'Button' } }
-                  onClick={ onSeeResultsClick }
+                  mix={ { block: 'CategoryFilterOverlay', elem: 'Button', mix: { block: 'Button' } } }
+                  events={ { onClick: onSeeResultsClick } }
                 >
                     { __('SEE RESULTS') }
                 </Button>
