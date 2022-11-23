@@ -1,0 +1,34 @@
+.Tooltip {
+    &-Content {
+        border-radius: 4px;
+        padding: 10px 15px;
+        font-size: 15px;
+        line-height: 1;
+        color: $black;
+        background-color: $white;
+        animation-duration: 400ms;
+        };
+
+    &-IconButton {
+        font-family: 'inherit';
+        border-radius: 100%;
+        height: 35px;
+        width: 35px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: $white;
+        background-color: $default-primary-base-color;
+    
+        &:hover {
+          background-color: $white;
+          color: $default-primary-base-color;
+        }
+      }
+
+      &-Arrow {
+        fill: $white;
+      }
+}
+
+  
