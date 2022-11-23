@@ -59,6 +59,7 @@ export const mapStateToProps = (state: RootState): CheckoutBillingContainerMapSt
     cartTotalSubPrice: getCartTotalSubPrice(state),
     newShippingId: state.CheckoutReducer.shippingFields.id as number,
     newShippingStreet: state.CheckoutReducer.shippingFields.street as string[],
+    isSignedIn: state.MyAccountReducer.isSignedIn,
 });
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
@@ -76,6 +77,7 @@ CheckoutBillingContainerState
         newShippingId: 0,
         termsAreEnabled: false,
         cartTotalSubPrice: null,
+        isSignedIn: false,
     };
 
     static getDerivedStateFromProps(
@@ -119,6 +121,14 @@ CheckoutBillingContainerState
             prevPaymentMethods: paymentMethods,
             paymentMethod: '',
         };
+    }
+
+    componentDidMount() {
+        const { isSignedIn, customer: { addresses = [] } } = this.props;
+
+        if ((isSignedIn && addresses.length === 0) || !isSignedIn) {
+            this.setState({ isSameAsShipping: true });
+        }
     }
 
     componentDidUpdate(_: CheckoutBillingContainerProps, prevState: CheckoutBillingContainerState): void {

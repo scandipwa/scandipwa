@@ -30,6 +30,7 @@ export interface CheckoutBillingContainerMapStateProps {
     cartTotalSubPrice: number | null;
     newShippingId: number;
     newShippingStreet: string[];
+    isSignedIn: boolean;
 }
 
 export interface CheckoutBillingContainerMapDispatchProps {
