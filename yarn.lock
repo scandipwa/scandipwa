@@ -3722,11 +3722,6 @@
     semver "^7.3.2"
     validate-npm-package-name "^3.0.0"
 
-"@scandipwa/ui-library@file:packages/ui-library":
-  version "1.0.0"
-  dependencies:
-    radix-ui "^0.0.1"
-
 "@scandipwa/webpack-fallback-plugin@^1.2.5":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@scandipwa/webpack-fallback-plugin/-/webpack-fallback-plugin-1.2.5.tgz#325e5edeecf8a2c800cb6b64b6f02821382dbea5"
