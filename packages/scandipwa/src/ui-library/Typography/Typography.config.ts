@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export const ButtonType = {
-    BUTTON: 'button',
-    SUBMIT: 'submit',
-    RESET: 'reset',
-};
+export enum TypographyVariants {
+    H1 = 'h1',
+    H2 = 'h2',
+    H3 = 'h3',
+}

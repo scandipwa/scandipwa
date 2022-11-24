@@ -16,6 +16,8 @@ import Image from 'Component/Image';
 import { ImageRatio } from 'Component/Image/Image.type';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
+import Typography from 'Src/ui-library/Typography';
+import { TypographyVariants } from 'Src/ui-library/Typography/Typography.config';
 import { ReactElement } from 'Type/Common.type';
 
 import { CategoryDetailsComponentProps } from './CategoryDetails.type';
@@ -59,9 +61,9 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
         }
 
         return (
-            <h1 block="CategoryDetails" elem="Heading">
+            <Typography variant={ TypographyVariants.H1 } mix={ { block: 'CategoryDetails', elem: 'Heading' } }>
                 { this.renderCategoryText() }
-            </h1>
+            </Typography>
         );
     }
 

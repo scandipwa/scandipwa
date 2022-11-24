@@ -14,11 +14,25 @@ import {
 } from 'Component/Field/Field.type';
 import { Children, Mix } from 'Type/Common.type';
 
-export interface ButtonComponentProps {
+import { TypographyVariants } from './Typography.config';
+
+export interface TypographyContainerProps {
     children: Children;
     mix: Mix;
     attr: FieldAttributes;
     events: FieldEvents;
+    variant: TypographyVariants;
 }
 
-export type ButtonContainerPropsKey = 'mix';
+export interface TypographyComponentProps {
+    children: Children;
+    mix: Mix;
+    attr: FieldAttributes;
+    variant: TypographyVariants;
+}
+
+export type TypographyContainerPropsKey = 'mix' | 'attr' | 'children' | 'variant';
+
+export interface TypographyMapVariant {
+    Component: any;
+}

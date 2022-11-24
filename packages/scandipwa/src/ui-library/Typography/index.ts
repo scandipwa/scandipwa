@@ -9,8 +9,4 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export const ButtonType = {
-    BUTTON: 'button',
-    SUBMIT: 'submit',
-    RESET: 'reset',
-};
+export { default } from './Typography.container';

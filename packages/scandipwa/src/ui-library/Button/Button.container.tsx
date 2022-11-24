@@ -12,10 +12,10 @@
 
 import { ButtonHTMLAttributes, PureComponent } from 'react';
 
+import { FieldReactEvents } from 'Component/Field/Field.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { ButtonComponentProps, ButtonContainerPropsKey, FieldReactEvents } from './Button.type';
-
+import { ButtonComponentProps, ButtonContainerPropsKey } from './Button.type';
 /** @namespace uiLibrary/Button/Container */
 export class ButtonContainer extends PureComponent<
 ButtonComponentProps
