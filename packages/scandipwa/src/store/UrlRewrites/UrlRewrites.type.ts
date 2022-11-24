@@ -18,22 +18,15 @@ export type UrlRewrite = Merge<Partial<UrlRewritesOutput>, {
 }>;
 
 export enum UrlRewritesActionType {
-    UPDATE_URL_REWRITE = 'UPDATE_URL_REWRITE',
-    IS_LOADING_URL_REWRITE = 'IS_LOADING_URL_REWRITE',
+    UPDATE_URL_REWRITE_STORE = 'UPDATE_URL_REWRITE_STORE',
 }
 
-export interface UpdateUrlRewriteAction extends AnyAction {
-    type: UrlRewritesActionType.UPDATE_URL_REWRITE;
-    urlRewrite: UrlRewrite;
-    requestedUrl: string;
+export interface UpdateUrlRewriteStoreAction extends AnyAction {
+    type: UrlRewritesActionType.UPDATE_URL_REWRITE_STORE;
+    state: Partial<UrlRewritesStore>;
 }
 
-export interface SetIsUrlRewritesLoadingAction extends AnyAction {
-    type: UrlRewritesActionType.IS_LOADING_URL_REWRITE;
-    isLoading: boolean;
-}
-
-export type UrlRewritesAction = UpdateUrlRewriteAction | SetIsUrlRewritesLoadingAction;
+export type UrlRewritesAction = UpdateUrlRewriteStoreAction;
 
 export interface UrlRewritesStore {
     urlRewrite: UrlRewrite;

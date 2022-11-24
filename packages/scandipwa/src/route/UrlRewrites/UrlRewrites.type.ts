@@ -22,7 +22,7 @@ export interface UrlRewritesContainerMapStateProps {
 
 export interface UrlRewritesContainerMapDispatchProps {
     requestUrlRewrite: (urlParam: string) => void;
-    setIsUrlRewritesLoading: (isLoading: boolean) => void;
+    updateUrlRewriteState: (isLoading: boolean) => void;
     updateCategoryStore: (state: Partial<CategoryStore>) => void;
 }
 

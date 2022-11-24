@@ -11,7 +11,7 @@
 
 import { Reducer } from 'redux';
 
-import { UrlRewritesAction, UrlRewritesActionType, UrlRewritesStore } from './UrlRewrites.type';
+import { UrlRewritesActionType, UrlRewritesStore } from './UrlRewrites.type';
 
 /** @namespace Store/UrlRewrites/Reducer/getInitialState */
 export const getInitialState = (): UrlRewritesStore => ({
@@ -21,37 +21,20 @@ export const getInitialState = (): UrlRewritesStore => ({
 });
 
 /** @namespace Store/UrlRewrites/Reducer/UrlRewritesReducer */
-export const UrlRewritesReducer: Reducer<
-UrlRewritesStore,
-UrlRewritesAction
-> = (
+export const UrlRewritesReducer: Reducer<UrlRewritesStore> = (
     state = getInitialState(),
     action,
 ) => {
-    switch (action.type) {
-    case UrlRewritesActionType.UPDATE_URL_REWRITE:
-        const {
-            urlRewrite,
-            requestedUrl,
-        } = action;
+    const { state: newState, type } = action;
 
-        return {
-            ...state,
-            isLoading: false,
-            urlRewrite,
-            requestedUrl,
-        };
-
-    case UrlRewritesActionType.IS_LOADING_URL_REWRITE:
-        const { isLoading } = action;
-
-        return {
-            ...state,
-            isLoading,
-        };
-    default:
+    if (UrlRewritesActionType.UPDATE_URL_REWRITE_STORE !== type) {
         return state;
     }
+
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default UrlRewritesReducer;

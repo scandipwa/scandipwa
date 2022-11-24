@@ -10,26 +10,15 @@
  */
 
 import {
-    SetIsUrlRewritesLoadingAction,
-    UpdateUrlRewriteAction,
-    UrlRewrite,
+    UpdateUrlRewriteStoreAction,
     UrlRewritesActionType,
+    UrlRewritesStore,
 } from './UrlRewrites.type';
 
-/** @namespace Store/UrlRewrites/Action/updateUrlRewrite */
-export const updateUrlRewrite = (
-    urlRewrite: UrlRewrite,
-    requestedUrl: string,
-): UpdateUrlRewriteAction => ({
-    type: UrlRewritesActionType.UPDATE_URL_REWRITE,
-    urlRewrite,
-    requestedUrl,
-});
-
-/** @namespace Store/UrlRewrites/Action/setIsUrlRewritesLoading */
-export const setIsUrlRewritesLoading = (
-    isLoading: boolean,
-): SetIsUrlRewritesLoadingAction => ({
-    type: UrlRewritesActionType.IS_LOADING_URL_REWRITE,
-    isLoading,
+/** @namespace Store/UrlRewrites/Action/updateUrlRewriteState */
+export const updateUrlRewriteState = (
+    state: Partial<UrlRewritesStore>,
+): UpdateUrlRewriteStoreAction => ({
+    type: UrlRewritesActionType.UPDATE_URL_REWRITE_STORE,
+    state,
 });

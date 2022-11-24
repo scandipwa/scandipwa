@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { updateCategoryStore } from 'Store/Category/Category.action';
-import { setIsUrlRewritesLoading } from 'Store/UrlRewrites/UrlRewrites.action';
+import { updateUrlRewriteState } from 'Store/UrlRewrites/UrlRewrites.action';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
@@ -53,7 +53,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): UrlRewritesContainerMapD
             ({ default: dispatcher }) => dispatcher.getUrlRewrites({ urlParam }),
         );
     },
-    setIsUrlRewritesLoading: (isLoading) => dispatch(setIsUrlRewritesLoading(isLoading)),
+    updateUrlRewriteState: (isLoading) => dispatch(updateUrlRewriteState({ isLoading })),
     updateCategoryStore: (state) => dispatch(updateCategoryStore(state)),
 });
 
@@ -248,8 +248,8 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
     }
 
     requestUrlRewrite(): void {
-        const { requestUrlRewrite, setIsUrlRewritesLoading } = this.props;
-        setIsUrlRewritesLoading(true);
+        const { requestUrlRewrite, updateUrlRewriteState } = this.props;
+        updateUrlRewriteState(true);
 
         return requestUrlRewrite(location.pathname);
     }

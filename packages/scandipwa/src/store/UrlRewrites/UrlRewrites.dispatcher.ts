@@ -14,7 +14,7 @@ import { UrlRewritesQueryOptions } from 'Query/UrlRewrites.type';
 import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { setIsUrlRewritesLoading, updateUrlRewrite } from 'Store/UrlRewrites/UrlRewrites.action';
+import { updateUrlRewriteState } from 'Store/UrlRewrites/UrlRewrites.action';
 import { NetworkError } from 'Type/Common.type';
 import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
@@ -46,16 +46,24 @@ export class UrlRewritesDispatcher extends SimpleDispatcher {
         const { urlParam } = options;
         const rawQueries = UrlRewritesQuery.getQuery(this.processUrlOptions(options));
 
-        this.dispatch(setIsUrlRewritesLoading(true));
+        this.dispatch(updateUrlRewriteState({ isLoading: true }));
 
         try {
             const { urlResolver } = await fetchCancelableQuery<UrlRewritesDispatcherData>(rawQueries, 'UrlRewrites');
 
-            this.dispatch(updateUrlRewrite(urlResolver || { notFound: true }, urlParam));
+            this.dispatch(updateUrlRewriteState({
+                urlRewrite: urlResolver || { notFound: true },
+                requestedUrl: urlParam,
+                isLoading: false,
+            }));
+
             this.dispatch(updateNoMatchStore({ noMatch: !urlResolver }));
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {
-                this.dispatch(updateUrlRewrite({ notFound: true }, urlParam));
+                this.dispatch(updateUrlRewriteState({
+                    urlRewrite: { notFound: true },
+                    requestedUrl: urlParam,
+                }));
                 this.dispatch(updateNoMatchStore({ noMatch: true }));
                 this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching URL-rewrites!'), err));
             }
