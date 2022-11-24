@@ -15,8 +15,8 @@ import {
     UrlRewritesStore,
 } from './UrlRewrites.type';
 
-/** @namespace Store/UrlRewrites/Action/updateUrlRewriteState */
-export const updateUrlRewriteState = (
+/** @namespace Store/UrlRewrites/Action/updateUrlRewriteStore */
+export const updateUrlRewriteStore = (
     state: Partial<UrlRewritesStore>,
 ): UpdateUrlRewriteStoreAction => ({
     type: UrlRewritesActionType.UPDATE_URL_REWRITE_STORE,

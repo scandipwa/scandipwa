@@ -26,8 +26,6 @@ export interface UpdateUrlRewriteStoreAction extends AnyAction {
     state: Partial<UrlRewritesStore>;
 }
 
-export type UrlRewritesAction = UpdateUrlRewriteStoreAction;
-
 export interface UrlRewritesStore {
     urlRewrite: UrlRewrite;
     requestedUrl: string;

@@ -17,8 +17,8 @@ import {
 
 export const UPDATE_CONFIG_STATE = 'UPDATE_CONFIG_STATE';
 
-/** @namespace Store/Config/Action/updateConfigState */
-export const updateConfigState = (state: Partial<ConfigStore>): UpdateConfigStateAction => ({
+/** @namespace Store/Config/Action/updateConfigStore */
+export const updateConfigStore = (state: Partial<ConfigStore>): UpdateConfigStateAction => ({
     type: ConfigActionType.UPDATE_CONFIG_STATE,
     state,
 });

@@ -22,7 +22,7 @@ import RegionQuery from 'Query/Region.query';
 import { Country } from 'Query/Region.type';
 import ReviewQuery from 'Query/Review.query';
 import { ReviewRatingItem } from 'Query/Review.type';
-import { updateConfigState } from 'Store/Config/Config.action';
+import { updateConfigStore } from 'Store/Config/Config.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
@@ -83,7 +83,7 @@ export class ConfigDispatcher extends SimpleDispatcher {
                 ({ default: dispatcher }) => dispatcher.updateInitialCartData(true),
             );
         } catch (e) {
-            dispatch(updateConfigState({}));
+            dispatch(updateConfigStore({}));
         }
     }
 
@@ -147,7 +147,7 @@ export class ConfigDispatcher extends SimpleDispatcher {
                     cartDisplayConfig,
                 };
 
-                this.dispatch(updateConfigState(newConfigState));
+                this.dispatch(updateConfigStore(newConfigState));
             }
         } catch (err) {
             this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching Config!'), err));

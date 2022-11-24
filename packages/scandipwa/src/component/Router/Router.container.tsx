@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { updateConfigState } from 'Store/Config/Config.action';
+import { updateConfigStore } from 'Store/Config/Config.action';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import { ReactElement } from 'Type/Common.type';
@@ -76,7 +76,7 @@ export const mapStateToProps = (state: RootState): RouterContainerMapStateProps 
 /** @namespace Component/Router/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispatchProps => ({
     updateMetaStore: (state) => dispatch(updateMetaStore(state)),
-    updateConfigState: (state) => dispatch(updateConfigState(state)),
+    updateConfigState: (state) => dispatch(updateConfigStore(state)),
     updateOfflineStore: (state) => dispatch(updateOfflineStore(state)),
     init: async () => {
         ConfigDispatcher.then(

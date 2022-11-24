@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { updateCategoryStore } from 'Store/Category/Category.action';
-import { updateUrlRewriteState } from 'Store/UrlRewrites/UrlRewrites.action';
+import { updateUrlRewriteStore } from 'Store/UrlRewrites/UrlRewrites.action';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
@@ -53,7 +53,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): UrlRewritesContainerMapD
             ({ default: dispatcher }) => dispatcher.getUrlRewrites({ urlParam }),
         );
     },
-    updateUrlRewriteState: (isLoading) => dispatch(updateUrlRewriteState({ isLoading })),
+    updateUrlRewriteState: (isLoading) => dispatch(updateUrlRewriteStore({ isLoading })),
     updateCategoryStore: (state) => dispatch(updateCategoryStore(state)),
 });
 

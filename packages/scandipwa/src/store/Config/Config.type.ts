@@ -32,8 +32,6 @@ export interface UpdateConfigStateAction extends AnyAction {
     state: Partial<ConfigStore>;
 }
 
-export type ConfigAction = UpdateConfigStateAction;
-
 export interface ReviewRatings {
     items: ReviewRatingItem[];
 }

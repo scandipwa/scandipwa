@@ -14,7 +14,7 @@ import { UrlRewritesQueryOptions } from 'Query/UrlRewrites.type';
 import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { updateUrlRewriteState } from 'Store/UrlRewrites/UrlRewrites.action';
+import { updateUrlRewriteStore } from 'Store/UrlRewrites/UrlRewrites.action';
 import { NetworkError } from 'Type/Common.type';
 import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
@@ -46,12 +46,12 @@ export class UrlRewritesDispatcher extends SimpleDispatcher {
         const { urlParam } = options;
         const rawQueries = UrlRewritesQuery.getQuery(this.processUrlOptions(options));
 
-        this.dispatch(updateUrlRewriteState({ isLoading: true }));
+        this.dispatch(updateUrlRewriteStore({ isLoading: true }));
 
         try {
             const { urlResolver } = await fetchCancelableQuery<UrlRewritesDispatcherData>(rawQueries, 'UrlRewrites');
 
-            this.dispatch(updateUrlRewriteState({
+            this.dispatch(updateUrlRewriteStore({
                 urlRewrite: urlResolver || { notFound: true },
                 requestedUrl: urlParam,
                 isLoading: false,
@@ -60,7 +60,7 @@ export class UrlRewritesDispatcher extends SimpleDispatcher {
             this.dispatch(updateNoMatchStore({ noMatch: !urlResolver }));
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {
-                this.dispatch(updateUrlRewriteState({
+                this.dispatch(updateUrlRewriteStore({
                     urlRewrite: { notFound: true },
                     requestedUrl: urlParam,
                 }));
