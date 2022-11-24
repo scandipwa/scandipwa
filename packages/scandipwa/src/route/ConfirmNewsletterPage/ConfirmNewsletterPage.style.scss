@@ -1,0 +1,71 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/scandipwa
+ * @link https://github.com/scandipwa/scandipwa
+ */
+
+.ConfirmNewsletterPage {
+    padding-block-end: var(--header-nav-height);
+
+    @include desktop {
+        margin-block-start: var(--header-total-height);
+    }
+
+    @include mobile {
+        padding-block-end: calc(var(--navigation-tabs-height) + 60px);
+        padding-block-start: 20px;
+    }
+
+    &::before {
+        @include desktop {
+            content: '';
+            background: var(--breadcrumbs-background);
+            display: block;
+            min-height: var(--breadcrumbs-height);
+        }
+    }
+
+    &-WarningMsg {
+        color: var(--primary-error-color);
+        font-size: 15px;
+        padding-block-start: 20px;
+        text-align: center;
+
+        h2 {
+            color: var(--primary-error-color);
+        }
+    }
+
+    &-Heading {
+        padding-block: 10px 24px;
+        text-transform: none;
+    }
+
+    &-Message {
+        margin-block-start: 22px;
+        font-weight: normal;
+        text-transform: none;
+    }
+
+    &-ButtonWrapper {
+        @include mobile {
+            padding: 14px;
+            position: fixed;
+            inset-inline-start: 0;
+            width: 100%;
+            inset-block-end: calc(var(--navigation-tabs-height) - 2px);
+            border-block-start: 1px solid var(--primary-divider-color);
+        }
+    }
+
+    &-ContinueButton {
+        @include desktop {
+            margin-block-start: 24px;
+        }
+    }
+}

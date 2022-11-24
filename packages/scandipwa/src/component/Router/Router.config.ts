@@ -49,6 +49,7 @@ export enum RouterSwitchItemType {
     COMPARE = 'COMPARE',
     STYLE_GUIDE = 'STYLE_GUIDE',
     URL_REWRITES = 'URL_REWRITES',
+    CONFIRM_NEWSLETTER = 'CONFIRM_NEWSLETTER',
 }
 
 export enum RouterAfterItemType {

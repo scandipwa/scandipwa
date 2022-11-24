@@ -86,6 +86,11 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     default_state = DEFAULT_HEADER_STATE;
 
     routeMap: Record<string, NavigationState> = {
+        '/newsletter/subscriber/confirm': {
+            name: Page.NEWSLETTER_CONFIRM,
+            title: __('Confirm Subscription'),
+            onBackClick: () => history.push(appendWithStoreCode('/')),
+        },
         '/customer/account/confirmation': {
             name: Page.CMS_PAGE,
             title: __('Send confirmation link'),

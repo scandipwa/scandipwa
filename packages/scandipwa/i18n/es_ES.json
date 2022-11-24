@@ -609,5 +609,11 @@
     "County": null,
     "State/Province": null,
     "Region": null,
-    "You %s the address": null
+    "You %s the address": null,
+    "Confirm Subscription": null,
+    "Confirm subscription": null,
+    "Error subscribing to newsletter!": null,
+    "Unable to confirm subscription.": null,
+    "Thank you for subscribing to our newsletter!": null,
+    "Confirm Newsletter Page": null
 }

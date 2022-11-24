@@ -33,6 +33,34 @@ export class NewsletterSubscriptionQuery {
             new Field<'status', GQLSubscriptionStatusesEnum>('status'),
         ];
     }
+
+    confirmSubscribeToNewsletterMutation(
+        id: string,
+        code: string,
+    ): Mutation<'confirmSubscribingToNewsletter', {
+            status: string;
+            message: string;
+        }> {
+        return new Mutation<'confirmSubscribingToNewsletter', {
+            status: string;
+            message: string;
+        }>(
+            'confirmSubscribingToNewsletter',
+        )
+            .addArgument('id', 'String!', id)
+            .addArgument('code', 'String!', code)
+            .addFieldList(this._getConfirmFields());
+    }
+
+    _getConfirmFields(): Array<
+    Field<'status', string>
+    | Field<'message', string>
+    > {
+        return [
+            new Field<'status', string>('status'),
+            new Field<'message', string>('message'),
+        ];
+    }
 }
 
 export default new NewsletterSubscriptionQuery();

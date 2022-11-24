@@ -58,6 +58,7 @@ export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webp
 export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "search" */ 'Route/SearchPage'));
 export const SendConfirmationPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/SendConfirmationPage'));
 export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/ConfirmAccountPage'));
+export const ConfirmNewsletterPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/ConfirmNewsletterPage'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/MenuPage'));
 export const Footer = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "footer" */ 'Component/Footer'));
 export const NavigationTabs = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/NavigationTabs'));
@@ -271,6 +272,11 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
             component: <Route path={ withStoreRegex('/sales/order/printCreditmemo/creditmemo_id/:refundId?') } render={ ({ match }) => <OrderPrintPage match={ match } orderPrintRequest={ PrintTypes.PRINT_REFUND } /> } />,
             position: 95,
             name: PrintTypes.PRINT_ORDER,
+        },
+        {
+            component: <Route path={ withStoreRegex('/newsletter/subscriber/confirm/:id?/code/:code?') } render={ (props) => <ConfirmNewsletterPage { ...props } /> } />,
+            position: 100,
+            name: RouterSwitchItemType.CONFIRM_NEWSLETTER,
         },
         {
             component: <Route render={ ({ match }) => <UrlRewrites match={ match } /> } />,

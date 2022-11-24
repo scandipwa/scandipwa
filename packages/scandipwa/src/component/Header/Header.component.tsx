@@ -156,6 +156,10 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
             title: true,
             back: true,
         },
+        [Page.NEWSLETTER_CONFIRM]: {
+            title: true,
+            back: true,
+        },
     };
 
     renderMap = {

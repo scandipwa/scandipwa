@@ -34,4 +34,5 @@ export enum Page {
     NO_MATCH = 'no-match',
     CONTACT_US = 'contact-us',
     PRODUCT_COMPARE = 'product-compare',
+    NEWSLETTER_CONFIRM = 'newsletter-confirm',
 }
