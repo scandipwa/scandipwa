@@ -181,7 +181,8 @@ ProductCompareItemContainerState
         const types: string[] = [ProductType.BUNDLE, ProductType.CONFIGURABLE];
 
         const hasRequiredOptions = options?.some(({ required = false }) => required);
-        const isGroupedWithoutQty = (items as GroupedProductItem[])?.every(({ qty = 0 }) => qty <= 0);
+        const isGroupedWithoutQty = type_id === ProductType.GROUPED
+            && (items as GroupedProductItem[])?.every(({ qty = 0 }) => qty <= 0);
 
         return !!(types.indexOf(type_id) !== -1)
         || hasRequiredOptions
