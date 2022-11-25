@@ -112,9 +112,14 @@ ProductCompareItemContainerState
         }
 
         return (items as GroupedProductItem[]).reduce((result, item) => {
-            const { product: { id = 0 } = {} } = item;
+            const {
+                product: { id = 0 } = {},
+                qty = 0,
+            } = item;
 
-            Object.assign(result, { [ id ]: 1 });
+            if (qty > 0) {
+                Object.assign(result, { [ id ]: qty });
+            }
 
             return result;
         }, {});
@@ -170,15 +175,18 @@ ProductCompareItemContainerState
                 type_id,
                 options = [],
                 links_purchased_separately = 0,
+                items = [],
             },
         } = this.props;
-        const types: string[] = [ProductType.BUNDLE, ProductType.CONFIGURABLE, ProductType.GROUPED];
+        const types: string[] = [ProductType.BUNDLE, ProductType.CONFIGURABLE];
 
         const hasRequiredOptions = options?.some(({ required = false }) => required);
+        const isGroupedWithoutQty = (items as GroupedProductItem[])?.every(({ qty = 0 }) => qty <= 0);
 
         return !!(types.indexOf(type_id) !== -1)
         || hasRequiredOptions
-        || links_purchased_separately === 1;
+        || links_purchased_separately === 1
+        || isGroupedWithoutQty;
     }
 
     overriddenAddToCartBtnHandler(): void {
@@ -199,11 +207,24 @@ ProductCompareItemContainerState
                 stock_item: {
                     min_sale_qty: quantity = 1,
                 } = {},
+                type_id,
             },
             product: item,
         } = this.props;
 
-        return magentoProductTransform(ADD_TO_CART, item as unknown as IndexedProduct, quantity);
+        if (type_id === ProductType.GROUPED) {
+            return magentoProductTransform(
+                ADD_TO_CART,
+                item as unknown as IndexedProduct,
+                this.getGroupedProductQuantity(),
+            );
+        }
+
+        return magentoProductTransform(
+            ADD_TO_CART,
+            item as unknown as IndexedProduct,
+            quantity,
+        );
     }
 
     async addItemToCart(): Promise<void> {
