@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ProductItem } from 'Query/ProductList.type';
+import { ProductStore } from 'Store/Product/Product.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export interface StyleGuidePageContainerMapStateProps {
@@ -17,7 +17,7 @@ export interface StyleGuidePageContainerMapStateProps {
 }
 
 export interface StyleGuidePageContainerMapDispatchProps {
-    updateProductDetails: (product: ProductItem) => void;
+    updateProductStore: (state: Partial<ProductStore>) => void;
 }
 
 export type StyleGuidePageContainerProps = StyleGuidePageContainerMapStateProps

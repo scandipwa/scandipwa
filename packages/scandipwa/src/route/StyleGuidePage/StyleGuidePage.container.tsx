@@ -15,10 +15,11 @@ import { Dispatch } from 'redux';
 
 import { ProductItem } from 'Query/ProductList.type';
 import CategoryReducer from 'Store/Category/Category.reducer';
-import { updateProductDetails } from 'Store/Product/Product.action';
+import { updateProductStore } from 'Store/Product/Product.action';
 import ProductReducer from 'Store/Product/Product.reducer';
 import { ReactElement } from 'Type/Common.type';
 import { withReducers } from 'Util/DynamicReducer';
+import { getIndexedProduct } from 'Util/Product';
 import { RootState } from 'Util/Store/Store.type';
 
 import product from './product.json';
@@ -42,7 +43,7 @@ export const mapStateToProps = (state: RootState): StyleGuidePageContainerMapSta
 
 /** @namespace Route/StyleGuidePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): StyleGuidePageContainerMapDispatchProps => ({
-    updateProductDetails: (product) => dispatch(updateProductDetails(product)),
+    updateProductStore: (state) => dispatch(updateProductStore(state)),
 });
 
 /** @namespace Route/StyleGuidePage/Container */
@@ -52,9 +53,9 @@ export class StyleGuidePageContainer extends PureComponent<StyleGuidePageContain
     };
 
     componentDidMount(): void {
-        const { updateProductDetails } = this.props;
+        const { updateProductStore } = this.props;
 
-        updateProductDetails(product as unknown as ProductItem);
+        updateProductStore({ product: getIndexedProduct(product as unknown as ProductItem) });
     }
 
     containerProps(): Pick<StyleGuidePageComponentProps, 'product'> {

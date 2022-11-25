@@ -11,12 +11,9 @@
 
 import { Reducer } from 'redux';
 
-import { getIndexedProduct } from 'Util/Product';
-
 import {
     ProductActionType,
     ProductStore,
-    UpdateProductDetailsAction,
 } from './Product.type';
 
 /** @namespace Store/Product/Reducer/getInitialState */
@@ -25,23 +22,20 @@ export const getInitialState = (): ProductStore => ({
 });
 
 /** @namespace Store/Product/Reducer/ProductReducer */
-export const ProductReducer: Reducer<ProductStore, UpdateProductDetailsAction> = (
+export const ProductReducer: Reducer<ProductStore> = (
     state = getInitialState(),
     action,
 ) => {
-    switch (action.type) {
-    case ProductActionType.UPDATE_PRODUCT_DETAILS: {
-        const { product = {} } = action;
+    const { state: newState, type } = action;
 
-        return {
-            ...state,
-            product: getIndexedProduct(product),
-        };
-    }
-
-    default:
+    if (ProductActionType.UPDATE_PRODUCT_STORE !== type) {
         return state;
     }
+
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default ProductReducer;

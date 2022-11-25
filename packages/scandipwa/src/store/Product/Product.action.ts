@@ -10,18 +10,14 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ProductItem } from 'Query/ProductList.type';
+import {
+    ProductActionType,
+    ProductStore,
+    UpdateProductStoreAction,
+} from './Product.type';
 
-import { ProductActionType, UpdateProductDetailsAction } from './Product.type';
-
-/**
- * Update product list with new list (rewrite if already exists).
- * @param  {Array<Object>} items List of products returned from fetch
- * @param  {Number} totalItems Total number of products in this filter
- * @return {void}
- * @namespace Store/Product/Action/updateProductDetails
- */
-export const updateProductDetails = (product: ProductItem): UpdateProductDetailsAction => ({
-    type: ProductActionType.UPDATE_PRODUCT_DETAILS,
-    product,
+/** @namespace Store/Product/Action/updateProductStore */
+export const updateProductStore = (state: Partial<ProductStore>): UpdateProductStoreAction => ({
+    type: ProductActionType.UPDATE_PRODUCT_STORE,
+    state,
 });

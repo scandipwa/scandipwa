@@ -11,16 +11,16 @@
 
 import { AnyAction } from 'redux';
 
-import { ProductItem, ProductsQueryOutput } from 'Query/ProductList.type';
+import { ProductsQueryOutput } from 'Query/ProductList.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export enum ProductActionType {
-    UPDATE_PRODUCT_DETAILS = 'UPDATE_PRODUCT_DETAILS',
+    UPDATE_PRODUCT_STORE = 'UPDATE_PRODUCT_STORE',
 }
 
-export interface UpdateProductDetailsAction extends AnyAction {
-    type: ProductActionType.UPDATE_PRODUCT_DETAILS;
-    product?: ProductItem;
+export interface UpdateProductStoreAction extends AnyAction {
+    type: ProductActionType.UPDATE_PRODUCT_STORE;
+    state: Partial<ProductStore>;
 }
 
 export interface ProductStore {
