@@ -93,6 +93,8 @@ State extends MyAccountOrderContainerState = MyAccountOrderContainerState,
 
         if (orderId) {
             this.requestOrderDetails(orderId);
+        } else {
+            history.replace(appendWithStoreCode(`${AccountPageUrl.ORDER_HISTORY}`));
         }
     }
 
