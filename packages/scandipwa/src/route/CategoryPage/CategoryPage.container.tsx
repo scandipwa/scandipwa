@@ -27,7 +27,7 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
+import { updateProductListInfoStore } from 'Store/ProductListInfo/ProductListInfo.action';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -115,7 +115,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
     requestProductListInfo: (options) => ProductListInfoDispatcher.then(
         ({ default: dispatcher }) => dispatcher.getProductListInfo(options),
     ),
-    updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
+    updateLoadStatus: (isLoading) => dispatch(updateProductListInfoStore({ isLoading })),
     updateNoMatch: (options) => NoMatchDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateNoMatch(options),
     ),

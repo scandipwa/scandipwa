@@ -9,31 +9,14 @@
  * @link https://github.com/scandipwa/scandipwa-theme
  */
 
-import { ProductAttributeFilterOptions, ProductsQueryOutput } from 'Query/ProductList.type';
-
 import {
     ProductListInfoActionType,
-    UpdateInfoLoadStatusAction,
-    UpdateProductListInfoAction,
+    ProductListInfoStore,
+    UpdateProductListInfoStoreAction,
 } from './ProductListInfo.type';
 
-/** @namespace Store/ProductListInfo/Action/updateProductListInfo */
-export const updateProductListInfo = (
-    products: ProductsQueryOutput,
-    filter: Partial<ProductAttributeFilterOptions>,
-): UpdateProductListInfoAction => ({
-    type: ProductListInfoActionType.UPDATE_PRODUCT_LIST_INFO,
-    products,
-    selectedFilter: filter,
-});
-
-/**
- * Update loading status
- * @param {Boolean} status Loading indication boolean
- * @return {void}
- * @namespace Store/ProductListInfo/Action/updateInfoLoadStatus
- */
-export const updateInfoLoadStatus = (status: boolean): UpdateInfoLoadStatusAction => ({
-    type: ProductListInfoActionType.UPDATE_INFO_LOAD_STATUS,
-    isLoading: status,
+/** @namespace Store/ProductListInfo/Action/updateProductListInfoStore */
+export const updateProductListInfoStore = (state: Partial<ProductListInfoStore>): UpdateProductListInfoStoreAction => ({
+    type: ProductListInfoActionType.UPDATE_PRODUCT_LIST_INFO_STORE,
+    state,
 });

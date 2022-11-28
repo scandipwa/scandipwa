@@ -16,22 +16,13 @@ import {
 } from 'Query/ProductList.type';
 
 export enum ProductListInfoActionType {
-    UPDATE_PRODUCT_LIST_INFO = 'UPDATE_PRODUCT_LIST_INFO',
-    UPDATE_INFO_LOAD_STATUS = 'UPDATE_INFO_LOAD_STATUS',
+    UPDATE_PRODUCT_LIST_INFO_STORE = 'UPDATE_PRODUCT_LIST_INFO_STORE',
 }
 
-export interface UpdateProductListInfoAction extends AnyAction {
-    type: ProductListInfoActionType.UPDATE_PRODUCT_LIST_INFO;
-    products: ProductsQueryOutput;
-    selectedFilter: Partial<ProductAttributeFilterOptions>;
+export interface UpdateProductListInfoStoreAction extends AnyAction {
+    type: ProductListInfoActionType.UPDATE_PRODUCT_LIST_INFO_STORE;
+    state: Partial<ProductListInfoStore>;
 }
-
-export interface UpdateInfoLoadStatusAction extends AnyAction {
-    type: ProductListInfoActionType.UPDATE_INFO_LOAD_STATUS;
-    isLoading: boolean;
-}
-
-export type ProductListInfoAction = UpdateProductListInfoAction | UpdateInfoLoadStatusAction;
 
 export interface ProductListInfoStore {
     minPrice: number;
