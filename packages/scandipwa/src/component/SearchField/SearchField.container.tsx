@@ -17,7 +17,7 @@ import { Page } from 'Component/Header/Header.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { updateSearchCriteria } from 'Store/ProductList/ProductList.action';
+import { updateProductListStore } from 'Store/ProductList/ProductList.action';
 import { RootState } from 'Util/Store/Store.type';
 
 import { SearchFieldComponent } from './SearchField.component';
@@ -39,7 +39,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): SearchFieldContainerMapD
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
     setNavigationState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
-    updateSearchCriteria: (searchCriteria) => dispatch(updateSearchCriteria(searchCriteria)),
+    updateSearchCriteria: (searchCriteria) => dispatch(updateProductListStore({ searchCriteria })),
 });
 
 /** @namespace Component/SearchField/Container */
@@ -108,7 +108,11 @@ export class SearchFieldContainer extends PureComponent<SearchFieldContainerProp
     }
 
     hideSearchOverlay(): void {
-        const { hideActiveOverlay, activeOverlay } = this.props;
+        const {
+            hideActiveOverlay,
+            activeOverlay,
+            updateSearchCriteria,
+        } = this.props;
 
         updateSearchCriteria('');
 

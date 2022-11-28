@@ -11,50 +11,17 @@
 
 import { AnyAction } from 'redux';
 
-import { ProductItem, ProductListOptionArgs, ProductsQueryOutput } from 'Query/ProductList.type';
+import { ProductListOptionArgs, ProductsQueryOutput } from 'Query/ProductList.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export enum ProductListActionType {
-    APPEND_PAGE = 'APPEND_PAGE',
-    UPDATE_PRODUCT_LIST_ITEMS = 'UPDATE_PRODUCT_LIST_ITEMS',
-    UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS',
-    UPDATE_PAGE_LOAD_STATUS = 'UPDATE_PAGE_LOAD_STATUS',
-    UPDATE_SEARCH_CRITERIA = 'UPDATE_SEARCH_CRITERIA',
+    UPDATE_PRODUCT_LIST_STORE = 'UPDATE_PRODUCT_LIST_STORE',
 }
 
-export interface AppendPageAction extends AnyAction {
-    type: ProductListActionType.APPEND_PAGE;
-    items: ProductItem[];
-    currentPage: number;
+export interface UpdateProductListStoreAction extends AnyAction {
+    type: ProductListActionType.UPDATE_PRODUCT_LIST_STORE;
+    state: Partial<ProductListStore>;
 }
-
-export interface UpdateProductListItemsAction extends AnyAction {
-    type: ProductListActionType.UPDATE_PRODUCT_LIST_ITEMS;
-    items: ProductItem[];
-    currentPage: number;
-    total_pages: number;
-    total_count: number;
-    args: ProductListOptionArgs;
-}
-
-export interface UpdateLoadStatusAction extends AnyAction {
-    type: ProductListActionType.UPDATE_LOAD_STATUS;
-    isLoading: boolean;
-}
-
-export interface UpdatePageLoadingStatusAction extends AnyAction {
-    type: ProductListActionType.UPDATE_PAGE_LOAD_STATUS;
-}
-
-export interface UpdateSearchCriteriaAction extends AnyAction {
-    type: ProductListActionType.UPDATE_SEARCH_CRITERIA;
-}
-
-export type ProductListAction = AppendPageAction
-| UpdateProductListItemsAction
-| UpdateLoadStatusAction
-| UpdatePageLoadingStatusAction
-| UpdateSearchCriteriaAction;
 
 export interface ProductListStore {
     pages: Record<number, IndexedProduct[]>;

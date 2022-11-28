@@ -11,9 +11,11 @@
 
 import { Reducer } from 'redux';
 
-import { getIndexedProducts } from 'Util/Product';
-
-import { ProductListAction, ProductListActionType, ProductListStore } from './ProductList.type';
+import {
+    ProductListActionType,
+    ProductListStore,
+    UpdateProductListStoreAction,
+} from './ProductList.type';
 
 /** @namespace Store/ProductList/Reducer/getInitialState */
 export const getInitialState = (): ProductListStore => ({
@@ -31,64 +33,20 @@ export const defaultConfig = {
 };
 
 /** @namespace Store/ProductList/Reducer/ProductListReducer */
-export const ProductListReducer: Reducer<ProductListStore, ProductListAction> = (
+export const ProductListReducer: Reducer<ProductListStore, UpdateProductListStoreAction> = (
     state: ProductListStore = getInitialState(),
-    action: ProductListAction,
+    action: UpdateProductListStoreAction,
 ) => {
-    const {
-        type,
-        items: initialItems = [],
-        total_pages: totalPages,
-        total_count: totalItems,
-        currentPage,
-        isLoading,
-        args: currentArgs,
-        searchCriteria,
-    } = action;
+    const { state: newState, type } = action;
 
-    switch (type) {
-    case ProductListActionType.APPEND_PAGE:
-        return {
-            ...state,
-            isPageLoading: false,
-            pages: {
-                ...state.pages,
-                [currentPage]: getIndexedProducts(initialItems),
-            },
-        };
-
-    case ProductListActionType.UPDATE_PRODUCT_LIST_ITEMS:
-        return {
-            ...state,
-            currentArgs,
-            isLoading: false,
-            totalItems,
-            totalPages,
-            pages: { [currentPage]: getIndexedProducts(initialItems) },
-        };
-
-    case ProductListActionType.UPDATE_PAGE_LOAD_STATUS:
-        return {
-            ...state,
-            isPageLoading: true,
-        };
-
-    case ProductListActionType.UPDATE_LOAD_STATUS:
-        return {
-            ...state,
-            isLoading,
-        };
-
-    case ProductListActionType.UPDATE_SEARCH_CRITERIA:
-
-        return {
-            ...state,
-            searchCriteria,
-        };
-
-    default:
+    if (ProductListActionType.UPDATE_PRODUCT_LIST_STORE !== type) {
         return state;
     }
+
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default ProductListReducer;

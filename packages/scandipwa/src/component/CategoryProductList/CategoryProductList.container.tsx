@@ -17,7 +17,7 @@ import ProductList from 'Component/ProductList';
 import { ProductListContainerProps } from 'Component/ProductList/ProductList.type';
 import { ProductListOptions } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
-import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
+import { updateProductListStore } from 'Store/ProductList/ProductList.action';
 import { ReactElement } from 'Type/Common.type';
 import { getIsMatchingInfoFilter, getIsMatchingListFilter } from 'Util/Category/Category';
 import { RootState } from 'Util/Store/Store.type';
@@ -51,7 +51,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryProductListConta
     requestProductList: (options) => ProductListDispatcher.then(
         ({ default: dispatcher }) => dispatcher.getProductList(options),
     ),
-    updateLoadStatus: (isLoading) => dispatch(updateLoadStatus(isLoading)),
+    updateLoadStatus: (isLoading) => dispatch(updateProductListStore({ isLoading })),
 });
 
 /** @namespace Component/CategoryProductList/Container */

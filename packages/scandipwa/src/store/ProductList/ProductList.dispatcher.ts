@@ -14,13 +14,9 @@ import { ProductListOptions } from 'Query/ProductList.type';
 import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import {
-    appendPage,
-    updateLoadStatus,
-    updatePageLoadingStatus,
-    updateProductListItems,
-} from 'Store/ProductList/ProductList.action';
+import { updateProductListStore } from 'Store/ProductList/ProductList.action';
 import { NetworkError } from 'Type/Common.type';
+import { getIndexedProducts } from 'Util/Product';
 import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
@@ -37,9 +33,7 @@ export class ProductListDispatcher extends SimpleDispatcher {
         const { isNext } = options;
 
         if (!isNext) {
-            this.dispatch(updateLoadStatus(true));
-        } else {
-            this.dispatch(updatePageLoadingStatus());
+            this.dispatch(updateProductListStore({ isPageLoading: true }));
         }
 
         try {
@@ -52,27 +46,32 @@ export class ProductListDispatcher extends SimpleDispatcher {
             } = await fetchCancelableQuery<ProductListDispatcherData>(ProductListQuery.getQuery(options), 'ProductList');
 
             const { args = {}, isNext } = options;
+            const { ...state } = this.storeState.ProductListReducer;
+
             const { currentPage = 0 } = args;
 
             if (isNext) {
                 this.dispatch(
-                    appendPage(
-                        items,
-                        currentPage,
-                    ),
+                    updateProductListStore({
+                        isPageLoading: false,
+                        pages: {
+                            ...state.pages,
+                            [currentPage]: getIndexedProducts(items),
+                        },
+                    }),
                 );
 
                 return;
             }
 
             this.dispatch(
-                updateProductListItems(
-                    items,
-                    currentPage,
-                    total_count,
-                    total_pages,
-                    args,
-                ),
+                updateProductListStore({
+                    pages: { [currentPage]: getIndexedProducts(items) },
+                    isLoading: false,
+                    totalItems: total_count,
+                    totalPages: total_pages,
+                    currentArgs: args,
+                }),
             );
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {

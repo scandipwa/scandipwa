@@ -26,7 +26,7 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { NavigationState, NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { updateSearchCriteria } from 'Store/ProductList/ProductList.action';
+import { updateProductListStore } from 'Store/ProductList/ProductList.action';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
@@ -72,7 +72,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): HeaderMapDispatchToProps
     setNavigationState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
-    updateSearchCriteria: (searchCriteria) => dispatch(updateSearchCriteria(searchCriteria)),
+    updateSearchCriteria: (searchCriteria) => dispatch(updateProductListStore({ searchCriteria })),
 });
 
 export const DEFAULT_HEADER_STATE = {
@@ -299,7 +299,11 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     }
 
     onCloseButtonClick(e: MouseEvent): void {
-        const { hideActiveOverlay, goToPreviousNavigationState } = this.props;
+        const {
+            hideActiveOverlay,
+            goToPreviousNavigationState,
+            updateSearchCriteria,
+        } = this.props;
         const { navigationState: { onCloseClick } } = this.props;
 
         updateSearchCriteria('');
