@@ -9,6 +9,9 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+/**
+ * DEMO, not ready yet
+ */
 import * as Checkbox from '@radix-ui/react-checkbox';
 import { PureComponent } from 'react';
 

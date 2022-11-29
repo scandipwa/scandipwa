@@ -30,6 +30,7 @@ TypographyContainerProps
             attr,
             children,
             variant,
+            appearance,
         } = this.props;
 
         return {
@@ -37,6 +38,7 @@ TypographyContainerProps
             attr,
             children,
             variant,
+            appearance,
         };
     }
 

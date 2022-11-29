@@ -19,6 +19,9 @@ import { TooltipComponentProps } from './Tooltip.type';
 import './Tooltip.style';
 
 /**
+ * DEMO, not ready yet
+ */
+/**
   * Tooltip block
   * @class Tooltip
   * @namespace uiLibrary/Tooltip/Component  */

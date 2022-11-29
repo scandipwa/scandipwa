@@ -61,7 +61,11 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
         }
 
         return (
-            <Typography variant={ TypographyVariants.H1 } mix={ { block: 'CategoryDetails', elem: 'Heading' } }>
+            <Typography
+              variant={ TypographyVariants.H1 }
+              appearance={ TypographyVariants.H5 }
+              mix={ { block: 'CategoryDetails', elem: 'Heading' } }
+            >
                 { this.renderCategoryText() }
             </Typography>
         );

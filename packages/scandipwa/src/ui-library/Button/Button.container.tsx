@@ -15,16 +15,16 @@ import { ButtonHTMLAttributes, PureComponent } from 'react';
 import { FieldReactEvents } from 'Component/Field/Field.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { ButtonComponentProps, ButtonContainerPropsKey } from './Button.type';
+import { ButtonContainerProps, ButtonContainerPropsKey } from './Button.type';
 /** @namespace uiLibrary/Button/Container */
 export class ButtonContainer extends PureComponent<
-ButtonComponentProps
+ButtonContainerProps
 > {
-    static defaultProps: Partial<ButtonComponentProps> = {
+    static defaultProps: Partial<ButtonContainerProps> = {
         mix: {},
     };
 
-    containerProps(): Pick<ButtonComponentProps, ButtonContainerPropsKey> {
+    containerProps(): Pick<ButtonContainerProps, ButtonContainerPropsKey> {
         const {
             mix,
         } = this.props;

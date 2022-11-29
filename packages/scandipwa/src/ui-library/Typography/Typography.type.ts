@@ -10,7 +10,7 @@
  */
 
 import {
-    FieldAttributes, FieldEvents,
+    FieldAttributes,
 } from 'Component/Field/Field.type';
 import { Children, Mix } from 'Type/Common.type';
 
@@ -20,19 +20,15 @@ export interface TypographyContainerProps {
     children: Children;
     mix: Mix;
     attr: FieldAttributes;
-    events: FieldEvents;
     variant: TypographyVariants;
+    appearance?: string;
 }
 
-export interface TypographyComponentProps {
-    children: Children;
-    mix: Mix;
-    attr: FieldAttributes;
-    variant: TypographyVariants;
-}
+export interface TypographyComponentProps extends TypographyContainerProps {}
 
-export type TypographyContainerPropsKey = 'mix' | 'attr' | 'children' | 'variant';
+export type TypographyContainerPropsKey = 'mix' | 'attr' | 'children' | 'variant' | 'appearance';
 
 export interface TypographyMapVariant {
     Component: any;
+    block: string;
 }

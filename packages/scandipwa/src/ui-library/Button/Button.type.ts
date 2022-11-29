@@ -14,7 +14,7 @@ import {
 } from 'Component/Field/Field.type';
 import { Children, Mix } from 'Type/Common.type';
 
-export interface ButtonComponentProps {
+export interface ButtonContainerProps {
     children: Children;
     mix: Mix;
     attr: FieldAttributes;

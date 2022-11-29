@@ -24,24 +24,48 @@ TypographyComponentProps
     variantMap: Record<TypographyVariants, TypographyMapVariant> = {
         [TypographyVariants.H1]: {
             Component: 'h1',
+            block: 'h1',
         },
         [TypographyVariants.H2]: {
             Component: 'h2',
+            block: 'h2',
         },
         [TypographyVariants.H3]: {
             Component: 'h3',
+            block: 'h3',
+        },
+        [TypographyVariants.H4]: {
+            Component: 'h4',
+            block: 'h4',
+        },
+        [TypographyVariants.H5]: {
+            Component: 'h5',
+            block: 'h5',
+        },
+        [TypographyVariants.H6]: {
+            Component: 'h6',
+            block: 'h6',
+        },
+        [TypographyVariants.P]: {
+            Component: 'p',
+            block: 'p',
+        },
+        [TypographyVariants.CAPTION]: {
+            Component: 'p',
+            block: 'caption',
         },
     };
 
     renderVariant(): ReactElement {
         const {
-            variant, children, mix, attr,
+            variant, children, mix, attr, appearance,
         } = this.props;
-        const { Component } = this.variantMap[variant];
+        const { Component, block } = this.variantMap[variant];
 
         if (Component) {
             return (
                 <Component
+                  block={ appearance || block }
                   mix={ mix }
                   { ...attr as HTMLAttributes<HTMLElement> }
                 >
