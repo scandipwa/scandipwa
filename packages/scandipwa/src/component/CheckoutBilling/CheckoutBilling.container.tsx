@@ -112,23 +112,21 @@ CheckoutBillingContainerState
     __construct(props: CheckoutBillingContainerProps): void {
         super.__construct?.(props);
 
-        const { paymentMethods } = props;
+        const {
+            paymentMethods,
+            isSignedIn,
+            customer: { addresses = [] },
+        } = props;
+
+        const isAddressesEmpty = isSignedIn && addresses.length === 0;
 
         this.state = {
-            isSameAsShipping: false,
+            isSameAsShipping: isAddressesEmpty || !isSignedIn,
             isMounted: false,
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
             paymentMethod: '',
         };
-    }
-
-    componentDidMount() {
-        const { isSignedIn, customer: { addresses = [] } } = this.props;
-
-        if ((isSignedIn && addresses.length === 0) || !isSignedIn) {
-            this.setState({ isSameAsShipping: true });
-        }
     }
 
     componentDidUpdate(_: CheckoutBillingContainerProps, prevState: CheckoutBillingContainerState): void {
