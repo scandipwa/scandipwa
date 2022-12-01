@@ -73,20 +73,20 @@ export class Menu {
     }
 
     createItem(data: MenuItem): void {
-        const { parent_id, category_id } = data;
+        const { parent_id, item_id } = data;
 
         if (parent_id === 0) {
-            this.menuPositionReference[category_id] = [];
-            this.menu[category_id] = this.getMenuData(data);
+            this.menuPositionReference[item_id] = [];
+            this.menu[item_id] = this.getMenuData(data);
         } else if (this.menuPositionReference[parent_id] !== undefined) {
-            this.menuPositionReference[category_id] = [
+            this.menuPositionReference[item_id] = [
                 ...this.menuPositionReference[parent_id],
                 parent_id,
             ];
 
             this.setToValue(
                 this.menu,
-                `${this.menuPositionReference[category_id].join('.children.')}.children.${category_id}`,
+                `${this.menuPositionReference[item_id].join('.children.')}.children.${item_id}`,
                 this.getMenuData(data),
             );
         }
