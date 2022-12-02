@@ -10,6 +10,7 @@
  */
 
 import { MenuItem } from 'Query/Menu.type';
+import { getUrlPathname } from 'Util/Url';
 
 import { FormattedMenuItem, MenuLocation } from './Menu.type';
 
@@ -37,7 +38,7 @@ export class Menu {
         { url, category_id }: Pick<MenuItem, 'url' | 'category_id'>,
     ): MenuLocation | string {
         return {
-            pathname: url,
+            pathname: getUrlPathname(url),
             search: '',
             state: { category: category_id },
         };

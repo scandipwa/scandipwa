@@ -276,3 +276,14 @@ export const isHomePageUrl = (pathname: string): boolean => {
 
     return isHomePage;
 };
+
+/** @namespace Util/Url/getUrlPathname */
+export const getUrlPathname = (url: string): string => {
+    try {
+        const { pathname } = new URL(url);
+
+        return pathname;
+    } catch (e) {
+        return url;
+    }
+};
