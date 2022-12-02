@@ -511,13 +511,10 @@ S extends ProductContainerState = ProductContainerState,
 
         this.setState({ parameters });
 
-        const { product: { variants = [], configurable_options = {} } } = this.props;
+        const { product: { variants = [] } } = this.props;
         const { selectedProduct } = this.state;
 
-        const newIndex = Object.keys(parameters).length === Object.keys(configurable_options).length
-            ? getVariantIndex(variants, parameters)
-            // Not all parameters are selected yet, therefore variantIndex must be invalid
-            : -1;
+        const newIndex = getVariantIndex(variants, parameters);
 
         const newProduct = newIndex === -1 ? null : variants[ newIndex ];
 
