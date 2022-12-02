@@ -2,7 +2,7 @@
 name: Feature request
 description: You have and idea on how to improve this project? Let us know!
 title: 'Feature title'
-labels: [Core, feature]
+labels: [Core, Type: feature]
 body:
   - type: textarea
     id: use_case
