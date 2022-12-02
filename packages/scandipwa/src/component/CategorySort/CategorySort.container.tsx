@@ -35,7 +35,7 @@ export const MetaDispatcher = import(
 
 /** @namespace Component/CategorySort/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CategorySortContainerMapStateProps => ({
-    sortFields: state.ProductListInfoReducer.sortFields,
+    sortFields: state.ProductListReducer.sortFields,
     category: state.CategoryReducer.category,
 });
 

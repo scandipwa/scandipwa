@@ -19,7 +19,7 @@ import { CategoryStore } from 'Store/Category/Category.type';
 import { Category as MetaCategory } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { OfflineStore } from 'Store/Offline/Offline.type';
-import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
+import { ProductListFilter } from 'Store/ProductList/ProductList.type';
 import { HistoryState } from 'Util/History/History.type';
 
 import { CategoryPageLayout, SortDirections } from './CategoryPage.config';

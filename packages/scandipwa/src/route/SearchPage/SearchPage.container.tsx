@@ -56,16 +56,12 @@ export const NoMatchDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/NoMatch/NoMatch.dispatcher'
 );
-export const ProductListInfoDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ProductListInfo/ProductListInfo.dispatcher'
-);
 
 /** @namespace Route/SearchPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): SearchPageContainerMapStateProps => ({
     ...sourceMapStateToProps(state),
-    minPriceRange: state.ProductListInfoReducer.minPrice,
-    maxPriceRange: state.ProductListInfoReducer.maxPrice,
+    minPriceRange: state.ProductListReducer.minPrice,
+    maxPriceRange: state.ProductListReducer.maxPrice,
 });
 
 /** @namespace Route/SearchPage/Container/mapDispatchToProps */

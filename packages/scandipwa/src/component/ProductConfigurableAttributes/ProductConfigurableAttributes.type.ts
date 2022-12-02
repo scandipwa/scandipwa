@@ -13,7 +13,7 @@ import { AnimationEvent } from 'react';
 
 import { ConfigurableProductSelectedVariantValue } from 'Component/Product/Product.type';
 import { StockStatus } from 'Component/Product/Stock.config';
-import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
+import { ProductListFilter } from 'Store/ProductList/ProductList.type';
 import { Merge, Mix } from 'Type/Common.type';
 import { IndexedConfigurableOption, IndexedVariant } from 'Util/Product/Product.type';
 

@@ -26,6 +26,11 @@ export const getInitialState = (): ProductListStore => ({
     isPageLoading: false,
     currentArgs: {},
     searchCriteria: '',
+    minPrice: 0,
+    maxPrice: 0,
+    sortFields: {},
+    filters: {},
+    selectedFilter: {},
 });
 
 export const defaultConfig = {

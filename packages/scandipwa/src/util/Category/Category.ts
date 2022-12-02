@@ -27,7 +27,7 @@ export const getIsMatchingInfoFilter = (): boolean => {
     }
 
     const {
-        ProductListInfoReducer: {
+        ProductListReducer: {
             selectedFilter: {
                 categoryIds: selectedCategoryIds,
             },

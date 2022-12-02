@@ -23,14 +23,12 @@ import OverlayReducer from 'Store/Overlay/Overlay.reducer';
 import PopupReducer from 'Store/Popup/Popup.reducer';
 import ProductCompareReducer from 'Store/ProductCompare/ProductCompare.reducer';
 import ProductListReducer from 'Store/ProductList/ProductList.reducer';
-import ProductListInfoReducer from 'Store/ProductListInfo/ProductListInfo.reducer';
 import StoreInPickUpReducer from 'Store/StoreInPickUp/StoreInPickUp.reducer';
 import UrlRewritesReducer from 'Store/UrlRewrites/UrlRewrites.reducer';
 import WishlistReducer from 'Store/Wishlist/Wishlist.reducer';
 
 export type StaticReducerKeys =
 | 'ProductListReducer'
-| 'ProductListInfoReducer'
 | 'CartReducer'
 | 'WishlistReducer'
 | 'NoMatchReducer'
@@ -50,7 +48,6 @@ export type StaticReducerKeys =
 /** @namespace Store/Index/getStaticReducers */
 export const getStaticReducers = (): Record<StaticReducerKeys, Reducer> => ({
     ProductListReducer,
-    ProductListInfoReducer,
     CartReducer,
     WishlistReducer,
     NoMatchReducer,

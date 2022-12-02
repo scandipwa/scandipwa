@@ -12,7 +12,7 @@
 import { History, Location } from 'history';
 
 import { NavigationState } from 'Store/Navigation/Navigation.type';
-import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
+import { ProductListFilter } from 'Store/ProductList/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
 
 export interface CategoryFilterOverlayContainerMapStateProps {

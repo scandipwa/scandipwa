@@ -11,7 +11,13 @@
 
 import { AnyAction } from 'redux';
 
-import { ProductListOptionArgs, ProductsQueryOutput } from 'Query/ProductList.type';
+import {
+    AggregationOption,
+    ProductAttributeFilterOptions,
+    ProductListOptionArgs,
+    ProductsQueryOutput,
+    SortFields,
+} from 'Query/ProductList.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export enum ProductListActionType {
@@ -31,6 +37,23 @@ export interface ProductListStore {
     isPageLoading: boolean;
     currentArgs: ProductListOptionArgs;
     searchCriteria: string;
+    minPrice: number;
+    maxPrice: number;
+    sortFields: Partial<SortFields>;
+    filters: Record<string, ProductListFilter>;
+    selectedFilter: Partial<ProductAttributeFilterOptions>;
+}
+
+export interface ProductListFilter {
+    attribute_id: number;
+    attribute_code: string;
+    attribute_label: string;
+    attribute_position: number;
+    attribute_values: string[];
+    attribute_type: string;
+    attribute_options: Record<string, AggregationOption>;
+    is_boolean: boolean;
+    has_swatch: boolean;
 }
 
 declare module 'Util/Store/Store.type' {

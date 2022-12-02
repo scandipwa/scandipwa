@@ -27,7 +27,7 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { updateProductListInfoStore } from 'Store/ProductListInfo/ProductListInfo.action';
+import { updateProductListStore } from 'Store/ProductList/ProductList.action';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -53,9 +53,9 @@ import {
     CategoryUrlParams,
 } from './CategoryPage.type';
 
-export const ProductListInfoDispatcher = import(
+export const ProductListDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ProductListInfo/ProductListInfo.dispatcher'
+    'Store/ProductList/ProductList.dispatcher'
 );
 
 export const BreadcrumbsDispatcher = import(
@@ -82,10 +82,10 @@ export const NoMatchDispatcher = import(
 export const mapStateToProps = (state: RootState): CategoryPageContainerMapStateProps => ({
     category: state.CategoryReducer.category,
     isOffline: state.OfflineReducer.isOffline,
-    filters: state.ProductListInfoReducer.filters,
+    filters: state.ProductListReducer.filters,
     currentArgs: state.ProductListReducer.currentArgs,
-    selectedInfoFilter: state.ProductListInfoReducer.selectedFilter,
-    isInfoLoading: state.ProductListInfoReducer.isLoading,
+    selectedInfoFilter: state.ProductListReducer.selectedFilter,
+    isInfoLoading: state.ProductListReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
     totalItems: state.ProductListReducer.totalItems,
     plpType: state.ConfigReducer.plp_list_mode,
@@ -112,10 +112,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
             ({ default: dispatcher }) => dispatcher.update([]),
         )
     ),
-    requestProductListInfo: (options) => ProductListInfoDispatcher.then(
+    requestProductListInfo: (options) => ProductListDispatcher.then(
         ({ default: dispatcher }) => dispatcher.getProductListInfo(options),
     ),
-    updateLoadStatus: (isLoading) => dispatch(updateProductListInfoStore({ isLoading })),
+    updateLoadStatus: (isLoading) => dispatch(updateProductListStore({ isLoading })),
     updateNoMatch: (options) => NoMatchDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateNoMatch(options),
     ),

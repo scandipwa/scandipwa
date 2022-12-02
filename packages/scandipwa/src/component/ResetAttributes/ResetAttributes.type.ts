@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
+import { ProductListFilter } from 'Store/ProductList/ProductList.type';
 
 export interface ResetAttributesContainerMapStateProps {
     currency_code: string;

@@ -36,10 +36,10 @@ import {
 
 /** @namespace Component/CategoryFilterOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CategoryFilterOverlayContainerMapStateProps => ({
-    isInfoLoading: state.ProductListInfoReducer.isLoading,
+    isInfoLoading: state.ProductListReducer.isLoading,
     isProductsLoading: state.ProductListReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
-    availableFilters: state.ProductListInfoReducer.filters,
+    availableFilters: state.ProductListReducer.filters,
     isCategoryAnchor: !!state.CategoryReducer.category.is_anchor,
     customFiltersValues: state.CategoryReducer.selectedFilters,
 });

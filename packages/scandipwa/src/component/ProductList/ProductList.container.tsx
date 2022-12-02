@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { FilterPriceRange } from 'Query/ProductList.type';
-import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
+import ProductListDispatcher from 'Store/ProductList/ProductList.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { HistoryState } from 'Util/History/History.type';
@@ -40,7 +40,7 @@ export const mapStateToProps = (state: RootState): ProductListContainerMapStateP
 
 /** @namespace Component/ProductList/Container/mapDispatchToProps */
 export const mapDispatchToProps = (): ProductListContainerMapDispatchProps => ({
-    requestProductListInfo: (options) => ProductListInfoDispatcher.getProductListInfo(options),
+    requestProductListInfo: (options) => ProductListDispatcher.getProductListInfo(options),
 });
 
 /** @namespace Component/ProductList/Container */
