@@ -2,7 +2,7 @@
 name: Feature request
 description: You have and idea on how to improve this project? Let us know!
 title: 'Feature title'
-labels: [Core, Type: feature]
+labels: [Core, feature]
 body:
   - type: textarea
     id: use_case
@@ -18,7 +18,7 @@ body:
       label: "Describe the solution you'd like to see"
       description: 'Describe on how would you solve this issue or share an idea for it.'
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: additional_context
