@@ -10,6 +10,11 @@ const withComponentOptions = (yargs) => yargs
         alias: 'r',
         type: 'boolean',
         default: false,
+    })
+    .option('typescript', {
+        describe: 'Should component be creates as TypeScript file',
+        alias: 'ts',
+        type: 'boolean',
     });
 
 module.exports = withComponentOptions;

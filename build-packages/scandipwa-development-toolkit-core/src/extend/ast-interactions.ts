@@ -1,9 +1,10 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-param-reassign */
 import { parse } from '@babel/parser';
 import traverse, { NodePath } from '@babel/traverse';
 import {
     ExportDefaultDeclaration,
     ExportNamedDeclaration,
-    Identifier,
     SourceLocation,
 } from '@babel/types';
 
@@ -45,6 +46,7 @@ export const getExportPathsFromCode = (originalCode: string) : ExportsPaths => {
             'optionalCatchBinding',
             'optionalChaining',
             'objectRestSpread',
+            'typescript',
         ],
     });
 
@@ -76,10 +78,15 @@ export const getExportPathsFromCode = (originalCode: string) : ExportsPaths => {
 export const getNamedExportsNames = (exports: ExportsPaths) : ExportData[] => {
     const processNamedExport = (path: NodePath<ExportNamedDeclaration>) : ExportData => {
         const getNameFromDeclaration = (declaration: any) : ExportData => {
-            const id = <Identifier>declaration.declarations[0].id;
-            const { name } = id;
+            const { declarations, id: { name = '' } = {}, type } = declaration;
 
-            return { name, type: ExportType.variable };
+            if (Array.isArray(declarations)) {
+                const [{ id: { name: declarationName }, type: declarationType }] = declarations;
+
+                return { name: declarationName, type: declarationType };
+            }
+
+            return { name, type };
         };
 
         const getDataByTraverse = () : ExportData => {
@@ -137,7 +144,7 @@ export const getDefaultExportCode = (exports: ExportsPaths, code: string) : stri
 
         const codeArray = code.split(/\n/gm);
         const exportDeclarationArray = codeArray.reduce((acc, cur, index) => {
-            const lineNumber = index + 1;
+            const lineNumber = ++index;
 
             if (lineNumber >= start.line && lineNumber <= end.line) {
                 if (lineNumber === start.line) {
@@ -161,5 +168,5 @@ export const getDefaultExportCode = (exports: ExportsPaths, code: string) : stri
         return;
     }
 
-    processDefaultExport(<NodePath<ExportDefaultDeclaration>>exportDefaultPaths[0]);
+    return processDefaultExport(<NodePath<ExportDefaultDeclaration>>exportDefaultPaths[0]);
 };

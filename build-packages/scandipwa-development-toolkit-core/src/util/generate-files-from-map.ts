@@ -4,8 +4,6 @@ import * as path from 'path';
 import { FileMap, ILogger, ResourceType } from '../types';
 import { createNewFileFromTemplate } from './file';
 
-const templateDirectory = path.resolve(__dirname, '..', 'templates');
-
 const getIsNested = (resourceType: ResourceType) => resourceType !== ResourceType.Query;
 
 /**
@@ -20,6 +18,7 @@ const generateFilesFromMap = (
     fileMap: FileMap,
     resourceName: string,
     resourceType: ResourceType,
+    isTypescript: boolean,
     targetModulePath: string,
     logger: ILogger,
 ): string[] => {
@@ -28,6 +27,8 @@ const generateFilesFromMap = (
     const resourceDirectory = getIsNested(resourceType)
         ? path.join(resourceTypeDirectory, resourceName)
         : resourceTypeDirectory;
+
+    const templateDirectory = path.resolve(__dirname, '..', `templates/${isTypescript ? 'typescript' : 'javascript'}`);
 
     // Ensure parent direcotory exists for files which'll be generated below
     fs.ensureDirSync(resourceDirectory);
