@@ -172,7 +172,6 @@
     "Got it": "Selkis",
     "Incorrect data! Please resolve all field validation errors.": "Väärät tiedot! Korjaa kaikki kentän vahvistus virheet.",
     "Please, select product options!": "Valitse tuotevaihtoehdot!",
-    "Please, select required options!": "Valitse vaadittu vaihtoehto!",
     "You must login or register to review products.": "Sinun on kirjauduttava sisään tai rekisteröidyttävä tarkistamaan tuotteita.",
     "Edit address": "Muokkaa osoitetta",
     "Confirm delete": "Vahvista poistaminen",
@@ -609,5 +608,6 @@
     "County": null,
     "State/Province": null,
     "Region": null,
-    "You %s the address": null
+    "You %s the address": null,
+    "You need to choose options for your item.": null
 }

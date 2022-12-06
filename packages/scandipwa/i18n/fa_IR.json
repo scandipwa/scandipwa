@@ -377,7 +377,6 @@
     "We could not preselect pickup location based on available information, please select it manually.": null,
     "Store": null,
     "Select store": null,
-    "Please, select required options!": null,
     "In stock": null,
     "SKU: %s": null,
     "Sorry! The product %s is out of stock!": null,
@@ -609,5 +608,6 @@
     "County": null,
     "State/Province": null,
     "Region": null,
-    "You %s the address": null
+    "You %s the address": null,
+    "You need to choose options for your item.": null
 }

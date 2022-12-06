@@ -69,7 +69,6 @@ ProductCompareItemContainerState
 > {
     state: ProductCompareItemContainerState = {
         isLoading: false,
-        currentQty: 0,
     };
 
     containerFunctions: ProductCompareItemContainerFunctions = {
@@ -113,9 +112,14 @@ ProductCompareItemContainerState
         }
 
         return (items as GroupedProductItem[]).reduce((result, item) => {
-            const { product: { id = 0 } = {} } = item;
+            const {
+                product: { id = 0 } = {},
+                qty = 0,
+            } = item;
 
-            Object.assign(result, { [ id ]: 1 });
+            if (qty > 0) {
+                Object.assign(result, { [ id ]: qty });
+            }
 
             return result;
         }, {});
@@ -166,16 +170,30 @@ ProductCompareItemContainerState
     }
 
     getOverrideAddToCartBtnBehavior(): boolean {
-        const { product: { type_id, options } } = this.props;
-        const types: string[] = [ProductType.BUNDLE, ProductType.CONFIGURABLE, ProductType.GROUPED];
+        const {
+            product: {
+                type_id,
+                options = [],
+                links_purchased_separately = 0,
+                items = [],
+            },
+        } = this.props;
+        const types: string[] = [ProductType.BUNDLE, ProductType.CONFIGURABLE];
 
-        return !!(types.indexOf(type_id) !== -1 || options?.length);
+        const hasRequiredOptions = options?.some(({ required = false }) => required);
+        const isGroupedWithoutQty = type_id === ProductType.GROUPED
+            && (items as GroupedProductItem[])?.every(({ qty = 0 }) => qty <= 0);
+
+        return !!(types.indexOf(type_id) !== -1)
+        || hasRequiredOptions
+        || links_purchased_separately === 1
+        || isGroupedWithoutQty;
     }
 
     overriddenAddToCartBtnHandler(): void {
         const { showNotification } = this.props;
 
-        showNotification(NotificationType.INFO, __('Please, select required options!'));
+        showNotification(NotificationType.INFO, __('You need to choose options for your item.'));
     }
 
     redirectToProductPage(): void {
@@ -186,11 +204,28 @@ ProductCompareItemContainerState
 
     getProducts(): ProductTransformData[] {
         const {
+            product: {
+                stock_item: {
+                    min_sale_qty: quantity = 1,
+                } = {},
+                type_id,
+            },
             product: item,
         } = this.props;
-        const { currentQty } = this.state;
 
-        return magentoProductTransform(ADD_TO_CART, item as unknown as IndexedProduct, currentQty);
+        if (type_id === ProductType.GROUPED) {
+            return magentoProductTransform(
+                ADD_TO_CART,
+                item as unknown as IndexedProduct,
+                this.getGroupedProductQuantity(),
+            );
+        }
+
+        return magentoProductTransform(
+            ADD_TO_CART,
+            item as unknown as IndexedProduct,
+            quantity,
+        );
     }
 
     async addItemToCart(): Promise<void> {
