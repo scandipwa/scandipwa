@@ -18,14 +18,18 @@ export type ContainerFeatures = {
     state: boolean;
 };
 
+export type TypesScriptParam = {
+    isTypescript: boolean;
+};
+
 export type ComponentResourceParams = {
     containerFeatures: ContainerFeatures;
-};
+} & TypesScriptParam;
 
 export type StoreResourceParams = {
     dispatcherType: DispatcherType;
-};
+} & TypesScriptParam;
 
-export type QueryResourceParams = {};
+export type QueryResourceParams = {} & TypesScriptParam;
 
 export type ResourceParams = ComponentResourceParams | StoreResourceParams | QueryResourceParams;

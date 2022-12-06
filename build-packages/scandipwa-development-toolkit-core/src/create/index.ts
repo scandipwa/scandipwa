@@ -18,6 +18,7 @@ const create = (
     targetModulePath: string,
     logger: ILogger,
 ) => {
+    const { isTypescript } = resourceParams;
     // Validate input data
     const validationErrors = validateResourceParams(resourceName, resourceType, resourceParams);
 
@@ -33,6 +34,7 @@ const create = (
         fileMap,
         resourceName,
         resourceType,
+        isTypescript,
         targetModulePath,
         logger,
     );
