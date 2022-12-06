@@ -10,6 +10,8 @@
  */
 
 // ! TODO: Maybe we should move this to common types?
+import PropTypes from 'prop-types';
+
 export interface Device {
     isMobile: boolean;
     android: boolean;
@@ -20,3 +22,16 @@ export interface Device {
     windows: boolean;
     standaloneMode?: boolean;
 }
+
+// Support for comtabilitiy
+
+export const DeviceType = PropTypes.shape({
+    isMobile: PropTypes.bool,
+    android: PropTypes.bool,
+    ios: PropTypes.bool,
+    blackberry: PropTypes.bool,
+    opera: PropTypes.bool,
+    safari: PropTypes.bool,
+    windows: PropTypes.bool,
+    standaloneMode: PropTypes.bool,
+});

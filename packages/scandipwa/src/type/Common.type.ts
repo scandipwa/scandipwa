@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import PropTypes from 'prop-types';
 import { ReactNode } from 'react';
 
 export type Merge<A, B> = Omit<A, keyof B> & B;
@@ -40,3 +41,31 @@ export interface NetworkError { message: string }
 export type ObjectEntries<T> = {
     [K in keyof T]: [K, T[K]];
 }[keyof T];
+
+// Support for comtabilitiy
+
+export const ModsType = PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+]));
+
+export const MixType = PropTypes.shape({
+    block: PropTypes.string,
+    elem: PropTypes.string,
+    mods: ModsType,
+});
+
+// @ts-ignore
+MixType.mix = MixType;
+
+export const ChildrenType = PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+]);
+
+export const RefType = PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+]);
+
+export const MetaTitleType = PropTypes.oneOfType([PropTypes.string, PropTypes.object]);
