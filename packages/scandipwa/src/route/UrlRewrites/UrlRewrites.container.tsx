@@ -121,6 +121,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
             urlRewrite: {
                 id,
                 sku,
+                display_mode,
             },
         } = this.props;
 
@@ -162,15 +163,22 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
             if (isLoading) {
                 // TODO: history.state.state looks like undefined all the time.
                 const category = history?.location?.state?.category;
+                const displayMode = history?.location?.state?.displayMode;
 
                 if (category && category !== true) {
-                    return { categoryIds: category };
+                    return {
+                        categoryIds: category,
+                        displayMode,
+                    };
                 }
 
                 return {};
             }
 
-            return { categoryIds: id };
+            return {
+                categoryIds: id,
+                displayMode: display_mode,
+            };
         case UrlRewritePageType.NOTFOUND:
         default:
             return {};

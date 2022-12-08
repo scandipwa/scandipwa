@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { CategoryDisplayMode } from 'Route/CategoryPage/CategoryPage.config';
+
 export interface MenuItem {
     url: string;
     title: string;
@@ -16,4 +18,5 @@ export interface MenuItem {
     position: number;
     parent_id: number;
     category_id: number;
+    display_mode: CategoryDisplayMode;
 }

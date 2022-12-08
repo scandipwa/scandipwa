@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { CategoryDisplayMode } from 'Route/CategoryPage/CategoryPage.config';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export interface HistoryState {
@@ -26,4 +27,5 @@ export interface HistoryState {
     lastName?: string;
     email?: string;
     overlayOpen?: boolean;
+    displayMode?: CategoryDisplayMode;
 }

@@ -93,15 +93,11 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
     }
 
     displayProducts() {
-        const {
-            category: {
-                display_mode = CategoryDisplayMode.PRODUCTS,
-            } = {},
-        } = this.props;
+        const { displayMode } = this.props;
 
-        return display_mode === null
-            || display_mode === CategoryDisplayMode.PRODUCTS
-            || display_mode === CategoryDisplayMode.BOTH;
+        return displayMode === null
+            || displayMode === CategoryDisplayMode.PRODUCTS
+            || displayMode === CategoryDisplayMode.BOTH;
     }
 
     displayCmsBlock(): boolean {
