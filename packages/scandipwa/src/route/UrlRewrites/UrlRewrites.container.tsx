@@ -162,14 +162,22 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
                  */
             if (isLoading) {
                 // TODO: history.state.state looks like undefined all the time.
-                const category = history?.location?.state?.category;
-                const displayMode = history?.location?.state?.displayMode;
+                if (history) {
+                    const {
+                        location: {
+                            state: {
+                                category,
+                                displayMode,
+                            } = {},
+                        } = {},
+                    } = history;
 
-                if (category && category !== true) {
-                    return {
-                        categoryIds: category,
-                        displayMode,
-                    };
+                    if (category && category !== true) {
+                        return {
+                            categoryIds: category,
+                            displayMode,
+                        };
+                    }
                 }
 
                 return {};
