@@ -32,7 +32,6 @@ export interface CategoryPageContainerMapStateProps {
     isOffline: boolean;
     filters: Record<string, ProductListFilter>;
     sortFields: Partial<SortFields>;
-
     currentArgs: ProductListOptionArgs;
     selectedInfoFilter: Partial<ProductAttributeFilterOptions>;
     isInfoLoading: boolean;
@@ -40,6 +39,7 @@ export interface CategoryPageContainerMapStateProps {
     totalItems: number;
     plpType: string;
     isMobile: boolean;
+    defaultSortKey: string;
 }
 
 export interface CategoryPageContainerMapDispatchProps {
