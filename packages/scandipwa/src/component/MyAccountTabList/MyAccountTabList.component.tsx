@@ -79,11 +79,11 @@ export class MyAccountTabListComponent extends PureComponent<MyAccountTabListCom
             toggleExpandableContent,
         } = this.props;
         const { tabName } = tabMap[activeTab];
-        const orderedTabs = Object.entries(tabMap)
+        const sortedTabs = Object.entries(tabMap)
             .sort(([_keyA, a], [_keyB, b]) => a.section - b.section || a.order - b.order);
 
         const tabs = [
-            ...orderedTabs.map(this.renderTabListItem.bind(this)),
+            ...sortedTabs.map(this.renderTabListItem.bind(this)),
             this.renderLogoutTab(),
         ];
 
