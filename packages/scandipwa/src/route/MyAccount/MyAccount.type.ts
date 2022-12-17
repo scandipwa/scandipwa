@@ -88,4 +88,5 @@ export interface MyAccountTab {
     section: MyAccountTabsSection;
     title?: string;
     isFullUrl?: boolean;
+    order:number;
 }
