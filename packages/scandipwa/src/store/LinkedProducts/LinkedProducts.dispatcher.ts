@@ -14,7 +14,6 @@ import { Query } from '@tilework/opus';
 import ProductListQuery from 'Query/ProductList.query';
 import { ProductLink, ProductsQueryOutput } from 'Query/ProductList.type';
 import { updateLinkedProducts } from 'Store/LinkedProducts/LinkedProducts.action';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -32,6 +31,11 @@ import {
 } from './LinkedProducts.type';
 
 export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 /**
  * Linked Prodcts List Dispatcher
@@ -166,7 +170,13 @@ export class LinkedProductsDispatcher extends SimpleDispatcher {
             this.dispatch(updateLinkedProducts(linkedProducts));
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {
-                this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching LinkedProducts!'), err));
+                NotificationDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.showNotification(
+                        NotificationType.ERROR,
+                        __('Error fetching LinkedProducts!'),
+                        err,
+                    ),
+                );
             }
         }
     }

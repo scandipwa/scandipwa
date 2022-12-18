@@ -11,12 +11,10 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { ORDER_ID } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CreateAccountOptions } from 'Query/MyAccount.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
@@ -36,6 +34,11 @@ import {
     MyAccountCreateAccountContainerPropsKeys,
 } from './MyAccountCreateAccount.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
@@ -52,11 +55,13 @@ export const mapStateToProps = (state: RootState): MyAccountCreateAccountContain
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): MyAccountCreateAccountContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): MyAccountCreateAccountContainerMapDispatchProps => ({
     createAccount: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.createAccount(options),
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container */

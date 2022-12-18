@@ -11,9 +11,7 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { FieldData } from 'Util/Form/Form.type';
@@ -29,6 +27,11 @@ import {
     NewsletterSubscriptionMapStateProps,
 } from './NewsletterSubscription.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const NewsletterSubscriptionDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/NewsletterSubscription/NewsletterSubscription.dispatcher'
@@ -41,11 +44,13 @@ export const mapStateToProps = (state: RootState): NewsletterSubscriptionMapStat
 });
 
 /** @namespace Component/NewsletterSubscription/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): NewsletterSubscriptionMapDispatchProps => ({
+export const mapDispatchToProps = (): NewsletterSubscriptionMapDispatchProps => ({
     subscribeToNewsletter: (email) => NewsletterSubscriptionDispatcher.then(
         ({ default: dispatcher }) => dispatcher.subscribeToNewsletter(email),
     ),
-    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
+    showErrorNotification: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.ERROR, message),
+    ),
 });
 
 /** @namespace Component/NewsletterSubscription/Container */

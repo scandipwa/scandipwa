@@ -16,7 +16,6 @@ import { Dispatch } from 'redux';
 import { FormFields } from 'Component/Form/Form.type';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { NetworkError, ReactElement } from 'Type/Common.type';
@@ -36,6 +35,11 @@ import {
     ProductReviewFormContainerState,
 } from './ProductReviewForm.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const ReviewDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Review/Review.dispatcher'
@@ -52,7 +56,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductReviewFormContain
     addReview: (options) => ReviewDispatcher.then(
         ({ default: dispatcher }) => dispatcher.submitProductReview(options),
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
 });

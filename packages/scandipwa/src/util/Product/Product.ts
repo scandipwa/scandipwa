@@ -27,7 +27,6 @@ import {
     RatingsBreakdown,
     VariantItem,
 } from 'Query/ProductList.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
@@ -35,7 +34,6 @@ import { GQLProductStockStatus } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth';
 import { decodeBase64 } from 'Util/Base64';
 import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/Store.type';
 
 import {
     IndexedAttributeWithValue,
@@ -55,6 +53,11 @@ import {
 
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 /**
  * Checks whether every option is in attributes
@@ -460,12 +463,17 @@ export const showNewReviewPopup = (): void => {
         ConfigReducer: {
             reviews_allow_guest: isGuestEnabled,
         } = {},
-    } = store.getState() as RootState;
+    } = store.getState();
     const { dispatch } = store;
 
     // if not logged in and guest reviews are not enabled
     if (!isSignedIn() && !isGuestEnabled) {
-        dispatch(showNotification(NotificationType.INFO, __('You must login or register to review products.')));
+        NotificationDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.showNotification(
+                NotificationType.INFO,
+                __('You must login or register to review products.'),
+            ),
+        );
 
         return;
     }

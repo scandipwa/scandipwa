@@ -22,7 +22,6 @@ import { StoreInPickUpCode } from 'Component/StoreInPickUp/StoreInPickUp.config'
 import { Customer, CustomerAddress } from 'Query/MyAccount.type';
 import { PaymentInformation } from 'Route/Checkout/Checkout.type';
 import { CheckoutAddress } from 'Store/Checkout/Checkout.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { ReactElement } from 'Type/Common.type';
@@ -50,6 +49,11 @@ import {
     CheckoutBillingContainerState,
 } from './CheckoutBilling.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const CheckoutDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Checkout/Checkout.dispatcher'
@@ -72,7 +76,9 @@ export const mapStateToProps = (state: RootState): CheckoutBillingContainerMapSt
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutBillingContainerMapDispatchProps => ({
-    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
+    showErrorNotification: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.ERROR, message),
+    ),
     showPopup: (payload) => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload)),
     onChangeEmailRequired: () => CheckoutDispatcher.then(
         ({ default: dispatcher }) => dispatcher.onChangeEmailRequired(),

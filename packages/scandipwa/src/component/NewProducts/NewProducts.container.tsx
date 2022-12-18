@@ -11,11 +11,9 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import ProductListQuery from 'Query/ProductList.query';
 import { ProductsQueryOutput } from 'Query/ProductList.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { getIndexedProducts } from 'Util/Product';
@@ -32,14 +30,21 @@ import {
     NewProductsContainerState,
 } from './NewProducts.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 /** @namespace Component/NewProducts/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): NewProductsContainerMapStateProps => ({
     timezone: state.ConfigReducer.timezone,
 });
 
 /** @namespace Component/NewProducts/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): NewProductsContainerMapDispatchProps => ({
-    showNotification: (type, title, error) => dispatch(showNotification(type, title, error)),
+export const mapDispatchToProps = (): NewProductsContainerMapDispatchProps => ({
+    showNotification: (type, title, error) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, title, error),
+    ),
 });
 
 /** @namespace Component/NewProducts/Container */

@@ -13,7 +13,7 @@ import { Currencies, CurrencyData } from 'Query/Config.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/Store.type';
+
 /**
  *
  * @type {string}
@@ -48,7 +48,7 @@ export const getCurrency = (): string => {
         ConfigReducer: {
             default_display_currency_code = GQLCurrencyEnum.USD,
         } = {},
-    } = store.getState() as RootState;
+    } = store.getState();
 
     const currency = BrowserDatabase.getItem(CUR_CURRENCY);
 

@@ -10,10 +10,14 @@
  */
 
 import NewsletterSubscriptionQuery from 'Query/NewsletterSubscription.query';
-import { showNotification } from 'Store/Notification/Notification.action';
-import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 export const NOT_ACTIVE = 'NOT_ACTIVE';
 
@@ -23,7 +27,7 @@ export const NOT_ACTIVE = 'NOT_ACTIVE';
  * @namespace Store/NewsletterSubscription/Dispatcher
  */
 export class NewsletterSubscriptionDispatcher extends SimpleDispatcher {
-    subscribeToNewsletter(email: string): Promise<ShowNotificationAction> {
+    subscribeToNewsletter(email: string): Promise<void> {
         return fetchMutation(NewsletterSubscriptionQuery.getSubscribeToNewsletterMutation(email)).then(
             /** @namespace Store/NewsletterSubscription/Dispatcher/NewsletterSubscriptionDispatcher/subscribeToNewsletter/fetchMutation/then */
             ({ subscribeEmailToNewsletter: { status } }) => {
@@ -32,10 +36,20 @@ export class NewsletterSubscriptionDispatcher extends SimpleDispatcher {
                     ? __('Confirmation request has been sent.')
                     : __('Thank you for your subscription.');
 
-                return this.dispatch(showNotification(NotificationType.SUCCESS, message));
+                return NotificationDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.showNotification(
+                        NotificationType.SUCCESS,
+                        message,
+                    ),
+                );
             },
             /** @namespace Store/NewsletterSubscription/Dispatcher/NewsletterSubscriptionDispatcher/subscribeToNewsletter/fetchMutation/then/catch */
-            (error) => this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
+            (error) => NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error),
+                ),
+            ),
         );
     }
 }

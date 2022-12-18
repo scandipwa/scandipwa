@@ -10,7 +10,6 @@
  */
 
 import { CustomerDownloadableProduct } from 'Query/Order.type';
-import { ShowNotificationAction } from 'Store/Notification/Notification.type';
 import { Device } from 'Type/Device.type';
 
 export interface MyAccountDownloadableContainerStateProps {
@@ -18,8 +17,8 @@ export interface MyAccountDownloadableContainerStateProps {
 }
 
 export interface MyAccountDownloadableContainerDispatchProps {
-    showErrorNotification: (message: string) => ShowNotificationAction;
-    showSuccessNotification: (message: string) => ShowNotificationAction;
+    showErrorNotification: (message: string) => Promise<void>;
+    showSuccessNotification: (message: string) => Promise<void>;
 }
 
 export type MyAccountDownloadableContainerProps =

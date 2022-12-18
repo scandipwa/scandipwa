@@ -10,38 +10,13 @@
  */
 
 import {
-    HideNotificationAction,
     NotificationActionType,
-    NotificationType,
-    ShowNotificationAction,
+    NotificationStore,
+    UpdateNotificationStoreAction,
 } from './Notification.type';
 
-/**
- * Show notification (append to notification to global notification map).
- * @param  {String} msgType
- * @param  {String} msgText
- * @param  {any} msgDebug
- * @return {void}
- * @namespace Store/Notification/Action/showNotification
- */
-export const showNotification = <T>(
-    msgType: NotificationType,
-    msgText: string,
-    msgDebug?: T,
-): ShowNotificationAction<T> => ({
-        type: NotificationActionType.SHOW_NOTIFICATION,
-        msgType,
-        msgText,
-        msgDebug,
-    });
-
-/**
- * Hide notification with specific id (drop notification from global list).
- * @param  {string} id
- * @return {void}
- * @namespace Store/Notification/Action/hideNotification
- */
-export const hideNotification = (id: string): HideNotificationAction => ({
-    type: NotificationActionType.HIDE_NOTIFICATION,
-    id,
+/** @namespace Store/Notification/Action/updateNotificationStore */
+export const updateNotificationStore = (state: Partial<NotificationStore>): UpdateNotificationStoreAction => ({
+    type: NotificationActionType.UPDATE_NOTIFICTION_STORE,
+    state,
 });

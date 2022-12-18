@@ -12,7 +12,6 @@
 import UrlRewritesQuery from 'Query/UrlRewrites.query';
 import { UrlRewritesQueryOptions } from 'Query/UrlRewrites.type';
 import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { updateUrlRewriteStore } from 'Store/UrlRewrites/UrlRewrites.action';
 import { NetworkError } from 'Type/Common.type';
@@ -20,6 +19,11 @@ import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { UrlRewritesDispatcherData } from './UrlRewrites.type';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 /**
  * Url Rewrite Dispathcer
@@ -65,7 +69,13 @@ export class UrlRewritesDispatcher extends SimpleDispatcher {
                     requestedUrl: urlParam,
                 }));
                 this.dispatch(updateNoMatchStore({ noMatch: true }));
-                this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching URL-rewrites!'), err));
+                NotificationDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.showNotification(
+                        NotificationType.ERROR,
+                        __('Error fetching URL-rewrites!'),
+                        err,
+                    ),
+                );
             }
         }
     }

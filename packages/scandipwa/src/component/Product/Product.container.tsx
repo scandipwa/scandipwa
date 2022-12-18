@@ -11,11 +11,9 @@
 
 import { ComponentType, createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { FIELD_RADIO_NONE, FieldType } from 'Component/Field/Field.config';
 import { ProductType } from 'Component/Product/Product.config';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import fromCache from 'Util/Cache/Cache';
@@ -50,17 +48,24 @@ import {
     ProductQuantity,
 } from './Product.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
 );
 
 /** @namespace Component/Product/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): ProductContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): ProductContainerMapDispatchProps => ({
     addProductToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(options),
     ),
-    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
+    showError: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.ERROR, message),
+    ),
 });
 
 /** @namespace Component/Product/Container/mapStateToProps */

@@ -13,13 +13,17 @@ import CategoryQuery from 'Query/Category.query';
 import { CategoryQueryOptions } from 'Query/Category.type';
 import { updateCategoryStore } from 'Store/Category/Category.action';
 import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
 import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { CategoryDispatcherData } from './Category.type';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 /**
  * Category Dispatcher
@@ -50,7 +54,13 @@ export class CategoryDispatcher extends SimpleDispatcher {
             if (!isAbortError(err as NetworkError)) {
                 if (!isSearchPage) {
                     this.dispatch(updateNoMatchStore({ noMatch: true }));
-                    this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching Category!'), err));
+                    NotificationDispatcher.then(
+                        ({ default: dispatcher }) => dispatcher.showNotification(
+                            NotificationType.ERROR,
+                            __('Error fetching Category!'),
+                            err,
+                        ),
+                    );
                 } else {
                     this.dispatch(updateCategoryStore({
                         category: {

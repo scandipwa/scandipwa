@@ -10,7 +10,6 @@
  */
 
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import { Subscribe } from 'unstated-typescript';
 
 import {
@@ -23,7 +22,6 @@ import SharedTransitionContainer, {
 } from 'Component/SharedTransition/SharedTransition.unstated';
 import { UrlRewrite } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement, Url } from 'Type/Common.type';
 import history from 'Util/History';
@@ -41,6 +39,11 @@ import {
     ProductCardContainerProps,
 } from './ProductCard.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
@@ -55,9 +58,11 @@ export const mapStateToProps = (state: RootState): ProductCardContainerMapStateP
 });
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): ProductCardContainerMapDispatchProps => ({
-    ...sourceMapDispatchToProps(dispatch),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+export const mapDispatchToProps = (): ProductCardContainerMapDispatchProps => ({
+    ...sourceMapDispatchToProps(),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
 });
 
 /** @namespace Component/ProductCard/Container */

@@ -24,7 +24,6 @@ import { IndexedCartItem } from 'Store/Cart/Cart.type';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
@@ -67,6 +66,11 @@ export const CartDispatcher = import(
     'Store/Cart/Cart.dispatcher'
 );
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 /** @namespace Route/CartPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CartPageContainerMapStateProps => ({
     totals: state.CartReducer.cartTotals,
@@ -90,7 +94,12 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDisp
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs),
     ),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(
+            type,
+            message,
+        ),
+    ),
     updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     updateCrossSellProducts: (items) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items as unknown as CartItem[]),

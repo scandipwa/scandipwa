@@ -18,7 +18,6 @@ import { ChangeCustomerPasswordOptions, SignInOptions } from 'Query/MyAccount.ty
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateMyAccountStore } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { GQLCustomerUpdateInput } from 'Type/Graphql.type';
@@ -41,6 +40,11 @@ import {
     MyAccountInformationContainerState,
 } from './MyAccountInformation.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
@@ -57,11 +61,15 @@ export const mapStateToProps = (state: RootState): MyAccountInformationContainer
 /** @namespace Component/MyAccountInformation/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountInformationContainerMapDispatchProps => ({
     updateMyAccountStore: (state) => dispatch(updateMyAccountStore(state)),
-    showErrorNotification: (error) => dispatch(showNotification(
-        NotificationType.ERROR,
-        typeof error === 'string' ? error : getErrorMessage(error),
-    )),
-    showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
+    showErrorNotification: (error) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(
+            NotificationType.ERROR,
+            typeof error === 'string' ? error : getErrorMessage(error),
+        ),
+    ),
+    showSuccessNotification: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.SUCCESS, message),
+    ),
     logout: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.logout(false, false),
     ),

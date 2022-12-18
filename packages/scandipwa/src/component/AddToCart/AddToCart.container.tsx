@@ -11,11 +11,9 @@
 
 import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { ProductType } from 'Component/Product/Product.config';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { ADD_TO_CART } from 'Util/Product';
@@ -39,6 +37,11 @@ import {
     AddToCartContainerState,
 } from './AddToCart.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
@@ -50,8 +53,10 @@ export const mapStateToProps = (state: RootState): AddToCartContainerMapStatePro
 });
 
 /** @namespace Component/AddToCart/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): AddToCartContainerMapDispatchProps => ({
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+export const mapDispatchToProps = (): AddToCartContainerMapDispatchProps => ({
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
     fallbackAddToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(options),
     ),

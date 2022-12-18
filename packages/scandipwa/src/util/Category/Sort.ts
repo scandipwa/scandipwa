@@ -13,7 +13,6 @@ import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
 import { CategorySortOptions } from 'Route/CategoryPage/CategoryPage.type';
 import history from 'Util/History';
 import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/Store.type';
 import { getQueryParam } from 'Util/Url';
 
 export const config = {
@@ -27,7 +26,7 @@ export const getSelectedSortFromUrl = (): CategorySortOptions => {
         category: {
             default_sort_by,
         },
-    } = (getStore().getState() as RootState).CategoryReducer;
+    } = (getStore().getState()).CategoryReducer;
     const { location } = history;
 
     const {

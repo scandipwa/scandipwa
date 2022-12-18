@@ -11,10 +11,8 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { PaymentMethod } from 'Query/Checkout.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
@@ -30,9 +28,16 @@ import {
     CheckoutPaymentsContainerState,
 } from './CheckoutPayments.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 /** @namespace Component/CheckoutPayments/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): CheckoutPaymentsContainerMapDispatchProps => ({
-    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
+export const mapDispatchToProps = (): CheckoutPaymentsContainerMapDispatchProps => ({
+    showError: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.ERROR, message),
+    ),
 });
 
 /** @namespace Component/CheckoutPayments/Container/mapStateToProps */

@@ -13,7 +13,6 @@ import { Query } from '@tilework/opus';
 
 import ProductListQuery from 'Query/ProductList.query';
 import { ProductsQueryOutput } from 'Query/ProductList.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import {
     updateLoadStatus,
@@ -27,6 +26,11 @@ import {
     RecentlyViewedProductsDispatcherData,
     RecentlyViewedProductsDispatcherOptions,
 } from './RecentlyViewedProducts.type';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 /**
  * RecentlyViewedProducts Dispatcher
@@ -92,11 +96,13 @@ export class RecentlyViewedProductsDispatcher extends SimpleDispatcher {
             this.dispatch(updateRecentlyViewedProducts(items, storeCode));
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {
-                this.dispatch(showNotification(
-                    NotificationType.ERROR,
-                    __('Error fetching Recently Viewed Products Information!'),
-                    err,
-                ));
+                NotificationDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.showNotification(
+                        NotificationType.ERROR,
+                        __('Error fetching Recently Viewed Products Information!'),
+                        err,
+                    ),
+                );
             }
         }
     }

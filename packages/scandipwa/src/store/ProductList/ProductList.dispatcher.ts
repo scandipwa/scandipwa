@@ -12,7 +12,6 @@
 import ProductListQuery from 'Query/ProductList.query';
 import { Aggregation, AggregationOption, ProductListOptions } from 'Query/ProductList.type';
 import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { updateProductListStore } from 'Store/ProductList/ProductList.action';
 import { NetworkError } from 'Type/Common.type';
@@ -21,6 +20,11 @@ import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { ProductListDispatcherData, ProductListFilter } from './ProductList.type';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 /**
  * Product List Dispatcher
@@ -124,7 +128,13 @@ export class ProductListDispatcher extends SimpleDispatcher {
             );
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {
-                this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching Product List!'), err));
+                NotificationDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.showNotification(
+                        NotificationType.ERROR,
+                        __('Error fetching Product List!'),
+                    ),
+                );
+
                 this.dispatch(updateNoMatchStore({ noMatch: true }));
             }
         }
@@ -162,7 +172,14 @@ export class ProductListDispatcher extends SimpleDispatcher {
             }));
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {
-                this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching Product List Information!'), err));
+                NotificationDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.showNotification(
+                        NotificationType.ERROR,
+                        __('Error fetching Product List Information!'),
+                        err,
+                    ),
+                );
+
                 this.dispatch(updateNoMatchStore({ noMatch: true }));
             }
         }

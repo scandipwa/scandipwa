@@ -18,7 +18,6 @@ import { OrderItem } from 'Query/Order.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
@@ -38,6 +37,11 @@ import {
     MyAccountOrderContainerState,
 } from './MyAccountOrder.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const OrderDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Order/Order.dispatcher'
@@ -52,7 +56,9 @@ export const mapStateToProps = (state: RootState): MyAccountOrderContainerMapSta
 
 /** @namespace Component/MyAccountOrder/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderContainerMapDispatchProps => ({
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
     getOrderById: (orderId) => OrderDispatcher.then(
         ({ default: dispatcher }) => dispatcher.getOrderById(orderId),
     ),

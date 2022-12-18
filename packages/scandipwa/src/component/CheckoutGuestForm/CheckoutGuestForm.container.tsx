@@ -22,7 +22,6 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CheckoutSteps, UPDATE_EMAIL_CHECK_FREQUENCY } from 'Route/Checkout/Checkout.config';
 import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
@@ -41,6 +40,11 @@ import {
     CheckoutGuestFormContainerPropsKeys,
     CheckoutGuestFormContainerState,
 } from './CheckoutGuestForm.type';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -67,8 +71,12 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutGuestFormContain
     signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options),
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
-    showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
+    showErrorNotification: (error) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.ERROR, getErrorMessage(error)),
+    ),
     checkEmailAvailability: (email) => CheckoutDispatcher.then(
         ({ default: dispatcher }) => dispatcher.checkIsEmailAvailable(email),
     ),

@@ -19,5 +19,5 @@ import getStore from '.';
 export abstract class SimpleDispatcher {
     protected dispatch: Dispatch = getStore().dispatch;
 
-    protected storeState: RootState = getStore().getState() as RootState;
+    protected storeState: RootState = getStore().getState();
 }

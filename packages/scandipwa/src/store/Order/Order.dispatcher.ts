@@ -12,7 +12,6 @@
 import OrderQuery from 'Query/Order.query';
 import { OrderItem, ReorderOutput } from 'Query/Order.type';
 import { CART_URL } from 'Route/CartPage/CartPage.config';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { updateOrderStore } from 'Store/Order/Order.action';
 import { NetworkError } from 'Type/Common.type';
@@ -23,6 +22,11 @@ import { formatOrders } from 'Util/Orders';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 import { appendWithStoreCode } from 'Util/Url';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -45,7 +49,12 @@ export class OrderDispatcher extends SimpleDispatcher {
             },
             /** @namespace Store/Order/Dispatcher/OrderDispatcher/requestOrders/fetchQuery/then/catch */
             (error) => {
-                this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+                NotificationDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.showNotification(
+                        NotificationType.ERROR,
+                        getErrorMessage(error),
+                    ),
+                );
                 this.dispatch(updateOrderStore({ isLoading: false }));
             },
         );
@@ -67,7 +76,12 @@ export class OrderDispatcher extends SimpleDispatcher {
         if (userInputErrors.length) {
             userInputErrors.map((
                 { message }: NetworkError,
-            ) => this.dispatch(showNotification(NotificationType.ERROR, message)));
+            ) => NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    message,
+                ),
+            ));
         }
     }
 
@@ -77,7 +91,12 @@ export class OrderDispatcher extends SimpleDispatcher {
         try {
             return fetchMutation(OrderQuery.getReorder(incrementId));
         } catch (error) {
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError | NetworkError[])));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as NetworkError | NetworkError[]),
+                ),
+            );
 
             return null;
         }
@@ -95,7 +114,12 @@ export class OrderDispatcher extends SimpleDispatcher {
 
             return items[0];
         } catch (error) {
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError | NetworkError[])));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as NetworkError | NetworkError[]),
+                ),
+            );
 
             return null;
         }
@@ -117,7 +141,12 @@ export class OrderDispatcher extends SimpleDispatcher {
 
             return orderByInvoice;
         } catch (error) {
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as NetworkError),
+                ),
+            );
 
             return null;
         }
@@ -139,7 +168,12 @@ export class OrderDispatcher extends SimpleDispatcher {
 
             return orderByShipment;
         } catch (error) {
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as NetworkError),
+                ),
+            );
 
             return null;
         }
@@ -161,7 +195,12 @@ export class OrderDispatcher extends SimpleDispatcher {
 
             return orderByRefund;
         } catch (error) {
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as NetworkError),
+                ),
+            );
 
             return null;
         }

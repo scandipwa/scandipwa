@@ -15,7 +15,6 @@ import { Dispatch } from 'redux';
 
 import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { FieldData } from 'Util/Form/Form.type';
@@ -33,6 +32,11 @@ import {
     SendConfirmationPageContainerPropsKeys,
     SendConfirmationPageContainerState,
 } from './SendConfirmationPage.type';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -53,7 +57,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): SendConfirmationPageCont
     resendConfirmation: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.resendConfirmation(options),
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
 });
 
 /** @namespace Route/SendConfirmationPage/Container */

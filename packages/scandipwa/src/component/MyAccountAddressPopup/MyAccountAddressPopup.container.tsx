@@ -16,7 +16,6 @@ import { Dispatch } from 'redux';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { NetworkError, ReactElement } from 'Type/Common.type';
@@ -37,6 +36,11 @@ import {
     MyAccountAddressPopupPayload,
 } from './MyAccountAddressPopup.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
@@ -52,8 +56,12 @@ export const mapStateToProps = (state: RootState): MyAccountAddressPopupContaine
 /** @namespace Component/MyAccountAddressPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressPopupContainerMapDispatchProps => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
-    showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
+    showErrorNotification: (error) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.ERROR, getErrorMessage(error)),
+    ),
+    showSuccessNotification: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.SUCCESS, message),
+    ),
     updateCustomerDetails: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.requestCustomerData(),
     ),

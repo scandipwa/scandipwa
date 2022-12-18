@@ -23,8 +23,7 @@ import {
 import {
     updateMyAccountStore,
 } from 'Store/MyAccount/MyAccount.action';
-import { showNotification } from 'Store/Notification/Notification.action';
-import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearComparedProducts } from 'Store/ProductCompare/ProductCompare.action';
 import {
@@ -57,6 +56,11 @@ export const WishlistDispatcher = import(
 export const ProductCompareDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/ProductCompare/ProductCompare.dispatcher'
+);
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
 );
 
 export const CUSTOMER = 'customer';
@@ -97,7 +101,13 @@ export class MyAccountDispatcher extends SimpleDispatcher {
                 if (category === GRAPHQL_AUTH) {
                     this.dispatch(updateMyAccountStore({ isLocked: true }));
                 }
-                this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+
+                NotificationDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.showNotification(
+                        NotificationType.ERROR,
+                        getErrorMessage(error),
+                    ),
+                );
             },
         );
     }
@@ -105,7 +115,12 @@ export class MyAccountDispatcher extends SimpleDispatcher {
     logout(authTokenExpired: boolean, isWithNotification: boolean): void {
         if (authTokenExpired) {
             if (isWithNotification) {
-                this.dispatch(showNotification(NotificationType.ERROR, __('Your session is over, you are logged out!')));
+                NotificationDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.showNotification(
+                        NotificationType.ERROR,
+                        __('Your session is over, you are logged out!'),
+                    ),
+                );
             }
 
             this.handleForceRedirectToLoginPage();
@@ -116,7 +131,12 @@ export class MyAccountDispatcher extends SimpleDispatcher {
             }
 
             if (isWithNotification) {
-                this.dispatch(showNotification(NotificationType.SUCCESS, __('You are successfully logged out!')));
+                NotificationDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.showNotification(
+                        NotificationType.SUCCESS,
+                        __('You are successfully logged out!'),
+                    ),
+                );
             }
         }
 
@@ -152,7 +172,7 @@ export class MyAccountDispatcher extends SimpleDispatcher {
     forgotPassword(
         options: { email: string },
 
-    ): Promise<UpdateMyAccountStoreAction | ShowNotificationAction> {
+    ): Promise<UpdateMyAccountStoreAction | void> {
         const mutation = MyAccountQuery.getForgotPasswordMutation(options);
         const { isPasswordForgotSend } = this.storeState.MyAccountReducer;
 
@@ -160,7 +180,12 @@ export class MyAccountDispatcher extends SimpleDispatcher {
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/forgotPassword/fetchMutation/then */
             () => this.dispatch(updateMyAccountStore({ isPasswordForgotSend: !isPasswordForgotSend })),
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/forgotPassword/fetchMutation/then/catch */
-            (error) => this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
+            (error) => NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error),
+                ),
+            ),
         );
     }
 
@@ -214,7 +239,12 @@ export class MyAccountDispatcher extends SimpleDispatcher {
             return await this.signIn({ email, password });
         } catch (error) {
             this.dispatch(updateMyAccountStore({ isLoading: false }));
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as Error)));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as Error),
+                ),
+            );
 
             return false;
         }
@@ -233,15 +263,22 @@ export class MyAccountDispatcher extends SimpleDispatcher {
 
             switch (status) {
             case SendConfirmationStatus.ACCOUNT_CONFIRMATION_NOT_REQUIRED:
-                this.dispatch(showNotification(NotificationType.SUCCESS, __('This email does not require confirmation.')));
+                NotificationDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.showNotification(
+                        NotificationType.SUCCESS,
+                        __('This email does not require confirmation.'),
+                    ),
+                );
                 history.push(AccountPageUrl.LOGIN_URL);
 
                 return false;
             case SendConfirmationStatus.CONFIRMATION_SENT:
-                this.dispatch(showNotification(
-                    NotificationType.SUCCESS,
-                    __('Please check your email for confirmation key.'),
-                ));
+                NotificationDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.showNotification(
+                        NotificationType.SUCCESS,
+                        __('Please check your email for confirmation key.'),
+                    ),
+                );
 
                 return true;
             case SendConfirmationStatus.WRONG_EMAIL:
@@ -263,15 +300,20 @@ export class MyAccountDispatcher extends SimpleDispatcher {
      * @param {{key: String, email: String, password: String}} [options={}]
      * @memberof MyAccountDispatcher
      */
-    confirmAccount(options: ConfirmAccountOptions): Promise<ShowNotificationAction> {
+    confirmAccount(options: ConfirmAccountOptions): Promise<void> {
         const mutation = MyAccountQuery.getConfirmAccountMutation(options);
 
         return fetchMutation(mutation).then(
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/confirmAccount/fetchMutation/then */
-            () => this.dispatch(showNotification(NotificationType.SUCCESS, __('Your account is confirmed!'))),
+            () => NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.SUCCESS,
+                    __('Your account is confirmed!'),
+                ),
+            ),
             /** @namespace Store/MyAccount/Dispatcher/MyAccountDispatcher/confirmAccount/fetchMutation/then/catch */
-            (error) => this.dispatch(
-                showNotification(
+            (error) => NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
                     NotificationType.ERROR,
                     getErrorMessage(error, __('Something went wrong! Please, try again!')),
                 ),
@@ -299,7 +341,7 @@ export class MyAccountDispatcher extends SimpleDispatcher {
         const cartDispatcher = (await CartDispatcher).default;
         const guestCartToken = getCartId() || '';
         // if customer is authorized, `createEmptyCart` mutation returns customer cart token
-        const customerCartToken = await cartDispatcher.createGuestEmptyCart() || '';
+        const customerCartToken = (await cartDispatcher.createGuestEmptyCart()) || '';
 
         if (guestCartToken && guestCartToken !== customerCartToken) {
             // merge guest cart id and customer cart id using magento capabilities
@@ -317,7 +359,12 @@ export class MyAccountDispatcher extends SimpleDispatcher {
 
         this.dispatch(updateMyAccountStore({ isSignedIn: true, isLoading: true }));
         this.dispatch(hideActiveOverlay());
-        this.dispatch(showNotification(NotificationType.SUCCESS, __('You are successfully logged in!')));
+        NotificationDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.showNotification(
+                NotificationType.SUCCESS,
+                __('You are successfully logged in!'),
+            ),
+        );
 
         return true;
     }

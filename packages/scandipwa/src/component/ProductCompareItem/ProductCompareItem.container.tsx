@@ -11,11 +11,9 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { ProductType } from 'Component/Product/Product.config';
 import { GroupedProductItem } from 'Query/ProductList.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement, Url } from 'Type/Common.type';
 import history from 'Util/History';
@@ -36,6 +34,11 @@ import {
     ProductCompareItemContainerState,
 } from './ProductCompareItem.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const ProductCompareDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/ProductCompare/ProductCompare.dispatcher'
@@ -52,14 +55,16 @@ export const mapStateToProps = (state: RootState): ProductCompareItemContainerMa
 });
 
 /** @namespace Component/ProductCompareItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareItemContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): ProductCompareItemContainerMapDispatchProps => ({
     removeComparedProduct: (productId) => ProductCompareDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId),
     ),
     addProductToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(options),
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
 });
 
 /** @namespace Component/ProductCompareItem/Container */

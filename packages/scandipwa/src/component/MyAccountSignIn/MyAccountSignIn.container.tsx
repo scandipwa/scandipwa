@@ -11,11 +11,9 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { SignInOptions } from 'Query/MyAccount.type';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
@@ -37,6 +35,11 @@ import {
     MyAccountSignInContainerState,
 } from './MyAccountSignIn.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
@@ -50,11 +53,13 @@ export const mapStateToProps = (state: RootState): MyAccountSignInContainerMapSt
 });
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): MyAccountSignInContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): MyAccountSignInContainerMapDispatchProps => ({
     signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options),
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
 });
 
 /** @namespace Component/MyAccountSignIn/Container */

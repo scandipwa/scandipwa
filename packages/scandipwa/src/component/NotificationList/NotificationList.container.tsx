@@ -10,9 +10,7 @@
  */
 
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
-import { hideNotification } from 'Store/Notification/Notification.action';
 import NotificationReducer from 'Store/Notification/Notification.reducer';
 import { withReducers } from 'Util/DynamicReducer';
 import { RootState } from 'Util/Store/Store.type';
@@ -28,11 +26,16 @@ export const mapStateToProps = (state: RootState): NotificationListContainerMapS
     notifications: state.NotificationReducer.notifications,
 });
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 /** @namespace Component/NotificationList/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): NotificationListContainerMapDispatchProps => ({
-    onHideNotification: (id) => {
-        dispatch(hideNotification(id));
-    },
+export const mapDispatchToProps = (): NotificationListContainerMapDispatchProps => ({
+    onHideNotification: (id) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.hideNotification(id),
+    ),
 });
 
 export default withReducers({

@@ -13,11 +13,9 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { ERROR_TYPE } from 'Component/Notification/Notification.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { FieldData } from 'Util/Form/Form.type';
@@ -35,6 +33,11 @@ import {
     ConfirmAccountPageContainerPropsKeys,
     ConfirmAccountPageContainerState,
 } from './ConfirmAccountPage.type';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -55,7 +58,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): ConfirmAccountPageContai
     confirmAccount: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.confirmAccount(options),
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
     signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options),
     ),
@@ -128,18 +133,8 @@ ConfirmAccountPageContainerState
 
         confirmAccount({ email, password, key })
             .then(
-                /** @namespace Route/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch/then/then/confirmAccount/then */
-                (data) => {
-                    const { msgType } = data || {};
-
-                    if (msgType === ERROR_TYPE) {
-                        // error message is handled in the dispatcher
-                        // just abort the chain
-                        return Promise.reject();
-                    }
-
-                    return signIn({ email, password });
-                },
+                /** @namespace Route/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch/then/then/confirmAccount/then/signIn */
+                () => signIn({ email, password }),
             )
             .then(
                 /** @namespace Route/ConfirmAccountPage/Container/ConfirmAccountPageContainer/onConfirmSuccess/then/catch/then/then */

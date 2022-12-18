@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { NetworkError, ReactElement } from 'Type/Common.type';
@@ -32,6 +31,11 @@ import {
     MyAccountMyWishlistContainerPropsKeys,
     MyAccountMyWishlistContainerState,
 } from './MyAccountMyWishlist.type';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -54,8 +58,12 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyWishlistConta
         ({ default: dispatcher }) => dispatcher.moveWishlistToCart(),
     ),
     showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
-    showNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
-    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
+    showNotification: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.SUCCESS, message),
+    ),
+    showError: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.ERROR, message),
+    ),
     removeSelectedFromWishlist: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeItemsFromWishlist(options),
     ),

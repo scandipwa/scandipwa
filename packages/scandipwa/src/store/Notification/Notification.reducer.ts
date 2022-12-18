@@ -12,10 +12,8 @@
 import { Reducer } from 'redux';
 
 import {
-    NotificationAction,
     NotificationActionType,
     NotificationStore,
-    NotificationType,
 } from './Notification.type';
 
 /** @namespace Store/Notification/Reducer/getInitialState */
@@ -24,35 +22,20 @@ export const getInitialState = (): NotificationStore => ({
 });
 
 /** @namespace Store/Notification/Reducer/NotificationReducer */
-export const NotificationReducer: Reducer<NotificationStore, NotificationAction> = (
+export const NotificationReducer: Reducer<NotificationStore> = (
     state = getInitialState(),
     action,
 ) => {
-    const notifications = { ...state.notifications };
+    const { state: newState, type } = action;
 
-    switch (action.type) {
-    case NotificationActionType.SHOW_NOTIFICATION:
-        const { msgType = NotificationType.INFO, msgText = '', msgDebug } = action;
-
-        notifications[Date.now()] = { msgType, msgText, msgDebug };
-
-        return {
-            ...state,
-            notifications,
-        };
-
-    case NotificationActionType.HIDE_NOTIFICATION: {
-        const { id: actionId = '' } = action;
-        const { [actionId]: id, ...shownNotifications } = notifications;
-
-        return {
-            ...state,
-            notifications: shownNotifications,
-        };
-    }
-    default:
+    if (NotificationActionType.UPDATE_NOTIFICTION_STORE !== type) {
         return state;
     }
+
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default NotificationReducer;

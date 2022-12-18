@@ -25,7 +25,6 @@ import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { updateStoreInPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { NetworkError, ReactElement } from 'Type/Common.type';
@@ -73,6 +72,10 @@ export const CheckoutDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Checkout/Checkout.dispatcher'
 );
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 /** @namespace Route/Checkout/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProps => ({
@@ -114,9 +117,15 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
         },
     ),
     updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
-    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
-    showInfoNotification: (message) => dispatch(showNotification(NotificationType.INFO, message)),
-    showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
+    showErrorNotification: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.ERROR, message),
+    ),
+    showInfoNotification: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.INFO, message),
+    ),
+    showSuccessNotification: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.SUCCESS, message),
+    ),
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     setNavigationState: (stateName) => dispatch(
         changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName),

@@ -11,11 +11,9 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import OrderQuery from 'Query/Order.query';
 import { CustomerDownloadableProduct } from 'Query/Order.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
@@ -29,6 +27,11 @@ import {
     MyAccountDownloadableContainerState,
 } from './MyAccountDownloadable.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const OrderDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Order/Order.dispatcher'
@@ -38,9 +41,13 @@ export const OrderDispatcher = import(
 export const mapStateToProps = (): unknown => ({});
 
 /** @namespace Component/MyAccountDownloadable/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): MyAccountDownloadableContainerDispatchProps => ({
-    showErrorNotification: (message: string) => dispatch(showNotification(NotificationType.ERROR, message)),
-    showSuccessNotification: (message: string) => dispatch(showNotification(NotificationType.SUCCESS, message)),
+export const mapDispatchToProps = (): MyAccountDownloadableContainerDispatchProps => ({
+    showErrorNotification: (message: string) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.ERROR, message),
+    ),
+    showSuccessNotification: (message: string) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.SUCCESS, message),
+    ),
 });
 
 /** @namespace Component/MyAccountDownloadable/Container */

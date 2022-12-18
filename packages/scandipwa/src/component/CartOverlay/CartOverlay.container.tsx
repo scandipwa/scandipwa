@@ -19,7 +19,6 @@ import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { IndexedCartItem } from 'Store/Cart/Cart.type';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
@@ -46,6 +45,11 @@ import {
     CartOverlayContainerState,
 } from './CartOverlay.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
@@ -70,7 +74,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartOverlayContainerMapD
     setNavigationState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
 });
 

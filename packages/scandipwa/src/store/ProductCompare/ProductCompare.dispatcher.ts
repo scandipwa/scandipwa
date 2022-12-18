@@ -11,7 +11,6 @@
 
 import ProductCompareQuery from 'Query/ProductCompare.query';
 import { CompareList } from 'Query/ProductCompare.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import {
     clearComparedProducts,
@@ -28,6 +27,11 @@ import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
+);
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
 );
 
 /** @namespace Store/ProductCompare/Dispatcher */
@@ -50,7 +54,13 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
             this.dispatch(setCompareList(compareList));
         } catch (error) {
             this.dispatch(toggleLoader(false));
-            this.dispatch(showNotification(NotificationType.ERROR, __('Unable to fetch compare list'), error));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    __('Unable to fetch compare list'),
+                    error,
+                ),
+            );
 
             return false;
         }
@@ -99,11 +109,22 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
                 : await this.createCompareList(productId);
 
             this.dispatch(setCompareList(result));
-            this.dispatch(showNotification(NotificationType.SUCCESS, __('Product is added to the compare list')));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.SUCCESS,
+                    __('Product is added to the compare list'),
+                ),
+            );
 
             return result;
         } catch (error) {
-            this.dispatch(showNotification(NotificationType.ERROR, __('Unable to add product to the compare list'), error));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    __('Unable to add product to the compare list'),
+                    error,
+                ),
+            );
 
             return null;
         }
@@ -127,15 +148,22 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
             );
 
             this.dispatch(setCompareList(removeProductsFromCompareList));
-            this.dispatch(showNotification(NotificationType.SUCCESS, __('Product is removed from the compare list')));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.SUCCESS,
+                    __('Product is removed from the compare list'),
+                ),
+            );
 
             return removeProductsFromCompareList;
         } catch (error) {
-            this.dispatch(showNotification(
-                NotificationType.SUCCESS,
-                __('Unable to remove product from the compare list'),
-                error,
-            ));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.SUCCESS,
+                    __('Unable to remove product from the compare list'),
+                    error,
+                ),
+            );
 
             return null;
         }
@@ -219,13 +247,24 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
 
             removeUid();
             this.dispatch(clearComparedProducts());
-            this.dispatch(showNotification(NotificationType.SUCCESS, __('Compare list is cleared')));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.SUCCESS,
+                    __('Compare list is cleared'),
+                ),
+            );
             this.dispatch(toggleLoader(false));
 
             return result;
         } catch (error) {
             this.dispatch(toggleLoader(false));
-            this.dispatch(showNotification(NotificationType.ERROR, __('Unable to clear product compare list'), error));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    __('Unable to clear product compare list'),
+                    error,
+                ),
+            );
 
             return null;
         }
@@ -252,7 +291,13 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
             this.dispatch(updateCompareTotals(compareIds.length));
         } catch (error) {
             this.dispatch(toggleLoader(false));
-            this.dispatch(showNotification(NotificationType.ERROR, __('Unable to fetch compare list'), error));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    __('Unable to fetch compare list'),
+                    error,
+                ),
+            );
 
             return false;
         }

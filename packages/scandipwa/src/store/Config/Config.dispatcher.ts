@@ -23,7 +23,6 @@ import { Country } from 'Query/Region.type';
 import ReviewQuery from 'Query/Review.query';
 import { ReviewRatingItem } from 'Query/Review.type';
 import { updateConfigStore } from 'Store/Config/Config.action';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { returnFilteredCurrencies, setCurrency } from 'Util/Currency';
@@ -31,6 +30,11 @@ import { fetchCancelableQuery } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { ConfigStore, ReviewRatings } from './Config.type';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 /** @namespace Store/Config/Dispatcher/filterStoreConfig */
 export const filterStoreConfig = (config: StoreConfig): Partial<StoreConfig> => Object.entries(config).reduce(
@@ -150,7 +154,13 @@ export class ConfigDispatcher extends SimpleDispatcher {
                 this.dispatch(updateConfigStore(newConfigState));
             }
         } catch (err) {
-            this.dispatch(showNotification(NotificationType.ERROR, __('Error fetching Config!'), err));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    __('Error fetching Config!'),
+                    err,
+                ),
+            );
         }
     }
 }

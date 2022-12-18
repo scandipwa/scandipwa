@@ -11,9 +11,7 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
@@ -26,6 +24,11 @@ import {
     ProductReviewsContainerProps,
 } from './ProductReviews.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 /** @namespace Component/ProductReviews/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductReviewsContainerMapStateProps => ({
     isEnabled: state.ConfigReducer.reviews_are_enabled,
@@ -34,8 +37,10 @@ export const mapStateToProps = (state: RootState): ProductReviewsContainerMapSta
 });
 
 /** @namespace Component/ProductReviews/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): ProductReviewsContainerMapDispatchProps => ({
-    showInfoNotification: (message) => dispatch(showNotification(NotificationType.INFO, message)),
+export const mapDispatchToProps = (): ProductReviewsContainerMapDispatchProps => ({
+    showInfoNotification: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.INFO, message),
+    ),
 });
 
 /** @namespace Component/ProductReviews/Container */

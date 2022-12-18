@@ -10,13 +10,17 @@
  */
 
 import ContactFormQuery from 'Query/ContactForm.query';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { updateContactStore } from './ContactForm.action';
 import { ContactFormDispatcherOptions } from './ContactForm.type';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 /**
  * ContactForm Dispatcher
@@ -38,7 +42,12 @@ export class ContactFormDispatcher extends SimpleDispatcher {
             .then(
                 /** @namespace Store/ContactForm/Dispatcher/ContactFormDispatcher/prepareRequest/fetchMutation/then */
                 (data) => {
-                    this.dispatch(showNotification(NotificationType.SUCCESS, data.contactForm.message || ''));
+                    NotificationDispatcher.then(
+                        ({ default: dispatcher }) => dispatcher.showNotification(
+                            NotificationType.SUCCESS,
+                            data.contactForm.message || '',
+                        ),
+                    );
                     this.dispatch(updateContactStore({
                         isLoading: false,
                     }));
@@ -50,7 +59,12 @@ export class ContactFormDispatcher extends SimpleDispatcher {
                 },
                 /** @namespace Store/ContactForm/Dispatcher/ContactFormDispatcher/prepareRequest/fetchMutation/then/catch */
                 (error) => {
-                    this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+                    NotificationDispatcher.then(
+                        ({ default: dispatcher }) => dispatcher.showNotification(
+                            NotificationType.ERROR,
+                            getErrorMessage(error),
+                        ),
+                    );
                     this.dispatch(updateContactStore({
                         isLoading: false,
                     }));

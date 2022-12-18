@@ -20,7 +20,6 @@ import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
@@ -40,6 +39,11 @@ import {
     PasswordChangePageContainerPropsKeys,
     PasswordChangePageContainerState,
 } from './PasswordChangePage.type';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -65,9 +69,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): PasswordChangePageContai
             ({ default: dispatcher }) => dispatcher.resetPassword(options),
         );
     },
-    showNotification(type, message) {
-        dispatch(showNotification(type, message));
-    },
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
 });
 
 /** @namespace Route/PasswordChangePage/Container */

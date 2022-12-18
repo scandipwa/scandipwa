@@ -16,7 +16,6 @@ import { Page } from 'Component/Header/Header.config';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
@@ -31,6 +30,11 @@ import {
     ProductComparePageContainerProps,
 } from './ProductComparePage.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
@@ -44,7 +48,9 @@ export const mapStateToProps = (state: RootState): ProductComparePageContainerMa
 
 /** @namespace Route/ProductComparePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductComparePageContainerMapDispatchProps => ({
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
     updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     updateBreadcrumbs: (breadcrumbs) => {

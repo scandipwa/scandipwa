@@ -10,13 +10,17 @@
  */
 
 import ReviewQuery from 'Query/Review.query';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { GQLCreateProductReviewInput } from 'Type/Graphql.type';
 import { fetchMutation } from 'Util/Request';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { ReviewItem } from './Review.type';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 /**
  * Product Review Dispatcher
@@ -49,8 +53,12 @@ export class ReviewDispatcher extends SimpleDispatcher {
 
     async submitProductReview(options: ReviewItem): Promise<void> {
         await fetchMutation(ReviewQuery.getAddProductReviewMutation(this.prepareReviewData(options)));
-
-        this.dispatch(showNotification(NotificationType.SUCCESS, 'You submitted your review for moderation.'));
+        NotificationDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.showNotification(
+                NotificationType.SUCCESS,
+                'You submitted your review for moderation.',
+            ),
+        );
     }
 }
 

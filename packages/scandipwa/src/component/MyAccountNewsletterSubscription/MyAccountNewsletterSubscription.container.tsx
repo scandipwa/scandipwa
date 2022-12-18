@@ -17,7 +17,6 @@ import Loader from 'Component/Loader';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { updateMyAccountStore } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
@@ -37,6 +36,11 @@ import {
     MyAccountNewsletterSubscriptionContainerState,
 } from './MyAccountNewsletterSubscription.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 /** @namespace Component/MyAccountNewsletterSubscription/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountNewsletterSubscriptionContainerMapStateProps => ({
     customer: state.MyAccountReducer.customer,
@@ -46,8 +50,12 @@ export const mapStateToProps = (state: RootState): MyAccountNewsletterSubscripti
 /** @namespace Component/MyAccountNewsletterSubscription/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountNewsletterSubscriptionContainerMapDispatchProps => ({
     updateMyAccountStore: (state) => dispatch(updateMyAccountStore(state)),
-    showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
-    showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
+    showErrorNotification: (error) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.ERROR, getErrorMessage(error)),
+    ),
+    showSuccessNotification: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.SUCCESS, message),
+    ),
 });
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container */

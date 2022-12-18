@@ -15,7 +15,6 @@ import ProductList from 'Component/ProductList';
 import ProductListQuery from 'Query/ProductList.query';
 import { ProductListOptions } from 'Query/ProductList.type';
 import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { getIndexedProducts } from 'Util/Product';
@@ -34,13 +33,20 @@ import {
 
 import './ProductListWidget.style';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 /** @namespace Component/ProductListWidget/Container/mapStateToProps */
 export const mapStateToProps = (): ProductListWidgetContainerMapStateProps => ({});
 
 /** @namespace Component/ProductListWidget/Container/mapDispatchToProps */
 export const mapDispatchToProps = (): ProductListWidgetContainerMapDispatchProps => ({
     updateNoMatchStore,
-    showNotification,
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
 });
 
 /** @namespace Component/ProductListWidget/Container */

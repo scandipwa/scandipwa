@@ -18,7 +18,6 @@ import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { updateMyAccountStore } from 'Store/MyAccount/MyAccount.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import OrderReducer from 'Store/Order/Order.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
@@ -44,6 +43,11 @@ import {
     MyAccountContainerState,
     MyAccountTab,
 } from './MyAccount.type';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -78,7 +82,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountContainerMapDis
     ),
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
     updateMetaStore: (meta) => dispatch(updateMetaStore(meta)),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
     logout: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.logout(false, false),
     ),

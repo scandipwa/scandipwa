@@ -12,7 +12,7 @@
 import { ConfirmAccountOptions, SignInOptions } from 'Query/MyAccount.type';
 import { BreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { MetaStore } from 'Store/Meta/Meta.type';
-import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
+import { NotificationType } from 'Store/Notification/Notification.type';
 import { FieldData } from 'Util/Form/Form.type';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -21,7 +21,7 @@ export interface ConfirmAccountPageContainerMapStateProps {}
 export interface ConfirmAccountPageContainerMapDispatchProps {
     updateBreadcrumbsStore: (state: Partial<BreadcrumbsStore>) => void;
     updateMetaStore: (state: Partial<MetaStore>) => void;
-    confirmAccount: (options: ConfirmAccountOptions) => Promise<ShowNotificationAction>;
+    confirmAccount: (options: ConfirmAccountOptions) => Promise<void>;
     showNotification: (type: NotificationType, message: string) => void;
     signIn: (options: SignInOptions) => Promise<boolean>;
 }

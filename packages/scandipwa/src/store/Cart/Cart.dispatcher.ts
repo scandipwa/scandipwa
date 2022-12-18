@@ -23,7 +23,7 @@ import { ProductItem, ProductLink } from 'Query/ProductList.type';
 import { updateCartStore } from 'Store/Cart/Cart.action';
 import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
-import { showNotification } from 'Store/Notification/Notification.action';
+import { } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
@@ -49,6 +49,11 @@ export const CURRENT_WEBSITE = 'base';
 export const LinkedProductsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/LinkedProducts/LinkedProducts.dispatcher'
+);
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
 );
 
 /**
@@ -168,7 +173,12 @@ export class CartDispatcher extends SimpleDispatcher {
 
             return quoteId;
         } catch (error) {
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as NetworkError),
+                ),
+            );
 
             return null;
         }
@@ -189,7 +199,12 @@ export class CartDispatcher extends SimpleDispatcher {
 
             return id;
         } catch (error) {
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as NetworkError),
+                ),
+            );
 
             return null;
         }
@@ -223,7 +238,12 @@ export class CartDispatcher extends SimpleDispatcher {
 
             return await this.updateInitialCartData();
         } catch (error) {
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as NetworkError),
+                ),
+            );
 
             return Promise.reject();
         }
@@ -238,7 +258,12 @@ export class CartDispatcher extends SimpleDispatcher {
         const cartId = userCartId || getCartId();
 
         if (!Array.isArray(products) || products.length === 0) {
-            this.dispatch(showNotification(NotificationType.ERROR, __('No product data!')));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    __('No product data!'),
+                ),
+            );
 
             return Promise.reject();
         }
@@ -254,22 +279,42 @@ export class CartDispatcher extends SimpleDispatcher {
 
             if (Array.isArray(errors) && errors.length > 0) {
                 errors.forEach((error) => {
-                    this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+                    NotificationDispatcher.then(
+                        ({ default: dispatcher }) => dispatcher.showNotification(
+                            NotificationType.ERROR,
+                            getErrorMessage(error as NetworkError),
+                        ),
+                    );
                 });
 
                 return await Promise.resolve();
             }
 
             await this.updateInitialCartData();
-            this.dispatch(showNotification(NotificationType.SUCCESS, __('Product was added to cart!')));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.SUCCESS,
+                    __('Product was added to cart!'),
+                ),
+            );
         } catch (error) {
             if (!navigator.onLine) {
-                this.dispatch(showNotification(NotificationType.ERROR, __('Not possible to fetch while offline')));
+                NotificationDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.showNotification(
+                        NotificationType.ERROR,
+                        __('Not possible to fetch while offline'),
+                    ),
+                );
 
                 return Promise.reject();
             }
 
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as NetworkError),
+                ),
+            );
 
             return Promise.reject();
         }
@@ -294,7 +339,12 @@ export class CartDispatcher extends SimpleDispatcher {
 
             return cartData;
         } catch (error) {
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as NetworkError),
+                ),
+            );
 
             return null;
         }
@@ -314,9 +364,19 @@ export class CartDispatcher extends SimpleDispatcher {
             );
 
             this.updateCartTotals(cartData);
-            this.dispatch(showNotification(NotificationType.SUCCESS, __('Coupon was applied!')));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.SUCCESS,
+                    __('Coupon was applied!'),
+                ),
+            );
         } catch (error) {
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as NetworkError),
+                ),
+            );
         }
     }
 
@@ -334,9 +394,19 @@ export class CartDispatcher extends SimpleDispatcher {
             );
 
             this.updateCartTotals(cartData);
-            this.dispatch(showNotification(NotificationType.SUCCESS, __('Coupon was removed!')));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.SUCCESS,
+                    __('Coupon was removed!'),
+                ),
+            );
         } catch (error) {
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as NetworkError),
+                ),
+            );
         }
     }
 

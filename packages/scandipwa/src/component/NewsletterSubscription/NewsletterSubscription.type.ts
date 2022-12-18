@@ -5,11 +5,9 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa-theme
+ * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
-
-import { ShowNotificationAction } from 'Store/Notification/Notification.type';
 
 export interface NewsletterSubscriptionMapStateProps {
     allowGuestSubscribe: boolean;
@@ -17,7 +15,7 @@ export interface NewsletterSubscriptionMapStateProps {
 }
 
 export interface NewsletterSubscriptionMapDispatchProps {
-    subscribeToNewsletter: (email: string) => Promise<ShowNotificationAction>;
+    subscribeToNewsletter: (email: string) => Promise<void>;
     showErrorNotification: (message: string) => void;
 }
 

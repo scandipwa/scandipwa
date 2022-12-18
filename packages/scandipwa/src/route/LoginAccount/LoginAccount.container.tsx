@@ -22,7 +22,6 @@ import {
 import { MyAccountOverlayContainerState } from 'Component/MyAccountOverlay/MyAccountOverlay.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { scrollToTop } from 'Util/Browser';
@@ -36,11 +35,18 @@ import {
     LoginAccountContainerProps,
 } from './LoginAccount.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 /** @namespace Route/LoginAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): LoginAccountContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
     updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
 });
 
 /** @namespace Route/LoginAccount/Container */

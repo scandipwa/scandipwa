@@ -14,6 +14,7 @@ import { AnyAction } from 'redux';
 export enum NotificationActionType {
     SHOW_NOTIFICATION = 'SHOW_NOTIFICATION',
     HIDE_NOTIFICATION = 'HIDE_NOTIFICATION',
+    UPDATE_NOTIFICTION_STORE = 'UPDATE_NOTIFICTION_STORE',
 }
 
 export enum NotificationType {
@@ -40,7 +41,12 @@ export interface HideNotificationAction extends AnyAction {
     id?: string;
 }
 
-export type NotificationAction = ShowNotificationAction<unknown> | HideNotificationAction;
+export interface UpdateNotificationStoreAction extends AnyAction {
+    type: NotificationActionType.UPDATE_NOTIFICTION_STORE;
+    state: Partial<NotificationStore>;
+}
+
+export type NotificationAction = UpdateNotificationStoreAction;
 
 export interface NotificationStore {
     notifications: Record<string, Notification<unknown>>;

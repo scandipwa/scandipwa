@@ -12,12 +12,10 @@
 
 import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { ProductType } from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { CartTotals } from 'Query/Cart.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement, Url } from 'Type/Common.type';
 import { encodeBase64 } from 'Util/Base64';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
@@ -39,6 +37,11 @@ import {
     CartItemContainerState,
 } from './CartItem.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
@@ -52,7 +55,7 @@ export const mapStateToProps = (state: RootState): CartItemContainerMapStateProp
 });
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): CartItemContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): CartItemContainerMapDispatchProps => ({
     addProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(options),
     ),
@@ -65,7 +68,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartItemContainerMapDisp
     updateCrossSellProducts: (items) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items),
     ),
-    showNotification: (type, title, error) => dispatch(showNotification(type, title, error)),
+    showNotification: (type, title, error) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, title, error),
+    ),
 });
 
 /** @namespace Component/CartItem/Container */

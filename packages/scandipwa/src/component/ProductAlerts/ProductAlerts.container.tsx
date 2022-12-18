@@ -11,10 +11,8 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import ProductAlertsQuery from 'Query/ProductAlerts.query';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
@@ -31,6 +29,11 @@ import {
     ProductAlertsContainerProps,
 } from './ProductAlerts.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 /** @namespace Component/ProductAlerts/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductAlertsContainerMapStateProps => ({
     isPriceAlertEnabled: state.ConfigReducer.product_alert_allow_price,
@@ -39,9 +42,13 @@ export const mapStateToProps = (state: RootState): ProductAlertsContainerMapStat
 });
 
 /** @namespace Component/ProductAlerts/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): ProductAlertsContainerMapDispatchProps => ({
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
-    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
+export const mapDispatchToProps = (): ProductAlertsContainerMapDispatchProps => ({
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
+    showErrorNotification: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.ERROR, message),
+    ),
 });
 
 /** @namespace Component/ProductAlerts/Container */

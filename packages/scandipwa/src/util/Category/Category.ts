@@ -11,7 +11,6 @@
 
 import history from 'Util/History';
 import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/Store.type';
 import { getQueryParam } from 'Util/Url';
 
 import { getFilter } from './Filters';
@@ -20,7 +19,7 @@ import { getSelectedSortFromUrl } from './Sort';
 /** @namespace Util/Category/getIsMatchingInfoFilter */
 export const getIsMatchingInfoFilter = (): boolean => {
     if (isSearchPage()) {
-        const { currentArgs: { search: currentSearch } } = (getStore().getState() as RootState).ProductListReducer;
+        const { currentArgs: { search: currentSearch } } = (getStore().getState()).ProductListReducer;
 
         // if the search requested is equal to search from URL
         return getSearchQuery() === currentSearch;
@@ -35,7 +34,7 @@ export const getIsMatchingInfoFilter = (): boolean => {
         CategoryReducer: {
             categoryIds,
         },
-    } = getStore().getState() as RootState;
+    } = getStore().getState();
 
     // Requested category is equal to current category
     return categoryIds === selectedCategoryIds;
@@ -50,7 +49,7 @@ export const getIsMatchingListFilter = (): boolean => {
             filter,
             search: currentSearch,
         } = {},
-    } = (getStore().getState() as RootState).ProductListReducer;
+    } = (getStore().getState()).ProductListReducer;
     const { location } = history;
 
     /**

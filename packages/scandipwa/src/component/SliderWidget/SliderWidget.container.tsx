@@ -10,11 +10,9 @@
  */
 
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import SliderQuery from 'Query/Slider.query';
 import { Slider } from 'Query/Slider.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import DataContainer from 'Util/Request/DataContainer';
@@ -29,6 +27,11 @@ import {
     SliderWidgetContainerState,
 } from './SliderWidget.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 /** @namespace Component/SliderWidget/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): SliderWidgetContainerMapStateProps => ({
     device: state.ConfigReducer.device,
@@ -36,8 +39,10 @@ export const mapStateToProps = (state: RootState): SliderWidgetContainerMapState
 });
 
 /** @namespace Component/SliderWidget/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): SliderWidgetContainerMapDispatchProps => ({
-    showNotification: (type, title, error) => dispatch(showNotification(type, title, error)),
+export const mapDispatchToProps = (): SliderWidgetContainerMapDispatchProps => ({
+    showNotification: (type, title, error) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, title, error),
+    ),
 });
 
 /** @namespace Component/SliderWidget/Container */

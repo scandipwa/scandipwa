@@ -14,7 +14,6 @@ import CheckoutQuery from 'Query/Checkout.query';
 import { PaymentMethod, SetGuestEmailOnCartOutput } from 'Query/Checkout.type';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { PaymentInformation } from 'Route/Checkout/Checkout.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
 import { GQLCartAddressInput } from 'Type/Graphql.type';
@@ -25,6 +24,11 @@ import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
 import { updateCheckoutStore } from './Checkout.action';
+
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
 
 /**
  * Checkout Dispatcher
@@ -65,7 +69,12 @@ export class CheckoutDispatcher extends SimpleDispatcher {
                 }));
             }
         } catch (error) {
-            this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error as NetworkError)));
+            NotificationDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.showNotification(
+                    NotificationType.ERROR,
+                    getErrorMessage(error as NetworkError),
+                ),
+            );
         }
     }
 
@@ -164,7 +173,12 @@ export class CheckoutDispatcher extends SimpleDispatcher {
             isDeliveryOptionsLoading: false,
             isCheckoutLoading: false,
         }));
-        this.dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error)));
+        NotificationDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.showNotification(
+                NotificationType.ERROR,
+                getErrorMessage(error),
+            ),
+        );
 
         return false;
     }

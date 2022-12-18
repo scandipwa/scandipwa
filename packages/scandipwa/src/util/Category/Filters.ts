@@ -14,7 +14,6 @@ import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import history from 'Util/History';
 import { formatPrice } from 'Util/Price';
 import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/Store.type';
 import { getQueryParam } from 'Util/Url';
 
 /** @namespace Util/Category/Filters/getPriceFilterLabel */
@@ -69,7 +68,7 @@ export const getSelectedPriceRangeFromUrl = (): FilterPriceRange => {
 
 /** @namespace Util/Category/Filters/getFilter */
 export const getFilter = (): ProductAttributeFilterOptions => {
-    const { categoryIds } = (getStore().getState() as RootState).CategoryReducer;
+    const { categoryIds } = (getStore().getState()).CategoryReducer;
     const customFilters = getSelectedFiltersFromUrl();
     const priceRange = getSelectedPriceRangeFromUrl();
 

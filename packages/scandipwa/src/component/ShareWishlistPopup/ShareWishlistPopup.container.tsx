@@ -16,7 +16,6 @@ import { Dispatch } from 'redux';
 import WishlistQuery from 'Query/Wishlist.query';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { ReactElement } from 'Type/Common.type';
@@ -35,10 +34,19 @@ import {
     ShareWishlistPopupContainerState,
 } from './ShareWishlistPopup.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 /** @namespace Component/ShareWishlistPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ShareWishlistPopupContainerMapDispatchProps => ({
-    showNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
-    showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
+    showNotification: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.SUCCESS, message),
+    ),
+    showError: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.ERROR, message),
+    ),
     hidePopup: () => dispatch(showPopup('', {})),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
 });

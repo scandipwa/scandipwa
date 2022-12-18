@@ -11,9 +11,7 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
@@ -31,6 +29,11 @@ import {
     ProductWishlistButtonContainerState,
 } from './ProductWishlistButton.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Wishlist/Wishlist.dispatcher'
@@ -46,14 +49,16 @@ export const mapStateToProps = (state: RootState): ProductWishlistButtonContaine
 });
 
 /** @namespace Component/ProductWishlistButton/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): ProductWishlistButtonContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): ProductWishlistButtonContainerMapDispatchProps => ({
     addProductToWishlist: (wishlistItem) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addItemToWishlist(wishlistItem),
     ),
     removeProductFromWishlist: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(options),
     ),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
 });
 
 /** @namespace Component/ProductWishlistButton/Container */

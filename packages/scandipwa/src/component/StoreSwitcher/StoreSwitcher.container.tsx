@@ -10,11 +10,9 @@
  */
 
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import ConfigQuery from 'Query/Config.query';
 import { StoreItem } from 'Query/Config.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
@@ -34,6 +32,11 @@ import {
     StoreSwitcherContainerState,
 } from './StoreSwitcher.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 /** @namespace Component/StoreSwitcher/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): StoreSwitcherContainerMapStateProps => ({
     device: state.ConfigReducer.device,
@@ -41,8 +44,10 @@ export const mapStateToProps = (state: RootState): StoreSwitcherContainerMapStat
 });
 
 /** @namespace Component/StoreSwitcher/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): StoreSwitcherContainerMapDispatchProps => ({
-    showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
+export const mapDispatchToProps = (): StoreSwitcherContainerMapDispatchProps => ({
+    showErrorNotification: (message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.ERROR, message),
+    ),
 });
 
 /** @namespace Component/StoreSwitcher/Container */

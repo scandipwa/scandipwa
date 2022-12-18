@@ -17,7 +17,6 @@ import { deleteCartId } from 'Util/Cart';
 import { removeUid } from 'Util/Compare';
 import { debounce } from 'Util/Request';
 import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/Store.type';
 
 import { Token, TokensByWebsite } from './Token.type';
 
@@ -33,7 +32,7 @@ export const setAuthorizationToken = (token: string | null): void => {
     if (token) {
         const { website_code } = window;
 
-        const state = getStore().getState() as RootState;
+        const state = getStore().getState();
         const {
             access_token_lifetime = ONE_HOUR,
         } = state.ConfigReducer;
@@ -98,7 +97,7 @@ export const isSignedIn = (): boolean => {
         MyAccountReducer: {
             isSignedIn: isCustomerSignedIn = false,
         } = {},
-    } = store.getState() as RootState;
+    } = store.getState();
 
     const { dispatch } = store;
 

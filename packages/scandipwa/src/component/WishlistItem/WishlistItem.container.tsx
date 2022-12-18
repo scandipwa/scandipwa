@@ -17,7 +17,6 @@ import { ProductType } from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
@@ -43,6 +42,11 @@ import {
     WishlistItemContainerState,
 } from './WishlistItem.type';
 
+export const NotificationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Notification/Notification.dispatcher'
+);
+
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
@@ -60,7 +64,9 @@ export const mapStateToProps = (state: RootState): WishlistItemContainerMapState
 
 /** @namespace Component/WishlistItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): WishlistItemContainerMapDispatchProps => ({
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => NotificationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.showNotification(type, message),
+    ),
     addProductToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(options),
     ),
