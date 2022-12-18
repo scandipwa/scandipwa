@@ -80,7 +80,8 @@ export class MyAccountTabListComponent extends PureComponent<MyAccountTabListCom
         } = this.props;
         const { tabName } = tabMap[activeTab];
         const sortedTabs = Object.entries(tabMap)
-            .sort(([_keyA, valueA], [_keyB, valueB]) => valueA.section - valueB.section || valueA.position - valueB.position);
+            .sort(([_prevTabKey, prevTabValue], [_nextTabKey, nextTabValue]) => prevTabValue.section - nextTabValue.section
+                || prevTabValue.position - nextTabValue.position);
 
         const tabs = [
             ...sortedTabs.map(this.renderTabListItem.bind(this)),
