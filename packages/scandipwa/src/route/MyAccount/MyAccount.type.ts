@@ -88,5 +88,5 @@ export interface MyAccountTab {
     section: MyAccountTabsSection;
     title?: string;
     isFullUrl?: boolean;
-    position:number;
+    position: number;
 }
