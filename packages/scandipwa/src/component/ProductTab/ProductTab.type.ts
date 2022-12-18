@@ -9,8 +9,10 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { ProductTabShape } from 'Component/ProductTabs/ProductTabs.type';
+
 export interface ProductTabComponentProps {
-    tabName: string;
-    onClick: (name: string) => void;
+    tab: ProductTabShape;
+    onClick: (tabId: string) => void;
     isActive: boolean;
 }

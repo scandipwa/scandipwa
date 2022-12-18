@@ -12,7 +12,6 @@
 import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
-import { noopFn } from 'Util/Common';
 
 import { ProductTabComponentProps } from './ProductTab.type';
 
@@ -20,25 +19,16 @@ import './ProductTab.style';
 
 /** @namespace Component/ProductTab/Component */
 export class ProductTabComponent extends PureComponent<ProductTabComponentProps> {
-    static defaultProps: Partial<ProductTabComponentProps> = {
-        onClick: noopFn,
-        isActive: false,
+    onClick = () => {
+        const { onClick, tab: { id } } = this.props;
+
+        onClick(id);
     };
 
-    __construct(props: ProductTabComponentProps): void {
-        super.__construct?.(props);
-
-        this.onClick = this.onClick.bind(this);
-    }
-
-    onClick(): void {
-        const { onClick, tabName } = this.props;
-
-        onClick(tabName);
-    }
-
     render(): ReactElement {
-        const { tabName, isActive } = this.props;
+        const {
+            tab: { name }, isActive,
+        } = this.props;
 
         return (
             <li
@@ -50,7 +40,7 @@ export class ProductTabComponent extends PureComponent<ProductTabComponentProps>
                   mix={ { block: 'ProductTab', elem: 'Button' } }
                   onClick={ this.onClick }
                 >
-                    { tabName.toUpperCase() }
+                    { name.toUpperCase() }
                 </button>
             </li>
         );

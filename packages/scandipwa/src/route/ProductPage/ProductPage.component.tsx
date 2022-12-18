@@ -55,6 +55,7 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
                 return !isInformationTabEmpty;
             },
             render: (key: string): ReactElement => this.renderProductInformationTab(key),
+            position: 100,
         },
         [ ProductPageTabs.ATTRIBUTES ]: {
             name: __('Details'),
@@ -64,6 +65,7 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
                 return !isAttributesTabEmpty;
             },
             render: (key: string): ReactElement => this.renderProductAttributesTab(key),
+            position: 200,
         },
         [ ProductPageTabs.REVIEWS ]: {
             name: __('Reviews'),
@@ -74,6 +76,7 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
                 return areReviewsEnabled;
             },
             render: (key: string): ReactElement => this.renderProductReviewsTab(key),
+            position: 300,
         },
     };
 

@@ -94,4 +94,5 @@ export interface ProductPageTab {
     name: string;
     shouldTabRender: () => boolean;
     render: (key: string) => ReactElement;
+    position: number;
 }

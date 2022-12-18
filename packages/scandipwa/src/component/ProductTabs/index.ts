@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export { default } from './ProductTabs.component';
+export { default } from './ProductTabs.container';

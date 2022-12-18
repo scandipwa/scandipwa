@@ -24,6 +24,7 @@ import PopupReducer from 'Store/Popup/Popup.reducer';
 import ProductCompareReducer from 'Store/ProductCompare/ProductCompare.reducer';
 import ProductListReducer from 'Store/ProductList/ProductList.reducer';
 import ProductListInfoReducer from 'Store/ProductListInfo/ProductListInfo.reducer';
+import ProductTabsReducer from 'Store/ProductTabs/ProductTabs.reducer';
 import StoreInPickUpReducer from 'Store/StoreInPickUp/StoreInPickUp.reducer';
 import UrlRewritesReducer from 'Store/UrlRewrites/UrlRewrites.reducer';
 import WishlistReducer from 'Store/Wishlist/Wishlist.reducer';
@@ -45,7 +46,8 @@ export type StaticReducerKeys =
 | 'CheckoutReducer'
 | 'ContactFormReducer'
 | 'ProductCompareReducer'
-| 'StoreInPickUpReducer';
+| 'StoreInPickUpReducer'
+| 'ProductTabsReducer';
 
 /** @namespace Store/Index/getStaticReducers */
 export const getStaticReducers = (): Record<StaticReducerKeys, Reducer> => ({
@@ -66,6 +68,7 @@ export const getStaticReducers = (): Record<StaticReducerKeys, Reducer> => ({
     ContactFormReducer,
     ProductCompareReducer,
     StoreInPickUpReducer,
+    ProductTabsReducer,
 } as Record<StaticReducerKeys, Reducer>);
 
 export default function injectStaticReducers<

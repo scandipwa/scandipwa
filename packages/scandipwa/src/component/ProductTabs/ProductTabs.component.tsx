@@ -17,67 +17,18 @@ import { ReactElement } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import { isMobile } from 'Util/Mobile';
 
-import { ProductTabsComponentProps, ProductTabsComponentState, ProductTabShape } from './ProductTabs.type';
+import { ProductTabsComponentProps, ProductTabShape } from './ProductTabs.type';
 
 import './ProductTabs.style';
 
 /** @namespace Component/ProductTabs/Component */
-export class ProductTabsComponent extends PureComponent<ProductTabsComponentProps, ProductTabsComponentState> {
-    state = {
-        activeTab: '',
-    };
-
-    __construct(props: ProductTabsComponentProps): void {
-        super.__construct?.(props);
-
-        this.onTabClick = this.onTabClick.bind(this);
-    }
-
-    componentDidMount(): void {
-        this.updateDefaultSelectedTab();
-    }
-
-    componentDidUpdate(prevProps: ProductTabsComponentProps): void {
-        const { tabs: prevTabs } = prevProps;
-        const { tabs } = this.props;
-        const [prevTab] = prevTabs;
-        const [tab] = tabs;
-
-        if (tab?.id !== prevTab?.id) {
-            this.updateDefaultSelectedTab();
-        }
-    }
-
-    updateDefaultSelectedTab(): void {
-        const { tabs } = this.props;
-
-        if (!tabs?.length) {
-            return;
-        }
-
-        const [{ id }] = tabs;
-
-        this.setActiveTab(id);
-    }
-
-    onTabClick(tab: string): void {
-        const { tabs } = this.props;
-        const { activeTab } = this.state;
-
-        const { id: currentTab = '' } = tabs.find(({ name }) => name === tab) || {};
-
-        if (activeTab !== currentTab) {
-            this.setActiveTab(currentTab);
-        }
-    }
-
-    setActiveTab(activeTab: string): void {
-        this.setState({ activeTab });
-    }
-
+export class ProductTabsComponent extends PureComponent<ProductTabsComponentProps> {
     renderActiveTab(): ReactElement {
-        const { tabs } = this.props;
-        const { activeTab } = this.state;
+        const {
+            tabs,
+            activeTab,
+        } = this.props;
+
         const { render, name } = tabs.find(({ id }) => id === activeTab) || {};
 
         if (!render || !name) {
@@ -94,14 +45,14 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
     }
 
     renderTab(item: ProductTabShape): ReactElement {
-        const { activeTab } = this.state;
-        const { id, name } = item;
+        const { activeTab, handleTabSelect } = this.props;
+        const { id } = item;
 
         return (
             <ProductTab
-              tabName={ name }
+              tab={ item }
               key={ id }
-              onClick={ this.onTabClick }
+              onClick={ handleTabSelect }
               isActive={ id === activeTab }
             />
         );
@@ -121,7 +72,9 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
         return (
             <>
                 <ul block="ProductTabs">
-                    { tabs.map(this.renderTab.bind(this)) }
+                    { tabs.sort(
+                        (prevTab, nextTab) => prevTab.position - nextTab.position,
+                    ).map(this.renderTab.bind(this)) }
                 </ul>
                 { this.renderActiveTab() }
             </>

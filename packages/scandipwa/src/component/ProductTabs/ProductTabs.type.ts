@@ -9,19 +9,38 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ReactElement } from 'Type/Common.type';
+import { ProductPageTab } from 'Route/ProductPage/ProductPage.type';
 
 export interface ProductTabsComponentProps {
     tabs: ProductTabShape[];
+    activeTab: string;
+    handleTabSelect: (newActiveTab: string) => void;
 }
 
-export interface ProductTabsComponentState {
+export interface ProductTabShape extends ProductPageTab {
+    id: string;
+}
+
+export interface ProductTabsContainerBaseProps {
+    tabs: ProductTabShape[];
+}
+
+export type ProductTabsContainerProps = ProductTabsContainerBaseProps
+& ProductTabsContainerMapStateProps
+& ProductTabsContainerMapDispatchProps;
+
+export interface ProductTabsContainerMapStateProps {
     activeTab: string;
 }
 
-export interface ProductTabShape {
-    id: string;
-    name: string;
-    render: (key: string) => ReactElement;
-    shouldTabRender: () => boolean;
+export interface ProductTabsContainerMapDispatchProps {
+    setActiveTab: (newActiveTab: string) => void;
 }
+
+export interface ProductTabsContainerFunctions {
+    handleTabSelect: (newActiveTab: string) => void;
+}
+
+export type ProductTabsContainerPropsKeys =
+    'activeTab'
+    | 'tabs';
