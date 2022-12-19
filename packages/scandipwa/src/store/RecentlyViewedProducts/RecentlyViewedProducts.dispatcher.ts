@@ -11,18 +11,20 @@
 
 import { Query } from '@tilework/opus';
 
+import { MAX_NUMBER_OF_RECENT_PRODUCTS, RECENTLY_VIEWED_PRODUCTS } from 'Component/RecentlyViewedWidget/RecentlyViewedWidget.config';
 import ProductListQuery from 'Query/ProductList.query';
-import { ProductsQueryOutput } from 'Query/ProductList.type';
+import { ProductItem, ProductsQueryOutput } from 'Query/ProductList.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import {
-    updateLoadStatus,
-    updateRecentlyViewedProducts,
-} from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
+import { updateRecentlyViewedProductsStore } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { NetworkError } from 'Type/Common.type';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { getIndexedProducts } from 'Util/Product';
 import { fetchCancelableQuery, isAbortError } from 'Util/Request/BroadCast';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 
+import { convertToRecentlyViewedProduct } from './RecentlyViewedProducts.reducer';
 import {
+    RecentlyViewedProductItem,
     RecentlyViewedProductsDispatcherData,
     RecentlyViewedProductsDispatcherOptions,
 } from './RecentlyViewedProducts.type';
@@ -65,7 +67,9 @@ export class RecentlyViewedProductsDispatcher extends SimpleDispatcher {
             return [...productSKUs, `${sku.replace(/ /g, '%20')}`];
         }, []);
 
-        this.dispatch(updateLoadStatus(true));
+        this.dispatch(updateRecentlyViewedProductsStore({
+            isLoading: true,
+        }));
 
         return [
             ProductListQuery.getQuery({
@@ -93,7 +97,7 @@ export class RecentlyViewedProductsDispatcher extends SimpleDispatcher {
                 code: storeCode,
             } = this.storeState.ConfigReducer;
 
-            this.dispatch(updateRecentlyViewedProducts(items, storeCode));
+            this.updateRecentlyViewedProducts(items, storeCode);
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {
                 NotificationDispatcher.then(
@@ -105,6 +109,72 @@ export class RecentlyViewedProductsDispatcher extends SimpleDispatcher {
                 );
             }
         }
+    }
+
+    addRecentlyViewedProducts(product: RecentlyViewedProductItem, store: string) {
+        const { RecentlyViewedProductsReducer: { recentlyViewedProducts = {} } } = this.storeState;
+        const { sku: newSku } = product;
+
+        const storeProducts = recentlyViewedProducts[store] ?? [];
+
+        if (storeProducts?.length === MAX_NUMBER_OF_RECENT_PRODUCTS) {
+            storeProducts.pop();
+        }
+
+        // Remove product from existing recentProducts to add it later in the beginning
+        const newStoreRecentProducts = storeProducts.filter(({ sku }) => (newSku !== sku));
+
+        newStoreRecentProducts.unshift(product);
+
+        const newRecentProducts = {
+            ...recentlyViewedProducts,
+            [store]: newStoreRecentProducts,
+        };
+
+        BrowserDatabase.setItem(newRecentProducts, RECENTLY_VIEWED_PRODUCTS);
+
+        this.dispatch(updateRecentlyViewedProductsStore({
+            recentlyViewedProducts: newRecentProducts,
+        }));
+    }
+
+    updateRecentlyViewedProducts(products: ProductItem[] = [], storeCode: string = '') {
+        const { RecentlyViewedProductsReducer: { recentlyViewedProducts: recent = {} } } = this.storeState;
+
+        const indexedProducts = convertToRecentlyViewedProduct(getIndexedProducts(products));
+        const recentProductsFromStorage: Record<string, RecentlyViewedProductItem[]> = BrowserDatabase.getItem(
+            RECENTLY_VIEWED_PRODUCTS,
+        ) || { [storeCode]: [] };
+
+        // Remove product from storage if it is not available
+        recentProductsFromStorage[storeCode] = recentProductsFromStorage[storeCode]
+            .filter((storageItem) => !indexedProducts.every((indexedItem) => indexedItem.id !== storageItem.id));
+
+        BrowserDatabase.setItem(recentProductsFromStorage, RECENTLY_VIEWED_PRODUCTS);
+
+        // Sort products same as it is localstorage recentlyViewedProducts
+        const sortedRecentProducts = recentProductsFromStorage[storeCode].reduce(
+            (acc: RecentlyViewedProductItem[], { sku }) => {
+                const sortedProduct = indexedProducts.find((item) => item.sku === sku);
+
+                if (sortedProduct) {
+                    return [...acc, sortedProduct];
+                }
+
+                return acc;
+            },
+            [],
+        );
+
+        const updatedRecentViewedProducts = {
+            ...recent,
+            [storeCode]: sortedRecentProducts,
+        };
+
+        this.dispatch(updateRecentlyViewedProductsStore({
+            recentlyViewedProducts: updatedRecentViewedProducts,
+            isLoading: false,
+        }));
     }
 }
 

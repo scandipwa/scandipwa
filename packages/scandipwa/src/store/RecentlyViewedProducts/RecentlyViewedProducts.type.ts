@@ -11,35 +11,19 @@
 
 import { AnyAction } from 'redux';
 
-import { ProductItem, ProductsQueryOutput } from 'Query/ProductList.type';
+import { ProductsQueryOutput } from 'Query/ProductList.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export enum RecentlyViewedProductsActionType {
-    UPDATE_RECENTLY_VIEWED_PRODUCTS = 'UPDATE_RECENTLY_VIEWED_PRODUCTS',
-    ADD_RECENTLY_VIEWED_PRODUCT = 'ADD_RECENTLY_VIEWED_PRODUCT',
-    UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS',
+    UPDATE_RECENTLY_VIEWED_PRODUCTS_STORE = 'UPDATE_RECENTLY_VIEWED_PRODUCTS_STORE',
 }
 
-export interface AddRecentlyViewedProductAction extends AnyAction {
-    type: RecentlyViewedProductsActionType.ADD_RECENTLY_VIEWED_PRODUCT;
-    product: RecentlyViewedProductItem;
-    store: string;
+export interface UpdateRecentlyViewedProductsStoreAction extends AnyAction {
+    type: RecentlyViewedProductsActionType.UPDATE_RECENTLY_VIEWED_PRODUCTS_STORE;
+    state: Partial<RecentlyViewedProductsStore>;
 }
 
-export interface UpdateRecentlyViewedProductsAction extends AnyAction {
-    type: RecentlyViewedProductsActionType.UPDATE_RECENTLY_VIEWED_PRODUCTS;
-    products?: ProductItem[];
-    storeCode?: string;
-}
-
-export interface UpdateLoadStatusAction extends AnyAction {
-    type: RecentlyViewedProductsActionType.UPDATE_LOAD_STATUS;
-    isLoading: boolean;
-}
-
-export type RecentlyViewedProductsAction = AddRecentlyViewedProductAction
-| UpdateRecentlyViewedProductsAction
-| UpdateLoadStatusAction;
+export type RecentlyViewedProductsAction = UpdateRecentlyViewedProductsStoreAction;
 
 export interface RecentlyViewedProductsStore {
     recentlyViewedProducts: Record<string, RecentlyViewedProductItem[]>;

@@ -19,7 +19,6 @@ import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import ProductReducer from 'Store/Product/Product.reducer';
-import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
@@ -66,6 +65,11 @@ export const ProductDispatcher = import(
     'Store/Product/Product.dispatcher'
 );
 
+export const RecentlyViewedProductsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/RecentlyViewedProducts/RecentlyViewedProducts.dispatcher'
+);
+
 /** @namespace Route/ProductPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductPageContainerMapStateProps => ({
     isOffline: state.OfflineReducer.isOffline,
@@ -99,7 +103,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductPageContainerMapD
     goToPreviousNavigationState: () => NavigationDispatcher.then(
         ({ default: dispatcher }) => dispatcher.goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE),
     ),
-    addRecentlyViewedProduct: (product, store) => dispatch(addRecentlyViewedProduct(product, store)),
+    addRecentlyViewedProduct: (product, store) => RecentlyViewedProductsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addRecentlyViewedProducts(product, store),
+    ),
 });
 
 /** @namespace Route/ProductPage/Container */
