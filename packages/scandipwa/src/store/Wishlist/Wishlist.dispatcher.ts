@@ -13,20 +13,21 @@ import WishlistQuery from 'Query/Wishlist.query';
 import { Wishlist } from 'Query/Wishlist.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import {
-    clearWishlist,
-    removeItemFromWishlist,
-    updateAllProductsInWishlist,
-    updateIsLoading,
+    updateWishlistStore,
 } from 'Store/Wishlist/Wishlist.action';
 import { NetworkError } from 'Type/Common.type';
 import { GQLWishlistItemInput, GQLWishlistItemUpdateInput } from 'Type/Graphql.type';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { getIndexedParameteredProducts } from 'Util/Product';
+import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 import getStore from 'Util/Store';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 import { getPriceRange } from 'Util/Wishlist';
 
-import { ClearWishlistAction, WishlistProduct } from './Wishlist.type';
+import { clearWishlist, deleteProperty, PRODUCTS_IN_WISHLIST } from './Wishlist.reducer';
+import { UpdateWishlistStoreAction, WishlistProduct } from './Wishlist.type';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -60,7 +61,7 @@ export class WishlistDispatcher extends SimpleDispatcher {
         if (isSignedIn() && isWishlistEnabled()) {
             this._syncWishlistWithBE();
         } else {
-            this.dispatch(updateAllProductsInWishlist({}));
+            this.updateAllProductsInWishlist();
         }
     }
 
@@ -121,14 +122,14 @@ export class WishlistDispatcher extends SimpleDispatcher {
                         };
                     }, {});
 
-                    this.dispatch(updateAllProductsInWishlist(productsToAdd));
+                    this.updateAllProductsInWishlist(productsToAdd);
                 } else {
-                    this.dispatch(updateIsLoading(false));
+                    this.dispatch(updateWishlistStore({ isLoading: false }));
                 }
             },
             /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/_syncWishlistWithBE/fetchQuery/then/catch */
             () => {
-                this.dispatch(updateIsLoading(false));
+                this.dispatch(updateWishlistStore({ isLoading: false }));
             },
         );
     }
@@ -143,7 +144,7 @@ export class WishlistDispatcher extends SimpleDispatcher {
         try {
             const { items = [], wishlistId = '' } = options;
 
-            this.dispatch(updateIsLoading(true));
+            this.dispatch(updateWishlistStore({ isLoading: true }));
             const {
                 addProductsToWishlist: { user_errors },
             } = await fetchMutation(WishlistQuery.addProductsToWishlist(wishlistId, items));
@@ -173,7 +174,7 @@ export class WishlistDispatcher extends SimpleDispatcher {
                 ),
             );
         } finally {
-            this.dispatch(updateIsLoading(false));
+            this.dispatch(updateWishlistStore({ isLoading: false }));
         }
     }
 
@@ -194,7 +195,7 @@ export class WishlistDispatcher extends SimpleDispatcher {
         );
     }
 
-    clearWishlist(): Promise<ClearWishlistAction | void> {
+    clearWishlist(): Promise<void | UpdateWishlistStoreAction> {
         if (!isSignedIn()) {
             return Promise.reject();
         }
@@ -202,7 +203,7 @@ export class WishlistDispatcher extends SimpleDispatcher {
         return fetchMutation<'clearWishlist', boolean>(WishlistQuery.getClearWishlist())
             .then(
                 /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/clearWishlist/then/catch/fetchMutation/then */
-                () => this.dispatch(clearWishlist()),
+                () => this.dispatch(updateWishlistStore(clearWishlist())),
             )
             .catch(
                 /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/clearWishlist/then/catch */
@@ -243,7 +244,7 @@ export class WishlistDispatcher extends SimpleDispatcher {
             return Promise.reject();
         }
 
-        this.dispatch(updateIsLoading(true));
+        this.dispatch(updateWishlistStore({ isLoading: true }));
 
         try {
             await fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(item_id));
@@ -260,7 +261,7 @@ export class WishlistDispatcher extends SimpleDispatcher {
             return Promise.reject();
         }
 
-        this.dispatch(removeItemFromWishlist(item_id));
+        this.removeItemFromWishlistStore(item_id);
 
         if (!noMessages) {
             NotificationDispatcher.then(
@@ -286,7 +287,7 @@ export class WishlistDispatcher extends SimpleDispatcher {
             ).then(
                 /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/removeItemsFromWishlist/itemIdMap/map/fetchMutation/then */
                 () => {
-                    this.dispatch(removeItemFromWishlist(id));
+                    this.removeItemFromWishlistStore(id);
                     NotificationDispatcher.then(
                         ({ default: dispatcher }) => dispatcher.showNotification(
                             NotificationType.SUCCESS,
@@ -307,8 +308,35 @@ export class WishlistDispatcher extends SimpleDispatcher {
         ));
     }
 
+    removeItemFromWishlistStore(itemId: string) {
+        const { WishlistReducer } = this.storeState;
+
+        const productsInWishlist = deleteProperty(itemId, WishlistReducer as unknown as Record<string, IndexedWishlistProduct>) || {};
+
+        BrowserDatabase.setItem(
+            productsInWishlist,
+            PRODUCTS_IN_WISHLIST,
+        );
+
+        this.dispatch(updateWishlistStore({
+            isLoading: false,
+            productsInWishlist,
+        }));
+    }
+
+    updateAllProductsInWishlist(initialProducts: Record<string, WishlistProduct> = {}) {
+        const products = getIndexedParameteredProducts(initialProducts);
+
+        BrowserDatabase.setItem(
+            products,
+            PRODUCTS_IN_WISHLIST,
+        );
+
+        this.dispatch(updateWishlistStore({ productsInWishlist: products, isLoading: false }));
+    }
+
     resetWishlist(): void {
-        this.dispatch(clearWishlist());
+        this.dispatch(updateWishlistStore(clearWishlist()));
     }
 }
 

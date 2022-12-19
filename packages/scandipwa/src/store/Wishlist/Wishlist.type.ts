@@ -16,36 +16,15 @@ import { Merge } from 'Type/Common.type';
 import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
 export enum WishlistActionType {
-    CLEAR_WISHLIST = 'CLEAR_WISHLIST',
-    UPDATE_ITEM_OPTIONS = 'UPDATE_ITEM_OPTIONS',
-    REMOVE_ITEM_FROM_WISHLIST = 'REMOVE_ITEM_FROM_WISHLIST',
-    UPDATE_ALL_PRODUCTS_IN_WISHLIST = 'UPDATE_ALL_PRODUCTS_IN_WISHLIST',
-    UPDATE_IS_LOADING_IN_WISHLIST = 'UPDATE_IS_LOADING_IN_WISHLIST',
+    UPDATE_WISHLIST_STORE = 'UPDATE_WISHLIST_STORE',
 }
 
-export interface RemoveItemFromWishlistAction extends AnyAction {
-    type: WishlistActionType.REMOVE_ITEM_FROM_WISHLIST;
-    item_id: string;
+export interface UpdateWishlistStoreAction extends AnyAction {
+    type: WishlistActionType.UPDATE_WISHLIST_STORE;
+    state: Partial<WishlistStore>;
 }
 
-export interface UpdateAllProductsInWishlistAction extends AnyAction {
-    type: WishlistActionType.UPDATE_ALL_PRODUCTS_IN_WISHLIST;
-    products: Record<string, WishlistProduct>;
-}
-
-export interface UpdateIsLoadingAction extends AnyAction {
-    type: WishlistActionType.UPDATE_IS_LOADING_IN_WISHLIST;
-    isLoading: boolean;
-}
-
-export interface ClearWishlistAction extends AnyAction {
-    type: WishlistActionType.CLEAR_WISHLIST;
-}
-
-export type WishlistAction = RemoveItemFromWishlistAction
-| UpdateAllProductsInWishlistAction
-| UpdateIsLoadingAction
-| ClearWishlistAction;
+export type WishlistAction = UpdateWishlistStoreAction;
 
 export interface WishlistStore {
     productsInWishlist: Record<string, IndexedWishlistProduct>;
