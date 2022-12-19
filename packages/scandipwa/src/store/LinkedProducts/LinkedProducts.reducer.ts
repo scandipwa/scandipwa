@@ -14,13 +14,7 @@ import { Reducer } from 'redux';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 import { LINKED_PRODUCTS } from './LinkedProducts.dispatcher';
-import {
-    LinkedProducts,
-    LinkedProductsActionType,
-    LinkedProductsStore,
-    LinkedProductType,
-    UpdateLinkedProductsAction,
-} from './LinkedProducts.type';
+import { LinkedProductsActionType, LinkedProductsStore, LinkedProductType } from './LinkedProducts.type';
 
 /** @namespace Store/LinkedProducts/Reducer/getInitialState */
 export const getInitialState = (): LinkedProductsStore => ({
@@ -32,56 +26,19 @@ export const getInitialState = (): LinkedProductsStore => ({
 });
 
 /** @namespace Store/LinkedProducts/Reducer/LinkedProductsReducer */
-export const LinkedProductsReducer: Reducer<LinkedProductsStore, UpdateLinkedProductsAction> = (
+export const LinkedProductsReducer: Reducer<LinkedProductsStore> = (
     state = getInitialState(),
     action,
 ) => {
-    const { type } = action;
+    const { type, state: newState } = action;
 
-    if (type !== LinkedProductsActionType.UPDATE_LINKED_PRODUCTS) {
+    if (type !== LinkedProductsActionType.UPDATE_LINKED_PRODUCTS_STORE) {
         return state;
-    }
-
-    const {
-        linkedProducts: {
-            [LinkedProductType.UPSELL]: upsell,
-            [LinkedProductType.RELATED]: related,
-            [LinkedProductType.CROSS_SELL]: crosssell,
-            updateCrossSell = false,
-        } = {},
-    } = action;
-
-    const {
-        linkedProducts: {
-            [LinkedProductType.CROSS_SELL]: prevCrossSell,
-        },
-    } = state;
-
-    if (updateCrossSell) {
-        return {
-            ...state,
-            linkedProducts: {
-                [LinkedProductType.UPSELL]: upsell,
-                [LinkedProductType.RELATED]: related,
-                [LinkedProductType.CROSS_SELL]: crosssell,
-            },
-        };
     }
 
     return {
         ...state,
-        linkedProducts: {
-            [LinkedProductType.UPSELL]: upsell,
-            [LinkedProductType.RELATED]: related,
-            [LinkedProductType.CROSS_SELL]: {
-                ...prevCrossSell,
-                ...related,
-                items: Object.values({
-                    ...(prevCrossSell?.items || []),
-                    ...(crosssell?.items || []),
-                }),
-            } as LinkedProducts,
-        },
+        newState,
     };
 };
 

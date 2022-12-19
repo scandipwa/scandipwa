@@ -12,7 +12,7 @@
 
 import {
     LinkedProductsActionType,
-    LinkedProductsMap,
+    LinkedProductsStore,
     UpdateLinkedProductsAction,
 } from './LinkedProducts.type';
 
@@ -20,11 +20,8 @@ import {
  * Update upsell products list (rewrite if already exists).
  * @param  {Array<String>} upsell List of products returned from fetch
  * @return {void}
- * @namespace Store/LinkedProducts/Action/updateLinkedProducts
- */
-export const updateLinkedProducts = (linkedProducts: LinkedProductsMap & {
-    updateCrossSell?: boolean;
-}): UpdateLinkedProductsAction => ({
-    type: LinkedProductsActionType.UPDATE_LINKED_PRODUCTS,
+ * @namespace Store/LinkedProducts/Action/updateLinkedProductsStore */
+export const updateLinkedProductsStore = (linkedProducts: Partial<LinkedProductsStore>): UpdateLinkedProductsAction => ({
+    type: LinkedProductsActionType.UPDATE_LINKED_PRODUCTS_STORE,
     linkedProducts,
 });

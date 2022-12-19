@@ -19,7 +19,7 @@ import {
 
 export const MAX_WIDTH = 150;
 export const MAX_HEIGHT = 40;
-export const DEFAULT_CATGORY_URL_SUFFIX = '.html';
+export const DEFAULT_CATEGORY_URL_SUFFIX = '.html';
 
 /** @namespace Store/Config/Reducer/getInitialState */
 export const getInitialState = (): Partial<ConfigStore> => ({
@@ -29,7 +29,7 @@ export const getInitialState = (): Partial<ConfigStore> => ({
         product_price_display_type: '',
         shipping_price_display_type: '',
     },
-    category_url_suffix: DEFAULT_CATGORY_URL_SUFFIX,
+    category_url_suffix: DEFAULT_CATEGORY_URL_SUFFIX,
     device: {
         isMobile: true,
         android: true,

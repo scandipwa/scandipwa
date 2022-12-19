@@ -29,18 +29,18 @@ export interface LinkedProducts {
 export type LinkedProductsMap = Partial<Record<LinkedProductType, Partial<LinkedProducts>>>;
 
 export enum LinkedProductsActionType {
-    UPDATE_LINKED_PRODUCTS = 'UPDATE_LINKED_PRODUCTS',
+    UPDATE_LINKED_PRODUCTS_STORE = 'UPDATE_LINKED_PRODUCTS_STORE',
 }
 
 export interface UpdateLinkedProductsAction extends AnyAction {
-    type: LinkedProductsActionType.UPDATE_LINKED_PRODUCTS;
-    linkedProducts?: LinkedProductsMap & {
-        updateCrossSell?: boolean;
-    };
+    type: LinkedProductsActionType.UPDATE_LINKED_PRODUCTS_STORE;
+    linkedProducts?: Partial<LinkedProductsStore>;
 }
 
 export interface LinkedProductsStore {
-    linkedProducts: LinkedProductsMap;
+    linkedProducts: LinkedProductsMap & {
+        updateCrossSell?: boolean;
+    };
 }
 
 declare module 'Util/Store/Store.type' {

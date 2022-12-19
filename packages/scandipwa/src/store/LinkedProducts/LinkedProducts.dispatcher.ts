@@ -13,7 +13,7 @@ import { Query } from '@tilework/opus';
 
 import ProductListQuery from 'Query/ProductList.query';
 import { ProductLink, ProductsQueryOutput } from 'Query/ProductList.type';
-import { updateLinkedProducts } from 'Store/LinkedProducts/LinkedProducts.action';
+import { updateLinkedProductsStore } from 'Store/LinkedProducts/LinkedProducts.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -84,9 +84,11 @@ export class LinkedProductsDispatcher extends SimpleDispatcher {
 
         BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
 
-        this.dispatch(updateLinkedProducts({
-            ...linkedProducts,
-            updateCrossSell,
+        this.dispatch(updateLinkedProductsStore({
+            linkedProducts: {
+                ...linkedProducts,
+                updateCrossSell,
+            },
         }));
     }
 
@@ -103,7 +105,7 @@ export class LinkedProductsDispatcher extends SimpleDispatcher {
             updateCrossSell: true,
         });
 
-        this.dispatch(updateLinkedProducts(linkedProducts));
+        this.dispatch(updateLinkedProductsStore({ linkedProducts }));
     }
 
     clearCrossSellProducts(): void {
@@ -116,7 +118,7 @@ export class LinkedProductsDispatcher extends SimpleDispatcher {
             updateCrossSell: true,
         });
 
-        this.dispatch(updateLinkedProducts(linkedProducts));
+        this.dispatch(updateLinkedProductsStore({ linkedProducts }));
     }
 
     _processResponse(
@@ -167,7 +169,7 @@ export class LinkedProductsDispatcher extends SimpleDispatcher {
             const linkedProducts = this._processResponse(result, product_links);
 
             BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
-            this.dispatch(updateLinkedProducts(linkedProducts));
+            this.dispatch(updateLinkedProductsStore({ linkedProducts }));
         } catch (err) {
             if (!isAbortError(err as NetworkError)) {
                 NotificationDispatcher.then(
@@ -179,6 +181,48 @@ export class LinkedProductsDispatcher extends SimpleDispatcher {
                 );
             }
         }
+    }
+
+    updateLinkedStore(linkedProducts: LinkedProductsMap & { updateCrossSell?: boolean }) {
+        const {
+            LinkedProductsReducer: {
+                linkedProducts: {
+                    [LinkedProductType.CROSS_SELL]: prevCrossSell,
+                },
+            },
+        } = this.storeState;
+
+        const {
+            [LinkedProductType.UPSELL]: upsell,
+            [LinkedProductType.RELATED]: related,
+            [LinkedProductType.CROSS_SELL]: crosssell,
+            updateCrossSell = false,
+        } = linkedProducts || {};
+
+        if (updateCrossSell) {
+            return updateLinkedProductsStore({
+                linkedProducts: {
+                    [LinkedProductType.UPSELL]: upsell,
+                    [LinkedProductType.RELATED]: related,
+                    [LinkedProductType.CROSS_SELL]: crosssell,
+                },
+            });
+        }
+
+        return updateLinkedProductsStore({
+            linkedProducts: {
+                [LinkedProductType.UPSELL]: upsell,
+                [LinkedProductType.RELATED]: related,
+                [LinkedProductType.CROSS_SELL]: {
+                    ...prevCrossSell,
+                    ...related,
+                    items: Object.values({
+                        ...(prevCrossSell?.items || []),
+                        ...(crosssell?.items || []),
+                    }),
+                } as LinkedProducts,
+            },
+        });
     }
 }
 
