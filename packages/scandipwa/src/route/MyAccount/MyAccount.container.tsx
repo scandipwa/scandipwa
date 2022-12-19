@@ -16,7 +16,6 @@ import { Dispatch } from 'redux';
 import { Page } from 'Component/Header/Header.config';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
 import { updateMyAccountStore } from 'Store/MyAccount/MyAccount.action';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import OrderReducer from 'Store/Order/Order.reducer';
@@ -43,6 +42,11 @@ import {
     MyAccountContainerState,
     MyAccountTab,
 } from './MyAccount.type';
+
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
 
 export const NotificationDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -76,7 +80,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountContainerMapDis
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs),
     ),
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+    changeHeaderState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state),
+    ),
     requestCustomerData: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.requestCustomerData(),
     ),

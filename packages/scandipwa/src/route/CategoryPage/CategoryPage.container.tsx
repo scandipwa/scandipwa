@@ -23,7 +23,6 @@ import {
 } from 'Route/CategoryPage/CategoryPage.config';
 import { updateCategoryStore } from 'Store/Category/Category.action';
 import CategoryReducer from 'Store/Category/Category.reducer';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
@@ -52,6 +51,11 @@ import {
     CategoryPageContainerState,
     CategoryUrlParams,
 } from './CategoryPage.type';
+
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
 
 export const ProductListDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -99,8 +103,12 @@ export const mapStateToProps = (state: RootState): CategoryPageContainerMapState
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMapDispatchProps => ({
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
+    changeHeaderState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state),
+    ),
+    changeNavigationState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state),
+    ),
     requestCategory: (options) => CategoryDispatcher.then(
         ({ default: dispatcher }) => dispatcher.getCategory(options),
     ),

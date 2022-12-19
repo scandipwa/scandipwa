@@ -16,10 +16,7 @@ import {
 } from 'Component/NavigationAbstract/NavigationAbstract.container';
 
 import {
-    NavigationAction,
-    NavigationActionType,
-    NavigationStore,
-    NavigationType,
+    NavigationAction, NavigationActionType, NavigationStore, NavigationType,
 } from './Navigation.type';
 
 /** @namespace Store/Navigation/Reducer/getInitialState */
@@ -39,57 +36,16 @@ export const NavigationReducer: Reducer<NavigationStore, NavigationAction> = (
     state = getInitialState(),
     action,
 ) => {
-    const { navigationType, navigationState } = action;
+    const { state: newState, type } = action;
 
-    if (!navigationType) {
+    if (NavigationActionType.UPDATE_NAVIGATION_STORE !== type) {
         return state;
     }
 
-    const {
-        [navigationType]: {
-            navigationStateHistory,
-            navigationState: prevNavigationState,
-        },
-    } = state;
-
-    switch (action.type) {
-    case NavigationActionType.CHANGE_NAVIGATION_STATE:
-        const { name: nextName, force = false } = navigationState;
-        const { name: prevName } = prevNavigationState;
-
-        if (nextName === prevName && !force) {
-            navigationStateHistory[navigationStateHistory.length - 1] = navigationState;
-        } else {
-            navigationStateHistory.push(navigationState);
-        }
-
-        return {
-            ...state,
-            [navigationType]: {
-                navigationStateHistory,
-                navigationState,
-            },
-        };
-
-    case NavigationActionType.GOTO_PREVIOUS_NAVIGATION_STATE:
-        navigationStateHistory.pop();
-        const newNavigationState = navigationStateHistory.slice(-1)[0];
-
-        if (!newNavigationState) {
-            return state;
-        }
-
-        return {
-            ...state,
-            [navigationType]: {
-                navigationStateHistory,
-                navigationState: newNavigationState,
-            },
-        };
-
-    default:
-        return state;
-    }
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default NavigationReducer;

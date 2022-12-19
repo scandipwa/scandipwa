@@ -15,7 +15,6 @@ import { Dispatch } from 'redux';
 import { Page } from 'Component/Header/Header.config';
 import ContactFormQuery from 'Query/ContactForm.query';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
@@ -31,6 +30,11 @@ import {
     ContactPageMapDispatchProps,
     ContactPageMapStateProps,
 } from './ContactPage.type';
+
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
 
 export const NotificationDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -53,7 +57,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): ContactPageMapDispatchPr
         ({ default: dispatcher }) => dispatcher.showNotification(type, message),
     ),
     updateMetaStore: (meta) => dispatch(updateMetaStore(meta)),
-    setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
+    setHeaderState: (stateName) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName),
+    ),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
             ({ default: dispatcher }) => dispatcher.update(breadcrumbs),

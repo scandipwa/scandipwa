@@ -22,7 +22,6 @@ import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateCartStore } from 'Store/Cart/Cart.action';
 import { IndexedCartItem } from 'Store/Cart/Cart.type';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
@@ -71,6 +70,11 @@ export const NotificationDispatcher = import(
     'Store/Notification/Notification.dispatcher'
 );
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 /** @namespace Route/CartPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CartPageContainerMapStateProps => ({
     totals: state.CartReducer.cartTotals,
@@ -89,7 +93,9 @@ export const mapStateToProps = (state: RootState): CartPageContainerMapStateProp
 
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDispatchProps => ({
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+    changeHeaderState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state),
+    ),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs),
     ),

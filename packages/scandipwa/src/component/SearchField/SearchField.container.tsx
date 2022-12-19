@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateProductListStore } from 'Store/ProductList/ProductList.action';
@@ -24,6 +23,11 @@ import { SearchFieldComponent } from './SearchField.component';
 import {
     SearchFieldContainerFunctions, SearchFieldContainerMapDispatchToProps, SearchFieldContainerMapStateToProps, SearchFieldContainerProps,
 } from './SearchField.type';
+
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
 
 /** @namespace Component/SearchField/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): SearchFieldContainerMapStateToProps => ({
@@ -37,8 +41,12 @@ export const mapStateToProps = (state: RootState): SearchFieldContainerMapStateT
 export const mapDispatchToProps = (dispatch: Dispatch): SearchFieldContainerMapDispatchToProps => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
-    setNavigationState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
+    goToPreviousNavigationState: () => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE),
+    ),
+    setNavigationState: (stateName) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName),
+    ),
     updateSearchCriteria: (searchCriteria) => dispatch(updateProductListStore({ searchCriteria })),
 });
 

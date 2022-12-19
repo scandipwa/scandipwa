@@ -18,7 +18,6 @@ import { ShippingMethod } from 'Query/Checkout.type';
 import StoreInPickUpQuery from 'Query/StoreInPickUp.query';
 import { Store } from 'Query/StoreInPickUp.type';
 import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
-import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
@@ -43,6 +42,11 @@ import {
     StoreWithCountryId,
 } from './StoreInPickUpPopup.type';
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 export const NotificationDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Notification/Notification.dispatcher'
@@ -55,9 +59,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): StoreInPickUpPopupContai
         ({ default: dispatcher }) => dispatcher.showNotification(type, message),
     ),
     updateStoreInPickUpStore: (state) => dispatch(updateStoreInPickUpStore(state)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(
-        NavigationType.TOP_NAVIGATION_TYPE,
-    )),
+    goToPreviousNavigationState: () => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE),
+    ),
     updateCheckoutStore: (state) => dispatch(updateCheckoutStore(state)),
 });
 

@@ -25,7 +25,6 @@ import {
 } from 'Store/MyAccount/MyAccount.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { clearComparedProducts } from 'Store/ProductCompare/ProductCompare.action';
 import {
     deleteAuthorizationToken,
     getAuthorizationToken,
@@ -158,8 +157,10 @@ export class MyAccountDispatcher extends SimpleDispatcher {
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.resetWishlist(),
         );
+        ProductCompareDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.resetComparedProducts(),
+        );
 
-        this.dispatch(clearComparedProducts());
         this.dispatch(updateMyAccountStore({ customer: {} }));
     }
 

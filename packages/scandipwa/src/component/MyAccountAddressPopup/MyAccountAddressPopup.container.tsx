@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import MyAccountQuery from 'Query/MyAccount.query';
-import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
@@ -35,6 +34,11 @@ import {
     MyAccountAddressPopupContainerState,
     MyAccountAddressPopupPayload,
 } from './MyAccountAddressPopup.type';
+
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
 
 export const NotificationDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -65,7 +69,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressPopupCon
     updateCustomerDetails: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.requestCustomerData(),
     ),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
+    goToPreviousHeaderState: () => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE),
+    ),
 });
 
 /** @namespace Component/MyAccountAddressPopup/Container */

@@ -15,7 +15,6 @@ import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { ProductAttributeFilterOptions } from 'Query/ProductList.type';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
@@ -34,6 +33,11 @@ import {
     CategoryFilterOverlayContainerProps,
 } from './CategoryFilterOverlay.type';
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 /** @namespace Component/CategoryFilterOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CategoryFilterOverlayContainerMapStateProps => ({
     isInfoLoading: state.ProductListReducer.isLoading,
@@ -47,10 +51,18 @@ export const mapStateToProps = (state: RootState): CategoryFilterOverlayContaine
 /** @namespace Component/CategoryFilterOverlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CategoryFilterOverlayContainerMapDispatchProps => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
+    goToPreviousHeaderState: () => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE),
+    ),
+    goToPreviousNavigationState: () => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE),
+    ),
+    changeHeaderState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state),
+    ),
+    changeNavigationState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state),
+    ),
 });
 
 /** @namespace Component/CategoryFilterOverlay/Container */

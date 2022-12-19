@@ -17,7 +17,6 @@ import { Subscribe } from 'unstated-typescript';
 import { Page } from 'Component/Header/Header.config';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { updateNoMatchStore } from 'Store/NoMatch/NoMatch.action';
 import { ReactElement } from 'Type/Common.type';
@@ -32,6 +31,11 @@ import {
     NoMatchContainerPropsKeys,
 } from './NoMatch.type';
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
@@ -45,7 +49,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): NoMatchContainerMapDispa
         );
     },
     updateMetaStore: (state) => dispatch(updateMetaStore(state)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+    changeHeaderState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state),
+    ),
     updateNoMatchStore: (state) => dispatch(updateNoMatchStore(state)),
 });
 

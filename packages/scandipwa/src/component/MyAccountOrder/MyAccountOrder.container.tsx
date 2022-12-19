@@ -11,12 +11,10 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { OrderItem } from 'Query/Order.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
@@ -37,6 +35,11 @@ import {
     MyAccountOrderContainerState,
 } from './MyAccountOrder.type';
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 export const NotificationDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Notification/Notification.dispatcher'
@@ -55,7 +58,7 @@ export const mapStateToProps = (state: RootState): MyAccountOrderContainerMapSta
 });
 
 /** @namespace Component/MyAccountOrder/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): MyAccountOrderContainerMapDispatchProps => ({
     showNotification: (type, message) => NotificationDispatcher.then(
         ({ default: dispatcher }) => dispatcher.showNotification(type, message),
     ),
@@ -65,8 +68,12 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderContainerM
     reorder: (incrementId) => OrderDispatcher.then(
         ({ default: dispatcher }) => dispatcher.reorder(incrementId),
     ),
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE)),
+    changeHeaderState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state),
+    ),
+    goToPreviousNavigationState: () => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE),
+    ),
 });
 
 /** @namespace Component/MyAccountOrder/Container */

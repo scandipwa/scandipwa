@@ -17,7 +17,6 @@ import { Page } from 'Component/Header/Header.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { NavigationAbstractContainerState } from 'Component/NavigationAbstract/NavigationAbstract.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationState, NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
@@ -39,6 +38,11 @@ import {
     NavigationTabsContainerPropsKeys,
 } from './NavigationTabs.type';
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 /** @namespace Component/NavigationTabs/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): NavigationTabsContainerMapStateProps => ({
     navigationState: state.NavigationReducer[ NavigationType.BOTTOM_NAVIGATION_TYPE ].navigationState,
@@ -52,11 +56,15 @@ export const mapStateToProps = (state: RootState): NavigationTabsContainerMapSta
 export const mapDispatchToProps = (dispatch: Dispatch): NavigationTabsContainerMapDispatchProps => ({
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    setNavigationState: (stateName) => dispatch(
-        changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName),
+    setNavigationState: (stateName) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName),
     ),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE)),
+    goToPreviousHeaderState: () => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE),
+    ),
+    goToPreviousNavigationState: () => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE),
+    ),
 });
 
 export const DEFAULT_NAVIGATION_TABS_STATE = { name: NavigationTabsMap.MENU_TAB };

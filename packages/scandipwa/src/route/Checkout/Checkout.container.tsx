@@ -23,7 +23,6 @@ import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { updateCheckoutStore } from 'Store/Checkout/Checkout.action';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { updateStoreInPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
@@ -59,6 +58,11 @@ import {
     CheckoutContainerState,
     PaymentInformation,
 } from './Checkout.type';
+
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -126,9 +130,11 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
     showSuccessNotification: (message) => NotificationDispatcher.then(
         ({ default: dispatcher }) => dispatcher.showNotification(NotificationType.SUCCESS, message),
     ),
-    setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
-    setNavigationState: (stateName) => dispatch(
-        changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName),
+    setHeaderState: (stateName) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName),
+    ),
+    setNavigationState: (stateName) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName),
     ),
     createAccount: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.createAccount(options),

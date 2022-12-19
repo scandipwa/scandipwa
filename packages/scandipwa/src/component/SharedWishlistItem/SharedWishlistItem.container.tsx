@@ -10,7 +10,6 @@
  */
 
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
@@ -41,8 +40,8 @@ export const mapStateToProps = (state: RootState): SharedWishlistItemContainerMa
 });
 
 /** @namespace Component/SharedWishlistItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): SharedWishlistItemContainerMapDispatchProps => ({
-    ...sourceMapDispatchToProps(dispatch),
+export const mapDispatchToProps = (): SharedWishlistItemContainerMapDispatchProps => ({
+    ...sourceMapDispatchToProps(),
 });
 
 /** @namespace Component/SharedWishlistItem/Container */

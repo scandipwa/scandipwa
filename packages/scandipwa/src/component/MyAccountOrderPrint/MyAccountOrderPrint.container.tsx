@@ -49,7 +49,7 @@ export const mapStateToProps = (state: RootState): MyAccountOrderPrintContainerM
 
 /** @namespace Component/MyAccountOrderPrint/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderPrintContainerMapDispatchProps => ({
-    ...sourceMapDispatchToProps(dispatch),
+    ...sourceMapDispatchToProps(),
     updateMetaStore: (state) => dispatch(updateMetaStore(state)),
 });
 

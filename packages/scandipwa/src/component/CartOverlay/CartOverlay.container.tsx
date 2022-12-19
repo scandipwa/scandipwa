@@ -17,7 +17,6 @@ import { Page } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { IndexedCartItem } from 'Store/Cart/Cart.type';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
@@ -45,6 +44,11 @@ import {
     CartOverlayContainerState,
 } from './CartOverlay.type';
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 export const NotificationDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Notification/Notification.dispatcher'
@@ -71,8 +75,12 @@ export const mapStateToProps = (state: RootState): CartOverlayContainerMapStateP
 
 /** @namespace Component/CartOverlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CartOverlayContainerMapDispatchProps => ({
-    setNavigationState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+    setNavigationState: (stateName) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName),
+    ),
+    changeHeaderState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state),
+    ),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => NotificationDispatcher.then(
         ({ default: dispatcher }) => dispatcher.showNotification(type, message),

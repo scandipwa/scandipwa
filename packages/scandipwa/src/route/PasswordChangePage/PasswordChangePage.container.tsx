@@ -18,7 +18,6 @@ import { Page } from 'Component/Header/Header.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
@@ -39,6 +38,11 @@ import {
     PasswordChangePageContainerPropsKeys,
     PasswordChangePageContainerState,
 } from './PasswordChangePage.type';
+
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
 
 export const NotificationDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -63,7 +67,9 @@ export const mapStateToProps = (state: RootState): PasswordChangePageContainerMa
 export const mapDispatchToProps = (dispatch: Dispatch): PasswordChangePageContainerMapDispatchProps => ({
     updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),
-    setHeaderState: (headerState) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState)),
+    setHeaderState: (headerState) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState),
+    ),
     resetPassword(options) {
         MyAccountDispatcher.then(
             ({ default: dispatcher }) => dispatcher.resetPassword(options),

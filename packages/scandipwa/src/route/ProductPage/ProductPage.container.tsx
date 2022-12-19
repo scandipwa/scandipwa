@@ -16,7 +16,6 @@ import { Dispatch } from 'redux';
 import { Page } from 'Component/Header/Header.config';
 import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import ProductReducer from 'Store/Product/Product.reducer';
@@ -47,6 +46,11 @@ import {
     ProductPageContainerState,
 } from './ProductPage.type';
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
@@ -74,8 +78,12 @@ export const mapStateToProps = (state: RootState): ProductPageContainerMapStateP
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductPageContainerMapDispatchProps => ({
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
+    changeHeaderState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state),
+    ),
+    changeNavigationState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state),
+    ),
     requestProduct: (options) => {
         ProductDispatcher.then(
             ({ default: dispatcher }) => dispatcher.getProduct(options),
@@ -88,7 +96,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductPageContainerMapD
     updateMetaFromProduct: (product) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product),
     ),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
+    goToPreviousNavigationState: () => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE),
+    ),
     addRecentlyViewedProduct: (product, store) => dispatch(addRecentlyViewedProduct(product, store)),
 });
 

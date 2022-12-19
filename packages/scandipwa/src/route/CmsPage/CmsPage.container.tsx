@@ -17,7 +17,6 @@ import CmsPageQuery from 'Query/CmsPage.query';
 import { CmsPageFields, CmsPageQueryOptions } from 'Query/CmsPage.type';
 import { updateBreadcrumbsStore } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import { ReactElement } from 'Type/Common.type';
@@ -39,6 +38,11 @@ import {
     CmsPageContainerState,
 } from './CmsPage.type';
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
@@ -54,7 +58,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): CmsPageContainerDispatch
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs),
     ),
-    setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
+    setHeaderState: (stateName) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName),
+    ),
     updateOfflineStore: (state) => dispatch(updateOfflineStore(state)),
     updateMetaStore: (state) => dispatch(updateMetaStore(state)),
     updateBreadcrumbsStore: (state) => dispatch(updateBreadcrumbsStore(state)),

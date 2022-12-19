@@ -11,14 +11,9 @@
 
 import { Reducer } from 'redux';
 
-import { ComparableProduct } from 'Query/ProductCompare.type';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 
-import {
-    ProductCompareAction,
-    ProductCompareActionType,
-    ProductCompareStore,
-} from './ProductCompare.type';
+import { ProductCompareActionType, ProductCompareStore } from './ProductCompare.type';
 
 export const COMPARE_LIST_PRODUCTS = 'compare_list_products';
 
@@ -37,88 +32,20 @@ export const getInitialState = (): ProductCompareStore => {
 };
 
 /** @namespace Store/ProductCompare/Reducer/ProductCompareReducer */
-export const ProductCompareReducer: Reducer<ProductCompareStore, ProductCompareAction> = (
+export const ProductCompareReducer: Reducer<ProductCompareStore> = (
     state = getInitialState(),
     action,
 ) => {
-    const { type } = action;
+    const { state: newState, type } = action;
 
-    switch (type) {
-    case ProductCompareActionType.TOGGLE_COMPARE_LIST_LOADER: {
-        const { isLoading } = action;
-
-        return {
-            ...state,
-            isLoading,
-        };
-    }
-
-    case ProductCompareActionType.SET_COMPARE_LIST: {
-        const { item_count = 0, items = [], attributes = [] } = action.payload;
-
-        const products = items.map((item): ComparableProduct => ({
-            ...(item?.product || {}),
-            attributes: [],
-        }));
-        const productIds = products.map((product) => product.id);
-
-        BrowserDatabase.setItem(
-            productIds,
-            COMPARE_LIST_PRODUCTS,
-        );
-
-        return {
-            ...state,
-            count: item_count,
-            attributes,
-            products,
-            productIds,
-            items,
-        };
-    }
-
-    case ProductCompareActionType.UPDATE_COMPARE_TOTALS: {
-        const { compareTotals = 0 } = action;
-
-        return {
-            ...state,
-            count: compareTotals,
-        };
-    }
-
-    case ProductCompareActionType.CLEAR_COMPARED_PRODUCTS: {
-        BrowserDatabase.setItem(
-            [],
-            COMPARE_LIST_PRODUCTS,
-        );
-
-        return {
-            ...state,
-            count: 0,
-            products: [],
-            productIds: [],
-            items: [],
-            attributes: [],
-        };
-    }
-
-    case ProductCompareActionType.SET_COMPARED_PRODUCT_IDS: {
-        const { productIds } = action;
-
-        BrowserDatabase.setItem(
-            productIds,
-            COMPARE_LIST_PRODUCTS,
-        );
-
-        return {
-            ...state,
-            productIds,
-        };
-    }
-
-    default:
+    if (ProductCompareActionType.UPDATE_PRODUCT_COMPARE_STORE !== type) {
         return state;
     }
+
+    return {
+        ...state,
+        ...newState,
+    };
 };
 
 export default ProductCompareReducer;

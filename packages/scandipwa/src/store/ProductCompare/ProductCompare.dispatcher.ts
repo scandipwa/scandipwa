@@ -10,19 +10,16 @@
  */
 
 import ProductCompareQuery from 'Query/ProductCompare.query';
-import { CompareList } from 'Query/ProductCompare.type';
+import { ComparableProduct, CompareList } from 'Query/ProductCompare.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import {
-    clearComparedProducts,
-    setCompareList,
-    setCompareListIds,
-    toggleLoader,
-    updateCompareTotals,
-} from 'Store/ProductCompare/ProductCompare.action';
+import { updateProductCompareStore } from 'Store/ProductCompare/ProductCompare.action';
 import { getAuthorizationToken } from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import { getUid, removeUid, setUid } from 'Util/Compare';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
+
+import { COMPARE_LIST_PRODUCTS } from './ProductCompare.reducer';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -43,17 +40,17 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
             return false;
         }
 
-        this.dispatch(toggleLoader(true));
+        this.dispatch(updateProductCompareStore({ isLoading: true }));
 
         try {
             const { compareList } = await fetchQuery(
                 ProductCompareQuery.getCompareList(uid),
             );
 
-            this.dispatch(toggleLoader(false));
-            this.dispatch(setCompareList(compareList));
+            this.dispatch(updateProductCompareStore({ isLoading: false }));
+            this.setCompareList(compareList);
         } catch (error) {
-            this.dispatch(toggleLoader(false));
+            this.dispatch(updateProductCompareStore({ isLoading: false }));
             NotificationDispatcher.then(
                 ({ default: dispatcher }) => dispatcher.showNotification(
                     NotificationType.ERROR,
@@ -108,7 +105,7 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
                 ? await this.addToCompareList(uid, productId)
                 : await this.createCompareList(productId);
 
-            this.dispatch(setCompareList(result));
+            this.setCompareList(result);
             NotificationDispatcher.then(
                 ({ default: dispatcher }) => dispatcher.showNotification(
                     NotificationType.SUCCESS,
@@ -147,7 +144,7 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
                 ),
             );
 
-            this.dispatch(setCompareList(removeProductsFromCompareList));
+            this.setCompareList(removeProductsFromCompareList);
             NotificationDispatcher.then(
                 ({ default: dispatcher }) => dispatcher.showNotification(
                     NotificationType.SUCCESS,
@@ -187,7 +184,7 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
             setUid(uid);
         }
 
-        this.dispatch(setCompareList(createCompareList));
+        this.setCompareList(createCompareList);
     }
 
     async assignCompareList(): Promise<boolean> {
@@ -220,12 +217,12 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
 
             if (result) {
                 setUid(newUid);
-                this.dispatch(setCompareList(compare_list));
+                this.setCompareList(compare_list);
             }
 
             return result;
         } catch (error) {
-            this.dispatch(toggleLoader(false));
+            this.dispatch(updateProductCompareStore({ isLoading: false }));
 
             return false;
         }
@@ -238,7 +235,7 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
             return null;
         }
 
-        this.dispatch(toggleLoader(true));
+        this.dispatch(updateProductCompareStore({ isLoading: true }));
 
         try {
             const result = await fetchMutation(
@@ -246,18 +243,18 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
             );
 
             removeUid();
-            this.dispatch(clearComparedProducts());
+            this.resetComparedProducts();
             NotificationDispatcher.then(
                 ({ default: dispatcher }) => dispatcher.showNotification(
                     NotificationType.SUCCESS,
                     __('Compare list is cleared'),
                 ),
             );
-            this.dispatch(toggleLoader(false));
+            this.dispatch(updateProductCompareStore({ isLoading: false }));
 
             return result;
         } catch (error) {
-            this.dispatch(toggleLoader(false));
+            this.dispatch(updateProductCompareStore({ isLoading: false }));
             NotificationDispatcher.then(
                 ({ default: dispatcher }) => dispatcher.showNotification(
                     NotificationType.ERROR,
@@ -277,7 +274,7 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
             return false;
         }
 
-        this.dispatch(toggleLoader(true));
+        this.dispatch(updateProductCompareStore({ isLoading: true }));
 
         try {
             const { compareList } = await fetchQuery(
@@ -286,11 +283,10 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
             const { items = [] } = compareList || {};
             const compareIds = items.map((data) => data?.product?.id);
 
-            this.dispatch(toggleLoader(false));
-            this.dispatch(setCompareListIds(compareIds));
-            this.dispatch(updateCompareTotals(compareIds.length));
+            this.dispatch(updateProductCompareStore({ isLoading: false, count: compareIds.length }));
+            this.updateCompareListIds(compareIds);
         } catch (error) {
-            this.dispatch(toggleLoader(false));
+            this.dispatch(updateProductCompareStore({ isLoading: false }));
             NotificationDispatcher.then(
                 ({ default: dispatcher }) => dispatcher.showNotification(
                     NotificationType.ERROR,
@@ -305,8 +301,49 @@ export class ProductCompareDispatcher extends SimpleDispatcher {
         return true;
     }
 
-    resetComparedProducts(): void {
-        this.dispatch(clearComparedProducts());
+    updateCompareListIds(productIds: number[]) {
+        BrowserDatabase.setItem(
+            productIds,
+            COMPARE_LIST_PRODUCTS,
+        );
+
+        this.dispatch(updateProductCompareStore({ productIds }));
+    }
+
+    resetComparedProducts() {
+        BrowserDatabase.setItem(
+            [],
+            COMPARE_LIST_PRODUCTS,
+        );
+
+        this.dispatch(updateProductCompareStore({
+            count: 0,
+            products: [],
+            productIds: [],
+            items: [],
+            attributes: [],
+        }));
+    }
+
+    setCompareList({ item_count = 0, items = [], attributes = [] }: CompareList) {
+        const products = items.map((item): ComparableProduct => ({
+            ...(item?.product || {}),
+            attributes: [],
+        }));
+        const productIds = products.map((product) => product.id);
+
+        BrowserDatabase.setItem(
+            productIds,
+            COMPARE_LIST_PRODUCTS,
+        );
+
+        this.dispatch(updateProductCompareStore({
+            count: item_count,
+            attributes,
+            products,
+            productIds,
+            items,
+        }));
     }
 }
 

@@ -13,7 +13,6 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
@@ -31,6 +30,11 @@ import {
     NewVersionPopupContainerProps,
 } from './NewVersionPopup.type';
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 /** @namespace Component/NewVersionPopup/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): NewVersionPopupContainerMapStateProps => ({
     device: state.ConfigReducer.device,
@@ -39,7 +43,9 @@ export const mapStateToProps = (state: RootState): NewVersionPopupContainerMapSt
 /** @namespace Component/NewVersionPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): NewVersionPopupContainerMapDispatchProps => ({
     showPopup: (payload) => dispatch(showPopup(NEW_VERSION_POPUP_ID, payload)),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
+    goToPreviousHeaderState: () => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE),
+    ),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
 });
 

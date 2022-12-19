@@ -16,7 +16,6 @@ import { Dispatch } from 'redux';
 import { Page } from 'Component/Header/Header.config';
 import Menu from 'Component/Menu';
 import { updateMetaStore } from 'Store/Meta/Meta.action';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
 import { history } from 'Util/History';
@@ -28,6 +27,11 @@ import {
     MenuPageContainerProps,
 } from './MenuPage.type';
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 /** @namespace Route/MenuPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MenuPageContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile,
@@ -36,7 +40,9 @@ export const mapStateToProps = (state: RootState): MenuPageContainerMapStateProp
 /** @namespace Route/MenuPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MenuPageContainerMapDispatchProps => ({
     updateMetaStore: (state) => dispatch(updateMetaStore(state)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+    changeHeaderState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state),
+    ),
 });
 
 /** @namespace Route/MenuPage/Container */

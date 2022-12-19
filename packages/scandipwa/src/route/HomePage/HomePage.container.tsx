@@ -11,14 +11,12 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import Footer from 'Component/Footer';
 import InstallPrompt from 'Component/InstallPrompt';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import CmsPage from 'Route/CmsPage';
 import { CmsPageContainerProps } from 'Route/CmsPage/CmsPage.type';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
@@ -32,14 +30,21 @@ import {
 
 import './HomePage.style';
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 /** @namespace Route/HomePage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): HomePageContainerMapStateProps => ({
     pageIdentifiers: state.ConfigReducer.cms_home_page,
 });
 
 /** @namespace Route/HomePage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): HomePageContainerMapDispatchProps => ({
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+export const mapDispatchToProps = (): HomePageContainerMapDispatchProps => ({
+    changeHeaderState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state),
+    ),
 });
 
 /** @namespace Route/HomePage/Container */

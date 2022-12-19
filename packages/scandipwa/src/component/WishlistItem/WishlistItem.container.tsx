@@ -11,11 +11,9 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { ProductType } from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
@@ -42,6 +40,11 @@ import {
     WishlistItemContainerState,
 } from './WishlistItem.type';
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 export const NotificationDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Notification/Notification.dispatcher'
@@ -63,7 +66,7 @@ export const mapStateToProps = (state: RootState): WishlistItemContainerMapState
 });
 
 /** @namespace Component/WishlistItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch: Dispatch): WishlistItemContainerMapDispatchProps => ({
+export const mapDispatchToProps = (): WishlistItemContainerMapDispatchProps => ({
     showNotification: (type, message) => NotificationDispatcher.then(
         ({ default: dispatcher }) => dispatcher.showNotification(type, message),
     ),
@@ -76,7 +79,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): WishlistItemContainerMap
     removeFromWishlist: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(options),
     ),
-    changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
+    changeHeaderState: (state) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state),
+    ),
 });
 
 /** @namespace Component/WishlistItem/Container */

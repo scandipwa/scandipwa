@@ -13,8 +13,7 @@ import { MouseEvent } from 'react';
 import { AnyAction } from 'redux';
 
 export enum NavigationActionType {
-    CHANGE_NAVIGATION_STATE = 'CHANGE_NAVIGATION_STATE',
-    GOTO_PREVIOUS_NAVIGATION_STATE = 'GOTO_PREVIOUS_NAVIGATION_STATE',
+    UPDATE_NAVIGATION_STORE = 'UPDATE_NAVIGATION_STORE',
 }
 
 export enum NavigationType {
@@ -37,18 +36,12 @@ export interface NavigationState {
     title?: string;
 }
 
-export interface ChangeNavigationStateAction extends AnyAction {
-    type: NavigationActionType.CHANGE_NAVIGATION_STATE;
-    navigationType: NavigationType;
-    navigationState: NavigationState;
+export interface UpdateNavigationStoreAction extends AnyAction {
+    type: NavigationActionType.UPDATE_NAVIGATION_STORE;
+    state: Partial<NavigationState>;
 }
 
-export interface GoToPreviousNavigationStateAction extends AnyAction {
-    type: NavigationActionType.GOTO_PREVIOUS_NAVIGATION_STATE;
-    navigationType: NavigationType;
-}
-
-export type NavigationAction = ChangeNavigationStateAction | GoToPreviousNavigationStateAction;
+export type NavigationAction = UpdateNavigationStoreAction;
 
 export interface NavigationStore {
     [NavigationType.TOP_NAVIGATION_TYPE]: {

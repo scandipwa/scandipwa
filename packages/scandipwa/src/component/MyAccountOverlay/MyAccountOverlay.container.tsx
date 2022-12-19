@@ -17,7 +17,6 @@ import { Page } from 'Component/Header/Header.config';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { updateMyAccountStore } from 'Store/MyAccount/MyAccount.action';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
@@ -42,6 +41,11 @@ import {
     MyAccountOverlayContainerState,
 } from './MyAccountOverlay.type';
 
+export const NavigationDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Navigation/Navigation.dispatcher'
+);
+
 /** @namespace Component/MyAccountOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountOverlayContainerMapStateProps => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
@@ -58,8 +62,12 @@ export const mapStateToProps = (state: RootState): MyAccountOverlayContainerMapS
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOverlayContainerMapDispatchProps => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
-    setHeaderState: (headerState) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState)),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
+    setHeaderState: (headerState) => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState),
+    ),
+    goToPreviousHeaderState: () => NavigationDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE),
+    ),
     updateMyAccountStore: (state) => dispatch(updateMyAccountStore(state)),
 });
 

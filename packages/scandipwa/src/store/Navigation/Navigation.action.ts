@@ -9,26 +9,10 @@
  * @link https://github.com/scandipwa/scandipwa-theme
  */
 
-import {
-    ChangeNavigationStateAction,
-    GoToPreviousNavigationStateAction,
-    NavigationActionType,
-    NavigationState,
-    NavigationType,
-} from './Navigation.type';
+import { NavigationActionType, NavigationStore } from './Navigation.type';
 
-/** @namespace Store/Navigation/Action/changeNavigationState */
-export const changeNavigationState = (
-    navigationType: NavigationType,
-    navigationState: NavigationState,
-): ChangeNavigationStateAction => ({
-    type: NavigationActionType.CHANGE_NAVIGATION_STATE,
-    navigationType,
-    navigationState,
-});
-
-/** @namespace Store/Navigation/Action/goToPreviousNavigationState */
-export const goToPreviousNavigationState = (navigationType: NavigationType): GoToPreviousNavigationStateAction => ({
-    type: NavigationActionType.GOTO_PREVIOUS_NAVIGATION_STATE,
-    navigationType,
+/** @namespace Store/Navigation/Action/updateNavigationStore */
+export const updateNavigationStore = (state: Partial<NavigationStore>) => ({
+    type: NavigationActionType.UPDATE_NAVIGATION_STORE,
+    state,
 });
