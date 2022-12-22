@@ -283,7 +283,7 @@ CheckoutShippingContainerState
         };
 
         saveAddressInformation(data);
-        const shippingMethod = `${shipping_carrier_code}_${shipping_method_code}`;
+        const shipping_method = `${shipping_carrier_code}_${shipping_method_code}`;
         const { street = [] } = formattedFields;
 
         updateShippingFields({
@@ -294,7 +294,7 @@ CheckoutShippingContainerState
                     && parseInt(default_shipping, 10) === data.shipping_address.id)
                     ? formattedFields : data.shipping_address
             ),
-            shippingMethod,
+            shipping_method,
         });
     }
 
