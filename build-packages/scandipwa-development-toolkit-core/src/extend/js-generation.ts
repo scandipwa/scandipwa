@@ -99,12 +99,6 @@ const generateImportString = (
     }
 
     const exportsWithoutInterface = chosenExports.filter((exportItem) => exportItem.type !== ExportType.ts_interface);
-    // const exportsReduxFunctions = chosenExports.reduce((acc, {name, type}) => {
-    //     if (isMapping(name)) {
-    //         acc.push(``)
-    //         return
-    //     }
-    // }, [])
 
     return [
         'import {',
