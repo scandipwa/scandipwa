@@ -39,6 +39,7 @@ $icons = $this->getAppIconData();
             type: `<?= $this->getAction(); ?>`
         };
         window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
+        window.storeCurrency = '<?= $this->getStoreCurrency() ?>';
 
         // Multistore
         // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`

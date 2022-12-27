@@ -30,6 +30,7 @@ declare global {
         contentConfiguration?: ContentConfiguration;
         prompt_event?: BeforeInstallPromptEvent;
         website_code: string;
+        storeCurrency: string;
     }
 
     interface BeforeInstallPromptEvent extends Event {
