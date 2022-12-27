@@ -9,7 +9,12 @@ import { getImportPath } from '../util/js-generation';
 import { capitalize, decapitalize } from '../util/misc';
 import { getStyleFileName } from './scss-generation';
 
-const isMapping = (name: string) => ['mapStateToProps', 'mapDispatchToProps'].includes(name);
+const reduxFunctionStrings = ['mapStateToProps', 'mapDispatchToProps'];
+const reduxInterfacesStrings = ['MapStateProps', 'MapDispatchToProps'];
+const isMapping = (name: string) => reduxFunctionStrings.includes(name);
+const isMappingInterface = (name: string) => reduxInterfacesStrings.find(
+    (functionString) => name.includes(functionString)
+    );
 
 const getPrefixedName = (name: string, moduleAlias: string) => {
     const isCapitalized = (word: string) => word[0].toUpperCase() === word[0];
@@ -138,9 +143,11 @@ const generateMappingsExtends = (chosenExports: ExportData[], sourceModuleAlias:
             const argument = name.includes('State')
                 ? 'state'
                 : 'dispatch';
+            const isState = argument === 'state';
 
             const newExport = [
-                `export const ${name} = ${argument} => ({`,
+                `import { ${ isState ? 'RootState' : 'Dispatch' } } from '${isState ? 'Util/Store/Store.type' : 'redux'}'`,
+                `export const ${name} = (${argument}: ${isState ? 'RootState' : 'Dispatch'}) => ({`,
                 `    ...${getPrefixedName(name, sourceModuleAlias)}(${argument}),`,
                 `    // TODO extend ${name}`,
                 '});',
@@ -168,10 +175,16 @@ const generateTSInterfaceExtend = (sourceFilePath: string, chosenExports: Export
         return '';
     }
 
+    const reduxInterfacesFiltered = chosenExports.filter(({name}) => isMappingInterface(name));
+
     const mappedInterfaces = [
+        reduxInterfacesFiltered.map(({ name }) => [
+            `import { ${name} as Source${name.charAt(0).toUpperCase() + name.slice(1)} } from '${sourceFilePath}';`,
+            `export interface ${name} extends Source${name.charAt(0).toUpperCase() + name.slice(1)} {}; \n`
+        ].join('\n')).join('\n'),
         `declare module '${sourceFilePath}' {`,
         chosenExports
-            .filter((one) => [one.type === ExportType.ts_interface && !isMapping(one.name)])
+            .filter((one) => [one.type === ExportType.ts_interface && !isMappingInterface(one.name)])
             .map(({ name }) => [
                 `export interface ${name} {}`,
             ]).join('\n\n'),
@@ -190,7 +203,7 @@ const generateTSTypes = (chosenExports: ExportData[], sourceModuleAlias: string)
         .filter((one) => one.type === ExportType.ts_type)
         .map(({ name }) => [
             `//TODO: extend type ${name}`,
-            `export type ${name} = ${getPrefixedName(name, sourceModuleAlias)} | {};`,
+            `export type ${name} = ${getPrefixedName(name, sourceModuleAlias)};`,
         ].join('\n'));
 };
 
