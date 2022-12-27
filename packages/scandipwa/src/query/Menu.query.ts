@@ -11,6 +11,8 @@
 
 import { Field, Query } from '@tilework/opus';
 
+import { CategoryDisplayMode } from 'Route/CategoryPage/CategoryPage.config';
+
 import { MenuItem } from './Menu.type';
 /**
  * Menu Query
@@ -35,6 +37,7 @@ export class MenuQuery {
     | Field<'position', number>
     | Field<'parent_id', number>
     | Field<'category_id', number>
+    | Field<'display_mode', CategoryDisplayMode>
     > {
         return [
             new Field<'url', string>('url'),
@@ -43,6 +46,7 @@ export class MenuQuery {
             new Field<'position', number>('position'),
             new Field<'parent_id', number>('parent_id'),
             new Field<'category_id', number>('category_id'),
+            new Field<'display_mode', CategoryDisplayMode>('display_mode'),
         ];
     }
 }

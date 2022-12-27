@@ -10,6 +10,7 @@
  */
 import { Field, Query } from '@tilework/opus';
 
+import { CategoryDisplayMode } from 'Route/CategoryPage/CategoryPage.config';
 import { GQLUrlRewriteEntityTypeEnum } from 'Type/Graphql.type';
 
 import {
@@ -26,6 +27,7 @@ export class UrlRewritesQuery {
         sku: string;
         type: GQLUrlRewriteEntityTypeEnum;
         id: number;
+        display_mode: CategoryDisplayMode;
     }> {
         return new Query<'urlResolver', UrlRewritesOutput>('urlResolver')
             .addArgument('url', 'String!', urlParam)
@@ -36,11 +38,13 @@ export class UrlRewritesQuery {
     Field<'sku', string>
     | Field<'type', GQLUrlRewriteEntityTypeEnum>
     | Field<'id', number>
+    | Field<'display_mode', CategoryDisplayMode>
     > {
         return [
             new Field<'sku', string>('sku'),
             new Field<'type', GQLUrlRewriteEntityTypeEnum>('type'),
             new Field<'id', number>('id'),
+            new Field<'display_mode', CategoryDisplayMode>('display_mode'),
         ];
     }
 }

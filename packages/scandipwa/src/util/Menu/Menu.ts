@@ -35,23 +35,31 @@ export class Menu {
     menuPositionReference: Record<string, number[]> = {};
 
     getMenuUrl(
-        { url, category_id }: Pick<MenuItem, 'url' | 'category_id'>,
+        { url, category_id, display_mode }: Pick<
+        MenuItem,
+        'url'
+        | 'category_id'
+        | 'display_mode'>,
     ): MenuLocation | string {
         return {
             pathname: getUrlPathname(url),
             search: '',
-            state: { category: category_id },
+            state: {
+                category: category_id,
+                displayMode: display_mode,
+            },
         };
     }
 
     getMenuData({
         url,
         category_id,
+        display_mode,
         ...item
     }: MenuItem): FormattedMenuItem {
         return {
             ...item,
-            url: this.getMenuUrl({ url, category_id }),
+            url: this.getMenuUrl({ url, category_id, display_mode }),
             children: {},
         };
     }

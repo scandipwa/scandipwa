@@ -20,11 +20,6 @@ import {
     FilterPriceRange,
     ProductAttributeFilterOptions,
 } from 'Query/ProductList.type';
-import {
-    CategoryPageLayout,
-    LAYOUT_KEY,
-    SortDirections,
-} from 'Route/CategoryPage/CategoryPage.config';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -47,7 +42,13 @@ import {
 } from 'Util/Url';
 
 import CategoryPage from './CategoryPage.component';
-import { LOADING_TIME } from './CategoryPage.config';
+import {
+    CategoryDisplayMode,
+    CategoryPageLayout,
+    LAYOUT_KEY,
+    LOADING_TIME,
+    SortDirections,
+} from './CategoryPage.config';
 import {
     CategoryPageComponentProps,
     CategoryPageContainerFunctions,
@@ -142,6 +143,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         currentArgs: {},
         selectedInfoFilter: {},
         plpType: '',
+        displayMode: CategoryDisplayMode.PRODUCTS,
     };
 
     config = {
@@ -426,6 +428,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             totalPages,
             totalItems,
             isSearchPage,
+            displayMode,
         } = this.props;
 
         const {
@@ -453,6 +456,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             totalItems,
             selectedLayoutType,
             activeLayoutType,
+            displayMode,
         };
     }
 

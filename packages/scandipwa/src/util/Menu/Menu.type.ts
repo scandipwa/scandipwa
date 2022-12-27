@@ -10,6 +10,7 @@
  */
 
 import { MenuItem } from 'Query/Menu.type';
+import { CategoryDisplayMode } from 'Route/CategoryPage/CategoryPage.config';
 import { Merge } from 'Type/Common.type';
 
 export interface MenuLocation {
@@ -18,11 +19,12 @@ export interface MenuLocation {
     state: {
         category?: number;
         page?: boolean;
+        displayMode?: CategoryDisplayMode;
     };
 }
 
 export type FormattedMenuItem = Merge<
-Omit<MenuItem, 'cms_page_identifier' | 'url_type' | 'category_id' >,
+Omit<MenuItem, 'cms_page_identifier' | 'url_type' | 'category_id' | 'display_mode'>,
 {
     url: MenuLocation | string;
     children: Record<string, FormattedMenuItem>;
