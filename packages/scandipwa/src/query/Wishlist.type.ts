@@ -33,7 +33,7 @@ export interface Wishlist {
     updated_at: string;
     items_count: number;
     creators_name: string;
-    items: WishlistItem[];
+    items_v2: { items: WishlistItem[] };
 }
 
 export interface WishListUserInputError {

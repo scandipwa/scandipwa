@@ -59,6 +59,7 @@ export const mapStateToProps = (state: RootState): MyAccountContainerMapStatePro
     isMobile: state.ConfigReducer.device.isMobile,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
     wishlistItems: state.WishlistReducer.productsInWishlist,
+    wishlistItemCount: state.WishlistReducer.productCount,
     IsSignedInFromState: state.MyAccountReducer.isSignedIn,
     isLocked: state.MyAccountReducer.isLocked,
     newsletterActive: state.ConfigReducer.newsletter_general_active,
@@ -340,11 +341,9 @@ MyAccountContainerState
     }
 
     getWishlistItemsCount(): number {
-        const { wishlistItems } = this.props;
+        const { wishlistItemCount } = this.props;
 
-        const { length } = Object.keys(wishlistItems);
-
-        return length;
+        return wishlistItemCount;
     }
 
     getMyWishlistHeaderTitle(): string {

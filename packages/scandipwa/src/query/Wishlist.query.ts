@@ -123,15 +123,20 @@ export class WishlistQuery {
     | Field<'updated_at', string>
     | Field<'items_count', number>
     | Field<'creators_name', string>
-    | Field<'items', WishlistItem, true>
+    | Field<'items_v2', { items: WishlistItem[] }>
     > {
         return [
             new Field<'id', number>('id'),
             new Field<'updated_at', string>('updated_at'),
             new Field<'items_count', number>('items_count'),
             new Field<'creators_name', string>('creators_name'),
-            this._getItemsField(),
+            this._getItemsV2Field(),
         ];
+    }
+
+    _getItemsV2Field(): Field<'items_v2', { items: WishlistItem[] }> {
+        return new Field<'items_v2', { items: WishlistItem[] }>('items_v2')
+            .addField(this._getItemsField());
     }
 
     _getItemOptionsFields(): Array<

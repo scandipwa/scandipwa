@@ -123,7 +123,9 @@ WishlistSharedPageContainerState
                     return;
                 }
 
-                const wishlistItems = wishlist.items.reduce((prev, wishlistItem) => {
+                const { items_v2: { items } } = wishlist;
+
+                const wishlistItems = items.reduce((prev, wishlistItem) => {
                     const {
                         id,
                         sku,

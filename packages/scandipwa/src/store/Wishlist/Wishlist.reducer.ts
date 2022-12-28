@@ -17,14 +17,19 @@ import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
 import {
     UpdateAllProductsInWishlistAction,
-    WishlistAction, WishlistActionType, WishlistStore,
+    WishlistAction,
+    WishlistActionType,
+    WishlistStore,
 } from './Wishlist.type';
 
 export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
 
+export const WISHLIST_ITEM_COUNT = 'wishlist_item_count';
+
 /** @namespace Store/Wishlist/Reducer/getInitialState */
 export const getInitialState = (): WishlistStore => ({
     productsInWishlist: BrowserDatabase.getItem(PRODUCTS_IN_WISHLIST) || {},
+    productCount: 0,
     isLoading: true,
 });
 
@@ -34,30 +39,46 @@ export const deleteProperty = (key: string, { [key]: _, ...newObj }: Record<stri
 /** @namespace Store/Wishlist/Reducer/removeItemFromWishlist */
 export const removeItemFromWishlist = (
     item_id: string,
-    { productsInWishlist: initialProducts }: WishlistStore,
-): { productsInWishlist: Record<string, IndexedWishlistProduct> } => {
+    {
+        productsInWishlist: initialProducts,
+        productCount: initialProductCount,
+    }: WishlistStore,
+): Partial<WishlistStore> => {
     const productsInWishlist = deleteProperty(item_id, initialProducts) || {};
+    const productCount = initialProductCount - 1;
 
     BrowserDatabase.setItem(
         productsInWishlist,
         PRODUCTS_IN_WISHLIST,
     );
 
-    return { productsInWishlist };
+    BrowserDatabase.setItem(productCount, PRODUCTS_IN_WISHLIST);
+
+    return {
+        productsInWishlist,
+        productCount,
+    };
 };
 
 /** @namespace Store/Wishlist/Reducer/clearWishlist */
-export const clearWishlist = (): { productsInWishlist: Record<string, IndexedWishlistProduct> } => {
+export const clearWishlist = (): Partial<WishlistStore> => {
     const productsInWishlist: Record<string, IndexedWishlistProduct> = {};
 
     BrowserDatabase.setItem(productsInWishlist, PRODUCTS_IN_WISHLIST);
+    BrowserDatabase.setItem(0, WISHLIST_ITEM_COUNT);
 
-    return { productsInWishlist };
+    return {
+        productsInWishlist,
+        productCount: 0,
+    };
 };
 
 /** @namespace Store/Wishlist/Reducer/updateAllProductsInWishlist */
 export const updateAllProductsInWishlist = (action: UpdateAllProductsInWishlistAction): WishlistStore => {
-    const { products: initialProducts } = action;
+    const {
+        products: initialProducts,
+        itemCount,
+    } = action;
 
     const products = getIndexedParameteredProducts(initialProducts);
 
@@ -66,7 +87,13 @@ export const updateAllProductsInWishlist = (action: UpdateAllProductsInWishlistA
         PRODUCTS_IN_WISHLIST,
     );
 
-    return { productsInWishlist: products, isLoading: false };
+    BrowserDatabase.setItem(itemCount, WISHLIST_ITEM_COUNT);
+
+    return {
+        productsInWishlist: products,
+        productCount: itemCount,
+        isLoading: false,
+    };
 };
 
 /** @namespace Store/Wishlist/Reducer/WishlistReducer */

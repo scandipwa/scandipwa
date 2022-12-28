@@ -29,6 +29,7 @@ export interface MyAccountContainerMapStateProps {
     baseLinkUrl: string;
     activeOverlay: string;
     headerState: NavigationState;
+    wishlistItemCount: number;
 }
 
 export interface MyAccountContainerMapDispatchProps {

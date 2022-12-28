@@ -39,9 +39,11 @@ export const removeItemFromWishlist = (
  */
 export const updateAllProductsInWishlist = (
     products: Record<string, WishlistProduct>,
+    itemCount: number,
 ): UpdateAllProductsInWishlistAction => ({
     type: WishlistActionType.UPDATE_ALL_PRODUCTS_IN_WISHLIST,
     products,
+    itemCount,
 });
 
 /** @namespace Store/Wishlist/Action/updateIsLoading */

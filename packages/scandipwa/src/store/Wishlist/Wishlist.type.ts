@@ -31,6 +31,7 @@ export interface RemoveItemFromWishlistAction extends AnyAction {
 export interface UpdateAllProductsInWishlistAction extends AnyAction {
     type: WishlistActionType.UPDATE_ALL_PRODUCTS_IN_WISHLIST;
     products: Record<string, WishlistProduct>;
+    itemCount: number;
 }
 
 export interface UpdateIsLoadingAction extends AnyAction {
@@ -49,6 +50,7 @@ export type WishlistAction = RemoveItemFromWishlistAction
 
 export interface WishlistStore {
     productsInWishlist: Record<string, IndexedWishlistProduct>;
+    productCount: number;
     isLoading: boolean;
 }
 

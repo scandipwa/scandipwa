@@ -58,7 +58,7 @@ export class WishlistDispatcher {
         if (isSignedIn() && isWishlistEnabled()) {
             this._syncWishlistWithBE(dispatch);
         } else {
-            dispatch(updateAllProductsInWishlist({}));
+            dispatch(updateAllProductsInWishlist({}, 0));
         }
     }
 
@@ -72,8 +72,14 @@ export class WishlistDispatcher {
                 }
 
                 if (data && data.wishlist) {
-                    const { wishlist } = data;
-                    const productsToAdd = wishlist.items.reduce((
+                    const {
+                        wishlist: {
+                            items_v2: { items },
+                            items_count,
+                        },
+                    } = data;
+
+                    const productsToAdd = items.reduce((
                         prev: Record<string, WishlistProduct>,
                         wishlistItem,
                     ) => {
@@ -119,7 +125,7 @@ export class WishlistDispatcher {
                         };
                     }, {});
 
-                    dispatch(updateAllProductsInWishlist(productsToAdd));
+                    dispatch(updateAllProductsInWishlist(productsToAdd, items_count));
                 } else {
                     dispatch(updateIsLoading(false));
                 }
