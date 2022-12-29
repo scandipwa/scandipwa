@@ -31,6 +31,10 @@ export interface RemoveItemFromWishlistAction extends AnyAction {
 export interface UpdateAllProductsInWishlistAction extends AnyAction {
     type: WishlistActionType.UPDATE_ALL_PRODUCTS_IN_WISHLIST;
     products: Record<string, WishlistProduct>;
+    pageInfo: {
+        current_page: number;
+        total_pages: number;
+    };
     itemCount: number;
 }
 
@@ -50,14 +54,20 @@ export type WishlistAction = RemoveItemFromWishlistAction
 
 export interface WishlistStore {
     productsInWishlist: Record<string, IndexedWishlistProduct>;
-    productCount: number;
     isLoading: boolean;
+    pageInfo: WishlistPageInfo;
 }
 
 declare module 'Util/Store/Store.type' {
     export interface RootState {
         WishlistReducer: WishlistStore;
     }
+}
+
+export interface WishlistPageInfo {
+    currentPage: number;
+    totalPages: number;
+    totalProducts: number;
 }
 
 export type WishlistProduct = Merge<ProductItem, {

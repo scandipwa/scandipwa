@@ -26,6 +26,9 @@ import {
     ItemOption,
     Wishlist,
     WishlistItem,
+    WishlistItems,
+    WishlistPageInfo,
+    WishlistQueryProps,
     WishListUserInputError,
 } from './Wishlist.type';
 
@@ -72,10 +75,11 @@ export class WishlistQuery {
     }
     //#endregion
 
-    getWishlistQuery(sharingCode = ''): Query<'wishlist', Wishlist> {
+    getWishlistQuery(props: WishlistQueryProps = {}): Query<'wishlist', Wishlist> {
+        const { sharingCode, currentPage = 1 } = props;
         const field = new Query<'s_wishlist', Wishlist>('s_wishlist')
             .setAlias('wishlist')
-            .addFieldList(this._getWishlistFields());
+            .addFieldList(this._getWishlistFields(currentPage));
 
         if (sharingCode) {
             field.addArgument('sharing_code', 'ID', sharingCode);
@@ -118,25 +122,42 @@ export class WishlistQuery {
             .addArgument('itemId', 'ID!', item_id);
     }
 
-    _getWishlistFields(): Array<
+    _getWishlistFields(page: number): Array<
     Field<'id', number>
     | Field<'updated_at', string>
     | Field<'items_count', number>
     | Field<'creators_name', string>
-    | Field<'items_v2', { items: WishlistItem[] }>
+    | Field<'items_v2', WishlistItems>
     > {
         return [
             new Field<'id', number>('id'),
             new Field<'updated_at', string>('updated_at'),
             new Field<'items_count', number>('items_count'),
             new Field<'creators_name', string>('creators_name'),
-            this._getItemsV2Field(),
+            this._getItemsV2Field(page),
         ];
     }
 
-    _getItemsV2Field(): Field<'items_v2', { items: WishlistItem[] }> {
-        return new Field<'items_v2', { items: WishlistItem[] }>('items_v2')
-            .addField(this._getItemsField());
+    _getItemsV2Field(page: number): Field<'items_v2', WishlistItems> {
+        return new Field<'items_v2', WishlistItems>('items_v2')
+            .addArgument('currentPage', 'Int', page)
+            .addField(this._getItemsField())
+            .addField(this._getPageInfoField());
+    }
+
+    _getPageInfoField(): Field<'page_info', WishlistPageInfo> {
+        return new Field<'page_info', WishlistPageInfo>('page_info')
+            .addFieldList(this._getPageInfoFields());
+    }
+
+    _getPageInfoFields(): Array<
+    Field<'current_page', number>
+    | Field<'total_pages', number>
+    > {
+        return [
+            new Field<'current_page', number>('current_page'),
+            new Field<'total_pages', number>('total_pages'),
+        ];
     }
 
     _getItemOptionsFields(): Array<

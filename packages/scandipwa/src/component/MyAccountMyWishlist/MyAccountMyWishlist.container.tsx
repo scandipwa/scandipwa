@@ -11,6 +11,7 @@
 
 import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
@@ -19,8 +20,10 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
+import { scrollToTop } from 'Util/Browser';
 import { getErrorMessage } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
+import { getPageFromUrl } from 'Util/Url';
 
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 import {
@@ -42,6 +45,7 @@ export const WishlistDispatcher = import(
 export const mapStateToProps = (state: RootState): MyAccountMyWishlistContainerMapStateProps => ({
     wishlistItems: state.WishlistReducer.productsInWishlist,
     isWishlistLoading: state.WishlistReducer.isLoading,
+    wishlistPageInfo: state.WishlistReducer.pageInfo,
     isMobile: state.ConfigReducer.device.isMobile,
 });
 
@@ -58,6 +62,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyWishlistConta
     showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     removeSelectedFromWishlist: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeItemsFromWishlist(dispatch, options),
+    ),
+    updateWishlistProducts: (page) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWishlistProducts(dispatch, page),
     ),
 });
 
@@ -88,6 +95,24 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState,
         } as S;
     }
 
+    componentDidMount(): void {
+        const { updateWishlistProducts, location } = this.props;
+        updateWishlistProducts(getPageFromUrl(location));
+    }
+
+    componentDidUpdate(prevProps: MyAccountMyWishlistContainerProps): void {
+        const { updateWishlistProducts, location } = this.props;
+        const { location: prevLocation } = prevProps;
+
+        const prevPage = getPageFromUrl(prevLocation);
+        const currentPage = getPageFromUrl(location);
+
+        if (currentPage !== prevPage) {
+            updateWishlistProducts(currentPage);
+            scrollToTop();
+        }
+    }
+
     containerProps(): Pick<MyAccountMyWishlistComponentProps, MyAccountMyWishlistContainerPropsKeys> {
         const {
             isLoading,
@@ -101,6 +126,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState,
             wishlistItems,
             isEditingActive,
             isMobile,
+            wishlistPageInfo,
         } = this.props;
 
         const isWishlistEmpty = this._getIsWishlistEmpty();
@@ -116,6 +142,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState,
             isEditingActive,
             isMobile,
             isQtyUpdateInProgress,
+            wishlistPageInfo,
         };
     }
 
@@ -196,9 +223,11 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState,
     }
 
     _getIsWishlistEmpty(): boolean {
-        const { wishlistItems } = this.props;
+        const {
+            wishlistPageInfo: { totalProducts },
+        } = this.props;
 
-        return Object.entries(wishlistItems).length <= 0;
+        return totalProducts === 0;
     }
 
     showNotificationAndRemoveLoading(message: string): void {
@@ -234,7 +263,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState,
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
     // eslint-disable-next-line max-len
-    MyAccountMyWishlistContainer as unknown as ComponentType<MyAccountMyWishlistContainerProps>,
-);
+    MyAccountMyWishlistContainer as unknown as ComponentType<RouteComponentProps & MyAccountMyWishlistContainerProps>,
+));

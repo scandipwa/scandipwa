@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { WishlistPageInfo } from 'Query/Wishlist.type';
+
 import {
     ClearWishlistAction,
     RemoveItemFromWishlistAction,
@@ -39,10 +41,12 @@ export const removeItemFromWishlist = (
  */
 export const updateAllProductsInWishlist = (
     products: Record<string, WishlistProduct>,
+    pageInfo: WishlistPageInfo,
     itemCount: number,
 ): UpdateAllProductsInWishlistAction => ({
     type: WishlistActionType.UPDATE_ALL_PRODUCTS_IN_WISHLIST,
     products,
+    pageInfo,
     itemCount,
 });
 

@@ -9,10 +9,14 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { Location } from 'history';
+
+import { WishlistPageInfo } from 'Store/Wishlist/Wishlist.type';
 import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
 export interface MyAccountMyWishlistContainerMapStateProps {
     wishlistItems: Record<string, IndexedWishlistProduct>;
+    wishlistPageInfo: WishlistPageInfo;
     isWishlistLoading: boolean;
     isMobile: boolean;
 }
@@ -24,11 +28,13 @@ export interface MyAccountMyWishlistContainerMapDispatchProps {
     showNotification: (message: string) => void;
     showError: (message: string) => void;
     removeSelectedFromWishlist: (options: string[]) => void;
+    updateWishlistProducts: (page: number) => void;
 }
 
 export interface MyAccountMyWishlistContainerBaseProps {
     creatorsName: string;
     isEditingActive: boolean;
+    location: Location;
 }
 
 export interface MyAccountMyWishlistContainerFunctions {
@@ -65,6 +71,7 @@ export interface MyAccountMyWishlistComponentProps {
     setIsQtyUpdateInProgress: (status: boolean) => void;
     isQtyUpdateInProgress: boolean;
     creatorsName: string;
+    wishlistPageInfo: WishlistPageInfo;
 }
 
 export interface MyAccountMyWishlistComponentState {
@@ -81,4 +88,5 @@ export type MyAccountMyWishlistContainerPropsKeys = 'isWishlistLoading'
 | 'wishlistItems'
 | 'isEditingActive'
 | 'isMobile'
-| 'isQtyUpdateInProgress';
+| 'isQtyUpdateInProgress'
+| 'wishlistPageInfo';

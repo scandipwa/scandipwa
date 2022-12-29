@@ -109,7 +109,7 @@ WishlistSharedPageContainerState
         const { showError, showNoMatch, updateBreadcrumbs } = this.props;
 
         const code = this.getCode();
-        const query = prepareQuery([WishlistQuery.getWishlistQuery(code)]);
+        const query = prepareQuery([WishlistQuery.getWishlistQuery({ sharingCode: code })]);
 
         updateBreadcrumbs([]);
         this.setLoading();

@@ -16,6 +16,7 @@ import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
+import { WishlistPageInfo } from 'Store/Wishlist/Wishlist.type';
 import { MyAccountTabs, MyAccountTabsSection } from 'Type/Account.type';
 import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
@@ -29,7 +30,7 @@ export interface MyAccountContainerMapStateProps {
     baseLinkUrl: string;
     activeOverlay: string;
     headerState: NavigationState;
-    wishlistItemCount: number;
+    wishlistPageInfo: WishlistPageInfo;
 }
 
 export interface MyAccountContainerMapDispatchProps {

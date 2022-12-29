@@ -16,6 +16,11 @@ export interface ItemOption {
     value: string;
 }
 
+export interface WishlistQueryProps {
+    sharingCode?: string;
+    currentPage?: number;
+}
+
 export interface WishlistItem {
     id: string;
     sku: string;
@@ -28,12 +33,22 @@ export interface WishlistItem {
     product: ProductItem;
 }
 
+export interface WishlistPageInfo {
+    current_page: number;
+    total_pages: number;
+}
+
+export interface WishlistItems {
+    items: WishlistItem[];
+    page_info: WishlistPageInfo;
+}
+
 export interface Wishlist {
     id: number;
     updated_at: string;
     items_count: number;
     creators_name: string;
-    items_v2: { items: WishlistItem[] };
+    items_v2: WishlistItems;
 }
 
 export interface WishListUserInputError {

@@ -55,16 +55,22 @@ export const isWishlistEnabled = (): boolean => {
  */
 export class WishlistDispatcher {
     updateInitialWishlistData(dispatch: Dispatch): void {
-        if (isSignedIn() && isWishlistEnabled()) {
-            this._syncWishlistWithBE(dispatch);
-        } else {
-            dispatch(updateAllProductsInWishlist({}, 0));
+        if (!isSignedIn() || !isWishlistEnabled()) {
+            dispatch(clearWishlist());
         }
     }
 
-    _syncWishlistWithBE(dispatch: Dispatch): Promise<void> {
+    updateWishlistProducts(dispatch: Dispatch, page: number = 1): void {
+        if (isSignedIn() && isWishlistEnabled()) {
+            this._syncWishlistWithBE(dispatch, page);
+        }
+    }
+
+    _syncWishlistWithBE(dispatch: Dispatch, page: number = 1): Promise<void> {
         // Need to get current wishlist from BE, update wishlist
-        return fetchQuery<'wishlist', Wishlist>(WishlistQuery.getWishlistQuery()).then(
+        return fetchQuery<'wishlist', Wishlist>(WishlistQuery.getWishlistQuery({
+            currentPage: page,
+        })).then(
             /** @namespace Store/Wishlist/Dispatcher/WishlistDispatcher/_syncWishlistWithBE/fetchQuery/then */
             (data: { wishlist: Wishlist }) => {
                 if (!getAuthorizationToken()) {
@@ -74,7 +80,10 @@ export class WishlistDispatcher {
                 if (data && data.wishlist) {
                     const {
                         wishlist: {
-                            items_v2: { items },
+                            items_v2: {
+                                items,
+                                page_info,
+                            },
                             items_count,
                         },
                     } = data;
@@ -125,7 +134,7 @@ export class WishlistDispatcher {
                         };
                     }, {});
 
-                    dispatch(updateAllProductsInWishlist(productsToAdd, items_count));
+                    dispatch(updateAllProductsInWishlist(productsToAdd, page_info, items_count));
                 } else {
                     dispatch(updateIsLoading(false));
                 }
@@ -193,6 +202,8 @@ export class WishlistDispatcher {
         if (!isSignedIn()) {
             return Promise.reject();
         }
+
+        dispatch(updateIsLoading(true));
 
         return fetchMutation<'clearWishlist', boolean>(WishlistQuery.getClearWishlist())
             .then(

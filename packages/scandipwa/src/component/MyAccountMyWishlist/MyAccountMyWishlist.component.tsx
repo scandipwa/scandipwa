@@ -13,6 +13,7 @@ import { createRef, PureComponent } from 'react';
 
 import CartIcon from 'Component/CartIcon';
 import Loader from 'Component/Loader';
+import Pagination from 'Component/Pagination';
 import ProductCard from 'Component/ProductCard';
 import ShareIcon from 'Component/ShareIcon';
 import ShareWishlistPopup from 'Component/ShareWishlistPopup';
@@ -316,12 +317,30 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState,
         );
     }
 
+    renderPagination(): ReactElement {
+        const {
+            isWishlistLoading,
+            wishlistPageInfo: {
+                totalPages = 0,
+            } = {},
+        } = this.props;
+
+        return (
+            <Pagination
+              isLoading={ isWishlistLoading }
+              totalPages={ totalPages }
+              mix={ { block: 'MyAccountMyOrders', elem: 'Pagination' } }
+            />
+        );
+    }
+
     render(): ReactElement {
         return (
             <div block="MyAccountMyWishlist">
                 { this.renderShareWishlist() }
                 { this.renderContent() }
                 { this.renderActionBar() }
+                { this.renderPagination() }
             </div>
         );
     }

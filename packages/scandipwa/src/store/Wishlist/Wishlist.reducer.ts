@@ -29,39 +29,52 @@ export const WISHLIST_ITEM_COUNT = 'wishlist_item_count';
 /** @namespace Store/Wishlist/Reducer/getInitialState */
 export const getInitialState = (): WishlistStore => ({
     productsInWishlist: BrowserDatabase.getItem(PRODUCTS_IN_WISHLIST) || {},
-    productCount: 0,
+    pageInfo: {
+        currentPage: 1,
+        totalPages: 1,
+        totalProducts: 0,
+    },
     isLoading: true,
 });
 
 /** @namespace Store/Wishlist/Reducer/deleteProperty */
-export const deleteProperty = (key: string, { [key]: _, ...newObj }: Record<string, IndexedWishlistProduct>): Record<string, IndexedWishlistProduct> => newObj;
+export const deleteProperty = (
+    key: string,
+    { [key]: _, ...newObj }: Record<string, IndexedWishlistProduct>,
+): Record<string, IndexedWishlistProduct> => newObj;
 
 /** @namespace Store/Wishlist/Reducer/removeItemFromWishlist */
 export const removeItemFromWishlist = (
     item_id: string,
     {
         productsInWishlist: initialProducts,
-        productCount: initialProductCount,
+        pageInfo: {
+            totalProducts: initTotalProducts,
+        },
+        pageInfo,
     }: WishlistStore,
 ): Partial<WishlistStore> => {
     const productsInWishlist = deleteProperty(item_id, initialProducts) || {};
-    const productCount = initialProductCount - 1;
+    const totalProducts = initTotalProducts - 1;
 
     BrowserDatabase.setItem(
         productsInWishlist,
         PRODUCTS_IN_WISHLIST,
     );
 
-    BrowserDatabase.setItem(productCount, PRODUCTS_IN_WISHLIST);
+    BrowserDatabase.setItem(totalProducts, WISHLIST_ITEM_COUNT);
 
     return {
         productsInWishlist,
-        productCount,
+        pageInfo: {
+            ...pageInfo,
+            totalProducts,
+        },
     };
 };
 
 /** @namespace Store/Wishlist/Reducer/clearWishlist */
-export const clearWishlist = (): Partial<WishlistStore> => {
+export const clearWishlist = (): WishlistStore => {
     const productsInWishlist: Record<string, IndexedWishlistProduct> = {};
 
     BrowserDatabase.setItem(productsInWishlist, PRODUCTS_IN_WISHLIST);
@@ -69,14 +82,25 @@ export const clearWishlist = (): Partial<WishlistStore> => {
 
     return {
         productsInWishlist,
-        productCount: 0,
+        isLoading: false,
+        pageInfo: {
+            currentPage: 1,
+            totalPages: 1,
+            totalProducts: 0,
+        },
     };
 };
 
 /** @namespace Store/Wishlist/Reducer/updateAllProductsInWishlist */
-export const updateAllProductsInWishlist = (action: UpdateAllProductsInWishlistAction): WishlistStore => {
+export const updateAllProductsInWishlist = (
+    action: UpdateAllProductsInWishlistAction,
+): WishlistStore => {
     const {
         products: initialProducts,
+        pageInfo: {
+            current_page,
+            total_pages,
+        },
         itemCount,
     } = action;
 
@@ -91,8 +115,12 @@ export const updateAllProductsInWishlist = (action: UpdateAllProductsInWishlistA
 
     return {
         productsInWishlist: products,
-        productCount: itemCount,
         isLoading: false,
+        pageInfo: {
+            currentPage: current_page,
+            totalPages: total_pages,
+            totalProducts: itemCount,
+        },
     };
 };
 
