@@ -12,6 +12,8 @@
 import { createRef, PureComponent } from 'react';
 
 import CartIcon from 'Component/CartIcon';
+import Field from 'Component/Field';
+import { FieldType } from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
 import Pagination from 'Component/Pagination';
 import ProductCard from 'Component/ProductCard';
@@ -20,8 +22,10 @@ import ShareWishlistPopup from 'Component/ShareWishlistPopup';
 import WishlistItem from 'Component/WishlistItem';
 import { ObjectEntries, ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
+import { arrayToFieldOptions } from 'Util/Field';
 import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
+import { PRODUCTS_PER_PAGE_OPTIONS } from './MyAccountMyWishlist.config';
 import {
     MyAccountMyWishlistComponentProps,
     MyAccountMyWishlistComponentState,
@@ -57,10 +61,10 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState,
         this.setActionLineHeight();
     }
 
-    componentDidUpdate(prevProps: P): void {
+    componentDidUpdate(prevProps: P, prevState: S): void {
         const { isEditingActive: prevIsEditingActive, isMobile: prevIsMobile } = prevProps;
         const { isEditingActive, isMobile } = this.props;
-        const { actionLineHeight: prevActionLineHeight } = this.state;
+        const { actionLineHeight: prevActionLineHeight } = prevState;
         const { actionLineHeight } = this.state;
 
         if ((prevIsEditingActive !== isEditingActive && prevActionLineHeight === actionLineHeight)
@@ -274,6 +278,21 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState,
         );
     }
 
+    renderProductsPerPage(): ReactElement {
+        const { setProductsPerPage } = this.props;
+        const options = arrayToFieldOptions(PRODUCTS_PER_PAGE_OPTIONS);
+
+        return (
+            <Field
+              attr={ { noPlaceholder: true } }
+              type={ FieldType.SELECT }
+              options={ options }
+              events={ { onChange: setProductsPerPage } }
+              mix={ { block: 'MyAccountMyWishlist', elem: 'ProductsPerPage' } }
+            />
+        );
+    }
+
     renderActionBar(): ReactElement {
         const { isMobile } = this.props;
 
@@ -302,8 +321,8 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState,
         const {
             isWishlistLoading,
             isWishlistEmpty,
-            isLoading,
         } = this.props;
+        const isLoading = isWishlistLoading && !isWishlistEmpty;
 
         if (isWishlistEmpty && !isWishlistLoading) {
             return this.renderNoProductsFound();
@@ -326,11 +345,13 @@ S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState,
         } = this.props;
 
         return (
-            <Pagination
-              isLoading={ isWishlistLoading }
-              totalPages={ totalPages }
-              mix={ { block: 'MyAccountMyOrders', elem: 'Pagination' } }
-            />
+            <div block="MyAccountMyWishlist" elem="Pagination">
+                <Pagination
+                  isLoading={ isWishlistLoading }
+                  totalPages={ totalPages }
+                />
+                { this.renderProductsPerPage() }
+            </div>
         );
     }
 

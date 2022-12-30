@@ -72,6 +72,7 @@ WishlistSharedPageContainerState
         isLoading: false,
         loadingItemsMap: {},
         isQtyUpdateInProgress: false,
+        productsPerPage: 25,
     };
 
     componentDidMount(): void {
@@ -93,11 +94,12 @@ WishlistSharedPageContainerState
 
     addAllToCart(): Promise<void> {
         const { showError, moveWishlistToCart } = this.props;
+        const { productsPerPage } = this.state;
         const sharingCode = this.getCode();
 
         this.setState({ isLoading: true });
 
-        return moveWishlistToCart(sharingCode).then(
+        return moveWishlistToCart(productsPerPage, sharingCode).then(
             /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/addAllToCart/moveWishlistToCart/then */
             () => this.showNotificationAndRemoveLoading('Wishlist moved to cart'),
             /** @namespace Route/WishlistSharedPage/Container/WishlistSharedPageContainer/addAllToCart/moveWishlistToCart/then/showError/catch */

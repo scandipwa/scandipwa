@@ -54,8 +54,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyWishlistConta
     clearWishlist: () => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch),
     ),
-    moveWishlistToCart: () => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch),
+    moveWishlistToCart: (productsPerPage) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch, productsPerPage),
     ),
     showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
     showNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
@@ -63,8 +63,8 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyWishlistConta
     removeSelectedFromWishlist: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeItemsFromWishlist(dispatch, options),
     ),
-    updateWishlistProducts: (page) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWishlistProducts(dispatch, page),
+    updateWishlistProducts: (page, productsPerPage) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWishlistProducts(dispatch, page, productsPerPage),
     ),
 });
 
@@ -83,6 +83,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState,
         shareWishlist: this.shareWishlist.bind(this),
         removeSelectedFromWishlist: this.removeSelectedFromWishlist.bind(this),
         setIsQtyUpdateInProgress: this.setIsQtyUpdateInProgress.bind(this),
+        setProductsPerPage: this.setProductsPerPage.bind(this),
     };
 
     __construct(props: MyAccountMyWishlistContainerProps): void {
@@ -92,24 +93,33 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState,
             isLoading: false,
             loadingItemsMap: {} as Record<string, boolean>,
             isQtyUpdateInProgress: false,
+            productsPerPage: 10,
         } as S;
     }
 
     componentDidMount(): void {
         const { updateWishlistProducts, location } = this.props;
-        updateWishlistProducts(getPageFromUrl(location));
+        const { productsPerPage } = this.state;
+        const page = getPageFromUrl(location);
+
+        updateWishlistProducts(page, productsPerPage);
     }
 
-    componentDidUpdate(prevProps: MyAccountMyWishlistContainerProps): void {
-        const { updateWishlistProducts, location } = this.props;
+    componentDidUpdate(prevProps: P, prevState: S): void {
+        const { location, wishlistItems } = this.props;
         const { location: prevLocation } = prevProps;
+        const { productsPerPage: prevProductsPerPage } = prevState;
+        const { productsPerPage } = this.state;
 
         const prevPage = getPageFromUrl(prevLocation);
         const currentPage = getPageFromUrl(location);
 
-        if (currentPage !== prevPage) {
-            updateWishlistProducts(currentPage);
-            scrollToTop();
+        if (currentPage !== prevPage || productsPerPage !== prevProductsPerPage) {
+            this.loadWishlistPage(currentPage);
+        }
+
+        if (!Object.values(wishlistItems).length && currentPage !== 1) {
+            this.loadWishlistPage(currentPage - 1);
         }
     }
 
@@ -146,6 +156,18 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState,
         };
     }
 
+    loadWishlistPage(page = 1) {
+        const { updateWishlistProducts } = this.props;
+        const { productsPerPage } = this.state;
+
+        updateWishlistProducts(page, productsPerPage);
+        scrollToTop();
+    }
+
+    setProductsPerPage(productsPerPage: number) {
+        this.setState({ productsPerPage });
+    }
+
     setIsQtyUpdateInProgress(status: boolean): void {
         this.setState({ isQtyUpdateInProgress: status });
     }
@@ -168,13 +190,14 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState,
 
     async addAllToCartAsync(): Promise<void> {
         const { moveWishlistToCart } = this.props;
+        const { productsPerPage } = this.state;
 
         if (!isSignedIn) {
             return;
         }
 
         try {
-            await moveWishlistToCart();
+            await moveWishlistToCart(productsPerPage);
         } catch (error) {
             this.showErrorAndRemoveLoading(getErrorMessage(error as NetworkError));
         }

@@ -19,6 +19,7 @@ export interface ItemOption {
 export interface WishlistQueryProps {
     sharingCode?: string;
     currentPage?: number;
+    productsPerPage?: number;
 }
 
 export interface WishlistItem {

@@ -32,7 +32,7 @@ export const getInitialState = (): WishlistStore => ({
     pageInfo: {
         currentPage: 1,
         totalPages: 1,
-        totalProducts: 0,
+        totalProducts: BrowserDatabase.getItem(WISHLIST_ITEM_COUNT) || 0,
     },
     isLoading: true,
 });

@@ -23,12 +23,12 @@ export interface MyAccountMyWishlistContainerMapStateProps {
 
 export interface MyAccountMyWishlistContainerMapDispatchProps {
     clearWishlist: () => void;
-    moveWishlistToCart: (sharingCode?: string) => Promise<void>;
+    moveWishlistToCart: (productsPerPage: number, sharingCode?: string) => Promise<void>;
     showPopup: <T>(payload: T) => void;
     showNotification: (message: string) => void;
     showError: (message: string) => void;
     removeSelectedFromWishlist: (options: string[]) => void;
-    updateWishlistProducts: (page: number) => void;
+    updateWishlistProducts: (page: number, productsPerPage: number) => void;
 }
 
 export interface MyAccountMyWishlistContainerBaseProps {
@@ -43,6 +43,7 @@ export interface MyAccountMyWishlistContainerFunctions {
     shareWishlist: () => void;
     removeSelectedFromWishlist: (options: string[]) => void;
     setIsQtyUpdateInProgress: (status: boolean) => void;
+    setProductsPerPage: (productsPerPage: number) => void;
 }
 
 export interface MyAccountMyWishlistContainerProps extends MyAccountMyWishlistContainerMapStateProps,
@@ -53,6 +54,7 @@ export interface MyAccountMyWishlistContainerState {
     isLoading: boolean;
     loadingItemsMap: Record<string, boolean>;
     isQtyUpdateInProgress: boolean;
+    productsPerPage: number;
 }
 
 export interface MyAccountMyWishlistComponentProps {
@@ -72,6 +74,7 @@ export interface MyAccountMyWishlistComponentProps {
     isQtyUpdateInProgress: boolean;
     creatorsName: string;
     wishlistPageInfo: WishlistPageInfo;
+    setProductsPerPage: (productsPerPage: number) => void;
 }
 
 export interface MyAccountMyWishlistComponentState {

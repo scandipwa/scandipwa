@@ -76,10 +76,10 @@ export class WishlistQuery {
     //#endregion
 
     getWishlistQuery(props: WishlistQueryProps = {}): Query<'wishlist', Wishlist> {
-        const { sharingCode, currentPage = 1 } = props;
+        const { sharingCode } = props;
         const field = new Query<'s_wishlist', Wishlist>('s_wishlist')
             .setAlias('wishlist')
-            .addFieldList(this._getWishlistFields(currentPage));
+            .addFieldList(this._getWishlistFields(props));
 
         if (sharingCode) {
             field.addArgument('sharing_code', 'ID', sharingCode);
@@ -122,7 +122,7 @@ export class WishlistQuery {
             .addArgument('itemId', 'ID!', item_id);
     }
 
-    _getWishlistFields(page: number): Array<
+    _getWishlistFields(props: WishlistQueryProps): Array<
     Field<'id', number>
     | Field<'updated_at', string>
     | Field<'items_count', number>
@@ -134,13 +134,14 @@ export class WishlistQuery {
             new Field<'updated_at', string>('updated_at'),
             new Field<'items_count', number>('items_count'),
             new Field<'creators_name', string>('creators_name'),
-            this._getItemsV2Field(page),
+            this._getItemsV2Field(props),
         ];
     }
 
-    _getItemsV2Field(page: number): Field<'items_v2', WishlistItems> {
+    _getItemsV2Field({ currentPage, productsPerPage }: WishlistQueryProps): Field<'items_v2', WishlistItems> {
         return new Field<'items_v2', WishlistItems>('items_v2')
-            .addArgument('currentPage', 'Int', page)
+            .addArgument('currentPage', 'Int', currentPage)
+            .addArgument('pageSize', 'Int', productsPerPage)
             .addField(this._getItemsField())
             .addField(this._getPageInfoField());
     }

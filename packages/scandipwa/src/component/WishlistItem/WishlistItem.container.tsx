@@ -65,7 +65,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): WishlistItemContainerMap
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
     ),
     updateWishlistItem: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options),
+        ({ default: dispatcher }) => dispatcher.updateWishlistItem(options),
     ),
     removeFromWishlist: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options),
