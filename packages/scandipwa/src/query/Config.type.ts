@@ -81,6 +81,7 @@ Field<'code', string>
 | Field<'date_fields_order', string>
 | Field<'time_format', string>
 | Field<'priceTaxDisplay', PriceTaxDisplay>
+| Field<'catalog_default_sort_by', string>
 >;
 
 export interface StoreConfig {
@@ -146,6 +147,7 @@ export interface StoreConfig {
     date_fields_order: string;
     time_format: string;
     priceTaxDisplay: PriceTaxDisplay;
+    catalog_default_sort_by: string;
 }
 
 export interface StoreItem {

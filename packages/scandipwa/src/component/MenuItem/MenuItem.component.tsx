@@ -56,14 +56,13 @@ export class MenuItemComponent extends PureComponent<MenuItemComponentProps> {
     }
 
     renderItemContent(item: FormattedMenuItem, itemMods: Mods): ReactElement {
-        const { item_class = '', title } = item;
+        const { title } = item;
 
         return (
             <figcaption
               block="Menu"
               elem="ItemCaption"
               mods={ itemMods }
-              mix={ { block: item_class } }
             >
                 { title }
                 { this.renderExpandButton() }

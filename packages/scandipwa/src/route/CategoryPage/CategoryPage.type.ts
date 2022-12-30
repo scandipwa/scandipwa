@@ -25,14 +25,17 @@ import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
 import { HistoryState } from 'Util/History/History.type';
 
-import { CategoryPageLayout, SortDirections } from './CategoryPage.config';
+import {
+    CategoryDisplayMode,
+    CategoryPageLayout,
+    SortDirections,
+} from './CategoryPage.config';
 
 export interface CategoryPageContainerMapStateProps {
     category: Partial<Category>;
     isOffline: boolean;
     filters: Record<string, ProductListFilter>;
     sortFields: Partial<SortFields>;
-
     currentArgs: ProductListOptionArgs;
     selectedInfoFilter: Partial<ProductAttributeFilterOptions>;
     isInfoLoading: boolean;
@@ -40,6 +43,7 @@ export interface CategoryPageContainerMapStateProps {
     totalItems: number;
     plpType: string;
     isMobile: boolean;
+    defaultSortKey: string;
 }
 
 export interface CategoryPageContainerMapDispatchProps {
@@ -69,6 +73,7 @@ export interface CategoryPageContainerBaseProps {
     match: Match;
     categoryIds: number;
     isSearchPage: boolean;
+    displayMode: CategoryDisplayMode;
 }
 
 export type CategoryPageContainerProps = CategoryPageContainerMapStateProps
@@ -105,6 +110,7 @@ export interface CategoryPageComponentProps extends CategoryPageContainerFunctio
     totalItems: number;
     selectedLayoutType?: CategoryPageLayout;
     activeLayoutType?: CategoryPageLayout;
+    displayMode: CategoryDisplayMode;
 }
 
 export interface CategoryPageComponentState {
@@ -130,7 +136,8 @@ export type CategoryPageContainerPropsKeys =
     | 'totalPages'
     | 'totalItems'
     | 'selectedLayoutType'
-    | 'activeLayoutType';
+    | 'activeLayoutType'
+    | 'displayMode';
 
 export interface CategoryUrlParams {
     customFilters: string;

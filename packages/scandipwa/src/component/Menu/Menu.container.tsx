@@ -13,7 +13,7 @@ import { MouseEvent } from 'react';
 import { connect } from 'react-redux';
 
 import MenuQuery from 'Query/Menu.query';
-import { Menu as MenuData } from 'Query/Menu.type';
+import { MenuItem } from 'Query/Menu.type';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import MenuHelper from 'Util/Menu';
@@ -95,21 +95,9 @@ export class MenuContainer extends DataContainer<MenuContainerProps, MenuContain
         };
     }
 
-    _getMenuOptions(): { identifier: string } {
-        const {
-            header_content: {
-                header_menu = '',
-            } = {},
-        } = window.contentConfiguration || {};
-
-        return {
-            identifier: header_menu || 'new-main-menu',
-        };
-    }
-
     _getMenu(): void {
-        this.fetchData<{ menu: MenuData }>(
-            [MenuQuery.getQuery(this._getMenuOptions())],
+        this.fetchData<{ menu: MenuItem[] }>(
+            [MenuQuery.getQuery()],
             ({ menu }) => this.setState({
                 menu: MenuHelper.reduce(menu),
             }),

@@ -21,7 +21,7 @@ export const getFileListForResource = (
 
     if ([ResourceType.Component, ResourceType.Route, ResourceType.Store].includes(extendableType)) {
         return fs.readdirSync(resourceDirectory).filter(
-            (fileName) => fileName.match(/\.js$/) && fileName !== 'index.js',
+            (fileName) => fileName.match(/\.js|\.ts|\.tsx$/) && fileName !== 'index.js' && fileName !== 'index.ts',
         );
     }
 

@@ -20,11 +20,6 @@ import {
     FilterPriceRange,
     ProductAttributeFilterOptions,
 } from 'Query/ProductList.type';
-import {
-    CategoryPageLayout,
-    LAYOUT_KEY,
-    SortDirections,
-} from 'Route/CategoryPage/CategoryPage.config';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -47,7 +42,13 @@ import {
 } from 'Util/Url';
 
 import CategoryPage from './CategoryPage.component';
-import { LOADING_TIME } from './CategoryPage.config';
+import {
+    CategoryDisplayMode,
+    CategoryPageLayout,
+    LAYOUT_KEY,
+    LOADING_TIME,
+    SortDirections,
+} from './CategoryPage.config';
 import {
     CategoryPageComponentProps,
     CategoryPageContainerFunctions,
@@ -98,6 +99,7 @@ export const mapStateToProps = (state: RootState): CategoryPageContainerMapState
     totalItems: state.ProductListReducer.totalItems,
     plpType: state.ConfigReducer.plp_list_mode,
     isMobile: state.ConfigReducer.device.isMobile,
+    defaultSortKey: state.ConfigReducer.catalog_default_sort_by,
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -141,6 +143,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         currentArgs: {},
         selectedInfoFilter: {},
         plpType: '',
+        displayMode: CategoryDisplayMode.PRODUCTS,
     };
 
     config = {
@@ -425,6 +428,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             totalPages,
             totalItems,
             isSearchPage,
+            displayMode,
         } = this.props;
 
         const {
@@ -452,6 +456,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             totalItems,
             selectedLayoutType,
             activeLayoutType,
+            displayMode,
         };
     }
 
@@ -494,11 +499,15 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             category: {
                 default_sort_by,
             },
+            sortFields: {
+                options = [],
+            },
+            defaultSortKey: globalDefaultSortKey,
         } = this.props;
         const { location } = history;
 
         const {
-            sortKey: globalDefaultSortKey,
+            sortKey: classDefaultSortKey,
             sortDirection: defaultSortDirection,
         } = this.config;
 
@@ -506,7 +515,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * Default SORT DIRECTION is taken from (sequentially):
          * - URL param "sortDirection"
          * - CategoryPage class property "config"
-         * */
+         */
         const sortDirection: SortDirections = (getQueryParam('sortDirection', location) as SortDirections)
             || defaultSortDirection;
 
@@ -514,10 +523,20 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * Default SORT KEY is taken from (sequentially):
          * - URL param "sortKey"
          * - Category default sort key (Magento 2 configuration)
+         * - Product Listing Sort By (Magento 2 configuration)
          * - CategoryPage class property "config"
-         * */
-        const defaultSortKey = default_sort_by || globalDefaultSortKey;
-        const sortKey = getQueryParam('sortKey', location) || defaultSortKey;
+         * (used when global default sort key does not exist for current category)
+         */
+        const isGlobalSortKeyAvailable = !!options.find(
+            (sortOption) => sortOption.value === globalDefaultSortKey,
+        );
+        const isClassSortKeyAvailable = !!options.find(
+            (sortOption) => sortOption.value === classDefaultSortKey,
+        );
+        const fallbackSortKey = isClassSortKeyAvailable ? classDefaultSortKey : options[0]?.value;
+        const defaultSortKey = isGlobalSortKeyAvailable ? globalDefaultSortKey : fallbackSortKey;
+        const configSortKey = default_sort_by || defaultSortKey;
+        const sortKey = getQueryParam('sortKey', location) || configSortKey;
 
         return {
             sortDirection,

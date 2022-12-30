@@ -9,12 +9,14 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { CategoryDisplayMode } from 'Route/CategoryPage/CategoryPage.config';
 import { GQLUrlRewriteEntityTypeEnum } from 'Type/Graphql.type';
 
 export interface UrlRewritesOutput {
     sku: string;
     type: GQLUrlRewriteEntityTypeEnum;
     id: number;
+    display_mode: CategoryDisplayMode;
 }
 
 export interface UrlRewritesQueryOptions {

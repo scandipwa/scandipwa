@@ -58,6 +58,10 @@ export class ProductCustomizableOptionsComponent extends PureComponent<ProductCu
     render(): ReactElement {
         const { options = [] } = this.props;
 
+        if (!options) {
+            return null;
+        }
+
         options.sort((first, second) => (first.sort_order - second.sort_order));
 
         return (

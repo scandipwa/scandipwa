@@ -23,7 +23,7 @@ export const formatCurrency = (
 export const formatPrice = (price: number, currency = GQLCurrencyEnum.USD) : string => {
     const language = navigator.languages ? navigator.languages[0] : navigator.language;
 
-    return new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
+    return new Intl.NumberFormat(language, { style: 'currency', currency }).format(price || 0);
 };
 
 /**
