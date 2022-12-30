@@ -25,3 +25,9 @@ export const updateProductDetails = (product: ProductItem): UpdateProductDetails
     type: ProductActionType.UPDATE_PRODUCT_DETAILS,
     product,
 });
+
+/** @namespace Store/Product/Action/updateActiveTab */
+export const updateActiveTab = (activeTab: string): UpdateProductDetailsAction => ({
+    type: ProductActionType.UPDATE_ACTIVE_PRODUCT_TAB,
+    activeTab,
+});

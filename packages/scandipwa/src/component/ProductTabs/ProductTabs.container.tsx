@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { updateActiveTab } from 'Store/ProductTabs/ProductTabs.action';
+import { updateActiveTab } from 'Store/Product/Product.action';
 import { RootState } from 'Util/Store/Store.type';
 
 import ProductTabsComponent from './ProductTabs.component';
@@ -28,7 +28,7 @@ import {
 
 /** @namespace Component/ProductTabs/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductTabsContainerMapStateProps => ({
-    activeTab: state.ProductTabsReducer.activeTab,
+    activeTab: state.ProductReducer.activeTab,
 });
 
 /** @namespace Component/ProductTabs/Container/mapDispatchToProps */
@@ -49,10 +49,15 @@ export class ProductTabsContainer extends PureComponent<ProductTabsContainerProp
     componentDidUpdate(prevProps: ProductTabsContainerProps): void {
         const { tabs: prevTabs } = prevProps;
         const { tabs } = this.props;
-        const [prevTab] = prevTabs;
-        const [tab] = tabs;
+        const [{
+            id: prevTabId = '',
+        } = {}] = prevTabs;
 
-        if (tab?.id !== prevTab?.id) {
+        const [{
+            id: tabId = '',
+        } = {}] = tabs;
+
+        if (tabId !== prevTabId) {
             this.updateDefaultSelectedTab();
         }
     }
@@ -69,7 +74,7 @@ export class ProductTabsContainer extends PureComponent<ProductTabsContainerProp
         };
     }
 
-    handleTabSelect(newActiveTab: string) {
+    handleTabSelect(newActiveTab: string) : void {
         const { setActiveTab } = this.props;
 
         setActiveTab(newActiveTab);

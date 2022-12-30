@@ -19,11 +19,17 @@ import './ProductTab.style';
 
 /** @namespace Component/ProductTab/Component */
 export class ProductTabComponent extends PureComponent<ProductTabComponentProps> {
-    onClick = () => {
+    __construct(props: ProductTabComponentProps) {
+        super.__construct?.(props);
+
+        this.onClickHandler = this.onClickHandler.bind(this);
+    }
+
+    onClickHandler(){
         const { onClick, tab: { id } } = this.props;
 
         onClick(id);
-    };
+    }
 
     render(): ReactElement {
         const {
@@ -38,7 +44,7 @@ export class ProductTabComponent extends PureComponent<ProductTabComponentProps>
             >
                 <button
                   mix={ { block: 'ProductTab', elem: 'Button' } }
-                  onClick={ this.onClick }
+                  onClick={ this.onClickHandler }
                 >
                     { name.toUpperCase() }
                 </button>

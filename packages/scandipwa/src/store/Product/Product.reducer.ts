@@ -22,6 +22,7 @@ import {
 /** @namespace Store/Product/Reducer/getInitialState */
 export const getInitialState = (): ProductStore => ({
     product: {},
+    activeTab: '',
 });
 
 /** @namespace Store/Product/Reducer/ProductReducer */
@@ -38,7 +39,11 @@ export const ProductReducer: Reducer<ProductStore, UpdateProductDetailsAction> =
             product: getIndexedProduct(product),
         };
     }
+    case ProductActionType.UPDATE_ACTIVE_PRODUCT_TAB: {
+        const { activeTab = '' } = action;
 
+        return { ...state, activeTab };
+    }
     default:
         return state;
     }

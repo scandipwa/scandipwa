@@ -16,15 +16,18 @@ import { IndexedProduct } from 'Util/Product/Product.type';
 
 export enum ProductActionType {
     UPDATE_PRODUCT_DETAILS = 'UPDATE_PRODUCT_DETAILS',
+    UPDATE_ACTIVE_PRODUCT_TAB = 'UPDATE_ACTIVE_PRODUCT_TAB',
 }
 
 export interface UpdateProductDetailsAction extends AnyAction {
-    type: ProductActionType.UPDATE_PRODUCT_DETAILS;
+    type: ProductActionType;
     product?: ProductItem;
+    activeTab?: string;
 }
 
 export interface ProductStore {
     product: Partial<IndexedProduct>;
+    activeTab: string;
 }
 
 declare module 'Util/Store/Store.type' {
