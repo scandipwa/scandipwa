@@ -277,7 +277,6 @@ export const isHomePageUrl = (pathname: string): boolean => {
     return isHomePage;
 };
 
-
 /** @namespace Util/Url/getPageFromUrl */
 export const getPageFromUrl = (url: Location): number => +(getQueryParam('page', url) || 1);
 
