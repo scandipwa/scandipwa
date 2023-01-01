@@ -15,7 +15,7 @@ export interface InstallPromptContainerMapStateProps {
     device: Device;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface InstallPromptContainerMapDispatchProps {}
 
 export interface InstallPromptContainerFunctions {

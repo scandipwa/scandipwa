@@ -34,7 +34,10 @@ import './GroupedProductsItem.style';
  * @class GroupedProduct
  * @namespace Component/GroupedProductsItem/Component
  */
-export class GroupedProductsItemComponent extends PureComponent<GroupedProductsItemComponentProps> {
+export class GroupedProductsItemComponent<
+P extends Readonly<GroupedProductsItemComponentProps> = Readonly<GroupedProductsItemComponentProps>,
+S extends GroupedProductsItemComponentState = GroupedProductsItemComponentState,
+> extends PureComponent<P, S> {
     renderTitle(): ReactElement {
         const {
             product: {

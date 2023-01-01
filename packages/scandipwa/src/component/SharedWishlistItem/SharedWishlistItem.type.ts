@@ -18,20 +18,20 @@ import {
     WishlistItemContainerState,
 } from 'Component/WishlistItem/WishlistItem.type';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface SharedWishlistItemContainerMapStateProps extends WishlistItemContainerMapStateProps {}
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface SharedWishlistItemContainerMapDispatchProps extends WishlistItemContainerMapDispatchProps {}
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface SharedWishlistItemContainerBaseProps extends WishlistItemContainerBaseProps {}
 
 export type SharedWishlistItemContainerProps = SharedWishlistItemContainerMapStateProps
 & SharedWishlistItemContainerMapDispatchProps
 & SharedWishlistItemContainerBaseProps;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface SharedWishlistItemContainerState extends WishlistItemContainerState {
     quantity: number;
 }

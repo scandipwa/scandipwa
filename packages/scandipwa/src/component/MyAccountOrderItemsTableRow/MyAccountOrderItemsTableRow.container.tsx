@@ -35,7 +35,10 @@ export const mapStateToProps = (state: RootState): MyAccountOrderItemsTableRowCo
 export const mapDispatchToProps = (): MyAccountOrderItemsTableRowContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountOrderItemsTableRow/Container */
-export class MyAccountOrderItemsTableRowContainer extends PureComponent<MyAccountOrderItemsTableRowContainerProps> {
+export class MyAccountOrderItemsTableRowContainer<
+P extends Readonly<MyAccountOrderItemsTableRowContainerProps> = Readonly<MyAccountOrderItemsTableRowContainerProps>,
+S extends MyAccountOrderItemsTableRowContainerState = MyAccountOrderItemsTableRowContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountOrderItemsTableRowContainerProps> = {
         selectedOptions: [],
         enteredOptions: [],

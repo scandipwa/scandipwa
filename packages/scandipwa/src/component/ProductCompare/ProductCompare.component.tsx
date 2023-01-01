@@ -25,7 +25,10 @@ import { ProductCompareComponentProps } from './ProductCompare.type';
 import './ProductCompare.style';
 
 /** @namespace Component/ProductCompare/Component */
-export class ProductCompareComponent extends Component<ProductCompareComponentProps> {
+export class ProductCompareComponent<
+P extends Readonly<ProductCompareComponentProps> = Readonly<ProductCompareComponentProps>,
+S extends ProductCompareComponentState = ProductCompareComponentState,
+> extends Component<P, S> {
     static defaultProps: Partial<ProductCompareComponentProps> = {
         isLoading: false,
         products: [],

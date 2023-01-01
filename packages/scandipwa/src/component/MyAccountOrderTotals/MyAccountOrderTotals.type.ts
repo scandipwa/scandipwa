@@ -18,7 +18,7 @@ export interface MyAccountOrderTotalsContainerMapStateProps {
     isMobile: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface MyAccountOrderTotalsContainerMapDispatchProps {}
 
 export interface MyAccountOrderTotalsContainerBaseProps {

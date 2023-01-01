@@ -40,7 +40,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): ImageZoomPopupContainerM
 });
 
 /** @namespace Component/ImageZoomPopup/Container */
-export class ImageZoomPopupContainer extends PureComponent<ImageZoomPopupContainerProps> {
+export class ImageZoomPopupContainer<
+P extends Readonly<ImageZoomPopupContainerProps> = Readonly<ImageZoomPopupContainerProps>,
+S extends ImageZoomPopupContainerState = ImageZoomPopupContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ImageZoomPopupContainerProps> = {
         onClose: noopFn,
         mix: {},

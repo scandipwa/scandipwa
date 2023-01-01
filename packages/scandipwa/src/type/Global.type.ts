@@ -50,8 +50,8 @@ declare global {
 
     // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace React {
-        interface Component {
-            __construct?(props: unknown): void;
+        interface Component<P> {
+            __construct?(props: P): void;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

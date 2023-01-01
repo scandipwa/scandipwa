@@ -18,7 +18,10 @@ import { StoreItemComponentProps } from './StoreItem.type';
 import './StoreItem.style';
 
 /** @namespace Component/StoreItem/Component */
-export class StoreItemComponent extends PureComponent<StoreItemComponentProps> {
+export class StoreItemComponent<
+P extends Readonly<StoreItemComponentProps> = Readonly<StoreItemComponentProps>,
+S extends StoreItemComponentState = StoreItemComponentState,
+> extends PureComponent<P, S> {
     render(): ReactElement {
         const {
             item: { label },

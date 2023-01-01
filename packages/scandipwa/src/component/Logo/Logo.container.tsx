@@ -16,7 +16,10 @@ import Logo from './Logo.component';
 import { LogoContainerProps } from './Logo.type';
 
 /** @namespace Component/Logo/Container */
-export class LogoContainer extends ImageContainer<LogoContainerProps> {
+export class LogoContainer<
+P extends Readonly<LogoContainerProps> = Readonly<LogoContainerProps>,
+S extends LogoContainerState = LogoContainerState,
+> extends ImageContainer<P, S> {
     render(): ReactElement {
         return (
             <Logo

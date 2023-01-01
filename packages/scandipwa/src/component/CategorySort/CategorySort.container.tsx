@@ -20,7 +20,10 @@ import {
 } from './CategorySort.type';
 
 /** @namespace Component/CategorySort/Container */
-export class CategorySortContainer extends PureComponent<CategorySortContainerProps> {
+export class CategorySortContainer<
+P extends Readonly<CategorySortContainerProps> = Readonly<CategorySortContainerProps>,
+S extends CategorySortContainerState = CategorySortContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CategorySortContainerProps> = {
         sortFields: [],
         isMatchingInfoFilter: false,

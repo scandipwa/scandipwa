@@ -37,7 +37,10 @@ export const mapStateToProps = (state: RootState): FooterContainerMapStateProps 
 export const mapDispatchToProps = (): FooterContainerMapDispatchProps => ({});
 
 /** @namespace Component/Footer/Container */
-export class FooterContainer extends PureComponent<FooterContainerProps> {
+export class FooterContainer<
+P extends Readonly<FooterContainerProps> = Readonly<FooterContainerProps>,
+S extends FooterContainerState = FooterContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<FooterContainerProps> = {
         copyright: '',
         isVisibleOnMobile: false,

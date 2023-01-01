@@ -21,7 +21,10 @@ import { ProductLinksComponentProps } from './ProductLinks.type';
 import './ProductLinks.style';
 
 /** @namespace Component/ProductLinks/Component */
-export class ProductLinksComponent extends PureComponent<ProductLinksComponentProps> {
+export class ProductLinksComponent<
+P extends Readonly<ProductLinksComponentProps> = Readonly<ProductLinksComponentProps>,
+S extends ProductLinksComponentState = ProductLinksComponentState,
+> extends PureComponent<P, S> {
     __construct(props: ProductLinksComponentProps): void {
         super.__construct?.(props);
 

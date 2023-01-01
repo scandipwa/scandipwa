@@ -27,7 +27,10 @@ import './CategorySort.style';
  * @class ProductSort
  * @namespace Component/CategorySort/Component
  */
-export class CategorySortComponent extends PureComponent<CategorySortComponentProps> {
+export class CategorySortComponent<
+P extends Readonly<CategorySortComponentProps> = Readonly<CategorySortComponentProps>,
+S extends CategorySortComponentState = CategorySortComponentState,
+> extends PureComponent<P, S> {
     __construct(props: CategorySortComponentProps): void {
         super.__construct?.(props);
 

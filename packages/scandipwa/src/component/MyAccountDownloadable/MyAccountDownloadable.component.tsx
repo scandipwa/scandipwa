@@ -21,7 +21,10 @@ import { CustomerDownloadableProductExtended, MyAccountDownloadableComponentProp
 import './MyAccountDownloadable.style';
 
 /** @namespace Component/MyAccountDownloadable/Component */
-export class MyAccountDownloadableComponent extends Component<MyAccountDownloadableComponentProps> {
+export class MyAccountDownloadableComponent<
+P extends Readonly<MyAccountDownloadableComponentProps> = Readonly<MyAccountDownloadableComponentProps>,
+S extends MyAccountDownloadableComponentState = MyAccountDownloadableComponentState,
+> extends Component<P, S> {
     shouldComponentUpdate(nextProps: MyAccountDownloadableComponentProps): boolean {
         const { items } = this.props;
         const { items: nextItems } = nextProps;

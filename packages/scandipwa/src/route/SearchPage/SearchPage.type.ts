@@ -41,7 +41,6 @@ export type SearchPageContainerProps = SearchPageContainerMapStateProps
 & SearchPageContainerMapDispatchProps
 & SearchPageContainerBaseProps;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SearchPageContainerState extends CategoryPageContainerState {}
 
 export interface SearchPageComponentProps extends CategoryPageComponentProps {
@@ -53,7 +52,6 @@ export type SearchPageComponentContainerPropKeys = CategoryPageContainerPropsKey
 | 'search'
 | 'sortFields';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SearchPageComponentState extends CategoryPageComponentState {}
 
 export interface SearchPageContainerConfig {

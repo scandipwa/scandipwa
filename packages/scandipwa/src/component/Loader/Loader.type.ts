@@ -15,3 +15,5 @@ export interface LoaderComponentProps {
     isLoading: boolean;
     mix: Mix;
 }
+
+export interface LoaderComponentState {}

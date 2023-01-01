@@ -38,7 +38,10 @@ export const mapStateToProps = (state: RootState): CheckoutDeliveryOptionContain
 export const mapDispatchToProps = (): CheckoutDeliveryOptionContainerMapDispatchProps => ({});
 
 /** @namespace Component/CheckoutDeliveryOption/Container */
-export class CheckoutDeliveryOptionContainer extends PureComponent<CheckoutDeliveryOptionContainerProps> {
+export class CheckoutDeliveryOptionContainer<
+P extends Readonly<CheckoutDeliveryOptionContainerProps> = Readonly<CheckoutDeliveryOptionContainerProps>,
+S extends CheckoutDeliveryOptionContainerState = CheckoutDeliveryOptionContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: CheckoutDeliveryOptionContainerFunctions = {
         onOptionClick: this.onOptionClick.bind(this),
     };

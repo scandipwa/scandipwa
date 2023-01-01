@@ -15,7 +15,7 @@ export interface ProductLinksContainerMapStateProps {
     linkedProducts: Partial<Record<LinkedProductType, Partial<LinkedProducts>>>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface ProductLinksContainerMapDispatchProps {}
 
 export interface ProductLinksContainerBaseProps {

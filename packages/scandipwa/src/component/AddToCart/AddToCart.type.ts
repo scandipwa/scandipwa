@@ -62,6 +62,8 @@ export interface AddToCartComponentProps {
     handleButtonClick: (e: MouseEvent) => void;
 }
 
+export interface AddToCartComponentState {}
+
 export type AddToCartComponentContainerPropKeys =
 | 'isDisabled'
 | 'isIconEnabled'

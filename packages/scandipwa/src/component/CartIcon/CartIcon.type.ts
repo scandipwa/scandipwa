@@ -12,3 +12,5 @@
 export interface CartIconComponentProps {
     isActive: boolean;
 }
+
+export interface CartIconComponentState {}

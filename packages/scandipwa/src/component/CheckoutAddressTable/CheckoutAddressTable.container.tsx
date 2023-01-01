@@ -25,7 +25,10 @@ import {
 } from './CheckoutAddressTable.type';
 
 /** @namespace Component/CheckoutAddressTable/Container */
-export class CheckoutAddressTableContainer extends MyAccountAddressTableContainer<CheckoutAddressTableContainerProps> {
+export class CheckoutAddressTableContainer<
+P extends Readonly<CheckoutAddressTableContainerProps> = Readonly<CheckoutAddressTableContainerProps>,
+S extends CheckoutAddressTableContainerState = CheckoutAddressTableContainerState,
+> extends MyAccountAddressTableContainer<P, S> {
     static defaultProps = {
         ...MyAccountAddressTableContainer.defaultProps,
     };

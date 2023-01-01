@@ -24,7 +24,10 @@ import {
 } from './MyAccountCustomerTable.type';
 
 /** @namespace Component/MyAccountCustomerTable/Container */
-export class MyAccountCustomerTableContainer extends PureComponent<MyAccountCustomerTableContainerProps> {
+export class MyAccountCustomerTableContainer<
+P extends Readonly<MyAccountCustomerTableContainerProps> = Readonly<MyAccountCustomerTableContainerProps>,
+S extends MyAccountCustomerTableContainerState = MyAccountCustomerTableContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountCustomerTableContainerProps> = {
         title: '',
     };

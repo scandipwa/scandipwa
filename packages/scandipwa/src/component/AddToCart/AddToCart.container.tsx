@@ -58,7 +58,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): AddToCartContainerMapDis
 });
 
 /* @namespace Component/AddToCart/Container */
-export class AddToCartContainer extends PureComponent<AddToCartContainerProps, AddToCartContainerState> {
+export class AddToCartContainer<
+P extends Readonly<AddToCartContainerProps> = Readonly<AddToCartContainerProps>,
+S extends AddToCartContainerState = AddToCartContainerState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<AddToCartContainerProps> = {
         quantity: 1,
         cartId: '',
@@ -77,9 +80,9 @@ export class AddToCartContainer extends PureComponent<AddToCartContainerProps, A
         handleButtonClick: this.handleButtonClick.bind(this),
     };
 
-    state: AddToCartContainerState = {
+    state: S = {
         isAdding: false,
-    };
+    } as S;
 
     globalValidationMap = [
         this.validateStock.bind(this),

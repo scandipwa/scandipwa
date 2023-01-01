@@ -17,3 +17,5 @@ export interface BreadcrumbComponentProps {
     url: string | Url;
     name: string;
 }
+
+export interface BreadcrumbComponentState {}

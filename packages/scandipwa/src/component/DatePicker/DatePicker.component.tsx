@@ -27,7 +27,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.style.scss';
 
 /** @namespace Component/DatePicker/Component */
-export class DatePickerComponent extends PureComponent<DatePickerComponentProps> {
+export class DatePickerComponent<
+P extends Readonly<DatePickerComponentProps> = Readonly<DatePickerComponentProps>,
+S extends DatePickerComponentState = DatePickerComponentState,
+> extends PureComponent<P, S> {
     placeholderMap: DatePickerComponentPlaceholderMap = {
         [FieldType.DATE]: __('Select date'),
         [FieldType.DATETIME]: __('Select date & time'),

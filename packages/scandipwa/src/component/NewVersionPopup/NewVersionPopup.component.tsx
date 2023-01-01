@@ -20,7 +20,10 @@ import { NewVersionPopupComponentProps } from './NewVersionPopup.type';
 import './NewVersionPopup.style';
 
 /** @namespace Component/NewVersionPopup/Component */
-export class NewVersionPopupComponent extends PureComponent<NewVersionPopupComponentProps> {
+export class NewVersionPopupComponent<
+P extends Readonly<NewVersionPopupComponentProps> = Readonly<NewVersionPopupComponentProps>,
+S extends NewVersionPopupComponentState = NewVersionPopupComponentState,
+> extends PureComponent<P, S> {
     renderHeading(): ReactElement {
         return (
             <h3

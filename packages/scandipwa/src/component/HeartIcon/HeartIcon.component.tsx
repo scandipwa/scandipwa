@@ -18,7 +18,10 @@ import { HeartIconComponentProps } from './HeartIcon.type';
 import './HeartIcon.style';
 
 /** @namespace Component/HeartIcon/Component */
-export class HeartIconComponent extends PureComponent<HeartIconComponentProps> {
+export class HeartIconComponent<
+P extends Readonly<HeartIconComponentProps> = Readonly<HeartIconComponentProps>,
+S extends HeartIconComponentState = HeartIconComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<HeartIconComponentProps> = {
         isActive: false,
     };

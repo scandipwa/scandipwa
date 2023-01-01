@@ -15,7 +15,7 @@ export interface ProductCompareAttributeRowContainerMapStateProps {
     device: Device;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface ProductCompareAttributeRowContainerMapDispatchProps {}
 
 export interface ProductCompareAttributeRowContainerBaseProps {

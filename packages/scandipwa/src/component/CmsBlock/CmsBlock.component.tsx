@@ -23,7 +23,10 @@ import './CmsBlock.style';
  * @class CmsBlock
  * @namespace Component/CmsBlock/Component
  */
-export class CmsBlockComponent extends PureComponent<CmsBlockComponentProps> {
+export class CmsBlockComponent<
+P extends Readonly<CmsBlockComponentProps> = Readonly<CmsBlockComponentProps>,
+S extends CmsBlockComponentState = CmsBlockComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CmsBlockComponentProps> = {
         cmsBlock: {},
         blockType: '',

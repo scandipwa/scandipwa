@@ -34,7 +34,10 @@ import './ProductCard.style';
  * Product card
  * @class ProductCard
  * @namespace Component/ProductCard/Component */
-export class ProductCardComponent extends ProductComponent<ProductCardComponentProps> {
+export class ProductCardComponent<
+P extends Readonly<ProductCardComponentProps> = Readonly<ProductCardComponentProps>,
+S extends ProductCardComponentState = ProductCardComponentState,
+> extends ProductComponent<P, S> {
     static defaultProps: Partial<ProductCardComponentProps> = {
         ...ProductComponent.defaultProps,
         thumbnail: '',

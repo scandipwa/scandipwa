@@ -34,7 +34,10 @@ import { StyleGuidePageComponentProps } from './StyleGuidePage.type';
 import './StyleGuidePage.style';
 
 /** @namespace Route/StyleGuidePage/Component */
-export class StyleGuidePageComponent extends PureComponent<StyleGuidePageComponentProps> {
+export class StyleGuidePageComponent<
+P extends Readonly<StyleGuidePageComponentProps> = Readonly<StyleGuidePageComponentProps>,
+S extends StyleGuidePageComponentState = StyleGuidePageComponentState,
+> extends PureComponent<P, S> {
     renderMap = {
         [ COLORS ]: (): ReactElement => this.renderColors(),
         [ BUTTONS ]: (): ReactElement => this.renderButtons(),

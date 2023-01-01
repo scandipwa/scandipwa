@@ -11,7 +11,7 @@
 
 import { MyAccountTab } from 'Route/MyAccount/MyAccount.type';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface MyAccountTabListContainerMapStateProps {}
 
 export interface MyAccountTabListContainerDispatchProps {

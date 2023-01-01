@@ -22,7 +22,10 @@ import { GroupedProductListComponentProps } from './GroupedProductList.type';
  * Product description
  * @class GroupedProductList
  * @namespace Component/GroupedProductList/Component */
-export class GroupedProductListComponent extends PureComponent<GroupedProductListComponentProps> {
+export class GroupedProductListComponent<
+P extends Readonly<GroupedProductListComponentProps> = Readonly<GroupedProductListComponentProps>,
+S extends GroupedProductListComponentState = GroupedProductListComponentState,
+> extends PureComponent<P, S> {
     renderProductList(items: GroupedProductItem[]): ReactElement {
         const {
             quantity,

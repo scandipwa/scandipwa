@@ -41,7 +41,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): ForgotPasswordContainerM
 });
 
 /** @namespace Route/ForgotPassword/Container */
-export class ForgotPasswordContainer extends MyAccountOverlayContainer<ForgotPasswordContainerProps> {
+export class ForgotPasswordContainer<
+P extends Readonly<ForgotPasswordContainerProps> = Readonly<ForgotPasswordContainerProps>,
+S extends ForgotPasswordContainerState = ForgotPasswordContainerState,
+> extends MyAccountOverlayContainer<P, S> {
     containerFunctions: ForgotPasswordContainerFunctions = {
         ...this.containerFunctions,
         onLoginClick: this.onLoginClick.bind(this),

@@ -22,7 +22,10 @@ import { MyAccountOrderTotalsComponentProps } from './MyAccountOrderTotals.type'
 import './MyAccountOrderTotals.style';
 
 /** @namespace Component/MyAccountOrderTotals/Component */
-export class MyAccountOrderTotalsComponent extends PureComponent<MyAccountOrderTotalsComponentProps> {
+export class MyAccountOrderTotalsComponent<
+P extends Readonly<MyAccountOrderTotalsComponentProps> = Readonly<MyAccountOrderTotalsComponentProps>,
+S extends MyAccountOrderTotalsComponentState = MyAccountOrderTotalsComponentState,
+> extends PureComponent<P, S> {
     renderTax(tax: TaxItem): ReactElement {
         const { colSpanPriceCount, colSpanLabelCount } = this.props;
         const { amount: { value, currency }, title, rate } = tax;

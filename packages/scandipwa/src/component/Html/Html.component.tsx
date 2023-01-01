@@ -37,7 +37,10 @@ export const WidgetFactory = lazy(() => import(
  * @class Html
  * @namespace Component/Html/Component
  */
-export class HtmlComponent extends PureComponent<HtmlComponentProps> {
+export class HtmlComponent<
+P extends Readonly<HtmlComponentProps> = Readonly<HtmlComponentProps>,
+S extends HtmlComponentState = HtmlComponentState,
+> extends PureComponent<P, S> {
     createdOutsideElements: Record<number, boolean> = {};
 
     rules: HtmlParserRule[] = [

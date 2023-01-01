@@ -19,7 +19,10 @@ import { StoreInPickUpStoreComponentProps } from './StoreInPickUpStore.type';
 import './StoreInPickUpStore.style';
 
 /** @namespace Component/StoreInPickUpStore/Component */
-export class StoreInPickUpStoreComponent extends PureComponent<StoreInPickUpStoreComponentProps> {
+export class StoreInPickUpStoreComponent<
+P extends Readonly<StoreInPickUpStoreComponentProps> = Readonly<StoreInPickUpStoreComponentProps>,
+S extends StoreInPickUpStoreComponentState = StoreInPickUpStoreComponentState,
+> extends PureComponent<P, S> {
     renderActions(): ReactElement {
         const { isSelectedStore, handleSelectStore } = this.props;
 

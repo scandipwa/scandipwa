@@ -21,7 +21,10 @@ import { ProductAttributesComponentProps } from './ProductAttributes.type';
 import './ProductAttributes.style';
 
 /** @namespace Component/ProductAttributes/Component */
-export class ProductAttributesComponent extends PureComponent<ProductAttributesComponentProps> {
+export class ProductAttributesComponent<
+P extends Readonly<ProductAttributesComponentProps> = Readonly<ProductAttributesComponentProps>,
+S extends ProductAttributesComponentState = ProductAttributesComponentState,
+> extends PureComponent<P, S> {
     renderGroups(): ReactElement {
         const { attributesWithValues } = this.props;
 

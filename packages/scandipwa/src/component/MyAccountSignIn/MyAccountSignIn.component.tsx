@@ -23,7 +23,10 @@ import { MyAccountSignInComponentProps } from './MyAccountSignIn.type';
 import './MyAccountSignIn.style.scss';
 
 /** @namespace Component/MyAccountSignIn/Component */
-export class MyAccountSignInComponent extends PureComponent<MyAccountSignInComponentProps> {
+export class MyAccountSignInComponent<
+P extends Readonly<MyAccountSignInComponentProps> = Readonly<MyAccountSignInComponentProps>,
+S extends MyAccountSignInComponentState = MyAccountSignInComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountSignInComponentProps> = {
         isLoading: false,
     };

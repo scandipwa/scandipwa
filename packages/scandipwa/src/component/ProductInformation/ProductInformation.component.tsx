@@ -23,7 +23,10 @@ import { ProductInformationComponentProps } from './ProductInformation.type';
 import './ProductInformation.style';
 
 /** @namespace Component/ProductInformation/Component */
-export class ProductInformationComponent extends PureComponent<ProductInformationComponentProps> {
+export class ProductInformationComponent<
+P extends Readonly<ProductInformationComponentProps> = Readonly<ProductInformationComponentProps>,
+S extends ProductInformationComponentState = ProductInformationComponentState,
+> extends PureComponent<P, S> {
     renderDescription(): ReactElement {
         const { htmlDescription } = this.props;
 

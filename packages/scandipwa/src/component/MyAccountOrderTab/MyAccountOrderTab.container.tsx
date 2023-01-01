@@ -21,7 +21,10 @@ import {
 } from './MyAccountOrderTab.type';
 
 /** @namespace Component/MyAccountOrderTab/Container */
-export class MyAccountOrderTabContainer extends PureComponent<MyAccountOrderTabContainerProps> {
+export class MyAccountOrderTabContainer<
+P extends Readonly<MyAccountOrderTabContainerProps> = Readonly<MyAccountOrderTabContainerProps>,
+S extends MyAccountOrderTabContainerState = MyAccountOrderTabContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountOrderTabContainerProps> = {
         isActive: false,
     };

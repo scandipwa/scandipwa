@@ -45,7 +45,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductListContainerMapD
 });
 
 /** @namespace Component/ProductList/Container */
-export class ProductListContainer extends PureComponent<ProductListContainerProps, ProductListContainerState> {
+export class ProductListContainer<
+P extends Readonly<ProductListContainerProps> = Readonly<ProductListContainerProps>,
+S extends ProductListContainerState = ProductListContainerState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<ProductListContainerProps> = {
         mix: {},
         pageSize: 24,

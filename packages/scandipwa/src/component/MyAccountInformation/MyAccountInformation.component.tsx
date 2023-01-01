@@ -20,7 +20,10 @@ import { MyAccountInformationComponentProps } from './MyAccountInformation.type'
 import './MyAccountInformation.style';
 
 /** @namespace Component/MyAccountInformation/Component */
-export class MyAccountInformationComponent extends PureComponent<MyAccountInformationComponentProps> {
+export class MyAccountInformationComponent<
+P extends Readonly<MyAccountInformationComponentProps> = Readonly<MyAccountInformationComponentProps>,
+S extends MyAccountInformationComponentState = MyAccountInformationComponentState,
+> extends PureComponent<P, S> {
     renderCustomerForm(): ReactElement {
         const {
             customer,

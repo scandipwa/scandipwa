@@ -25,7 +25,10 @@ import { StoreInPickUpPopupComponentProps } from './StoreInPickUpPopup.type';
 import './StoreInPickUpPopup.style';
 
 /** @namespace Component/StoreInPickUpPopup/Component */
-export class StoreInPickUpPopupComponent extends PureComponent<StoreInPickUpPopupComponentProps> {
+export class StoreInPickUpPopupComponent<
+P extends Readonly<StoreInPickUpPopupComponentProps> = Readonly<StoreInPickUpPopupComponentProps>,
+S extends StoreInPickUpPopupComponentState = StoreInPickUpPopupComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<StoreInPickUpPopupComponentProps> = {
         stores: [],
         storeSearchCriteria: '',

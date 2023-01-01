@@ -17,7 +17,6 @@ export interface VideoPopupContainerMapStateProps {
     payload: VideoPopupPayload;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface VideoPopupContainerMapDispatchProps {}
 
 export interface VideoPopupComponentProps {

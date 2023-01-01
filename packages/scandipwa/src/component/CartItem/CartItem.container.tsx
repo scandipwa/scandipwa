@@ -68,7 +68,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartItemContainerMapDisp
 });
 
 /** @namespace Component/CartItem/Container */
-export class CartItemContainer extends PureComponent<CartItemContainerProps, CartItemContainerState> {
+export class CartItemContainer<
+P extends Readonly<CartItemContainerProps> = Readonly<CartItemContainerProps>,
+S extends CartItemContainerState = CartItemContainerState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<CartItemContainerProps> = {
         updateCrossSellsOnRemove: false,
         isCartOverlay: false,
@@ -78,7 +81,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         showLoader: true,
     };
 
-    state: CartItemContainerState = { isLoading: false };
+    state = { isLoading: false } as S;
 
     handlers: CancelablePromise[] = [];
 
@@ -89,7 +92,7 @@ export class CartItemContainer extends PureComponent<CartItemContainerProps, Car
         getProductVariant: this.getProductVariant.bind(this),
     };
 
-    __construct(props: CartItemContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.setStateNotLoading = this.setStateNotLoading.bind(this);

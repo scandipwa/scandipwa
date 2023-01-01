@@ -18,7 +18,10 @@ import { ListIconComponentProps } from './ListIcon.type';
 import './ListIcon.style';
 
 /** @namespace Component/ListIcon/Component */
-export class ListIconComponent extends PureComponent<ListIconComponentProps> {
+export class ListIconComponent<
+P extends Readonly<ListIconComponentProps> = Readonly<ListIconComponentProps>,
+S extends ListIconComponentState = ListIconComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ListIconComponentProps> = {
         isActive: false,
     };

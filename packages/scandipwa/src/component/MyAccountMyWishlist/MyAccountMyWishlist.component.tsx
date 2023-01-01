@@ -30,7 +30,7 @@ import './MyAccountMyWishlist.style';
 
 /** @namespace Component/MyAccountMyWishlist/Component */
 export class MyAccountMyWishlistComponent<
-P extends MyAccountMyWishlistComponentProps = MyAccountMyWishlistComponentProps,
+P extends Readonly<MyAccountMyWishlistComponentProps> = Readonly<MyAccountMyWishlistComponentProps>,
 S extends MyAccountMyWishlistComponentState = MyAccountMyWishlistComponentState,
 > extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountMyWishlistComponentProps> = {

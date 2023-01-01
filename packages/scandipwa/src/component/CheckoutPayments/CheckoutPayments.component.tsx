@@ -25,7 +25,10 @@ import { CheckoutPaymentsComponentProps } from './CheckoutPayments.type';
 import './CheckoutPayments.style';
 
 /** @namespace Component/CheckoutPayments/Component */
-export class CheckoutPaymentsComponent extends PureComponent<CheckoutPaymentsComponentProps> {
+export class CheckoutPaymentsComponent<
+P extends Readonly<CheckoutPaymentsComponentProps> = Readonly<CheckoutPaymentsComponentProps>,
+S extends CheckoutPaymentsComponentState = CheckoutPaymentsComponentState,
+> extends PureComponent<P, S> {
     paymentRenderMap: Record<string, () => ReactElement> = {
         // [KLARNA]: this.renderKlarnaPayment.bind(this),
         [PaymentMethods.PURCHASE_ORDER]: this.renderPurchaseOrderPayment.bind(this),

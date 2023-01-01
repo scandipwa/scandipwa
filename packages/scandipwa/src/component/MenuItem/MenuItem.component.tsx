@@ -22,7 +22,10 @@ import { FormattedMenuItem } from 'Util/Menu/Menu.type';
 import { MenuItemComponentProps } from './MenuItem.type';
 
 /** @namespace Component/MenuItem/Component */
-export class MenuItemComponent extends PureComponent<MenuItemComponentProps> {
+export class MenuItemComponent<
+P extends Readonly<MenuItemComponentProps> = Readonly<MenuItemComponentProps>,
+S extends MenuItemComponentState = MenuItemComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MenuItemComponentProps> = {
         onItemClick: noopFn,
     };

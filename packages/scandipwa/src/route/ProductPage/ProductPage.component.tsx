@@ -45,7 +45,10 @@ export const ProductAttributes = lazy(() => import(
 ));
 
 /** @namespace Route/ProductPage/Component */
-export class ProductPageComponent extends PureComponent<ProductPageComponentProps> {
+export class ProductPageComponent<
+P extends Readonly<ProductPageComponentProps> = Readonly<ProductPageComponentProps>,
+S extends ProductPageComponentState = ProductPageComponentState,
+> extends PureComponent<P, S> {
     tabMap: Record<ProductPageTabs, ProductPageTab> = {
         [ ProductPageTabs.INFORMATION ]: {
             name: __('About'),

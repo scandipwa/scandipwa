@@ -75,7 +75,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartOverlayContainerMapD
 });
 
 /** @namespace Component/CartOverlay/Container */
-export class CartOverlayContainer extends PureComponent<CartOverlayContainerProps> {
+export class CartOverlayContainer<
+P extends Readonly<CartOverlayContainerProps> = Readonly<CartOverlayContainerProps>,
+S extends CartOverlayContainerState = CartOverlayContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CartOverlayContainerProps> = {
         guest_checkout: true,
         cartTotalSubPrice: null,
@@ -85,10 +88,10 @@ export class CartOverlayContainer extends PureComponent<CartOverlayContainerProp
         minimumOrderAmount: {},
     };
 
-    state: CartOverlayContainerState = {
+    state: S = {
         isEditing: false,
         isCartItemLoading: false,
-    };
+    } as S;
 
     containerFunctions = {
         changeHeaderState: this.changeHeaderState.bind(this),

@@ -33,7 +33,10 @@ export const mapStateToProps = (state: RootState): FieldDateContainerMapStatePro
 export const mapDispatchToProps = (): FieldDateContainerMapDispatchProps => ({});
 
 /** @namespace Component/FieldDate/Container */
-export class FieldDateContainer extends PureComponent<FieldDateContainerProps> {
+export class FieldDateContainer<
+P extends Readonly<FieldDateContainerProps> = Readonly<FieldDateContainerProps>,
+S extends FieldDateContainerState = FieldDateContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<FieldDateContainerProps> = {
         isRequired: false,
     };

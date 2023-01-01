@@ -44,7 +44,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): NewVersionPopupContainer
 });
 
 /** @namespace Component/NewVersionPopup/Container */
-export class NewVersionPopupContainer extends PureComponent<NewVersionPopupContainerProps> {
+export class NewVersionPopupContainer<
+P extends Readonly<NewVersionPopupContainerProps> = Readonly<NewVersionPopupContainerProps>,
+S extends NewVersionPopupContainerState = NewVersionPopupContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: NewVersionPopupContainerFunctions = {
         toggleNewVersion: this.toggleNewVersion.bind(this),
         handleDismiss: this.handleDismiss.bind(this),

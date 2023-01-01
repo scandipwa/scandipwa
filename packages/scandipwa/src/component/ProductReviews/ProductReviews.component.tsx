@@ -23,7 +23,10 @@ import { ProductReviewsComponentProps } from './ProductReviews.type';
 import './ProductReviews.style';
 
 /** @namespace Component/ProductReviews/Component */
-export class ProductReviewsComponent extends PureComponent<ProductReviewsComponentProps> {
+export class ProductReviewsComponent<
+P extends Readonly<ProductReviewsComponentProps> = Readonly<ProductReviewsComponentProps>,
+S extends ProductReviewsComponentState = ProductReviewsComponentState,
+> extends PureComponent<P, S> {
     renderButton(): ReactElement {
         return (
             <button

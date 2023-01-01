@@ -20,7 +20,10 @@ import { RecentlyViewedWidgetComponentProps } from './RecentlyViewedWidget.type'
 import './RecentlyViewedWidget.style';
 
 /** @namespace Component/RecentlyViewedWidget/Component */
-export class RecentlyViewedWidgetComponent extends Component<RecentlyViewedWidgetComponentProps> {
+export class RecentlyViewedWidgetComponent<
+P extends Readonly<RecentlyViewedWidgetComponentProps> = Readonly<RecentlyViewedWidgetComponentProps>,
+S extends RecentlyViewedWidgetComponentState = RecentlyViewedWidgetComponentState,
+> extends Component<P, S> {
     __construct(props: RecentlyViewedWidgetComponentProps): void {
         super.__construct?.(props);
 

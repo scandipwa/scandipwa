@@ -45,7 +45,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductAlertsContainerMa
 });
 
 /** @namespace Component/ProductAlerts/Container */
-export class ProductAlertsContainer extends PureComponent<ProductAlertsContainerProps> {
+export class ProductAlertsContainer<
+P extends Readonly<ProductAlertsContainerProps> = Readonly<ProductAlertsContainerProps>,
+S extends ProductAlertsContainerState = ProductAlertsContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductAlertsContainerProps> = {
         isInStockAlertEnabled: false,
         isPriceAlertEnabled: false,

@@ -48,7 +48,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountForgotPasswordC
 });
 
 /** @namespace Component/MyAccountForgotPassword/Container */
-export class MyAccountForgotPasswordContainer extends PureComponent<MyAccountForgotPasswordContainerProps> {
+export class MyAccountForgotPasswordContainer<
+P extends Readonly<MyAccountForgotPasswordContainerProps> = Readonly<MyAccountForgotPasswordContainerProps>,
+S extends MyAccountForgotPasswordContainerState = MyAccountForgotPasswordContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: MyAccountForgotPasswordContainerFunctions = {
         onForgotPasswordSuccess: this.onForgotPasswordSuccess.bind(this),
     };

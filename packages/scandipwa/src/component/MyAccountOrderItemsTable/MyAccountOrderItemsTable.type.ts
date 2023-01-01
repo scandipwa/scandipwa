@@ -17,7 +17,7 @@ export interface MyAccountOrderItemsTableContainerMapStateProps {
     isMobile: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface MyAccountOrderItemsTableContainerMapDispatchProps {}
 
 export type MyAccountOrderItemsTableContainerProps = MyAccountOrderItemsTableContainerMapStateProps

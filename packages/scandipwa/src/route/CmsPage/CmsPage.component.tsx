@@ -21,7 +21,10 @@ import { CmsPageComponentProps } from './CmsPage.type';
 import './CmsPage.style';
 
 /** @namespace Route/CmsPage/Component */
-export class CmsPageComponent extends PureComponent<CmsPageComponentProps> {
+export class CmsPageComponent<
+P extends Readonly<CmsPageComponentProps> = Readonly<CmsPageComponentProps>,
+S extends CmsPageComponentState = CmsPageComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CmsPageComponentProps> = {
         isBreadcrumbsActive: true,
     };

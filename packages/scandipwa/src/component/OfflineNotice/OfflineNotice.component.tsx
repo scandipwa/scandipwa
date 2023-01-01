@@ -20,7 +20,10 @@ import { OfflineNoticeComponentProps } from './OfflineNotice.type';
 import './OfflineNotice.style';
 
 /** @namespace Component/OfflineNotice/Component */
-export class OfflineNoticeComponent extends PureComponent<OfflineNoticeComponentProps> {
+export class OfflineNoticeComponent<
+P extends Readonly<OfflineNoticeComponentProps> = Readonly<OfflineNoticeComponentProps>,
+S extends OfflineNoticeComponentState = OfflineNoticeComponentState,
+> extends PureComponent<P, S> {
     renderLogo(): ReactElement {
         const { isBig } = this.props;
 

@@ -21,7 +21,10 @@ import { WishlistSharedPageComponentProps } from './WishlistSharedPage.type';
 import './WishlistSharedPage.style';
 
 /** @namespace Route/WishlistSharedPage/Component */
-export class WishlistSharedPageComponent extends SourceWishlist<WishlistSharedPageComponentProps> {
+export class WishlistSharedPageComponent<
+P extends Readonly<WishlistSharedPageComponentProps> = Readonly<WishlistSharedPageComponentProps>,
+S extends WishlistSharedPageComponentState = WishlistSharedPageComponentState,
+> extends SourceWishlist<P, S> {
     renderActionLine(): ReactElement {
         return (
             <div block="WishlistSharedPage" elem="ActionBar">

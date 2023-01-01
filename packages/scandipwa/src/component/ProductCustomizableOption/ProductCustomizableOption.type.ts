@@ -21,7 +21,7 @@ export interface ProductCustomizableOptionContainerMapStateProps {
     currencyCode: GQLCurrencyEnum;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface ProductCustomizableOptionContainerMapDispatchProps {}
 
 export interface ProductCustomizableOptionContainerBaseProps {

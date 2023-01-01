@@ -23,17 +23,20 @@ import { CartCouponComponentProps, CartCouponComponentState } from './CartCoupon
 import './CartCoupon.style';
 
 /** @namespace Component/CartCoupon/Component */
-export class CartCouponComponent extends PureComponent<CartCouponComponentProps, CartCouponComponentState> {
+export class CartCouponComponent<
+P extends Readonly<CartCouponComponentProps> = Readonly<CartCouponComponentProps>,
+S extends CartCouponComponentState = CartCouponComponentState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<CartCouponComponentProps> = {
         couponCode: '',
     };
 
-    state: CartCouponComponentState = {
+    state: S = {
         enteredCouponCode: '',
         isFieldWithError: false,
-    };
+    } as S;
 
-    __construct(props: CartCouponComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.handleCouponCodeChange = this.handleCouponCodeChange.bind(this);

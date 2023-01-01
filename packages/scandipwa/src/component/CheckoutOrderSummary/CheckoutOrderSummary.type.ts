@@ -26,7 +26,7 @@ export interface CheckoutOrderSummaryContainerMapStateProps {
     isMobile: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface CheckoutOrderSummaryContainerMapDispatchProps {}
 
 export interface CheckoutOrderSummaryComponentBaseProps {

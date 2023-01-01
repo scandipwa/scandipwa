@@ -43,7 +43,10 @@ export const mapStateToProps = (state: RootState): MetaContainerMapStateProps =>
 export const mapDispatchToProps = (): MetaContainerMapDispatchProps => ({});
 
 /** @namespace Component/Meta/Container */
-export class MetaContainer extends PureComponent<MetaContainerProps> {
+export class MetaContainer<
+P extends Readonly<MetaContainerProps> = Readonly<MetaContainerProps>,
+S extends MetaContainerState = MetaContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MetaContainerProps> = {
         default_description: '',
         default_keywords: '',

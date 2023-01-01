@@ -17,7 +17,7 @@ export interface SearchFieldContainerMapStateToProps {
     device: Device;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface SearchFieldContainerMapDispatchToProps {}
 
 export interface SearchFieldComponentProps extends SearchFieldContainerMapStateToProps {

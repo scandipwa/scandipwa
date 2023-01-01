@@ -40,7 +40,10 @@ export const mapStateToProps = (state: RootState): PaginationContainerMapStatePr
 export const mapDispatchToProps = (): PaginationContainerMapDispatchProps => ({});
 
 /** @namespace Component/Pagination/Container */
-export class PaginationContainer extends PureComponent<PaginationContainerProps> {
+export class PaginationContainer<
+P extends Readonly<PaginationContainerProps> = Readonly<PaginationContainerProps>,
+S extends PaginationContainerState = PaginationContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<PaginationContainerProps> = {
         isLoading: false,
         id: '',

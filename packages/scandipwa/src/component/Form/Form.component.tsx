@@ -20,7 +20,10 @@ import { FormComponentProps } from './Form.type';
  * Form
  * @class Form
  * @namespace Component/Form/Component */
-export class FormComponent extends PureComponent<FormComponentProps> {
+export class FormComponent<
+P extends Readonly<FormComponentProps> = Readonly<FormComponentProps>,
+S extends FormComponentState = FormComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<FormComponentProps> = {
         validationResponse: null,
     };

@@ -26,7 +26,10 @@ import { MyAccountOrderItemsTableRowComponentProps } from './MyAccountOrderItems
 import './MyAccountOrderItemsTableRow.style';
 
 /** @namespace Component/MyAccountOrderItemsTableRow/Component */
-export class MyAccountOrderItemsTableRowComponent extends PureComponent<MyAccountOrderItemsTableRowComponentProps> {
+export class MyAccountOrderItemsTableRowComponent<
+P extends Readonly<MyAccountOrderItemsTableRowComponentProps> = Readonly<MyAccountOrderItemsTableRowComponentProps>,
+S extends MyAccountOrderItemsTableRowComponentState = MyAccountOrderItemsTableRowComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountOrderItemsTableRowComponentProps> = {
         comments: [],
     };

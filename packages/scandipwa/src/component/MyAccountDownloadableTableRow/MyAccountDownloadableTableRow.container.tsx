@@ -36,7 +36,10 @@ export const mapStateToProps = (state: RootState): MyAccountDownloadableTableRow
 export const mapDispatchToProps = (): unknown => ({});
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container */
-export class MyAccountDownloadableTableRowContainer extends PureComponent<MyAccountDownloadableTableRowContainerProps> {
+export class MyAccountDownloadableTableRowContainer<
+P extends Readonly<MyAccountDownloadableTableRowContainerProps> = Readonly<MyAccountDownloadableTableRowContainerProps>,
+S extends MyAccountDownloadableTableRowContainerState = MyAccountDownloadableTableRowContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: MyAccountDownloadableTableRowContainerFunctions = {
         onOrderIdClick: this.onOrderIdClick.bind(this),
     };

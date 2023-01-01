@@ -16,7 +16,7 @@ export interface ExpandableContentContainerMapStateProps {
     device: Device;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface ExpandableContentContainerDispatchProps {}
 
 export interface ExpandableContentComponentProps {

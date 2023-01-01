@@ -66,7 +66,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): CmsPageContainerDispatch
 });
 
 /** @namespace Route/CmsPage/Container */
-export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPageContainerState> {
+export class CmsPageContainer<
+P extends Readonly<CmsPageContainerProps> = Readonly<CmsPageContainerProps>,
+S extends CmsPageContainerState = CmsPageContainerState,
+> extends DataContainer <P, S> {
     static defaultProps: Partial<CmsPageContainerProps> = {
         pageIds: -1,
         pageIdentifiers: '',

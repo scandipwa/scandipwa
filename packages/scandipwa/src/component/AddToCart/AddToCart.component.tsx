@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import CartIcon from 'Component/CartIcon';
 import { ReactElement } from 'Type/Common.type';
 
-import { AddToCartComponentProps } from './AddToCart.type';
+import { AddToCartComponentProps, AddToCartComponentState } from './AddToCart.type';
 
 import './AddToCart.style';
 
@@ -23,7 +23,10 @@ import './AddToCart.style';
  * @class AddToCart
  * @namespace Component/AddToCart/Component
  */
-export class AddToCartComponent extends PureComponent<AddToCartComponentProps> {
+export class AddToCartComponent<
+P extends Readonly<AddToCartComponentProps> = Readonly<AddToCartComponentProps>,
+S extends AddToCartComponentState = AddToCartComponentState,
+> extends PureComponent<P, S> {
     renderCartIcon(): ReactElement {
         const { isIconEnabled } = this.props;
 

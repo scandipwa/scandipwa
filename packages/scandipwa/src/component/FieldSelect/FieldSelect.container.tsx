@@ -29,7 +29,10 @@ import {
  * Field Select
  * @class FieldSelectContainer
  * @namespace Component/FieldSelect/Container */
-export class FieldSelectContainer extends PureComponent<FieldSelectContainerProps, FieldSelectContainerState> {
+export class FieldSelectContainer<
+P extends Readonly<FieldSelectContainerProps> = Readonly<FieldSelectContainerProps>,
+S extends FieldSelectContainerState = FieldSelectContainerState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<FieldSelectContainerProps> = {
         noPlaceholder: false,
         changeValueOnDoubleClick: false,

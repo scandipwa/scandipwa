@@ -13,12 +13,15 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { CartIconComponentProps } from './CartIcon.type';
+import { CartIconComponentProps, CartIconComponentState } from './CartIcon.type';
 
 import './CartIcon.style';
 
 /** @namespace Component/CartIcon/Component */
-export class CartIconComponent extends PureComponent<CartIconComponentProps> {
+export class CartIconComponent<
+P extends Readonly<CartIconComponentProps> = Readonly<CartIconComponentProps>,
+S extends CartIconComponentState = CartIconComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CartIconComponentProps> = {
         isActive: false,
     };

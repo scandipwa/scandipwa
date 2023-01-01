@@ -24,7 +24,10 @@ import { MyAccountDashboardComponentProps } from './MyAccountDashboard.type';
 import './MyAccountDashboard.style';
 
 /** @namespace Component/MyAccountDashboard/Component */
-export class MyAccountDashboardComponent extends PureComponent<MyAccountDashboardComponentProps> {
+export class MyAccountDashboardComponent<
+P extends Readonly<MyAccountDashboardComponentProps> = Readonly<MyAccountDashboardComponentProps>,
+S extends MyAccountDashboardComponentState = MyAccountDashboardComponentState,
+> extends PureComponent<P, S> {
     renderNoDefaultAddressConfigured(name: string): ReactElement {
         return (
             <div

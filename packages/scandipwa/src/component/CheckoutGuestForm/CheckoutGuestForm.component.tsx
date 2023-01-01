@@ -27,7 +27,10 @@ import { CheckoutGuestFormComponentProps, CheckoutGuestFormRenderMapItem } from 
 import './CheckoutGuestForm.style';
 
 /** @namespace Component/CheckoutGuestForm/Component */
-export class CheckoutGuestFormComponent extends FieldForm<CheckoutGuestFormComponentProps> {
+export class CheckoutGuestFormComponent<
+P extends Readonly<CheckoutGuestFormComponentProps> = Readonly<CheckoutGuestFormComponentProps>,
+S extends CheckoutGuestFormComponentState = CheckoutGuestFormComponentState,
+> extends FieldForm<P, S> {
     componentDidUpdate(prevProps: CheckoutGuestFormComponentProps): void {
         const { isEmailAvailable, setSignInState, signInState } = this.props;
         const { isEmailAvailable: prevIsEmailAvailable } = prevProps;

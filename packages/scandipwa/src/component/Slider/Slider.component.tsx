@@ -41,7 +41,10 @@ import './Slider.style';
  * @class Slider
  * @namespace Component/Slider/Component
  */
-export class SliderComponent extends PureComponent<SliderComponentProps, SliderComponentState> {
+export class SliderComponent<
+P extends Readonly<SliderComponentProps> = Readonly<SliderComponentProps>,
+S extends SliderComponentState = SliderComponentState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<SliderComponentProps> = {
         activeImage: 0,
         onActiveImageChange: noopFn,

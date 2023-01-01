@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { LoaderComponentProps } from './Loader.type';
+import { LoaderComponentProps, LoaderComponentState } from './Loader.type';
 
 import './Loader.style';
 
@@ -23,9 +23,11 @@ import './Loader.style';
  * @class Loader
  * @namespace Component/Loader/Component
  */
-export class LoaderComponent extends PureComponent<LoaderComponentProps> {
+export class LoaderComponent<
+P extends Readonly<LoaderComponentProps> = Readonly<LoaderComponentProps>,
+S extends LoaderComponentState = LoaderComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<LoaderComponentProps> = {
-        isLoading: true,
         mix: {},
     };
 

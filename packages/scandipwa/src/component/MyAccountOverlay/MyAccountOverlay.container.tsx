@@ -69,9 +69,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOverlayContaine
 
 /** @namespace Component/MyAccountOverlay/Container */
 export class MyAccountOverlayContainer<
-Props extends MyAccountOverlayContainerProps = MyAccountOverlayContainerProps,
-State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState,
-> extends PureComponent<Props, State> {
+P extends Readonly<MyAccountOverlayContainerProps> = Readonly<MyAccountOverlayContainerProps>,
+S extends MyAccountOverlayContainerState = MyAccountOverlayContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountOverlayContainerProps> = {
         isCheckout: false,
         isLoading: false,
@@ -89,10 +89,10 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState,
         setLoadingState: this.setLoadingState.bind(this),
     };
 
-    __construct(props: MyAccountOverlayContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
-        this.state = this.redirectOrGetState(props) as State;
+        this.state = this.redirectOrGetState(props) as S;
     }
 
     static getDerivedStateFromProps(

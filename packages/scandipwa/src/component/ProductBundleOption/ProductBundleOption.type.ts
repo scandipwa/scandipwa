@@ -17,7 +17,7 @@ export interface ProductBundleOptionContainerMapStateProps {
     currencyCode: GQLCurrencyEnum;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface ProductBundleOptionContainerMapDispatchProps {}
 
 export interface ProductBundleOptionContainerFunctions {

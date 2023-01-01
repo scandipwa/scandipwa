@@ -21,7 +21,10 @@ import {
 } from './StoreItem.type';
 
 /** @namespace Component/StoreItem/Container */
-export class StoreItemContainer extends PureComponent<StoreItemContainerProps> {
+export class StoreItemContainer<
+P extends Readonly<StoreItemContainerProps> = Readonly<StoreItemContainerProps>,
+S extends StoreItemContainerState = StoreItemContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: StoreItemContainerFunctions = {
         getStoreCode: this.getStoreCode.bind(this),
     };

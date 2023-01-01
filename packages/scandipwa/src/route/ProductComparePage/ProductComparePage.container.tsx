@@ -55,7 +55,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductComparePageContai
 });
 
 /** @namespace Route/ProductComparePage/Container */
-export class ProductComparePageContainer extends DataContainer<ProductComparePageContainerProps> {
+export class ProductComparePageContainer<
+P extends Readonly<ProductComparePageContainerProps> = Readonly<ProductComparePageContainerProps>,
+S extends ProductComparePageContainerState = ProductComparePageContainerState,
+> extends DataContainer<P, S> {
     static defaultProps: Partial<ProductComparePageContainerProps> = {
         isLoading: false,
     };

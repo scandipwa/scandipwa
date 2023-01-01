@@ -19,7 +19,10 @@ import { InstallPromptAndroidComponentProps } from './InstallPromptAndroid.type'
 import './InstallPromptAndroid.style';
 
 /** @namespace Component/InstallPromptAndroid/Component */
-export class InstallPromptAndroidComponent extends PureComponent<InstallPromptAndroidComponentProps> {
+export class InstallPromptAndroidComponent<
+P extends Readonly<InstallPromptAndroidComponentProps> = Readonly<InstallPromptAndroidComponentProps>,
+S extends InstallPromptAndroidComponentState = InstallPromptAndroidComponentState,
+> extends PureComponent<P, S> {
     renderCloseButton(): ReactElement {
         const { handleBannerClose } = this.props;
 

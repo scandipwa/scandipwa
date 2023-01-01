@@ -22,7 +22,10 @@ import { NavigationTabsComponentProps } from './NavigationTabs.type';
 import './NavigationTabs.style';
 
 /** @namespace Component/NavigationTabs/Component */
-export class NavigationTabsComponent extends NavigationAbstract<NavigationTabsComponentProps> {
+export class NavigationTabsComponent<
+P extends Readonly<NavigationTabsComponentProps> = Readonly<NavigationTabsComponentProps>,
+S extends NavigationTabsComponentState = NavigationTabsComponentState,
+> extends NavigationAbstract<P, S> {
     defaultStateName = NavigationTabsMap.MENU_TAB;
 
     stateMap: Record<string, Record<string, boolean>> = {

@@ -21,7 +21,10 @@ import { MyAccountDownloadableTableRowComponentProps } from './MyAccountDownload
 import './MyAccountDownloadableTableRow.style';
 
 /** @namespace Component/MyAccountDownloadableTableRow/Component */
-export class MyAccountDownloadableTableRowComponent extends PureComponent<MyAccountDownloadableTableRowComponentProps> {
+export class MyAccountDownloadableTableRowComponent<
+P extends Readonly<MyAccountDownloadableTableRowComponentProps> = Readonly<MyAccountDownloadableTableRowComponentProps>,
+S extends MyAccountDownloadableTableRowComponentState = MyAccountDownloadableTableRowComponentState,
+> extends PureComponent<P, S> {
     renderOrderIncrementId(): ReactElement {
         const {
             order: {

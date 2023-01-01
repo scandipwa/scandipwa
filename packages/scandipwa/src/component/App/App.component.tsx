@@ -25,7 +25,10 @@ import getStore from 'Util/Store';
 import { AppComponentState } from './App.type';
 
 /** @namespace Component/App/Component */
-export class AppComponent extends PureComponent<unknown, AppComponentState> {
+export class AppComponent<
+P extends Readonly<unknown> = Readonly<unknown>,
+S extends AppComponentState = AppComponentState,
+> extends PureComponent <P, S> {
     protected reduxStore?: Store<unknown, AnyAction> = undefined;
 
     productionFunctions = [
@@ -51,10 +54,10 @@ export class AppComponent extends PureComponent<unknown, AppComponentState> {
         this.renderUnStated.bind(this),
     ];
 
-    state: AppComponentState = {
+    state: S = {
         isSomethingWentWrong: false,
         errorDetails: undefined,
-    };
+    } as S;
 
     __construct(props: unknown): void {
         super.__construct?.(props);

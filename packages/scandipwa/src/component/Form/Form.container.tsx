@@ -32,7 +32,10 @@ import {
  * Form
  * @class FormContainer
  * @namespace Component/Form/Container */
-export class FormContainer extends PureComponent<FormContainerProps, FormContainerState> {
+export class FormContainer<
+P extends Readonly<FormContainerProps> = Readonly<FormContainerProps>,
+S extends FormContainerState = FormContainerState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<FormContainerProps> = {
         attr: {},
         events: {},

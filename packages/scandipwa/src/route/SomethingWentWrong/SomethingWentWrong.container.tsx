@@ -31,7 +31,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): SomethingWentWrongContai
 });
 
 /** @namespace Route/SomethingWentWrong/Container */
-export class SomethingWentWrongContainer extends PureComponent<SomethingWentWrongContainerProps> {
+export class SomethingWentWrongContainer<
+P extends Readonly<SomethingWentWrongContainerProps> = Readonly<SomethingWentWrongContainerProps>,
+S extends SomethingWentWrongContainerState = SomethingWentWrongContainerState,
+> extends PureComponent<P, S> {
     componentDidMount(): void {
         const { updateMeta } = this.props;
 

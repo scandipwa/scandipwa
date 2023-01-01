@@ -24,7 +24,10 @@ import { PopupComponentProps } from './Popup.type';
 import './Popup.style';
 
 /** @namespace Component/Popup/Component */
-export class PopupComponent extends Overlay<PopupComponentProps> {
+export class PopupComponent<
+P extends Readonly<PopupComponentProps> = Readonly<PopupComponentProps>,
+S extends PopupComponentState = PopupComponentState,
+> extends Overlay<P, S> {
     static defaultProps: Partial<PopupComponentProps> = {
         ...Overlay.defaultProps,
         isCloseOnOutsideClick: true,

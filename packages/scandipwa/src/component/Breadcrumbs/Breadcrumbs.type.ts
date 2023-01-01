@@ -16,7 +16,9 @@ export interface BreadcrumbsContainerMapStateProps {
     areBreadcrumbsVisible: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface BreadcrumbsContainerMapDispatchProps {}
 
-export type BreadcrumbsComponentProps = BreadcrumbsContainerMapStateProps & BreadcrumbsContainerMapDispatchProps;
+export interface BreadcrumbsComponentProps extends BreadcrumbsContainerMapStateProps,
+    BreadcrumbsContainerMapDispatchProps {}
+
+export interface BreadcrumbsComponentState {}

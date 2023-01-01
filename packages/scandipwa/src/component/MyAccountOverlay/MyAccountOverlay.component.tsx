@@ -25,14 +25,19 @@ import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
     MyAccountPageState,
 } from './MyAccountOverlay.config';
-import { MyAccountOverlayComponentProps, MyAccountOverlayRenderMap } from './MyAccountOverlay.type';
+import {
+    MyAccountOverlayComponentProps,
+    MyAccountOverlayComponentState,
+    MyAccountOverlayRenderMap,
+} from './MyAccountOverlay.type';
 
 import './MyAccountOverlay.style';
 
 /** @namespace Component/MyAccountOverlay/Component */
 export class MyAccountOverlayComponent<
-Props extends MyAccountOverlayComponentProps = MyAccountOverlayComponentProps,
-> extends PureComponent<Props> {
+P extends Readonly<MyAccountOverlayComponentProps> = Readonly<MyAccountOverlayComponentProps>,
+S extends MyAccountOverlayComponentState = MyAccountOverlayComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountOverlayComponentProps> = {
         isCheckout: false,
         onSignIn: noopFn,

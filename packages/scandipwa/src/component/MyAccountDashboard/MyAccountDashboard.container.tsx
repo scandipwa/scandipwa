@@ -34,7 +34,10 @@ export const mapStateToProps = (state: RootState): MyAccountDashboardContainerMa
 export const mapDispatchToProps = (): MyAccountDashboardContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountDashboard/Container */
-export class MyAccountDashboardContainer extends PureComponent<MyAccountDashboardContainerProps> {
+export class MyAccountDashboardContainer<
+P extends Readonly<MyAccountDashboardContainerProps> = Readonly<MyAccountDashboardContainerProps>,
+S extends MyAccountDashboardContainerState = MyAccountDashboardContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: MyAccountDashboardContainerFunctions = {
         getDefaultAddress: this.getDefaultAddress.bind(this),
     };

@@ -57,7 +57,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareContainerM
 });
 
 /** @namespace Component/ProductCompare/Container */
-export class ProductCompareContainer extends PureComponent<ProductCompareContainerProps> {
+export class ProductCompareContainer<
+P extends Readonly<ProductCompareContainerProps> = Readonly<ProductCompareContainerProps>,
+S extends ProductCompareContainerState = ProductCompareContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductCompareContainerProps> = {
         isLoading: false,
         products: [],

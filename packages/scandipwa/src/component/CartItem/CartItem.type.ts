@@ -81,6 +81,8 @@ export interface CartItemComponentProps {
     getProductVariant: () => IndexedVariant;
 }
 
+export interface CartItemComponentState {}
+
 export type CartItemComponentContainerPropKeys =
     | 'item'
     | 'currency_code'

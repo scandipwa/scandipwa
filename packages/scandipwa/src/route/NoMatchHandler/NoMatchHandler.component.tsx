@@ -18,7 +18,10 @@ import { scrollToTop } from 'Util/Browser';
 import { NoMatchHandlerComponentProps } from './NoMatchHandler.type';
 
 /** @namespace Route/NoMatchHandler/Component */
-export class NoMatchHandlerComponent extends PureComponent<NoMatchHandlerComponentProps> {
+export class NoMatchHandlerComponent<
+P extends Readonly<NoMatchHandlerComponentProps> = Readonly<NoMatchHandlerComponentProps>,
+S extends NoMatchHandlerComponentState = NoMatchHandlerComponentState,
+> extends PureComponent<P, S> {
     componentDidMount(): void {
         scrollToTop();
     }

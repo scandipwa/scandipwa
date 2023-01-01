@@ -60,7 +60,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountCreateAccountCo
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container */
-export class MyAccountCreateAccountContainer extends PureComponent<MyAccountCreateAccountContainerProps> {
+export class MyAccountCreateAccountContainer<
+P extends Readonly<MyAccountCreateAccountContainerProps> = Readonly<MyAccountCreateAccountContainerProps>,
+S extends MyAccountCreateAccountContainerState = MyAccountCreateAccountContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountCreateAccountContainerProps> = {
         isLandingPage: false,
         onSignIn: noopFn,

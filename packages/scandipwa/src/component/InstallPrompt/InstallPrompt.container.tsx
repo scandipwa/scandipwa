@@ -35,7 +35,10 @@ export const mapStateToProps = (state: RootState): InstallPromptContainerMapStat
 export const mapDispatchToProps = (): InstallPromptContainerMapDispatchProps => ({});
 
 /** @namespace Component/InstallPrompt/Container */
-export class InstallPromptContainer extends PureComponent<InstallPromptContainerProps, InstallPromptContainerState> {
+export class InstallPromptContainer<
+P extends Readonly<InstallPromptContainerProps> = Readonly<InstallPromptContainerProps>,
+S extends InstallPromptContainerState = InstallPromptContainerState,
+> extends PureComponent <P, S> {
     state: InstallPromptContainerState = {
         isBannerClosed: !!BrowserDatabase.getItem('postpone_installation'),
         hasInstallPromptEvent: false,

@@ -23,7 +23,10 @@ import { LoginAccountComponentProps } from './LoginAccount.type';
 import './LoginAccount.style';
 
 /** @namespace Route/LoginAccount/Component */
-export class LoginAccountComponent extends MyAccountOverlayComponent<LoginAccountComponentProps> {
+export class LoginAccountComponent<
+P extends Readonly<LoginAccountComponentProps> = Readonly<LoginAccountComponentProps>,
+S extends LoginAccountComponentState = LoginAccountComponentState,
+> extends MyAccountOverlayComponent<P, S> {
     renderSignInWrapper(): ReactElement {
         const { isMobile } = this.props;
 

@@ -19,7 +19,10 @@ import { ImageZoomPopupComponentProps } from './ImageZoomPopup.type';
 import './ImageZoomPopup.style';
 
 /** @namespace Component/ImageZoomPopup/Component */
-export class ImageZoomPopupComponent extends PureComponent<ImageZoomPopupComponentProps> {
+export class ImageZoomPopupComponent<
+P extends Readonly<ImageZoomPopupComponentProps> = Readonly<ImageZoomPopupComponentProps>,
+S extends ImageZoomPopupComponentState = ImageZoomPopupComponentState,
+> extends PureComponent<P, S> {
     render(): ReactElement {
         const {
             children,

@@ -22,7 +22,10 @@ import { PurchaseOrderComponentProps } from './PurchaseOrder.type';
 import './PurchaseOrder.style';
 
 /** @namespace Component/PurchaseOrder/Component */
-export class PurchaseOrderComponent extends PureComponent<PurchaseOrderComponentProps> {
+export class PurchaseOrderComponent<
+P extends Readonly<PurchaseOrderComponentProps> = Readonly<PurchaseOrderComponentProps>,
+S extends PurchaseOrderComponentState = PurchaseOrderComponentState,
+> extends PureComponent<P, S> {
     render(): ReactElement {
         const { id } = this.props;
 

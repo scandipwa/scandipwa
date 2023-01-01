@@ -20,7 +20,10 @@ import { DraggableComponentProps, DraggableComponentState } from './Draggable.ty
 import './Draggable.style';
 
 /** @namespace Component/Draggable/Component */
-export class DraggableComponent extends PureComponent<DraggableComponentProps, DraggableComponentState> {
+export class DraggableComponent<
+P extends Readonly<DraggableComponentProps> = Readonly<DraggableComponentProps>,
+S extends DraggableComponentState = DraggableComponentState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<DraggableComponentProps> = {
         shiftX: 0,
         shiftY: 0,

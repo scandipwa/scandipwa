@@ -18,7 +18,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
 
-import { CategoryDetailsComponentProps } from './CategoryDetails.type';
+import { CategoryDetailsComponentProps, CategoryDetailsComponentState } from './CategoryDetails.type';
 
 import './CategoryDetails.style';
 
@@ -27,7 +27,10 @@ import './CategoryDetails.style';
  * @class CategoryDetails
  * @namespace Component/CategoryDetails/Component
  */
-export class CategoryDetailsComponent extends PureComponent<CategoryDetailsComponentProps> {
+export class CategoryDetailsComponent<
+P extends Readonly<CategoryDetailsComponentProps> = Readonly<CategoryDetailsComponentProps>,
+S extends CategoryDetailsComponentState = CategoryDetailsComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CategoryDetailsComponentProps> = {
         isCurrentCategoryLoaded: true,
     };

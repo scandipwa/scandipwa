@@ -39,7 +39,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressBookCont
 });
 
 /** @namespace Component/MyAccountAddressBook/Container */
-export class MyAccountAddressBookContainer extends PureComponent<MyAccountAddressBookContainerProps> {
+export class MyAccountAddressBookContainer<
+P extends Readonly<MyAccountAddressBookContainerProps> = Readonly<MyAccountAddressBookContainerProps>,
+S extends MyAccountAddressBookContainerState = MyAccountAddressBookContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: MyAccountAddressBookContainerFunctions = {
         showCreateNewPopup: this.showCreateNewPopup.bind(this),
     };

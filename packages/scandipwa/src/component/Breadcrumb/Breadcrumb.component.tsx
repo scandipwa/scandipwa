@@ -16,12 +16,15 @@ import Link from 'Component/Link';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ReactElement, Url } from 'Type/Common.type';
 
-import { BreadcrumbComponentProps } from './Breadcrumb.type';
+import { BreadcrumbComponentProps, BreadcrumbComponentState } from './Breadcrumb.type';
 
 import './Breadcrumb.style';
 
 /** @namespace Component/Breadcrumb/Component */
-export class BreadcrumbComponent extends PureComponent<BreadcrumbComponentProps> {
+export class BreadcrumbComponent<
+P extends Readonly<BreadcrumbComponentProps> = Readonly<BreadcrumbComponentProps>,
+S extends BreadcrumbComponentState = BreadcrumbComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<BreadcrumbComponentProps> = {
         url: '',
         name: '',

@@ -21,7 +21,10 @@ import { ProductComparePageComponentProps } from './ProductComparePage.type';
 import './ProductComparePage.style';
 
 /** @namespace Route/ProductComparePage/Component */
-export class ProductComparePageComponent extends PureComponent<ProductComparePageComponentProps> {
+export class ProductComparePageComponent<
+P extends Readonly<ProductComparePageComponentProps> = Readonly<ProductComparePageComponentProps>,
+S extends ProductComparePageComponentState = ProductComparePageComponentState,
+> extends PureComponent<P, S> {
     render(): ReactElement {
         const { isLoading } = this.props;
 

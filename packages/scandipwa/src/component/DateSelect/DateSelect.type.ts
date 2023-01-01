@@ -19,7 +19,7 @@ export interface DateSelectContainerMapStateProps {
     timeFormat: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface DateSelectContainerMapDispatchProps {}
 
 export interface DateSelectContainerFunctions {

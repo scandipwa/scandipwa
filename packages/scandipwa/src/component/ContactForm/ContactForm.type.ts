@@ -24,7 +24,7 @@ export interface ContactFormContainerFunctions {
     onFormSubmit: (form: HTMLFormElement, fields: FieldData[]) => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface ContactFormContainerBaseProps {}
 
 export type ContactFormContainerProps = ContactFormContainerMapStateProps

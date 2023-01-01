@@ -18,7 +18,10 @@ import { MyAccountOrderTabComponentProps } from './MyAccountOrderTab.type';
 import './MyAccountOrderTab.style';
 
 /** @namespace Component/MyAccountOrderTab/Component */
-export class MyAccountOrderTabComponent extends PureComponent<MyAccountOrderTabComponentProps> {
+export class MyAccountOrderTabComponent<
+P extends Readonly<MyAccountOrderTabComponentProps> = Readonly<MyAccountOrderTabComponentProps>,
+S extends MyAccountOrderTabComponentState = MyAccountOrderTabComponentState,
+> extends PureComponent<P, S> {
     render(): ReactElement {
         const { title, isActive, handleClickOnTab } = this.props;
 

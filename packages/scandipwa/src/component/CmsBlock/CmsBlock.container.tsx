@@ -17,7 +17,10 @@ import CmsBlock from './CmsBlock.component';
 import { CmsBlockComponentProps, CmsBlockContainerProps, CmsBlockContainerState } from './CmsBlock.type';
 
 /** @namespace Component/CmsBlock/Container */
-export class CmsBlockContainer extends DataContainer<CmsBlockContainerProps, CmsBlockContainerState> {
+export class CmsBlockContainer<
+P extends Readonly<CmsBlockContainerProps> = Readonly<CmsBlockContainerProps>,
+S extends CmsBlockContainerState = CmsBlockContainerState,
+> extends DataContainer <P, S> {
     static defaultProps: Partial<CmsBlockContainerProps> = {
         blockType: '',
     };

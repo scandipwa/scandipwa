@@ -17,7 +17,7 @@ export interface ProductDownloadableLinksContainerMapStateProps {
     currencyCode: GQLCurrencyEnum;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface ProductDownloadableLinksContainerMapDispatchProps {}
 
 export interface ProductDownloadableLinksContainerBaseProps {

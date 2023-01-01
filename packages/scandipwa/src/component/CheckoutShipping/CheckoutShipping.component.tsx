@@ -28,7 +28,10 @@ import { CheckoutShippingComponentProps } from './CheckoutShipping.type';
 import './CheckoutShipping.style';
 
 /** @namespace Component/CheckoutShipping/Component */
-export class CheckoutShippingComponent extends PureComponent<CheckoutShippingComponentProps> {
+export class CheckoutShippingComponent<
+P extends Readonly<CheckoutShippingComponentProps> = Readonly<CheckoutShippingComponentProps>,
+S extends CheckoutShippingComponentState = CheckoutShippingComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CheckoutShippingComponentProps> = {
         cartTotalSubPrice: null,
     };

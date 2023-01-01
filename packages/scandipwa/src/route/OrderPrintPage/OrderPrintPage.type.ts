@@ -15,7 +15,6 @@ import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { PrintTypes } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
 import { OrderItem } from 'Query/Order.type';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface OrderPrintPageContainerMapStateProps {}
 
 export interface OrderPrintPageContainerMapDispatchProps {

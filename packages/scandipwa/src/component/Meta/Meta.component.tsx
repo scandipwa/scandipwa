@@ -21,7 +21,10 @@ import { MetaComponentProps } from './Meta.type';
  * @class Meta
  * @namespace Component/Meta/Component
  */
-export class MetaComponent extends PureComponent<MetaComponentProps> {
+export class MetaComponent<
+P extends Readonly<MetaComponentProps> = Readonly<MetaComponentProps>,
+S extends MetaComponentState = MetaComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MetaComponentProps> = {
         title: '',
         canonical_url: '',

@@ -27,7 +27,7 @@ import './ProductConfigurableAttributes.style';
 
 /** @namespace Component/ProductConfigurableAttributes/Component */
 export class ProductConfigurableAttributesComponent<
-P extends ProductConfigurableAttributesComponentProps = ProductConfigurableAttributesComponentProps,
+P extends Readonly<ProductConfigurableAttributesComponentProps> = Readonly<ProductConfigurableAttributesComponentProps>,,
 > extends PureComponent<P> {
     static defaultProps: Partial<ProductConfigurableAttributesComponentProps> = {
         isReady: true,

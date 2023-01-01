@@ -16,7 +16,10 @@ import { ReactElement } from 'Type/Common.type';
 import { ErrorHandlerComponentProps, ErrorHandlerComponentState } from './ErrorHandler.type';
 
 /** @namespace Component/ErrorHandler/Component */
-export class ErrorHandlerComponent extends PureComponent<ErrorHandlerComponentProps, ErrorHandlerComponentState> {
+export class ErrorHandlerComponent<
+P extends Readonly<ErrorHandlerComponentProps> = Readonly<ErrorHandlerComponentProps>,
+S extends ErrorHandlerComponentState = ErrorHandlerComponentState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<ErrorHandlerComponentProps> = {
         children: [],
     };

@@ -22,7 +22,10 @@ import './ProductReviewList.style';
  * @class ProductReviewList
  * @namespace Component/ProductReviewList/Component
  */
-export class ProductReviewListComponent extends PureComponent<ProductReviewListComponentProps> {
+export class ProductReviewListComponent<
+P extends Readonly<ProductReviewListComponentProps> = Readonly<ProductReviewListComponentProps>,
+S extends ProductReviewListComponentState = ProductReviewListComponentState,
+> extends PureComponent<P, S> {
     renderReviews(): ReactElement {
         const { product: { reviews = [] } } = this.props;
 

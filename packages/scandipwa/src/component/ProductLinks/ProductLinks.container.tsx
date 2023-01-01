@@ -34,7 +34,10 @@ export const mapStateToProps = (state: RootState): ProductLinksContainerMapState
 export const mapDispatchToProps = (): ProductLinksContainerMapDispatchProps => ({});
 
 /** @namespace Component/ProductLinks/Container */
-export class ProductLinksContainer extends PureComponent<ProductLinksContainerProps, ProductLinksContainerState> {
+export class ProductLinksContainer<
+P extends Readonly<ProductLinksContainerProps> = Readonly<ProductLinksContainerProps>,
+S extends ProductLinksContainerState = ProductLinksContainerState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<ProductLinksContainerProps> = {
         numberOfProductsToDisplay: 4,
         areDetailsLoaded: true,

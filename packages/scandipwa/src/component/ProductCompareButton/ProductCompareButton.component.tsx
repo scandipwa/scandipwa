@@ -21,7 +21,10 @@ import { ProductCompareButtonComponentProps } from './ProductCompareButton.type'
 import './ProductCompareButton.style';
 
 /** @namespace Component/ProductCompareButton/Component */
-export class ProductCompareButtonComponent extends PureComponent<ProductCompareButtonComponentProps> {
+export class ProductCompareButtonComponent<
+P extends Readonly<ProductCompareButtonComponentProps> = Readonly<ProductCompareButtonComponentProps>,
+S extends ProductCompareButtonComponentState = ProductCompareButtonComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductCompareButtonComponentProps> = {
         isLoading: false,
         isActive: false,

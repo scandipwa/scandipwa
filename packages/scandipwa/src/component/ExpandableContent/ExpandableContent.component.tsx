@@ -25,7 +25,10 @@ import { ExpandableContentComponentProps, ExpandableContentComponentState } from
 import './ExpandableContent.style';
 
 /** @namespace Component/ExpandableContent/Component */
-export class ExpandableContentComponent extends PureComponent<ExpandableContentComponentProps, ExpandableContentComponentState> {
+export class ExpandableContentComponent<
+P extends Readonly<ExpandableContentComponentProps> = Readonly<ExpandableContentComponentProps>,
+S extends ExpandableContentComponentState = ExpandableContentComponentState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<ExpandableContentComponentProps> = {
         heading: '',
         isContentExpanded: false,

@@ -41,7 +41,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): SliderWidgetContainerMap
 });
 
 /** @namespace Component/SliderWidget/Container */
-export class SliderWidgetContainer extends DataContainer<SliderWidgetContainerProps, SliderWidgetContainerState> {
+export class SliderWidgetContainer<
+P extends Readonly<SliderWidgetContainerProps> = Readonly<SliderWidgetContainerProps>,
+S extends SliderWidgetContainerState = SliderWidgetContainerState,
+> extends DataContainer <P, S> {
     state: SliderWidgetContainerState = {
         slider: {
             slideSpeed: 0,

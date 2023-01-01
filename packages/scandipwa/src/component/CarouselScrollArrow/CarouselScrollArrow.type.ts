@@ -21,9 +21,13 @@ export interface CarouselScrollArrowContainerProps {
     isInvisible: boolean;
 }
 
+export interface CarouselScrollArrowContainerState {}
+
 export interface CarouselScrollArrowComponentProps {
     mods: Mods;
     onClick: () => void;
 }
+
+export interface CarouselScrollArrowComponentState {}
 
 export type CarouselScrollArrowComponentContainerPropKeys = 'mods';

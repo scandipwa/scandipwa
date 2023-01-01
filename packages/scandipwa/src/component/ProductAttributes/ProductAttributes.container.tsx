@@ -18,7 +18,10 @@ import ProductAttributes from './ProductAttributes.component';
 import { ProductAttributesComponentProps, ProductAttributesContainerProps } from './ProductAttributes.type';
 
 /** @namespace Component/ProductAttributes/Container */
-export class ProductAttributesContainer extends PureComponent<ProductAttributesContainerProps> {
+export class ProductAttributesContainer<
+P extends Readonly<ProductAttributesContainerProps> = Readonly<ProductAttributesContainerProps>,
+S extends ProductAttributesContainerState = ProductAttributesContainerState,
+> extends PureComponent<P, S> {
     containerProps(): ProductAttributesComponentProps {
         const { areDetailsLoaded, product } = this.props;
 

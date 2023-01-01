@@ -16,7 +16,7 @@ export interface NavigationAbstractContainerMapStateProps {
     device: Device;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface NavigationAbstractContainerMapDispatchProps {}
 
 export type NavigationAbstractContainerProps = NavigationAbstractContainerMapStateProps

@@ -15,7 +15,7 @@ export interface ProductDownloadableSamplesContainerMapStateProps {
     isOpenInNewTab: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface ProductDownloadableSamplesContainerMapDispatchProps {}
 
 export interface ProductDownloadableSamplesContainerBaseProps {

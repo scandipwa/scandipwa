@@ -48,12 +48,11 @@ export interface MyAccountOverlayContainerFunctions {
     setLoadingState: (isLoading: boolean) => void;
 }
 
-export type MyAccountOverlayContainerProps = MyAccountOverlayContainerMapStateProps
-& MyAccountOverlayContainerMapDispatchProps
-& {
+export interface MyAccountOverlayContainerProps extends MyAccountOverlayContainerMapStateProps,
+    MyAccountOverlayContainerMapDispatchProps {
     isCheckout: boolean;
     onSignIn: () => void;
-};
+}
 
 export interface MyAccountOverlayContainerState {
     state: MyAccountPageState;
@@ -77,6 +76,8 @@ export interface MyAccountOverlayComponentProps extends RouteComponentProps {
     onSignIn: () => void;
     device: Device;
 }
+
+export interface MyAccountOverlayComponentState {}
 
 export interface MyAccountOverlayRenderMap {
     render: () => ReactElement | void;

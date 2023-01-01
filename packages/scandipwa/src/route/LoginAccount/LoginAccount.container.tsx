@@ -44,7 +44,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): LoginAccountContainerMap
 });
 
 /** @namespace Route/LoginAccount/Container */
-export class LoginAccountContainer extends MyAccountOverlayContainer<LoginAccountContainerProps> {
+export class LoginAccountContainer<
+P extends Readonly<LoginAccountContainerProps> = Readonly<LoginAccountContainerProps>,
+S extends LoginAccountContainerState = LoginAccountContainerState,
+> extends MyAccountOverlayContainer<P, S> {
     containerFunctions: LoginAccountContainerFunctions = {
         ...this.containerFunctions,
         onCreateAccountClick: this.onCreateAccountClick.bind(this),

@@ -35,7 +35,10 @@ import {
  * @class FieldContainer
  * @namespace Component/Field/Container
  */
-export class FieldContainer extends PureComponent<FieldContainerProps, FieldContainerState> {
+export class FieldContainer<
+P extends Readonly<FieldContainerProps> = Readonly<FieldContainerProps>,
+S extends FieldContainerState = FieldContainerState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<FieldContainerProps> = {
         type: FieldType.TEXT,
         attr: {},

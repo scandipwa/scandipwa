@@ -39,7 +39,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductReviewsContainerM
 });
 
 /** @namespace Component/ProductReviews/Container */
-export class ProductReviewsContainer extends PureComponent<ProductReviewsContainerProps> {
+export class ProductReviewsContainer<
+P extends Readonly<ProductReviewsContainerProps> = Readonly<ProductReviewsContainerProps>,
+S extends ProductReviewsContainerState = ProductReviewsContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductReviewsContainerProps> = {
         isEnabled: true,
         isGuestEnabled: true,

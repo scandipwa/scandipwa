@@ -46,7 +46,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): StyleGuidePageContainerM
 });
 
 /** @namespace Route/StyleGuidePage/Container */
-export class StyleGuidePageContainer extends PureComponent<StyleGuidePageContainerProps> {
+export class StyleGuidePageContainer<
+P extends Readonly<StyleGuidePageContainerProps> = Readonly<StyleGuidePageContainerProps>,
+S extends StyleGuidePageContainerState = StyleGuidePageContainerState,
+> extends PureComponent<P, S> {
     containerFunctions = {
         fakeFunction: this.fakeFunction.bind(this),
     };

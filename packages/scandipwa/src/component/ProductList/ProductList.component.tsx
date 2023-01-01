@@ -28,7 +28,10 @@ import './ProductList.style';
  * @class ProductList
  * @namespace Component/ProductList/Component
  */
-export class ProductListComponent extends PureComponent<ProductListComponentProps> {
+export class ProductListComponent<
+P extends Readonly<ProductListComponentProps> = Readonly<ProductListComponentProps>,
+S extends ProductListComponentState = ProductListComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductListComponentProps> = {
         mix: {},
         title: '',

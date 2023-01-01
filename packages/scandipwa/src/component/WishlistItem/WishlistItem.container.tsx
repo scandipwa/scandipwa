@@ -75,7 +75,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): WishlistItemContainerMap
 
 /** @namespace Component/WishlistItem/Container */
 export class WishlistItemContainer<
-P extends WishlistItemContainerProps = WishlistItemContainerProps,
+P extends Readonly<WishlistItemContainerProps> = Readonly<WishlistItemContainerProps>,
 S extends WishlistItemContainerState = WishlistItemContainerState,
 > extends PureComponent<P, S> {
     static defaultProps: Partial<WishlistItemContainerProps> = {

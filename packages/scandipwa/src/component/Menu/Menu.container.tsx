@@ -38,7 +38,10 @@ export const mapStateToProps = (state: RootState): MenuContainerMapStateProps =>
 export const mapDispatchToProps = (): MenuContainerMapDispatchProps => ({});
 
 /** @namespace Component/Menu/Container */
-export class MenuContainer extends DataContainer<MenuContainerProps, MenuContainerState> {
+export class MenuContainer<
+P extends Readonly<MenuContainerProps> = Readonly<MenuContainerProps>,
+S extends MenuContainerState = MenuContainerState,
+> extends DataContainer <P, S> {
     containerFunctions: MenuContainerFunctions = {
         handleSubcategoryClick: this.handleSubcategoryClick.bind(this),
         closeMenu: this.closeMenu.bind(this),

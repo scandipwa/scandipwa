@@ -21,7 +21,10 @@ import { ProductWishlistButtonComponentProps } from './ProductWishlistButton.typ
 import './ProductWishlistButton.style';
 
 /** @namespace Component/ProductWishlistButton/Component */
-export class ProductWishlistButtonComponent extends PureComponent<ProductWishlistButtonComponentProps> {
+export class ProductWishlistButtonComponent<
+P extends Readonly<ProductWishlistButtonComponentProps> = Readonly<ProductWishlistButtonComponentProps>,
+S extends ProductWishlistButtonComponentState = ProductWishlistButtonComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductWishlistButtonComponentProps> = {
         mix: {},
         // !FIXME: isLoading is never set

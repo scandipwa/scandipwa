@@ -33,7 +33,10 @@ import './SliderWidget.style';
  * @class SliderWidget
  * @namespace Component/SliderWidget/Component
  */
-export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentProps, SliderWidgetComponentState> {
+export class SliderWidgetComponent<
+P extends Readonly<SliderWidgetComponentProps> = Readonly<SliderWidgetComponentProps>,
+S extends SliderWidgetComponentState = SliderWidgetComponentState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<SliderWidgetComponentProps> = {
         slider: {},
     };

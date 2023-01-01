@@ -25,7 +25,10 @@ import './VideoThumbnail.style';
  * VideoThumbnail component
  * @class VideoThumbnail
  * @namespace Component/VideoThumbnail/Component */
-export class VideoThumbnailComponent extends PureComponent<VideoThumbnailComponentProps> {
+export class VideoThumbnailComponent<
+P extends Readonly<VideoThumbnailComponentProps> = Readonly<VideoThumbnailComponentProps>,
+S extends VideoThumbnailComponentState = VideoThumbnailComponentState,
+> extends PureComponent<P, S> {
     /**
      * Renders an icon indicating that the video can be played
      */

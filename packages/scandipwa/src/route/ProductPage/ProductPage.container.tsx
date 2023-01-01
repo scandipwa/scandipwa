@@ -94,7 +94,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductPageContainerMapD
 });
 
 /** @namespace Route/ProductPage/Container */
-export class ProductPageContainer extends PureComponent<ProductPageContainerProps, ProductPageContainerState> {
+export class ProductPageContainer<
+P extends Readonly<ProductPageContainerProps> = Readonly<ProductPageContainerProps>,
+S extends ProductPageContainerState = ProductPageContainerState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<ProductPageContainerProps> = {
         productSKU: '',
         productID: 0,

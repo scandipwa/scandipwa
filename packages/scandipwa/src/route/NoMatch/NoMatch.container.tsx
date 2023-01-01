@@ -55,7 +55,10 @@ export const mapStateToProps = (state: RootState): NoMatchContainerMapStateProps
 });
 
 /** @namespace Route/NoMatch/Container */
-export class NoMatchContainer extends PureComponent<NoMatchContainerProps> {
+export class NoMatchContainer<
+P extends Readonly<NoMatchContainerProps> = Readonly<NoMatchContainerProps>,
+S extends NoMatchContainerState = NoMatchContainerState,
+> extends PureComponent<P, S> {
     componentDidMount(): void {
         this.updateHeaderState();
         this.updateMeta();

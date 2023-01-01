@@ -15,7 +15,6 @@ export interface SwipeToDeleteContainerMapStateProps {
     isMobile: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SwipeToDeleteContainerMapDispatchProps {}
 
 export interface SwipeToDeleteContainerBaseProps {

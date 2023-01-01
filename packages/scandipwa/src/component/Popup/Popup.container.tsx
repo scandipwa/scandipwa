@@ -53,7 +53,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): PopupContainerMapDispatc
 });
 
 /** @namespace Component/Popup/Container */
-export class PopupContainer extends PureComponent<PopupContainerProps> {
+export class PopupContainer<
+P extends Readonly<PopupContainerProps> = Readonly<PopupContainerProps>,
+S extends PopupContainerState = PopupContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<PopupContainerProps> = {
         onVisible: noopFn,
         onClose: noopFn,

@@ -17,7 +17,6 @@ export interface CartItemPriceContainerMapStateProps {
     getCartItemSubPrice: (props: CartItemPriceProps) => number | null;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CartItemPriceContainerMapDispatchProps {}
 
 export interface CartItemPriceContainerBaseProps {
@@ -31,12 +30,16 @@ export type CartItemPriceContainerProps = CartItemPriceContainerMapStateProps
 & CartItemPriceContainerMapDispatchProps
 & CartItemPriceContainerBaseProps;
 
+export interface CartItemPriceContainerState {}
+
 export interface CartItemPriceComponentProps {
     currency_code: string;
     mix: Mix;
     price: number;
     subPrice: number | null;
 }
+
+export interface CartItemPriceComponentState {}
 
 export type CartItemPriceComponentContainerPropKeys =
     | 'currency_code'

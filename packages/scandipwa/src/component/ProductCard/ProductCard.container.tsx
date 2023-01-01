@@ -61,7 +61,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductCardContainerMapD
 });
 
 /** @namespace Component/ProductCard/Container */
-export class ProductCardContainer extends ProductContainer<ProductCardContainerProps> {
+export class ProductCardContainer<
+P extends Readonly<ProductCardContainerProps> = Readonly<ProductCardContainerProps>,
+S extends ProductCardContainerState = ProductCardContainerState,
+> extends ProductContainer<P, S> {
     static defaultProps: Partial<ProductCardContainerProps> = {
         ...ProductContainer.defaultProps,
         hideWishlistButton: false,

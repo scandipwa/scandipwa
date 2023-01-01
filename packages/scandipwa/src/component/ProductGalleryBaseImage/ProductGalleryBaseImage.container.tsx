@@ -20,7 +20,10 @@ import { INITIAL_SCALE, TRANSFORMATION_DELAY, TRANSFORMATION_SPEED } from './Pro
 import { ProductGalleryBaseImageContainerProps, ProductGalleryComponentProps } from './ProductGalleryBaseImage.type';
 
 /** @namespace Component/ProductGalleryBaseImage/Container */
-export class ProductGalleryBaseImageContainer extends Component<ProductGalleryBaseImageContainerProps> {
+export class ProductGalleryBaseImageContainer<
+P extends Readonly<ProductGalleryBaseImageContainerProps> = Readonly<ProductGalleryBaseImageContainerProps>,
+S extends ProductGalleryBaseImageContainerState = ProductGalleryBaseImageContainerState,
+> extends Component<P, S> {
     shouldComponentUpdate(nextProps: ProductGalleryBaseImageContainerProps): boolean {
         const { scale, mediaData: { id } } = this.props;
         const { scale: nextScale, mediaData: { id: nextId } } = nextProps;

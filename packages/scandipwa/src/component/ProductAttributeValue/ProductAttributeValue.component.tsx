@@ -28,7 +28,10 @@ import { ProductAttributeValueComponentProps, ProductAttributeValueOption } from
 import './ProductAttributeValue.style';
 
 /** @namespace Component/ProductAttributeValue/Component */
-export class ProductAttributeValueComponent extends PureComponent<ProductAttributeValueComponentProps> {
+export class ProductAttributeValueComponent<
+P extends Readonly<ProductAttributeValueComponentProps> = Readonly<ProductAttributeValueComponentProps>,
+S extends ProductAttributeValueComponentState = ProductAttributeValueComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductAttributeValueComponentProps> = {
         isSelected: false,
         onClick: noopFn,

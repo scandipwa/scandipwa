@@ -24,7 +24,7 @@ import {
 } from './Image.type';
 
 /** @namespace Component/Image/Container */
-export class ImageContainer<P extends ImageContainerProps = ImageContainerProps> extends PureComponent<P> {
+export class ImageContainer<P extends Readonly<ImageContainerProps> = Readonly<ImageContainerProps>,, ImageContainerProps> extends PureComponent<P> {
     static defaultProps: Partial<ImageContainerProps> = {
         src: '',
         alt: '',

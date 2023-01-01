@@ -52,7 +52,10 @@ import './ProductGallery.style';
  * @class ProductGallery
  * @namespace Component/ProductGallery/Component
  */
-export class ProductGalleryComponent extends PureComponent<ProductGalleryComponentProps, ProductGalleryComponentState> {
+export class ProductGalleryComponent<
+P extends Readonly<ProductGalleryComponentProps> = Readonly<ProductGalleryComponentProps>,
+S extends ProductGalleryComponentState = ProductGalleryComponentState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<ProductGalleryComponentProps> = {
         productId: 0,
     };

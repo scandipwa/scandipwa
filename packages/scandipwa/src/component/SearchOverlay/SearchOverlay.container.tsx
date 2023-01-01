@@ -50,7 +50,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): SearchOverlayContainerMa
 });
 
 /** @namespace Component/SearchOverlay/Container */
-export class SearchOverlayContainer extends PureComponent<SearchOverlayContainerProps> {
+export class SearchOverlayContainer<
+P extends Readonly<SearchOverlayContainerProps> = Readonly<SearchOverlayContainerProps>,
+S extends SearchOverlayContainerState = SearchOverlayContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<SearchOverlayContainerProps> = {
         isHideOverlay: false,
     };

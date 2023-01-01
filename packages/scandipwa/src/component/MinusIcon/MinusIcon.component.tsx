@@ -18,7 +18,10 @@ import { MinusIconComponentProps } from './MinusIcon.type';
 import './MinusIcon.style';
 
 /** @namespace Component/MinusIcon/Component */
-export class MinusIconComponent extends PureComponent<MinusIconComponentProps> {
+export class MinusIconComponent<
+P extends Readonly<MinusIconComponentProps> = Readonly<MinusIconComponentProps>,
+S extends MinusIconComponentState = MinusIconComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MinusIconComponentProps> = {
         isPrimary: false,
     };

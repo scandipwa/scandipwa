@@ -12,3 +12,5 @@
 export interface AddIconComponentProps {
     isPrimary: boolean;
 }
+
+export interface AddIconComponentState {}

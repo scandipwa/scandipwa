@@ -23,7 +23,7 @@ export interface MetaContainerMapStateProps {
     status_code?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface MetaContainerMapDispatchProps {}
 
 export type MetaContainerProps = MetaContainerMapStateProps

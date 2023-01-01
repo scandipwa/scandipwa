@@ -19,7 +19,10 @@ import { TranslateOnCursorMoveComponentProps } from './TranslateOnCursorMove.typ
 import './TranslateOnCursorMove.style';
 
 /** @namespace Component/TranslateOnCursorMove/Component */
-export class TranslateOnCursorMoveComponent extends PureComponent<TranslateOnCursorMoveComponentProps> {
+export class TranslateOnCursorMoveComponent<
+P extends Readonly<TranslateOnCursorMoveComponentProps> = Readonly<TranslateOnCursorMoveComponentProps>,
+S extends TranslateOnCursorMoveComponentState = TranslateOnCursorMoveComponentState,
+> extends PureComponent<P, S> {
     ref = createRef<HTMLDivElement>();
 
     __construct(props: TranslateOnCursorMoveComponentProps): void {

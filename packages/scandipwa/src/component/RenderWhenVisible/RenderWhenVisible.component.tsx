@@ -21,7 +21,10 @@ import 'intersection-observer';
 import './RenderWhenVisible.style';
 
 /** @namespace Component/RenderWhenVisible/Component */
-export class RenderWhenVisibleComponent extends PureComponent<RenderWhenVisibleComponentProps, RenderWhenVisibleComponentState> {
+export class RenderWhenVisibleComponent<
+P extends Readonly<RenderWhenVisibleComponentProps> = Readonly<RenderWhenVisibleComponentProps>,
+S extends RenderWhenVisibleComponentState = RenderWhenVisibleComponentState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<RenderWhenVisibleComponentProps> = {
         fallback: noopFn,
     };

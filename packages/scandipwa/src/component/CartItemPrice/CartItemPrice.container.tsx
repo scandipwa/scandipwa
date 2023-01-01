@@ -24,6 +24,7 @@ import {
     CartItemPriceContainerMapDispatchProps,
     CartItemPriceContainerMapStateProps,
     CartItemPriceContainerProps,
+    CartItemPriceContainerState,
 } from './CartItemPrice.type';
 
 /** @namespace Component/CartItemPrice/Container/mapStateToProps */
@@ -36,7 +37,10 @@ export const mapStateToProps = (state: RootState): CartItemPriceContainerMapStat
 export const mapDispatchToProps = (): CartItemPriceContainerMapDispatchProps => ({});
 
 /** @namespace Component/CartItemPrice/Container */
-export class CartItemPriceContainer extends PureComponent<CartItemPriceContainerProps> {
+export class CartItemPriceContainer<
+P extends Readonly<CartItemPriceContainerProps> = Readonly<CartItemPriceContainerProps>,
+S extends CartItemPriceContainerState = CartItemPriceContainerState,
+> extends PureComponent<P, S> {
     containerProps(): Pick<CartItemPriceComponentProps, CartItemPriceComponentContainerPropKeys> {
         const {
             getCartItemPrice,
@@ -49,8 +53,8 @@ export class CartItemPriceContainer extends PureComponent<CartItemPriceContainer
         return {
             currency_code,
             mix,
-            price: getCartItemPrice(rest as CartItemPriceProps),
-            subPrice: getCartItemSubPrice(rest as CartItemPriceProps),
+            price: getCartItemPrice(rest as unknown as CartItemPriceProps),
+            subPrice: getCartItemSubPrice(rest as unknown as CartItemPriceProps),
         };
     }
 

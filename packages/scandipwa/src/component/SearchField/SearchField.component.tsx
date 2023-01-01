@@ -34,7 +34,10 @@ import { SearchFieldComponentProps } from './SearchField.type';
 import './SearchField.style';
 
 /** @namespace Component/SearchField/Component */
-export class SearchFieldComponent extends PureComponent<SearchFieldComponentProps> {
+export class SearchFieldComponent<
+P extends Readonly<SearchFieldComponentProps> = Readonly<SearchFieldComponentProps>,
+S extends SearchFieldComponentState = SearchFieldComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<SearchFieldComponentProps> = {
         isVisible: true,
         isActive: true,

@@ -20,7 +20,7 @@ export interface MyAccountCustomerFormContainerMapStateProps {
     minimunPasswordCharacter: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface MyAccountCustomerFormContainerMapDispatchProps {}
 
 export interface MyAccountCustomerFormContainerFunctions {

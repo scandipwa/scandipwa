@@ -21,7 +21,10 @@ import { NoMatchComponentProps } from './NoMatch.type';
 import './NoMatch.style';
 
 /** @namespace Route/NoMatch/Component */
-export class NoMatchComponent extends PureComponent<NoMatchComponentProps> {
+export class NoMatchComponent<
+P extends Readonly<NoMatchComponentProps> = Readonly<NoMatchComponentProps>,
+S extends NoMatchComponentState = NoMatchComponentState,
+> extends PureComponent<P, S> {
     componentDidMount(): void {
         this.updateBreadcrumbs();
         this.cleanUpTransition();

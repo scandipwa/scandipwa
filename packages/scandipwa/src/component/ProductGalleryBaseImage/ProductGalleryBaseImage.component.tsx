@@ -19,7 +19,10 @@ import { ReactElement } from 'Type/Common.type';
 import { ProductGalleryComponentProps } from './ProductGalleryBaseImage.type';
 
 /** @namespace Component/ProductGalleryBaseImage/Component */
-export class ProductGalleryBaseImageComponent extends PureComponent<ProductGalleryComponentProps> {
+export class ProductGalleryBaseImageComponent<
+P extends Readonly<ProductGalleryComponentProps> = Readonly<ProductGalleryComponentProps>,
+S extends ProductGalleryBaseImageComponentState = ProductGalleryBaseImageComponentState,
+> extends PureComponent<P, S> {
     render(): ReactElement {
         const { src, alt } = this.props;
 

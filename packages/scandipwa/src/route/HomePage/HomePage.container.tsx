@@ -43,7 +43,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): HomePageContainerMapDisp
 });
 
 /** @namespace Route/HomePage/Container */
-export class HomePageContainer extends PureComponent<HomePageContainerProps> {
+export class HomePageContainer<
+P extends Readonly<HomePageContainerProps> = Readonly<HomePageContainerProps>,
+S extends HomePageContainerState = HomePageContainerState,
+> extends PureComponent<P, S> {
     componentDidMount(): void {
         const { changeHeaderState } = this.props;
 

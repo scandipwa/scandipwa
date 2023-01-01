@@ -46,7 +46,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): ContactFormContainerMapD
 });
 
 /** @namespace Component/ContactForm/Container */
-export class ContactFormContainer extends PureComponent<ContactFormContainerProps> {
+export class ContactFormContainer<
+P extends Readonly<ContactFormContainerProps> = Readonly<ContactFormContainerProps>,
+S extends ContactFormContainerState = ContactFormContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: ContactFormContainerFunctions = {
         onFormSubmit: this.onFormSubmit.bind(this),
     };

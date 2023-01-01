@@ -25,7 +25,10 @@ import './ProductBundleOptions.style';
  * @class ProductBundleOptions
  * @namespace Component/ProductBundleOptions/Component
  */
-export class ProductBundleOptionsComponent extends PureComponent<ProductBundleOptionsComponentProps> {
+export class ProductBundleOptionsComponent<
+P extends Readonly<ProductBundleOptionsComponentProps> = Readonly<ProductBundleOptionsComponentProps>,
+S extends ProductBundleOptionsComponentState = ProductBundleOptionsComponentState,
+> extends PureComponent<P, S> {
     renderOptionGroup(group: IndexedBundleItem): ReactElement {
         const {
             title,

@@ -32,7 +32,10 @@ import {
  * Field Group
  * @class FieldGroupContainer
  * @namespace Component/FieldGroup/Container */
-export class FieldGroupContainer extends PureComponent<FieldGroupContainerProps, FieldGroupContainerState> {
+export class FieldGroupContainer<
+P extends Readonly<FieldGroupContainerProps> = Readonly<FieldGroupContainerProps>,
+S extends FieldGroupContainerState = FieldGroupContainerState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<FieldGroupContainerProps> = {
         attr: {},
         events: {} as FieldGroupEvents,

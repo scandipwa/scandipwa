@@ -49,7 +49,10 @@ export const mapStateToProps = (state: RootState): ProductGalleryContainerMapSta
 export const mapDispatchToProps = (): ProductGalleryContainerMapDispatchProps => ({});
 
 /** @namespace Component/ProductGallery/Container */
-export class ProductGalleryContainer extends PureComponent<ProductGalleryContainerProps, ProductGalleryContainerState> {
+export class ProductGalleryContainer<
+P extends Readonly<ProductGalleryContainerProps> = Readonly<ProductGalleryContainerProps>,
+S extends ProductGalleryContainerState = ProductGalleryContainerState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<ProductGalleryContainerProps> = {
         areDetailsLoaded: false,
         isZoomEnabled: false,

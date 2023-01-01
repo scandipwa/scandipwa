@@ -21,7 +21,10 @@ import { StoreInPickUpComponentProps } from './StoreInPickUp.type';
 import './StoreInPickUp.style';
 
 /** @namespace Component/StoreInPickUp/Component */
-export class StoreInPickUpComponent extends PureComponent<StoreInPickUpComponentProps> {
+export class StoreInPickUpComponent<
+P extends Readonly<StoreInPickUpComponentProps> = Readonly<StoreInPickUpComponentProps>,
+S extends StoreInPickUpComponentState = StoreInPickUpComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<StoreInPickUpComponentProps> = {
         selectedStore: null,
         selectStore: noopFn,

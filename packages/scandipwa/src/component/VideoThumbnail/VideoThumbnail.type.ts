@@ -13,7 +13,6 @@ import { MouseEvent } from 'react';
 
 import { MediaGalleryEntry } from 'Query/ProductList.type';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface VideoThumbnailContainerMapStateProps {}
 
 export interface VideoThumbnailContainerMapDispatchProps {

@@ -24,7 +24,10 @@ import { PaginationComponentProps } from './Pagination.type';
 import './Pagination.style';
 
 /** @namespace Component/Pagination/Component */
-export class PaginationComponent extends PureComponent<PaginationComponentProps> {
+export class PaginationComponent<
+P extends Readonly<PaginationComponentProps> = Readonly<PaginationComponentProps>,
+S extends PaginationComponentState = PaginationComponentState,
+> extends PureComponent<P, S> {
     renderPreviousPageLink(): ReactElement {
         const {
             anchorTextPrevious,

@@ -25,7 +25,10 @@ import { ForgotPasswordComponentProps } from './ForgotPassword.type';
 import './ForgotPassword.style';
 
 /** @namespace Route/ForgotPassword/Component */
-export class ForgotPasswordComponent extends MyAccountOverlayComponent<ForgotPasswordComponentProps> {
+export class ForgotPasswordComponent<
+P extends Readonly<ForgotPasswordComponentProps> = Readonly<ForgotPasswordComponentProps>,
+S extends ForgotPasswordComponentState = ForgotPasswordComponentState,
+> extends MyAccountOverlayComponent<P, S> {
     renderSignInWrapper(): ReactElement {
         const { onLoginClick } = this.props;
 

@@ -48,7 +48,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): MenuItemMapDispatchProps
 });
 
 /** @namespace Component/MenuItem/Container */
-export class MenuItemContainer extends PureComponent<MenuItemContainerProps> {
+export class MenuItemContainer<
+P extends Readonly<MenuItemContainerProps> = Readonly<MenuItemContainerProps>,
+S extends MenuItemContainerState = MenuItemContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MenuItemContainerProps> = {
         closeMenu: noopFn,
         onCategoryHover: noopFn,

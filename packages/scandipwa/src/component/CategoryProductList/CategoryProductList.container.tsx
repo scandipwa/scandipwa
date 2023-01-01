@@ -54,7 +54,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryProductListConta
 });
 
 /** @namespace Component/CategoryProductList/Container */
-export class CategoryProductListContainer extends PureComponent<CategoryProductListContainerProps> {
+export class CategoryProductListContainer<
+P extends Readonly<CategoryProductListContainerProps> = Readonly<CategoryProductListContainerProps>,
+S extends CategoryProductListContainerState = CategoryProductListContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CategoryProductListContainerProps> = {
         isMatchingListFilter: false,
         isMatchingInfoFilter: false,

@@ -34,7 +34,10 @@ export const mapStateToProps = (state: RootState): CookiePopupContainerMapStateP
 export const mapDispatchToProps = (): CookiePopupContainerMapDispatchProps => ({});
 
 /** @namespace Component/CookiePopup/Container */
-export class CookiePopupContainer extends PureComponent<CookiePopupContainerProps> {
+export class CookiePopupContainer<
+P extends Readonly<CookiePopupContainerProps> = Readonly<CookiePopupContainerProps>,
+S extends CookiePopupContainerState = CookiePopupContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CookiePopupContainerProps> = {
         cookieText: '',
         cookieLink: '',

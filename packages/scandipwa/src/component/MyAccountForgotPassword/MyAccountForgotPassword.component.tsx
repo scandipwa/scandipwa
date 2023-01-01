@@ -20,7 +20,10 @@ import { ValidationInputType } from 'Util/Validator/Config';
 import { MyAccountForgotPasswordComponentProps } from './MyAccountForgotPassword.type';
 
 /** @namespace Component/MyAccountForgotPassword/Component */
-export class MyAccountForgotPasswordComponent extends PureComponent<MyAccountForgotPasswordComponentProps> {
+export class MyAccountForgotPasswordComponent<
+P extends Readonly<MyAccountForgotPasswordComponentProps> = Readonly<MyAccountForgotPasswordComponentProps>,
+S extends MyAccountForgotPasswordComponentState = MyAccountForgotPasswordComponentState,
+> extends PureComponent<P, S> {
     renderForgotPasswordForm(): ReactElement {
         const { onForgotPasswordSuccess, onFormError } = this.props;
 

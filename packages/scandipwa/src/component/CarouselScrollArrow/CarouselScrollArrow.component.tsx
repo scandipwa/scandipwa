@@ -15,12 +15,15 @@ import ChevronIcon from 'Component/ChevronIcon';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
-import { CarouselScrollArrowComponentProps } from './CarouselScrollArrow.type';
+import { CarouselScrollArrowComponentProps, CarouselScrollArrowComponentState } from './CarouselScrollArrow.type';
 
 import './CarouselScrollArrow.style';
 
 /** @namespace Component/CarouselScrollArrow/Component */
-export class CarouselScrollArrowComponent extends PureComponent<CarouselScrollArrowComponentProps> {
+export class CarouselScrollArrowComponent<
+P extends Readonly<CarouselScrollArrowComponentProps> = Readonly<CarouselScrollArrowComponentProps>,
+S extends CarouselScrollArrowComponentState = CarouselScrollArrowComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CarouselScrollArrowComponentProps> = {
         mods: {},
         onClick: noopFn,

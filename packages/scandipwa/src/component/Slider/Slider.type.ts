@@ -19,7 +19,7 @@ export interface SliderContainerMapStateProps {
     device: Device;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface SliderContainerMapDispatchProps {}
 
 export interface SliderComponentBaseProps {

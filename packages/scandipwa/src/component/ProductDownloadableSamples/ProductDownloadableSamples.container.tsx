@@ -32,7 +32,10 @@ export const mapStateToProps = (state: RootState): ProductDownloadableSamplesCon
 export const mapDispatchToProps = (): ProductDownloadableSamplesContainerMapDispatchProps => ({});
 
 /** @namespace Component/ProductDownloadableSamples/Container */
-export class ProductDownloadableSamplesContainer extends PureComponent<ProductDownloadableSamplesContainerProps> {
+export class ProductDownloadableSamplesContainer<
+P extends Readonly<ProductDownloadableSamplesContainerProps> = Readonly<ProductDownloadableSamplesContainerProps>,
+S extends ProductDownloadableSamplesContainerState = ProductDownloadableSamplesContainerState,
+> extends PureComponent<P, S> {
     containerProps(): ProductDownloadableSamplesComponentProps {
         const { title, samples, isOpenInNewTab } = this.props;
 

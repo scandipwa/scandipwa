@@ -15,7 +15,7 @@ export interface ResetAttributesContainerMapStateProps {
     currency_code: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface ResetAttributesContainerMapDispatchProps {}
 
 export interface ResetAttributesContainerBaseProps {

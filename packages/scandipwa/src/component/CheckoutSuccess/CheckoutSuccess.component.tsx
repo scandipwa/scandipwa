@@ -23,7 +23,10 @@ import { CheckoutSuccessComponentProps } from './CheckoutSuccess.type';
 import './CheckoutSuccess.style';
 
 /** @namespace Component/CheckoutSuccess/Component */
-export class CheckoutSuccessComponent extends PureComponent<CheckoutSuccessComponentProps> {
+export class CheckoutSuccessComponent<
+P extends Readonly<CheckoutSuccessComponentProps> = Readonly<CheckoutSuccessComponentProps>,
+S extends CheckoutSuccessComponentState = CheckoutSuccessComponentState,
+> extends PureComponent<P, S> {
     renderButtons(): ReactElement {
         return (
             <div block="CheckoutSuccess" elem="ButtonWrapper">

@@ -41,7 +41,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): SearchItemContainerMapDi
 export const mapStateToProps = (): SearchItemContainerMapStateProps => ({});
 
 /** @namespace Component/SearchItem/Container */
-export class SearchItemContainer extends PureComponent<SearchItemContainerProps> {
+export class SearchItemContainer<
+P extends Readonly<SearchItemContainerProps> = Readonly<SearchItemContainerProps>,
+S extends SearchItemContainerState = SearchItemContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: SearchItemContainerFunctions = {
         onClick: this.handleItemClick.bind(this),
     };

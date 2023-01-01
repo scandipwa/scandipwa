@@ -24,7 +24,10 @@ import {
 } from './GroupedProductsItem.type';
 
 /** @namespace Component/GroupedProductsItem/Container */
-export class GroupedProductsItemContainer extends PureComponent<GroupedProductsItemContainerProps> {
+export class GroupedProductsItemContainer<
+P extends Readonly<GroupedProductsItemContainerProps> = Readonly<GroupedProductsItemContainerProps>,
+S extends GroupedProductsItemContainerState = GroupedProductsItemContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: GroupedProductsItemContainerFunctions = {
         setQuantity: this.setQuantity.bind(this),
     };

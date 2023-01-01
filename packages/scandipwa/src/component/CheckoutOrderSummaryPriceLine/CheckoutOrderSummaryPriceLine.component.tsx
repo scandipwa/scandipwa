@@ -18,7 +18,10 @@ import { formatPrice } from 'Util/Price';
 import { CheckoutOrderSummaryPriceLineProps } from './CheckoutOrderSummaryPriceLine.type';
 
 /** @namespace Component/CheckoutOrderSummaryPriceLine/Component */
-export class CheckoutOrderSummaryPriceLineComponent extends PureComponent<CheckoutOrderSummaryPriceLineProps> {
+export class CheckoutOrderSummaryPriceLineComponent<
+P extends Readonly<CheckoutOrderSummaryPriceLineProps> = Readonly<CheckoutOrderSummaryPriceLineProps>,
+S extends CheckoutOrderSummaryPriceLineComponentState = CheckoutOrderSummaryPriceLineComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CheckoutOrderSummaryPriceLineProps> = {
         itemsQty: 0,
         mods: {},

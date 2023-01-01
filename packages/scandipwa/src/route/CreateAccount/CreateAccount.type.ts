@@ -23,8 +23,10 @@ export interface CreateAccountContainerMapDispatchProps extends MyAccountOverlay
     toggleBreadcrumbs: (isVisible: boolean) => void;
 }
 
-export type CreateAccountContainerProps = CreateAccountContainerMapDispatchProps
-& MyAccountOverlayContainerProps;
+export interface CreateAccountContainerProps extends CreateAccountContainerMapDispatchProps,
+    MyAccountOverlayContainerProps {}
+
+export interface CreateAccountContainerState {}
 
 export interface CreateAccountContainerFunctions extends MyAccountOverlayContainerFunctions {
     onLoginClick: () => void;

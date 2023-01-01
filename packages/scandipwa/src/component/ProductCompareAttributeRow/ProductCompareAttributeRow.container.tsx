@@ -32,7 +32,10 @@ export const mapStateToProps = (state: RootState): ProductCompareAttributeRowCon
 export const mapDispatchToProps = (): ProductCompareAttributeRowContainerMapDispatchProps => ({});
 
 /** @namespace Component/ProductCompareAttributeRow/Container */
-export class ProductCompareAttributeRowContainer extends PureComponent<ProductCompareAttributeRowContainerProps> {
+export class ProductCompareAttributeRowContainer<
+P extends Readonly<ProductCompareAttributeRowContainerProps> = Readonly<ProductCompareAttributeRowContainerProps>,
+S extends ProductCompareAttributeRowContainerState = ProductCompareAttributeRowContainerState,
+> extends PureComponent<P, S> {
     containerProps(): ProductCompareAttributeRowComponentProps {
         const { title, values, device } = this.props;
 

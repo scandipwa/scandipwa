@@ -30,7 +30,10 @@ import { MyAccountOrderPrintComponentProps } from './MyAccountOrderPrint.type';
 import './MyAccountOrderPrint.style';
 
 /** @namespace Component/MyAccountOrderPrint/Component */
-export class MyAccountOrderPrintComponent extends MyAccountOrder<MyAccountOrderPrintComponentProps> {
+export class MyAccountOrderPrintComponent<
+P extends Readonly<MyAccountOrderPrintComponentProps> = Readonly<MyAccountOrderPrintComponentProps>,
+S extends MyAccountOrderPrintComponentState = MyAccountOrderPrintComponentState,
+> extends MyAccountOrder<P, S> {
     logoRef = createRef<HTMLDivElement>();
 
     state = {

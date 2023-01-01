@@ -19,7 +19,10 @@ import { StarIconComponentProps } from './StarIcon.type';
 import './StarIcon.style';
 
 /** @namespace Component/StarIcon/Component */
-export class StarIconComponent extends PureComponent<StarIconComponentProps> {
+export class StarIconComponent<
+P extends Readonly<StarIconComponentProps> = Readonly<StarIconComponentProps>,
+S extends StarIconComponentState = StarIconComponentState,
+> extends PureComponent<P, S> {
     getStarPath(): ReactElement {
         const { starFill } = this.props;
 

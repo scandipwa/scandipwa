@@ -30,7 +30,7 @@ import {
 import { formatPrice } from 'Util/Price';
 import { ValidationInputType } from 'Util/Validator/Config';
 
-import { CartItemComponentProductOption, CartItemComponentProps } from './CartItem.type';
+import { CartItemComponentProductOption, CartItemComponentProps, CartItemComponentState } from './CartItem.type';
 
 import './CartItem.style';
 
@@ -39,7 +39,10 @@ import './CartItem.style';
  * @class CartItem
  * @namespace Component/CartItem/Component
  */
-export class CartItemComponent extends PureComponent<CartItemComponentProps> {
+export class CartItemComponent<
+P extends Readonly<CartItemComponentProps> = Readonly<CartItemComponentProps>,
+S extends CartItemComponentState = CartItemComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CartItemComponentProps> = {
         isCartOverlay: false,
         isMobileLayout: false,

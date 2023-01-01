@@ -14,7 +14,6 @@ import { PageMeta } from 'Store/Meta/Meta.type';
 import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
 import { FieldData } from 'Util/Form/Form.type';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ConfirmAccountPageContainerMapStateProps {}
 
 export interface ConfirmAccountPageContainerMapDispatchProps {

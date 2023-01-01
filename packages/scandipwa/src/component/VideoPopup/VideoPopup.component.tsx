@@ -28,7 +28,10 @@ import './VideoPopup.style';
  * @class VideoPopup
  * @namespace Component/VideoPopup/Component
  */
-export class VideoPopupComponent extends PureComponent<VideoPopupComponentProps> {
+export class VideoPopupComponent<
+P extends Readonly<VideoPopupComponentProps> = Readonly<VideoPopupComponentProps>,
+S extends VideoPopupComponentState = VideoPopupComponentState,
+> extends PureComponent<P, S> {
     vimeoPromise: CancelablePromise<{ default: VimeoComponent }> | null = null;
 
     youTubePromise: CancelablePromise<{ default: YouTubeComponent }> | null = null;

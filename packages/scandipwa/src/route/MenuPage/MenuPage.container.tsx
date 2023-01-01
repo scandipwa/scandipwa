@@ -40,7 +40,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): MenuPageContainerMapDisp
 });
 
 /** @namespace Route/MenuPage/Container */
-export class MenuPageContainer extends PureComponent<MenuPageContainerProps> {
+export class MenuPageContainer<
+P extends Readonly<MenuPageContainerProps> = Readonly<MenuPageContainerProps>,
+S extends MenuPageContainerState = MenuPageContainerState,
+> extends PureComponent<P, S> {
     __construct(): void {
         this.redirectIfNotOnMobile();
     }

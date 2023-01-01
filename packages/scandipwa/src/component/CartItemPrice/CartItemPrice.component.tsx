@@ -15,10 +15,13 @@ import { ReactElement } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice, roundPrice } from 'Util/Price';
 
-import { CartItemPriceComponentProps } from './CartItemPrice.type';
+import { CartItemPriceComponentProps, CartItemPriceComponentState } from './CartItemPrice.type';
 
 /** @namespace Component/CartItemPrice/Component */
-export class CartItemPriceComponent extends PureComponent<CartItemPriceComponentProps> {
+export class CartItemPriceComponent<
+P extends Readonly<CartItemPriceComponentProps> = Readonly<CartItemPriceComponentProps>,
+S extends CartItemPriceComponentState = CartItemPriceComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CartItemPriceComponentProps> = {
         subPrice: null,
     };

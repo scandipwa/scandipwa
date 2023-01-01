@@ -27,7 +27,10 @@ import { ConfirmAccountPageComponentProps } from './ConfirmAccountPage.type';
 import './ConfirmAccountPage.style';
 
 /** @namespace Route/ConfirmAccountPage/Component */
-export class ConfirmAccountPageComponent extends PureComponent<ConfirmAccountPageComponentProps> {
+export class ConfirmAccountPageComponent<
+P extends Readonly<ConfirmAccountPageComponentProps> = Readonly<ConfirmAccountPageComponentProps>,
+S extends ConfirmAccountPageComponentState = ConfirmAccountPageComponentState,
+> extends PureComponent<P, S> {
     renderWarningMessage(): ReactElement {
         const { shouldDisplayWarning } = this.props;
 

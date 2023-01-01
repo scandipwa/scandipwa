@@ -22,7 +22,10 @@ import shareWishlistForm from './ShareWishlistForm.form';
 import { ShareWishlistFormComponentProps } from './ShareWishlistForm.type';
 
 /** @namespace Component/ShareWishlistForm/Component */
-export class ShareWishlistFormComponent extends FieldForm<ShareWishlistFormComponentProps> {
+export class ShareWishlistFormComponent<
+P extends Readonly<ShareWishlistFormComponentProps> = Readonly<ShareWishlistFormComponentProps>,
+S extends ShareWishlistFormComponentState = ShareWishlistFormComponentState,
+> extends FieldForm<P, S> {
     __construct(props: ShareWishlistFormComponentProps): void {
         super.__construct?.(props);
 

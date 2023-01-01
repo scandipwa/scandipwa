@@ -23,7 +23,10 @@ import { PasswordChangeFormComponentProps } from './PasswordChangeForm.type';
 import './PasswordChangeForm.style';
 
 /** @namespace Component/PasswordChangeForm/Component */
-export class PasswordChangeFormComponent extends FieldForm<PasswordChangeFormComponentProps> {
+export class PasswordChangeFormComponent<
+P extends Readonly<PasswordChangeFormComponentProps> = Readonly<PasswordChangeFormComponentProps>,
+S extends PasswordChangeFormComponentState = PasswordChangeFormComponentState,
+> extends FieldForm<P, S> {
     passwordRef: MutableRefObject<
     HTMLInputElement
     > = React.createRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;

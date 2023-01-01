@@ -17,10 +17,14 @@ import {
     CarouselScrollArrowComponentContainerPropKeys,
     CarouselScrollArrowComponentProps,
     CarouselScrollArrowContainerProps,
+    CarouselScrollArrowContainerState,
 } from './CarouselScrollArrow.type';
 
 /** @namespace Component/CarouselScrollArrow/Container */
-export class CarouselScrollArrowContainer extends PureComponent<CarouselScrollArrowContainerProps> {
+export class CarouselScrollArrowContainer<
+P extends Readonly<CarouselScrollArrowContainerProps> = Readonly<CarouselScrollArrowContainerProps>,
+S extends CarouselScrollArrowContainerState = CarouselScrollArrowContainerState,
+> extends PureComponent<P, S> {
     containerFunctions = {
         onClick: this.onClick.bind(this),
     };

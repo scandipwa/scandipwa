@@ -77,7 +77,7 @@ export const mapStateToProps = (state: RootState): ProductContainerMapStateProps
  * @namespace Component/Product/Container
 */
 export class ProductContainer<
-P extends ProductContainerProps = ProductContainerProps,
+P extends Readonly<ProductContainerProps> = Readonly<ProductContainerProps>,
 S extends ProductContainerState = ProductContainerState,
 > extends PureComponent <P, S> {
     static defaultProps: Partial<ProductContainerProps> = {

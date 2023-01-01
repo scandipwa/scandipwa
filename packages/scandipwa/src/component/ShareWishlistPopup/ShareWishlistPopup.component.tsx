@@ -21,7 +21,10 @@ import { ShareWishlistPopupComponentProps } from './ShareWishlistPopup.type';
 import './ShareWishlistPopup.style';
 
 /** @namespace Component/ShareWishlistPopup/Component */
-export class ShareWishlistPopupComponent extends PureComponent<ShareWishlistPopupComponentProps> {
+export class ShareWishlistPopupComponent<
+P extends Readonly<ShareWishlistPopupComponentProps> = Readonly<ShareWishlistPopupComponentProps>,
+S extends ShareWishlistPopupComponentState = ShareWishlistPopupComponentState,
+> extends PureComponent<P, S> {
     renderContent(): ReactElement {
         const { handleFormData, isFormLoading } = this.props;
 

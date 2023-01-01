@@ -38,7 +38,10 @@ export const mapStateToProps = (state: RootState): ResetAttributesContainerMapSt
 export const mapDispatchToProps = (): ResetAttributesContainerMapDispatchProps => ({});
 
 /** @namespace Component/ResetAttributes/Container */
-export class ResetAttributesContainer extends PureComponent<ResetAttributesContainerProps> {
+export class ResetAttributesContainer<
+P extends Readonly<ResetAttributesContainerProps> = Readonly<ResetAttributesContainerProps>,
+S extends ResetAttributesContainerState = ResetAttributesContainerState,
+> extends PureComponent<P, S> {
     containerProps(): ResetAttributesComponentProps {
         const { toggleCustomFilter } = this.props;
 

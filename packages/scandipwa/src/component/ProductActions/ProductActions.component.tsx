@@ -32,7 +32,10 @@ import './ProductActions.style';
  * @class ProductActions
  * @namespace Component/ProductActions/Component
  */
-export class ProductActionsComponent extends ProductComponent<ProductActionsComponentProps> {
+export class ProductActionsComponent<
+P extends Readonly<ProductActionsComponentProps> = Readonly<ProductActionsComponentProps>,
+S extends ProductActionsComponentState = ProductActionsComponentState,
+> extends ProductComponent<P, S> {
     static defaultProps: Partial<ProductActionsComponentProps> = {
         ...ProductComponent.defaultProps,
         productName: '',

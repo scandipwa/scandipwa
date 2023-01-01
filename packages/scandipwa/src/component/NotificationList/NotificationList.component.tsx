@@ -23,7 +23,10 @@ import './NotificationList.style';
  * @class NotificationList
  * @namespace Component/NotificationList/Component
  */
-export class NotificationListComponent extends PureComponent<NotificationListComponentProps> {
+export class NotificationListComponent<
+P extends Readonly<NotificationListComponentProps> = Readonly<NotificationListComponentProps>,
+S extends NotificationListComponentState = NotificationListComponentState,
+> extends PureComponent<P, S> {
     render(): ReactElement {
         const { onHideNotification, notifications } = this.props;
 

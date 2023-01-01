@@ -33,7 +33,10 @@ export const mapStateToProps = (state: RootState): MyAccountOrderItemsTableConta
 export const mapDispatchToProps = (): MyAccountOrderItemsTableContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountOrderItemsTable/Container */
-export class MyAccountOrderItemsTableContainer extends PureComponent<MyAccountOrderItemsTableContainerProps> {
+export class MyAccountOrderItemsTableContainer<
+P extends Readonly<MyAccountOrderItemsTableContainerProps> = Readonly<MyAccountOrderItemsTableContainerProps>,
+S extends MyAccountOrderItemsTableContainerState = MyAccountOrderItemsTableContainerState,
+> extends PureComponent<P, S> {
     static defaultProps = {
         isPrintPage: false,
     };

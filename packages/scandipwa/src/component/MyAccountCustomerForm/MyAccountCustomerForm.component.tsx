@@ -22,7 +22,10 @@ import { customerEmailAndPasswordFields, customerInformationFields } from './MyA
 import { MyAccountCustomerFormComponentProps } from './MyAccountCustomerForm.type';
 
 /** @namespace Component/MyAccountCustomerForm/Component */
-export class MyAccountCustomerFormComponent extends FieldForm<MyAccountCustomerFormComponentProps> {
+export class MyAccountCustomerFormComponent<
+P extends Readonly<MyAccountCustomerFormComponentProps> = Readonly<MyAccountCustomerFormComponentProps>,
+S extends MyAccountCustomerFormComponentState = MyAccountCustomerFormComponentState,
+> extends FieldForm<P, S> {
     static defaultProps: Partial<MyAccountCustomerFormComponentProps> = {
         email: '',
         currentPassword: '',

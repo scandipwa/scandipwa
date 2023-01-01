@@ -18,7 +18,10 @@ import { DemoNoticeComponentProps } from './DemoNotice.type';
 import './DemoNotice.style';
 
 /** @namespace Component/DemoNotice/Component */
-export class DemoNoticeComponent extends PureComponent<DemoNoticeComponentProps> {
+export class DemoNoticeComponent<
+P extends Readonly<DemoNoticeComponentProps> = Readonly<DemoNoticeComponentProps>,
+S extends DemoNoticeComponentState = DemoNoticeComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<DemoNoticeComponentProps> = {
         isDemoNoticeEnabled: false,
     };

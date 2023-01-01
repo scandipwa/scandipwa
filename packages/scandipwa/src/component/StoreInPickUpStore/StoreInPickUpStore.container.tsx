@@ -23,7 +23,10 @@ import {
 } from './StoreInPickUpStore.type';
 
 /** @namespace Component/StoreInPickUpStore/Container */
-export class StoreInPickUpStoreContainer extends PureComponent<StoreInPickUpStoreContainerProps> {
+export class StoreInPickUpStoreContainer<
+P extends Readonly<StoreInPickUpStoreContainerProps> = Readonly<StoreInPickUpStoreContainerProps>,
+S extends StoreInPickUpStoreContainerState = StoreInPickUpStoreContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<StoreInPickUpStoreContainerProps> = {
         selectStore: noopFn,
         isSelectedStore: false,

@@ -20,7 +20,10 @@ import { MyAccountOrderInformationComponentProps } from './MyAccountOrderInforma
 import { OrderPaymentMethod } from 'Query/Order.type';
 
 /** @namespace Component/MyAccountOrderInformation/Component */
-export class MyAccountOrderInformation extends PureComponent<MyAccountOrderInformationComponentProps> {
+export class MyAccountOrderInformation<
+P extends Readonly<MyAccountOrderInformationComponentProps> = Readonly<MyAccountOrderInformationComponentProps>,
+S extends state = state,
+> extends PureComponent<P, S> {
     renderShippingMethod(): ReactElement {
         const { order: { shipping_method } } = this.props;
 

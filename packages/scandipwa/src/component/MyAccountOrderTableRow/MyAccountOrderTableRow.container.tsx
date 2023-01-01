@@ -38,7 +38,10 @@ export const mapStateToProps = (state: RootState): MyAccountOrderTableRowContain
 });
 
 /** @namespace Component/MyAccountOrderTableRow/Container */
-export class MyAccountOrderTableRowContainer extends PureComponent<MyAccountOrderTableRowContainerProps> {
+export class MyAccountOrderTableRowContainer<
+P extends Readonly<MyAccountOrderTableRowContainerProps> = Readonly<MyAccountOrderTableRowContainerProps>,
+S extends MyAccountOrderTableRowContainerState = MyAccountOrderTableRowContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: MyAccountOrderTableRowContainerFunctions = {
         onViewClick: this.onViewClick.bind(this),
     };

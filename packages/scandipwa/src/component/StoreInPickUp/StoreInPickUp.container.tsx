@@ -44,7 +44,10 @@ export const mapStateToProps = (state: RootState): StoreInPickUpContainerMapStat
 });
 
 /** @namespace Component/StoreInPickUp/Container */
-export class StoreInPickUpContainer extends PureComponent<StoreInPickUpContainerProps> {
+export class StoreInPickUpContainer<
+P extends Readonly<StoreInPickUpContainerProps> = Readonly<StoreInPickUpContainerProps>,
+S extends StoreInPickUpContainerState = StoreInPickUpContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<StoreInPickUpContainerProps> = {
         cartItemsSku: [],
         selectedStore: null,

@@ -24,7 +24,10 @@ import { LogoComponentProps } from './Logo.type';
 import './Logo.style';
 
 /** @namespace Component/Logo/Component */
-export class LogoComponent extends Image<LogoComponentProps> {
+export class LogoComponent<
+P extends Readonly<LogoComponentProps> = Readonly<LogoComponentProps>,
+S extends LogoComponentState = LogoComponentState,
+> extends Image<P, S> {
     renderPlaceholderLogo(): ReactElement {
         const { onImageLoad } = this.props;
 

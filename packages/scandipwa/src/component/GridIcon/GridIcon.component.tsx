@@ -18,7 +18,10 @@ import { GridIconComponentProps } from './GridIcon.type';
 import './GridIcon.style';
 
 /** @namespace Component/GridIcon/Component */
-export class GridIconComponent extends PureComponent<GridIconComponentProps> {
+export class GridIconComponent<
+P extends Readonly<GridIconComponentProps> = Readonly<GridIconComponentProps>,
+S extends GridIconComponentState = GridIconComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<GridIconComponentProps> = {
         isActive: false,
     };

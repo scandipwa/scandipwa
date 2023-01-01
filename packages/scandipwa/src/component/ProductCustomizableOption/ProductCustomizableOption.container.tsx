@@ -45,7 +45,10 @@ export const mapDispatchToProps = (): ProductCustomizableOptionContainerMapDispa
  * @class ProductCustomizableOptionContainer
  * @namespace Component/ProductCustomizableOption/Container
  */
-export class ProductCustomizableOptionContainer extends PureComponent<ProductCustomizableOptionContainerProps> {
+export class ProductCustomizableOptionContainer<
+P extends Readonly<ProductCustomizableOptionContainerProps> = Readonly<ProductCustomizableOptionContainerProps>,
+S extends ProductCustomizableOptionContainerState = ProductCustomizableOptionContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductCustomizableOptionContainerProps> = {
         options: [],
     };

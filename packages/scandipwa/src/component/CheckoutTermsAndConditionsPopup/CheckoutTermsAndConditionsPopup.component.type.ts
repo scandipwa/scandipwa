@@ -13,7 +13,7 @@ export interface CheckoutTermsAndConditionsPopupContainerMapStateProps {
     payload: CheckoutTermsAndConditionsPopupPayload;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface CheckoutTermsAndConditionsPopupContainerMapDispatchProps {}
 
 export type CheckoutTermsAndConditionsPopupContainerProps = CheckoutTermsAndConditionsPopupContainerMapStateProps

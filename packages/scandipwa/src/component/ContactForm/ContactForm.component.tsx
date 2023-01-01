@@ -21,7 +21,10 @@ import { ContactFormComponentProps } from './ContactForm.type';
 import './ContactForm.style';
 
 /** @namespace Component/ContactForm/Component */
-export class ContactFormComponent extends FieldForm<ContactFormComponentProps> {
+export class ContactFormComponent<
+P extends Readonly<ContactFormComponentProps> = Readonly<ContactFormComponentProps>,
+S extends ContactFormComponentState = ContactFormComponentState,
+> extends FieldForm<P, S> {
     static defaultProps: Partial<ContactFormComponentProps> = {
         isLoading: false,
     };

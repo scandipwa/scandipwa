@@ -41,7 +41,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): CurrencySwitcherMapDispa
 });
 
 /** @namespace Component/CurrencySwitcher/Container */
-export class CurrencySwitcherContainer extends DataContainer<CurrencySwitcherContainerProps> {
+export class CurrencySwitcherContainer<
+P extends Readonly<CurrencySwitcherContainerProps> = Readonly<CurrencySwitcherContainerProps>,
+S extends CurrencySwitcherContainerState = CurrencySwitcherContainerState,
+> extends DataContainer<P, S> {
     containerFunctions: CurrencySwitcherContainerFunctions = {
         handleCurrencySelect: this._handleCurrencySelect.bind(this),
     };

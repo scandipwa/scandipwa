@@ -24,7 +24,10 @@ import { CarouselScrollComponentProps, CarouselScrollComponentState } from './Ca
 import './CarouselScroll.style';
 
 /** @namespace Component/CarouselScroll/Component */
-export class CarouselScrollComponent extends PureComponent<CarouselScrollComponentProps, CarouselScrollComponentState> {
+export class CarouselScrollComponent<
+P extends Readonly<CarouselScrollComponentProps> = Readonly<CarouselScrollComponentProps>,
+S extends CarouselScrollComponentState = CarouselScrollComponentState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<CarouselScrollComponentProps> = {
         showArrow: true,
         showedItemCount: 1,
@@ -33,16 +36,16 @@ export class CarouselScrollComponent extends PureComponent<CarouselScrollCompone
         isImageZoomPopupActive: false,
     };
 
-    state: CarouselScrollComponentState = {
+    state: S = {
         activeItemId: 0,
         firstCarouselItemId: 0,
-    };
+    } as S;
 
     itemRef = createRef<HTMLDivElement>();
 
     carouselRef = createRef<HTMLDivElement>();
 
-    __construct(props: CarouselScrollComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
         this.handleArrowClick = this.handleArrowClick.bind(this);
         this.handleChange = this.handleChange.bind(this);

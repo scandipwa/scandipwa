@@ -32,6 +32,7 @@ import {
     CreateAccountContainerFunctions,
     CreateAccountContainerMapDispatchProps,
     CreateAccountContainerProps,
+    CreateAccountContainerState,
 } from './CreateAccount.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -46,7 +47,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): CreateAccountContainerMa
 });
 
 /** @namespace Route/CreateAccount/Container */
-export class CreateAccountContainer extends MyAccountOverlayContainer<CreateAccountContainerProps> {
+export class CreateAccountContainer<
+P extends Readonly<CreateAccountContainerProps> = Readonly<CreateAccountContainerProps>,
+S extends CreateAccountContainerState = CreateAccountContainerState,
+> extends MyAccountOverlayContainer<P, S> {
     containerFunctions: CreateAccountContainerFunctions = {
         ...this.containerFunctions,
         onLoginClick: this.onLoginClick.bind(this),

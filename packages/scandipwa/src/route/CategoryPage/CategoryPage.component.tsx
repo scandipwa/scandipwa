@@ -44,7 +44,7 @@ export const CategoryFilterOverlay = lazy(() => import(
 
 /** @namespace Route/CategoryPage/Component */
 export class CategoryPageComponent<
-P extends CategoryPageComponentProps = CategoryPageComponentProps,
+P extends Readonly<CategoryPageComponentProps> = Readonly<CategoryPageComponentProps>,
 S extends CategoryPageComponentState = CategoryPageComponentState,
 > extends PureComponent<P, S> {
     static defaultProps: Partial<CategoryPageComponentProps> = {

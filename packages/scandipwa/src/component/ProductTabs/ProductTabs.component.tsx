@@ -22,7 +22,10 @@ import { ProductTabsComponentProps, ProductTabsComponentState, ProductTabShape }
 import './ProductTabs.style';
 
 /** @namespace Component/ProductTabs/Component */
-export class ProductTabsComponent extends PureComponent<ProductTabsComponentProps, ProductTabsComponentState> {
+export class ProductTabsComponent<
+P extends Readonly<ProductTabsComponentProps> = Readonly<ProductTabsComponentProps>,
+S extends ProductTabsComponentState = ProductTabsComponentState,
+> extends PureComponent <P, S> {
     state = {
         activeTab: '',
     };

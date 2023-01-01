@@ -17,7 +17,6 @@ import { NotificationType, ShowNotificationAction } from 'Store/Notification/Not
 import { FieldData } from 'Util/Form/Form.type';
 import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MyAccountForgotPasswordContainerMapStateProps {}
 
 export interface MyAccountForgotPasswordContainerMapDispatchProps {

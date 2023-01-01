@@ -26,7 +26,10 @@ import {
  * Field File
  * @class FieldFileContainer
  * @namespace Component/FieldFile/Container */
-export class FieldFileContainer extends PureComponent<FieldFileContainerProps, FieldFileContainerState> {
+export class FieldFileContainer<
+P extends Readonly<FieldFileContainerProps> = Readonly<FieldFileContainerProps>,
+S extends FieldFileContainerState = FieldFileContainerState,
+> extends PureComponent <P, S> {
     containerFunctions: FieldFileContainerFunctions = {
         setRef: this.setRef.bind(this),
     };

@@ -22,7 +22,10 @@ import { MyAccountAddressBookComponentProps } from './MyAccountAddressBook.type'
 import './MyAccountAddressBook.style';
 
 /** @namespace Component/MyAccountAddressBook/Component */
-export class MyAccountAddressBookComponent extends Component<MyAccountAddressBookComponentProps> {
+export class MyAccountAddressBookComponent<
+P extends Readonly<MyAccountAddressBookComponentProps> = Readonly<MyAccountAddressBookComponentProps>,
+S extends MyAccountAddressBookComponentState = MyAccountAddressBookComponentState,
+> extends Component<P, S> {
     shouldComponentUpdate(nextProps: MyAccountAddressBookComponentProps): boolean {
         const { customer } = this.props;
         const { customer: nextCustomer } = nextProps;

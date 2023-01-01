@@ -22,7 +22,10 @@ import { CookiePopupComponentProps, CookiePopupComponentState } from './CookiePo
 import './CookiePopup.style';
 
 /** @namespace Component/CookiePopup/Component */
-export class CookiePopupComponent extends PureComponent<CookiePopupComponentProps, CookiePopupComponentState> {
+export class CookiePopupComponent<
+P extends Readonly<CookiePopupComponentProps> = Readonly<CookiePopupComponentProps>,
+S extends CookiePopupComponentState = CookiePopupComponentState,
+> extends PureComponent <P, S> {
     state: CookiePopupComponentState = {
         isAccepted: this.getAcceptCookieValue(),
     };

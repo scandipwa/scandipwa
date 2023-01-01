@@ -13,12 +13,15 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { CarouselScrollItemComponentProps } from './CarouselScrollItem.type';
+import { CarouselScrollItemComponentProps, CarouselScrollItemComponentState } from './CarouselScrollItem.type';
 
 import './CarouselScrollItem.style';
 
 /** @namespace Component/CarouselScrollItem/Component */
-export class CarouselScrollItemComponent extends PureComponent<CarouselScrollItemComponentProps> {
+export class CarouselScrollItemComponent<
+P extends Readonly<CarouselScrollItemComponentProps> = Readonly<CarouselScrollItemComponentProps>,
+S extends CarouselScrollItemComponentState = CarouselScrollItemComponentState,
+> extends PureComponent<P, S> {
     render(): ReactElement {
         const {
             isActive,

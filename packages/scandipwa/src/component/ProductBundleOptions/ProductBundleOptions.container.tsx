@@ -21,7 +21,10 @@ import { ProductBundleOptionsComponentProps, ProductBundleOptionsContainerProps 
  * @class ProductBundleOptions
  * @namespace Component/ProductBundleOptions/Container
  */
-export class ProductBundleOptionsContainer extends PureComponent<ProductBundleOptionsContainerProps> {
+export class ProductBundleOptionsContainer<
+P extends Readonly<ProductBundleOptionsContainerProps> = Readonly<ProductBundleOptionsContainerProps>,
+S extends ProductBundleOptionsContainerState = ProductBundleOptionsContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductBundleOptionsContainerProps> = {
         options: [],
     };

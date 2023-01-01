@@ -79,7 +79,10 @@ export const OrderPrintPage = lazy(() => import(/* webpackMode: "lazy", webpackC
 export const withStoreRegex = (path: string): string => window.storeRegexText.concat(path);
 
 /** @namespace Component/Router/Component */
-export class RouterComponent extends PureComponent<RouterComponentProps, RouterComponentState> {
+export class RouterComponent<
+P extends Readonly<RouterComponentProps> = Readonly<RouterComponentProps>,
+S extends RouterComponentState = RouterComponentState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<RouterComponentProps> = {
         isBigOffline: false,
     };

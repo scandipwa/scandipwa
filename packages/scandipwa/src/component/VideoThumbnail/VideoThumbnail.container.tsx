@@ -39,7 +39,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): VideoThumbnailContainerM
 /**
  * @class VideoThumbnailContainer
  * @namespace Component/VideoThumbnail/Container */
-export class VideoThumbnailContainer extends PureComponent<VideoThumbnailContainerProps> {
+export class VideoThumbnailContainer<
+P extends Readonly<VideoThumbnailContainerProps> = Readonly<VideoThumbnailContainerProps>,
+S extends VideoThumbnailContainerState = VideoThumbnailContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: VideoThumbnailContainerFunctions = {
         onPlayClick: this.onPlayClick.bind(this),
     };

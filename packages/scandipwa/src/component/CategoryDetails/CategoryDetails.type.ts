@@ -15,3 +15,5 @@ export interface CategoryDetailsComponentProps {
     category: Partial<Category>;
     isCurrentCategoryLoaded: boolean;
 }
+
+export interface CategoryDetailsComponentState {}

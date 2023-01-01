@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface PopupSuspenseMapStateToProps {}
 
 export interface PopupSuspenseMapDispatchToProps {

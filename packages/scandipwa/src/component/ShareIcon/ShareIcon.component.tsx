@@ -18,7 +18,10 @@ import { ShareIconComponentProps } from './ShareIcon.type';
 import './ShareIcon.style';
 
 /** @namespace Component/ShareIcon/Component */
-export class ShareIconComponent extends PureComponent<ShareIconComponentProps> {
+export class ShareIconComponent<
+P extends Readonly<ShareIconComponentProps> = Readonly<ShareIconComponentProps>,
+S extends ShareIconComponentState = ShareIconComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ShareIconComponentProps> = {
         isPrimary: false,
     };

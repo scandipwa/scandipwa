@@ -25,7 +25,7 @@ export interface MyAccountAddressFormContainerMapStateProps {
     regionDisplayAll: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface MyAccountAddressFormContainerMapDispatchProps {}
 
 export interface MyAccountAddressFormContainerBaseProps {

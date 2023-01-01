@@ -28,7 +28,7 @@ import './Image.style';
  * @namespace Component/Image/Component
  */
 export class ImageComponent<
-P extends ImageComponentProps = ImageComponentProps,
+P extends Readonly<ImageComponentProps> = Readonly<ImageComponentProps>,
 S extends ImageComponentState = ImageComponentState,
 > extends PureComponent<P, S> {
     static defaultProps: Partial<ImageComponentProps> = {

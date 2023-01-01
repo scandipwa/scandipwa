@@ -43,7 +43,10 @@ export const mapStateToProps = (state: RootState): DatePickerContainerMapStatePr
 export const mapDispatchToProps = (): DatePickerContainerMapDispatchProps => ({});
 
 /** @namespace Component/DatePicker/Container */
-export class DatePickerContainer extends PureComponent<DatePickerContainerProps, DatePickerContainerState> {
+export class DatePickerContainer<
+P extends Readonly<DatePickerContainerProps> = Readonly<DatePickerContainerProps>,
+S extends DatePickerContainerState = DatePickerContainerState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<DatePickerContainerProps> = {
         isRequired: false,
     };

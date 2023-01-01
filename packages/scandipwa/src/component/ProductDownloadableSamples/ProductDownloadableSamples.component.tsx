@@ -20,7 +20,10 @@ import { ProductDownloadableSamplesComponentProps } from './ProductDownloadableS
 import './ProductDownloadableSamples.style';
 
 /** @namespace Component/ProductDownloadableSamples/Component */
-export class ProductDownloadableSamplesComponent extends PureComponent<ProductDownloadableSamplesComponentProps> {
+export class ProductDownloadableSamplesComponent<
+P extends Readonly<ProductDownloadableSamplesComponentProps> = Readonly<ProductDownloadableSamplesComponentProps>,
+S extends ProductDownloadableSamplesComponentState = ProductDownloadableSamplesComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductDownloadableSamplesComponentProps> = {
         isOpenInNewTab: false,
     };

@@ -20,7 +20,7 @@ export interface CheckoutDeliveryOptionContainerMapStateProps {
     getCartShippingItemSubPrice: (props: ShippingMethod) => number | null;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface CheckoutDeliveryOptionContainerMapDispatchProps {}
 
 export interface CheckoutDeliveryOptionContainerFunctions {

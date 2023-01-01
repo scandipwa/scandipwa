@@ -97,7 +97,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDisp
 });
 
 /** @namespace Route/CartPage/Container */
-export class CartPageContainer extends PureComponent<CartPageContainerProps, CartPageContainerState> {
+export class CartPageContainer<
+P extends Readonly<CartPageContainerProps> = Readonly<CartPageContainerProps>,
+S extends CartPageContainerState = CartPageContainerState,
+> extends PureComponent <P, S> {
     containerFunctions: CartPageContainerFunctions = {
         onCheckoutButtonClick: this.onCheckoutButtonClick.bind(this),
         onCartItemLoading: this.onCartItemLoading.bind(this),

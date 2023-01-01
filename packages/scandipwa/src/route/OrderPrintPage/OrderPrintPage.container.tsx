@@ -58,7 +58,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): OrderPrintPageContainerM
 export const mapStateToProps = (): OrderPrintPageContainerMapStateProps => ({});
 
 /** @namespace Route/OrderPrintPage/Container */
-export class OrderPrintPageContainer extends PureComponent<OrderPrintPageContainerProps> {
+export class OrderPrintPageContainer<
+P extends Readonly<OrderPrintPageContainerProps> = Readonly<OrderPrintPageContainerProps>,
+S extends OrderPrintPageContainerState = OrderPrintPageContainerState,
+> extends PureComponent<P, S> {
     orderPrintMap: OrderPrintMapItems = {
         [PrintTypes.PRINT_ORDER]: {
             activeTab: OrderTabs.ORDER_ITEMS,

@@ -18,7 +18,7 @@ import { Breadcrumb as BreadcrumbType } from 'Store/Breadcrumbs/Breadcrumbs.type
 import { ReactElement } from 'Type/Common.type';
 import { appendWithStoreCode, isHomePageUrl } from 'Util/Url';
 
-import { BreadcrumbsComponentProps } from './Breadcrumbs.type';
+import { BreadcrumbsComponentProps, BreadcrumbsComponentState } from './Breadcrumbs.type';
 
 import './Breadcrumbs.style';
 
@@ -27,7 +27,10 @@ import './Breadcrumbs.style';
  * @class Breadcrumbs
  * @namespace Component/Breadcrumbs/Component
  */
-export class BreadcrumbsComponent extends PureComponent<BreadcrumbsComponentProps> {
+export class BreadcrumbsComponent<
+P extends Readonly<BreadcrumbsComponentProps> = Readonly<BreadcrumbsComponentProps>,
+S extends BreadcrumbsComponentState = BreadcrumbsComponentState,
+> extends PureComponent<P, S> {
     renderBreadcrumb({ url, name }: BreadcrumbType, i: number): ReactElement {
         const { breadcrumbs } = this.props;
         const isDisabled = !url || breadcrumbs.length - 1 === i;

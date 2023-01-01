@@ -28,7 +28,10 @@ import './Notification.style';
  * @class Notification
  * @namespace Component/Notification/Component
  */
-export class NotificationComponent extends PureComponent<NotificationComponentProps, NotificationComponentState> {
+export class NotificationComponent<
+P extends Readonly<NotificationComponentProps> = Readonly<NotificationComponentProps>,
+S extends NotificationComponentState = NotificationComponentState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<NotificationComponentProps> = {
         lifeTime: 0,
         id: '',

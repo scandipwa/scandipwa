@@ -21,7 +21,10 @@ import { CreateAccountComponentProps } from './CreateAccount.type';
 import './CreateAccount.style';
 
 /** @namespace Route/CreateAccount/Component */
-export class CreateAccountComponent extends MyAccountOverlayComponent<CreateAccountComponentProps> {
+export class CreateAccountComponent<
+P extends Readonly<CreateAccountComponentProps> = Readonly<CreateAccountComponentProps>,
+S extends CreateAccountComponentState = CreateAccountComponentState,
+> extends MyAccountOverlayComponent<P, S> {
     renderSignInWrapper(): ReactElement {
         const { onLoginClick } = this.props;
 

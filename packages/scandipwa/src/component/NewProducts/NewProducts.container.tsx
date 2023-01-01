@@ -43,7 +43,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): NewProductsContainerMapD
 });
 
 /** @namespace Component/NewProducts/Container */
-export class NewProductsContainer extends PureComponent<NewProductsContainerProps, NewProductsContainerState> {
+export class NewProductsContainer<
+P extends Readonly<Readonly<NewProductsContainerProps>> = Readonly<Readonly<NewProductsContainerProps>>,>
+S extends NewProductsContainerState = NewProductsContainerState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<NewProductsContainerProps> = {
         category: '',
         productsCount: 10,
@@ -51,13 +54,13 @@ export class NewProductsContainer extends PureComponent<NewProductsContainerProp
         productsPerPage: 6,
     };
 
-    state: NewProductsContainerState = {
+    state: S = {
         products: undefined,
         siblingsHaveBrands: false,
         siblingsHavePriceBadge: false,
         siblingsHaveTierPrice: false,
         siblingsHaveConfigurableOptions: false,
-    };
+    } as S;
 
     componentDidMount(): void {
         this.requestProducts();

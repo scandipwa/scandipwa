@@ -13,7 +13,6 @@ import { PageMeta } from 'Store/Meta/Meta.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { FieldData } from 'Util/Form/Form.type';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SendConfirmationPageContainerMapStateProps {}
 
 export interface SendConfirmationPageContainerMapDispatchProps {
@@ -23,7 +22,6 @@ export interface SendConfirmationPageContainerMapDispatchProps {
     showNotification: (type: NotificationType, message: string) => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SendConfirmationPageContainerBaseProps {}
 
 export interface SendConfirmationPageContainerProps extends SendConfirmationPageContainerMapStateProps,

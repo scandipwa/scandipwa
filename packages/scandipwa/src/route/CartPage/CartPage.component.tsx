@@ -30,7 +30,10 @@ import { CartPageComponentProps } from './CartPage.type';
 import './CartPage.style';
 
 /** @namespace Route/CartPage/Component */
-export class CartPageComponent extends PureComponent<CartPageComponentProps> {
+export class CartPageComponent<
+P extends Readonly<CartPageComponentProps> = Readonly<CartPageComponentProps>,
+S extends CartPageComponentState = CartPageComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CartPageComponentProps> = {
         hasOutOfStockProductsInCart: false,
         onCartItemLoading: noopFn,

@@ -31,7 +31,10 @@ import { DateSelectComponentDateMap, DateSelectComponentProps, OptionShape } fro
 import './DateSelect.style.scss';
 
 /** @namespace Component/DateSelect/Component */
-export class DateSelectComponent extends PureComponent<DateSelectComponentProps> {
+export class DateSelectComponent<
+P extends Readonly<DateSelectComponentProps> = Readonly<DateSelectComponentProps>,
+S extends DateSelectComponentState = DateSelectComponentState,
+> extends PureComponent<P, S> {
     dateMap: DateSelectComponentDateMap = {
         d: this.renderDay.bind(this),
         m: this.renderMonth.bind(this),

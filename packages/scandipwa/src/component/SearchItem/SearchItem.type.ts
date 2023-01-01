@@ -12,7 +12,7 @@
 import { Url } from 'Type/Common.type';
 import { IndexedAttributeWithValue, IndexedProduct } from 'Util/Product/Product.type';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface SearchItemContainerMapStateProps {}
 
 export interface SearchItemContainerMapDispatchProps {

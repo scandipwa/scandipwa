@@ -19,10 +19,14 @@ import {
     CarouselScrollItemComponentContainerPropKeys,
     CarouselScrollItemComponentProps,
     CarouselScrollItemContainerProps,
+    CarouselScrollItemContainerState,
 } from './CarouselScrollItem.type';
 
 /** @namespace Component/CarouselScrollItem/Container */
-export class CarouselScrollItemContainer extends PureComponent<CarouselScrollItemContainerProps> {
+export class CarouselScrollItemContainer<
+P extends Readonly<CarouselScrollItemContainerProps> = Readonly<CarouselScrollItemContainerProps>,
+S extends CarouselScrollItemContainerState = CarouselScrollItemContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CarouselScrollItemContainerProps> = {
         isActive: false,
         itemRef: createRef<HTMLDivElement>(),

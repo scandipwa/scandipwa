@@ -20,7 +20,6 @@ import {
 } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.type';
 import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface WishlistSharedPageContainerMapStateProps extends MyAccountMyWishlistContainerMapStateProps {}
 
 export interface WishlistSharedPageContainerMapDispatchProps extends MyAccountMyWishlistContainerMapDispatchProps {
@@ -44,5 +43,4 @@ export interface WishlistSharedPageContainerState extends MyAccountMyWishlistCon
     isWishlistLoading: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface WishlistSharedPageComponentProps extends MyAccountMyWishlistComponentProps {}

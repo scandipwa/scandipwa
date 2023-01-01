@@ -24,7 +24,10 @@ import { MyAccountCreateAccountComponentProps } from './MyAccountCreateAccount.t
 import './MyAccountCreateAccount.style.scss';
 
 /** @namespace Component/MyAccountCreateAccount/Component */
-export class MyAccountCreateAccountComponent extends PureComponent<MyAccountCreateAccountComponentProps> {
+export class MyAccountCreateAccountComponent<
+P extends Readonly<MyAccountCreateAccountComponentProps> = Readonly<MyAccountCreateAccountComponentProps>,
+S extends MyAccountCreateAccountComponentState = MyAccountCreateAccountComponentState,
+> extends PureComponent<P, S> {
     renderVatNumberField(): ReactElement {
         const { showTaxVatNumber, vatNumberRequired } = this.props;
 

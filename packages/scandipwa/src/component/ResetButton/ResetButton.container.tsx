@@ -24,7 +24,10 @@ import {
 } from './ResetButton.type';
 
 /** @namespace Component/ResetButton/Container */
-export class ResetButtonContainer extends PureComponent<ResetButtonContainerProps> {
+export class ResetButtonContainer<
+P extends Readonly<ResetButtonContainerProps> = Readonly<ResetButtonContainerProps>,
+S extends ResetButtonContainerState = ResetButtonContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ResetButtonContainerProps> = {
         mix: {},
     };

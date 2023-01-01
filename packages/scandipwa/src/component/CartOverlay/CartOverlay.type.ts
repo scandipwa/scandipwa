@@ -49,7 +49,8 @@ export interface CartOverlayContainerFunctions {
     scrollToTop: () => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface CartOverlayComponentState {}
+
 export interface CartOverlayContainerBaseProps {}
 
 export type CartOverlayContainerProps = CartOverlayContainerMapStateProps

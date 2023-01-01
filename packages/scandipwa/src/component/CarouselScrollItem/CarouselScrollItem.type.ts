@@ -25,12 +25,16 @@ export interface CarouselScrollItemContainerProps {
     position: number;
 }
 
+export interface CarouselScrollItemContainerState {}
+
 export interface CarouselScrollItemComponentProps {
     isActive: boolean;
     itemRef: RefObject<HTMLDivElement>;
     children: Children;
     onClick: () => void;
 }
+
+export interface CarouselScrollItemComponentState {}
 
 export type CarouselScrollItemComponentContainerPropKeys =
     | 'isActive'

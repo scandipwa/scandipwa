@@ -42,7 +42,10 @@ import { ProductComponentProps } from './Product.type';
  * @class Product
  * @namespace Component/Product/Component
  */
-export class ProductComponent<P extends ProductComponentProps = ProductComponentProps> extends PureComponent<P> {
+export class ProductComponent<P<
+P extends Readonly<P> = Readonly<P>,
+S extends state = state,
+> extends ProductComponentProps = ProductComponentProps> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductComponentProps> = {
         configFormRef: createRef<HTMLFormElement>(),
     };

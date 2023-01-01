@@ -18,7 +18,10 @@ import { UserIconComponentProps } from './UserIcon.type';
 import './UserIcon.style';
 
 /** @namespace Component/UserIcon/Component */
-export class UserIconComponent extends PureComponent<UserIconComponentProps> {
+export class UserIconComponent<
+P extends Readonly<UserIconComponentProps> = Readonly<UserIconComponentProps>,
+S extends UserIconComponentState = UserIconComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<UserIconComponentProps> = {
         isActive: false,
     };

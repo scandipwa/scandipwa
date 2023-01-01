@@ -21,7 +21,10 @@ import { noopFn } from 'Util/Common';
 import { LinkComponentProps } from './Link.type';
 
 /** @namespace Component/Link/Component */
-export class LinkComponent extends PureComponent<LinkComponentProps> {
+export class LinkComponent<
+P extends Readonly<LinkComponentProps> = Readonly<LinkComponentProps>,
+S extends LinkComponentState = LinkComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<LinkComponentProps> = {
         bemProps: {},
         className: '',

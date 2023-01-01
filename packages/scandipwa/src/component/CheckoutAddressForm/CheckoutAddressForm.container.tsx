@@ -26,7 +26,10 @@ import {
 } from './CheckoutAddressForm.type';
 
 /** @namespace Component/CheckoutAddressForm/Container */
-export class CheckoutAddressFormContainer extends MyAccountAddressFormContainer<CheckoutAddressFormContainerProps> {
+export class CheckoutAddressFormContainer<
+P extends Readonly<CheckoutAddressFormContainerProps> = Readonly<CheckoutAddressFormContainerProps>,
+S extends CheckoutAddressFormContainerState = CheckoutAddressFormContainerState,
+> extends MyAccountAddressFormContainer<P, S> {
     static defaultProps = {
         ...MyAccountAddressFormContainer.defaultProps,
     };

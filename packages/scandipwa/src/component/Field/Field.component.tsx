@@ -41,7 +41,10 @@ import './Field.style';
  * @class Field
  * @namespace Component/Field/Component
  */
-export class FieldComponent extends PureComponent<FieldComponentProps> {
+export class FieldComponent<
+P extends Readonly<FieldComponentProps> = Readonly<FieldComponentProps>,
+S extends FieldComponentState = FieldComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<FieldComponentProps> = {
         validationResponse: null,
         changeValueOnDoubleClick: false,

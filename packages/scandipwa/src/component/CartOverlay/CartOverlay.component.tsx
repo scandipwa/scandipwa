@@ -23,12 +23,15 @@ import { ReactElement } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
 
-import { CartOverlayComponentProps } from './CartOverlay.type';
+import { CartOverlayComponentProps, CartOverlayComponentState } from './CartOverlay.type';
 
 import './CartOverlay.style';
 
 /** @namespace Component/CartOverlay/Component */
-export class CartOverlayComponent extends PureComponent<CartOverlayComponentProps> {
+export class CartOverlayComponent<
+P extends Readonly<CartOverlayComponentProps> = Readonly<CartOverlayComponentProps>,
+S extends CartOverlayComponentState = CartOverlayComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CartOverlayComponentProps> = {
         hasOutOfStockProductsInCart: false,
         onCartItemLoading: undefined,

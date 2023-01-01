@@ -44,17 +44,20 @@ export const mapDispatchToProps = (dispatch: Dispatch): CartCouponContainerMapDi
 });
 
 /** @namespace Component/CartCoupon/Container */
-export class CartCouponContainer extends PureComponent<CartCouponContainerProps, CartCouponContainerState> {
+export class CartCouponContainer<
+P extends Readonly<CartCouponContainerProps> = Readonly<CartCouponContainerProps>,
+S extends CartCouponContainerState = CartCouponContainerState,
+> extends PureComponent <P, S> {
     static defaultProps: Partial<CartCouponContainerProps> = {
         couponCode: '',
         mix: {},
         title: '',
     };
 
-    state: CartCouponContainerState = {
+    state: S = {
         isLoading: false,
         isIncorrectCoupon: false,
-    };
+    } as S;
 
     containerFunctions = {
         handleApplyCouponToCart: this.handleApplyCouponToCart.bind(this),

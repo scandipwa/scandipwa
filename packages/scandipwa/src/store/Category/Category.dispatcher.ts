@@ -29,7 +29,10 @@ import { CategoryDispatcherData } from './Category.type';
  * @extends QueryDispatcher
  * @namespace Store/Category/Dispatcher
  */
-export class CategoryDispatcher extends QueryDispatcher<CategoryQueryOptions, CategoryDispatcherData> {
+export class CategoryDispatcher<
+P extends Readonly<CategoryQueryOptions> = Readonly<CategoryQueryOptions>,
+S extends CategoryDispatcherData = CategoryDispatcherData,
+> extends QueryDispatcher <P, S> {
     __construct(): void {
         super.__construct('Category');
     }

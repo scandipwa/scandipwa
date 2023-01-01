@@ -27,7 +27,10 @@ import 'Component/CartOverlay/CartOverlay.style';
 import 'Component/MyAccountOverlay/MyAccountOverlay.style';
 
 /** @namespace Component/PopupSuspense/Component */
-export class PopupSuspenseComponent extends PureComponent<PopupSuspenseComponentProps> {
+export class PopupSuspenseComponent<
+P extends Readonly<PopupSuspenseComponentProps> = Readonly<PopupSuspenseComponentProps>,
+S extends PopupSuspenseComponentState = PopupSuspenseComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<PopupSuspenseComponentProps> = {
         onVisible: noopFn,
     };

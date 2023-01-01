@@ -134,7 +134,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
 
 /** @namespace Route/CategoryPage/Container */
 export class CategoryPageContainer<
-P extends CategoryPageContainerProps = CategoryPageContainerProps,
+P extends Readonly<CategoryPageContainerProps> = Readonly<CategoryPageContainerProps>,
 S extends CategoryPageContainerState = CategoryPageContainerState,
 > extends PureComponent<P, S> {
     static defaultProps: Partial<CategoryPageContainerProps> = {

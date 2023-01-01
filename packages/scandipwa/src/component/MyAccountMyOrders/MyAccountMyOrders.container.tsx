@@ -50,7 +50,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyOrdersContain
 });
 
 /** @namespace Component/MyAccountMyOrders/Container */
-export class MyAccountMyOrdersContainer extends PureComponent<MyAccountMyOrdersContainerProps> {
+export class MyAccountMyOrdersContainer<
+P extends Readonly<MyAccountMyOrdersContainerProps> = Readonly<MyAccountMyOrdersContainerProps>,
+S extends MyAccountMyOrdersContainerState = MyAccountMyOrdersContainerState,
+> extends PureComponent<P, S> {
     componentDidMount(): void {
         const { getOrderList } = this.props;
 

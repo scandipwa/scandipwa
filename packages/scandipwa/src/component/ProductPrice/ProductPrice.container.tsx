@@ -41,7 +41,10 @@ export const mapDispatchToProps = (): ProductPriceContainerMapDispatchProps => (
  * @class ProductPrice
  * @namespace Component/ProductPrice/Container
  */
-export class ProductPriceContainer extends PureComponent<ProductPriceContainerProps> {
+export class ProductPriceContainer<
+P extends Readonly<ProductPriceContainerProps> = Readonly<ProductPriceContainerProps>,
+S extends ProductPriceContainerState = ProductPriceContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductPriceContainerProps> = {
         isPreview: false,
         isSchemaRequired: false,

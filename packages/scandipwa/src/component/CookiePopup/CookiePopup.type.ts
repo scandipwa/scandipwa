@@ -15,10 +15,10 @@ export interface CookiePopupContainerMapStateProps {
     code: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface CookiePopupContainerMapDispatchProps {}
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface CookiePopupContainerBaseProps {}
 
 export type CookiePopupContainerProps = CookiePopupContainerMapStateProps

@@ -29,7 +29,10 @@ import { ProductCompareItemComponentProps } from './ProductCompareItem.type';
 import './ProductCompareItem.style';
 
 /** @namespace Component/ProductCompareItem/Component */
-export class ProductCompareItemComponent extends PureComponent<ProductCompareItemComponentProps> {
+export class ProductCompareItemComponent<
+P extends Readonly<ProductCompareItemComponentProps> = Readonly<ProductCompareItemComponentProps>,
+S extends ProductCompareItemComponentState = ProductCompareItemComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductCompareItemComponentProps> = {
         linkTo: { pathname: '' },
     };

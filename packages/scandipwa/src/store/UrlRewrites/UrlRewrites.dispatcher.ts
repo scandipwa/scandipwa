@@ -29,7 +29,10 @@ import { UrlRewritesDispatcherData } from './UrlRewrites.type';
  * @extends RequestDispatcher
  * @namespace Store/UrlRewrites/Dispatcher
  */
-export class UrlRewritesDispatcher extends QueryDispatcher<UrlRewritesQueryOptions, UrlRewritesDispatcherData> {
+export class UrlRewritesDispatcher<
+P extends Readonly<UrlRewritesQueryOptions> = Readonly<UrlRewritesQueryOptions>,
+S extends UrlRewritesDispatcherData = UrlRewritesDispatcherData,
+> extends QueryDispatcher <P, S> {
     __construct(): void {
         super.__construct('UrlRewrites');
     }

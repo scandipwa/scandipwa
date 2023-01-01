@@ -30,7 +30,7 @@ import {
 
 /** @namespace Component/ProductConfigurableAttributes/Container */
 export class ProductConfigurableAttributesContainer<
-    P extends ProductConfigurableAttributesContainerProps = ProductConfigurableAttributesContainerProps,
+    P extends Readonly<ProductConfigurableAttributesContainerProps> = Readonly<ProductConfigurableAttributesContainerProps>,,
 > extends PureComponent<P> {
     static defaultProps: Partial<ProductConfigurableAttributesContainerProps> = {
         getLink: noopFn as unknown as (filterKey: string, value: string) => string,
