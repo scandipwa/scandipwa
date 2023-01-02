@@ -42,20 +42,20 @@ export const mapDispatchToProps = (dispatch: Dispatch): RecentlyViewedWidgetCont
 });
 
 /** @namespace Component/RecentlyViewedWidget/Container */
-export class RecentlyViewedWidgetContainer extends PureComponent<
-RecentlyViewedWidgetContainerProps,
-RecentlyViewedWidgetContainerState
-> {
+export class RecentlyViewedWidgetContainer<
+P extends Readonly<RecentlyViewedWidgetContainerProps> = Readonly<RecentlyViewedWidgetContainerProps>,
+S extends RecentlyViewedWidgetContainerState = RecentlyViewedWidgetContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<RecentlyViewedWidgetContainerProps> = {
         pageSize: 6,
     };
 
-    state: RecentlyViewedWidgetContainerState = {
+    state: S = {
         siblingsHaveBrands: false,
         siblingsHavePriceBadge: false,
         siblingsHaveTierPrice: false,
         siblingsHaveConfigurableOptions: false,
-    };
+    } as S;
 
     componentDidMount(): void {
         const {

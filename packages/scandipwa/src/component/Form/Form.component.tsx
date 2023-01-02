@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { FormComponentProps } from './Form.type';
+import { FormComponentProps, FormComponentState } from './Form.type';
 
 /**
  * Form

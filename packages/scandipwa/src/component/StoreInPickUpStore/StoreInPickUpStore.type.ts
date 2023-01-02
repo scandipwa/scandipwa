@@ -29,3 +29,7 @@ export interface StoreInPickUpStoreComponentProps {
 
 export type StoreInPickUpStoreContainerPropsKeys = 'store'
 | 'isSelectedStore';
+
+export interface StoreInPickUpStoreComponentState {}
+
+export interface StoreInPickUpStoreContainerState {}

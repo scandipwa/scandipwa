@@ -22,10 +22,7 @@ export const sharedTransitionInitialState: SharedTransitionState = {
 };
 
 /** @namespace Component/SharedTransition/Unstated */
-export class SharedTransitionUnstated<
-P extends Readonly<SharedTransitionState> = Readonly<SharedTransitionState>,
-S extends state = state,
-> extends Container<P, S> {
+export class SharedTransitionUnstated extends Container<SharedTransitionState> {
     state: SharedTransitionState = sharedTransitionInitialState;
 
     __construct(): void {

@@ -71,14 +71,14 @@ export const mapDispatchToProps = (dispatch: Dispatch): PasswordChangePageContai
 });
 
 /** @namespace Route/PasswordChangePage/Container */
-export class PasswordChangePageContainer extends PureComponent<
-PasswordChangePageContainerProps,
-PasswordChangePageContainerState
-> {
-    state: PasswordChangePageContainerState = {
+export class PasswordChangePageContainer<
+P extends Readonly<PasswordChangePageContainerProps> = Readonly<PasswordChangePageContainerProps>,
+S extends PasswordChangePageContainerState = PasswordChangePageContainerState,
+> extends PureComponent<P, S> {
+    state: S = {
         passwordResetStatus: '',
         isLoading: false,
-    };
+    } as S;
 
     static getDerivedStateFromProps(
         props: PasswordChangePageContainerProps,

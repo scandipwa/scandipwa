@@ -29,7 +29,7 @@ import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
-import { SearchFieldComponentProps } from './SearchField.type';
+import { SearchFieldComponentProps, SearchFieldComponentState } from './SearchField.type';
 
 import './SearchField.style';
 
@@ -47,7 +47,7 @@ S extends SearchFieldComponentState = SearchFieldComponentState,
 
     searchBarRef = createRef<HTMLInputElement>();
 
-    __construct(props: SearchFieldComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
         this.closeSearch = this.closeSearch.bind(this);
         this.onSearchEnterPress = this.onSearchEnterPress.bind(this);

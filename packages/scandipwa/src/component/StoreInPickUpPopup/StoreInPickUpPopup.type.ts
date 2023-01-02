@@ -80,3 +80,5 @@ export type StoreInPickUpPopupComponentPropsKeys = 'countries'
 | 'storeSearchCriteria';
 
 export type StoreWithCountryId = Merge<Store, { country_id: GQLCountryCodeEnum }>;
+
+export interface StoreInPickUpPopupComponentState {}

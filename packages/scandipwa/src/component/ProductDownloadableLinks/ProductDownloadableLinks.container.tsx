@@ -36,20 +36,20 @@ export const mapStateToProps = (state: RootState): ProductDownloadableLinksConta
 export const mapDispatchToProps = (): ProductDownloadableLinksContainerMapDispatchProps => ({});
 
 /** @namespace Component/ProductDownloadableLinks/Container */
-export class ProductDownloadableLinksContainer extends PureComponent<
-ProductDownloadableLinksContainerProps,
-ProductDownloadableLinksContainerState
-> {
+export class ProductDownloadableLinksContainer<
+P extends Readonly<ProductDownloadableLinksContainerProps> = Readonly<ProductDownloadableLinksContainerProps>,
+S extends ProductDownloadableLinksContainerState = ProductDownloadableLinksContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductDownloadableLinksContainerProps> = {
         title: '',
         links: [],
         isRequired: false,
     };
 
-    state: ProductDownloadableLinksContainerState = {
+    state: S = {
         isLoading: true,
         selectedLinks: [],
-    };
+    } as unknown as S;
 
     containerFunctions: ProductDownloadableLinksContainerFunctions = {
         setSelectedCheckboxValues: this.setSelectedCheckboxValues.bind(this),

@@ -25,10 +25,7 @@ import { CheckoutDispatcherData } from './Checkout.type';
  * @extends QueryDispatcher
  * @namespace Store/Checkout/Dispatcher
  */
-export class CheckoutDispatcher<
-P extends Readonly<string> = Readonly<string>,
-S extends CheckoutDispatcherData = CheckoutDispatcherData,
-> extends QueryDispatcher <P, S> {
+export class CheckoutDispatcher extends QueryDispatcher<string, CheckoutDispatcherData> {
     __construct(): void {
         super.__construct('Checkout');
     }

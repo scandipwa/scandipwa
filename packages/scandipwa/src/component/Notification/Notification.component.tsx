@@ -37,7 +37,7 @@ S extends NotificationComponentState = NotificationComponentState,
         id: '',
     };
 
-    state: NotificationComponentState = { isNotificationVisible: true };
+    state: S = { isNotificationVisible: true } as S;
 
     notification = createRef<HTMLDivElement>();
 

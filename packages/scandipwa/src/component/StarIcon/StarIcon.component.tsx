@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 
 import { StartFill } from './StarIcon.config';
-import { StarIconComponentProps } from './StarIcon.type';
+import { StarIconComponentProps, StarIconComponentState } from './StarIcon.type';
 
 import './StarIcon.style';
 

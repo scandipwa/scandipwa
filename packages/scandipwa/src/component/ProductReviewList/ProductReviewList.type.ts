@@ -14,3 +14,5 @@ import { IndexedProduct } from 'Util/Product/Product.type';
 export interface ProductReviewListComponentProps {
     product: Partial<IndexedProduct>;
 }
+
+export interface ProductReviewListComponentState {}

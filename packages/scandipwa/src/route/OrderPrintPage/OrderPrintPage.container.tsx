@@ -34,6 +34,7 @@ import {
     OrderPrintPageContainerMapStateProps,
     OrderPrintPageContainerProps,
     OrderPrintPageContainerPropsKeys,
+    OrderPrintPageContainerState,
 } from './OrderPrintPage.type';
 
 export const OrderDispatcher = import(
@@ -89,7 +90,7 @@ S extends OrderPrintPageContainerState = OrderPrintPageContainerState,
         },
     };
 
-    __construct(props: OrderPrintPageContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         if (!isSignedIn()) {

@@ -16,7 +16,7 @@ import HeartIcon from 'Component/HeartIcon';
 import Loader from 'Component/Loader';
 import { ReactElement } from 'Type/Common.type';
 
-import { ProductWishlistButtonComponentProps } from './ProductWishlistButton.type';
+import { ProductWishlistButtonComponentProps, ProductWishlistButtonComponentState } from './ProductWishlistButton.type';
 
 import './ProductWishlistButton.style';
 
@@ -33,7 +33,7 @@ S extends ProductWishlistButtonComponentState = ProductWishlistButtonComponentSt
         isInWishlist: false,
     };
 
-    __construct(props: ProductWishlistButtonComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.onClick = this.onClick.bind(this);

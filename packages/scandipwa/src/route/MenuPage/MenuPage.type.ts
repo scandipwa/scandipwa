@@ -21,5 +21,7 @@ export interface MenuPageContainerMapDispatchProps {
     changeHeaderState: (state: NavigationState) => void;
 }
 
-export type MenuPageContainerProps = MenuPageContainerMapStateProps
-& MenuPageContainerMapDispatchProps;
+export interface MenuPageContainerProps extends MenuPageContainerMapStateProps,
+    MenuPageContainerMapDispatchProps {}
+
+export interface MenuPageContainerState {}

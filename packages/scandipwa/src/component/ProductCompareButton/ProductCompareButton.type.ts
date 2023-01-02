@@ -50,3 +50,5 @@ export type ProductCompareButtonComponentContainerPropKeys =
     | 'mix'
     | 'isLoading'
     | 'isActive';
+
+export interface ProductCompareButtonComponentState {}

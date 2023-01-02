@@ -16,7 +16,7 @@ import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
-import { StoreInPickUpComponentProps } from './StoreInPickUp.type';
+import { StoreInPickUpComponentProps, StoreInPickUpComponentState } from './StoreInPickUp.type';
 
 import './StoreInPickUp.style';
 

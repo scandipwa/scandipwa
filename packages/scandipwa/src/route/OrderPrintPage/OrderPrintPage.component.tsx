@@ -15,7 +15,7 @@ import MyAccountOrderPrint from 'Component/MyAccountOrderPrint';
 import { ReactElement } from 'Type/Common.type';
 
 import { ORDER_PRINT_PAGE_BODY_CLS } from './OrderPrintPage.config';
-import { OrderPrintPageComponentProps } from './OrderPrintPage.type';
+import { OrderPrintPageComponentProps, OrderPrintPageComponentState } from './OrderPrintPage.type';
 
 import './OrderPrintPage.style';
 

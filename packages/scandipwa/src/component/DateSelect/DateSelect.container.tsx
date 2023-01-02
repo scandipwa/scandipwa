@@ -40,10 +40,10 @@ export const mapStateToProps = (state: RootState): DateSelectContainerMapStatePr
 export const mapDispatchToProps = (): DateSelectContainerMapDispatchProps => ({});
 
 /** @namespace Component/DateSelect/Container */
-export class DateSelectContainer extends PureComponent<
-DateSelectContainerProps,
-DateSelectContainerState
-> {
+export class DateSelectContainer<
+P extends Readonly<DateSelectContainerProps> = Readonly<DateSelectContainerProps>,
+S extends DateSelectContainerState = DateSelectContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<DateSelectContainerProps> = {
         isRequired: false,
     };
@@ -57,7 +57,7 @@ DateSelectContainerState
         onSetAMPM: this.onSetAMPM.bind(this),
     };
 
-    __construct(props: DateSelectContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         const { yearRange, timeFormat } = props;
@@ -82,7 +82,7 @@ DateSelectContainerState
             selectedMinutes,
             selectedAMPM,
             maxDay: DEFAULT_MONTH_DAYS,
-        };
+        } as S;
     }
 
     containerProps(): Pick<DateSelectComponentProps, DateSelectComponentContainerPropKeys> {

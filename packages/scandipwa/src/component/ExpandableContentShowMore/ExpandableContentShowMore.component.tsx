@@ -21,10 +21,10 @@ import {
 import './ExpandableContentShowMore.style';
 
 /** @namespace Component/ExpandableContentShowMore/Component */
-export class ExpandableContentShowMoreComponent extends PureComponent<
-ExpandableContentShowMoreComponentProps,
-ExpandableContentShowMoreComponentState
-> {
+export class ExpandableContentShowMoreComponent<
+P extends Readonly<ExpandableContentShowMoreComponentProps> = Readonly<ExpandableContentShowMoreComponentProps>,
+S extends ExpandableContentShowMoreComponentState = ExpandableContentShowMoreComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ExpandableContentShowMoreComponentProps> = {
         showElemCount: 3,
     };
@@ -35,7 +35,7 @@ ExpandableContentShowMoreComponentState
 
     expandableContentHeight: number | string = 'auto';
 
-    __construct(props: ExpandableContentShowMoreComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         const { showElemCount, children: { length } } = this.props;
@@ -44,7 +44,7 @@ ExpandableContentShowMoreComponentState
         this.state = {
             isOpen: length > showElemCount,
             isExpanding: false,
-        };
+        } as S;
     }
 
     componentDidMount(): void {

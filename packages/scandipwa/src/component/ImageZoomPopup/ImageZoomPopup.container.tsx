@@ -26,6 +26,7 @@ import {
     ImageZoomPopupContainerMapDispatchProps,
     ImageZoomPopupContainerMapStateProps,
     ImageZoomPopupContainerProps,
+    ImageZoomPopupContainerState,
 } from './ImageZoomPopup.type';
 
 /** @namespace Component/ImageZoomPopup/Container/mapStateToProps */

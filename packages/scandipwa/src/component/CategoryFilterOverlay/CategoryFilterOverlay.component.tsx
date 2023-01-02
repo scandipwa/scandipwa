@@ -22,7 +22,7 @@ import ResetButton from 'Component/ResetButton';
 import { ReactElement } from 'Type/Common.type';
 
 import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
-import { CategoryFilterOverlayComponentProps } from './CategoryFilterOverlay.type';
+import { CategoryFilterOverlayComponentProps, CategoryFilterOverlayComponentState } from './CategoryFilterOverlay.type';
 
 import './CategoryFilterOverlay.style';
 

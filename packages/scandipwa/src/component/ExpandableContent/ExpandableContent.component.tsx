@@ -40,7 +40,7 @@ S extends ExpandableContentComponentState = ExpandableContentComponentState,
 
     expandableContentRef = createRef<HTMLElement>();
 
-    __construct(props: ExpandableContentComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
         const { isContentExpanded } = this.props;
 
@@ -52,7 +52,7 @@ S extends ExpandableContentComponentState = ExpandableContentComponentState,
             isContentExpanded: isForceExpanded || isContentExpanded,
             // eslint-disable-next-line react/no-unused-state
             prevIsContentExpanded: isContentExpanded,
-        };
+        } as S;
     }
 
     static getDerivedStateFromProps(

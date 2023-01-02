@@ -12,3 +12,5 @@
 export interface InstallPromptIOSComponentProps {
     handleBannerClose: () => void;
 }
+
+export interface InstallPromptIOSComponentState {}

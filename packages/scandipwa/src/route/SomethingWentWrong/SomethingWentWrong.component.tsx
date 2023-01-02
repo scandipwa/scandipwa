@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import ContentWrapper from 'Component/ContentWrapper';
 import { ReactElement } from 'Type/Common.type';
 
-import { SomethingWentWrongComponentProps } from './SomethingWentWrong.type';
+import { SomethingWentWrongComponentProps, SomethingWentWrongComponentState } from './SomethingWentWrong.type';
 
 import './SomethingWentWrong.style';
 

@@ -34,3 +34,7 @@ export interface NewVersionPopupComponentProps {
     toggleNewVersion: () => void;
     handleDismiss: () => void;
 }
+
+export interface NewVersionPopupComponentState {}
+
+export interface NewVersionPopupContainerState {}

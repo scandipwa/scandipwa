@@ -29,6 +29,7 @@ import {
     NewVersionPopupContainerMapDispatchProps,
     NewVersionPopupContainerMapStateProps,
     NewVersionPopupContainerProps,
+    NewVersionPopupContainerState,
 } from './NewVersionPopup.type';
 
 /** @namespace Component/NewVersionPopup/Container/mapStateToProps */

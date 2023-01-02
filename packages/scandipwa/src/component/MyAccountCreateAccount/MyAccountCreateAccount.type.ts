@@ -66,3 +66,7 @@ export type MyAccountCreateAccountContainerPropsKeys =
 | 'vatNumberRequired'
 | 'range'
 | 'minimunPasswordCharacter';
+
+export interface MyAccountCreateAccountComponentState {}
+
+export interface MyAccountCreateAccountContainerState {}

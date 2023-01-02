@@ -18,7 +18,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
 
-import { ProductInformationComponentProps } from './ProductInformation.type';
+import { ProductInformationComponentProps, ProductInformationComponentState } from './ProductInformation.type';
 
 import './ProductInformation.style';
 

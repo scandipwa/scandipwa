@@ -59,7 +59,7 @@ S extends AppComponentState = AppComponentState,
         errorDetails: undefined,
     } as S;
 
-    __construct(props: unknown): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.configureAppBasedOnEnvironment();

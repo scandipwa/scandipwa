@@ -17,14 +17,15 @@ import { ReactElement } from 'Type/Common.type';
 import { FormattedRegion } from 'Util/Address/Address.type';
 
 import { getAddressTablePairArray } from './MyAccountAddressTable.table';
-import { MyAccountAddressTableComponentProps } from './MyAccountAddressTable.type';
+import { MyAccountAddressTableComponentProps, MyAccountAddressTableComponentState } from './MyAccountAddressTable.type';
 
 import './MyAccountAddressTable.style';
 
 /** @namespace Component/MyAccountAddressTable/Component */
 export class MyAccountAddressTableComponent <
-Props extends MyAccountAddressTableComponentProps = MyAccountAddressTableComponentProps,
-> extends KeyValueTable<Props> {
+P extends Readonly<MyAccountAddressTableComponentProps> = Readonly<MyAccountAddressTableComponentProps>,
+S extends MyAccountAddressTableComponentState = MyAccountAddressTableComponentState,
+> extends KeyValueTable<P, S> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     dataPairArray(): DataPair<CustomerAddress | FormattedRegion>[] {

@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ReactElement } from 'Type/Common.type';
 
-import { CategoryItemsCountComponentProps } from './CategoryItemsCount.type';
+import { CategoryItemsCountComponentProps, CategoryItemsCountComponentState } from './CategoryItemsCount.type';
 
 /** @namespace Component/CategoryItemsCount/Component */
 export class CategoryItemsCountComponent<

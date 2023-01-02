@@ -15,7 +15,6 @@ export interface ExpandableContentShowMoreContainerMapStateProps {
     isMobile: boolean;
 }
 
-
 export interface ExpandableContentContainerDispatchProps {}
 
 export interface ExpandableContentShowMoreComponentBaseProps {

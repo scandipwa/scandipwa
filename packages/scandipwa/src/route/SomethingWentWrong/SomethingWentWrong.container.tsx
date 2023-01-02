@@ -23,6 +23,7 @@ import {
     SomethingWentWrongContainerMapStateToProps,
     SomethingWentWrongContainerProps,
     SomethingWentWrongContainerPropsKeys,
+    SomethingWentWrongContainerState,
 } from './SomethingWentWrong.type';
 
 /** @namespace Route/SomethingWentWrong/Container/mapDispatchToProps */

@@ -14,7 +14,7 @@ import { createRef, PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
 
-import { TranslateOnCursorMoveComponentProps } from './TranslateOnCursorMove.type';
+import { TranslateOnCursorMoveComponentProps, TranslateOnCursorMoveComponentState } from './TranslateOnCursorMove.type';
 
 import './TranslateOnCursorMove.style';
 
@@ -25,7 +25,7 @@ S extends TranslateOnCursorMoveComponentState = TranslateOnCursorMoveComponentSt
 > extends PureComponent<P, S> {
     ref = createRef<HTMLDivElement>();
 
-    __construct(props: TranslateOnCursorMoveComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.handleLoad = this.handleLoad.bind(this);

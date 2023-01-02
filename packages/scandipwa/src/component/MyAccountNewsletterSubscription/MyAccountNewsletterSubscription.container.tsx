@@ -51,24 +51,24 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountNewsletterSubsc
 });
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container */
-export class MyAccountNewsletterSubscriptionContainer extends PureComponent<
-MyAccountNewsletterSubscriptionContainerProps,
-MyAccountNewsletterSubscriptionContainerState
-> {
+export class MyAccountNewsletterSubscriptionContainer<
+P extends Readonly<MyAccountNewsletterSubscriptionContainerProps> = Readonly<MyAccountNewsletterSubscriptionContainerProps>,
+S extends MyAccountNewsletterSubscriptionContainerState = MyAccountNewsletterSubscriptionContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: MyAccountNewsletterSubscriptionContainerFunctions = {
         onError: this.onError,
         setSubscriptionStatus: this.setSubscriptionStatus.bind(this),
         onCustomerSave: this.onCustomerSave.bind(this),
     };
 
-    __construct(props: MyAccountNewsletterSubscriptionContainerProps): void {
+    __construct(props: P): void {
         const { customer, customer: { is_subscribed } = {} } = props;
 
         super.__construct?.(props);
         this.state = {
             isLoading: Object.keys(customer).length === 0,
             isSubscriptionSelected: is_subscribed || false,
-        };
+        } as S;
     }
 
     componentDidUpdate(prevProps: MyAccountNewsletterSubscriptionContainerProps): void {

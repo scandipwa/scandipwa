@@ -106,3 +106,5 @@ export interface OptionShape {
     value: string;
     label: string;
 }
+
+export interface DateSelectComponentState {}

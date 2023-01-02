@@ -33,6 +33,8 @@ export interface SendConfirmationPageContainerFunctions {
     onFormError: () => void;
 }
 
+export interface SendConfirmationPageComponentState {}
+
 export interface SendConfirmationPageContainerState {
     email: string;
     redirect: boolean;

@@ -47,6 +47,8 @@ export interface CmsPageContainerState {
     isPageLoaded: boolean;
 }
 
+export interface CmsPageComponentState {}
+
 export interface CmsPageComponentProps {
     isBreadcrumbsActive: boolean;
     isLoading: boolean;

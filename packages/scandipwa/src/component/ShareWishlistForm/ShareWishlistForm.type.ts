@@ -15,3 +15,5 @@ export interface ShareWishlistFormComponentProps {
     onSave: (fields: GQLShareWishlistInput) => void;
     isFormLoading: boolean;
 }
+
+export interface ShareWishlistFormComponentState {}

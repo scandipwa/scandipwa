@@ -18,7 +18,7 @@ import { FormContainerProps } from 'Component/Form/Form.type';
 import { ReactElement } from 'Type/Common.type';
 
 import customerEmailAndPasswordFields from './PasswordChangeForm.form';
-import { PasswordChangeFormComponentProps } from './PasswordChangeForm.type';
+import { PasswordChangeFormComponentProps, PasswordChangeFormComponentState } from './PasswordChangeForm.type';
 
 import './PasswordChangeForm.style';
 
@@ -31,7 +31,7 @@ S extends PasswordChangeFormComponentState = PasswordChangeFormComponentState,
     HTMLInputElement
     > = React.createRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;
 
-    __construct(props: PasswordChangeFormComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
         this.passwordRef = React.createRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;
     }

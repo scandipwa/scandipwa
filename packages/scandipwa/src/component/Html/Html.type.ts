@@ -22,3 +22,7 @@ export interface HtmlParserRule {
     };
     replace: (elm: DomElement) => JSX.Element | undefined;
 }
+
+export interface HtmlComponentState {}
+
+export interface HtmlContainerState {}

@@ -47,3 +47,7 @@ export interface MenuItemComponentProps {
     handleLinkLeave: () => void;
     onItemClick: () => void;
 }
+
+export interface MenuItemComponentState {}
+
+export interface MenuItemContainerState {}

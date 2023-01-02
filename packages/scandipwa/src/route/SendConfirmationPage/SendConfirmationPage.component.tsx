@@ -21,7 +21,7 @@ import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { ValidationInputTypeInput } from 'Util/Validator/Config';
 
-import { SendConfirmationPageComponentProps } from './SendConfirmationPage.type';
+import { SendConfirmationPageComponentProps, SendConfirmationPageComponentState } from './SendConfirmationPage.type';
 
 import './SendConfirmationPage.style';
 

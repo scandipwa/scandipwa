@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 
-import { ResetButtonComponentProps } from './ResetButton.type';
+import { ResetButtonComponentProps, ResetButtonComponentState } from './ResetButton.type';
 
 import './ResetButton.style';
 
@@ -27,7 +27,7 @@ S extends ResetButtonComponentState = ResetButtonComponentState,
         mix: {},
     };
 
-    __construct(props: ResetButtonComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.onClick = this.onClick.bind(this);

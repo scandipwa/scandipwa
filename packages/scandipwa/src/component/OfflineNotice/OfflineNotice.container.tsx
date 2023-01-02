@@ -25,6 +25,7 @@ import {
     OfflineNoticeContainerMapStateProps,
     OfflineNoticeContainerProps,
     OfflineNoticeContainerPropsKeys,
+    OfflineNoticeContainerState,
 } from './OfflineNotice.type';
 
 /** @namespace Component/OfflineNotice/Container/mapStateToProps */

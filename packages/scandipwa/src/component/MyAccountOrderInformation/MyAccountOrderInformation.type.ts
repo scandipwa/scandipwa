@@ -14,3 +14,5 @@ import { OrderItem } from 'Query/Order.type';
 export interface MyAccountOrderInformationComponentProps {
     order: OrderItem | EmptyObject;
 }
+
+export interface MyAccountOrderInformationComponentState {}

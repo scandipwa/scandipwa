@@ -90,3 +90,5 @@ export interface OrderTab {
     shouldTabRender: () => boolean;
     render: () => ReactElement;
 }
+
+export interface MyAccountOrderComponentState {}

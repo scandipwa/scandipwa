@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ComponentType } from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -23,7 +22,6 @@ import { RootState } from 'Util/Store/Store.type';
 
 import CheckoutOrderSummary from './CheckoutOrderSummary.component';
 import {
-    CheckoutOrderSummaryComponentProps,
     CheckoutOrderSummaryContainerMapDispatchProps,
     CheckoutOrderSummaryContainerMapStateProps,
 } from './CheckoutOrderSummary.type';
@@ -47,5 +45,5 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(
-    CheckoutOrderSummary as unknown as ComponentType<CheckoutOrderSummaryComponentProps>,
+    CheckoutOrderSummary,
 );

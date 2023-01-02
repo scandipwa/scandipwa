@@ -52,3 +52,5 @@ export type MyAccountAddressPopupPayload = PopupPayloadDefault & {
     | MyAccountAddressPopupAction.ADD_ADDRESS;
     address: CustomerAddress;
 };
+
+export interface MyAccountAddressPopupComponentState {}

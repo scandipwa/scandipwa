@@ -16,7 +16,7 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { ReactElement } from 'Type/Common.type';
 
-import { CreateAccountComponentProps } from './CreateAccount.type';
+import { CreateAccountComponentProps, CreateAccountComponentState } from './CreateAccount.type';
 
 import './CreateAccount.style';
 

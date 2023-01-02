@@ -18,3 +18,5 @@ export interface PasswordChangeFormComponentProps {
     range: ValidationRule['range'];
     minimunPasswordCharacter: string;
 }
+
+export interface PasswordChangeFormComponentState {}

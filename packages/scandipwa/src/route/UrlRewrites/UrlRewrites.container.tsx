@@ -28,6 +28,7 @@ import {
     UrlRewritesContainerMapStateProps,
     UrlRewritesContainerProps,
     UrlRewritesContainerPropsKeys,
+    UrlRewritesContainerState,
     UrlRewriteTypeSpecificProps,
 } from './UrlRewrites.type';
 

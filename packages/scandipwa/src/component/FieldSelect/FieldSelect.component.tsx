@@ -19,7 +19,7 @@ import { ReactElement } from 'Type/Common.type';
 import { Option } from 'Type/Field.type';
 import { noopFn } from 'Util/Common';
 
-import { FieldSelectComponentProps } from './FieldSelect.type';
+import { FieldSelectComponentProps, FieldSelectComponentState } from './FieldSelect.type';
 
 import './FieldSelect.style';
 

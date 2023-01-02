@@ -77,13 +77,13 @@ S extends CmsPageContainerState = CmsPageContainerState,
         isBreadcrumbsActive: true,
     };
 
-    state: CmsPageContainerState = {
+    state: S = {
         page: {},
         isLoading: true,
         isPageLoaded: false,
-    };
+    } as S;
 
-    __construct(props: CmsPageContainerProps): void {
+    __construct(props: P): void {
         const params = this.getRequestQueryParams();
         const { id, identifier } = params;
 

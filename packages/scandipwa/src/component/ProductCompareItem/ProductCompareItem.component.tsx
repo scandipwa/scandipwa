@@ -24,7 +24,7 @@ import { ADD_TO_WISHLIST } from 'Util/Product';
 import { IndexedProduct, StockCheckProduct } from 'Util/Product/Product.type';
 import { magentoProductTransform } from 'Util/Product/Transform';
 
-import { ProductCompareItemComponentProps } from './ProductCompareItem.type';
+import { ProductCompareItemComponentProps, ProductCompareItemComponentState } from './ProductCompareItem.type';
 
 import './ProductCompareItem.style';
 

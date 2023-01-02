@@ -54,11 +54,11 @@ S extends StoreSwitcherContainerState = StoreSwitcherContainerState,
         currentStoreCode: 'default',
     };
 
-    state: StoreSwitcherContainerState = {
+    state: S = {
         storeList: [],
         isOpened: false,
         storeLabel: '',
-    };
+    } as unknown as S;
 
     containerFunctions: StoreSwitcherContainerFunctions = {
         handleStoreSelect: this.handleStoreSelect.bind(this),
@@ -66,7 +66,7 @@ S extends StoreSwitcherContainerState = StoreSwitcherContainerState,
         onStoreSwitcherOutsideClick: this.onStoreSwitcherOutsideClick.bind(this),
     };
 
-    __construct(props: StoreSwitcherContainerProps): void {
+    __construct(props: P): void {
         super.__construct(props, 'StoreSwitcherContainer');
     }
 

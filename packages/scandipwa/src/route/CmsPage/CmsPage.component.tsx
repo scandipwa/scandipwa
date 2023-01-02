@@ -16,7 +16,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import NoMatch from 'Route/NoMatch';
 import { ReactElement } from 'Type/Common.type';
 
-import { CmsPageComponentProps } from './CmsPage.type';
+import { CmsPageComponentProps, CmsPageComponentState } from './CmsPage.type';
 
 import './CmsPage.style';
 

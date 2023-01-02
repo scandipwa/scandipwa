@@ -26,6 +26,7 @@ import {
     SearchOverlayContainerMapDispatchProps,
     SearchOverlayContainerMapStateProps,
     SearchOverlayContainerProps,
+    SearchOverlayContainerState,
 } from './SearchOverlay.type';
 
 export const SearchBarDispatcher = import(

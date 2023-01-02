@@ -62,3 +62,5 @@ export type StoreSwitcherContainerPropsKeys = 'currentStoreCode'
 | 'isOpened'
 | 'storeLabel'
 | 'storeList';
+
+export interface StoreSwitcherComponentState {}

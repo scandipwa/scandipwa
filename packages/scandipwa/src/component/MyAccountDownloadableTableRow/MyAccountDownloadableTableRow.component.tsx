@@ -16,7 +16,7 @@ import Link from 'Component/Link';
 import { STATUS_EXPIRED } from 'Component/MyAccountDownloadableTableRow/MyAccountDownloadableTableRow.config';
 import { ReactElement } from 'Type/Common.type';
 
-import { MyAccountDownloadableTableRowComponentProps } from './MyAccountDownloadableTableRow.type';
+import { MyAccountDownloadableTableRowComponentProps, MyAccountDownloadableTableRowComponentState } from './MyAccountDownloadableTableRow.type';
 
 import './MyAccountDownloadableTableRow.style';
 

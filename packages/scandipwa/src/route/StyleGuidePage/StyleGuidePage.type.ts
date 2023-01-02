@@ -20,8 +20,12 @@ export interface StyleGuidePageContainerMapDispatchProps {
     updateProductDetails: (product: ProductItem) => void;
 }
 
-export type StyleGuidePageContainerProps = StyleGuidePageContainerMapStateProps
-& StyleGuidePageContainerMapDispatchProps;
+export interface StyleGuidePageContainerProps extends StyleGuidePageContainerMapStateProps,
+    StyleGuidePageContainerMapDispatchProps {}
+
+export interface StyleGuidePageComponentState {}
+
+export interface StyleGuidePageContainerState {}
 
 export interface StyleGuidePageComponentProps {
     fakeFunction: () => string;

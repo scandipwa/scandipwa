@@ -21,7 +21,7 @@ import { StartFill } from 'Component/StarIcon/StarIcon.config';
 import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
 
-import { ProductReviewRatingComponentProps } from './ProductReviewRating.type';
+import { ProductReviewRatingComponentProps, ProductReviewRatingComponentState } from './ProductReviewRating.type';
 
 import './ProductReviewRating.style';
 

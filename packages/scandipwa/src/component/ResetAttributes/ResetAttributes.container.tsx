@@ -26,6 +26,7 @@ import {
     ResetAttributesContainerMapDispatchProps,
     ResetAttributesContainerMapStateProps,
     ResetAttributesContainerProps,
+    ResetAttributesContainerState,
     ResetItem,
 } from './ResetAttributes.type';
 

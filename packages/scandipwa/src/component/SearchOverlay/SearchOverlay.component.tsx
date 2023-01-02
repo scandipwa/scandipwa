@@ -20,7 +20,7 @@ import {
     AMOUNT_OF_PLACEHOLDERS,
     SEARCH_TIMEOUT,
 } from './SearchOverlay.config';
-import { SearchOverlayComponentProps } from './SearchOverlay.type';
+import { SearchOverlayComponentProps, SearchOverlayComponentState } from './SearchOverlay.type';
 
 import './SearchOverlay.style';
 
@@ -35,7 +35,7 @@ S extends SearchOverlayComponentState = SearchOverlayComponentState,
 
     timeout: NodeJS.Timeout | null = null;
 
-    componentDidUpdate(prevProps: SearchOverlayComponentProps): void {
+    componentDidUpdate(prevProps: P): void {
         const { searchCriteria: prevSearchCriteria } = prevProps;
         const { searchCriteria, clearSearchResults, makeSearchRequest } = this.props;
 

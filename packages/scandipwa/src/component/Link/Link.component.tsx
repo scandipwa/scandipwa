@@ -18,7 +18,7 @@ import { stringify } from 'rebem-classname';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
-import { LinkComponentProps } from './Link.type';
+import { LinkComponentProps, LinkComponentState } from './Link.type';
 
 /** @namespace Component/Link/Component */
 export class LinkComponent<

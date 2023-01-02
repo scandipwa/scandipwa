@@ -69,3 +69,7 @@ export interface ProductCompareAttributeShape {
     attribute_label: string;
     attribute_values: string[];
 }
+
+export interface ProductCompareComponentState {}
+
+export interface ProductCompareContainerState {}

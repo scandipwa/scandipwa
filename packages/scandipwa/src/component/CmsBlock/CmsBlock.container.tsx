@@ -25,11 +25,11 @@ S extends CmsBlockContainerState = CmsBlockContainerState,
         blockType: '',
     };
 
-    state: CmsBlockContainerState = {
+    state: S = {
         cmsBlock: {},
-    };
+    } as S;
 
-    __construct(props: CmsBlockContainerProps): void {
+    __construct(props: P): void {
         super.__construct(props, 'CmsBlockContainer');
     }
 

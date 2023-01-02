@@ -16,7 +16,7 @@ import { ProductReview } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
 import { RatingVote } from 'Util/Product/Product.type';
 
-import { ProductReviewItemComponentProps } from './ProductReviewItem.type';
+import { ProductReviewItemComponentProps, ProductReviewItemComponentState } from './ProductReviewItem.type';
 
 import './ProductReviewItem.style';
 

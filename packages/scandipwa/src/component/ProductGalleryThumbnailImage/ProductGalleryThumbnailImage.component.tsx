@@ -17,7 +17,7 @@ import { ImageType, MediaType } from 'Component/ProductGallery/ProductGallery.co
 import { ReactElement } from 'Type/Common.type';
 import media, { PRODUCT_MEDIA } from 'Util/Media';
 
-import { ProductGalleryThumbnailImageComponentProps } from './ProductGalleryThumbnailImage.type';
+import { ProductGalleryThumbnailImageComponentProps, ProductGalleryThumbnailImageComponentState } from './ProductGalleryThumbnailImage.type';
 
 import './ProductGalleryThumbnailImage.style';
 

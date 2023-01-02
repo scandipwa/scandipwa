@@ -54,10 +54,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderPrintConta
 });
 
 /** @namespace Component/MyAccountOrderPrint/Container */
-export class MyAccountOrderPrintContainer extends MyAccountOrderContainer<
-MyAccountOrderPrintContainerProps,
-MyAccountOrderPrintContainerState
-> {
+export class MyAccountOrderPrintContainer<
+P extends Readonly<MyAccountOrderPrintContainerProps> = Readonly<MyAccountOrderPrintContainerProps>,
+S extends MyAccountOrderPrintContainerState = MyAccountOrderPrintContainerState,
+> extends MyAccountOrderContainer<P, S> {
     static defaultProps: Partial<MyAccountOrderPrintContainerProps> = {
         is_allowed_reorder: false,
         changeTabName: noopFn,
@@ -69,10 +69,10 @@ MyAccountOrderPrintContainerState
         onLogoLoad: this.onLogoLoad.bind(this),
     };
 
-    state: MyAccountOrderPrintContainerState = {
+    state: S = {
         ...this.state,
         isLogoLoaded: false,
-    };
+    } as S;
 
     componentDidMount(): void {
         this.requestOrderPrintDetails();

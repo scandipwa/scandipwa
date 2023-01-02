@@ -42,15 +42,16 @@ export interface MyAccountContainerMapDispatchProps {
     updateIsLocked: (isLocked: boolean) => void;
 }
 
-export type MyAccountContainerProps = MyAccountContainerMapStateProps
-& MyAccountContainerMapDispatchProps
-& {
+export interface MyAccountContainerProps extends MyAccountContainerMapStateProps,
+    MyAccountContainerMapDispatchProps {
     selectedTab?: MyAccountTabs;
     match: Match<{
         tab?: string;
         orderId?: string;
     }>;
-};
+}
+
+export interface MyAccountComponentState {}
 
 export interface MyAccountContainerFunctions {
     changeActiveTab: (activeTab: string) => void;

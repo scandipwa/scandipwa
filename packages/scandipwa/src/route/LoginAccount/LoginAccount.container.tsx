@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -34,6 +33,7 @@ import {
     LoginAccountContainerFunctions,
     LoginAccountContainerMapDispatchProps,
     LoginAccountContainerProps,
+    LoginAccountContainerState,
 } from './LoginAccount.type';
 
 /** @namespace Route/LoginAccount/Container/mapDispatchToProps */
@@ -110,5 +110,5 @@ connect(
     mapStateToProps,
     mapDispatchToProps,
 )(
-    LoginAccountContainer as unknown as ComponentType<LoginAccountContainerProps>,
+    LoginAccountContainer,
 );

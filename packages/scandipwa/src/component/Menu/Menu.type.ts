@@ -43,3 +43,5 @@ export interface MenuComponentProps {
     onCategoryHover: (activeSubcategory: FormattedMenuItem) => void;
     device: Device;
 }
+
+export interface MenuComponentState {}

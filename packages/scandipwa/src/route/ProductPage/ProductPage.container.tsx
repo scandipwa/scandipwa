@@ -104,11 +104,11 @@ S extends ProductPageContainerState = ProductPageContainerState,
         metaTitle: undefined,
     };
 
-    state: ProductPageContainerState = {
+    state: S = {
         parameters: {},
         currentProductSKU: '',
         activeProduct: null,
-    };
+    } as S;
 
     containerFunctions = {
         getLink: this.getLink.bind(this),
@@ -117,7 +117,7 @@ S extends ProductPageContainerState = ProductPageContainerState,
         isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this),
     };
 
-    __construct(props: ProductPageContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);

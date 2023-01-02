@@ -45,3 +45,7 @@ export interface CategorySortOption {
     value: string;
     label: string;
 }
+
+export interface CategorySortComponentState {}
+
+export interface CategorySortContainerState {}

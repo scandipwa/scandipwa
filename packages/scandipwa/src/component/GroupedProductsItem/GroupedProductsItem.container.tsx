@@ -21,6 +21,7 @@ import {
     GroupedProductsItemComponentProps,
     GroupedProductsItemContainerFunctions,
     GroupedProductsItemContainerProps,
+    GroupedProductsItemContainerState,
 } from './GroupedProductsItem.type';
 
 /** @namespace Component/GroupedProductsItem/Container */
@@ -32,7 +33,7 @@ S extends GroupedProductsItemContainerState = GroupedProductsItemContainerState,
         setQuantity: this.setQuantity.bind(this),
     };
 
-    __construct(props: GroupedProductsItemContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         const { defaultQuantity } = this.props;

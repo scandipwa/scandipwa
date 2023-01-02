@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import { ReactElement } from 'Type/Common.type';
 
-import { PaginationLinkComponentProps } from './PaginationLink.type';
+import { PaginationLinkComponentProps, PaginationLinkComponentState } from './PaginationLink.type';
 
 import './PaginationLink.style';
 

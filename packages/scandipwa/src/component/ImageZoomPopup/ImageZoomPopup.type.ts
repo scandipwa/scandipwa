@@ -37,3 +37,7 @@ export interface ImageZoomPopupComponentProps {
     children: Children;
     activeImageId: number;
 }
+
+export interface ImageZoomPopupComponentState {}
+
+export interface ImageZoomPopupContainerState {}

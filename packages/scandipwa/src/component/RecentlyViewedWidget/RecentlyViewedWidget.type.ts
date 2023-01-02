@@ -47,3 +47,5 @@ export interface RecentlyViewedWidgetComponentProps {
     isLoading: boolean;
     pageSize: number;
 }
+
+export interface RecentlyViewedWidgetComponentState {}

@@ -15,7 +15,6 @@ import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
-import { NavigationAbstractContainerState } from 'Component/NavigationAbstract/NavigationAbstract.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationState, NavigationType } from 'Store/Navigation/Navigation.type';
@@ -37,6 +36,7 @@ import {
     NavigationTabsContainerMapStateProps,
     NavigationTabsContainerProps,
     NavigationTabsContainerPropsKeys,
+    NavigationTabsContainerState,
 } from './NavigationTabs.type';
 
 /** @namespace Component/NavigationTabs/Container/mapStateToProps */
@@ -62,10 +62,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): NavigationTabsContainerM
 export const DEFAULT_NAVIGATION_TABS_STATE = { name: NavigationTabsMap.MENU_TAB };
 
 /** @namespace Component/NavigationTabs/Container */
-export class NavigationTabsContainer extends NavigationAbstractContainer<
-NavigationTabsContainerProps,
-NavigationAbstractContainerState
-> {
+export class NavigationTabsContainer<
+P extends Readonly<NavigationTabsContainerProps> = Readonly<NavigationTabsContainerProps>,
+S extends NavigationTabsContainerState = NavigationTabsContainerState,
+> extends NavigationAbstractContainer<P, S> {
     default_state = DEFAULT_NAVIGATION_TABS_STATE;
 
     scrollPosition = 0;

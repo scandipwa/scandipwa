@@ -43,17 +43,17 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountTabListContaine
 });
 
 /** @namespace Component/MyAccountTabList/Container */
-export class MyAccountTabListContainer extends PureComponent<
-MyAccountTabListContainerProps,
-MyAccountTabListContainerState
-> {
+export class MyAccountTabListContainer<
+P extends Readonly<MyAccountTabListContainerProps> = Readonly<MyAccountTabListContainerProps>,
+S extends MyAccountTabListContainerState = MyAccountTabListContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountTabListContainerProps> = {
         onSignOut: noopFn,
     };
 
-    state: MyAccountTabListContainerState = {
+    state: S = {
         isContentExpanded: false,
-    };
+    } as S;
 
     containerFunctions: MyAccountTabListContainerFunctions = {
         handleLogout: this.handleLogout.bind(this),

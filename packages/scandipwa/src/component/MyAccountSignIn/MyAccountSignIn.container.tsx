@@ -58,10 +58,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountSignInContainer
 });
 
 /** @namespace Component/MyAccountSignIn/Container */
-export class MyAccountSignInContainer extends PureComponent<
-MyAccountSignInContainerProps,
-MyAccountSignInContainerState
-> {
+export class MyAccountSignInContainer<
+P extends Readonly<MyAccountSignInContainerProps> = Readonly<MyAccountSignInContainerProps>,
+S extends MyAccountSignInContainerState = MyAccountSignInContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountSignInContainerProps> = {
         emailValue: '',
         isEmailAvailable: true,
@@ -70,9 +70,9 @@ MyAccountSignInContainerState
         isLoading: false,
     };
 
-    state = {
+    state: S = {
         isSignIn: false,
-    };
+    } as S;
 
     containerFunctions: MyAccountSignInContainerFunctions = {
         onSignInSuccess: this.onSignInSuccess.bind(this),

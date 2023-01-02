@@ -16,7 +16,7 @@ import Loader from 'Component/Loader';
 import ProductCompare from 'Component/ProductCompare';
 import { ReactElement } from 'Type/Common.type';
 
-import { ProductComparePageComponentProps } from './ProductComparePage.type';
+import { ProductComparePageComponentProps, ProductComparePageComponentState } from './ProductComparePage.type';
 
 import './ProductComparePage.style';
 

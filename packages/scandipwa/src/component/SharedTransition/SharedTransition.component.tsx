@@ -14,7 +14,7 @@ import { createRef, PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 
 import { SHARED_ELEMENT_TRANSITION } from './SharedTransition.config';
-import { SharedTransitionComponentProps } from './SharedTransition.type';
+import { SharedTransitionComponentProps, SharedTransitionComponentState } from './SharedTransition.type';
 
 import './SharedTransition.style';
 
@@ -33,7 +33,7 @@ S extends SharedTransitionComponentState = SharedTransitionComponentState,
 
     setStartingTransform = this.setTransform.bind(this, 'startingPosition');
 
-    __construct(props: SharedTransitionComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.cleanUpTransition = this.cleanUpTransition.bind(this);

@@ -14,3 +14,5 @@ import { MediaGalleryEntry } from 'Query/ProductList.type';
 export interface ProductGalleryThumbnailImageComponentProps {
     media: MediaGalleryEntry;
 }
+
+export interface ProductGalleryThumbnailImageComponentState {}

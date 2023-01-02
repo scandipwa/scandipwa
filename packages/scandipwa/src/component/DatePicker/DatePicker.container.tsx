@@ -55,7 +55,7 @@ S extends DatePickerContainerState = DatePickerContainerState,
         onSetDate: this.onSetDate.bind(this),
     };
 
-    __construct(props: DatePickerContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         const { yearRange } = props;
@@ -64,7 +64,7 @@ S extends DatePickerContainerState = DatePickerContainerState,
         const validMinDate = minDate > currentDate ? minDate : currentDate;
         const selectedDate = maxDate < validMinDate ? maxDate : validMinDate;
 
-        this.state = { selectedDate };
+        this.state = { selectedDate } as S;
     }
 
     containerProps(): Pick<DatePickerComponentProps, DatePickerComponentContainerPropKeys> {

@@ -30,6 +30,7 @@ import {
     ProductCompareContainerMapDispatchProps,
     ProductCompareContainerMapStateProps,
     ProductCompareContainerProps,
+    ProductCompareContainerState,
 } from './ProductCompare.type';
 
 export const ProductCompareDispatcher = import(

@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import ChevronIcon from 'Component/ChevronIcon';
 import { ReactElement } from 'Type/Common.type';
 
-import { MyAccountTabListItemComponentProps } from './MyAccountTabListItem.type';
+import { MyAccountTabListItemComponentProps, MyAccountTabListItemComponentState } from './MyAccountTabListItem.type';
 
 import './MyAccountTabListItem.style';
 
@@ -28,7 +28,7 @@ S extends MyAccountTabListItemComponentState = MyAccountTabListItemComponentStat
         children: [],
     };
 
-    __construct(props: MyAccountTabListItemComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.changeActiveTab = this.changeActiveTab.bind(this);

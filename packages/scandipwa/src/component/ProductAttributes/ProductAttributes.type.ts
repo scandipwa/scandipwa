@@ -20,3 +20,7 @@ export interface ProductAttributesComponentProps {
     areDetailsLoaded: boolean;
     attributesWithValues: Record<string, IndexedAttributeWithValue>;
 }
+
+export interface ProductAttributesComponentState {}
+
+export interface ProductAttributesContainerState {}

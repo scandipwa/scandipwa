@@ -68,15 +68,15 @@ S extends ProductGalleryComponentState = ProductGalleryComponentState,
 
     galleryRef = createRef<HTMLDivElement>();
 
-    state: ProductGalleryComponentState = {
+    state: S = {
         scrollEnabled: true,
         slidesCount: 7,
         prevZoom: false,
-    };
+    } as S;
 
     calculateGallerySize = this._calculateGallerySize.bind(this);
 
-    __construct(props: ProductGalleryComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.handleSliderClick = this.handleSliderClick.bind(this);
@@ -257,7 +257,7 @@ S extends ProductGalleryComponentState = ProductGalleryComponentState,
                 large: { url: largeSrc } = {},
             } = mediaData;
 
-            const style = isImageZoomPopupActive ? { height: 'auto' } : {};
+            const style: Record<string, string> = isImageZoomPopupActive ? { height: 'auto' } : {};
             const src = isImageZoomPopupActive ? largeSrc || baseSrc : baseSrc;
 
             return (

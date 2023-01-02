@@ -38,3 +38,5 @@ export interface NewsletterSubscriptionComponentProps {
     onFormSubmit: (form: HTMLFormElement, fields: any) => void;
     isLoading: boolean;
 }
+
+export interface NewsletterSubscriptionComponentState {}

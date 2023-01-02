@@ -21,7 +21,7 @@ import {
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
-import { ClickOutsideComponentProps } from './ClickOutside.type';
+import { ClickOutsideComponentProps, ClickOutsideComponentState } from './ClickOutside.type';
 
 /** @namespace Component/ClickOutside/Component */
 export class ClickOutsideComponent<
@@ -35,7 +35,7 @@ S extends ClickOutsideComponentState = ClickOutsideComponentState,
         children: [],
     };
 
-    __construct(props: ClickOutsideComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         const { children } = this.props;

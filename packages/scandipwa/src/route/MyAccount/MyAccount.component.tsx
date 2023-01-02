@@ -25,7 +25,7 @@ import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 
 import { AccountPageUrl } from './MyAccount.config';
-import { MyAccountComponentProps } from './MyAccount.type';
+import { MyAccountComponentProps, MyAccountComponentState } from './MyAccount.type';
 
 import './MyAccount.style';
 

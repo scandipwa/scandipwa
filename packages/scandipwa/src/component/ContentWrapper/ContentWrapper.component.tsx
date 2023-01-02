@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { ContentWrapperComponentProps } from './ContentWrapper.type';
+import { ContentWrapperComponentProps, ContentWrapperComponentState } from './ContentWrapper.type';
 
 import './ContentWrapper.style';
 

@@ -23,7 +23,7 @@ import {
     showNewReviewPopup,
 } from 'Util/Product';
 
-import { ProductActionsComponentProps } from './ProductActions.type';
+import { ProductActionsComponentProps, ProductActionsComponentState } from './ProductActions.type';
 
 import './ProductActions.style';
 

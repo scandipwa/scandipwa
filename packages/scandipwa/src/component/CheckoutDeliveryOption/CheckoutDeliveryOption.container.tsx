@@ -24,6 +24,7 @@ import {
     CheckoutDeliveryOptionContainerMapStateProps,
     CheckoutDeliveryOptionContainerProps,
     CheckoutDeliveryOptionContainerPropsKeys,
+    CheckoutDeliveryOptionContainerState,
 } from './CheckoutDeliveryOption.type';
 
 /** @namespace Component/CheckoutDeliveryOption/Container/mapStateToProps */

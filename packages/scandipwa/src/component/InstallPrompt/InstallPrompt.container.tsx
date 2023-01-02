@@ -39,10 +39,10 @@ export class InstallPromptContainer<
 P extends Readonly<InstallPromptContainerProps> = Readonly<InstallPromptContainerProps>,
 S extends InstallPromptContainerState = InstallPromptContainerState,
 > extends PureComponent <P, S> {
-    state: InstallPromptContainerState = {
+    state: S = {
         isBannerClosed: !!BrowserDatabase.getItem('postpone_installation'),
         hasInstallPromptEvent: false,
-    };
+    } as S;
 
     containerFunctions: InstallPromptContainerFunctions = {
         handleAppInstall: this.handleAppInstall.bind(this),

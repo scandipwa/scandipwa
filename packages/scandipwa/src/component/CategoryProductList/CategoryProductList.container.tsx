@@ -26,6 +26,7 @@ import {
     CategoryProductListContainerMapStateProps,
     CategoryProductListContainerPropKeys,
     CategoryProductListContainerProps,
+    CategoryProductListContainerState,
 } from './CategoryProductList.type';
 
 import './CategoryProductList.style';

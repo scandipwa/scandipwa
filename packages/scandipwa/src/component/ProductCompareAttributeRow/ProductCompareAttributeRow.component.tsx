@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import Html from 'Component/Html';
 import { ReactElement } from 'Type/Common.type';
 
-import { ProductCompareAttributeRowComponentProps } from './ProductCompareAttributeRow.type';
+import { ProductCompareAttributeRowComponentProps, ProductCompareAttributeRowComponentState } from './ProductCompareAttributeRow.type';
 
 import './ProductCompareAttributeRow.style';
 

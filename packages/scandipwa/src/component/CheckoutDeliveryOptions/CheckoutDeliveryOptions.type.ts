@@ -34,3 +34,5 @@ export type CheckoutDeliveryOptionsContainerPropsKeys =
 | 'selectedShippingMethod'
 | 'shippingMethods'
 | 'handleSelectDeliveryMethod';
+
+export interface CheckoutDeliveryOptionsComponentState {}

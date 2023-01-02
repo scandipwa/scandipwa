@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 
 import { TextPlaceHolderLength } from './TextPlaceholder.config';
-import { TextPlaceholderComponentProps } from './TextPlaceholder.type';
+import { TextPlaceholderComponentProps, TextPlaceholderComponentState } from './TextPlaceholder.type';
 
 import './TextPlaceholder.style';
 

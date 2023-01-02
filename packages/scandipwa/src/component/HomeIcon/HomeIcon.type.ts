@@ -12,3 +12,5 @@
 export interface HomeIconComponentProps {
     isActive: boolean;
 }
+
+export interface HomeIconComponentState {}

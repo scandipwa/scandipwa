@@ -19,14 +19,14 @@ import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import shareWishlistForm from './ShareWishlistForm.form';
-import { ShareWishlistFormComponentProps } from './ShareWishlistForm.type';
+import { ShareWishlistFormComponentProps, ShareWishlistFormComponentState } from './ShareWishlistForm.type';
 
 /** @namespace Component/ShareWishlistForm/Component */
 export class ShareWishlistFormComponent<
 P extends Readonly<ShareWishlistFormComponentProps> = Readonly<ShareWishlistFormComponentProps>,
 S extends ShareWishlistFormComponentState = ShareWishlistFormComponentState,
 > extends FieldForm<P, S> {
-    __construct(props: ShareWishlistFormComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.onFormSuccess = this.onFormSuccess.bind(this);

@@ -21,12 +21,13 @@ import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import myAccountAddressForm from './MyAccountAddressForm.form';
-import { MyAccountAddressFormComponentProps, MyAccountAddressFormFields } from './MyAccountAddressForm.type';
+import { MyAccountAddressFormComponentProps, MyAccountAddressFormComponentState, MyAccountAddressFormFields } from './MyAccountAddressForm.type';
 
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressFormComponent<
-    Props extends MyAccountAddressFormComponentProps = MyAccountAddressFormComponentProps,
-> extends FieldForm<Props> {
+    P extends Readonly<MyAccountAddressFormComponentProps> = Readonly<MyAccountAddressFormComponentProps>,
+    S extends MyAccountAddressFormComponentState = MyAccountAddressFormComponentState,
+> extends FieldForm<P, S> {
     static defaultProps: Partial<MyAccountAddressFormComponentProps> = {
         currentZipcode: undefined,
         currentCity: undefined,

@@ -26,11 +26,11 @@ export class ProductTabsComponent<
 P extends Readonly<ProductTabsComponentProps> = Readonly<ProductTabsComponentProps>,
 S extends ProductTabsComponentState = ProductTabsComponentState,
 > extends PureComponent <P, S> {
-    state = {
+    state: S = {
         activeTab: '',
-    };
+    } as S;
 
-    __construct(props: ProductTabsComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.onTabClick = this.onTabClick.bind(this);

@@ -48,3 +48,5 @@ export interface MyAccountNewsletterSubscriptionComponentProps {
 export type MyAccountNewsletterSubscriptionContainerPropsKeys =
       | 'customer'
       | 'isSubscriptionSelected';
+
+export interface MyAccountNewsletterSubscriptionComponentState {}

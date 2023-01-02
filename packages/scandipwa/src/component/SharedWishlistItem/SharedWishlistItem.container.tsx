@@ -46,15 +46,15 @@ export const mapDispatchToProps = (dispatch: Dispatch): SharedWishlistItemContai
 });
 
 /** @namespace Component/SharedWishlistItem/Container */
-export class SharedWishlistItemContainer extends WishlistItemContainer<
-SharedWishlistItemContainerProps,
-SharedWishlistItemContainerState
-> {
-    state: SharedWishlistItemContainerState = {
+export class SharedWishlistItemContainer<
+P extends Readonly<SharedWishlistItemContainerProps> = Readonly<SharedWishlistItemContainerProps>,
+S extends SharedWishlistItemContainerState = SharedWishlistItemContainerState,
+> extends WishlistItemContainer<P, S> {
+    state: S = {
         isLoading: false,
         currentQty: 0,
         quantity: 1,
-    };
+    } as S;
 
     _getConfigurableVariantIndex(): number {
         const { product: { wishlist: { sku = '' } = {}, variants = [] } } = this.props;

@@ -19,3 +19,7 @@ export interface FormSection {
     mods?: Record<string, boolean>;
     events?: FieldGroupEvents;
 }
+
+export interface FieldFormComponentState {}
+
+export interface FieldFormComponentProps {}

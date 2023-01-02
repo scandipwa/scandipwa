@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { HeartIconComponentProps } from './HeartIcon.type';
+import { HeartIconComponentProps, HeartIconComponentState } from './HeartIcon.type';
 
 import './HeartIcon.style';
 

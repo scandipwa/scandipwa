@@ -49,3 +49,7 @@ export type ProductAlertsComponentContainerPropKeys =
 | 'isInStockAlertEnabled'
 | 'isPriceAlertEnabled'
 | 'stockStatus';
+
+export interface ProductAlertsComponentState {}
+
+export interface ProductAlertsContainerState {}

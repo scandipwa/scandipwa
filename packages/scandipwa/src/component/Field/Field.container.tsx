@@ -58,10 +58,10 @@ S extends FieldContainerState = FieldContainerState,
         updateSelectedValues: noopFn,
     };
 
-    state: FieldContainerState = {
+    state: S = {
         validationResponse: null,
         showLengthError: false,
-    };
+    } as S;
 
     containerFunctions: FieldContainerFunctions = {
         validate: this.validate.bind(this),

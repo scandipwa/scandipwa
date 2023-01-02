@@ -16,12 +16,13 @@ import { Component } from 'react';
 import { ObjectEntries, ReactElement } from 'Type/Common.type';
 
 import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
-import { NavigationAbstractComponentProps } from './NavigationAbstract.type';
+import { NavigationAbstractComponentProps, NavigationAbstractComponentState } from './NavigationAbstract.type';
 
 /** @namespace Component/NavigationAbstract/Component */
-export class NavigationAbstractComponent<Props extends NavigationAbstractComponentProps> extends Component<
-Props
-> {
+export class NavigationAbstractComponent<
+P extends Readonly<NavigationAbstractComponentProps> = Readonly<NavigationAbstractComponentProps>,
+S extends NavigationAbstractComponentState = NavigationAbstractComponentState,
+> extends Component<P, S> {
     defaultStateName = DEFAULT_STATE_NAME;
 
     stateMap: Record<string, Record<string, boolean>> = {

@@ -24,7 +24,7 @@ import Loader from 'Component/Loader/Loader.component';
 import { WidgetFactoryComponentProps } from 'Component/WidgetFactory/WidgetFactory.type';
 import { hash } from 'Util/Request/Hash';
 
-import { HtmlComponentProps, HtmlParserRule } from './Html.type';
+import { HtmlComponentProps, HtmlComponentState, HtmlParserRule } from './Html.type';
 
 export const WidgetFactory = lazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "widget" */

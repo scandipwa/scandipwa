@@ -25,8 +25,12 @@ export interface NoMatchContainerMapDispatchProps {
     updateNoMatch: (options: boolean) => void;
 }
 
-export type NoMatchContainerProps = NoMatchContainerMapStateProps
-& NoMatchContainerMapDispatchProps;
+export interface NoMatchContainerProps extends NoMatchContainerMapStateProps,
+    NoMatchContainerMapDispatchProps {}
+
+export interface NoMatchComponentState {}
+
+export interface NoMatchContainerState {}
 
 export interface NoMatchComponentProps {
     updateBreadcrumbs: (breadcrumbs: Breadcrumb[]) => void;

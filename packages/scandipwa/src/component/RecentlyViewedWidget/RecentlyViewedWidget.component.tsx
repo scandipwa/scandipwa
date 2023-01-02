@@ -15,7 +15,7 @@ import ProductCard from 'Component/ProductCard';
 import { RecentlyViewedProductItem } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { RecentlyViewedWidgetComponentProps } from './RecentlyViewedWidget.type';
+import { RecentlyViewedWidgetComponentProps, RecentlyViewedWidgetComponentState } from './RecentlyViewedWidget.type';
 
 import './RecentlyViewedWidget.style';
 
@@ -24,7 +24,7 @@ export class RecentlyViewedWidgetComponent<
 P extends Readonly<RecentlyViewedWidgetComponentProps> = Readonly<RecentlyViewedWidgetComponentProps>,
 S extends RecentlyViewedWidgetComponentState = RecentlyViewedWidgetComponentState,
 > extends Component<P, S> {
-    __construct(props: RecentlyViewedWidgetComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.renderProductCard = this.renderProductCard.bind(this);
@@ -51,22 +51,6 @@ S extends RecentlyViewedWidgetComponentState = RecentlyViewedWidgetComponentStat
     }
 
     renderProductCard(product: RecentlyViewedProductItem): ReactElement {
-        // const {
-        //     productCardProps: {
-        //         siblingsHaveBrands,
-        //         siblingsHavePriceBadge,
-        //         siblingsHaveTierPrice,
-        //         siblingsHaveConfigurableOptions
-        //     },
-        //     productCardFunctions: {
-        //         setSiblingsHaveBrands,
-        //         setSiblingsHavePriceBadge,
-        //         setSiblingsHaveTierPrice,
-        //         setSiblingsHaveConfigurableOptions
-        //     },
-        //     isLoading
-        // } = this.props;
-
         const {
             id,
             // !FIXME: Possible obsolete code. selectedFilters is always undefined and doesn't exist in type.
@@ -80,16 +64,6 @@ S extends RecentlyViewedWidgetComponentState = RecentlyViewedWidgetComponentStat
               selectedFilters={ selectedFilters }
               product={ product }
               key={ id }
-            // !FIXME: Possible obsolete code. We should check it and remove if unused.
-            //   isPreview={ isLoading }
-            //   siblingsHaveBrands={ siblingsHaveBrands }
-            //   siblingsHavePriceBadge={ siblingsHavePriceBadge }
-            //   siblingsHaveTierPrice={ siblingsHaveTierPrice }
-            //   siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
-            //   setSiblingsHaveBrands={ setSiblingsHaveBrands }
-            //   setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
-            //   setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
-            //   setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
             />
         );
     }

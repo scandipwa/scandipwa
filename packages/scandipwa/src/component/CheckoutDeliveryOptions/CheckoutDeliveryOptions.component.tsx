@@ -15,7 +15,7 @@ import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
 import { ShippingMethod } from 'Query/Checkout.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { CheckoutDeliveryOptionsComponentProps } from './CheckoutDeliveryOptions.type';
+import { CheckoutDeliveryOptionsComponentProps, CheckoutDeliveryOptionsComponentState } from './CheckoutDeliveryOptions.type';
 
 import './CheckoutDeliveryOptions.style';
 

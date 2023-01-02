@@ -27,3 +27,5 @@ export interface CmsBlockComponentProps {
     blockType?: string;
     children: Children;
 }
+
+export interface CmsBlockComponentState {}

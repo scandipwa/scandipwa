@@ -72,3 +72,5 @@ export type MyAccountInformationContainerPropsKeys = 'customer'
 | 'isLoading'
 | 'showEmailChangeField'
 | 'showPasswordChangeField';
+
+export interface MyAccountInformationComponentState {}

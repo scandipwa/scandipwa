@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { MenuIconComponentProps } from './MenuIcon.type';
+import { MenuIconComponentProps, MenuIconComponentState } from './MenuIcon.type';
 
 import './MenuIcon.style';
 

@@ -12,3 +12,5 @@
 export interface RadioButtonIconComponentProps {
     isActive: boolean;
 }
+
+export interface RadioButtonIconComponentState {}

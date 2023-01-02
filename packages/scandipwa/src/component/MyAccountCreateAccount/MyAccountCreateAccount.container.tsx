@@ -34,6 +34,7 @@ import {
     MyAccountCreateAccountContainerMapStateProps,
     MyAccountCreateAccountContainerProps,
     MyAccountCreateAccountContainerPropsKeys,
+    MyAccountCreateAccountContainerState,
 } from './MyAccountCreateAccount.type';
 
 export const MyAccountDispatcher = import(

@@ -37,3 +37,7 @@ export interface ContactFormComponentProps {
 }
 
 export type ContactFormComponentContainerPropKeys = 'isLoading';
+
+export interface ContactFormComponentState {}
+
+export interface ContactFormContainerState {}

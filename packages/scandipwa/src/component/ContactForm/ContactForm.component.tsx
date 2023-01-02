@@ -16,7 +16,7 @@ import Loader from 'Component/Loader';
 import { ReactElement } from 'Type/Common.type';
 
 import contactForm from './ContactForm.form';
-import { ContactFormComponentProps } from './ContactForm.type';
+import { ContactFormComponentProps, ContactFormComponentState } from './ContactForm.type';
 
 import './ContactForm.style';
 

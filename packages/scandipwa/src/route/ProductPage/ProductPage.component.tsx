@@ -26,7 +26,7 @@ import { ProductPageTabs } from 'Route/ProductPage/ProductPage.config';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { ProductPageComponentProps, ProductPageTab } from './ProductPage.type';
+import { ProductPageComponentProps, ProductPageComponentState, ProductPageTab } from './ProductPage.type';
 
 import './ProductPage.style';
 

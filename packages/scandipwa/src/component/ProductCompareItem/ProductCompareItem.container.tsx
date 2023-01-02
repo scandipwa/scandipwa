@@ -63,13 +63,13 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareItemContai
 });
 
 /** @namespace Component/ProductCompareItem/Container */
-export class ProductCompareItemContainer extends PureComponent<
-ProductCompareItemContainerProps,
-ProductCompareItemContainerState
-> {
-    state: ProductCompareItemContainerState = {
+export class ProductCompareItemContainer<
+P extends Readonly<ProductCompareItemContainerProps> = Readonly<ProductCompareItemContainerProps>,
+S extends ProductCompareItemContainerState = ProductCompareItemContainerState,
+> extends PureComponent<P, S> {
+    state: S = {
         isLoading: false,
-    };
+    } as S;
 
     containerFunctions: ProductCompareItemContainerFunctions = {
         removeComparedProduct: this.removeComparedProduct.bind(this),

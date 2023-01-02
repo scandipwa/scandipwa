@@ -15,7 +15,7 @@ import FieldForm from 'Component/FieldForm';
 import { FormContainerProps } from 'Component/Form/Form.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { MyAccountNewsletterSubscriptionComponentProps } from './MyAccountNewsletterSubscription.type';
+import { MyAccountNewsletterSubscriptionComponentProps, MyAccountNewsletterSubscriptionComponentState } from './MyAccountNewsletterSubscription.type';
 
 import './MyAccountNewsletterSubscription.style.scss';
 

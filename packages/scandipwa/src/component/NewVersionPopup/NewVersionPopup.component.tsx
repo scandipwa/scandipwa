@@ -15,7 +15,7 @@ import Popup from 'Component/Popup';
 import { ReactElement } from 'Type/Common.type';
 
 import { NEW_VERSION_POPUP_ID } from './NewVersionPopup.config';
-import { NewVersionPopupComponentProps } from './NewVersionPopup.type';
+import { NewVersionPopupComponentProps, NewVersionPopupComponentState } from './NewVersionPopup.type';
 
 import './NewVersionPopup.style';
 

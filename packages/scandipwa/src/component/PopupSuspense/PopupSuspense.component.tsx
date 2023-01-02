@@ -19,7 +19,7 @@ import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import { OVERLAY_PLACEHOLDER } from './PopupSuspense.config';
-import { PopupSuspenseComponentProps } from './PopupSuspense.type';
+import { PopupSuspenseComponentProps, PopupSuspenseComponentState } from './PopupSuspense.type';
 
 import './PopupSuspense.style';
 // Import styles from different bundles

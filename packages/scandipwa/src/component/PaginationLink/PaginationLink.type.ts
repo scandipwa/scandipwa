@@ -19,3 +19,7 @@ export interface PaginationLinkComponentProps {
     pageNumber: number;
     getSearchQueryForPage: (pageNumber: number) => string;
 }
+
+export interface PaginationLinkComponentState {}
+
+export interface PaginationLinkContainerState {}

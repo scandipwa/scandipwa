@@ -23,7 +23,6 @@ export interface MetaContainerMapStateProps {
     status_code?: string;
 }
 
-
 export interface MetaContainerMapDispatchProps {}
 
 export type MetaContainerProps = MetaContainerMapStateProps
@@ -44,3 +43,7 @@ export type MetaContainerPropsKeys = 'metadata'
 | 'title'
 | 'title_prefix'
 | 'title_suffix';
+
+export interface MetaComponentState {}
+
+export interface MetaContainerState {}

@@ -73,3 +73,7 @@ export interface FormattedTierPrice {
     value: string | number;
     valueFormatted: string;
 }
+
+export interface ProductPriceComponentState {}
+
+export interface ProductPriceContainerState {}

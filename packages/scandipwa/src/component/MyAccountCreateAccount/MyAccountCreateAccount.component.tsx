@@ -19,7 +19,7 @@ import history from 'Util/History';
 import { validatePassword } from 'Util/Validator';
 import { ValidationInputType } from 'Util/Validator/Config';
 
-import { MyAccountCreateAccountComponentProps } from './MyAccountCreateAccount.type';
+import { MyAccountCreateAccountComponentProps, MyAccountCreateAccountComponentState } from './MyAccountCreateAccount.type';
 
 import './MyAccountCreateAccount.style.scss';
 

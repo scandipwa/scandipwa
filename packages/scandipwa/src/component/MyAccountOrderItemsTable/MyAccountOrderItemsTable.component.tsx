@@ -26,7 +26,7 @@ import { getTimeInCurrentTimezone } from 'Util/Manipulations/Date';
 import { getProductFromOrder } from 'Util/Orders';
 import { appendWithStoreCode } from 'Util/Url';
 
-import { MyAccountOrderItemsTableComponentProps } from './MyAccountOrderItemsTable.type';
+import { MyAccountOrderItemsTableComponentProps, MyAccountOrderItemsTableComponentState } from './MyAccountOrderItemsTable.type';
 
 import './MyAccountOrderItemsTable.style';
 

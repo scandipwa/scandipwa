@@ -129,3 +129,5 @@ export interface ProductPrice {
 }
 
 export type ConfigurableProductSelectedVariantValue = string | number | boolean;
+
+export interface ProductComponentState {}

@@ -29,7 +29,7 @@ import {
     NOTIFICATION_SUCCESS_DATA,
     TEXT_STYLES,
 } from './StyleGuidePage.config';
-import { StyleGuidePageComponentProps } from './StyleGuidePage.type';
+import { StyleGuidePageComponentProps, StyleGuidePageComponentState } from './StyleGuidePage.type';
 
 import './StyleGuidePage.style';
 

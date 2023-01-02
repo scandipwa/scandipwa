@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { NotSupportedPaymentComponentProps } from './NotSupportedPayment.type';
+import { NotSupportedPaymentComponentProps, NotSupportedPaymentComponentState } from './NotSupportedPayment.type';
 
 import './NotSupportedPayment.style';
 

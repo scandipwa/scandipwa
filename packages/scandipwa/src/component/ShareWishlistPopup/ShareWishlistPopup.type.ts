@@ -37,3 +37,5 @@ export interface ShareWishlistPopupComponentProps extends ShareWishlistPopupCont
 }
 
 export type ShareWishlistPopupContainerPropsKeys = 'isFormLoading';
+
+export interface ShareWishlistPopupComponentState {}

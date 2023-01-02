@@ -27,3 +27,7 @@ export interface SharedTransitionPosition {
     left: number;
     top: number;
 }
+
+export interface SharedTransitionComponentState {}
+
+export interface SharedTransitionContainerState {}

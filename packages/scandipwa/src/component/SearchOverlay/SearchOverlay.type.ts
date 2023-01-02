@@ -49,3 +49,7 @@ export type SearchOverlayComponentContainerPropKeys =
     | 'isLoading'
     | 'searchCriteria'
     | 'searchResults';
+
+export interface SearchOverlayComponentState {}
+
+export interface SearchOverlayContainerState {}

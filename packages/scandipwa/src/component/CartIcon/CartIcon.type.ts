@@ -14,3 +14,5 @@ export interface CartIconComponentProps {
 }
 
 export interface CartIconComponentState {}
+
+export interface CartIconContainerState {}

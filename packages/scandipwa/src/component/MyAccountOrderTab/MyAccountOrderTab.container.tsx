@@ -18,6 +18,7 @@ import {
     MyAccountOrderTabComponentProps,
     MyAccountOrderTabContainerProps,
     MyAccountOrderTabContainerPropsKeys,
+    MyAccountOrderTabContainerState,
 } from './MyAccountOrderTab.type';
 
 /** @namespace Component/MyAccountOrderTab/Container */

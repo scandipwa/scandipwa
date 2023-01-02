@@ -16,7 +16,7 @@ import { ProductType } from 'Component/Product/Product.config';
 import { GroupedProductItem } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { GroupedProductListComponentProps } from './GroupedProductList.type';
+import { GroupedProductListComponentProps, GroupedProductListComponentState } from './GroupedProductList.type';
 
 /**
  * Product description

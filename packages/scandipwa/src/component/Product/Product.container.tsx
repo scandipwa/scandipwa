@@ -107,7 +107,7 @@ S extends ProductContainerState = ProductContainerState,
 
     validator: HTMLElement | null = null;
 
-    __construct(props: ProductContainerProps): void {
+    __construct(props: P): void {
         const { parameters } = props;
 
         super.__construct?.(props);

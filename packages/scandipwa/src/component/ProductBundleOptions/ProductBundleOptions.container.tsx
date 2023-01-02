@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 
 import ProductBundleOptions from './ProductBundleOptions.component';
-import { ProductBundleOptionsComponentProps, ProductBundleOptionsContainerProps } from './ProductBundleOptions.type';
+import { ProductBundleOptionsComponentProps, ProductBundleOptionsContainerProps, ProductBundleOptionsContainerState } from './ProductBundleOptions.type';
 
 /**
  * Product Bundle Options

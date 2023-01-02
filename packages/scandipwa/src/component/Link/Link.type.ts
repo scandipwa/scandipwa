@@ -61,3 +61,7 @@ export interface LinkComponentProps {
     onMouseLeave?: () => void;
     tabIndex?: number;
 }
+
+export interface LinkComponentState {}
+
+export interface LinkContainerState {}

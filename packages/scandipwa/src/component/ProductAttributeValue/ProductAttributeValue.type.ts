@@ -42,3 +42,5 @@ export interface ProductAttributeShape {
     has_swatch: boolean;
     is_boolean: boolean;
 }
+
+export interface ProductAttributeValueComponentState {}

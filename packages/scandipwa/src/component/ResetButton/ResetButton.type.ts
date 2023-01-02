@@ -37,3 +37,7 @@ export type ResetButtonComponentContainerPropKeys =
     | 'mix'
     | 'onClick'
     | 'isContentFiltered';
+
+export interface ResetButtonComponentState {}
+
+export interface ResetButtonContainerState {}

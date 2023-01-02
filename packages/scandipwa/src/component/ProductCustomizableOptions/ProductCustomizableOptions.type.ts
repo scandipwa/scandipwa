@@ -21,3 +21,7 @@ export interface ProductCustomizableOptionsComponentProps {
     options: IndexedCustomOption[];
     updateSelectedValues: (data?: Partial<ProductOption>) => void;
 }
+
+export interface ProductCustomizableOptionsComponentState {}
+
+export interface ProductCustomizableOptionsContainerState {}

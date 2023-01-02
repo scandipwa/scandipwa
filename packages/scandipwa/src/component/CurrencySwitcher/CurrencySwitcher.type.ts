@@ -30,3 +30,7 @@ export interface CurrencySwitcherComponentProps {
     currencyData: CurrencyData;
     handleCurrencySelect: (currencyCode: GQLCurrencyEnum) => void;
 }
+
+export interface CurrencySwitcherComponentState {}
+
+export interface CurrencySwitcherContainerState {}

@@ -20,3 +20,7 @@ export interface ProductBundleOptionsComponentProps {
     options: IndexedBundleItem[];
     updateSelectedValues: () => void;
 }
+
+export interface ProductBundleOptionsComponentState {}
+
+export interface ProductBundleOptionsContainerState {}

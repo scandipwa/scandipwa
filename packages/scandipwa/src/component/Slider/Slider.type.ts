@@ -19,7 +19,6 @@ export interface SliderContainerMapStateProps {
     device: Device;
 }
 
-
 export interface SliderContainerMapDispatchProps {}
 
 export interface SliderComponentBaseProps {
@@ -50,3 +49,5 @@ export interface SliderComponentState {
 export interface SliderHandleDragEndCallback {
     callback: () => void;
 }
+
+export interface SliderContainerState {}

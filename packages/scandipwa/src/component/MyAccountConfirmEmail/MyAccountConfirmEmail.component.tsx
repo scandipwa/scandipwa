@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { MyAccountConfirmEmailComponentProps } from './MyAccountConfirmEmail.type';
+import { MyAccountConfirmEmailComponentProps, MyAccountConfirmEmailComponentState } from './MyAccountConfirmEmail.type';
 
 /** @namespace Component/MyAccountConfirmEmail/Component */
 export class MyAccountConfirmEmailComponent<

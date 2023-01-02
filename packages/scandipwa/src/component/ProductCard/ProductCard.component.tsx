@@ -26,7 +26,7 @@ import { Children, ReactElement } from 'Type/Common.type';
 import { IndexedConfigurableOption } from 'Util/Product/Product.type';
 
 import { scrollToTop } from '../../util/Browser/Browser';
-import { ContentObject, ProductCardComponentProps } from './ProductCard.type';
+import { ContentObject, ProductCardComponentProps, ProductCardComponentState } from './ProductCard.type';
 
 import './ProductCard.style';
 
@@ -68,7 +68,7 @@ S extends ProductCardComponentState = ProductCardComponentState,
 
     className = 'ProductCard';
 
-    __construct(props: ProductCardComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.handleLinkClick = this.handleLinkClick.bind(this);

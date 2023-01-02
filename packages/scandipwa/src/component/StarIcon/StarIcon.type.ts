@@ -14,3 +14,5 @@ import { StartFill } from './StarIcon.config';
 export interface StarIconComponentProps {
     starFill: StartFill;
 }
+
+export interface StarIconComponentState {}

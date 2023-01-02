@@ -19,7 +19,7 @@ import NoMatch from 'Route/NoMatch';
 import { ReactElement } from 'Type/Common.type';
 
 import { DEFAULT_CONTACT_US_CMS_BLOCK } from './ContactPage.config';
-import { ContactPageComponentProps } from './ContactPage.type';
+import { ContactPageComponentProps, ContactPageComponentState } from './ContactPage.type';
 
 import './ContactPage.style';
 

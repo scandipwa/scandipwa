@@ -23,7 +23,11 @@ import { noopFn } from 'Util/Common';
 import { getBooleanLabel } from 'Util/Product';
 
 import { AttributeType, SelectAttributeType, STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
-import { ProductAttributeValueComponentProps, ProductAttributeValueOption } from './ProductAttributeValue.type';
+import {
+    ProductAttributeValueComponentProps,
+    ProductAttributeValueComponentState,
+    ProductAttributeValueOption,
+} from './ProductAttributeValue.type';
 
 import './ProductAttributeValue.style';
 
@@ -43,7 +47,7 @@ S extends ProductAttributeValueComponentState = ProductAttributeValueComponentSt
         showProductAttributeAsLink: true,
     };
 
-    __construct(props: ProductAttributeValueComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.clickHandler = this.clickHandler.bind(this);

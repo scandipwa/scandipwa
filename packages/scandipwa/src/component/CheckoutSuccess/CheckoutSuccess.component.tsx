@@ -18,7 +18,7 @@ import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { appendWithStoreCode } from 'Util/Url';
 
-import { CheckoutSuccessComponentProps } from './CheckoutSuccess.type';
+import { CheckoutSuccessComponentProps, CheckoutSuccessComponentState } from './CheckoutSuccess.type';
 
 import './CheckoutSuccess.style';
 

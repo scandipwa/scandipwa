@@ -13,7 +13,6 @@ export interface CategoryItemsCountContainerMapStateProps {
     totalItems: number;
 }
 
-
 export interface CategoryItemsCountContainerMapDispatchProps {}
 
 export interface CategoryItemsCountComponentBaseProps {
@@ -22,3 +21,5 @@ export interface CategoryItemsCountComponentBaseProps {
 
 export type CategoryItemsCountComponentProps = CategoryItemsCountContainerMapStateProps
 & CategoryItemsCountComponentBaseProps;
+
+export interface CategoryItemsCountComponentState {}

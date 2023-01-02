@@ -17,3 +17,7 @@ export interface MyAccountOrderTabsComponentProps {
     handleChangeActiveTab: (tab: OrderTabs) => void;
     activeTab: OrderTabs;
 }
+
+export interface MyAccountOrderTabsComponentState {}
+
+export interface MyAccountOrderTabsContainerState {}

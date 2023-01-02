@@ -15,7 +15,7 @@ import InstallPromptAndroid from 'Component/InstallPromptAndroid';
 import InstallPromptIOS from 'Component/InstallPromptIOS';
 import { ReactElement } from 'Type/Common.type';
 
-import { InstallPromptComponentProps } from './InstallPrompt.type';
+import { InstallPromptComponentProps, InstallPromptComponentState } from './InstallPrompt.type';
 
 import './InstallPrompt.style';
 

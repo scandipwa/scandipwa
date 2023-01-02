@@ -58,3 +58,5 @@ export interface NavigationTabsComponentProps extends NavigationAbstractComponen
 export type NavigationTabsContainerState = NavigationAbstractContainerState;
 
 export type NavigationTabsContainerPropsKeys = 'device' | 'navigationState' | 'cartTotals';
+
+export interface NavigationTabsComponentState {}

@@ -52,9 +52,9 @@ S extends FormContainerState = FormContainerState,
         elemRef: undefined,
     };
 
-    state: FormContainerState = {
+    state: S = {
         validationResponse: null,
-    };
+    } as S;
 
     containerFunctions: FormContainerFunctions = {
         validate: this.validate.bind(this),

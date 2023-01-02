@@ -108,3 +108,5 @@ export type CheckoutShippingContainerPropsKeys =
 | 'selectedShippingMethod'
 | 'onStoreSelect'
 | 'onShippingEstimationFieldsChange';
+
+export interface CheckoutShippingComponentState {}

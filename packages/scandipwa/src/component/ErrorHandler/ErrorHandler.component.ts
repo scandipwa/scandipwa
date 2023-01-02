@@ -28,10 +28,10 @@ S extends ErrorHandlerComponentState = ErrorHandlerComponentState,
         return { hasError: true };
     }
 
-    state: ErrorHandlerComponentState = {
+    state: S = {
         hasError: false,
         pathname: '',
-    };
+    } as S;
 
     componentDidMount(): void {
         this.setState({ pathname: window.location.pathname });

@@ -88,3 +88,5 @@ export interface FieldGroupEventData {
     }[];
     formRef: RefObject<HTMLDivElement>;
 }
+
+export interface FieldGroupComponentState {}

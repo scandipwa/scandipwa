@@ -20,7 +20,7 @@ import ReviewStar from 'Component/ReviewStar';
 import { ReviewRatingValue } from 'Query/Review.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { ProductReviewFormComponentProps } from './ProductReviewForm.type';
+import { ProductReviewFormComponentProps, ProductReviewFormComponentState } from './ProductReviewForm.type';
 
 import './ProductReviewForm.style';
 

@@ -21,6 +21,7 @@ import {
     CookiePopupContainerMapDispatchProps,
     CookiePopupContainerMapStateProps,
     CookiePopupContainerProps,
+    CookiePopupContainerState,
 } from './CookiePopup.type';
 
 /** @namespace Component/CookiePopup/Container/mapStateToProps */

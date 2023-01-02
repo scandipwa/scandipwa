@@ -28,8 +28,12 @@ export interface SomethingWentWrongContainerBaseProps {
 
 }
 
-export type SomethingWentWrongContainerProps = SomethingWentWrongContainerMapDispatchProps
-& SomethingWentWrongContainerBaseProps;
+export interface SomethingWentWrongContainerProps extends SomethingWentWrongContainerMapDispatchProps,
+    SomethingWentWrongContainerBaseProps {}
+
+export interface SomethingWentWrongComponentState {}
+
+export interface SomethingWentWrongContainerState {}
 
 export interface SomethingWentWrongComponentProps {
     onClick: () => void;

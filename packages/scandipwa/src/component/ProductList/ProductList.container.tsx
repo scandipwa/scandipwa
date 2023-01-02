@@ -69,9 +69,9 @@ S extends ProductListContainerState = ProductListContainerState,
         isPlp: false,
     };
 
-    state: ProductListContainerState = {
+    state: S = {
         pagesCount: 1,
-    };
+    } as S;
 
     containerFunctions: ProductListContainerFunctions = {
         loadPrevPage: this.loadPage.bind(this, false),

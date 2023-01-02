@@ -18,6 +18,7 @@ import {
     StoreItemComponentProps,
     StoreItemContainerFunctions,
     StoreItemContainerProps,
+    StoreItemContainerState,
 } from './StoreItem.type';
 
 /** @namespace Component/StoreItem/Container */

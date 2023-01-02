@@ -13,12 +13,12 @@ import { InputHTMLAttributes } from 'react';
 
 import { FieldEvents, FieldNumberCustomEvents } from 'Component/Field/Field.type';
 
-export interface FieldNumberWitControlsContainerFunctions {
+export interface FieldNumberWithControlsContainerFunctions {
     setRef: (elem: HTMLInputElement | null) => void;
     handleValueChange: (value: number) => void;
 }
 
-export interface FieldNumberWitControlsContainerProps {
+export interface FieldNumberWithControlsContainerProps {
     attr: InputHTMLAttributes<HTMLInputElement>;
     events: Omit<FieldEvents, 'onChange' | 'onLoad'> & FieldNumberCustomEvents;
     isDisabled: boolean;
@@ -26,11 +26,11 @@ export interface FieldNumberWitControlsContainerProps {
     setRef: (elem: HTMLInputElement | null) => void;
 }
 
-export interface FieldNumberWitControlsContainerState {
+export interface FieldNumberWithControlsContainerState {
     value: number | string;
 }
 
-export interface FieldNumberWitControlsComponentProps {
+export interface FieldNumberWithControlsComponentProps {
     attr: InputHTMLAttributes<HTMLInputElement>;
     events: Omit<FieldEvents, 'onChange' | 'onLoad'> & FieldNumberCustomEvents;
     setRef: (elem: HTMLInputElement | null) => void;
@@ -40,8 +40,10 @@ export interface FieldNumberWitControlsComponentProps {
     isDisabled: boolean;
 }
 
-export type FieldNumberWitControlsContainerPropsKeys = 'attr'
+export type FieldNumberWithControlsContainerPropsKeys = 'attr'
 | 'events'
 | 'isDisabled'
 | 'value'
 | 'stateValue';
+
+export interface FieldNumberWithControlsComponentState {}

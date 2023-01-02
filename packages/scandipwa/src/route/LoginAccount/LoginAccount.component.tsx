@@ -18,7 +18,7 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { ReactElement } from 'Type/Common.type';
 
-import { LoginAccountComponentProps } from './LoginAccount.type';
+import { LoginAccountComponentProps, LoginAccountComponentState } from './LoginAccount.type';
 
 import './LoginAccount.style';
 

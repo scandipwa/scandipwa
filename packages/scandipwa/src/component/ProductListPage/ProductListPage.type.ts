@@ -36,3 +36,5 @@ export interface ProductListPageComponentState {
     siblingsHaveTierPrice: boolean;
     siblingsHaveConfigurableOptions: boolean;
 }
+
+export interface ProductListPageContainerState {}

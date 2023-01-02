@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { GridIconComponentProps } from './GridIcon.type';
+import { GridIconComponentProps, GridIconComponentState } from './GridIcon.type';
 
 import './GridIcon.style';
 

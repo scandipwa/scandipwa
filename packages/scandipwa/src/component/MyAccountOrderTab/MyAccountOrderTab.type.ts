@@ -30,3 +30,7 @@ export interface MyAccountOrderTabComponentProps {
 
 export type MyAccountOrderTabContainerPropsKeys = 'title'
 | 'isActive';
+
+export interface MyAccountOrderTabComponentState {}
+
+export interface MyAccountOrderTabContainerState {}

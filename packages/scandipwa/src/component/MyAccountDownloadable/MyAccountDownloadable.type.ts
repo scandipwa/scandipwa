@@ -44,3 +44,5 @@ export interface MyAccountDownloadableComponentProps {
     items: CustomerDownloadableProductExtended[];
     isLoading: boolean;
 }
+
+export interface MyAccountDownloadableComponentState {}

@@ -20,7 +20,9 @@ import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import { COLUMN_MAP, NEWSLETTER_COLUMN, RENDER_NEWSLETTER } from './Footer.config';
-import { FooterComponentProps, FooterRenderColumn, FooterRenderColumnItem } from './Footer.type';
+import {
+    FooterComponentProps, FooterComponentState, FooterRenderColumn, FooterRenderColumnItem,
+} from './Footer.type';
 
 import './Footer.style';
 

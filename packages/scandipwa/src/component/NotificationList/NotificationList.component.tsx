@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import Notification from 'Component/Notification';
 import { ReactElement } from 'Type/Common.type';
 
-import { NotificationListComponentProps } from './NotificationList.type';
+import { NotificationListComponentProps, NotificationListComponentState } from './NotificationList.type';
 
 import './NotificationList.style';
 

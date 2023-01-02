@@ -17,6 +17,7 @@ import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 import {
     ProductCustomizableOptionsComponentProps,
     ProductCustomizableOptionsContainerProps,
+    ProductCustomizableOptionsContainerState,
 } from './ProductCustomizableOptions.type';
 
 /**

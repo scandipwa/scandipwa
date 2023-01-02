@@ -191,7 +191,7 @@ S extends HeaderContainerState = HeaderContainerState,
         };
     }
 
-    __construct(props: HeaderContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.state = {
@@ -199,7 +199,7 @@ S extends HeaderContainerState = HeaderContainerState,
             searchCriteria: '',
             isClearEnabled: this.getIsClearEnabled(),
             showMyAccountLogin: false,
-        };
+        } as S;
     }
 
     componentDidMount(): void {

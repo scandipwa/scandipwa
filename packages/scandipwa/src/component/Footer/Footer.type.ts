@@ -59,3 +59,7 @@ export interface FooterRenderColumnItem {
     src?: string;
     render?: string;
 }
+
+export interface FooterComponentState {}
+
+export interface FooterContainerState {}

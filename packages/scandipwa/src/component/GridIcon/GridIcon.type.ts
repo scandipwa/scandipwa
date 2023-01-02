@@ -12,3 +12,7 @@
 export interface GridIconComponentProps {
     isActive: boolean;
 }
+
+export interface GridIconComponentState {}
+
+export interface GridIconContainerState {}

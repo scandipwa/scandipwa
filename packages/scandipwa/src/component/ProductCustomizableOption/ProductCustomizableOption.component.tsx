@@ -19,7 +19,6 @@ import FieldGroup from 'Component/FieldGroup';
 import { CustomizableFieldValue, CustomizableFileValue, CustomizableSelectionValue } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
 import { FieldOptions } from 'Type/Field.type';
-// eslint-disable-next-line no-unused-vars
 import { getSubLabelFromMaxCharacters } from 'Util/Product/Extract';
 import { IndexedCustomOptionValue } from 'Util/Product/Product.type';
 import { customizableOptionToLabel } from 'Util/Product/Transform';
@@ -36,10 +35,10 @@ import {
  * @class ProductCustomizableOption
  * @namespace Component/ProductCustomizableOption/Component
  */
-export class ProductCustomizableOptionComponent extends PureComponent<
-ProductCustomizableOptionComponentProps,
-ProductCustomizableOptionComponentState
-> {
+export class ProductCustomizableOptionComponent<
+P extends Readonly<ProductCustomizableOptionComponentProps> = Readonly<ProductCustomizableOptionComponentProps>,
+S extends ProductCustomizableOptionComponentState = ProductCustomizableOptionComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductCustomizableOptionComponentProps> = {
         options: [],
     };
@@ -58,9 +57,9 @@ ProductCustomizableOptionComponentState
         [ConfigFieldType.MULTI]: this.renderCheckboxValues.bind(this),
     };
 
-    state: ProductCustomizableOptionComponentState = {
+    state: S = {
         value: '',
-    };
+    } as S;
 
     componentDidMount(): void {
         const { updateSelectedValues } = this.props;

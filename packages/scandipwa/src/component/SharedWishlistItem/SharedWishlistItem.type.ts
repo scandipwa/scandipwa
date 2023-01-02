@@ -46,3 +46,5 @@ export type SharedWishlistItemComponentContainerPropKeys = WishlistItemComponent
 | 'configurableVariantIndex'
 | 'parameters'
 | 'quantity';
+
+export interface SharedWishlistItemComponentState {}

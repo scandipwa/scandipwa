@@ -138,7 +138,7 @@ S extends WishlistItemContainerState = WishlistItemContainerState,
         setIsQtyUpdateInProgress(false);
     }, UPDATE_WISHLIST_FREQUENCY);
 
-    __construct(props: WishlistItemContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.state = {

@@ -83,3 +83,5 @@ export interface FormValidationOutput {
         errors?: ValidationDOMOutput[];
     };
 }
+
+export interface FormComponentState {}

@@ -16,7 +16,7 @@ import MyAccountDownloadableTableRow from 'Component/MyAccountDownloadableTableR
 import { ReactElement } from 'Type/Common.type';
 
 import { NUMBER_OF_COLUMNS_IN_DOWNLOADABLE_TABLE } from './MyAccountDownloadable.config';
-import { CustomerDownloadableProductExtended, MyAccountDownloadableComponentProps } from './MyAccountDownloadable.type';
+import { CustomerDownloadableProductExtended, MyAccountDownloadableComponentProps, MyAccountDownloadableComponentState } from './MyAccountDownloadable.type';
 
 import './MyAccountDownloadable.style';
 

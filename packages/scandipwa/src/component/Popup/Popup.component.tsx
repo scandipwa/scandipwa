@@ -19,7 +19,7 @@ import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 
 import { ESCAPE_KEY } from './Popup.config';
-import { PopupComponentProps } from './Popup.type';
+import { PopupComponentProps, PopupComponentState } from './Popup.type';
 
 import './Popup.style';
 
@@ -34,7 +34,7 @@ S extends PopupComponentState = PopupComponentState,
         title: '',
     };
 
-    __construct(props: PopupComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.hidePopUp = this.hidePopUp.bind(this);
@@ -46,7 +46,7 @@ S extends PopupComponentState = PopupComponentState,
         document.addEventListener('keydown', this.handleKeyDown.bind(this));
     }
 
-    componentDidUpdate(prevProps: PopupComponentProps): void {
+    componentDidUpdate(prevProps: P): void {
         const { shouldPopupClose, resetHideActivePopup } = this.props;
         const { shouldPopupClose: prevShouldPopupClose } = prevProps;
 

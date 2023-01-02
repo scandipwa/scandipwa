@@ -14,6 +14,7 @@ import { RouteComponentProps } from 'react-router';
 
 import {
     NavigationAbstractComponentProps,
+    NavigationAbstractComponentState,
     NavigationAbstractContainerProps,
 } from 'Component/NavigationAbstract/NavigationAbstract.type';
 import { CartTotals } from 'Store/Cart/Cart.type';
@@ -137,3 +138,5 @@ export type HeaderContainerPropsKeys =
 | 'shouldRenderCartOverlay'
 | 'firstname'
 | 'productsInWishlist';
+
+export interface HeaderComponentState extends NavigationAbstractComponentState {}

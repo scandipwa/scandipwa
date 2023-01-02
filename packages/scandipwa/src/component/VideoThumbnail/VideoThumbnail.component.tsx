@@ -17,7 +17,7 @@ import Image from 'Component/Image/Image.container';
 import { ImageRatio } from 'Component/Image/Image.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { VideoThumbnailComponentProps } from './VideoThumbnail.type';
+import { VideoThumbnailComponentProps, VideoThumbnailComponentState } from './VideoThumbnail.type';
 
 import './VideoThumbnail.style';
 

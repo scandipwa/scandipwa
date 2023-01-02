@@ -107,6 +107,8 @@ export interface CheckoutContainerState {
     isVisibleEmailRequired: boolean;
 }
 
+export interface CheckoutComponentState {}
+
 export interface CheckoutComponentProps extends CheckoutContainerFunctions {
     billingAddress: CheckoutAddress | undefined;
     cartTotalSubPrice: number | null;

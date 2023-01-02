@@ -52,3 +52,7 @@ export type CheckoutDeliveryOptionContainerPropsKeys =
 | 'optionPrice'
 | 'optionSubPrice'
 | 'currency';
+
+export interface CheckoutDeliveryOptionComponentState {}
+
+export interface CheckoutDeliveryOptionContainerState {}

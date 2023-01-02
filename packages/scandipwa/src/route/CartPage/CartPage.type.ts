@@ -79,3 +79,5 @@ export type CartPageComponentContainerPropKeys =
     | 'minimumOrderDescription'
     | 'areDetailsLoaded'
     | 'device';
+
+export interface CartPageComponentState {}

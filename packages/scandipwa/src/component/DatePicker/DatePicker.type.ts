@@ -72,3 +72,5 @@ export interface DatePickerComponentPlaceholderMap {
     [FieldType.DATETIME]: string;
     [FieldType.TIME]: string;
 }
+
+export interface DatePickerComponentState {}

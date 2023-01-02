@@ -14,3 +14,5 @@ export interface ProductTabComponentProps {
     onClick: (name: string) => void;
     isActive: boolean;
 }
+
+export interface ProductTabComponentState {}

@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import CategorySort from './CategorySort.component';
 import {
     CategorySortComponentProps,
-    CategorySortContainerProps, CategorySortField, CategorySortOption, CategorySortOptionLabelMap,
+    CategorySortContainerProps, CategorySortContainerState, CategorySortField, CategorySortOption, CategorySortOptionLabelMap,
 } from './CategorySort.type';
 
 /** @namespace Component/CategorySort/Container */

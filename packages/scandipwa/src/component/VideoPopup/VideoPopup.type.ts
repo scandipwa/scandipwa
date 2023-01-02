@@ -42,3 +42,7 @@ export type YouTubeComponent = ComponentType<{
     className?: string;
     opts?: { playerVars?: { autoplay?: 0 | 1 | undefined } };
 }>;
+
+export interface VideoPopupComponentState {}
+
+export interface VideoPopupContainerState {}

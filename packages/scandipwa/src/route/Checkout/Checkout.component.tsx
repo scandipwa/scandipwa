@@ -25,7 +25,9 @@ import {
     CheckoutSteps,
     CheckoutStepUrl,
 } from './Checkout.config';
-import { CheckoutComponentProps, CheckoutMapStep } from './Checkout.type';
+import {
+    CheckoutComponentProps, CheckoutComponentState, CheckoutMapStep,
+} from './Checkout.type';
 
 import './Checkout.style';
 

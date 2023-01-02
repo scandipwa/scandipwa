@@ -17,7 +17,7 @@ import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 
 import ProductGallery from './ProductGalleryBaseImage.component';
 import { INITIAL_SCALE, TRANSFORMATION_DELAY, TRANSFORMATION_SPEED } from './ProductGalleryBaseImage.config';
-import { ProductGalleryBaseImageContainerProps, ProductGalleryComponentProps } from './ProductGalleryBaseImage.type';
+import { ProductGalleryBaseImageContainerProps, ProductGalleryBaseImageContainerState, ProductGalleryComponentProps } from './ProductGalleryBaseImage.type';
 
 /** @namespace Component/ProductGalleryBaseImage/Container */
 export class ProductGalleryBaseImageContainer<

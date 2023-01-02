@@ -59,7 +59,7 @@ S extends ImageComponentState = ImageComponentState,
         [ImageState.IMAGE_LOADED]: this.renderLoadedImage.bind(this),
     };
 
-    __construct(props: ImageComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.onError = this.onError.bind(this);

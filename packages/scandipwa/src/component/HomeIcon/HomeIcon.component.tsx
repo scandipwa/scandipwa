@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { HomeIconComponentProps } from './HomeIcon.type';
+import { HomeIconComponentProps, HomeIconComponentState } from './HomeIcon.type';
 
 import './HomeIcon.style';
 

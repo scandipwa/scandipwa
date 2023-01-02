@@ -72,3 +72,5 @@ export interface ReviewData {
     summary: string;
     detail: string;
 }
+
+export interface ProductReviewFormComponentState {}

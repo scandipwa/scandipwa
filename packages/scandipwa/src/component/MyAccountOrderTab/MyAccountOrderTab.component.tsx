@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { MyAccountOrderTabComponentProps } from './MyAccountOrderTab.type';
+import { MyAccountOrderTabComponentProps, MyAccountOrderTabComponentState } from './MyAccountOrderTab.type';
 
 import './MyAccountOrderTab.style';
 

@@ -43,3 +43,5 @@ export interface MyAccountOrderTableRowComponentProps {
 
 export type MyAccountOrderTableRowContainerPropsKeys =
      | 'order';
+
+export interface MyAccountOrderTableRowComponentState {}

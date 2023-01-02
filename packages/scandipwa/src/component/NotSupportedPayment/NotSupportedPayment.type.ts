@@ -12,3 +12,5 @@
 export interface NotSupportedPaymentComponentProps {
     disableButton: (isOrderButtonEnabled: boolean) => void;
 }
+
+export interface NotSupportedPaymentComponentState {}

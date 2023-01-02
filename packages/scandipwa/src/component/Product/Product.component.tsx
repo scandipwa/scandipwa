@@ -35,17 +35,17 @@ import { IndexedBundleItem, IndexedConfigurableOption } from 'Util/Product/Produ
 import { ValidationInputTypeNumber } from 'Util/Validator/Config';
 
 import { ProductType } from './Product.config';
-import { ProductComponentProps } from './Product.type';
+import { ProductComponentProps, ProductComponentState } from './Product.type';
 
 /**
  * Product
  * @class Product
  * @namespace Component/Product/Component
  */
-export class ProductComponent<P<
-P extends Readonly<P> = Readonly<P>,
-S extends state = state,
-> extends ProductComponentProps = ProductComponentProps> extends PureComponent<P, S> {
+export class ProductComponent<
+P extends Readonly<ProductComponentProps> = Readonly<ProductComponentProps>,
+S extends ProductComponentState = ProductComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductComponentProps> = {
         configFormRef: createRef<HTMLFormElement>(),
     };

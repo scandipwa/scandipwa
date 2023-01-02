@@ -69,7 +69,7 @@ S extends ProductGalleryContainerState = ProductGalleryContainerState,
         handleImageZoomPopupActiveChange: this.handleImageZoomPopupActiveChange.bind(this),
     };
 
-    __construct(props: ProductGalleryContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.handleImageZoomPopupClose = this.handleImageZoomPopupClose.bind(this);
@@ -81,7 +81,7 @@ S extends ProductGalleryContainerState = ProductGalleryContainerState,
             isZoomEnabled: false,
             prevProdId: id,
             isImageZoomPopupActive: false,
-        };
+        } as S;
     }
 
     static getDerivedStateFromProps(

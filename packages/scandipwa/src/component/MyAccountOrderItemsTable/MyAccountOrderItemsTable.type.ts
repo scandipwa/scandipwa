@@ -48,3 +48,7 @@ export type MyAccountOrderItemsTableComponentPropsKeys = 'isMobile'
 | 'allOrderItems'
 | 'id'
 | 'isPrintPage';
+
+export interface MyAccountOrderItemsTableComponentState {}
+
+export interface MyAccountOrderItemsTableContainerState {}

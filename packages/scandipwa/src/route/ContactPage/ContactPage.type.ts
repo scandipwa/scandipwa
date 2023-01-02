@@ -25,8 +25,10 @@ export interface ContactPageMapDispatchProps {
     updateBreadcrumbs: (breadcrumbs: Breadcrumb[]) => void;
 }
 
-export type ContactPageContainerProps = ContactPageMapStateProps
-& ContactPageMapDispatchProps;
+export interface ContactPageContainerProps extends ContactPageMapStateProps,
+    ContactPageMapDispatchProps {}
+
+export interface ContactPageComponentState {}
 
 export interface ContactPageContainerState {
     isLoading: boolean;

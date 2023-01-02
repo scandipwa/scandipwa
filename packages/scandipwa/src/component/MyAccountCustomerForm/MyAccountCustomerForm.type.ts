@@ -20,7 +20,6 @@ export interface MyAccountCustomerFormContainerMapStateProps {
     minimunPasswordCharacter: string;
 }
 
-
 export interface MyAccountCustomerFormContainerMapDispatchProps {}
 
 export interface MyAccountCustomerFormContainerFunctions {
@@ -101,3 +100,5 @@ export type MyAccountCustomerFormInformationProps = 'customer'
 | 'showEmailChangeField'
 | 'showPasswordChangeField'
 | 'vatNumberRequired';
+
+export interface MyAccountCustomerFormComponentState {}

@@ -49,19 +49,19 @@ export const mapDispatchToProps = (dispatch: Dispatch): NewsletterSubscriptionMa
 });
 
 /** @namespace Component/NewsletterSubscription/Container */
-export class NewsletterSubscriptionContainer extends PureComponent<
-NewsletterSubscriptionContainerProps,
-NewsletterSubscriptionContainerState
-> {
+export class NewsletterSubscriptionContainer<
+P extends Readonly<NewsletterSubscriptionContainerProps> = Readonly<NewsletterSubscriptionContainerProps>,
+S extends NewsletterSubscriptionContainerState = NewsletterSubscriptionContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: NewsletterSubscriptionContainerFunctions = {
         onFormSubmit: this.onFormSubmit.bind(this),
     };
 
-    state: NewsletterSubscriptionContainerState = {
+    state: S = {
         isLoading: false,
-    };
+    } as S;
 
-    __construct(props: NewsletterSubscriptionContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.onFormSubmitDone = this.onFormSubmitDone.bind(this);

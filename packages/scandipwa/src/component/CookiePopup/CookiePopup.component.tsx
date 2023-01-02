@@ -26,11 +26,11 @@ export class CookiePopupComponent<
 P extends Readonly<CookiePopupComponentProps> = Readonly<CookiePopupComponentProps>,
 S extends CookiePopupComponentState = CookiePopupComponentState,
 > extends PureComponent <P, S> {
-    state: CookiePopupComponentState = {
+    state: S = {
         isAccepted: this.getAcceptCookieValue(),
-    };
+    } as S;
 
-    __construct(props: CookiePopupComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.acceptCookies = this.acceptCookies.bind(this);

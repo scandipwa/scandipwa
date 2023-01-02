@@ -32,14 +32,14 @@ import {
 export class FieldSelectContainer<
 P extends Readonly<FieldSelectContainerProps> = Readonly<FieldSelectContainerProps>,
 S extends FieldSelectContainerState = FieldSelectContainerState,
-> extends PureComponent <P, S> {
+> extends PureComponent<P, S> {
     static defaultProps: Partial<FieldSelectContainerProps> = {
         noPlaceholder: false,
         changeValueOnDoubleClick: false,
         isSortSelect: false,
     };
 
-    state: FieldSelectContainerState = {
+    state: S = {
         valueIndex: -1,
         searchString: '',
         selectedOptionIndex: 0,
@@ -47,7 +47,7 @@ S extends FieldSelectContainerState = FieldSelectContainerState,
         isDropdownOpenUpwards: false,
         isScrollable: false,
         isSelectedOptionAvailable: true,
-    };
+    } as S;
 
     containerFunctions: FieldSelectContainerFunctions = {
         handleSelectExpand: this.handleSelectExpand.bind(this),

@@ -24,6 +24,7 @@ import {
     ProductReviewsContainerMapDispatchProps,
     ProductReviewsContainerMapStateProps,
     ProductReviewsContainerProps,
+    ProductReviewsContainerState,
 } from './ProductReviews.type';
 
 /** @namespace Component/ProductReviews/Container/mapStateToProps */

@@ -66,3 +66,5 @@ export type ProductCompareItemComponentContainerPropKeys =
     | 'linkTo'
     | 'isInStock'
     | 'isWishlistEnabled';
+
+export interface ProductCompareItemComponentState {}

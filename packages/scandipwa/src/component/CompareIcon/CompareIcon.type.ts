@@ -12,3 +12,7 @@
 export interface CompareIconComponentProps {
     isActive: boolean;
 }
+
+export interface CompareIconComponentState {}
+
+export interface CompareIconContainerState {}

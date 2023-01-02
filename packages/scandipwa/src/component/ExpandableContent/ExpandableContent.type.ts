@@ -16,7 +16,6 @@ export interface ExpandableContentContainerMapStateProps {
     device: Device;
 }
 
-
 export interface ExpandableContentContainerDispatchProps {}
 
 export interface ExpandableContentComponentProps {

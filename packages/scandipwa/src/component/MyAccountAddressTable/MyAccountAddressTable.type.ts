@@ -51,3 +51,7 @@ export type MyAccountAddressTableContainerPropsKeys =
 | 'showAdditionalFields'
 | 'showActions'
 | 'title';
+
+export interface MyAccountAddressTableComponentState {}
+
+export interface MyAccountAddressTableContainerState {}

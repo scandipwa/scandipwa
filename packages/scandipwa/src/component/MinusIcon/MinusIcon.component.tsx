@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { MinusIconComponentProps } from './MinusIcon.type';
+import { MinusIconComponentProps, MinusIconComponentState } from './MinusIcon.type';
 
 import './MinusIcon.style';
 

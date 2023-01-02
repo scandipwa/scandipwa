@@ -84,3 +84,5 @@ export type MyAccountContainerPropsKeys = 'state'
 | 'emailValue'
 | 'handleEmailInput'
 | 'isLoading';
+
+export interface MyAccountSignInComponentState {}

@@ -28,6 +28,7 @@ import {
     MyAccountMyOrdersContainerMapStateProps,
     MyAccountMyOrdersContainerProps,
     MyAccountMyOrdersContainerPropsKeys,
+    MyAccountMyOrdersContainerState,
 } from './MyAccountMyOrders.type';
 
 export const OrderDispatcher = import(

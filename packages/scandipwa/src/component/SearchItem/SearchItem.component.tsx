@@ -18,7 +18,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
 
-import { SearchItemComponentProps } from './SearchItem.type';
+import { SearchItemComponentProps, SearchItemComponentState } from './SearchItem.type';
 
 import './SearchItem.style';
 

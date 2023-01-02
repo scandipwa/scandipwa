@@ -20,7 +20,7 @@ import { Store } from 'Query/StoreInPickUp.type';
 import { ReactElement } from 'Type/Common.type';
 
 import { STORE_IN_PICK_UP_POPUP_ID } from './StoreInPickUpPopup.config';
-import { StoreInPickUpPopupComponentProps } from './StoreInPickUpPopup.type';
+import { StoreInPickUpPopupComponentProps, StoreInPickUpPopupComponentState } from './StoreInPickUpPopup.type';
 
 import './StoreInPickUpPopup.style';
 

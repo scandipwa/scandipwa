@@ -38,6 +38,8 @@ export type PasswordChangePageContainerProps = PasswordChangePageContainerMapSta
 & PasswordChangePageContainerMapDispatchProps
 & RouteComponentProps;
 
+export interface PasswordChangePageComponentState {}
+
 export interface PasswordChangePageContainerState {
     passwordResetStatus: string;
     isLoading: boolean;

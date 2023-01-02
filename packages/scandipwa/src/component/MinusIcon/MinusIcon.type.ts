@@ -12,3 +12,5 @@
 export interface MinusIconComponentProps {
     isPrimary: boolean;
 }
+
+export interface MinusIconComponentState {}

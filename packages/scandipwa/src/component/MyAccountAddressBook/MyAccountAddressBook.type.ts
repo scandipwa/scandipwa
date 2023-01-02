@@ -36,3 +36,7 @@ export interface MyAccountAddressBookComponentProps {
     customer: Partial<Customer>;
     showCreateNewPopup: () => void;
 }
+
+export interface MyAccountAddressBookComponentState {}
+
+export interface MyAccountAddressBookContainerState {}

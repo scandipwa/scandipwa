@@ -17,3 +17,5 @@ export interface CategoryDetailsComponentProps {
 }
 
 export interface CategoryDetailsComponentState {}
+
+export interface CategoryDetailsContainerState {}

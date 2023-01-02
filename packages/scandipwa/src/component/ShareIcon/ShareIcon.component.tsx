@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { ShareIconComponentProps } from './ShareIcon.type';
+import { ShareIconComponentProps, ShareIconComponentState } from './ShareIcon.type';
 
 import './ShareIcon.style';
 

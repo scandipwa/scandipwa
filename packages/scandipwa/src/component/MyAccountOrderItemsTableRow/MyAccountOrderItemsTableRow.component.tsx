@@ -21,7 +21,7 @@ import { OrderItemQtyArray } from 'Util/Orders/Orders.type';
 import { formatPrice } from 'Util/Price';
 
 import { ORDER_STATUS_TRANSLATION_MAP } from './MyAccountOrderItemsTableRow.config';
-import { MyAccountOrderItemsTableRowComponentProps } from './MyAccountOrderItemsTableRow.type';
+import { MyAccountOrderItemsTableRowComponentProps, MyAccountOrderItemsTableRowComponentState } from './MyAccountOrderItemsTableRow.type';
 
 import './MyAccountOrderItemsTableRow.style';
 

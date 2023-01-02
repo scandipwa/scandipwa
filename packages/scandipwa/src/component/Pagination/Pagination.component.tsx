@@ -19,7 +19,7 @@ import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder
 import { ReactElement } from 'Type/Common.type';
 import { range } from 'Util/Manipulations';
 
-import { PaginationComponentProps } from './Pagination.type';
+import { PaginationComponentProps, PaginationComponentState } from './Pagination.type';
 
 import './Pagination.style';
 

@@ -22,7 +22,7 @@ import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { ValidationInputType } from 'Util/Validator/Config';
 
-import { ConfirmAccountPageComponentProps } from './ConfirmAccountPage.type';
+import { ConfirmAccountPageComponentProps, ConfirmAccountPageComponentState } from './ConfirmAccountPage.type';
 
 import './ConfirmAccountPage.style';
 

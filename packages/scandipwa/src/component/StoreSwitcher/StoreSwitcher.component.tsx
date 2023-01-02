@@ -19,7 +19,7 @@ import { FieldType } from 'Component/Field/Field.config';
 import StoreItem from 'Component/StoreItem';
 import { ReactElement } from 'Type/Common.type';
 
-import { FormattedStore, StoreSwitcherComponentProps } from './StoreSwitcher.type';
+import { FormattedStore, StoreSwitcherComponentProps, StoreSwitcherComponentState } from './StoreSwitcher.type';
 
 import './StoreSwitcher.style';
 

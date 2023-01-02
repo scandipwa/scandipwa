@@ -28,10 +28,14 @@ export interface NoMatchHandlerContainerBaseProps {
     children: Children;
 }
 
-export type NoMatchHandlerContainerProps = RouteComponentProps
-& NoMatchHandlerContainerMapStateProps
-& NoMatchHandlerContainerMapDispatchProps
-& NoMatchHandlerContainerBaseProps;
+export interface NoMatchHandlerContainerProps extends RouteComponentProps,
+    NoMatchHandlerContainerMapStateProps,
+    NoMatchHandlerContainerMapDispatchProps,
+    NoMatchHandlerContainerBaseProps {}
+
+export interface NoMatchHandlerContainerState {}
+
+export interface NoMatchHandlerComponentState {}
 
 export interface NoMatchHandlerComponentProps {
     children: Children;

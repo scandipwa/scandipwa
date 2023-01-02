@@ -12,3 +12,5 @@
 export interface UserIconComponentProps {
     isActive: boolean;
 }
+
+export interface UserIconComponentState {}

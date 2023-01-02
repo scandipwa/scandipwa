@@ -19,7 +19,12 @@ import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { FormattedMoney } from 'Util/Product/Product.type';
 
 import { DisplayProductPricesInCatalog } from './ProductPrice.config';
-import { CurrencySchema, PriceSchema, ProductPriceComponentProps } from './ProductPrice.type';
+import {
+    CurrencySchema,
+    PriceSchema,
+    ProductPriceComponentProps,
+    ProductPriceComponentState,
+} from './ProductPrice.type';
 
 import './ProductPrice.style';
 

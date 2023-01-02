@@ -28,6 +28,7 @@ import {
     HomePageContainerMapStateProps,
     HomePageContainerProps,
     HomePageContainerPropsKeys,
+    HomePageContainerState,
 } from './HomePage.type';
 
 import './HomePage.style';

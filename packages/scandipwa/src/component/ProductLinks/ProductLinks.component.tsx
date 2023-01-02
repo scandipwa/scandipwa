@@ -16,7 +16,7 @@ import ProductCard from 'Component/ProductCard';
 import { ReactElement } from 'Type/Common.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
-import { ProductLinksComponentProps } from './ProductLinks.type';
+import { ProductLinksComponentProps, ProductLinksComponentState } from './ProductLinks.type';
 
 import './ProductLinks.style';
 
@@ -25,27 +25,13 @@ export class ProductLinksComponent<
 P extends Readonly<ProductLinksComponentProps> = Readonly<ProductLinksComponentProps>,
 S extends ProductLinksComponentState = ProductLinksComponentState,
 > extends PureComponent<P, S> {
-    __construct(props: ProductLinksComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.renderProductCard = this.renderProductCard.bind(this);
     }
 
     renderProductCard(product: IndexedProduct, i: number): ReactElement {
-        // const {
-        // productCardProps: {
-        //     siblingsHaveBrands,
-        //     siblingsHavePriceBadge,
-        //     siblingsHaveTierPrice,
-        //     siblingsHaveConfigurableOptions
-        // },
-        // productCardFunctions: {
-        //     setSiblingsHaveBrands,
-        //     setSiblingsHavePriceBadge,
-        //     setSiblingsHaveTierPrice,
-        //     setSiblingsHaveConfigurableOptions
-        // }
-        // } = this.props;
         const { id = i } = product;
 
         return (
@@ -54,15 +40,6 @@ S extends ProductLinksComponentState = ProductLinksComponentState,
               elem="Card"
               product={ product }
               key={ id }
-            // !FIXME: This seems to be the obsolete code. We should remove it from all components.
-            //   siblingsHaveBrands={ siblingsHaveBrands }
-            //   siblingsHavePriceBadge={ siblingsHavePriceBadge }
-            //   siblingsHaveTierPrice={ siblingsHaveTierPrice }
-            //   siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
-            //   setSiblingsHaveBrands={ setSiblingsHaveBrands }
-            //   setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
-            //   setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
-            //   setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
             />
         );
     }

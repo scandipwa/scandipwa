@@ -24,6 +24,7 @@ import {
     MyAccountDownloadableTableRowContainerFunctions,
     MyAccountDownloadableTableRowContainerMapStateProps,
     MyAccountDownloadableTableRowContainerProps,
+    MyAccountDownloadableTableRowContainerState,
 } from './MyAccountDownloadableTableRow.type';
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container/mapStateToProps */

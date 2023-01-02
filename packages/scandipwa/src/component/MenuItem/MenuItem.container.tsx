@@ -26,6 +26,7 @@ import {
     MenuItemComponentProps,
     MenuItemContainerFunctions,
     MenuItemContainerProps,
+    MenuItemContainerState,
     MenuItemMapDispatchProps,
     MenuItemMapStateProps,
 } from './MenuItem.type';

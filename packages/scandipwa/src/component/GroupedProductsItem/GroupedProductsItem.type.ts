@@ -32,3 +32,7 @@ export interface GroupedProductsItemComponentProps {
 export type GroupedProductsItemComponentContainerPropKeys =
 | 'itemCount'
 | 'product';
+
+export interface GroupedProductsItemComponentState {}
+
+export interface GroupedProductsItemContainerState {}

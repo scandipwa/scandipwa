@@ -18,3 +18,5 @@ export interface ReviewStarComponentProps {
     rating_id: string;
     onStarRatingClick: (rating_id: string, option_id: string) => void;
 }
+
+export interface ReviewStarComponentState {}

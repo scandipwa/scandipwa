@@ -45,7 +45,7 @@ export class SliderWidgetContainer<
 P extends Readonly<SliderWidgetContainerProps> = Readonly<SliderWidgetContainerProps>,
 S extends SliderWidgetContainerState = SliderWidgetContainerState,
 > extends DataContainer <P, S> {
-    state: SliderWidgetContainerState = {
+    state: S = {
         slider: {
             slideSpeed: 0,
             slides: [{
@@ -58,9 +58,9 @@ S extends SliderWidgetContainerState = SliderWidgetContainerState,
                 isPlaceholder: true,
             }],
         },
-    };
+    } as S;
 
-    __construct(props: SliderWidgetContainerProps): void {
+    __construct(props: P): void {
         const { sliderId } = props;
 
         super.__construct(props, `SliderWidgetContainer-${sliderId}`);

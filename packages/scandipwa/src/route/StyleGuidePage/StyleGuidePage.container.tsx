@@ -28,6 +28,7 @@ import {
     StyleGuidePageContainerMapDispatchProps,
     StyleGuidePageContainerMapStateProps,
     StyleGuidePageContainerProps,
+    StyleGuidePageContainerState,
 } from './StyleGuidePage.type';
 
 export const ProductDispatcher = import(

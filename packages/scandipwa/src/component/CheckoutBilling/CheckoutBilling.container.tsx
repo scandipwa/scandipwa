@@ -69,10 +69,13 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutBillingContainer
 });
 
 /** @namespace Component/CheckoutBilling/Container */
-export class CheckoutBillingContainer extends PureComponent<
-CheckoutBillingContainerProps,
-CheckoutBillingContainerState
-> {
+export class CheckoutBillingContainer<
+P extends Readonly<CheckoutBillingContainerProps> = Readonly<CheckoutBillingContainerProps>,
+S extends CheckoutBillingContainerState = CheckoutBillingContainerState,
+> extends PureComponent<
+    P,
+    S
+    > {
     static defaultProps = {
         newShippingId: 0,
         termsAreEnabled: false,
@@ -109,7 +112,7 @@ CheckoutBillingContainerState
         showPopup: this.showPopup.bind(this),
     };
 
-    __construct(props: CheckoutBillingContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         const {
@@ -126,7 +129,7 @@ CheckoutBillingContainerState
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
             paymentMethod: '',
-        };
+        } as S;
     }
 
     componentDidUpdate(_: CheckoutBillingContainerProps, prevState: CheckoutBillingContainerState): void {

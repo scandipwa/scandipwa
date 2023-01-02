@@ -47,13 +47,13 @@ export const mapDispatchToProps = (dispatch: Dispatch): ShareWishlistPopupContai
 export const mapStateToProps = (): ShareWishlistPopupContainerMapStateProps => ({});
 
 /** @namespace Component/ShareWishlistPopup/Container */
-export class ShareWishlistPopupContainer extends PureComponent<
-ShareWishlistPopupContainerProps,
-ShareWishlistPopupContainerState
-> {
-    state: ShareWishlistPopupContainerState = {
+export class ShareWishlistPopupContainer<
+P extends Readonly<ShareWishlistPopupContainerProps> = Readonly<ShareWishlistPopupContainerProps>,
+S extends ShareWishlistPopupContainerState = ShareWishlistPopupContainerState,
+> extends PureComponent<P, S> {
+    state: S = {
         isLoading: false,
-    };
+    } as S;
 
     containerFunctions: ShareWishlistPopupContainerFunctions = {
         handleFormData: this.handleFormData.bind(this),

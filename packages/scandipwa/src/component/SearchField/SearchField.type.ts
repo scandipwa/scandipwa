@@ -17,7 +17,6 @@ export interface SearchFieldContainerMapStateToProps {
     device: Device;
 }
 
-
 export interface SearchFieldContainerMapDispatchToProps {}
 
 export interface SearchFieldComponentProps extends SearchFieldContainerMapStateToProps {
@@ -30,3 +29,5 @@ export interface SearchFieldComponentProps extends SearchFieldContainerMapStateT
     isActive: boolean;
     hideActiveOverlay: () => void;
 }
+
+export interface SearchFieldComponentState {}

@@ -29,6 +29,7 @@ import {
     ProductAlertsContainerMapDispatchProps,
     ProductAlertsContainerMapStateProps,
     ProductAlertsContainerProps,
+    ProductAlertsContainerState,
 } from './ProductAlerts.type';
 
 /** @namespace Component/ProductAlerts/Container/mapStateToProps */

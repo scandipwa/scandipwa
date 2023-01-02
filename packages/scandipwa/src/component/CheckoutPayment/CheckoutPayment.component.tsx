@@ -15,7 +15,7 @@ import Field from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
 import { ReactElement } from 'Type/Common.type';
 
-import { CheckoutPaymentComponentProps } from './CheckoutPayment.type';
+import { CheckoutPaymentComponentProps, CheckoutPaymentComponentState } from './CheckoutPayment.type';
 
 import './CheckoutPayment.style';
 
@@ -28,7 +28,7 @@ S extends CheckoutPaymentComponentState = CheckoutPaymentComponentState,
         isSelected: false,
     };
 
-    __construct(props: CheckoutPaymentComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.onClick = this.onClick.bind(this);

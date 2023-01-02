@@ -18,7 +18,7 @@ import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
 
 import { DELIVERY_METHOD_UNAVAILABLE_MESSAGE } from './CheckoutDeliveryOption.config';
-import { CheckoutDeliveryOptionComponentProps } from './CheckoutDeliveryOption.type';
+import { CheckoutDeliveryOptionComponentProps, CheckoutDeliveryOptionComponentState } from './CheckoutDeliveryOption.type';
 
 import './CheckoutDeliveryOption.style';
 

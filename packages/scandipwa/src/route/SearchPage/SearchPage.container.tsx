@@ -75,10 +75,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): SearchPageContainerMapDi
 });
 
 /** @namespace Route/SearchPage/Container */
-export class SearchPageContainer extends CategoryPageContainer<
-SearchPageContainerProps,
-SearchPageContainerState
-> {
+export class SearchPageContainer<
+P extends Readonly<SearchPageContainerProps> = Readonly<SearchPageContainerProps>,
+S extends SearchPageContainerState = SearchPageContainerState,
+> extends CategoryPageContainer<P, S> {
     static defaultProps: Partial<SearchPageContainerProps> = {
         ...CategoryPageContainer.defaultProps,
         isSearchPage: true,

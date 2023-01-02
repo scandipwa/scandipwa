@@ -78,7 +78,7 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState,
         setIsQtyUpdateInProgress: this.setIsQtyUpdateInProgress.bind(this),
     };
 
-    __construct(props: MyAccountMyWishlistContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.state = {

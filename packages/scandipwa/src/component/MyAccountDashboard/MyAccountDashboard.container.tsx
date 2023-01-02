@@ -23,6 +23,7 @@ import {
     MyAccountDashboardContainerMapDispatchProps,
     MyAccountDashboardContainerMapStateProps,
     MyAccountDashboardContainerProps,
+    MyAccountDashboardContainerState,
 } from './MyAccountDashboard.type';
 
 /** @namespace Component/MyAccountDashboard/Container/mapStateToProps */

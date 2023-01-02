@@ -38,3 +38,7 @@ export interface OfflineNoticeComponentProps {
 export type OfflineNoticeContainerPropsKeys =
 | 'isBig'
 | 'isPage';
+
+export interface OfflineNoticeComponentState {}
+
+export interface OfflineNoticeContainerState {}

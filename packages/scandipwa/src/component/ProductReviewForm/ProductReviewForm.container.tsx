@@ -58,17 +58,17 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductReviewFormContain
 });
 
 /** @namespace Component/ProductReviewForm/Container */
-export class ProductReviewFormContainer extends PureComponent<
-ProductReviewFormContainerProps,
-ProductReviewFormContainerState
-> {
+export class ProductReviewFormContainer<
+P extends Readonly<ProductReviewFormContainerProps> = Readonly<ProductReviewFormContainerProps>,
+S extends ProductReviewFormContainerState = ProductReviewFormContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: ProductReviewFormContainerFunctions = ({
         onReviewSubmitSuccess: this._onReviewSubmitSuccess.bind(this),
         onStarRatingClick: this._onStarRatingClick.bind(this),
         onReviewError: this._onReviewError.bind(this),
     });
 
-    __construct(props: ProductReviewFormContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         const { customer: { firstname: nickname } } = this.props;
@@ -79,7 +79,7 @@ ProductReviewFormContainerState
             ratingData: {},
             reviewData,
             isSubmitted: false,
-        };
+        } as S;
     }
 
     containerProps(): Pick<ProductReviewFormComponentProps, ProductReviewFormComponentContainerPropKeys> {

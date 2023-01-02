@@ -18,10 +18,10 @@ import { SearchPageComponentProps, SearchPageComponentState } from './SearchPage
 import './SearchPage.style';
 
 /** @namespace Route/SearchPage/Component */
-export class SearchPageComponent extends CategoryPage<
-SearchPageComponentProps,
-SearchPageComponentState
-> {
+export class SearchPageComponent<
+P extends Readonly<SearchPageComponentProps> = Readonly<SearchPageComponentProps>,
+S extends SearchPageComponentState = SearchPageComponentState,
+> extends CategoryPage<P, S> {
     renderSearchHeading(): ReactElement {
         const { search } = this.props;
 

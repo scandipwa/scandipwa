@@ -32,3 +32,5 @@ export interface MyAccountTabListComponentProps {
     isContentExpanded: boolean;
     toggleExpandableContent: () => void;
 }
+
+export interface MyAccountTabListItemComponentState {}

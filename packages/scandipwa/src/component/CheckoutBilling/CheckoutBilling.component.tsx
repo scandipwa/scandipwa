@@ -32,18 +32,18 @@ export class CheckoutBillingComponent<
 P extends Readonly<CheckoutBillingComponentProps> = Readonly<CheckoutBillingComponentProps>,
 S extends CheckoutBillingComponentState = CheckoutBillingComponentState,
 > extends PureComponent <P, S> {
-    state: CheckoutBillingComponentState = {
+    state: S = {
         isOrderButtonVisible: true,
         isOrderButtonEnabled: true,
         isTACAccepted: false,
-    };
+    } as S;
 
     static defaultProps = {
         cartTotalSubPrice: null,
         paymentMethod: '',
     };
 
-    __construct(props: CheckoutBillingComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.setOrderButtonEnableStatus = this.setOrderButtonEnableStatus.bind(this);

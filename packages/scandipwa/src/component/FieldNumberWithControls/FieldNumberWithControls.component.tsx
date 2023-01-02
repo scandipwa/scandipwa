@@ -18,7 +18,7 @@ import MinusIcon from 'Component/MinusIcon';
 import { ReactElement } from 'Type/Common.type';
 import { DEFAULT_MAX_PRODUCTS } from 'Util/Product/Product.type';
 
-import { FieldNumberWitControlsComponentProps } from './FieldNumberWithControls.type';
+import { FieldNumberWithControlsComponentProps, FieldNumberWithControlsComponentState } from './FieldNumberWithControls.type';
 
 import './FieldNumberWithControls.style.scss';
 /**
@@ -26,7 +26,7 @@ import './FieldNumberWithControls.style.scss';
  * @class FieldNumberWithControls
  * @namespace Component/FieldNumberWithControls/Component */
 export class FieldNumberWithControlsComponent<
-P extends Readonly<FieldNumberWitControlsComponentProps> = Readonly<FieldNumberWitControlsComponentProps>,
+P extends Readonly<FieldNumberWithControlsComponentProps> = Readonly<FieldNumberWithControlsComponentProps>,
 S extends FieldNumberWithControlsComponentState = FieldNumberWithControlsComponentState,
 > extends PureComponent<P, S> {
     render(): ReactElement {

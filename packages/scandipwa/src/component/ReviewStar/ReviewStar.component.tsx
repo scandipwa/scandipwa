@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { ReviewStarComponentProps } from './ReviewStar.type';
+import { ReviewStarComponentProps, ReviewStarComponentState } from './ReviewStar.type';
 
 import './ReviewStar.style';
 
@@ -22,7 +22,7 @@ export class ReviewStarComponent<
 P extends Readonly<ReviewStarComponentProps> = Readonly<ReviewStarComponentProps>,
 S extends ReviewStarComponentState = ReviewStarComponentState,
 > extends PureComponent<P, S> {
-    __construct(props: ReviewStarComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.onStarRatingClick = this.onStarRatingClick.bind(this);

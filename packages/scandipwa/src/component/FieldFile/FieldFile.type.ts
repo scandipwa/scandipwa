@@ -56,3 +56,5 @@ export type FieldContainerPropsKeys =
  | 'attr'
  | 'value'
  | 'resetFieldValue';
+
+export interface FieldFileComponentState {}

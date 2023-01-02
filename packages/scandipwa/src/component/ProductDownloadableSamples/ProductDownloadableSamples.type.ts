@@ -32,3 +32,7 @@ export interface ProductDownloadableSamplesComponentProps {
     samples: DownloadableProductSamples[];
     isOpenInNewTab: boolean;
 }
+
+export interface ProductDownloadableSamplesComponentState {}
+
+export interface ProductDownloadableSamplesContainerState {}

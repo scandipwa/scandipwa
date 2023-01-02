@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 import { formatPrice } from 'Util/Price';
 
-import { MyAccountOrderTableRowComponentProps } from './MyAccountOrderTableRow.type';
+import { MyAccountOrderTableRowComponentProps, MyAccountOrderTableRowComponentState } from './MyAccountOrderTableRow.type';
 
 import './MyAccountOrderTableRow.style';
 

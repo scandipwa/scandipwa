@@ -78,3 +78,5 @@ export type FieldSelectContainerPropsKeys = 'attr'
 | 'isSortSelect'
 | 'isSelectedOptionAvailable'
 | 'options';
+
+export interface FieldSelectComponentState {}

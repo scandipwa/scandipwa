@@ -47,3 +47,7 @@ export interface WidgetFactoryComponentRenderMap {
     [Widget.CATALOG_PRODUCT_LIST]: WidgetFactoryComponentRenderMapItem;
     [Widget.RECENTLY_VIEWED]: WidgetFactoryComponentRenderMapItem;
 }
+
+export interface WidgetFactoryComponentState {}
+
+export interface WidgetFactoryContainerState {}

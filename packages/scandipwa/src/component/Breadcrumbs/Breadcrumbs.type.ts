@@ -22,3 +22,5 @@ export interface BreadcrumbsComponentProps extends BreadcrumbsContainerMapStateP
     BreadcrumbsContainerMapDispatchProps {}
 
 export interface BreadcrumbsComponentState {}
+
+export interface BreadcrumbsContainerState {}

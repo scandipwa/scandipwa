@@ -21,7 +21,7 @@ import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import transformToNameValuePair from 'Util/Form/Transform';
 
-import { CheckoutAddressFormComponentProps, EstimateAddressFields } from './CheckoutAddressForm.type';
+import { CheckoutAddressFormComponentProps, CheckoutAddressFormComponentState, EstimateAddressFields } from './CheckoutAddressForm.type';
 
 /** @namespace Component/CheckoutAddressForm/Component */
 export class CheckoutAddressFormComponent<
@@ -35,7 +35,7 @@ S extends CheckoutAddressFormComponentState = CheckoutAddressFormComponentState,
 
     lastRequest: EstimateAddress | null = null;
 
-    __construct(props: CheckoutAddressFormComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.onAddressChange = this.onAddressChange.bind(this);

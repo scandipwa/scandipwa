@@ -57,23 +57,23 @@ export const mapDispatchToProps = (dispatch: Dispatch): SendConfirmationPageCont
 });
 
 /** @namespace Route/SendConfirmationPage/Container */
-export class SendConfirmationPageContainer extends PureComponent<
-SendConfirmationPageContainerProps,
-SendConfirmationPageContainerState
-> {
+export class SendConfirmationPageContainer<
+P extends Readonly<SendConfirmationPageContainerProps> = Readonly<SendConfirmationPageContainerProps>,
+S extends SendConfirmationPageContainerState = SendConfirmationPageContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: SendConfirmationPageContainerFunctions = {
         onConfirmSuccess: this.onConfirmSuccess.bind(this),
         onFormError: this.onFormError.bind(this),
     };
 
-    __construct(props: SendConfirmationPageContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.state = {
             email: '',
             redirect: false,
             isLoading: false,
-        };
+        } as S;
     }
 
     componentDidMount(): void {

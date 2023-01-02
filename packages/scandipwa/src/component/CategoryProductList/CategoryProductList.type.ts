@@ -61,3 +61,7 @@ export type CategoryProductListContainerPropKeys =
     | 'isPreventRequest'
     | 'mix'
     | 'isPlp';
+
+export interface CategoryProductListComponentState {}
+
+export interface CategoryProductListContainerState {}

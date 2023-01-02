@@ -14,7 +14,6 @@ export interface MyAccountDashboardContainerMapStateProps {
     customer: Partial<Customer>;
 }
 
-
 export interface MyAccountDashboardContainerMapDispatchProps {}
 
 export interface MyAccountDashboardContainerFunctions {
@@ -28,3 +27,7 @@ export interface MyAccountDashboardComponentProps {
     customer: Partial<Customer>;
     getDefaultAddress: (isBilling: boolean) => CustomerAddress | undefined;
 }
+
+export interface MyAccountDashboardComponentState {}
+
+export interface MyAccountDashboardContainerState {}

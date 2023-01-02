@@ -22,6 +22,7 @@ import CheckoutAddressTable from './CheckoutAddressTable.component';
 import {
     CheckoutAddressTableContainerProps,
     CheckoutAddressTableContainerPropsKeys,
+    CheckoutAddressTableContainerState,
 } from './CheckoutAddressTable.type';
 
 /** @namespace Component/CheckoutAddressTable/Container */

@@ -19,7 +19,7 @@ import { noopFn } from 'Util/Common';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 import { OBSERVER_THRESHOLD } from './ProductList.config';
-import { PageProps, ProductListComponentProps } from './ProductList.type';
+import { PageProps, ProductListComponentProps, ProductListComponentState } from './ProductList.type';
 
 import './ProductList.style';
 

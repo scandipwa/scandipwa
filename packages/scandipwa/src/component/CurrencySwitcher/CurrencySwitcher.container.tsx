@@ -26,6 +26,7 @@ import {
     CurrencySwitcherComponentProps,
     CurrencySwitcherContainerFunctions,
     CurrencySwitcherContainerProps,
+    CurrencySwitcherContainerState,
     CurrencySwitcherMapDispatchProps,
     CurrencySwitcherMapStateProps,
 } from './CurrencySwitcher.type';
@@ -49,7 +50,7 @@ S extends CurrencySwitcherContainerState = CurrencySwitcherContainerState,
         handleCurrencySelect: this._handleCurrencySelect.bind(this),
     };
 
-    __construct(props: CurrencySwitcherContainerProps): void {
+    __construct(props: P): void {
         super.__construct(props, 'CurrencySwitcherContainer');
     }
 

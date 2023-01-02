@@ -22,3 +22,7 @@ export interface PopupSuspenseComponentBaseProps {
 }
 
 export type PopupSuspenseComponentProps = PopupSuspenseMapDispatchToProps & PopupSuspenseComponentBaseProps;
+
+export interface PopupSuspenseComponentState {}
+
+export interface PopupSuspenseContainerState {}

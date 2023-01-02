@@ -27,10 +27,10 @@ import './ProductListPage.style';
  * @class ProductListPage
  * @namespace Component/ProductListPage/Component
  */
-export class ProductListPageComponent extends PureComponent<
-ProductListPageComponentProps,
-ProductListPageComponentState
-> {
+export class ProductListPageComponent<
+P extends Readonly<ProductListPageComponentProps> = Readonly<ProductListPageComponentProps>,
+S extends ProductListPageComponentState = ProductListPageComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductListPageComponentProps> = {
         numberOfPlaceholders: DEFAULT_PLACEHOLDER_COUNT,
         wrapperRef: noopFn,
@@ -39,13 +39,6 @@ ProductListPageComponentState
         items: [],
         mix: {},
     };
-
-    // state: ProductListPageComponentState = {
-    //     siblingsHaveBrands: false,
-    //     siblingsHavePriceBadge: false,
-    //     siblingsHaveTierPrice: false,
-    //     siblingsHaveConfigurableOptions: false
-    // };
 
     observer?: IntersectionObserver;
 
@@ -64,28 +57,9 @@ ProductListPageComponentState
     }
 
     containerProps(): Pick<ProductCardContainerProps, 'isPlp'> {
-        // const {
-        //     siblingsHaveBrands,
-        //     siblingsHavePriceBadge,
-        //     siblingsHaveTierPrice,
-        //     siblingsHaveConfigurableOptions
-        // } = this.state;
-
         const { isPlp } = this.props;
 
         return {
-            // productCardFunctions: {
-            //     setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
-            //     setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
-            //     setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
-            //     setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
-            // },
-            // productCardProps: {
-            //     siblingsHaveBrands,
-            //     siblingsHavePriceBadge,
-            //     siblingsHaveTierPrice,
-            //     siblingsHaveConfigurableOptions
-            // },
             isPlp,
         };
     }

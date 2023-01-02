@@ -25,7 +25,7 @@ import CSS from 'Util/CSS';
 import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
 
-import { MyAccountOrderPrintComponentProps } from './MyAccountOrderPrint.type';
+import { MyAccountOrderPrintComponentProps, MyAccountOrderPrintComponentState } from './MyAccountOrderPrint.type';
 
 import './MyAccountOrderPrint.style';
 
@@ -36,9 +36,9 @@ S extends MyAccountOrderPrintComponentState = MyAccountOrderPrintComponentState,
 > extends MyAccountOrder<P, S> {
     logoRef = createRef<HTMLDivElement>();
 
-    state = {
+    state: S = {
         isPrintShown: false,
-    };
+    } as S;
 
     componentDidUpdate(): void {
         const { order: { id } = {}, isLogoLoaded } = this.props;

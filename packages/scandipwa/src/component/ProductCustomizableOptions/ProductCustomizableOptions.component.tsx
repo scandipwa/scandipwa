@@ -17,7 +17,7 @@ import { CustomFieldValue } from 'Component/ProductCustomizableOption/ProductCus
 import { ReactElement } from 'Type/Common.type';
 import { IndexedCustomOption } from 'Util/Product/Product.type';
 
-import { ProductCustomizableOptionsComponentProps } from './ProductCustomizableOptions.type';
+import { ProductCustomizableOptionsComponentProps, ProductCustomizableOptionsComponentState } from './ProductCustomizableOptions.type';
 
 import './ProductCustomizableOptions.style';
 

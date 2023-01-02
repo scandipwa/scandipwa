@@ -13,6 +13,7 @@ import { match as Match } from 'react-router';
 
 import {
     MyAccountMyWishlistComponentProps,
+    MyAccountMyWishlistComponentState,
     MyAccountMyWishlistContainerBaseProps,
     MyAccountMyWishlistContainerMapDispatchProps,
     MyAccountMyWishlistContainerMapStateProps,
@@ -32,10 +33,12 @@ export interface WishlistSharedPageContainerBaseProps extends MyAccountMyWishlis
     match: Match;
 }
 
-export type WishlistSharedPageContainerProps =
-WishlistSharedPageContainerMapDispatchProps
-& WishlistSharedPageContainerMapStateProps
-& WishlistSharedPageContainerBaseProps;
+export interface WishlistSharedPageContainerProps extends
+    WishlistSharedPageContainerMapDispatchProps,
+    WishlistSharedPageContainerMapStateProps,
+    WishlistSharedPageContainerBaseProps {}
+
+export interface WishlistSharedPageComponentState extends MyAccountMyWishlistComponentState {}
 
 export interface WishlistSharedPageContainerState extends MyAccountMyWishlistContainerState {
     creatorsName: string;

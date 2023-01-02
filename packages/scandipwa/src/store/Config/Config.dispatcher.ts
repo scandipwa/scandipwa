@@ -39,10 +39,7 @@ export const CartDispatcher = import(
     'Store/Cart/Cart.dispatcher'
 );
 /** @namespace Store/Config/Dispatcher */
-export class ConfigDispatcher<
-P extends Readonly<undefined> = Readonly<undefined>,
-S extends ConfigStore = ConfigStore,
-> extends QueryDispatcher <P, S> {
+export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
     __construct(): void {
         super.__construct('Config');
     }

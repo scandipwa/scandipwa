@@ -61,3 +61,5 @@ export type ProductWishlistButtonComponentContainerPropKeys =
     | 'isDisabled'
     | 'isInWishlist'
     | 'isSignedIn';
+
+export interface ProductWishlistButtonComponentState {}

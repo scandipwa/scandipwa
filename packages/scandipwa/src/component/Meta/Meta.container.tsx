@@ -22,6 +22,7 @@ import {
     MetaContainerMapStateProps,
     MetaContainerProps,
     MetaContainerPropsKeys,
+    MetaContainerState,
 } from './Meta.type';
 
 /** @namespace Component/Meta/Container/mapStateToProps */

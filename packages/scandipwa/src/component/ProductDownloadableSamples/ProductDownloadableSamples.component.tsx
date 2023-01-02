@@ -15,7 +15,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import Link from 'Component/Link';
 import { ReactElement } from 'Type/Common.type';
 
-import { ProductDownloadableSamplesComponentProps } from './ProductDownloadableSamples.type';
+import { ProductDownloadableSamplesComponentProps, ProductDownloadableSamplesComponentState } from './ProductDownloadableSamples.type';
 
 import './ProductDownloadableSamples.style';
 

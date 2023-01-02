@@ -15,7 +15,7 @@ import { OrderTab } from 'Component/MyAccountOrder/MyAccountOrder.type';
 import MyAccountOrderTab from 'Component/MyAccountOrderTab';
 import { ReactElement } from 'Type/Common.type';
 
-import { MyAccountOrderTabsComponentProps } from './MyAccountOrderTabs.type';
+import { MyAccountOrderTabsComponentProps, MyAccountOrderTabsComponentState } from './MyAccountOrderTabs.type';
 
 import './MyAccountOrderTabs.style';
 

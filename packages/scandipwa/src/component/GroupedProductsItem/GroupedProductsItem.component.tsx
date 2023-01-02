@@ -25,7 +25,7 @@ import {
 import { IndexedProduct } from 'Util/Product/Product.type';
 import { ValidationInputTypeNumber } from 'Util/Validator/Config';
 
-import { GroupedProductsItemComponentProps } from './GroupedProductsItem.type';
+import { GroupedProductsItemComponentProps, GroupedProductsItemComponentState } from './GroupedProductsItem.type';
 
 import './GroupedProductsItem.style';
 

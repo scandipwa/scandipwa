@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import ProductReviewItem from 'Component/ProductReviewItem';
 import { ReactElement } from 'Type/Common.type';
 
-import { ProductReviewListComponentProps } from './ProductReviewList.type';
+import { ProductReviewListComponentProps, ProductReviewListComponentState } from './ProductReviewList.type';
 
 import './ProductReviewList.style';
 

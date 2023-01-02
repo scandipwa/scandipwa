@@ -57,12 +57,12 @@ export class ContactPageContainer<
 P extends Readonly<ContactPageContainerProps> = Readonly<ContactPageContainerProps>,
 S extends ContactPageContainerState = ContactPageContainerState,
 > extends DataContainer <P, S> {
-    state: ContactPageContainerState = {
+    state: S = {
         isLoading: false,
         isEnabled: false,
-    };
+    } as S;
 
-    __construct(props: ContactPageContainerProps): void {
+    __construct(props: P): void {
         super.__construct(props, 'ContactPageContainer');
 
         this.updateBreadcrumbs();

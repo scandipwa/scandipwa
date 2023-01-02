@@ -18,3 +18,7 @@ export interface ContentWrapperComponentProps {
     label?: string;
     isNotSection?: boolean;
 }
+
+export interface ContentWrapperComponentState {}
+
+export interface ContentWrapperContainerState {}

@@ -59,20 +59,20 @@ export const mapDispatchToProps = (dispatch: Dispatch): WishlistSharedPageContai
 });
 
 /** @namespace Route/WishlistSharedPage/Container */
-export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer<
-WishlistSharedPageContainerProps,
-WishlistSharedPageContainerState
-> {
+export class WishlistSharedPageContainer<
+P extends Readonly<WishlistSharedPageContainerProps> = Readonly<WishlistSharedPageContainerProps>,
+S extends WishlistSharedPageContainerState = WishlistSharedPageContainerState,
+> extends MyAccountMyWishlistContainer<P, S> {
     static defaultProps: Partial<WishlistSharedPageContainerProps> = MyAccountMyWishlistContainer.defaultProps;
 
-    state: WishlistSharedPageContainerState = {
+    state: S = {
         creatorsName: '',
         wishlistItems: {},
         isWishlistLoading: true,
         isLoading: false,
         loadingItemsMap: {},
         isQtyUpdateInProgress: false,
-    };
+    } as S;
 
     componentDidMount(): void {
         this.requestWishlist();

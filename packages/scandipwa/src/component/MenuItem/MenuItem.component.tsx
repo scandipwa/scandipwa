@@ -19,7 +19,7 @@ import { Mods, ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import { FormattedMenuItem } from 'Util/Menu/Menu.type';
 
-import { MenuItemComponentProps } from './MenuItem.type';
+import { MenuItemComponentProps, MenuItemComponentState } from './MenuItem.type';
 
 /** @namespace Component/MenuItem/Component */
 export class MenuItemComponent<

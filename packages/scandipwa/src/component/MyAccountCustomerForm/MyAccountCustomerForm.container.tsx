@@ -41,20 +41,20 @@ export const mapStateToProps = (state: RootState): MyAccountCustomerFormContaine
 export const mapDispatchToProps = (): MyAccountCustomerFormContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountCustomerForm/Container */
-export class MyAccountCustomerFormContainer extends PureComponent<
-MyAccountCustomerFormContainerProps,
-MyAccountCustomerFormContainerState
-> {
+export class MyAccountCustomerFormContainer<
+P extends Readonly<MyAccountCustomerFormContainerProps> = Readonly<MyAccountCustomerFormContainerProps>,
+S extends MyAccountCustomerFormContainerState = MyAccountCustomerFormContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: MyAccountCustomerFormContainerFunctions = {
         handleEmailInput: this.handleEmailInput.bind(this),
         handlePasswordInput: this.handlePasswordInput.bind(this),
     };
 
-    state: MyAccountCustomerFormContainerState = {
+    state: S = {
         email: '',
         currentPassword: '',
         isEmailEdit: false,
-    };
+    } as S;
 
     containerProps(): Pick<
     MyAccountCustomerFormComponentProps,

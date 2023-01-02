@@ -16,7 +16,7 @@ import SharedWishlistItem from 'Component/SharedWishlistItem';
 import { ObjectEntries, ReactElement } from 'Type/Common.type';
 import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
-import { WishlistSharedPageComponentProps } from './WishlistSharedPage.type';
+import { WishlistSharedPageComponentProps, WishlistSharedPageComponentState } from './WishlistSharedPage.type';
 
 import './WishlistSharedPage.style';
 

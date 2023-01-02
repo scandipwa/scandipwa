@@ -32,3 +32,7 @@ export interface ProductCompareAttributeRowComponentProps {
     values: string[];
     device: Device;
 }
+
+export interface ProductCompareAttributeRowComponentState {}
+
+export interface ProductCompareAttributeRowContainerState {}

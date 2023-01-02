@@ -22,7 +22,7 @@ import MyAccountSignIn from 'Component/MyAccountSignIn';
 import { ReactElement } from 'Type/Common.type';
 
 import checkoutGuestForm from './CheckoutGuestForm.form';
-import { CheckoutGuestFormComponentProps, CheckoutGuestFormRenderMapItem } from './CheckoutGuestForm.type';
+import { CheckoutGuestFormComponentProps, CheckoutGuestFormComponentState, CheckoutGuestFormRenderMapItem } from './CheckoutGuestForm.type';
 
 import './CheckoutGuestForm.style';
 

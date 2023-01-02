@@ -24,3 +24,5 @@ export interface TranslateOnCursorMoveComponentProps {
     isMobile: boolean;
     children: Children;
 }
+
+export interface TranslateOnCursorMoveComponentState {}

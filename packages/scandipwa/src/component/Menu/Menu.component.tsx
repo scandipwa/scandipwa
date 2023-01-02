@@ -23,7 +23,7 @@ import { FormattedMenuItem } from 'Util/Menu/Menu.type';
 import { debounce } from 'Util/Request';
 
 import { SCROLL_DEBOUNCE_DELAY } from './Menu.config';
-import { MenuComponentProps } from './Menu.type';
+import { MenuComponentProps, MenuComponentState } from './Menu.type';
 
 import './Menu.style';
 

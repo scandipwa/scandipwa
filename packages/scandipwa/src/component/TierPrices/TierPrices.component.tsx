@@ -18,7 +18,7 @@ import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice, getLowestPriceTiersPrice } from 'Util/Price';
 
 import { calculateTierDiscountOverSpecialPrice } from '../../util/Price/Price';
-import { TierPricesComponentProps } from './TierPrices.type';
+import { TierPricesComponentProps, TierPricesComponentState } from './TierPrices.type';
 
 import './TierPrices.style';
 

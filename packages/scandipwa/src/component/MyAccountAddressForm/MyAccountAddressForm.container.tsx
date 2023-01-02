@@ -52,9 +52,9 @@ export const mapDispatchToProps = (): MyAccountAddressFormContainerMapDispatchPr
 
 /** @namespace Component/MyAccountAddressForm/Container */
 export class MyAccountAddressFormContainer <
-    Props extends MyAccountAddressFormContainerProps = MyAccountAddressFormContainerProps,
-    State extends MyAccountAddressFormContainerState = MyAccountAddressFormContainerState,
-> extends PureComponent<Props, State> {
+    P extends Readonly<MyAccountAddressFormContainerProps> = Readonly<MyAccountAddressFormContainerProps>,
+    S extends MyAccountAddressFormContainerState = MyAccountAddressFormContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountAddressFormContainerProps> = {
         defaultCountry: 'US',
         address: {},
@@ -68,7 +68,7 @@ export class MyAccountAddressFormContainer <
         onRegionIdChange: this.onRegionIdChange.bind(this),
     };
 
-    __construct(props: Props): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.state = {
@@ -79,7 +79,7 @@ export class MyAccountAddressFormContainer <
             currentRegion: this.getCurrentAddress().region,
             currentZipcode: this.getCurrentAddress().postcode,
             currentRegionId: this.getCurrentAddress().regionId,
-        } as State;
+        } as S;
     }
 
     containerProps(): Pick<MyAccountAddressFormComponentProps, MyAccountAddressFormContainerPropsKeys> {

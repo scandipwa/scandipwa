@@ -18,7 +18,7 @@ import Loader from 'Component/Loader';
 import { ReactElement } from 'Type/Common.type';
 import { ValidationInputType } from 'Util/Validator/Config';
 
-import { MyAccountSignInComponentProps } from './MyAccountSignIn.type';
+import { MyAccountSignInComponentProps, MyAccountSignInComponentState } from './MyAccountSignIn.type';
 
 import './MyAccountSignIn.style.scss';
 

@@ -17,7 +17,7 @@ import UserIcon from 'Component/UserIcon';
 import { ReactElement } from 'Type/Common.type';
 
 import { NavigationTabsMap } from './NavigationTabs.config';
-import { NavigationTabsComponentProps } from './NavigationTabs.type';
+import { NavigationTabsComponentProps, NavigationTabsComponentState } from './NavigationTabs.type';
 
 import './NavigationTabs.style';
 

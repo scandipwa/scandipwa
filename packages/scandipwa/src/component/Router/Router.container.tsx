@@ -117,13 +117,13 @@ S extends RouterContainerState = RouterContainerState,
         status_code: '',
     };
 
-    __construct(props: RouterContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
-        this.state = ({
+        this.state = {
             currentUrl: window.location.pathname,
             isOnlyMainItems: this.handleCheckIfOnlyMainItemsRender(),
-        });
+        } as S;
 
         this.initializeApplication();
         this.redirectFromPartialUrl();

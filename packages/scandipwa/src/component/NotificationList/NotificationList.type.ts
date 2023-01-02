@@ -24,3 +24,5 @@ export interface NotificationListContainerMapDispatchProps {
 export type NotificationListComponentProps = NotificationListContainerMapStateProps
 & NotificationListContainerMapDispatchProps
 & RouteComponentProps;
+
+export interface NotificationListComponentState {}

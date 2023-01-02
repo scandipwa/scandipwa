@@ -15,7 +15,6 @@ export interface ResetAttributesContainerMapStateProps {
     currency_code: string;
 }
 
-
 export interface ResetAttributesContainerMapDispatchProps {}
 
 export interface ResetAttributesContainerBaseProps {
@@ -43,3 +42,7 @@ export interface ResetItem extends FilterOption {
     attribute_label: string;
     label: string;
 }
+
+export interface ResetAttributesComponentState {}
+
+export interface ResetAttributesContainerState {}

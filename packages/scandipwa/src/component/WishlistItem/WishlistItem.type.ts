@@ -89,3 +89,5 @@ export interface WishlistItemComponentOptionMap {
     [ProductType.GROUPED]: (option: ItemOption) => ReactElement;
     [ProductType.BUNDLE]: (option: ItemOption) => ReactElement;
 }
+
+export interface WishlistItemComponentState {}

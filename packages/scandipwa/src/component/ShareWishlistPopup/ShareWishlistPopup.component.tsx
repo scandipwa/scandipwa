@@ -16,7 +16,7 @@ import ShareWishlistForm from 'Component/ShareWishlistForm';
 import { ReactElement } from 'Type/Common.type';
 
 import { SHARE_WISHLIST_POPUP_ID } from './ShareWishlistPopup.config';
-import { ShareWishlistPopupComponentProps } from './ShareWishlistPopup.type';
+import { ShareWishlistPopupComponentProps, ShareWishlistPopupComponentState } from './ShareWishlistPopup.type';
 
 import './ShareWishlistPopup.style';
 

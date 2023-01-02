@@ -43,12 +43,12 @@ S extends ProductLinksContainerState = ProductLinksContainerState,
         areDetailsLoaded: true,
     };
 
-    state: ProductLinksContainerState = {
+    state: S = {
         siblingsHaveBrands: false,
         siblingsHavePriceBadge: false,
         siblingsHaveTierPrice: false,
         siblingsHaveConfigurableOptions: false,
-    };
+    } as S;
 
     containerProps(): ProductLinksComponentProps {
         const {

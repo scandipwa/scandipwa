@@ -18,7 +18,7 @@ import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder
 import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
 
-import { CategorySortComponentProps } from './CategorySort.type';
+import { CategorySortComponentProps, CategorySortComponentState } from './CategorySort.type';
 
 import './CategorySort.style';
 
@@ -31,7 +31,7 @@ export class CategorySortComponent<
 P extends Readonly<CategorySortComponentProps> = Readonly<CategorySortComponentProps>,
 S extends CategorySortComponentState = CategorySortComponentState,
 > extends PureComponent<P, S> {
-    __construct(props: CategorySortComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.onChange = this.onChange.bind(this);

@@ -75,3 +75,5 @@ export type ProductBundleOptionComponentContainerPropKeys =
 | 'quantity';
 
 export type BundleOptionRendererType = FieldType.CHECKBOX | FieldType.MULTI | FieldType.RADIO | FieldType.SELECT;
+
+export interface ProductBundleOptionComponentState {}

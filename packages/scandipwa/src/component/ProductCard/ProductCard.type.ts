@@ -13,11 +13,13 @@ import { RefObject } from 'react';
 
 import {
     ProductComponentProps,
+    ProductComponentState,
     ProductContainerBaseProps,
     ProductContainerFunctions,
     ProductContainerMapDispatchProps,
     ProductContainerMapStateProps,
     ProductContainerPropKeys,
+    ProductContainerState,
 } from 'Component/Product/Product.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -94,3 +96,7 @@ export interface ContentObject {
         additionalProductDetails: (withMeta?: boolean) => ReactElement;
     };
 }
+
+export interface ProductCardComponentState extends ProductComponentState {}
+
+export interface ProductCardContainerState extends ProductContainerState {}

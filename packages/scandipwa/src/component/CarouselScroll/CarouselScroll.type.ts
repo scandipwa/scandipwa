@@ -24,3 +24,5 @@ export interface CarouselScrollComponentState {
     activeItemId: number;
     firstCarouselItemId: number;
 }
+
+export interface CarouselScrollContainerState {}

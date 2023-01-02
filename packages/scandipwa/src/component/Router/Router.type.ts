@@ -39,8 +39,8 @@ export interface RouterContainerMapDispatchProps {
     init: () => void;
 }
 
-export type RouterContainerProps = RouterContainerMapStateProps
-& RouterContainerMapDispatchProps;
+export interface RouterContainerProps extends RouterContainerMapStateProps,
+    RouterContainerMapDispatchProps {}
 
 export interface RouterContainerState {
     currentUrl: string;

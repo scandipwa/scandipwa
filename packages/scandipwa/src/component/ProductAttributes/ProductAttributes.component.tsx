@@ -16,7 +16,7 @@ import ProductAttributeValue from 'Component/ProductAttributeValue';
 import { ReactElement } from 'Type/Common.type';
 import { IndexedAttributeWithValue } from 'Util/Product/Product.type';
 
-import { ProductAttributesComponentProps } from './ProductAttributes.type';
+import { ProductAttributesComponentProps, ProductAttributesComponentState } from './ProductAttributes.type';
 
 import './ProductAttributes.style';
 

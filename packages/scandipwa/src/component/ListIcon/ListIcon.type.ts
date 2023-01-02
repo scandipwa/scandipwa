@@ -12,3 +12,7 @@
 export interface ListIconComponentProps {
     isActive: boolean;
 }
+
+export interface ListIconComponentState {}
+
+export interface ListIconContainerState {}

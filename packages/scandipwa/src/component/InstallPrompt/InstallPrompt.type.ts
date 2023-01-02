@@ -38,3 +38,5 @@ export interface InstallPromptComponentProps {
     handleAppInstall: () => void;
     handleBannerClose: () => void;
 }
+
+export interface InstallPromptComponentState {}

@@ -12,3 +12,5 @@
 export interface PurchaseOrderComponentProps {
     id: string;
 }
+
+export interface PurchaseOrderComponentState {}

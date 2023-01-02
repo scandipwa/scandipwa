@@ -16,7 +16,7 @@ import Link from 'Component/Link';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 
-import { NoMatchComponentProps } from './NoMatch.type';
+import { NoMatchComponentProps, NoMatchComponentState } from './NoMatch.type';
 
 import './NoMatch.style';
 

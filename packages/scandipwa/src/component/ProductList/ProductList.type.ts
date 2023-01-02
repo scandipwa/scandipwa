@@ -118,3 +118,5 @@ export interface PageProps {
     wrapperRef?: (elm: HTMLElement | null) => void;
     key: number;
 }
+
+export interface ProductListComponentState {}

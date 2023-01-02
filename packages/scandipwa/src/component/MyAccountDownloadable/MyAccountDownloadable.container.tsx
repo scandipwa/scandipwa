@@ -44,14 +44,14 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountDownloadableCon
 });
 
 /** @namespace Component/MyAccountDownloadable/Container */
-export class MyAccountDownloadableContainer extends PureComponent<
-MyAccountDownloadableContainerProps,
-MyAccountDownloadableContainerState
-> {
-    state: MyAccountDownloadableContainerState = {
+export class MyAccountDownloadableContainer<
+P extends Readonly<MyAccountDownloadableContainerProps> = Readonly<MyAccountDownloadableContainerProps>,
+S extends MyAccountDownloadableContainerState = MyAccountDownloadableContainerState,
+> extends PureComponent<P, S> {
+    state: S = {
         items: [],
         isLoading: false,
-    };
+    } as unknown as S;
 
     componentDidMount(): void {
         this.requestDownloadable();

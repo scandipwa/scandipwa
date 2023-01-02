@@ -17,3 +17,7 @@ export interface ClickOutsideComponentProps {
     onClick: (event?: MouseEvent) => void;
     children: ReactElement | ReactElement[];
 }
+
+export interface ClickOutsideComponentState {}
+
+export interface ClickOutsideContainerState {}

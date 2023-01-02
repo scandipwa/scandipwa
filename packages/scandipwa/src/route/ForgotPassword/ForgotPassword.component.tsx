@@ -20,7 +20,7 @@ import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 
-import { ForgotPasswordComponentProps } from './ForgotPassword.type';
+import { ForgotPasswordComponentProps, ForgotPasswordComponentState } from './ForgotPassword.type';
 
 import './ForgotPassword.style';
 

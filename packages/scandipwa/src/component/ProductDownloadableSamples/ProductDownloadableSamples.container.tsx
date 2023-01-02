@@ -21,6 +21,7 @@ import {
     ProductDownloadableSamplesContainerMapDispatchProps,
     ProductDownloadableSamplesContainerMapStateProps,
     ProductDownloadableSamplesContainerProps,
+    ProductDownloadableSamplesContainerState,
 } from './ProductDownloadableSamples.type';
 
 /** @namespace Component/ProductDownloadableSamples/Container/mapStateToProps */

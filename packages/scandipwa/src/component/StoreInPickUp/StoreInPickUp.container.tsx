@@ -29,6 +29,7 @@ import {
     StoreInPickUpContainerFunctions,
     StoreInPickUpContainerMapStateProps,
     StoreInPickUpContainerProps,
+    StoreInPickUpContainerState,
 } from './StoreInPickUp.type';
 
 /** @namespace Component/StoreInPickUp/Container/mapDispatchToProps */

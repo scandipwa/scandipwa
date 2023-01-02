@@ -23,7 +23,7 @@ import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { getAllCartItemsSku } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
 
-import { CheckoutShippingComponentProps } from './CheckoutShipping.type';
+import { CheckoutShippingComponentProps, CheckoutShippingComponentState } from './CheckoutShipping.type';
 
 import './CheckoutShipping.style';
 

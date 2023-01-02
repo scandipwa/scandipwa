@@ -43,12 +43,12 @@ S extends SliderWidgetComponentState = SliderWidgetComponentState,
 
     changeSlideDebounced?: () => void;
 
-    state: SliderWidgetComponentState = {
+    state: S = {
         activeImage: 0,
         carouselDirection: Directions.RIGHT,
-    };
+    } as S;
 
-    __construct(props: SliderWidgetComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.onActiveImageChange = this.onActiveImageChange.bind(this);

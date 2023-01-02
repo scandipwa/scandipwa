@@ -17,3 +17,7 @@ export interface MyAccountConfirmEmailComponentProps {
     state: MyAccountPageState | '';
     handleSignIn: (e: MouseEvent) => void;
 }
+
+export interface MyAccountConfirmEmailComponentState {}
+
+export interface MyAccountConfirmEmailContainerState {}

@@ -26,6 +26,7 @@ import {
     MenuPageContainerMapDispatchProps,
     MenuPageContainerMapStateProps,
     MenuPageContainerProps,
+    MenuPageContainerState,
 } from './MenuPage.type';
 
 /** @namespace Route/MenuPage/Container/mapStateToProps */

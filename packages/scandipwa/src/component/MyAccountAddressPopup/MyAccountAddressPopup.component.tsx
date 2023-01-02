@@ -18,7 +18,7 @@ import Popup from 'Component/Popup';
 import { ReactElement } from 'Type/Common.type';
 
 import { MyAccountAddressPopupAction } from './MyAccountAddressPopup.config';
-import { MyAccountAddressPopupComponentProps } from './MyAccountAddressPopup.type';
+import { MyAccountAddressPopupComponentProps, MyAccountAddressPopupComponentState } from './MyAccountAddressPopup.type';
 
 import './MyAccountAddressPopup.style';
 

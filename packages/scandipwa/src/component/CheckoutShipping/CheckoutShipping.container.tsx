@@ -60,10 +60,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutShippingContaine
 });
 
 /** @namespace Component/CheckoutShipping/Container */
-export class CheckoutShippingContainer extends PureComponent<
-CheckoutShippingContainerProps,
-CheckoutShippingContainerState
-> {
+export class CheckoutShippingContainer<
+P extends Readonly<CheckoutShippingContainerProps> = Readonly<CheckoutShippingContainerProps>,
+S extends CheckoutShippingContainerState = CheckoutShippingContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CheckoutShippingContainerProps> = {
         selectedStoreAddress: undefined,
         isSubmitted: false,
@@ -77,7 +77,7 @@ CheckoutShippingContainerState
         onShippingMethodSelect: this.onShippingMethodSelect.bind(this),
     };
 
-    __construct(props: CheckoutShippingContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         const { shippingMethods = [], savedShippingMethodCode } = props;
@@ -96,7 +96,7 @@ CheckoutShippingContainerState
             selectedShippingMethod: method_code && method_code !== StoreInPickUpCode.METHOD_CODE
                 ? selectedShippingMethod
                 : undefined,
-        };
+        } as S;
     }
 
     componentDidUpdate(prevProps: CheckoutShippingContainerProps): void {

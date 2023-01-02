@@ -17,3 +17,5 @@ export interface LoaderComponentProps {
 }
 
 export interface LoaderComponentState {}
+
+export interface LoaderContainerState {}

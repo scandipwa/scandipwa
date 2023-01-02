@@ -18,7 +18,7 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import { ReactElement } from 'Type/Common.type';
 import { showNewReviewPopup } from 'Util/Product';
 
-import { ProductReviewsComponentProps } from './ProductReviews.type';
+import { ProductReviewsComponentProps, ProductReviewsComponentState } from './ProductReviews.type';
 
 import './ProductReviews.style';
 

@@ -81,3 +81,7 @@ export type CategoryFilterComponentContainerPropsKey =
     | 'customFiltersValues'
     | 'areFiltersEmpty'
     | 'isContentFiltered';
+
+export interface CategoryFilterOverlayComponentState {}
+
+export interface CategoryFilterOverlayContainerState {}

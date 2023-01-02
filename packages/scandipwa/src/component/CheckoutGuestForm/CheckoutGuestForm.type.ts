@@ -114,3 +114,5 @@ export interface CheckoutGuestFormEvents {
     range: ValidationRule['range'];
     minimumPasswordCharacter: string;
 }
+
+export interface CheckoutGuestFormComponentState {}

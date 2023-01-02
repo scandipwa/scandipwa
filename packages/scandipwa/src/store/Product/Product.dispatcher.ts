@@ -31,10 +31,7 @@ export const LinkedProductsDispatcher = import(
  * @extends ProductDispatcher
  * @namespace Store/Product/Dispatcher
  */
-export class ProductDispatcher<
-P extends Readonly<Partial<ProductListOptions>> = Readonly<Partial<ProductListOptions>>,>
-S extends ProductDispatcherData = ProductDispatcherData,
-> extends QueryDispatcher <P, S> {
+export class ProductDispatcher extends QueryDispatcher<Partial<ProductListOptions>, ProductDispatcherData> {
     __construct(): void {
         super.__construct('Product');
     }

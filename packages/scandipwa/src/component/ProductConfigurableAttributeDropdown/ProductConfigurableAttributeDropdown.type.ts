@@ -53,3 +53,7 @@ export type ProductConfigurableAttributeDropdownOption = Merge<AggregationOption
     id: string;
     isAvailable: boolean;
 };
+
+export interface ProductConfigurableAttributeDropdownComponentState {}
+
+export interface ProductConfigurableAttributeDropdownContainerState {}

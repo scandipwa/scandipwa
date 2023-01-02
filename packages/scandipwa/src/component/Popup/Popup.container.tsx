@@ -31,6 +31,7 @@ import {
     PopupContainerMapStateProps,
     PopupContainerProps,
     PopupContainerPropsKeys,
+    PopupContainerState,
 } from './Popup.type';
 
 /** @namespace Component/Popup/Container/mapStateToProps */

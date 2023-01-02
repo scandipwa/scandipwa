@@ -21,14 +21,16 @@ import { noopFn } from 'Util/Common';
 import {
     ProductConfigurableAttribute,
     ProductConfigurableAttributesComponentProps,
+    ProductConfigurableAttributesComponentState,
 } from './ProductConfigurableAttributes.type';
 
 import './ProductConfigurableAttributes.style';
 
 /** @namespace Component/ProductConfigurableAttributes/Component */
 export class ProductConfigurableAttributesComponent<
-P extends Readonly<ProductConfigurableAttributesComponentProps> = Readonly<ProductConfigurableAttributesComponentProps>,,
-> extends PureComponent<P> {
+P extends Readonly<ProductConfigurableAttributesComponentProps> = Readonly<ProductConfigurableAttributesComponentProps>,
+S extends ProductConfigurableAttributesComponentState = ProductConfigurableAttributesComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductConfigurableAttributesComponentProps> = {
         isReady: true,
         mix: {},

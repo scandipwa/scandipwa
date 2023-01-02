@@ -17,3 +17,7 @@ export interface GroupedProductListComponentProps {
     quantity: ProductQuantity;
     setQuantity: (quantity: ProductQuantity) => void;
 }
+
+export interface GroupedProductListComponentState {}
+
+export interface GroupedProductListContainerState {}

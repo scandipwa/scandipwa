@@ -86,10 +86,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountContainerMapDis
 });
 
 /** @namespace Route/MyAccount/Container */
-export class MyAccountContainer extends PureComponent<
-MyAccountContainerProps,
-MyAccountContainerState
-> {
+export class MyAccountContainer<
+P extends Readonly<MyAccountContainerProps> = Readonly<MyAccountContainerProps>,
+S extends MyAccountContainerState = MyAccountContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountContainerProps> = {
         wishlistItems: {},
         selectedTab: undefined,
@@ -194,7 +194,7 @@ MyAccountContainerState
         stateSubHeading: '',
         isEditingActive: false,
         ...MyAccountContainer.navigateToSelectedTab(this.props),
-    };
+    } as S;
 
     containerFunctions: MyAccountContainerFunctions = {
         changeActiveTab: this.changeActiveTab.bind(this),

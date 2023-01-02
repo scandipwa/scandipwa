@@ -81,3 +81,5 @@ export type ProductActionsContainerPropKeys = ProductContainerPropKeys
 | 'offerType'
 | 'stockMeta'
 | 'metaLink';
+
+export interface ProductActionsComponentState {}

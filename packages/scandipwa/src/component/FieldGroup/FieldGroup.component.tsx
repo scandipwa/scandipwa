@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { FieldGroupComponentProps } from './FieldGroup.type';
+import { FieldGroupComponentProps, FieldGroupComponentState } from './FieldGroup.type';
 
 import './FieldGroup.style';
 

@@ -15,7 +15,7 @@ import Loader from 'Component/Loader';
 import MyAccountCustomerForm from 'Component/MyAccountCustomerForm';
 import { ReactElement } from 'Type/Common.type';
 
-import { MyAccountInformationComponentProps } from './MyAccountInformation.type';
+import { MyAccountInformationComponentProps, MyAccountInformationComponentState } from './MyAccountInformation.type';
 
 import './MyAccountInformation.style';
 

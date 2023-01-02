@@ -33,6 +33,10 @@ export type ProductComparePageContainerProps = ProductComparePageContainerMapSta
 & ProductComparePageContainerMapDispatchProps
 & RouteComponentProps;
 
+export interface ProductComparePageComponentState {}
+
+export interface ProductComparePageContainerState {}
+
 export interface ProductComparePageComponentProps {
     isLoading: boolean;
 }

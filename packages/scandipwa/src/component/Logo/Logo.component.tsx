@@ -19,7 +19,7 @@ import { ImageRatio } from 'Component/Image/Image.type';
 import logo from 'Style/icons/logos/mainLogo.svg';
 import { ReactElement } from 'Type/Common.type';
 
-import { LogoComponentProps } from './Logo.type';
+import { LogoComponentProps, LogoComponentState } from './Logo.type';
 
 import './Logo.style';
 

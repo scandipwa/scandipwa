@@ -16,7 +16,7 @@ import { FormContainerProps } from 'Component/Form/Form.type';
 import { ReactElement } from 'Type/Common.type';
 
 import newsletterSubscriptionForm from './NewsletterForm.form';
-import { NewsletterSubscriptionComponentProps } from './NewsletterSubscription.type';
+import { NewsletterSubscriptionComponentProps, NewsletterSubscriptionComponentState } from './NewsletterSubscription.type';
 
 import './NewsletterSubscription.style';
 

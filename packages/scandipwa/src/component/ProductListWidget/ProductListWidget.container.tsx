@@ -44,10 +44,10 @@ export const mapDispatchToProps = (): ProductListWidgetContainerMapDispatchProps
 });
 
 /** @namespace Component/ProductListWidget/Container */
-export class ProductListWidgetContainer extends DataContainer<
-ProductListWidgetContainerProps,
-ProductListWidgetContainerState
-> {
+export class ProductListWidgetContainer<
+P extends Readonly<ProductListWidgetContainerProps> = Readonly<ProductListWidgetContainerProps>,
+S extends ProductListWidgetContainerState = ProductListWidgetContainerState,
+> extends DataContainer<P, S> {
     static defaultProps: Partial<ProductListWidgetContainerProps> = {
         showPager: false,
         productsCount: 10,
@@ -55,12 +55,12 @@ ProductListWidgetContainerState
         conditionsEncoded: undefined,
     };
 
-    state: ProductListWidgetContainerState = {
+    state: S = {
         pages: {},
         totalItems: 0,
         totalPages: 0,
         isLoading: true,
-    };
+    } as S;
 
     containerFunctions: ProductListWidgetContainerFunctions = {
         requestProductList: this.requestProductList.bind(this),
@@ -68,7 +68,7 @@ ProductListWidgetContainerState
         getIsNewCategory: this.getIsNewCategory.bind(this),
     };
 
-    __construct(props: ProductListWidgetContainerProps): void {
+    __construct(props: P): void {
         super.__construct(props, 'ProductListWidgetContainer', false);
 
         this.onError = this.onError.bind(this);

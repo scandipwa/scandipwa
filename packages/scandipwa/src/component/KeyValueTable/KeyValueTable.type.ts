@@ -19,3 +19,5 @@ export interface DataPair<T> {
     label: string;
     source: T;
 }
+
+export interface KeyValueTableComponentState {}

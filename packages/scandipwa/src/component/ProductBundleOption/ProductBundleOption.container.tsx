@@ -48,15 +48,15 @@ export const mapDispatchToProps = (): ProductBundleOptionContainerMapDispatchPro
  * @class ProductBundleOptionContainer
  * @namespace Component/ProductBundleOption/Container
  */
-export class ProductBundleOptionContainer extends PureComponent<
-ProductBundleOptionContainerProps,
-ProductBundleOptionContainerState
-> {
-    state: ProductBundleOptionContainerState = {
+export class ProductBundleOptionContainer<
+P extends Readonly<ProductBundleOptionContainerProps> = Readonly<ProductBundleOptionContainerProps>,
+S extends ProductBundleOptionContainerState = ProductBundleOptionContainerState,
+> extends PureComponent<P, S> {
+    state: S = {
         // Is different from UID, due to quantity changing encoding
         activeSelectUid: null,
         quantity: {},
-    };
+    } as S;
 
     containerFunctions: ProductBundleOptionContainerFunctions = {
         setQuantity: this.setQuantity.bind(this),

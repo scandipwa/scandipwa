@@ -88,3 +88,5 @@ export interface ProductListWidgetAdaptProps {
     pageSize: number;
     isPaginationEnabled: boolean;
 }
+
+export interface ProductListWidgetComponentState {}

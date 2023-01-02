@@ -31,9 +31,9 @@ export interface CheckoutPaymentsContainerBaseProps {
     paymentMethods: PaymentMethod[];
 }
 
-export type CheckoutPaymentsContainerProps = CheckoutPaymentsContainerMapStateProps
-& CheckoutPaymentsContainerMapDispatchProps
-& CheckoutPaymentsContainerBaseProps;
+export interface CheckoutPaymentsContainerProps extends CheckoutPaymentsContainerMapStateProps,
+    CheckoutPaymentsContainerMapDispatchProps,
+    CheckoutPaymentsContainerBaseProps {}
 
 export interface CheckoutPaymentsContainerState {
     selectedPaymentCode: string;
@@ -52,3 +52,7 @@ export type CheckoutPaymentsContainerPropsKeys =
 | 'selectedPaymentCode'
 | 'setOrderButtonEnableStatus'
 | 'showError';
+
+export interface CheckoutPaymentsComponentState {
+    hasError: false;
+}

@@ -16,10 +16,11 @@ export interface DemoNoticeContainerMapStateProps {
     device: Device;
 }
 
-
 export interface DemoNoticeContainerMapDispatchProps {}
 
 export interface DemoNoticeComponentProps {
     isDemoNoticeEnabled: boolean;
     device: Device;
 }
+
+export interface DemoNoticeComponentState {}

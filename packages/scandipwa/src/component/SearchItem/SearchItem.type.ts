@@ -12,7 +12,6 @@
 import { Url } from 'Type/Common.type';
 import { IndexedAttributeWithValue, IndexedProduct } from 'Util/Product/Product.type';
 
-
 export interface SearchItemContainerMapStateProps {}
 
 export interface SearchItemContainerMapDispatchProps {
@@ -43,3 +42,7 @@ export type SearchItemComponentContainerPropKeys =
     | 'linkTo'
     | 'imgSrc'
     | 'customAttribute';
+
+export interface SearchItemComponentState {}
+
+export interface SearchItemContainerState {}

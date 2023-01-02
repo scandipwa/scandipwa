@@ -20,7 +20,7 @@ import { ReactElement } from 'Type/Common.type';
 import { getPrice } from 'Util/Product/Extract';
 import { StockCheckProduct } from 'Util/Product/Product.type';
 
-import { ProductCompareComponentProps } from './ProductCompare.type';
+import { ProductCompareComponentProps, ProductCompareComponentState } from './ProductCompare.type';
 
 import './ProductCompare.style';
 

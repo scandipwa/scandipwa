@@ -28,14 +28,20 @@ import { appendWithStoreCode } from 'Util/Url';
 import {
     OrderTabs,
 } from './MyAccountOrder.config';
-import { MyAccountOrderComponentProps, OrderRenderItems, OrderTab } from './MyAccountOrder.type';
+import {
+    MyAccountOrderComponentProps,
+    MyAccountOrderComponentState,
+    OrderRenderItems,
+    OrderTab,
+} from './MyAccountOrder.type';
 
 import './MyAccountOrder.style';
 
 /** @namespace Component/MyAccountOrder/Component */
 export class MyAccountOrderComponent<
-Props extends MyAccountOrderComponentProps = MyAccountOrderComponentProps,
-> extends PureComponent<Props> {
+P extends Readonly<MyAccountOrderComponentProps> = Readonly<MyAccountOrderComponentProps>,
+S extends MyAccountOrderComponentState = MyAccountOrderComponentState,
+> extends PureComponent<P, S> {
     static defaultProps = {
         isLoading: true,
         handleReorder: noopFn,

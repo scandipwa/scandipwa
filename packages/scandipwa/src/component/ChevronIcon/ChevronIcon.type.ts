@@ -14,3 +14,7 @@ import { Directions } from './ChevronIcon.config';
 export interface ChevronIconComponentProps {
     direction: Directions;
 }
+
+export interface ChevronIconComponentState {}
+
+export interface ChevronIconContainerState {}

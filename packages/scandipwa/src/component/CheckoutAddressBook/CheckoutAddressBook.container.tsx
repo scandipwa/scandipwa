@@ -47,10 +47,13 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutAddressBookConta
 });
 
 /** @namespace Component/CheckoutAddressBook/Container */
-export class CheckoutAddressBookContainer extends PureComponent<
-CheckoutAddressBookContainerProps,
-CheckoutAddressBookContainerState
-> {
+export class CheckoutAddressBookContainer<
+P extends Readonly<CheckoutAddressBookContainerProps> = Readonly<CheckoutAddressBookContainerProps>,
+S extends CheckoutAddressBookContainerState = CheckoutAddressBookContainerState,
+> extends PureComponent<
+    P,
+    S
+    > {
     static defaultProps: Partial<CheckoutAddressBookContainerProps> = {
         isBilling: false,
         onAddressSelect: noopFn,
@@ -79,7 +82,7 @@ CheckoutAddressBookContainerState
         onAddressSelect: this.onAddressSelect.bind(this),
     });
 
-    __construct(props: CheckoutAddressBookContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         const {
@@ -102,7 +105,7 @@ CheckoutAddressBookContainerState
         this.state = {
             prevDefaultAddressId: defaultAddressId,
             selectedAddressId: defaultAddressId,
-        };
+        } as S;
     }
 
     static getDerivedStateFromProps(

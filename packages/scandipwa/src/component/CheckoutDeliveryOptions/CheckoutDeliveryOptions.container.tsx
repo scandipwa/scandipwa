@@ -23,10 +23,10 @@ import {
 } from './CheckoutDeliveryOptions.type';
 
 /** @namespace Component/CheckoutDeliveryOptions/Container */
-export class CheckoutDeliveryOptionsContainer extends PureComponent<
-CheckoutDeliveryOptionsContainerProps,
-CheckoutDeliveryOptionsContainerState
-> {
+export class CheckoutDeliveryOptionsContainer<
+P extends Readonly<CheckoutDeliveryOptionsContainerProps> = Readonly<CheckoutDeliveryOptionsContainerProps>,
+S extends CheckoutDeliveryOptionsContainerState = CheckoutDeliveryOptionsContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CheckoutDeliveryOptionsContainerProps> = {
         selectedShippingMethod: {},
     };

@@ -48,18 +48,18 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareButtonCont
 });
 
 /** @namespace Component/ProductCompareButton/Container */
-export class ProductCompareButtonContainer extends PureComponent<
-ProductCompareButtonContainerProps,
-ProductCompareButtonContainerState
-> {
+export class ProductCompareButtonContainer<
+P extends Readonly<ProductCompareButtonContainerProps> = Readonly<ProductCompareButtonContainerProps>,
+S extends ProductCompareButtonContainerState = ProductCompareButtonContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductCompareButtonContainerProps> = {
         productId: null,
         mix: {},
     };
 
-    state: ProductCompareButtonContainerState = {
+    state: S = {
         isLoading: false,
-    };
+    } as S;
 
     containerFunctions: ProductCompareButtonContainerFunctions = {
         handleClick: this.handleClick.bind(this),

@@ -16,7 +16,7 @@ import Loader from 'Component/Loader';
 import PasswordChangeForm from 'Component/PasswordChangeForm';
 import { ReactElement } from 'Type/Common.type';
 
-import { PasswordChangePageComponentProps } from './PasswordChangePage.type';
+import { PasswordChangePageComponentProps, PasswordChangePageComponentState } from './PasswordChangePage.type';
 
 import './PasswordChangePage.style';
 

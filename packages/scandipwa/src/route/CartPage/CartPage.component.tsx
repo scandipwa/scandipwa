@@ -25,7 +25,7 @@ import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
-import { CartPageComponentProps } from './CartPage.type';
+import { CartPageComponentProps, CartPageComponentState } from './CartPage.type';
 
 import './CartPage.style';
 

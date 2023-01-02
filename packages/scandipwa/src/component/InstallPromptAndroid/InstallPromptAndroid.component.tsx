@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import CloseIcon from 'Component/CloseIcon';
 import { ReactElement } from 'Type/Common.type';
 
-import { InstallPromptAndroidComponentProps } from './InstallPromptAndroid.type';
+import { InstallPromptAndroidComponentProps, InstallPromptAndroidComponentState } from './InstallPromptAndroid.type';
 
 import './InstallPromptAndroid.style';
 

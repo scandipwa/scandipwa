@@ -57,18 +57,18 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductWishlistButtonCon
 });
 
 /** @namespace Component/ProductWishlistButton/Container */
-export class ProductWishlistButtonContainer extends PureComponent<
-ProductWishlistButtonContainerProps,
-ProductWishlistButtonContainerState
-> {
+export class ProductWishlistButtonContainer<
+P extends Readonly<ProductWishlistButtonContainerProps> = Readonly<ProductWishlistButtonContainerProps>,
+S extends ProductWishlistButtonContainerState = ProductWishlistButtonContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ProductWishlistButtonContainerProps> = {
         mix: {},
     };
 
-    state: ProductWishlistButtonContainerState = {
+    state: S = {
         isWishlistButtonLoading: false,
         isWishListToggle: false,
-    };
+    } as S;
 
     containerFunctions: ProductWishlistButtonContainerFunctions = {
         addToWishlist: this.toggleProductInWishlist.bind(this, true),

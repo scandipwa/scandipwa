@@ -50,9 +50,9 @@ S extends FieldGroupContainerState = FieldGroupContainerState,
         returnAsObject: false,
     };
 
-    state: FieldGroupContainerState = {
+    state: S = {
         validationResponse: null,
-    };
+    } as S;
 
     containerFunctions: FieldGroupContainerFunctions = {
         validate: this.validate.bind(this),

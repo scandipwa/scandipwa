@@ -295,10 +295,10 @@ S extends RouterComponentState = RouterComponentState,
         },
     ];
 
-    state: RouterComponentState = {
+    state: S = {
         hasError: false,
         errorDetails: {},
-    };
+    } as S;
 
     componentDidCatch(err: Error, info: ErrorInfo): void {
         this.setState({

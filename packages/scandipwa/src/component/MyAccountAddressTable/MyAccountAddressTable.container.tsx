@@ -28,6 +28,7 @@ import {
     MyAccountAddressTableContainerMapStateProps,
     MyAccountAddressTableContainerProps,
     MyAccountAddressTableContainerPropsKeys,
+    MyAccountAddressTableContainerState,
 } from './MyAccountAddressTable.type';
 
 /** @namespace Component/MyAccountAddressTable/Container/mapStateToProps */
@@ -42,8 +43,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressTableCon
 
 /** @namespace Component/MyAccountAddressTable/Container */
 export class MyAccountAddressTableContainer<
-    Props extends MyAccountAddressTableContainerProps = MyAccountAddressTableContainerProps,
-> extends PureComponent<Props> {
+    P extends Readonly<MyAccountAddressTableContainerProps> = Readonly<MyAccountAddressTableContainerProps>,
+    S extends MyAccountAddressTableContainerState = MyAccountAddressTableContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountAddressTableContainerProps> = {
         showActions: false,
         mix: {},

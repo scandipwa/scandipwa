@@ -49,7 +49,7 @@ S extends DraggableComponentState = DraggableComponentState,
         mix: {},
     };
 
-    state: DraggableComponentState = {
+    state: S = {
         isDragging: false,
         originalX: 0,
         translateX: 0,
@@ -57,9 +57,9 @@ S extends DraggableComponentState = DraggableComponentState,
         originalY: 0,
         translateY: 0,
         lastTranslateY: 0,
-    };
+    } as S;
 
-    __construct(props: DraggableComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.handleTouchStart = this.handleTouchStart.bind(this);

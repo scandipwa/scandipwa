@@ -76,20 +76,20 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutGuestFormContain
 });
 
 /** @namespace Component/CheckoutGuestForm/Container */
-export class CheckoutGuestFormContainer extends PureComponent<
-CheckoutGuestFormContainerProps,
-CheckoutGuestFormContainerState
-> {
+export class CheckoutGuestFormContainer<
+P extends Readonly<CheckoutGuestFormContainerProps> = Readonly<CheckoutGuestFormContainerProps>,
+S extends CheckoutGuestFormContainerState = CheckoutGuestFormContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<CheckoutGuestFormContainerProps> = {
         emailValue: '',
         isGuestEmailSaved: false,
         onSignIn: noopFn,
     };
 
-    state: CheckoutGuestFormContainerState = {
+    state: S = {
         isLoading: false,
         signInState: '',
-    };
+    } as S;
 
     containerFunctions: CheckoutGuestFormContainerFunctions = {
         handleEmailInput: this.handleEmailInput.bind(this),
@@ -111,7 +111,7 @@ CheckoutGuestFormContainerState
         checkEmailAvailability(email);
     }, UPDATE_EMAIL_CHECK_FREQUENCY);
 
-    __construct(props: CheckoutGuestFormContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         const { clearEmailStatus } = props;

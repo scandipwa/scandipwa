@@ -34,11 +34,11 @@ S extends FieldFileContainerState = FieldFileContainerState,
         setRef: this.setRef.bind(this),
     };
 
-    state: FieldFileContainerState = {
+    state: S = {
         isLoading: false,
         fileName: '',
         value: '',
-    };
+    } as S;
 
     fieldRef: HTMLInputElement | null = null;
 

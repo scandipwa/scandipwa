@@ -19,7 +19,7 @@ import { ReactElement } from 'Type/Common.type';
 import {
     Widget,
 } from './WidgetFactory.config';
-import { WidgetFactoryComponentProps, WidgetFactoryComponentRenderMap } from './WidgetFactory.type';
+import { WidgetFactoryComponentProps, WidgetFactoryComponentRenderMap, WidgetFactoryComponentState } from './WidgetFactory.type';
 
 import './WidgetFactory.style';
 

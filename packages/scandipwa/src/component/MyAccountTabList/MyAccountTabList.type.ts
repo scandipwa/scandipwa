@@ -11,7 +11,6 @@
 
 import { MyAccountTab } from 'Route/MyAccount/MyAccount.type';
 
-
 export interface MyAccountTabListContainerMapStateProps {}
 
 export interface MyAccountTabListContainerDispatchProps {
@@ -47,3 +46,5 @@ export interface MyAccountTabListComponentProps {
     isContentExpanded: boolean;
     toggleExpandableContent: () => void;
 }
+
+export interface MyAccountTabListComponentState {}

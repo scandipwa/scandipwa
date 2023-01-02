@@ -24,6 +24,7 @@ import {
     VideoThumbnailContainerMapDispatchProps,
     VideoThumbnailContainerMapStateProps,
     VideoThumbnailContainerProps,
+    VideoThumbnailContainerState,
 } from './VideoThumbnail.type';
 
 /** @namespace Component/VideoThumbnail/Container/mapStateToProps

@@ -17,7 +17,6 @@ export interface ProductDownloadableLinksContainerMapStateProps {
     currencyCode: GQLCurrencyEnum;
 }
 
-
 export interface ProductDownloadableLinksContainerMapDispatchProps {}
 
 export interface ProductDownloadableLinksContainerBaseProps {
@@ -60,3 +59,5 @@ export type ProductDownloadableLinksComponentContainerPropKeys =
     | 'isLoading'
     | 'selectedLinks'
     | 'currencyCode';
+
+export interface ProductDownloadableLinksComponentState {}

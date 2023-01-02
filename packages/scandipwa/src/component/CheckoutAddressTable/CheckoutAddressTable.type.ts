@@ -35,3 +35,7 @@ export interface CheckoutAddressTableComponentBaseProps {
 
 export type CheckoutAddressTableComponentProps = MyAccountAddressTableComponentProps
 & CheckoutAddressTableComponentBaseProps;
+
+export interface CheckoutAddressTableComponentState {}
+
+export interface CheckoutAddressTableContainerState {}

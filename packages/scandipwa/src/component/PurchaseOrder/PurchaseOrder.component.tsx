@@ -17,7 +17,7 @@ import { FieldType } from 'Component/Field/Field.config';
 import FieldGroup from 'Component/FieldGroup';
 import { ReactElement } from 'Type/Common.type';
 
-import { PurchaseOrderComponentProps } from './PurchaseOrder.type';
+import { PurchaseOrderComponentProps, PurchaseOrderComponentState } from './PurchaseOrder.type';
 
 import './PurchaseOrder.style';
 

@@ -16,7 +16,7 @@ import MyAccountTabListItem from 'Component/MyAccountTabListItem';
 import { MyAccountTab } from 'Route/MyAccount/MyAccount.type';
 import { ObjectEntries, ReactElement } from 'Type/Common.type';
 
-import { MyAccountTabListComponentProps } from './MyAccountTabList.type';
+import { MyAccountTabListComponentProps, MyAccountTabListComponentState } from './MyAccountTabList.type';
 
 import './MyAccountTabList.style';
 

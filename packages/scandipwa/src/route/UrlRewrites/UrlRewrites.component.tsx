@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import {
     UrlRewritePageType,
 } from './UrlRewrites.config';
-import { UrlRewritesComponentProps } from './UrlRewrites.type';
+import { UrlRewritesComponentProps, UrlRewritesComponentState } from './UrlRewrites.type';
 
 export const ProductPage = lazy(
     () => import(/* webpackMode: "lazy", webpackChunkName: "product" */ 'Route/ProductPage'),

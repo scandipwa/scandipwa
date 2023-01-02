@@ -16,7 +16,7 @@ import { BundleOptionRendererType } from 'Component/ProductBundleOption/ProductB
 import { ReactElement } from 'Type/Common.type';
 import { IndexedBundleItem } from 'Util/Product/Product.type';
 
-import { ProductBundleOptionsComponentProps } from './ProductBundleOptions.type';
+import { ProductBundleOptionsComponentProps, ProductBundleOptionsComponentState } from './ProductBundleOptions.type';
 
 import './ProductBundleOptions.style';
 

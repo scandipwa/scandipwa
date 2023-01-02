@@ -54,3 +54,5 @@ export type OrderRow = {
         id: number;
     };
 } | OrderItem;
+
+export interface MyAccountMyOrdersComponentState {}

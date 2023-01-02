@@ -16,7 +16,6 @@ export interface NavigationAbstractContainerMapStateProps {
     device: Device;
 }
 
-
 export interface NavigationAbstractContainerMapDispatchProps {}
 
 export type NavigationAbstractContainerProps = NavigationAbstractContainerMapStateProps
@@ -34,3 +33,5 @@ export interface NavigationAbstractContainerState {
 export interface NavigationAbstractComponentProps{
     navigationState: NavigationState;
 }
+
+export interface NavigationAbstractComponentState {}

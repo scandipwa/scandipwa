@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { UserIconComponentProps } from './UserIcon.type';
+import { UserIconComponentProps, UserIconComponentState } from './UserIcon.type';
 
 import './UserIcon.style';
 

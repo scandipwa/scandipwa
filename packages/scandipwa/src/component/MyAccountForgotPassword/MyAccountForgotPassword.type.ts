@@ -66,3 +66,7 @@ export type MyAccountForgotPasswordContainerPropsKeys = 'state'
 | 'handleSignIn'
 | 'handleCreateAccount'
 | 'isCheckout';
+
+export interface MyAccountForgotPasswordComponentState {}
+
+export interface MyAccountForgotPasswordContainerState {}

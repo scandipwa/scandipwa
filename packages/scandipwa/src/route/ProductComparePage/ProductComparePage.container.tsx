@@ -29,6 +29,7 @@ import {
     ProductComparePageContainerMapDispatchProps,
     ProductComparePageContainerMapStateProps,
     ProductComparePageContainerProps,
+    ProductComparePageContainerState,
 } from './ProductComparePage.type';
 
 export const BreadcrumbsDispatcher = import(
@@ -63,7 +64,7 @@ S extends ProductComparePageContainerState = ProductComparePageContainerState,
         isLoading: false,
     };
 
-    __construct(props: ProductComparePageContainerProps): void {
+    __construct(props: P): void {
         super.__construct(props, 'ProductComparePageContainer');
     }
 

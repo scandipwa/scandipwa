@@ -19,7 +19,7 @@ import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 
 import { customerEmailAndPasswordFields, customerInformationFields } from './MyAccountCustomerForm.form';
-import { MyAccountCustomerFormComponentProps } from './MyAccountCustomerForm.type';
+import { MyAccountCustomerFormComponentProps, MyAccountCustomerFormComponentState } from './MyAccountCustomerForm.type';
 
 /** @namespace Component/MyAccountCustomerForm/Component */
 export class MyAccountCustomerFormComponent<

@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { InstallPromptIOSComponentProps } from './InstallPromptIOS.type';
+import { InstallPromptIOSComponentProps, InstallPromptIOSComponentState } from './InstallPromptIOS.type';
 
 import './InstallPromptIOS.style';
 

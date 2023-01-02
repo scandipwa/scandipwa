@@ -14,6 +14,7 @@ import { match } from 'react-router';
 import { OrderTabs } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import {
     MyAccountOrderComponentProps,
+    MyAccountOrderComponentState,
     MyAccountOrderContainerBaseProps,
     MyAccountOrderContainerFunctions,
     MyAccountOrderContainerMapDispatchProps,
@@ -92,3 +93,7 @@ export type MyAccountOrderPrintContainerPropsKeys = MyAccountOrderContainerProps
 | 'copyright'
 | 'activeTab'
 | 'isLogoLoaded';
+
+export interface MyAccountOrderPrintComponentState extends MyAccountOrderComponentState {
+    isPrintShown: boolean;
+}

@@ -24,3 +24,7 @@ export interface StoreItemComponentProps
     extends StoreItemContainerFunctions {
     item: FormattedStore;
 }
+
+export interface StoreItemComponentState {}
+
+export interface StoreItemContainerState {}

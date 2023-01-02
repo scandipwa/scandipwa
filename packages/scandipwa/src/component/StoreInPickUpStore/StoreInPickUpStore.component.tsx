@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import Html from 'Component/Html';
 import { ReactElement } from 'Type/Common.type';
 
-import { StoreInPickUpStoreComponentProps } from './StoreInPickUpStore.type';
+import { StoreInPickUpStoreComponentProps, StoreInPickUpStoreComponentState } from './StoreInPickUpStore.type';
 
 import './StoreInPickUpStore.style';
 

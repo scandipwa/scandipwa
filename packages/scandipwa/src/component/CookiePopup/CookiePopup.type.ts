@@ -34,3 +34,5 @@ export interface CookiePopupComponentProps {
 export interface CookiePopupComponentState {
     isAccepted: boolean;
 }
+
+export interface CookiePopupContainerState {}

@@ -28,3 +28,7 @@ export interface ProductGalleryComponentProps {
     alt: string;
     src?: string;
 }
+
+export interface ProductGalleryBaseImageComponentState {}
+
+export interface ProductGalleryBaseImageContainerState {}

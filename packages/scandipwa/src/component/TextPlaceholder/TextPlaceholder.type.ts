@@ -18,3 +18,5 @@ export interface TextPlaceholderComponentProps {
     length: TextPlaceHolderLength;
     mix: Mix;
 }
+
+export interface TextPlaceholderComponentState {}

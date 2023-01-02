@@ -14,14 +14,13 @@ import { DataPair } from 'Component/KeyValueTable/KeyValueTable.type';
 import { Customer } from 'Query/MyAccount.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { MyAccountCustomerTableComponentProps } from './MyAccountCustomerTable.type';
+import { MyAccountCustomerTableComponentProps, MyAccountCustomerTableComponentState } from './MyAccountCustomerTable.type';
 
 /** @namespace Component/MyAccountCustomerTable/Component */
 export class MyAccountCustomerTableComponent<
 P extends Readonly<MyAccountCustomerTableComponentProps> = Readonly<MyAccountCustomerTableComponentProps>,
 S extends MyAccountCustomerTableComponentState = MyAccountCustomerTableComponentState,
 > extends KeyValueTable<P, S> {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     dataPairArray(): DataPair<Partial<Customer>>[] {
         const { customer } = this.props;

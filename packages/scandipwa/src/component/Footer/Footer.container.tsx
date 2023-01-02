@@ -24,6 +24,7 @@ import {
     FooterContainerMapStateProps,
     FooterContainerProps,
     FooterContainerPropsKeys,
+    FooterContainerState,
 } from './Footer.type';
 
 /** @namespace Component/Footer/Container/mapStateToProps */

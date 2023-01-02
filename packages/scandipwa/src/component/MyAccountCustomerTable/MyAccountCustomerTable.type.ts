@@ -26,3 +26,7 @@ export interface MyAccountCustomerTableComponentProps {
     customer: Partial<Customer>;
     title?: string;
 }
+
+export interface MyAccountCustomerTableComponentState {}
+
+export interface MyAccountCustomerTableContainerState {}

@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import Html from 'Component/Html';
 import { ReactElement } from 'Type/Common.type';
 
-import { CmsBlockComponentProps } from './CmsBlock.type';
+import { CmsBlockComponentProps, CmsBlockComponentState } from './CmsBlock.type';
 
 import './CmsBlock.style';
 

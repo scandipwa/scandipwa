@@ -15,7 +15,11 @@ import { ReactElement } from 'Type/Common.type';
 import { getAttributesWithValues } from 'Util/Product';
 
 import ProductAttributes from './ProductAttributes.component';
-import { ProductAttributesComponentProps, ProductAttributesContainerProps } from './ProductAttributes.type';
+import {
+    ProductAttributesComponentProps,
+    ProductAttributesContainerProps,
+    ProductAttributesContainerState,
+} from './ProductAttributes.type';
 
 /** @namespace Component/ProductAttributes/Container */
 export class ProductAttributesContainer<

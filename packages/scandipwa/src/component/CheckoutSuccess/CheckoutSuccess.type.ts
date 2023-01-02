@@ -16,3 +16,7 @@ export interface CheckoutSuccessComponentProps {
     firstName: string;
     lastName: string;
 }
+
+export interface CheckoutSuccessComponentState {}
+
+export interface CheckoutSuccessContainerState {}

@@ -26,15 +26,15 @@ import { ReactElement } from 'Type/Common.type';
 import { noopFn, noopFnAsync } from 'Util/Common';
 import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 
-import { WishlistItemComponentOptionMap, WishlistItemComponentProps } from './WishlistItem.type';
+import { WishlistItemComponentOptionMap, WishlistItemComponentProps, WishlistItemComponentState } from './WishlistItem.type';
 
 import './WishlistItem.style';
 
 /** @namespace Component/WishlistItem/Component */
-export class WishlistItemComponent<P<
-P extends Readonly<P> = Readonly<P>,
-S extends state = state,
-> extends WishlistItemComponentProps = WishlistItemComponentProps> extends PureComponent<P, S> {
+export class WishlistItemComponent<
+P extends Readonly<WishlistItemComponentProps> = Readonly<WishlistItemComponentProps>,
+S extends WishlistItemComponentState = WishlistItemComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<WishlistItemComponentProps> = {
         addToCart: noopFnAsync,
         changeQuantity: noopFn,
@@ -49,7 +49,7 @@ S extends state = state,
         [ProductType.BUNDLE]: this.renderBundleOption.bind(this),
     };
 
-    __construct(props: WishlistItemComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.renderContent = this.renderContent.bind(this);

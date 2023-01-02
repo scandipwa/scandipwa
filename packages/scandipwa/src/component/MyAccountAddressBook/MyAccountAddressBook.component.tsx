@@ -17,7 +17,7 @@ import { CustomerAddress } from 'Query/MyAccount.type';
 import { ReactElement } from 'Type/Common.type';
 import { getDefaultAddressLabel } from 'Util/Address';
 
-import { MyAccountAddressBookComponentProps } from './MyAccountAddressBook.type';
+import { MyAccountAddressBookComponentProps, MyAccountAddressBookComponentState } from './MyAccountAddressBook.type';
 
 import './MyAccountAddressBook.style';
 

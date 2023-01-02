@@ -22,7 +22,7 @@ import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { getItemsCountLabel } from 'Util/Cart';
 
 import { CmsBlock } from '../../route/Checkout/Checkout.component';
-import { CheckoutOrderSummaryComponentProps } from './CheckoutOrderSummary.type';
+import { CheckoutOrderSummaryComponentProps, CheckoutOrderSummaryComponentState } from './CheckoutOrderSummary.type';
 
 import './CheckoutOrderSummary.style';
 

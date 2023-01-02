@@ -32,6 +32,7 @@ import {
     ForgotPasswordContainerFunctions,
     ForgotPasswordContainerMapDispatchProps,
     ForgotPasswordContainerProps,
+    ForgotPasswordContainerState,
 } from './ForgotPassword.type';
 
 /** @namespace Route/ForgotPassword/Container/mapDispatchToProps */

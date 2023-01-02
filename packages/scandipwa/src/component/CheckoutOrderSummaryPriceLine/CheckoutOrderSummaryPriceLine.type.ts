@@ -21,3 +21,7 @@ export interface CheckoutOrderSummaryPriceLineProps {
     subPrice: string | number | null;
     children: Children;
 }
+
+export interface CheckoutOrderSummaryPriceLineComponentState {}
+
+export interface CheckoutOrderSummaryPriceLineContainerState {}

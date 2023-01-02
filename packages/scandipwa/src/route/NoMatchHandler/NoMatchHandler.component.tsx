@@ -15,7 +15,7 @@ import NoMatch from 'Route/NoMatch';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 
-import { NoMatchHandlerComponentProps } from './NoMatchHandler.type';
+import { NoMatchHandlerComponentProps, NoMatchHandlerComponentState } from './NoMatchHandler.type';
 
 /** @namespace Route/NoMatchHandler/Component */
 export class NoMatchHandlerComponent<

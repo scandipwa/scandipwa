@@ -27,6 +27,7 @@ import {
     MyAccountForgotPasswordContainerMapStateProps,
     MyAccountForgotPasswordContainerProps,
     MyAccountForgotPasswordContainerPropsKeys,
+    MyAccountForgotPasswordContainerState,
 } from './MyAccountForgotPassword.type';
 
 export const MyAccountDispatcher = import(

@@ -66,7 +66,7 @@ S extends SliderComponentState = SliderComponentState,
 
     sliderRef = createRef<HTMLDivElement>();
 
-    __construct(props: SliderComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         const { activeImage } = this.props;
@@ -74,7 +74,7 @@ S extends SliderComponentState = SliderComponentState,
         this.state = {
             isInitialized: false,
             prevActiveImage: activeImage,
-        };
+        } as S;
 
         this.handleDragStart = this.handleInteraction.bind(this, this.handleDragStart);
         this.handleDrag = this.handleInteraction.bind(this, this.handleDrag);

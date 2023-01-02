@@ -14,14 +14,15 @@ import { PureComponent } from 'react';
 import RadioButton from 'Component/RadioButtonIcon';
 import { ReactElement } from 'Type/Common.type';
 
-import { DataPair, KeyValueTableComponentProps } from './KeyValueTable.type';
+import { DataPair, KeyValueTableComponentProps, KeyValueTableComponentState } from './KeyValueTable.type';
 
 import './KeyValueTable.style';
 
 /** @namespace Component/KeyValueTable/Component */
 export class KeyValueTableComponent<
-T extends KeyValueTableComponentProps = KeyValueTableComponentProps,
-> extends PureComponent<T> {
+P extends Readonly<KeyValueTableComponentProps> = Readonly<KeyValueTableComponentProps>,
+S extends KeyValueTableComponentState = KeyValueTableComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<KeyValueTableComponentProps> = {
         title: '',
         isSelected: false,

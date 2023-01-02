@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { OfflineNoticeComponentProps } from './OfflineNotice.type';
+import { OfflineNoticeComponentProps, OfflineNoticeComponentState } from './OfflineNotice.type';
 
 import './OfflineNotice.style';
 

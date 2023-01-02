@@ -45,9 +45,11 @@ export interface ProductPageContainerBaseProps {
     productID: number;
 }
 
-export type ProductPageContainerProps = ProductPageContainerMapStateProps
-& ProductPageContainerMapDispatchProps
-& ProductPageContainerBaseProps;
+export interface ProductPageContainerProps extends ProductPageContainerMapStateProps,
+    ProductPageContainerMapDispatchProps,
+    ProductPageContainerBaseProps {}
+
+export interface ProductPageComponentState {}
 
 export interface ProductPageContainerState {
     parameters: Record<string, string>;

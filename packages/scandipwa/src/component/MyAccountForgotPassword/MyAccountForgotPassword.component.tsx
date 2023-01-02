@@ -17,7 +17,7 @@ import Form from 'Component/Form';
 import { ReactElement } from 'Type/Common.type';
 import { ValidationInputType } from 'Util/Validator/Config';
 
-import { MyAccountForgotPasswordComponentProps } from './MyAccountForgotPassword.type';
+import { MyAccountForgotPasswordComponentProps, MyAccountForgotPasswordComponentState } from './MyAccountForgotPassword.type';
 
 /** @namespace Component/MyAccountForgotPassword/Component */
 export class MyAccountForgotPasswordComponent<

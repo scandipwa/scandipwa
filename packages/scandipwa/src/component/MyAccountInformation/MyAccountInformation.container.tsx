@@ -71,17 +71,17 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountInformationCont
 });
 
 /** @namespace Component/MyAccountInformation/Container */
-export class MyAccountInformationContainer extends PureComponent<
-MyAccountInformationContainerProps,
-MyAccountInformationContainerState
-> {
+export class MyAccountInformationContainer<
+P extends Readonly<MyAccountInformationContainerProps> = Readonly<MyAccountInformationContainerProps>,
+S extends MyAccountInformationContainerState = MyAccountInformationContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: MyAccountInformationContainerFunctions = {
         onCustomerSave: this.onCustomerSave.bind(this),
         handleChangeEmailCheckbox: this.handleChangeEmailCheckbox.bind(this),
         handleChangePasswordCheckbox: this.handleChangePasswordCheckbox.bind(this),
     };
 
-    __construct(props: MyAccountInformationContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         const {
@@ -96,7 +96,7 @@ MyAccountInformationContainerState
             showEmailChangeField: false,
             showPasswordChangeField: editPassword,
             isErrorShow: false,
-        };
+        } as S;
 
         this.onError = this.onError.bind(this);
     }

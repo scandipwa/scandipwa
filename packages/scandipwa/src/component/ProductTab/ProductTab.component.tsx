@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
-import { ProductTabComponentProps } from './ProductTab.type';
+import { ProductTabComponentProps, ProductTabComponentState } from './ProductTab.type';
 
 import './ProductTab.style';
 
@@ -28,7 +28,7 @@ S extends ProductTabComponentState = ProductTabComponentState,
         isActive: false,
     };
 
-    __construct(props: ProductTabComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.onClick = this.onClick.bind(this);

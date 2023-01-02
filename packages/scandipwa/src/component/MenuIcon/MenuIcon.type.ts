@@ -12,3 +12,7 @@
 export interface MenuIconComponentProps {
     isActive: boolean;
 }
+
+export interface MenuIconComponentState {}
+
+export interface MenuIconContainerState {}

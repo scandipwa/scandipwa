@@ -42,3 +42,7 @@ export interface PopupPayload {
     media: MediaGalleryEntry;
     title: string;
 }
+
+export interface VideoThumbnailComponentState {}
+
+export interface VideoThumbnailContainerState {}

@@ -42,33 +42,20 @@ export const mapStateToProps = (state: RootState): CheckoutPaymentsContainerMapS
 });
 
 /** @namespace Component/CheckoutPayments/Container */
-export class CheckoutPaymentsContainer extends PureComponent<
-CheckoutPaymentsContainerProps,
-CheckoutPaymentsContainerState
-> {
+export class CheckoutPaymentsContainer<
+P extends Readonly<CheckoutPaymentsContainerProps> = Readonly<CheckoutPaymentsContainerProps>,
+S extends CheckoutPaymentsContainerState = CheckoutPaymentsContainerState,
+> extends PureComponent<P, S> {
     containerFunctions: CheckoutPaymentsContainerFunctions = {
         selectPaymentMethod: this.selectPaymentMethod.bind(this),
     };
 
     state = {
         selectedPaymentCode: '',
-    };
+    } as S;
 
     dataMap = {
-        // [ PaymentMethods.KLARNA ]: this.getKlarnaData.bind(this)
     };
-
-    // componentDidMount(): void {
-    //     if (window.formPortalCollector) {
-    //         window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData, 'CheckoutPaymentsContainer');
-    //     }
-    // }
-
-    // componentWillUnmount(): void {
-    //     if (window.formPortalCollector) {
-    //         window.formPortalCollector.unsubscribe(CheckoutSteps.BILLING_STEP, 'CheckoutPaymentsContainer');
-    //     }
-    // }
 
     containerProps(): Pick<CheckoutPaymentsComponentProps, CheckoutPaymentsContainerPropsKeys> {
         const {
@@ -86,26 +73,6 @@ CheckoutPaymentsContainerState
             showError,
         };
     }
-
-    // getKlarnaData() {
-    //     return { asyncData: KlarnaContainer.authorize() };
-    // }
-
-    // collectAdditionalData() {
-    //     const { selectedPaymentCode } = this.state;
-
-    //     if (!selectedPaymentCode) {
-    //         return {};
-    //     }
-
-    //     const additionalDataGetter = this.dataMap[ selectedPaymentCode ];
-
-    //     if (!additionalDataGetter) {
-    //         return {};
-    //     }
-
-    //     return additionalDataGetter();
-    // }
 
     selectPaymentMethod({ code }: PaymentMethod): void {
         const {

@@ -16,12 +16,15 @@ import { ReactElement } from 'Type/Common.type';
 import { toggleScroll } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
 
-import { OverlayComponentProps } from './Overlay.type';
+import { OverlayComponentProps, OverlayComponentState } from './Overlay.type';
 
 import './Overlay.style';
 
 /** @namespace Component/Overlay/Component */
-export class OverlayComponent<P extends Readonly<OverlayComponentProps> = Readonly<OverlayComponentProps>,, OverlayComponentProps> extends PureComponent<P> {
+export class OverlayComponent<
+P extends Readonly<OverlayComponentProps> = Readonly<OverlayComponentProps>,
+S extends OverlayComponentState = OverlayComponentState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<OverlayComponentProps> = {
         mix: {},
         contentMix: {},

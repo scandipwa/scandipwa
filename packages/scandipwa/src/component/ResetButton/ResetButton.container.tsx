@@ -21,6 +21,7 @@ import {
     ResetButtonComponentProps,
     ResetButtonContainerFunctions,
     ResetButtonContainerProps,
+    ResetButtonContainerState,
 } from './ResetButton.type';
 
 /** @namespace Component/ResetButton/Container */

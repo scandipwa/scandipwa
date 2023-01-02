@@ -25,6 +25,7 @@ import {
     NoMatchHandlerContainerMapStateProps,
     NoMatchHandlerContainerProps,
     NoMatchHandlerContainerPropsKeys,
+    NoMatchHandlerContainerState,
 } from './NoMatchHandler.type';
 
 export const NoMatchDispatcher = import(

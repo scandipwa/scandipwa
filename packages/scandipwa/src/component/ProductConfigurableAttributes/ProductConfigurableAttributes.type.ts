@@ -82,3 +82,7 @@ export interface ProductConfigurableVariant {
     stock_status: StockStatus;
     attributes: Record<string, ProductConfigurableAttribute>;
 }
+
+export interface ProductConfigurableAttributesComponentState {}
+
+export interface ProductConfigurableAttributesContainerState {}

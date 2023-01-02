@@ -19,7 +19,12 @@ import { makeCancelable } from 'Util/Promise';
 import { CancelablePromise } from 'Util/Promise/Promise.type';
 
 import { VIDEO_POPUP_ID, VIMEO_FORMAT, YOUTUBE_FORMAT } from './VideoPopup.config';
-import { VideoPopupComponentProps, VimeoComponent, YouTubeComponent } from './VideoPopup.type';
+import {
+    VideoPopupComponentProps,
+    VideoPopupComponentState,
+    VimeoComponent,
+    YouTubeComponent,
+} from './VideoPopup.type';
 
 import './VideoPopup.style';
 

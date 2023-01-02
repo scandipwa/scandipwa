@@ -16,3 +16,7 @@ export interface CheckoutPaymentComponentProps {
     onClick: (paymentMethod: PaymentMethod) => void;
     isSelected: boolean;
 }
+
+export interface CheckoutPaymentComponentState {}
+
+export interface CheckoutPaymentContainerState {}

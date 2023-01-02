@@ -16,14 +16,21 @@ import { FieldType } from 'Component/Field/Field.config';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
-import { ProductConfigurableAttributeDropdownComponentProps } from './ProductConfigurableAttributeDropdown.type';
+import {
+    ProductConfigurableAttributeDropdownComponentProps,
+    ProductConfigurableAttributeDropdownComponentState,
+} from './ProductConfigurableAttributeDropdown.type';
 
 import './ProductConfigurableAttributeDropdown.style';
 
 /** @namespace Component/ProductConfigurableAttributeDropdown/Component */
-export class ProductConfigurableAttributeDropdownComponent extends PureComponent<
-ProductConfigurableAttributeDropdownComponentProps
-> {
+export class ProductConfigurableAttributeDropdownComponent<
+P extends Readonly<ProductConfigurableAttributeDropdownComponentProps> = Readonly<ProductConfigurableAttributeDropdownComponentProps>,
+S extends ProductConfigurableAttributeDropdownComponentState = ProductConfigurableAttributeDropdownComponentState,
+> extends PureComponent<
+    P,
+    S
+    > {
     static defaultProps: Partial<ProductConfigurableAttributeDropdownComponentProps> = {
         selectValue: '',
         selectLabel: 'attribute',

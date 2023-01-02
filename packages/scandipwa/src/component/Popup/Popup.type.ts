@@ -77,3 +77,7 @@ export type PopupContainerPropsKeys = 'activeOverlay'
 | 'goToPreviousNavigationState'
 | 'title'
 | 'isCloseOnOutsideClick';
+
+export interface PopupComponentState {}
+
+export interface PopupContainerState {}

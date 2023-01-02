@@ -21,7 +21,7 @@ import { FieldType } from 'Component/Field/Field.config';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
-import { DatePickerComponentPlaceholderMap, DatePickerComponentProps } from './DatePicker.type';
+import { DatePickerComponentPlaceholderMap, DatePickerComponentProps, DatePickerComponentState } from './DatePicker.type';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.style.scss';

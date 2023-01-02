@@ -15,7 +15,7 @@ import { ReactElement } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
 
-import { CheckoutOrderSummaryPriceLineProps } from './CheckoutOrderSummaryPriceLine.type';
+import { CheckoutOrderSummaryPriceLineComponentState, CheckoutOrderSummaryPriceLineProps } from './CheckoutOrderSummaryPriceLine.type';
 
 /** @namespace Component/CheckoutOrderSummaryPriceLine/Component */
 export class CheckoutOrderSummaryPriceLineComponent<

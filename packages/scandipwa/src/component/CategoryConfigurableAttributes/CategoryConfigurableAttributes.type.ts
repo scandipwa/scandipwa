@@ -60,3 +60,7 @@ export type CategoryConfigurableAttributesComponentContainerPropKeys =
 | 'currencyCode'
 | 'showProductCount'
 | 'childrenCategories';
+
+export interface CategoryConfigurableAttributesComponentState {}
+
+export interface CategoryConfigurableAttributesContainerState {}

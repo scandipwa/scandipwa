@@ -21,6 +21,7 @@ import {
     ProductCompareAttributeRowContainerMapDispatchProps,
     ProductCompareAttributeRowContainerMapStateProps,
     ProductCompareAttributeRowContainerProps,
+    ProductCompareAttributeRowContainerState,
 } from './ProductCompareAttributeRow.type';
 
 /** @namespace Component/ProductCompareAttributeRow/Container/mapStateToProps */

@@ -32,6 +32,7 @@ import {
     CategoryFilterOverlayContainerMapDispatchProps,
     CategoryFilterOverlayContainerMapStateProps,
     CategoryFilterOverlayContainerProps,
+    CategoryFilterOverlayContainerState,
 } from './CategoryFilterOverlay.type';
 
 /** @namespace Component/CategoryFilterOverlay/Container/mapStateToProps */

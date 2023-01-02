@@ -23,6 +23,7 @@ import {
     CheckoutAddressFormComponentProps,
     CheckoutAddressFormContainerProps,
     CheckoutAddressFormContainerPropsKeys,
+    CheckoutAddressFormContainerState,
 } from './CheckoutAddressForm.type';
 
 /** @namespace Component/CheckoutAddressForm/Container */

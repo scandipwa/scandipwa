@@ -39,6 +39,7 @@ import {
     ProductCardContainerMapStateProps,
     ProductCardContainerPropKeys,
     ProductCardContainerProps,
+    ProductCardContainerState,
 } from './ProductCard.type';
 
 export const CartDispatcher = import(

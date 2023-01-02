@@ -29,8 +29,10 @@ export interface ConfirmAccountPageContainerFunctions {
     onFormError: () => void;
 }
 
-export type ConfirmAccountPageContainerProps = ConfirmAccountPageContainerMapStateProps
-& ConfirmAccountPageContainerMapDispatchProps;
+export interface ConfirmAccountPageContainerProps extends ConfirmAccountPageContainerMapStateProps,
+    ConfirmAccountPageContainerMapDispatchProps {}
+
+export interface ConfirmAccountPageComponentState {}
 
 export interface ConfirmAccountPageContainerState {
     redirect: boolean;

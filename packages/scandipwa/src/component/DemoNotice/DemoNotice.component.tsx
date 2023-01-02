@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { DemoNoticeComponentProps } from './DemoNotice.type';
+import { DemoNoticeComponentProps, DemoNoticeComponentState } from './DemoNotice.type';
 
 import './DemoNotice.style';
 

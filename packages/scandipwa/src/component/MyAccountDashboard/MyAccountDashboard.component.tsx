@@ -19,7 +19,7 @@ import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { MyAccountDashboardComponentProps } from './MyAccountDashboard.type';
+import { MyAccountDashboardComponentProps, MyAccountDashboardComponentState } from './MyAccountDashboard.type';
 
 import './MyAccountDashboard.style';
 

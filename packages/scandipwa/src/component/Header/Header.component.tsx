@@ -47,7 +47,7 @@ import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
 
 import { Page } from './Header.config';
-import { HeaderComponentProps } from './Header.type';
+import { HeaderComponentProps, HeaderComponentState } from './Header.type';
 
 import './Header.style';
 

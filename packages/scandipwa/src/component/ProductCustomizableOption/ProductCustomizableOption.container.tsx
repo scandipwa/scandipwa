@@ -30,6 +30,7 @@ import {
     ProductCustomizableOptionContainerMapDispatchProps,
     ProductCustomizableOptionContainerMapStateProps,
     ProductCustomizableOptionContainerProps,
+    ProductCustomizableOptionContainerState,
 } from './ProductCustomizableOption.type';
 
 /** @namespace Component/ProductCustomizableOption/Container/mapStateToProps */

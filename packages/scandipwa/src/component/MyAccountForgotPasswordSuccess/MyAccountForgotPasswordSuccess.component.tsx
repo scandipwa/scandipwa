@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { MyAccountForgotPasswordSuccessContainerProps } from './MyAccountForgotPasswordSuccess.type';
+import { MyAccountForgotPasswordSuccessComponentState, MyAccountForgotPasswordSuccessContainerProps } from './MyAccountForgotPasswordSuccess.type';
 
 /** @namespace Component/MyAccountForgotPasswordSuccess/Component */
 export class MyAccountForgotPasswordSuccessComponent<

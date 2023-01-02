@@ -106,11 +106,11 @@ S extends CartPageContainerState = CartPageContainerState,
         onCartItemLoading: this.onCartItemLoading.bind(this),
     };
 
-    state: CartPageContainerState = {
+    state: S = {
         areDetailsLoaded: false,
         isCartItemLoading: false,
         isInitialLoad: true,
-    };
+    } as S;
 
     componentDidMount(): void {
         const { updateMeta } = this.props;

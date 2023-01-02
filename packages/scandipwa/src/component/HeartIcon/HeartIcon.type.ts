@@ -12,3 +12,5 @@
 export interface HeartIconComponentProps {
     isActive: boolean;
 }
+
+export interface HeartIconComponentState {}

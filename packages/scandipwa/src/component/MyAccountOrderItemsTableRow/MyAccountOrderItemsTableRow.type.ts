@@ -54,3 +54,7 @@ export type MyAccountOrderItemsTableRowContainerPropsKeys =
     | 'comments'
     | 'isMobile'
     | 'colSpanCount';
+
+export interface MyAccountOrderItemsTableRowComponentState {}
+
+export interface MyAccountOrderItemsTableRowContainerState {}

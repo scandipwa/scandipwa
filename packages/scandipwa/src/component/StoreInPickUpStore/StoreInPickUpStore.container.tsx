@@ -20,6 +20,7 @@ import {
     StoreInPickUpStoreContainerFunctions,
     StoreInPickUpStoreContainerProps,
     StoreInPickUpStoreContainerPropsKeys,
+    StoreInPickUpStoreContainerState,
 } from './StoreInPickUpStore.type';
 
 /** @namespace Component/StoreInPickUpStore/Container */

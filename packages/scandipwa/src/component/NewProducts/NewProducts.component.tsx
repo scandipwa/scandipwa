@@ -16,7 +16,7 @@ import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
-import { NewProductsComponentProps } from './NewProducts.type';
+import { NewProductsComponentProps, NewProductsComponentState } from './NewProducts.type';
 
 import './NewProducts.style';
 
@@ -31,7 +31,7 @@ S extends NewProductsComponentState = NewProductsComponentState,
 
     newProductsRef = createRef<HTMLElement>();
 
-    __construct(props: NewProductsComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.renderProductCard = this.renderProductCard.bind(this);

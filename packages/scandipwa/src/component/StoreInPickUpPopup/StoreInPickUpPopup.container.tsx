@@ -63,22 +63,22 @@ export const mapStateToProps = (state: RootState): StoreInPickUpPopupContainerMa
 });
 
 /** @namespace Component/StoreInPickUpPopup/Container */
-export class StoreInPickUpPopupContainer extends PureComponent<
-StoreInPickUpPopupContainerProps,
-StoreInPickUpPopupContainerState
-> {
+export class StoreInPickUpPopupContainer<
+P extends Readonly<StoreInPickUpPopupContainerProps> = Readonly<StoreInPickUpPopupContainerProps>,
+S extends StoreInPickUpPopupContainerState = StoreInPickUpPopupContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<StoreInPickUpPopupContainerProps> = {
         selectedStore: null,
     };
 
     timeout: NodeJS.Timeout | null = null;
 
-    state: StoreInPickUpPopupContainerState = {
+    state: S = {
         stores: [],
         storeSearchCriteria: '',
         isLoading: true,
         selectedCountryId: '',
-    };
+    } as unknown as S;
 
     containerFunctions: StoreInPickUpPopupContainerFunctions = {
         handleStoresSearch: this.handleStoresSearch.bind(this),

@@ -37,3 +37,7 @@ export interface ProductReviewsComponentProps {
     isEnabled: boolean;
     product: Partial<IndexedProduct>;
 }
+
+export interface ProductReviewsComponentState {}
+
+export interface ProductReviewsContainerState {}

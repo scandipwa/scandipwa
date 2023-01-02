@@ -13,3 +13,5 @@ export interface ProductInformationComponentProps {
     htmlDescription: string;
     areDetailsLoaded: boolean;
 }
+
+export interface ProductInformationComponentState {}

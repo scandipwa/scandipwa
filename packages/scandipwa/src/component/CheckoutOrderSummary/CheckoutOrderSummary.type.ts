@@ -26,7 +26,6 @@ export interface CheckoutOrderSummaryContainerMapStateProps {
     isMobile: boolean;
 }
 
-
 export interface CheckoutOrderSummaryContainerMapDispatchProps {}
 
 export interface CheckoutOrderSummaryComponentBaseProps {
@@ -40,3 +39,5 @@ export interface CheckoutOrderSummaryComponentBaseProps {
 export type CheckoutOrderSummaryComponentProps = CheckoutOrderSummaryContainerMapStateProps
 & CheckoutOrderSummaryContainerMapDispatchProps
 & CheckoutOrderSummaryComponentBaseProps;
+
+export interface CheckoutOrderSummaryComponentState {}

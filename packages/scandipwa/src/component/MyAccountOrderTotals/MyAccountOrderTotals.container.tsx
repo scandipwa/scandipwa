@@ -38,14 +38,15 @@ export const mapStateToProps = (state: RootState): MyAccountOrderTotalsContainer
 export const mapDispatchToProps = (): MyAccountOrderTotalsContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountOrderTotals/Container */
-export class MyAccountOrderTotalsContainer extends PureComponent<
-MyAccountOrderTotalsContainerProps, MyAccountOrderTotalsContainerState
-> {
-    __construct(props: MyAccountOrderTotalsContainerProps): void {
+export class MyAccountOrderTotalsContainer<
+P extends Readonly<MyAccountOrderTotalsContainerProps> = Readonly<MyAccountOrderTotalsContainerProps>,
+S extends MyAccountOrderTotalsContainerState = MyAccountOrderTotalsContainerState,
+> extends PureComponent<P, S> {
+    __construct(props: P): void {
         super.__construct?.(props);
         const { activeTab, isMobile } = this.props;
 
-        this.state = this.getColSpanCounts(activeTab, isMobile);
+        this.state = this.getColSpanCounts(activeTab, isMobile) as S;
     }
 
     componentDidUpdate(prevProps: MyAccountOrderTotalsContainerProps): void {

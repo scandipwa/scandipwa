@@ -16,3 +16,7 @@ export interface TierPricesComponentProps {
     product: Partial<IndexedProduct> | ProductItem;
     isLowestPrice: boolean;
 }
+
+export interface TierPricesComponentState {}
+
+export interface TierPricesContainerState {}

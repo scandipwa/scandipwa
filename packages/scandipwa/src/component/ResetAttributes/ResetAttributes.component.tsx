@@ -17,7 +17,7 @@ import Html from 'Component/Html';
 import { ReactElement } from 'Type/Common.type';
 import { getFiltersCount } from 'Util/Category';
 
-import { ResetAttributesComponentProps, ResetItem } from './ResetAttributes.type';
+import { ResetAttributesComponentProps, ResetAttributesComponentState, ResetItem } from './ResetAttributes.type';
 
 import './ResetAttributes.style';
 

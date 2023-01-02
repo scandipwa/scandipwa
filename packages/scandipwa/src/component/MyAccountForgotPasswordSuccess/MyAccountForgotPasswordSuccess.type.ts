@@ -17,7 +17,6 @@ export interface MyAccountForgotPasswordSuccessContainerMapStateProps {
     submittedEmail: string;
 }
 
-
 export interface MyAccountForgotPasswordSuccessContainerMapDispatchProps {}
 
 export type MyAccountForgotPasswordSuccessContainerProps = MyAccountForgotPasswordSuccessContainerMapStateProps
@@ -36,3 +35,7 @@ export type MyAccountForgotPasswordSuccessContainerPropsKeys =
 | 'state'
 | 'handleSignIn'
 | 'submittedEmail';
+
+export interface MyAccountForgotPasswordSuccessComponentState {}
+
+export interface MyAccountForgotPasswordSuccessContainerState {}

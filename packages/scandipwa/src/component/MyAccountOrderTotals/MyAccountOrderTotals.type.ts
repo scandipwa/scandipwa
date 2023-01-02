@@ -18,7 +18,6 @@ export interface MyAccountOrderTotalsContainerMapStateProps {
     isMobile: boolean;
 }
 
-
 export interface MyAccountOrderTotalsContainerMapDispatchProps {}
 
 export interface MyAccountOrderTotalsContainerBaseProps {
@@ -47,3 +46,5 @@ export type MyAccountOrderTotalsContainerPropsKeys =
     | 'activeTab'
     | 'colSpanPriceCount'
     | 'colSpanLabelCount';
+
+export interface MyAccountOrderTotalsComponentState {}

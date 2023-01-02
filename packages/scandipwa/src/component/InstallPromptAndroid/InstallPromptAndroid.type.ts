@@ -13,3 +13,5 @@ export interface InstallPromptAndroidComponentProps {
     handleBannerClose: () => void;
     handleAppInstall: () => void;
 }
+
+export interface InstallPromptAndroidComponentState {}

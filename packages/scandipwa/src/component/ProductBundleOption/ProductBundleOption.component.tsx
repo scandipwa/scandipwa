@@ -31,7 +31,7 @@ import {
 import { bundleOptionToLabel, getEncodedBundleUid } from 'Util/Product/Transform';
 import { ValidationInputTypeNumber } from 'Util/Validator/Config';
 
-import { ProductBundleOptionComponentProps } from './ProductBundleOption.type';
+import { ProductBundleOptionComponentProps, ProductBundleOptionComponentState } from './ProductBundleOption.type';
 
 /**
  * Product Bundle Option

@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { StoreItemComponentProps } from './StoreItem.type';
+import { StoreItemComponentProps, StoreItemComponentState } from './StoreItem.type';
 
 import './StoreItem.style';
 

@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { RadioButtonIconComponentProps } from './RadioButtonIcon.type';
+import { RadioButtonIconComponentProps, RadioButtonIconComponentState } from './RadioButtonIcon.type';
 
 import './RadioButtonIcon.style';
 

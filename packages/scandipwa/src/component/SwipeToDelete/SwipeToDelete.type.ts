@@ -62,3 +62,5 @@ export type SwipeToDeleteContainerPropsKeys = 'animationDuration'
 | 'onAheadOfDragItemRemoveThreshold'
 | 'renderRightSideContent'
 | 'topElemMix';
+
+export interface SwipeToDeleteContainerState {}

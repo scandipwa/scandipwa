@@ -26,6 +26,7 @@ import {
     ProductPriceContainerMapDispatchProps,
     ProductPriceContainerMapStateProps,
     ProductPriceContainerProps,
+    ProductPriceContainerState,
 } from './ProductPrice.type';
 
 /** @namespace Component/ProductPrice/Container/mapStateToProps */

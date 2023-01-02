@@ -9,8 +9,14 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ImageComponentProps, ImageContainerProps } from 'Component/Image/Image.type';
+import {
+    ImageComponentProps, ImageComponentState, ImageContainerProps, ImageContainerState,
+} from 'Component/Image/Image.type';
 
 export type LogoContainerProps = ImageContainerProps;
 
 export type LogoComponentProps = ImageComponentProps;
+
+export interface LogoComponentState extends ImageComponentState {}
+
+export interface LogoContainerState extends ImageContainerState {}

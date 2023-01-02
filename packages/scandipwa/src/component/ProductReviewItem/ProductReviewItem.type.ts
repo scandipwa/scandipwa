@@ -14,3 +14,5 @@ import { IndexedReview } from 'Util/Product/Product.type';
 export interface ProductReviewItemComponentProps {
     reviewItem: IndexedReview;
 }
+
+export interface ProductReviewItemComponentState {}

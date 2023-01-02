@@ -148,3 +148,5 @@ export interface FieldInputCustomEvents {
 export type EventFieldData = FieldAttributes & { fieldRef: FieldRef; value: string; type: string };
 
 export type FieldReactEvents<T> = Omit<DOMAttributes<T>, 'children' | 'dangerouslySetInnerHTML'>;
+
+export interface FieldComponentState {}

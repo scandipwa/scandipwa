@@ -24,6 +24,7 @@ import {
     MyAccountOrderItemsTableRowContainerMapStateProps,
     MyAccountOrderItemsTableRowContainerProps,
     MyAccountOrderItemsTableRowContainerPropsKeys,
+    MyAccountOrderItemsTableRowContainerState,
 } from './MyAccountOrderItemsTableRow.type';
 
 /** @namespace Component/MyAccountOrderItemsTableRow/Container/mapStateToProps */

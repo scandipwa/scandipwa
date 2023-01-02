@@ -61,20 +61,20 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountAddressPopupCon
 });
 
 /** @namespace Component/MyAccountAddressPopup/Container */
-export class MyAccountAddressPopupContainer extends PureComponent<
-MyAccountAddressPopupContainerProps,
-MyAccountAddressPopupContainerState
-> {
-    state: MyAccountAddressPopupContainerState = {
+export class MyAccountAddressPopupContainer<
+P extends Readonly<MyAccountAddressPopupContainerProps> = Readonly<MyAccountAddressPopupContainerProps>,
+S extends MyAccountAddressPopupContainerState = MyAccountAddressPopupContainerState,
+> extends PureComponent<P, S> {
+    state: S = {
         isLoading: false,
-    };
+    } as S;
 
     containerFunctions: MyAccountAddressPopupContainerFunctions = {
         handleAddress: this.handleAddress.bind(this),
         handleDeleteAddress: this.handleDeleteAddress.bind(this),
     };
 
-    __construct(props: MyAccountAddressPopupContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.handleAfterAction = this.handleAfterAction.bind(this);

@@ -66,27 +66,27 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderContainerM
 
 /** @namespace Component/MyAccountOrder/Container */
 export class MyAccountOrderContainer<
-Props extends MyAccountOrderContainerProps = MyAccountOrderContainerProps,
-State extends MyAccountOrderContainerState = MyAccountOrderContainerState,
-> extends PureComponent<Props, State> {
+P extends MyAccountOrderContainerProps = MyAccountOrderContainerProps,
+S extends MyAccountOrderContainerState = MyAccountOrderContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<MyAccountOrderContainerProps> = {
         is_allowed_reorder: false,
         changeTabName: noopFn,
         setTabSubheading: noopFn,
     };
 
-    public state: State = {
+    public state: S = {
         order: {},
         isLoading: true,
         activeTab: OrderTabs.ORDER_ITEMS,
-    } as State;
+    } as S;
 
     containerFunctions: MyAccountOrderContainerFunctions = {
         handleReorder: this.handleReorder.bind(this),
         handleChangeActiveTab: this.handleChangeActiveTab.bind(this),
     };
 
-    __construct(props: MyAccountOrderContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         const { match: { params: { orderId } } } = this.props;

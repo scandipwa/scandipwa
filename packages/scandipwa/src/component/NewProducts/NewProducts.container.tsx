@@ -44,7 +44,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): NewProductsContainerMapD
 
 /** @namespace Component/NewProducts/Container */
 export class NewProductsContainer<
-P extends Readonly<Readonly<NewProductsContainerProps>> = Readonly<Readonly<NewProductsContainerProps>>,>
+P extends Readonly<NewProductsContainerProps> = Readonly<NewProductsContainerProps>,
 S extends NewProductsContainerState = NewProductsContainerState,
 > extends PureComponent <P, S> {
     static defaultProps: Partial<NewProductsContainerProps> = {

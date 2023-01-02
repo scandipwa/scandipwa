@@ -16,7 +16,11 @@ import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
 import Pagination from 'Component/Pagination';
 import { ReactElement } from 'Type/Common.type';
 
-import { MyAccountMyOrdersComponentProps, OrderRow } from './MyAccountMyOrders.type';
+import {
+    MyAccountMyOrdersComponentProps,
+    MyAccountMyOrdersComponentState,
+    OrderRow,
+} from './MyAccountMyOrders.type';
 
 import './MyAccountMyOrders.style';
 

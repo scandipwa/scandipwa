@@ -26,6 +26,8 @@ export interface HomePageContainerBaseProps {
     match: Match;
 }
 
+export interface HomePageContainerState {}
+
 export interface HomePageContainerProps extends HomePageContainerMapStateProps,
     HomePageContainerMapDispatchProps,
     HomePageContainerBaseProps {}

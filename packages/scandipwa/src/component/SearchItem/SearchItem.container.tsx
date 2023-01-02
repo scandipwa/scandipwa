@@ -25,6 +25,7 @@ import {
     SearchItemContainerMapDispatchProps,
     SearchItemContainerMapStateProps,
     SearchItemContainerProps,
+    SearchItemContainerState,
 } from './SearchItem.type';
 
 export const SearchBarDispatcher = import(

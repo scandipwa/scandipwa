@@ -26,6 +26,7 @@ import {
     PaginationContainerMapStateProps,
     PaginationContainerProps,
     PaginationContainerPropsKeys,
+    PaginationContainerState,
 } from './Pagination.type';
 
 /** @namespace Component/Pagination/Container/mapStateToProps */

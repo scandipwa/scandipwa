@@ -16,7 +16,7 @@ import Loader from 'Component/Loader';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
-import { ProductCompareButtonComponentProps } from './ProductCompareButton.type';
+import { ProductCompareButtonComponentProps, ProductCompareButtonComponentState } from './ProductCompareButton.type';
 
 import './ProductCompareButton.style';
 
@@ -33,7 +33,7 @@ S extends ProductCompareButtonComponentState = ProductCompareButtonComponentStat
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     handleClick: ((e: MouseEvent) => void) | (() => void) = noopFn;
 
-    __construct(props: ProductCompareButtonComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
         this.handleClick = this._handleClick.bind(this);
     }

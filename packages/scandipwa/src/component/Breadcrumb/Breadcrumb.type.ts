@@ -19,3 +19,5 @@ export interface BreadcrumbComponentProps {
 }
 
 export interface BreadcrumbComponentState {}
+
+export interface BreadcrumbContainerState {}

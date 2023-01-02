@@ -17,7 +17,10 @@ import { Mix, ReactElement } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
 
-import { MyAccountOrderTotalsComponentProps } from './MyAccountOrderTotals.type';
+import {
+    MyAccountOrderTotalsComponentProps,
+    MyAccountOrderTotalsComponentState,
+} from './MyAccountOrderTotals.type';
 
 import './MyAccountOrderTotals.style';
 

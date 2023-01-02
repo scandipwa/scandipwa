@@ -42,6 +42,10 @@ export type UrlRewriteProps = Partial<UrlRewriteTypeSpecificProps> & {
     match: Match;
 };
 
+export interface UrlRewritesComponentState {}
+
+export interface UrlRewritesContainerState {}
+
 export interface UrlRewriteTypeSpecificProps {
     productSKU: string;
     id: number;

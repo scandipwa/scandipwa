@@ -48,7 +48,7 @@ S extends MenuContainerState = MenuContainerState,
         onCategoryHover: this.onCategoryHover.bind(this),
     };
 
-    __construct(props: MenuContainerProps): void {
+    __construct(props: P): void {
         super.__construct(props, 'MenuContainer');
 
         const {
@@ -58,7 +58,7 @@ S extends MenuContainerState = MenuContainerState,
         this.state = {
             activeMenuItemsStack,
             menu: {},
-        };
+        } as S;
     }
 
     componentDidMount(): void {

@@ -59,3 +59,5 @@ export interface ProductCardDisplayProps {
     siblingsHaveTierPrice: boolean;
     siblingsHaveConfigurableOptions: boolean;
 }
+
+export interface ProductLinksComponentState {}

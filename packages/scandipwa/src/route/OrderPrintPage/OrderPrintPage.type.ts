@@ -36,6 +36,10 @@ export interface OrderPrintPageContainerProps extends OrderPrintPageContainerMap
     OrderPrintPageContainerMapDispatchProps,
     OrderPrintPageContainerBaseProps {}
 
+export interface OrderPrintPageComponentState {}
+
+export interface OrderPrintPageContainerState {}
+
 export interface OrderPrintPageComponentProps {
     match: match<{
         invoiceId?: string;

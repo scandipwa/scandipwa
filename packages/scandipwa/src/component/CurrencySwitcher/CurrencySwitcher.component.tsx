@@ -16,7 +16,7 @@ import { FieldType } from 'Component/Field/Field.config';
 import { ReactElement } from 'Type/Common.type';
 import { getCurrency } from 'Util/Currency';
 
-import { CurrencySwitcherComponentProps } from './CurrencySwitcher.type';
+import { CurrencySwitcherComponentProps, CurrencySwitcherComponentState } from './CurrencySwitcher.type';
 
 import './CurrencySwitcher.style';
 

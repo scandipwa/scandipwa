@@ -19,12 +19,15 @@ import Form from 'Component/Form';
 import { FormContainerProps } from 'Component/Form/Form.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { FormSection } from './FieldForm.type';
+import { FieldFormComponentProps, FieldFormComponentState, FormSection } from './FieldForm.type';
 
 import './FieldForm.style';
 
 /** @namespace Component/FieldForm/Component */
-export class FieldFormComponent<T> extends PureComponent<T> {
+export class FieldFormComponent<
+P extends Readonly<FieldFormComponentProps> = Readonly<FieldFormComponentProps>,
+S extends FieldFormComponentState = FieldFormComponentState,
+> extends PureComponent<P, S> {
     fieldMap(): (Partial<FieldContainerProps> | FormSection)[] {
         return [
             // // Field

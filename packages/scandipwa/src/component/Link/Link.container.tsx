@@ -27,6 +27,7 @@ import {
     LinkContainerFunctions,
     LinkContainerMapStateProps,
     LinkContainerProps,
+    LinkContainerState,
 } from './Link.type';
 
 export const NoMatchDispatcher = import(

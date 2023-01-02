@@ -18,7 +18,6 @@ export interface OverlayContainerMapStateProps {
     isMobile: boolean;
 }
 
-
 export interface OverlayContainerMapDispatchProps {}
 
 export interface OverlayContainerBaseProps {
@@ -36,3 +35,5 @@ export interface OverlayContainerBaseProps {
 export type OverlayComponentProps = OverlayContainerMapStateProps
 & OverlayContainerMapDispatchProps
 & OverlayContainerBaseProps;
+
+export interface OverlayComponentState {}

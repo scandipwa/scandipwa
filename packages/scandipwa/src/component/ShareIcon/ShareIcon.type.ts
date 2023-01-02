@@ -12,3 +12,7 @@
 export interface ShareIconComponentProps {
     isPrimary: boolean;
 }
+
+export interface ShareIconComponentState {}
+
+export interface ShareIconContainerState {}

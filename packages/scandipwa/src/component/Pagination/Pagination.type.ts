@@ -20,7 +20,6 @@ export interface PaginationContainerMapStateProps {
     anchorTextNext: string;
 }
 
-
 export interface PaginationContainerMapDispatchProps {}
 
 export interface PaginationContainerFunctions {
@@ -76,3 +75,7 @@ export type PaginationContainerPropsKeys =
 | 'shouldRenderNextJump'
 | 'shouldRenderPreviousJump'
 | 'shouldRenderJumps';
+
+export interface PaginationComponentState {}
+
+export interface PaginationContainerState {}

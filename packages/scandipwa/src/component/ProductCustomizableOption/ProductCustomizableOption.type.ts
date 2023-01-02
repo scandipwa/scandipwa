@@ -21,7 +21,6 @@ export interface ProductCustomizableOptionContainerMapStateProps {
     currencyCode: GQLCurrencyEnum;
 }
 
-
 export interface ProductCustomizableOptionContainerMapDispatchProps {}
 
 export interface ProductCustomizableOptionContainerBaseProps {
@@ -81,3 +80,5 @@ export interface ProductCustomizableOptionComponentRenderMap {
 }
 
 export type CustomFieldValue = IndexedCustomOptionValue;
+
+export interface ProductCustomizableOptionContainerState {}

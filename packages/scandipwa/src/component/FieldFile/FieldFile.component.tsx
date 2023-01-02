@@ -17,7 +17,7 @@ import Loader from 'Component/Loader';
 import UploadIcon from 'Component/UploadIcon';
 import { ReactElement } from 'Type/Common.type';
 
-import { FieldFileComponentProps } from './FieldFile.type';
+import { FieldFileComponentProps, FieldFileComponentState } from './FieldFile.type';
 
 /**
  * Field File

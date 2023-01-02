@@ -23,12 +23,19 @@ import { getPriceFilterLabel } from 'Util/Category';
 import { sortBySortOrder } from 'Util/Product';
 import { IndexedAttributeWithValueOption } from 'Util/Product/Product.type';
 
-import { CategoryConfigurableAttributesComponentProps } from './CategoryConfigurableAttributes.type';
+import {
+    CategoryConfigurableAttributesComponentProps,
+    CategoryConfigurableAttributesComponentState,
+} from './CategoryConfigurableAttributes.type';
 
 /** @namespace Component/CategoryConfigurableAttributes/Component */
-export class CategoryConfigurableAttributesComponent extends ProductConfigurableAttributes<
-CategoryConfigurableAttributesComponentProps
-> {
+export class CategoryConfigurableAttributesComponent<
+P extends Readonly<CategoryConfigurableAttributesComponentProps> = Readonly<CategoryConfigurableAttributesComponentProps>,
+S extends CategoryConfigurableAttributesComponentState = CategoryConfigurableAttributesComponentState,
+> extends ProductConfigurableAttributes<
+    P,
+    S
+    > {
     renderSubCategories(option: Partial<ProductConfigurableAttribute>): ReactElement {
         const { getSubCategories } = this.props;
 

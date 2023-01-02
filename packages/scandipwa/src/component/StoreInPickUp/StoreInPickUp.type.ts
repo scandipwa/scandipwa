@@ -57,3 +57,7 @@ export type StoreInPickUpComponentPropsKeys = 'countryId'
 | 'selectedStore'
 | 'shippingMethods'
 | 'cartItemsSku';
+
+export interface StoreInPickUpComponentState {}
+
+export interface StoreInPickUpContainerState {}

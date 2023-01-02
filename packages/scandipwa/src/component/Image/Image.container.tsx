@@ -19,12 +19,16 @@ import Image from './Image.component';
 import {
     ImageComponentProps,
     ImageContainerProps,
+    ImageContainerState,
     ImageRatio,
     WrapperSize,
 } from './Image.type';
 
 /** @namespace Component/Image/Container */
-export class ImageContainer<P extends Readonly<ImageContainerProps> = Readonly<ImageContainerProps>,, ImageContainerProps> extends PureComponent<P> {
+export class ImageContainer<
+P extends Readonly<ImageContainerProps> = Readonly<ImageContainerProps>,
+S extends ImageContainerState = ImageContainerState,
+> extends PureComponent<P, S> {
     static defaultProps: Partial<ImageContainerProps> = {
         src: '',
         alt: '',

@@ -123,3 +123,5 @@ export interface MyAccountAddressFormFields extends Partial<CustomerAddress> {
     street_0?: string;
     street_1?: string;
 }
+
+export interface MyAccountAddressFormComponentState {}

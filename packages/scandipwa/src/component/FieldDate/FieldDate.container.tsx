@@ -22,6 +22,7 @@ import {
     FieldDateContainerMapDispatchProps,
     FieldDateContainerMapStateProps,
     FieldDateContainerProps,
+    FieldDateContainerState,
 } from './FieldDate.type';
 
 /** @namespace Component/FieldDate/Container/mapStateToProps */

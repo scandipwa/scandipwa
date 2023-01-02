@@ -16,13 +16,13 @@ import { ReactElement } from 'Type/Common.type';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 
 import './MyAccountOrderInformation.style';
-import { MyAccountOrderInformationComponentProps } from './MyAccountOrderInformation.type';
+import { MyAccountOrderInformationComponentProps, MyAccountOrderInformationComponentState } from './MyAccountOrderInformation.type';
 import { OrderPaymentMethod } from 'Query/Order.type';
 
 /** @namespace Component/MyAccountOrderInformation/Component */
 export class MyAccountOrderInformation<
 P extends Readonly<MyAccountOrderInformationComponentProps> = Readonly<MyAccountOrderInformationComponentProps>,
-S extends state = state,
+S extends MyAccountOrderInformationComponentState = MyAccountOrderInformationComponentState,
 > extends PureComponent<P, S> {
     renderShippingMethod(): ReactElement {
         const { order: { shipping_method } } = this.props;

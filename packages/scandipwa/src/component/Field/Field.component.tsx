@@ -27,6 +27,7 @@ import { noopFn } from 'Util/Common';
 import { FieldType } from './Field.config';
 import {
     FieldComponentProps,
+    FieldComponentState,
     FieldEvents,
     FieldInputCustomEvents,
     FieldNumberCustomEvents,

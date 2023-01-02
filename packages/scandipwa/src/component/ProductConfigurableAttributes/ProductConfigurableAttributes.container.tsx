@@ -26,12 +26,14 @@ import {
     ProductConfigurableAttributesComponentContainerPropsKeys,
     ProductConfigurableAttributesComponentProps,
     ProductConfigurableAttributesContainerProps,
+    ProductConfigurableAttributesContainerState,
 } from './ProductConfigurableAttributes.type';
 
 /** @namespace Component/ProductConfigurableAttributes/Container */
 export class ProductConfigurableAttributesContainer<
-    P extends Readonly<ProductConfigurableAttributesContainerProps> = Readonly<ProductConfigurableAttributesContainerProps>,,
-> extends PureComponent<P> {
+    P extends Readonly<ProductConfigurableAttributesContainerProps> = Readonly<ProductConfigurableAttributesContainerProps>,
+    S extends ProductConfigurableAttributesContainerState = ProductConfigurableAttributesContainerState,
+    > extends PureComponent<P, S> {
     static defaultProps: Partial<ProductConfigurableAttributesContainerProps> = {
         getLink: noopFn as unknown as (filterKey: string, value: string) => string,
         isExpandable: true,

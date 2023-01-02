@@ -16,7 +16,7 @@ import Image from 'Component/Image';
 import { ImageRatio } from 'Component/Image/Image.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { ProductGalleryComponentProps } from './ProductGalleryBaseImage.type';
+import { ProductGalleryBaseImageComponentState, ProductGalleryComponentProps } from './ProductGalleryBaseImage.type';
 
 /** @namespace Component/ProductGalleryBaseImage/Component */
 export class ProductGalleryBaseImageComponent<

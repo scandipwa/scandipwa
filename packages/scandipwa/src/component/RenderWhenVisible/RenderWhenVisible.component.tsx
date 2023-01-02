@@ -31,11 +31,11 @@ S extends RenderWhenVisibleComponentState = RenderWhenVisibleComponentState,
 
     node: HTMLElement | null = null;
 
-    state: RenderWhenVisibleComponentState = {
+    state: S = {
         wasVisible: false,
-    };
+    } as S;
 
-    __construct(props: RenderWhenVisibleComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.handleVisibilityToggle = this.handleVisibilityToggle.bind(this);

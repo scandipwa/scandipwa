@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { CompareIconComponentProps } from './CompareIcon.type';
+import { CompareIconComponentProps, CompareIconComponentState } from './CompareIcon.type';
 
 import './CompareIcon.style';
 

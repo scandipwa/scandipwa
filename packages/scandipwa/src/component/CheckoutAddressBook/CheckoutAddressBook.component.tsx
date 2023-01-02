@@ -27,15 +27,18 @@ import { CheckoutAddressBookComponentProps, CheckoutAddressBookComponentState } 
 import './CheckoutAddressBook.style';
 
 /** @namespace Component/CheckoutAddressBook/Component */
-export class CheckoutAddressBookComponent extends PureComponent<
-CheckoutAddressBookComponentProps,
-CheckoutAddressBookComponentState
-> {
-    state: CheckoutAddressBookComponentState = {
+export class CheckoutAddressBookComponent<
+P extends Readonly<CheckoutAddressBookComponentProps> = Readonly<CheckoutAddressBookComponentProps>,
+S extends CheckoutAddressBookComponentState = CheckoutAddressBookComponentState,
+> extends PureComponent<
+    P,
+    S
+    > {
+    state: S = {
         isCustomAddressExpanded: false,
-    };
+    } as S;
 
-    __construct(props: CheckoutAddressBookComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.renderAddress = this.renderAddress.bind(this);

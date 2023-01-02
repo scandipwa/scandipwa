@@ -26,7 +26,12 @@ import { ReactElement } from 'Type/Common.type';
 import { isMagentoDateFormatValid, zeroBasedValue } from 'Util/Form/Extract';
 import { range } from 'Util/Manipulations';
 
-import { DateSelectComponentDateMap, DateSelectComponentProps, OptionShape } from './DateSelect.type';
+import {
+    DateSelectComponentDateMap,
+    DateSelectComponentProps,
+    DateSelectComponentState,
+    OptionShape,
+} from './DateSelect.type';
 
 import './DateSelect.style.scss';
 

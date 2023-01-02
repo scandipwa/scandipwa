@@ -30,3 +30,7 @@ export interface MyAccountDownloadableTableRowComponentProps {
     onOrderIdClick: () => void;
     isOpenInNewTab: boolean;
 }
+
+export interface MyAccountDownloadableTableRowComponentState {}
+
+export interface MyAccountDownloadableTableRowContainerState {}

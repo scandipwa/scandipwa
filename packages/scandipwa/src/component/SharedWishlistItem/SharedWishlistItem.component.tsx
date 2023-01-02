@@ -18,7 +18,7 @@ import { ReactElement } from 'Type/Common.type';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 import { StockCheckProduct } from 'Util/Product/Product.type';
 
-import { SharedWishlistItemComponentProps } from './SharedWishlistItem.type';
+import { SharedWishlistItemComponentProps, SharedWishlistItemComponentState } from './SharedWishlistItem.type';
 
 import './SharedWishlistItem.style';
 

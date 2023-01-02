@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 import { GQLProductStockStatus } from 'Type/Graphql.type';
 
-import { ProductAlertsComponentProps } from './ProductAlerts.type';
+import { ProductAlertsComponentProps, ProductAlertsComponentState } from './ProductAlerts.type';
 
 import './ProductAlerts.style';
 

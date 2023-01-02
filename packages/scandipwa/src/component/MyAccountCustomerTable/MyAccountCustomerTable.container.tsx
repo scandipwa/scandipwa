@@ -21,6 +21,7 @@ import {
     MyAccountCustomerTableComponentProps,
     MyAccountCustomerTableContainerFunctions,
     MyAccountCustomerTableContainerProps,
+    MyAccountCustomerTableContainerState,
 } from './MyAccountCustomerTable.type';
 
 /** @namespace Component/MyAccountCustomerTable/Container */

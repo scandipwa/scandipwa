@@ -26,6 +26,7 @@ import {
     MyAccountAddressBookContainerMapDispatchProps,
     MyAccountAddressBookContainerMapStateProps,
     MyAccountAddressBookContainerProps,
+    MyAccountAddressBookContainerState,
 } from './MyAccountAddressBook.type';
 
 /** @namespace Component/MyAccountAddressBook/Container/mapStateToProps */

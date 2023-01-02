@@ -26,10 +26,10 @@ export class SwipeToDeleteComponent<
 P extends Readonly<SwipeToDeleteComponentProps> = Readonly<SwipeToDeleteComponentProps>,
 S extends SwipeToDeleteComponentState = SwipeToDeleteComponentState,
 > extends PureComponent <P, S> {
-    state: SwipeToDeleteComponentState = {
+    state: S = {
         isRightSideOpen: false,
         isAheadRemoveItemThreshold: false,
-    };
+    } as S;
 
     draggableRef = createRef<HTMLDivElement>();
 
@@ -37,7 +37,7 @@ S extends SwipeToDeleteComponentState = SwipeToDeleteComponentState,
 
     draggableWidth = 0;
 
-    __construct(props: SwipeToDeleteComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this.handleDragEnd = this.handleDragEnd.bind(this);

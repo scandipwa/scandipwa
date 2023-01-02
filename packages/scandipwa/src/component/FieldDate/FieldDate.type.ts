@@ -17,7 +17,6 @@ export interface FieldDateContainerMapStateProps {
     useCalendar: boolean;
 }
 
-
 export interface FieldDateContainerMapDispatchProps {}
 
 export interface FieldDateContainerBaseProps {
@@ -37,3 +36,5 @@ export interface FieldDateComponentProps {
     isRequired: boolean;
     updateSelectedValues: (data?: Partial<ProductOption>) => void;
 }
+
+export interface FieldDateContainerState {}

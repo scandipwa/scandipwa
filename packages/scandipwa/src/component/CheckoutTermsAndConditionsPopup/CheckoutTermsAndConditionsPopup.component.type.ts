@@ -13,7 +13,6 @@ export interface CheckoutTermsAndConditionsPopupContainerMapStateProps {
     payload: CheckoutTermsAndConditionsPopupPayload;
 }
 
-
 export interface CheckoutTermsAndConditionsPopupContainerMapDispatchProps {}
 
 export type CheckoutTermsAndConditionsPopupContainerProps = CheckoutTermsAndConditionsPopupContainerMapStateProps
@@ -29,3 +28,7 @@ export interface CheckoutTermsAndConditionsPopupPayload {
 }
 
 export type CheckoutTermsAndConditionsContainerPropsKeys = 'payload';
+
+export interface CheckoutTermsAndConditionsPopupComponentState {}
+
+export interface CheckoutTermsAndConditionsPopupContainerState {}

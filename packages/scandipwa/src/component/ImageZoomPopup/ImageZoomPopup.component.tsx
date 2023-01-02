@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import TranslateOnCursorMove from 'Component/TranslateOnCursorMove';
 import { ReactElement } from 'Type/Common.type';
 
-import { ImageZoomPopupComponentProps } from './ImageZoomPopup.type';
+import { ImageZoomPopupComponentProps, ImageZoomPopupComponentState } from './ImageZoomPopup.type';
 
 import './ImageZoomPopup.style';
 

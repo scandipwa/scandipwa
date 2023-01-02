@@ -30,6 +30,7 @@ import {
     SwipeToDeleteContainerMapStateProps,
     SwipeToDeleteContainerProps,
     SwipeToDeleteContainerPropsKeys,
+    SwipeToDeleteContainerState,
 } from './SwipeToDelete.type';
 
 /** @namespace Component/SwipeToDelete/Container/mapStateToProps */

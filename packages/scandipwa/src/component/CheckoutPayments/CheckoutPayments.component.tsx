@@ -20,7 +20,7 @@ import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { ReactElement } from 'Type/Common.type';
 
 import { PaymentMethods } from './CheckoutPayments.config';
-import { CheckoutPaymentsComponentProps } from './CheckoutPayments.type';
+import { CheckoutPaymentsComponentProps, CheckoutPaymentsComponentState } from './CheckoutPayments.type';
 
 import './CheckoutPayments.style';
 
@@ -36,9 +36,9 @@ S extends CheckoutPaymentsComponentState = CheckoutPaymentsComponentState,
 
     state = {
         hasError: false,
-    };
+    } as S;
 
-    __construct(props: CheckoutPaymentsComponentProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
         this.renderPayment = this.renderPayment.bind(this);
     }
@@ -51,7 +51,7 @@ S extends CheckoutPaymentsComponentState = CheckoutPaymentsComponentState,
         console.groupEnd();
 
         this.setState(
-            { hasError: true },
+            { hasError: true } as unknown as S,
             () => {
                 setOrderButtonEnableStatus(false);
                 showError(`${error} Please try again later`);

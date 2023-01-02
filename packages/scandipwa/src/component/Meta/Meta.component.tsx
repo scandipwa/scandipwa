@@ -14,7 +14,7 @@ import { createPortal } from 'react-dom';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { MetaComponentProps } from './Meta.type';
+import { MetaComponentProps, MetaComponentState } from './Meta.type';
 
 /**
  * Page Meta data

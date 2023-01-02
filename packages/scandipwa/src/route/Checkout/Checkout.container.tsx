@@ -196,7 +196,7 @@ S extends CheckoutContainerState = CheckoutContainerState,
         );
     }, UPDATE_SHIPPING_COST_ESTIMATES_FREQUENCY);
 
-    __construct(props: CheckoutContainerProps): void {
+    __construct(props: P): void {
         super.__construct?.(props);
 
         this._handleError = this._handleError.bind(this);
@@ -231,7 +231,7 @@ S extends CheckoutContainerState = CheckoutContainerState,
             isVisibleEmailRequired: false,
             selectedStoreAddress: undefined,
             password: '',
-        };
+        } as unknown as S;
     }
 
     componentDidMount(): void {

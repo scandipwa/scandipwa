@@ -46,3 +46,5 @@ export interface NewProductsComponentProps {
     productCardFunctions: ProductCartDisplayFunctions;
     productCardProps: ProductCardDisplayProps;
 }
+
+export interface NewProductsComponentState {}

@@ -18,3 +18,5 @@ export interface ProductReviewRatingComponentProps {
     mix: Mix;
     count: number;
 }
+
+export interface ProductReviewRatingComponentState {}

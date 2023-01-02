@@ -21,6 +21,7 @@ import {
     MyAccountForgotPasswordSuccessContainerMapStateProps,
     MyAccountForgotPasswordSuccessContainerProps,
     MyAccountForgotPasswordSuccessContainerPropsKeys,
+    MyAccountForgotPasswordSuccessContainerState,
 } from './MyAccountForgotPasswordSuccess.type';
 
 /** @namespace Component/MyAccountForgotPasswordSuccess/Container/mapStateToProps */
@@ -32,9 +33,10 @@ export const mapStateToProps = (state: RootState): MyAccountForgotPasswordSucces
 export const mapDispatchToProps = (): MyAccountForgotPasswordSuccessContainerMapDispatchProps => ({});
 
 /** @namespace Component/MyAccountForgotPasswordSuccess/Container */
-export class MyAccountForgotPasswordSuccessContainer extends PureComponent<
-MyAccountForgotPasswordSuccessContainerProps
-> {
+export class MyAccountForgotPasswordSuccessContainer<
+P extends Readonly<MyAccountForgotPasswordSuccessContainerProps> = Readonly<MyAccountForgotPasswordSuccessContainerProps>,
+S extends MyAccountForgotPasswordSuccessContainerState = MyAccountForgotPasswordSuccessContainerState,
+> extends PureComponent<P, S> {
     containerProps(): Pick<
     MyAccountForgotPasswordSuccessContainerProps,
     MyAccountForgotPasswordSuccessContainerPropsKeys

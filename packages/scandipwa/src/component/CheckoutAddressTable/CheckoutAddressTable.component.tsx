@@ -14,7 +14,7 @@ import MyAccountAddressTable from 'Component/MyAccountAddressTable/MyAccountAddr
 import { CustomerAddress } from 'Query/MyAccount.type';
 import { ReactElement } from 'Type/Common.type';
 
-import { CheckoutAddressTableComponentProps } from './CheckoutAddressTable.type';
+import { CheckoutAddressTableComponentProps, CheckoutAddressTableComponentState } from './CheckoutAddressTable.type';
 
 import './CheckoutAddressTable.style';
 

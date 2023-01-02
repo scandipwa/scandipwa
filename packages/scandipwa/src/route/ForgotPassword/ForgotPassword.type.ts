@@ -11,19 +11,25 @@
 
 import {
     MyAccountOverlayComponentProps,
+    MyAccountOverlayComponentState,
     MyAccountOverlayContainerFunctions,
     MyAccountOverlayContainerMapDispatchProps,
     MyAccountOverlayContainerMapStateProps,
     MyAccountOverlayContainerProps,
+    MyAccountOverlayContainerState,
 } from 'Component/MyAccountOverlay/MyAccountOverlay.type';
 
 export interface ForgotPasswordContainerMapDispatchProps extends MyAccountOverlayContainerMapDispatchProps {
     toggleBreadcrumbs: (isVisible: boolean) => void;
 }
 
-export type ForgotPasswordContainerProps = ForgotPasswordContainerMapDispatchProps
-& MyAccountOverlayContainerMapStateProps
-& MyAccountOverlayContainerProps;
+export interface ForgotPasswordContainerProps extends ForgotPasswordContainerMapDispatchProps,
+    MyAccountOverlayContainerMapStateProps,
+    MyAccountOverlayContainerProps {}
+
+export interface ForgotPasswordContainerState extends MyAccountOverlayContainerState {}
+
+export interface ForgotPasswordComponentState extends MyAccountOverlayComponentState {}
 
 export interface ForgotPasswordContainerFunctions extends MyAccountOverlayContainerFunctions {
     onLoginClick: () => void;

@@ -26,6 +26,7 @@ import {
     ContactFormContainerMapDispatchProps,
     ContactFormContainerMapStateProps,
     ContactFormContainerProps,
+    ContactFormContainerState,
 } from './ContactForm.type';
 
 export const ContactFormDispatcher = import(

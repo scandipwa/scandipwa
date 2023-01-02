@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
-import { ListIconComponentProps } from './ListIcon.type';
+import { ListIconComponentProps, ListIconComponentState } from './ListIcon.type';
 
 import './ListIcon.style';
 

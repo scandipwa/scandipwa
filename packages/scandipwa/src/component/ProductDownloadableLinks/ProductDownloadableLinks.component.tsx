@@ -21,7 +21,7 @@ import { ReactElement } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { formatPrice } from 'Util/Price';
 
-import { ProductDownloadableLinksComponentProps } from './ProductDownloadableLinks.type';
+import { ProductDownloadableLinksComponentProps, ProductDownloadableLinksComponentState } from './ProductDownloadableLinks.type';
 
 import './ProductDownloadableLinks.style';
 

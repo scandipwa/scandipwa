@@ -42,10 +42,10 @@ export const mapStateToProps = (state: RootState): ProductActionsContainerMapSta
 });
 
 /** @namespace Component/ProductActions/Container */
-export class ProductActionsContainer extends ProductContainer<
-ProductActionsContainerProps,
-ProductActionsContainerState
-> {
+export class ProductActionsContainer<
+P extends Readonly<ProductActionsContainerProps> = Readonly<ProductActionsContainerProps>,
+S extends ProductActionsContainerState = ProductActionsContainerState,
+> extends ProductContainer<P, S> {
     static defaultProps: Partial<ProductActionsContainerProps> = ProductContainer.defaultProps;
 
     containerFunctions: ProductActionsContainerFunctions = {
