@@ -18,13 +18,12 @@ export interface NavigationAbstractContainerMapStateProps {
 
 export interface NavigationAbstractContainerMapDispatchProps {}
 
-export type NavigationAbstractContainerProps = NavigationAbstractContainerMapStateProps
-& NavigationAbstractContainerMapDispatchProps
-& {
+export interface NavigationAbstractContainerProps extends NavigationAbstractContainerMapStateProps,
+    NavigationAbstractContainerMapDispatchProps {
     setNavigationState: (stateName: NavigationState) => void;
     hideActiveOverlay: () => void;
     navigationState: NavigationState;
-};
+}
 
 export interface NavigationAbstractContainerState {
     prevPathname?: string;

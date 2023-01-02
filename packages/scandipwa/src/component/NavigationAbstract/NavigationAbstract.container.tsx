@@ -41,18 +41,18 @@ export const mapDispatchToProps = (): NavigationAbstractContainerMapDispatchProp
 
 /** @namespace Component/NavigationAbstract/Container */
 export class NavigationAbstractContainer<
-Props extends NavigationAbstractContainerProps,
-State extends NavigationAbstractContainerState,
-> extends PureComponent<Props, State> {
+P extends Readonly<NavigationAbstractContainerProps> = Readonly<NavigationAbstractContainerProps>,
+S extends NavigationAbstractContainerState = NavigationAbstractContainerState,
+> extends PureComponent<P, S> {
     default_state = DEFAULT_STATE;
 
     routeMap: Record<string, NavigationState> = {
         '/': this.default_state,
     };
 
-    state: State = {
+    state: S = {
         prevPathname: '',
-    } as unknown as State;
+    } as unknown as S;
 
     componentDidMount(): void {
         const { setNavigationState } = this.props;

@@ -82,7 +82,7 @@ export class HeaderContainer<
 P extends Readonly<HeaderContainerProps> = Readonly<HeaderContainerProps>,
 S extends HeaderContainerState = HeaderContainerState,
 > extends NavigationAbstractContainer <P, S> {
-    static defaultProps: Partial<HeaderContainerProps> = {
+    static defaultProps = {
         header_logo_src: '',
     };
 
@@ -273,7 +273,7 @@ S extends HeaderContainerState = HeaderContainerState,
     }
 
     handleHeaderVisibility(): void {
-        const { navigationState: { isHiddenOnMobile } } = this.props;
+        const { navigationState: { isHiddenOnMobile } = {} } = this.props;
 
         if (isHiddenOnMobile) {
             document.documentElement.classList.add('hiddenHeader');
