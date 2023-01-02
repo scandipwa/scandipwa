@@ -17,7 +17,6 @@ export interface MyAccountOrderItemsTableContainerMapStateProps {
     isMobile: boolean;
 }
 
-
 export interface MyAccountOrderItemsTableContainerMapDispatchProps {}
 
 export type MyAccountOrderItemsTableContainerProps = MyAccountOrderItemsTableContainerMapStateProps

@@ -19,7 +19,6 @@ export interface DateSelectContainerMapStateProps {
     timeFormat: string;
 }
 
-
 export interface DateSelectContainerMapDispatchProps {}
 
 export interface DateSelectContainerFunctions {

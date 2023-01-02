@@ -19,7 +19,6 @@ export interface ProductGalleryContainerMapStateProps {
     isMobile: boolean;
 }
 
-
 export interface ProductGalleryContainerMapDispatchProps {}
 
 export interface ProductGalleryContainerBaseProps {

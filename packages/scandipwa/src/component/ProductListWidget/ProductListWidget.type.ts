@@ -14,7 +14,6 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { Mix } from 'Type/Common.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
-
 export interface ProductListWidgetContainerMapStateProps {}
 
 export interface ProductListWidgetContainerMapDispatchProps {

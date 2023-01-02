@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-
 export interface PopupSuspenseMapStateToProps {}
 
 export interface PopupSuspenseMapDispatchToProps {

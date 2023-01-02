@@ -15,7 +15,6 @@ export interface ProductDownloadableSamplesContainerMapStateProps {
     isOpenInNewTab: boolean;
 }
 
-
 export interface ProductDownloadableSamplesContainerMapDispatchProps {}
 
 export interface ProductDownloadableSamplesContainerBaseProps {

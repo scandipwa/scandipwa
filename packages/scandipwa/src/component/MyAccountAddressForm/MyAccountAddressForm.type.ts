@@ -25,7 +25,6 @@ export interface MyAccountAddressFormContainerMapStateProps {
     regionDisplayAll: boolean;
 }
 
-
 export interface MyAccountAddressFormContainerMapDispatchProps {}
 
 export interface MyAccountAddressFormContainerBaseProps {

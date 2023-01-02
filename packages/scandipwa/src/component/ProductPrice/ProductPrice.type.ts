@@ -24,7 +24,6 @@ export interface ProductPriceContainerMapStateProps {
     displayTaxInPrice: string;
 }
 
-
 export interface ProductPriceContainerMapDispatchProps {}
 
 export interface ProductPriceContainerBaseProps {

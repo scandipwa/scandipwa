@@ -20,7 +20,6 @@ export interface CheckoutDeliveryOptionContainerMapStateProps {
     getCartShippingItemSubPrice: (props: ShippingMethod) => number | null;
 }
 
-
 export interface CheckoutDeliveryOptionContainerMapDispatchProps {}
 
 export interface CheckoutDeliveryOptionContainerFunctions {

@@ -15,7 +15,6 @@ export interface ProductLinksContainerMapStateProps {
     linkedProducts: Partial<Record<LinkedProductType, Partial<LinkedProducts>>>;
 }
 
-
 export interface ProductLinksContainerMapDispatchProps {}
 
 export interface ProductLinksContainerBaseProps {

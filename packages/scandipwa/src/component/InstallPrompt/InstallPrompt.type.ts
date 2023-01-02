@@ -15,7 +15,6 @@ export interface InstallPromptContainerMapStateProps {
     device: Device;
 }
 
-
 export interface InstallPromptContainerMapDispatchProps {}
 
 export interface InstallPromptContainerFunctions {

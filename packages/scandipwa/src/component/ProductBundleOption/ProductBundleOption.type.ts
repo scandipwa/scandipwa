@@ -17,7 +17,6 @@ export interface ProductBundleOptionContainerMapStateProps {
     currencyCode: GQLCurrencyEnum;
 }
 
-
 export interface ProductBundleOptionContainerMapDispatchProps {}
 
 export interface ProductBundleOptionContainerFunctions {

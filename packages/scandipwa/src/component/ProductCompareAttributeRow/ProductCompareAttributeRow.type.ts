@@ -15,7 +15,6 @@ export interface ProductCompareAttributeRowContainerMapStateProps {
     device: Device;
 }
 
-
 export interface ProductCompareAttributeRowContainerMapDispatchProps {}
 
 export interface ProductCompareAttributeRowContainerBaseProps {

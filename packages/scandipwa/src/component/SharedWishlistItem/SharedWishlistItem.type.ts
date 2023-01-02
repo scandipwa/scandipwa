@@ -18,19 +18,15 @@ import {
     WishlistItemContainerState,
 } from 'Component/WishlistItem/WishlistItem.type';
 
-
 export interface SharedWishlistItemContainerMapStateProps extends WishlistItemContainerMapStateProps {}
 
-
 export interface SharedWishlistItemContainerMapDispatchProps extends WishlistItemContainerMapDispatchProps {}
-
 
 export interface SharedWishlistItemContainerBaseProps extends WishlistItemContainerBaseProps {}
 
 export type SharedWishlistItemContainerProps = SharedWishlistItemContainerMapStateProps
 & SharedWishlistItemContainerMapDispatchProps
 & SharedWishlistItemContainerBaseProps;
-
 
 export interface SharedWishlistItemContainerState extends WishlistItemContainerState {
     quantity: number;

@@ -15,9 +15,7 @@ export interface CookiePopupContainerMapStateProps {
     code: string;
 }
 
-
 export interface CookiePopupContainerMapDispatchProps {}
-
 
 export interface CookiePopupContainerBaseProps {}
 

@@ -19,7 +19,6 @@ export interface DatePickerContainerMapStateProps {
     timeFormat: string;
 }
 
-
 export interface DatePickerContainerMapDispatchProps {}
 
 export interface DatePickerContainerFunctions {

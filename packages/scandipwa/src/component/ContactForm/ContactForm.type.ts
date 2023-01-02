@@ -24,7 +24,6 @@ export interface ContactFormContainerFunctions {
     onFormSubmit: (form: HTMLFormElement, fields: FieldData[]) => void;
 }
 
-
 export interface ContactFormContainerBaseProps {}
 
 export type ContactFormContainerProps = ContactFormContainerMapStateProps

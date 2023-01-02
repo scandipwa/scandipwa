@@ -26,7 +26,6 @@ export interface CategoryConfigurableAttributesContainerMapStateProps {
     childrenCategories: CategoryTree[];
 }
 
-
 export interface CategoryConfigurableAttributesContainerMapDispatchProps {}
 
 export interface CategoryConfigurableAttributesContainerBaseProps

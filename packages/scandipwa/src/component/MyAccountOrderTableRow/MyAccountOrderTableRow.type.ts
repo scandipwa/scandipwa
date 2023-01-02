@@ -16,7 +16,6 @@ export interface MyAccountOrderTableRowContainerMapStateProps {
     device: Device;
 }
 
-
 export interface MyAccountOrderTableRowContainerMapDispatchProps {}
 
 export interface MyAccountOrderTableRowContainerFunctions {

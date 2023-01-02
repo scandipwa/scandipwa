@@ -18,7 +18,6 @@ export interface FooterContainerMapStateProps {
     newsletterActive: boolean;
 }
 
-
 export interface FooterContainerMapDispatchProps {}
 
 export interface FooterContainerFunctions {
