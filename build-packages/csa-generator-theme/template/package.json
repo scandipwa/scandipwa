@@ -12,7 +12,8 @@
         "@types/react": "<%= reactTypesVersion %>",
         "@types/node": "<%= nodeTypesVersion %>",
         "postcss": "<%= postcssVersion %>",
-        "react-redux": "<%= reactReduxVersion %>"
+        "react-redux": "<%= reactReduxVersion %>",
+        "@babel/plugin-transform-typescript": "<%= pluginTransformTypescript %>"
     },
     "scandipwa": {
         "type": "theme",
