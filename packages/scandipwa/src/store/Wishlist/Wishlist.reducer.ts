@@ -55,7 +55,8 @@ export const removeItemFromWishlist = (
     }: WishlistStore,
 ): Partial<WishlistStore> => {
     const productsInWishlist = deleteProperty(item_id, initialProducts) || {};
-    const totalProducts = initTotalProducts - 1;
+    // Cannot be less than 0
+    const totalProducts = Math.max(initTotalProducts - 1, 0);
 
     BrowserDatabase.setItem(
         productsInWishlist,

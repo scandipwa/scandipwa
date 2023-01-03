@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Location } from 'history';
+import { RouteComponentProps } from 'react-router';
 
 import { WishlistPageInfo } from 'Store/Wishlist/Wishlist.type';
 import { IndexedWishlistProduct } from 'Util/Product/Product.type';
@@ -34,7 +34,6 @@ export interface MyAccountMyWishlistContainerMapDispatchProps {
 export interface MyAccountMyWishlistContainerBaseProps {
     creatorsName: string;
     isEditingActive: boolean;
-    location: Location;
 }
 
 export interface MyAccountMyWishlistContainerFunctions {
@@ -46,9 +45,10 @@ export interface MyAccountMyWishlistContainerFunctions {
     setProductsPerPage: (productsPerPage: number) => void;
 }
 
-export interface MyAccountMyWishlistContainerProps extends MyAccountMyWishlistContainerMapStateProps,
-    MyAccountMyWishlistContainerMapDispatchProps,
-    MyAccountMyWishlistContainerBaseProps {}
+export type MyAccountMyWishlistContainerProps = MyAccountMyWishlistContainerMapStateProps
+& MyAccountMyWishlistContainerMapDispatchProps
+& MyAccountMyWishlistContainerBaseProps
+& RouteComponentProps;
 
 export interface MyAccountMyWishlistContainerState {
     isLoading: boolean;

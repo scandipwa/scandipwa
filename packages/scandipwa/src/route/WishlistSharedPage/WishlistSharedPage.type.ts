@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { match as Match } from 'react-router';
+import { match as Match, RouteComponentProps } from 'react-router';
 
 import {
     MyAccountMyWishlistComponentProps,
@@ -36,7 +36,8 @@ export interface WishlistSharedPageContainerBaseProps extends MyAccountMyWishlis
 export type WishlistSharedPageContainerProps =
 WishlistSharedPageContainerMapDispatchProps
 & WishlistSharedPageContainerMapStateProps
-& WishlistSharedPageContainerBaseProps;
+& WishlistSharedPageContainerBaseProps
+& RouteComponentProps;
 
 export interface WishlistSharedPageContainerState extends MyAccountMyWishlistContainerState {
     creatorsName: string;

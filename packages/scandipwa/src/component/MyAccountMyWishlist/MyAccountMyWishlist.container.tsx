@@ -11,7 +11,7 @@
 
 import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
@@ -26,6 +26,7 @@ import { RootState } from 'Util/Store/Store.type';
 import { getPageFromUrl } from 'Util/Url';
 
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
+import { PRODUCTS_PER_PAGE_OPTIONS } from './MyAccountMyWishlist.config';
 import {
     MyAccountMyWishlistComponentProps,
     MyAccountMyWishlistContainerFunctions,
@@ -89,18 +90,16 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState,
     __construct(props: MyAccountMyWishlistContainerProps): void {
         super.__construct?.(props);
 
+        const { updateWishlistProducts, location } = props;
+        const page = getPageFromUrl(location);
+        const productsPerPage = PRODUCTS_PER_PAGE_OPTIONS[0];
+
         this.state = {
             isLoading: false,
             loadingItemsMap: {} as Record<string, boolean>,
             isQtyUpdateInProgress: false,
-            productsPerPage: 10,
+            productsPerPage,
         } as S;
-    }
-
-    componentDidMount(): void {
-        const { updateWishlistProducts, location } = this.props;
-        const { productsPerPage } = this.state;
-        const page = getPageFromUrl(location);
 
         updateWishlistProducts(page, productsPerPage);
     }
@@ -288,5 +287,5 @@ S extends MyAccountMyWishlistContainerState = MyAccountMyWishlistContainerState,
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
     // eslint-disable-next-line max-len
-    MyAccountMyWishlistContainer as unknown as ComponentType<RouteComponentProps & MyAccountMyWishlistContainerProps>,
+    MyAccountMyWishlistContainer as unknown as ComponentType<MyAccountMyWishlistContainerProps>,
 ));

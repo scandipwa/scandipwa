@@ -28,7 +28,7 @@ import {
     WishlistItem,
     WishlistItems,
     WishlistPageInfo,
-    WishlistQueryProps,
+    WishlistQueryOptions,
     WishListUserInputError,
 } from './Wishlist.type';
 
@@ -75,7 +75,7 @@ export class WishlistQuery {
     }
     //#endregion
 
-    getWishlistQuery(props: WishlistQueryProps = {}): Query<'wishlist', Wishlist> {
+    getWishlistQuery(props: WishlistQueryOptions = {}): Query<'wishlist', Wishlist> {
         const { sharingCode } = props;
         const field = new Query<'s_wishlist', Wishlist>('s_wishlist')
             .setAlias('wishlist')
@@ -122,7 +122,7 @@ export class WishlistQuery {
             .addArgument('itemId', 'ID!', item_id);
     }
 
-    _getWishlistFields(props: WishlistQueryProps): Array<
+    _getWishlistFields(props: WishlistQueryOptions): Array<
     Field<'id', number>
     | Field<'updated_at', string>
     | Field<'items_count', number>
@@ -138,7 +138,7 @@ export class WishlistQuery {
         ];
     }
 
-    _getItemsV2Field({ currentPage, productsPerPage }: WishlistQueryProps): Field<'items_v2', WishlistItems> {
+    _getItemsV2Field({ currentPage, productsPerPage }: WishlistQueryOptions): Field<'items_v2', WishlistItems> {
         return new Field<'items_v2', WishlistItems>('items_v2')
             .addArgument('currentPage', 'Int', currentPage)
             .addArgument('pageSize', 'Int', productsPerPage)

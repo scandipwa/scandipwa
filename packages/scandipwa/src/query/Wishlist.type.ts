@@ -16,7 +16,7 @@ export interface ItemOption {
     value: string;
 }
 
-export interface WishlistQueryProps {
+export interface WishlistQueryOptions {
     sharingCode?: string;
     currentPage?: number;
     productsPerPage?: number;
