@@ -16,6 +16,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import NewsletterSubscription from 'Component/NewsletterSubscription';
+import RenderWhenVisible from 'Component/RenderWhenVisible';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
@@ -230,10 +231,12 @@ export class FooterComponent extends Component<FooterComponentProps> {
         }
 
         return (
-            <footer block="Footer" aria-label="Footer">
-                { this.renderContent() }
-                { this.renderCopyrightContent() }
-            </footer>
+            <RenderWhenVisible>
+                <footer block="Footer" aria-label="Footer">
+                    { this.renderContent() }
+                    { this.renderCopyrightContent() }
+                </footer>
+            </RenderWhenVisible>
         );
     }
 }

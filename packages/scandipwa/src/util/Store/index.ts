@@ -9,7 +9,11 @@
  * @package scandipwa/scandipwa-theme
  * @link https://github.com/scandipwa/scandipwa-theme
 */
-import { combineReducers, createStore, Reducer } from 'redux';
+import {
+    AnyAction, combineReducers, createStore, Reducer, Store,
+} from 'redux';
+
+import { RootState } from 'Util/Store/Store.type';
 
 /**
  * Configure the store
@@ -36,7 +40,7 @@ export function configureStore<S, T extends ModifiedReduxStore<S>>(store: T): T 
 export const noopReducer = <T>(state: T): T => state;
 
 // Initialize the store
-export const store = configureStore(createStore(
+export const store: Store<RootState, AnyAction> = configureStore(createStore(
     noopReducer,
     (( // enable Redux dev-tools only in development
         process.env.NODE_ENV === 'development'
@@ -44,9 +48,12 @@ export const store = configureStore(createStore(
     ) && window.__REDUX_DEVTOOLS_EXTENSION__({
         trace: true,
     })) || undefined,
-));
+) as Store<RootState, AnyAction>);
 
 /** @namespace Util/Store/Index/getStore */
 export const getStore = (): typeof store => store;
+
+/** @namespace Util/Store/Index/getStoreState */
+export const getStoreState = (): Partial<RootState> => store.getState() || {};
 
 export default getStore;

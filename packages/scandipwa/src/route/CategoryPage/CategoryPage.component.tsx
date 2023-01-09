@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { lazy, PureComponent, Suspense } from 'react';
+import { PureComponent, Suspense } from 'react';
 
 import CategoryDetails from 'Component/CategoryDetails';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
@@ -28,6 +28,7 @@ import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder
 import { ReactElement } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
 
 import {
     CategoryDisplayMode,
@@ -38,7 +39,7 @@ import { CategoryPageComponentProps, CategoryPageComponentState } from './Catego
 
 import './CategoryPage.style';
 
-export const CategoryFilterOverlay = lazy(() => import(
+export const CategoryFilterOverlay = lowPriorityLazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "overlays-category" */ 'Component/CategoryFilterOverlay'
 ));
 

@@ -16,8 +16,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteCartId } from 'Util/Cart';
 import { removeUid } from 'Util/Compare';
 import { debounce } from 'Util/Request';
-import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/Store.type';
+import getStore, { getStoreState } from 'Util/Store';
 
 import { Token, TokensByWebsite } from './Token.type';
 
@@ -33,10 +32,10 @@ export const setAuthorizationToken = (token: string | null): void => {
     if (token) {
         const { website_code } = window;
 
-        const state = getStore().getState() as RootState;
+        const state = getStoreState();
         const {
             access_token_lifetime = ONE_HOUR,
-        } = state.ConfigReducer;
+        } = state.ConfigReducer || {};
 
         const tokens: TokensByWebsite = BrowserDatabase.getItem(AUTH_TOKEN) || {};
         const { exp } = jwtDecode<{ exp: number }>(token) || {};
@@ -98,7 +97,7 @@ export const isSignedIn = (): boolean => {
         MyAccountReducer: {
             isSignedIn: isCustomerSignedIn = false,
         } = {},
-    } = store.getState() as RootState;
+    } = getStoreState();
 
     const { dispatch } = store;
 

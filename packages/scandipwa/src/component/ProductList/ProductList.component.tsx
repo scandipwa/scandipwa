@@ -256,7 +256,6 @@ export class ProductListComponent extends PureComponent<ProductListComponentProp
               isVisible={ isVisible }
               mix={ mix }
               items={ items }
-            //   keys={ keys }
               pageNumber={ pageNumber }
               selectedFilters={ selectedFilters }
               wrapperRef={ wrapperRef }

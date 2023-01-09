@@ -25,8 +25,7 @@ import { NetworkError } from 'Type/Common.type';
 import { GQLWishlistItemInput, GQLWishlistItemUpdateInput } from 'Type/Graphql.type';
 import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
-import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/Store.type';
+import { getStoreState } from 'Util/Store';
 import { getPriceRange } from 'Util/Wishlist';
 
 import { ClearWishlistAction, WishlistProduct } from './Wishlist.type';
@@ -40,10 +39,10 @@ export const CartDispatcher = import(
  * Get wishlist setting.
  * @namespace Store/Wishlist/Dispatcher/isWishlistEnabled */
 export const isWishlistEnabled = (): boolean => {
-    const state = getStore().getState() as RootState;
+    const state = getStoreState();
     const {
         wishlist_general_active = false,
-    } = state.ConfigReducer;
+    } = state.ConfigReducer || {};
 
     return wishlist_general_active;
 };

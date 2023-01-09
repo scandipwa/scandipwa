@@ -9,18 +9,18 @@ const app = express();
 
 app.use(compression());
 app.use(express.static('../scandipwa/build'));
-app.use('/tech_storeview/graphql', createProxyMiddleware({
-    target: 'https://tech-demo.scandipwa.com//',
+app.use('/default/graphql', createProxyMiddleware({
+    target: 'https://scandipwapmrev.indvp.com/',
     changeOrigin: true,
 }));
 
-app.get('/tech_storeview/laptops-and-computers.html', (req, res) => {
+app.get('/default/virtual-products.html', (req, res) => {
     res.sendFile(path.join(__dirname, '../scandipwa/build/index.html'));
 });
 
-app.get('/tech_storeview/product-74538.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '../scandipwa/build/index.html'));
-});
+// app.get('/essentials-wrap-swaddle-3-pk-rising-star-es-wrap-risi', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../adenanais/build/index.html'));
+// });
 
 const options = {
     key: fs.readFileSync(path.join(__dirname, '/privateKey.key')),

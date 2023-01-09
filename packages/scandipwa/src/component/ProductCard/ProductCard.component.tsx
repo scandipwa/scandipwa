@@ -117,7 +117,7 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
     //#endregion
 
     renderPicture(mix = {}): ReactElement {
-        const { product: { id, name }, thumbnail } = this.props;
+        const { product: { id, name }, thumbnail, onLoad } = this.props;
 
         return (
             <>
@@ -128,6 +128,7 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
                   ratio={ ImageRatio.IMG_CUSTOM }
                   mix={ { block: 'ProductCard', elem: 'Picture', mix } }
                   isPlaceholder={ !id }
+                  onImageLoad={ onLoad }
                 />
                 <img
                   style={ { display: 'none' } }

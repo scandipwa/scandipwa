@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
+import { Page } from 'Component/Header/Header.config';
 import { FilterPriceRange } from 'Query/ProductList.type';
 import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
 import { ReactElement } from 'Type/Common.type';
@@ -77,16 +78,21 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
     };
 
     componentDidMount(): void {
-        const { pages, isPreventRequest } = this.props;
+        const {
+            pages, isPreventRequest, isWidget, location: { pathname },
+        } = this.props;
         const { pagesCount } = this.state;
         const pagesLength = Object.keys(pages).length;
+
+        const isSearch = pathname.includes(Page.SEARCH);
+        const isPrefetched = window.isPrefetchValueUsed && !isWidget && !isSearch;
 
         if (pagesCount !== pagesLength) {
             this.setState({ pagesCount: pagesLength });
         }
 
         // Is true when category is changed. This check prevents making new requests when navigating back to PLP from PDP
-        if (!isPreventRequest) {
+        if (!isPreventRequest && !isPrefetched) {
             this.requestPage(this._getPageFromUrl());
         }
     }

@@ -15,8 +15,7 @@ import { Country, Region } from 'Query/Region.type';
 import { Store } from 'Query/StoreInPickUp.type';
 import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
 import { GQLCountryCodeEnum, GQLCustomerAddressInput } from 'Type/Graphql.type';
-import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/Store.type';
+import { getStoreState } from 'Util/Store';
 
 import { CountryOption, FormattedRegion, ZippopotamResponseResult } from './Address.type';
 
@@ -283,7 +282,7 @@ export const getRegionIdFromAvailableRegions = (
 
 /** @namespace Util/Address/Index/getRegionIdOfRegionName */
 export const getRegionIdOfRegionName = (countryId: string, region: string): number => {
-    const countries = (getStore().getState() as RootState).ConfigReducer.countries || [];
+    const countries = (getStoreState()).ConfigReducer?.countries || [];
     const availableRegions = getAvailableRegions(countryId, countries) || [];
     const { id: regionId = 0 } = availableRegions.find(
         ({ name }) => name === region,
