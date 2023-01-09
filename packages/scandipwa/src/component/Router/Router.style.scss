@@ -26,4 +26,17 @@
             inset-block-start: calc(var(--header-total-height) + 10px);
         }
     }
+
+    &-HeaderFallback {
+        height: var(--header-total-height);
+    }
+
+    &-BreadcrumbsFallback {
+        height: var(--breadcrumbs-height);
+
+        @include mobile {
+            height: 0;
+            display: none;
+        }
+    }
 }
