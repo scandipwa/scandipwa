@@ -11,8 +11,6 @@
 
 import { connect } from 'react-redux';
 
-import BreadcrumbsReducer from 'Store/Breadcrumbs/Breadcrumbs.reducer';
-import { withReducers } from 'Util/DynamicReducer';
 import { RootState } from 'Util/Store/Store.type';
 
 import Breadcrumbs from './Breadcrumbs.component';
@@ -27,6 +25,4 @@ export const mapStateToProps = (state: RootState): BreadcrumbsContainerMapStateP
 /** @namespace Component/Breadcrumbs/Container/mapDispatchToProps */
 export const mapDispatchToProps = (): BreadcrumbsContainerMapDispatchProps => ({});
 
-export default withReducers({
-    BreadcrumbsReducer,
-})(connect(mapStateToProps, mapDispatchToProps)(Breadcrumbs));
+export default connect(mapStateToProps, mapDispatchToProps)(Breadcrumbs);

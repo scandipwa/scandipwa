@@ -10,6 +10,7 @@
  */
 import { Reducer } from 'redux';
 
+import BreadcrumbsReducer from 'Store/Breadcrumbs/Breadcrumbs.reducer';
 import CartReducer from 'Store/Cart/Cart.reducer';
 import CheckoutReducer from 'Store/Checkout/Checkout.reducer';
 import ConfigReducer from 'Store/Config/Config.reducer';
@@ -45,7 +46,8 @@ export type StaticReducerKeys =
 | 'CheckoutReducer'
 | 'ContactFormReducer'
 | 'ProductCompareReducer'
-| 'StoreInPickUpReducer';
+| 'StoreInPickUpReducer'
+| 'BreadcrumbsReducer';
 
 /** @namespace Store/Index/getStaticReducers */
 export const getStaticReducers = (): Record<StaticReducerKeys, Reducer> => ({
@@ -66,6 +68,7 @@ export const getStaticReducers = (): Record<StaticReducerKeys, Reducer> => ({
     ContactFormReducer,
     ProductCompareReducer,
     StoreInPickUpReducer,
+    BreadcrumbsReducer,
 } as Record<StaticReducerKeys, Reducer>);
 
 export default function injectStaticReducers<
