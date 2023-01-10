@@ -140,17 +140,11 @@ export class FallbackComponent extends PureComponent<FallbackComponentProps> {
                     <div block="Fallback" elem="ProductGallery">
                         <div block="Fallback" elem="ProductGallerySlider" />
                     </div>
-                    <div block="Fallback" elem="ActionsWrapper">
-                        <div block="Fallback" elem="Actions">
-                            <article block="Fallback" elem="Actions">
-                                <div block="Fallback" elem="BrandAndName">
-                                    <h1 block="Fallback" elem="Title">
-                                        { name }
-                                    </h1>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
+                    <article block="Fallback" elem="ProductActions">
+                        <h1 block="Fallback" elem="Title">
+                            { name }
+                        </h1>
+                    </article>
                 </ContentWrapper>
             </main>
         );
