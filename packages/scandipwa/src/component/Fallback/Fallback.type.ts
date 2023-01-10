@@ -11,5 +11,5 @@
 import { UrlRewritePageType } from 'Route/UrlRewrites/UrlRewrites.config';
 
 export interface FallbackComponentProps {
-    type: UrlRewritePageType;
+    type: UrlRewritePageType | string;
 }

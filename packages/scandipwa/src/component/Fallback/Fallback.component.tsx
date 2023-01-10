@@ -10,7 +10,6 @@
  */
 
 import parser from 'html-react-parser';
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
@@ -25,11 +24,7 @@ import './Fallback.style';
 
 /** @namespace Component/Fallback/Component */
 export class FallbackComponent extends PureComponent<FallbackComponentProps> {
-    static propTypes = {
-        type: PropTypes.string,
-    };
-
-    static defaultProps = {
+    static defaultProps: Partial<FallbackComponentProps> = {
         type: '',
     };
 
