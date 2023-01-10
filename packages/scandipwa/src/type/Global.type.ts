@@ -24,9 +24,11 @@ declare global {
             type?: string;
             id?: number;
             sku?: string;
-            catalog_default_sort_by: string;
-            identifier: string;
+            name?: string;
+            identifier?: string;
+            description?: string;
         };
+        catalog_default_sort_by: string;
         secure_base_media_url?: string;
         prefetchedImages: Record<string, HTMLImageElement>;
         storeList: Array<string>;

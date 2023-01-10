@@ -36,10 +36,16 @@ $icons = $this->getAppIconData();
 
         // Misc
         window.actionName = {
-            type: `<?= $this->getAction(); ?>`
+            type: `<?= $this->getAction(); ?>`,
+            id: parseInt(`<?= $this->getId(); ?>`) || null,
+            sku: `<?= $this->getSku(); ?>` || null,
+            name: `<?= $this->getName(); ?>`,
+            identifier: `<?= $this->getIdentifier(); ?>`,
+            description: `<?= $this->getDescription(); ?>`
         };
         window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
         window.storeCurrency = '<?= $this->getStoreCurrency() ?>';
+        window.catalog_default_sort_by = '<?= $this->getCatalogDefaultSortBy() ?>';
 
         // Multistore
         // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
