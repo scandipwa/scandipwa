@@ -8,11 +8,5 @@
     "express": "^4.18.2",
     "http-proxy-middleware": "^2.0.6",
     "spdy": "^4.0.2"
-  },
-  "scripts": {
-    "start": "nodemon ./server.js"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.20"
   }
 }
