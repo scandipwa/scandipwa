@@ -48,7 +48,7 @@ S extends ImageComponentState = ImageComponentState,
         onImageLoad: noopFn,
     };
 
-    image = createRef();
+    image = createRef<HTMLImageElement>();
 
     state: S = {
         imageStatus: ImageState.IMAGE_LOADING,
@@ -139,12 +139,23 @@ S extends ImageComponentState = ImageComponentState,
             isLazyLoading,
         } = this.state;
 
+        const imgSizes: { height?: number; width?: number } = {
+            height: undefined,
+            width: undefined,
+        };
+
+        if (imageStatus === ImageState.IMAGE_LOADED) {
+            imgSizes.height = this.image.current?.clientHeight;
+            imgSizes.width = this.image.current?.clientWidth;
+        }
+
         return (
             <img
               block="Image"
               elem="Image"
               src={ src || '' }
               alt={ alt }
+              ref={ this.image }
               mods={ { isLoading: imageStatus === ImageState.IMAGE_LOADING } }
               style={ style }
               title={ title }
@@ -163,15 +174,28 @@ S extends ImageComponentState = ImageComponentState,
             title,
             className,
         } = this.props;
-        const { isLazyLoading } = this.state;
+        const { isLazyLoading, imageStatus } = this.state;
+
+        const imgSizes: { height?: number; width?: number } = {
+            height: undefined,
+            width: undefined,
+        };
+
+        if (imageStatus === ImageState.IMAGE_LOADED) {
+            imgSizes.height = this.image.current?.clientHeight;
+            imgSizes.width = this.image.current?.clientWidth;
+        }
 
         return (
             <img
               block={ className }
               src={ src || '' }
               alt={ alt }
+              ref={ this.image }
               style={ style }
               title={ title }
+              height={ imgSizes.height }
+              width={ imgSizes.width }
               onLoad={ this.onLoad }
               onError={ this.onError }
               loading={ isLazyLoading ? 'lazy' : 'eager' }
