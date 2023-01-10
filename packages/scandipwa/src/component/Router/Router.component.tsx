@@ -330,6 +330,15 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         this.setState({ hasError: false });
     }
 
+    renderBeforeItemsFallback(): ReactElement {
+        return (
+            <div block="Router">
+                <section block="Router" elem="HeaderFallback" />
+                <section block="Router" elem="BreadcrumbsFallback" />
+            </div>
+        );
+    }
+
     renderComponentsOfType(type: RouterItemType): ReactElement {
         return this.getSortedItems(type)
             .map(({ position, component }: RouterItem) => cloneElement(component, { key: position }));
@@ -337,7 +346,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
 
     renderSectionOfType(type: RouterItemType): ReactElement {
         return (
-            <Suspense fallback={ this.renderFallbackPage() }>
+            <Suspense fallback={ this.renderBeforeItemsFallback() }>
                 { this.renderComponentsOfType(type) }
             </Suspense>
         );
