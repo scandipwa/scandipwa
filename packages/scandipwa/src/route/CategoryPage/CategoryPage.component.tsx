@@ -382,9 +382,9 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
     }
 
     renderCmsBlock(): ReactElement {
-        const { category: { cms_block } } = this.props;
+        const { category: { cms_block }, isCurrentCategoryLoaded } = this.props;
 
-        if (!cms_block || !this.displayCmsBlock()) {
+        if (!cms_block || !this.displayCmsBlock() || !isCurrentCategoryLoaded) {
             return null;
         }
 

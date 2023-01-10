@@ -124,7 +124,7 @@ ProductListPageComponentState
         return Array.from(
             { length: numberOfPlaceholders },
             (_, i) => (
-                <RenderWhenVisible>
+                <RenderWhenVisible fallback={ this.renderInViewPlaceholder }>
                     <ProductCard
                       key={ i }
                       product={ {} }
@@ -147,6 +147,10 @@ ProductListPageComponentState
         };
     }
 
+    renderInViewPlaceholder(): ReactElement {
+        return <div block="ProductCard" elem="Placeholder" />;
+    }
+
     renderPageItems(): ReactElement {
         const {
             items,
@@ -159,7 +163,7 @@ ProductListPageComponentState
         } = this.props;
 
         return items.map((product, i) => (
-            <RenderWhenVisible>
+            <RenderWhenVisible fallback={ this.renderInViewPlaceholder }>
                 <ProductCard
                   product={ product }
                 // eslint-disable-next-line react/no-array-index-key

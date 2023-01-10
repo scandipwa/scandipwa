@@ -97,7 +97,6 @@ export const mapStateToProps = (state: RootState): CategoryPageContainerMapState
     totalItems: state.ProductListReducer.totalItems,
     plpType: state.ConfigReducer.plp_list_mode,
     isMobile: state.ConfigReducer.device.isMobile,
-    defaultSortKey: state.ConfigReducer.catalog_default_sort_by,
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -500,7 +499,6 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             sortFields: {
                 options = [],
             },
-            defaultSortKey: globalDefaultSortKey,
         } = this.props;
         const { location } = history;
 
@@ -526,13 +524,13 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * (used when global default sort key does not exist for current category)
          */
         const isGlobalSortKeyAvailable = !!options.find(
-            (sortOption) => sortOption.value === globalDefaultSortKey,
+            (sortOption) => sortOption.value === window.catalog_default_sort_by,
         );
         const isClassSortKeyAvailable = !!options.find(
             (sortOption) => sortOption.value === classDefaultSortKey,
         );
         const fallbackSortKey = isClassSortKeyAvailable ? classDefaultSortKey : options[0]?.value;
-        const defaultSortKey = isGlobalSortKeyAvailable ? globalDefaultSortKey : fallbackSortKey;
+        const defaultSortKey = isGlobalSortKeyAvailable ? window.catalog_default_sort_by : fallbackSortKey;
         const configSortKey = default_sort_by || defaultSortKey;
         const sortKey = getQueryParam('sortKey', location) || configSortKey;
 

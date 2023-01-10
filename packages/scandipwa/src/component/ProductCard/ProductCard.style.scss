@@ -19,6 +19,7 @@
     --product-card-wishlist-button-color: #d8d5d5;
     --product-card-compare-button-background: var(--product-card-wishlist-button-background);
     --product-card-compare-button-color: var(--product-card-wishlist-button-color);
+    --product-card-placeholder-height: 300px;
     --product-card-name-max-rows: 2;
     --product-card-brand-line-height: 1.2em;
     --product-card-color-size: 32px;
@@ -348,6 +349,10 @@
     .Image_isPlaceholder {
         opacity: 0;
         animation: appear 100ms 300ms forwards;
+    }
+
+    &-Placeholder {
+        min-height: var(--product-card-placeholder-height);
     }
 
     &-Footer {
