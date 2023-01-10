@@ -13,6 +13,7 @@ import { PureComponent, Suspense } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader/Loader.component';
+// import ProductActions from 'Component/ProductActions';
 import ProductGallery from 'Component/ProductGallery';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import ProductTabs from 'Component/ProductTabs';
@@ -110,13 +111,13 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
                   showLoader={ isVariant }
                 />
                 <Suspense fallback={ <div /> }>
-                <ProductActions
-                  getLink={ getLink }
-                  product={ dataSource }
-                  parameters={ parameters }
-                  areDetailsLoaded={ areDetailsLoaded }
-                  setActiveProduct={ setActiveProduct }
-                />
+                    <ProductActions
+                      getLink={ getLink }
+                      product={ dataSource }
+                      parameters={ parameters }
+                      areDetailsLoaded={ areDetailsLoaded }
+                      setActiveProduct={ setActiveProduct }
+                    />
                 </Suspense>
             </>
         );

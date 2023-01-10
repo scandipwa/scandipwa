@@ -11,8 +11,9 @@
 
 import { UrlRewritePageType } from 'Route/UrlRewrites/UrlRewrites.config';
 
-import CategoryPrefetch from './Category';
-import ProductPrefetch from './Product';
+import CategoryPreload from './CategoryPreload';
+import CmsPagePreload from './CmsPagePreload';
+import ProductPreload from './ProductPreload';
 
 const { actionName: { type = '' } = {} } = window;
 
@@ -21,19 +22,22 @@ export const criticalChunkLoad = {
         test: type === UrlRewritePageType.CATEGORY,
         importChunk: () => {
             import(/* webpackChunkName: "category", webpackMode: "lazy" */ 'Route/CategoryPage');
-            CategoryPrefetch.preloadProducts();
+            CategoryPreload.preloadProducts();
         },
     },
     CmsChunk: {
         // Request CMS chunk also on homepage visit
         test: type === UrlRewritePageType.CMS_PAGE || location.pathname === '/',
-        importChunk: () => import(/* webpackChunkName: "cms", webpackMode: "lazy" */ 'Route/CmsPage'),
+        importChunk: () => {
+            import(/* webpackChunkName: "cms", webpackMode: "lazy" */ 'Route/CmsPage');
+            CmsPagePreload.preloadCms();
+        },
     },
     ProductChunk: {
         test: type === UrlRewritePageType.PRODUCT,
         importChunk: () => {
             import(/* webpackChunkName: "product", webpackMode: "lazy" */ 'Route/ProductPage');
-            ProductPrefetch.preloadProduct();
+            ProductPreload.preloadProduct();
         },
     },
 };

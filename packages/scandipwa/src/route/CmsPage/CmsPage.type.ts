@@ -11,12 +11,14 @@
 
 import { match as Match } from 'react-router';
 
-import { CmsPageFields } from 'Query/CmsPage.type';
+import { CmsPageFields, CmsPageQueryOptions } from 'Query/CmsPage.type';
 import { PageMeta } from 'Store/Meta/Meta.type';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 
 export interface CmsPageContainerMapStateProps {
     isOffline: boolean;
+    cmsPage: Partial<CmsPageFields>;
+    isLoading: boolean;
 }
 
 export interface CmsPageContainerDispatchStateProps {
@@ -25,6 +27,7 @@ export interface CmsPageContainerDispatchStateProps {
     setBigOfflineNotice: (isBig: boolean) => void;
     updateMeta: (meta: Partial<PageMeta>) => void;
     toggleBreadcrumbs: (isActive: boolean) => void;
+    requestPage: (options: Partial<CmsPageQueryOptions>) => void;
 }
 
 export interface CmsPageContainerBaseProps {
@@ -41,20 +44,12 @@ export type CmsPageContainerProps = CmsPageContainerMapStateProps
 & CmsPageContainerDispatchStateProps
 & CmsPageContainerBaseProps;
 
-export interface CmsPageContainerState {
-    page: Partial<CmsPageFields>;
-    isLoading: boolean;
-    isPageLoaded: boolean;
-}
-
 export interface CmsPageComponentProps {
     isBreadcrumbsActive: boolean;
     isLoading: boolean;
-    isPageLoaded: boolean;
-    page: Partial<CmsPageFields>;
+    cmsPage: Partial<CmsPageFields>;
 }
 
 export type CmsPageContainerPropsKeys = 'isBreadcrumbsActive'
 | 'isLoading'
-| 'isPageLoaded'
-| 'page';
+| 'cmsPage';

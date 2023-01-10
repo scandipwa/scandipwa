@@ -13,7 +13,7 @@ import { ProductListOptions } from 'Query/ProductList.type';
 import ProductDispatcher from 'Store/Product/Product.dispatcher';
 import getStore from 'Util/Store';
 
-/** @namespace Util/PreLoad/Product */
+/** @namespace Util/PreLoad/ProductPreload */
 export class ProductPreload {
     options: Partial<ProductListOptions> = {
         isSingleProduct: true,

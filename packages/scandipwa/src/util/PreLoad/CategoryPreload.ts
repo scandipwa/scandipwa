@@ -18,7 +18,7 @@ import history from 'Util/History';
 import getStore from 'Util/Store';
 import { getQueryParam } from 'Util/Url';
 
-/** @namespace Util/PreLoad/Category */
+/** @namespace Util/PreLoad/CategoryPreload */
 export class CategoryPreLoad {
     productListOptions: Partial<ProductListOptions> = {
         isNext: false,
@@ -28,7 +28,7 @@ export class CategoryPreLoad {
         args: {
             sort: {
                 sortDirection: SortDirections.ASC,
-                sortKey: window.actionName?.catalog_default_sort_by || 'price',
+                sortKey: window.actionName?.catalog_default_sort_by || 'position',
             },
             filter: {
                 priceRange: this.getSelectedPriceRangeFromUrl(),

@@ -15,7 +15,6 @@ import { PureComponent, Suspense } from 'react';
 import CategoryDetails from 'Component/CategoryDetails';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryProductList from 'Component/CategoryProductList';
-import CategorySort from 'Component/CategorySort';
 import { CategorySortField } from 'Component/CategorySort/CategorySort.type';
 import ContentWrapper from 'Component/ContentWrapper';
 import FilterIcon from 'Component/FilterIcon';
@@ -41,6 +40,9 @@ import './CategoryPage.style';
 
 export const CategoryFilterOverlay = lowPriorityLazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "overlays-category" */ 'Component/CategoryFilterOverlay'
+));
+export const CategorySort = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "overlays-category" */ 'Component/CategorySort'
 ));
 
 /** @namespace Route/CategoryPage/Component */
@@ -254,14 +256,16 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         }
 
         return (
-            <CategorySort
-              isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
-              isMatchingInfoFilter={ isMatchingInfoFilter }
-              onSortChange={ onSortChange }
-              sortFields={ updatedSortFields }
-              sortKey={ sortKey }
-              sortDirection={ sortDirection }
-            />
+            <Suspense fallback={ null }>
+                <CategorySort
+                  isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
+                  isMatchingInfoFilter={ isMatchingInfoFilter }
+                  onSortChange={ onSortChange }
+                  sortFields={ updatedSortFields }
+                  sortKey={ sortKey }
+                  sortDirection={ sortDirection }
+                />
+            </Suspense>
         );
     }
 

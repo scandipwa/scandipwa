@@ -25,6 +25,7 @@ declare global {
             id?: number;
             sku?: string;
             catalog_default_sort_by: string;
+            identifier: string;
         };
         secure_base_media_url?: string;
         prefetchedImages: Record<string, HTMLImageElement>;
