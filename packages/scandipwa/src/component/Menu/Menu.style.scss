@@ -250,4 +250,10 @@
             }
         }
     }
+
+    &-MainCategoriesPlaceholder {
+        @include desktop {
+            height: calc(var(--menu-total-height) - 18px);
+        }
+    }
 }

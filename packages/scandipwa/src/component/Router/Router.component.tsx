@@ -31,11 +31,14 @@ import Meta from 'Component/Meta';
 import {
     PrintTypes,
 } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import UrlRewrites from 'Route/UrlRewrites';
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
+import { appendWithStoreCode, isHomePageUrl } from 'Util/Url';
 
 import {
     RouterAfterItemType,
@@ -331,10 +334,14 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
     }
 
     renderBeforeItemsFallback(): ReactElement {
+        const { pathname = appendWithStoreCode('/') } = location;
+
         return (
             <div block="Router">
-                <section block="Router" elem="HeaderFallback" />
-                <section block="Router" elem="BreadcrumbsFallback" />
+                <section block="Router" elem="HeaderFallback">
+                    <TextPlaceholder length={ TextPlaceHolderLength.MEDIUM } />
+                </section>
+                { !isHomePageUrl(pathname) && <section block="Router" elem="BreadcrumbsFallback" /> }
             </div>
         );
     }

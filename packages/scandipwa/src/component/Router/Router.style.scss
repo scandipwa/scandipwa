@@ -28,7 +28,17 @@
     }
 
     &-HeaderFallback {
-        height: var(--header-total-height);
+        height: calc(var(--header-total-height) + 1px);
+        border-bottom: 1px solid var(--primary-divider-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .TextPlaceholder {
+            @include desktop {
+                font-size: 52px;
+            }
+        }
     }
 
     &-BreadcrumbsFallback {
