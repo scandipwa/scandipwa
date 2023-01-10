@@ -320,7 +320,7 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
         const categoryArray = Object.values(menu);
 
         if (!categoryArray.length) {
-            return null;
+            return <div block="Menu" elem="MainCategoriesPlaceholder" />;
         }
 
         const [{ children, title: mainCategoriesTitle }] = categoryArray;
