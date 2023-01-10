@@ -132,6 +132,10 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
         }
     }
 
+    componentWillUnmount() {
+        window.isPrefetchValueUsed = false;
+    }
+
     isEmptyFilter(): boolean {
         const { filter } = this.props;
 
