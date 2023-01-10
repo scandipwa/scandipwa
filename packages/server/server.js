@@ -1,3 +1,4 @@
+/* eslint-disable */
 const express = require('express');
 const compression = require('compression');
 const { createProxyMiddleware } = require('http-proxy-middleware');
@@ -9,18 +10,14 @@ const app = express();
 
 app.use(compression());
 app.use(express.static('../scandipwa/build'));
-app.use('/default/graphql', createProxyMiddleware({
-    target: 'https://scandipwapmrev.indvp.com/',
+app.use('/graphql', createProxyMiddleware({
+    target: 'https://40kskudemo.scandipwa.com/',
     changeOrigin: true,
 }));
 
-app.get('/default/virtual-products.html', (req, res) => {
+app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../scandipwa/build/index.html'));
 });
-
-// app.get('/essentials-wrap-swaddle-3-pk-rising-star-es-wrap-risi', (req, res) => {
-//     res.sendFile(path.join(__dirname, '../adenanais/build/index.html'));
-// });
 
 const options = {
     key: fs.readFileSync(path.join(__dirname, '/privateKey.key')),
