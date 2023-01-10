@@ -49,8 +49,8 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
         const { props } = this.props;
         const {
             match,
-            productSKU,
-            id,
+            productSKU = window.actionName?.sku,
+            id = window.actionName?.id,
         } = props;
 
         if (!productSKU) {

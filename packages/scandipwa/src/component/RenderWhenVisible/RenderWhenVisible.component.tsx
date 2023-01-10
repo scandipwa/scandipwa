@@ -95,25 +95,12 @@ export class RenderWhenVisibleComponent extends PureComponent<RenderWhenVisibleC
         return children;
     }
 
-    renderContent(): ReactElement {
+    render(): ReactElement {
         if (this.shouldRender()) {
             return this.renderVisibilitySensor();
         }
 
         return this.renderChildren();
-    }
-
-    render(): ReactElement {
-        return (
-            <div
-              block="RenderWhenVisible"
-              ref={ (node) => {
-                  this.node = node;
-              } }
-            >
-                { this.renderContent() }
-            </div>
-        );
     }
 }
 

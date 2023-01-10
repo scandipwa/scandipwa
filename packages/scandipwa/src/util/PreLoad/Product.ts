@@ -9,14 +9,15 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { ProductListOptions } from 'Query/ProductList.type';
 import ProductDispatcher from 'Store/Product/Product.dispatcher';
 import getStore from 'Util/Store';
 
 /** @namespace Util/PreLoad/Product */
 export class ProductPreload {
-    options = {
+    options: Partial<ProductListOptions> = {
         isSingleProduct: true,
-        args: { filter: { productSKU: window.actionName?.sku } },
+        args: { filter: { productID: window.actionName?.id } },
     };
 
     preloadProduct() {

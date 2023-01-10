@@ -14,6 +14,7 @@ import {
     createRef,
     PureComponent,
     ReactNode,
+    Suspense,
 } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
@@ -29,11 +30,10 @@ import { ImageRatio } from 'Component/Image/Image.type';
 import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
 import Slider from 'Component/Slider';
-import VideoPopup from 'Component/VideoPopup';
-import VideoThumbnail from 'Component/VideoThumbnail';
 import { MediaGalleryEntry } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
+import { lowPriorityLazy, setLoadedFlag } from 'Util/Request/LowPriorityLoad';
 
 import {
     MAX_ZOOM_SCALE,
@@ -46,6 +46,15 @@ import {
 } from './ProductGallery.type';
 
 import './ProductGallery.style';
+
+export const VideoPopup = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-overlays" */
+    'Component/VideoPopup'
+));
+export const VideoThumbnail = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-overlays" */
+    'Component/VideoThumbnail'
+));
 
 /**
  * Product gallery
@@ -183,12 +192,14 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
         const { isImageZoomPopupActive, handleImageZoomPopupActiveChange } = this.props;
 
         return (
-            <VideoThumbnail
-              key={ index }
-              media={ media }
-              isVideoZoomed={ isImageZoomPopupActive }
-              onZoomedVideoClick={ handleImageZoomPopupActiveChange }
-            />
+            <Suspense fallback={ null }>
+                <VideoThumbnail
+                  key={ index }
+                  media={ media }
+                  isVideoZoomed={ isImageZoomPopupActive }
+                  onZoomedVideoClick={ handleImageZoomPopupActiveChange }
+                />
+            </Suspense>
         );
     }
 
@@ -270,6 +281,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
                   isPlaceholder={ !src }
                   style={ style }
                   showIsLoading={ showLoader }
+                  onImageLoad={ setLoadedFlag }
                 />
             );
         }
@@ -432,7 +444,9 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
             <div block="ProductGallery" ref={ this.galleryRef }>
                 { this.renderSlider() }
                 { this.renderAdditionalPictures() }
-                <VideoPopup />
+                <Suspense fallback={ null }>
+                    <VideoPopup />
+                </Suspense>
             </div>
         );
     }

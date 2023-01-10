@@ -9,15 +9,15 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { PureComponent, Suspense } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import Popup from 'Component/Popup';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
 import { RootState } from 'Util/Store/Store.type';
 
 import ImageZoomPopup from './ImageZoomPopup.component';
@@ -27,6 +27,11 @@ import {
     ImageZoomPopupContainerMapStateProps,
     ImageZoomPopupContainerProps,
 } from './ImageZoomPopup.type';
+
+export const Popup = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-overlays" */
+    'Component/Popup'
+));
 
 /** @namespace Component/ImageZoomPopup/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ImageZoomPopupContainerMapStateProps => ({
@@ -82,18 +87,20 @@ export class ImageZoomPopupContainer extends PureComponent<ImageZoomPopupContain
         }
 
         return (
-            <Popup
-              id={ popupId }
-              isCloseOnOutsideClick={ false }
-              mix={ { block: 'ImageZoomPopup', mix } }
-              contentMix={ { block: 'ImageZoomPopup', elem: 'PopupContent' } }
-              onClose={ onClose }
-              onHide={ onClose }
-            >
-                <ImageZoomPopup
-                  { ...this.containerProps() }
-                />
-            </Popup>
+            <Suspense fallback={ null }>
+                <Popup
+                  id={ popupId }
+                  isCloseOnOutsideClick={ false }
+                  mix={ { block: 'ImageZoomPopup', mix } }
+                  contentMix={ { block: 'ImageZoomPopup', elem: 'PopupContent' } }
+                  onClose={ onClose }
+                  onHide={ onClose }
+                >
+                    <ImageZoomPopup
+                      { ...this.containerProps() }
+                    />
+                </Popup>
+            </Suspense>
         );
     }
 }

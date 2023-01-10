@@ -10,32 +10,55 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { createRef, PureComponent } from 'react';
+import { createRef, PureComponent, Suspense } from 'react';
 
-import AddToCart from 'Component/AddToCart';
-import FieldContainer from 'Component/Field';
 import { FieldType } from 'Component/Field/Field.config';
-import GroupedProductList from 'Component/GroupedProductList';
-import ProductBundleOptions from 'Component/ProductBundleOptions';
-import ProductCompareButton from 'Component/ProductCompareButton';
-// eslint-disable-next-line max-len
-import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
-import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
-import ProductDownloadableLinks from 'Component/ProductDownloadableLinks';
-import ProductDownloadableSamples from 'Component/ProductDownloadableSamples';
 import ProductPrice from 'Component/ProductPrice';
-import ProductReviewRating from 'Component/ProductReviewRating';
-import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
 import { filterConfigurableOptions } from 'Util/Product';
 import { IndexedBundleItem, IndexedConfigurableOption } from 'Util/Product/Product.type';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
 import { ValidationInputTypeNumber } from 'Util/Validator/Config';
 
 import { ProductType } from './Product.config';
 import { ProductComponentProps } from './Product.type';
+
+export const ProductConfigurableAttributes = lowPriorityLazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container'),
+);
+export const AddToCart = lowPriorityLazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/AddToCart'),
+);
+export const FieldContainer = lowPriorityLazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/Field'),
+);
+export const ProductCustomizableOptions = lowPriorityLazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductCustomizableOptions'),
+);
+export const ProductBundleOptions = lowPriorityLazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductBundleOptions'),
+);
+export const GroupedProductList = lowPriorityLazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/GroupedProductList'),
+);
+export const ProductCompareButton = lowPriorityLazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductCompareButton'),
+);
+export const ProductDownloadableLinks = lowPriorityLazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductDownloadableLinks'),
+);
+export const ProductDownloadableSamples = lowPriorityLazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductDownloadableSamples'),
+);
+export const ProductReviewRating = lowPriorityLazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductReviewRating'),
+);
+export const ProductWishlistButton = lowPriorityLazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductWishlistButton'),
+);
 
 /**
  * Product
@@ -74,10 +97,12 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
         } = this.props;
 
         return (
-            <ProductBundleOptions
-              options={ items as IndexedBundleItem[] }
-              updateSelectedValues={ updateSelectedValues }
-            />
+            <Suspense fallback={ null }>
+                <ProductBundleOptions
+                  options={ items as IndexedBundleItem[] }
+                  updateSelectedValues={ updateSelectedValues }
+                />
+            </Suspense>
         );
     }
 
@@ -90,10 +115,12 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
         } = this.props;
 
         return (
-            <ProductCustomizableOptions
-              options={ options }
-              updateSelectedValues={ updateSelectedValues }
-            />
+            <Suspense fallback={ null }>
+                <ProductCustomizableOptions
+                  options={ options }
+                  updateSelectedValues={ updateSelectedValues }
+                />
+            </Suspense>
         );
     }
 
@@ -115,12 +142,14 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
         const isRequired = links_purchased_separately === 1;
 
         return (
-            <ProductDownloadableLinks
-              links={ links }
-              setLinkedDownloadables={ setDownloadableLinks }
-              title={ links_title }
-              isRequired={ isRequired }
-            />
+            <Suspense fallback={ null }>
+                <ProductDownloadableLinks
+                  links={ links }
+                  setLinkedDownloadables={ setDownloadableLinks }
+                  title={ links_title }
+                  isRequired={ isRequired }
+                />
+            </Suspense>
         );
     }
 
@@ -138,10 +167,12 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
         }
 
         return (
-            <ProductDownloadableSamples
-              title={ samples_title }
-              samples={ samples }
-            />
+            <Suspense fallback={ null }>
+                <ProductDownloadableSamples
+                  title={ samples_title }
+                  samples={ samples }
+                />
+            </Suspense>
         );
     }
 
@@ -172,20 +203,22 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
               block="ProductActions"
               elem="AttributesWrapper"
             >
-                <ProductConfigurableAttributes
-                    // eslint-disable-next-line no-magic-numbers
-                  numberOfPlaceholders={ [2, 4] }
-                  updateAddToCartTriggeredWithError={ updateAddToCartTriggeredWithError }
-                  addToCartTriggeredWithError={ addToCartTriggeredWithError }
-                  mix={ { block: this.className, elem: 'Attributes' } }
-                  parameters={ parameters }
-                  variants={ variants }
-                  updateConfigurableVariant={ setActiveProduct }
-                  configurable_options={ this.getConfigurableAttributes() }
-                  isContentExpanded
-                  inStock={ inStock }
-                  showProductAttributeAsLink={ false }
-                />
+                <Suspense fallback={ null }>
+                    <ProductConfigurableAttributes
+                      // eslint-disable-next-line no-magic-numbers
+                      numberOfPlaceholders={ [2, 4] }
+                      updateAddToCartTriggeredWithError={ updateAddToCartTriggeredWithError }
+                      addToCartTriggeredWithError={ addToCartTriggeredWithError }
+                      mix={ { block: this.className, elem: 'Attributes' } }
+                      parameters={ parameters }
+                      variants={ variants }
+                      updateConfigurableVariant={ setActiveProduct }
+                      configurable_options={ this.getConfigurableAttributes() }
+                      isContentExpanded
+                      inStock={ inStock }
+                      showProductAttributeAsLink={ false }
+                    />
+                </Suspense>
             </div>
         );
     }
@@ -209,11 +242,13 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
               block={ this.className }
               elem="GroupedItems"
             >
-                <GroupedProductList
-                  product={ product }
-                  quantity={ quantity }
-                  setQuantity={ setQuantity }
-                />
+                <Suspense fallback={ null }>
+                    <GroupedProductList
+                      product={ product }
+                      quantity={ quantity }
+                      setQuantity={ setQuantity }
+                    />
+                </Suspense>
             </div>
         );
     }
@@ -241,16 +276,18 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
         } = this.props;
 
         return (
-            <AddToCart
-              mix={ { block: this.className, elem: 'AddToCart' } }
-              addToCart={ addToCart }
-              isDisabled={ !inStock }
-              isIconEnabled={ false }
-              layout={ layout }
-              updateSelectedValues={ updateSelectedValues }
-              quantity={ quantity }
-              product={ getActiveProduct() }
-            />
+            <Suspense fallback={ null }>
+                <AddToCart
+                  mix={ { block: this.className, elem: 'AddToCart' } }
+                  addToCart={ addToCart }
+                  isDisabled={ !inStock }
+                  isIconEnabled={ false }
+                  layout={ layout }
+                  updateSelectedValues={ updateSelectedValues }
+                  quantity={ quantity }
+                  product={ getActiveProduct() }
+                />
+            </Suspense>
         );
     }
 
@@ -262,13 +299,15 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
         }
 
         return (
-            <ProductWishlistButton
-              magentoProduct={ magentoProduct }
-              mix={ {
-                  block: this.className,
-                  elem: 'WishListButton',
-              } }
-            />
+            <Suspense fallback={ null }>
+                <ProductWishlistButton
+                  magentoProduct={ magentoProduct }
+                  mix={ {
+                      block: this.className,
+                      elem: 'WishListButton',
+                  } }
+                />
+            </Suspense>
         );
     }
 
@@ -280,14 +319,16 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
         }
 
         return (
-            <ProductCompareButton
-              productId={ id }
-              mix={ {
-                  block: this.className,
-                  elem: 'ProductCompareButton',
-                  mods: { isGrey: true },
-              } }
-            />
+            <Suspense fallback={ null }>
+                <ProductCompareButton
+                  productId={ id }
+                  mix={ {
+                      block: this.className,
+                      elem: 'ProductCompareButton',
+                      mods: { isGrey: true },
+                  } }
+                />
+            </Suspense>
         );
     }
 
@@ -306,28 +347,30 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
         }
 
         return (
-            <FieldContainer
-              type={ FieldType.NUMBER_WITH_CONTROLS }
-              attr={ {
-                  id: 'item_qty',
-                  name: 'item_qty',
-                  defaultValue: quantity as number,
-                  max: maxQuantity,
-                  min: minQuantity,
-              } }
-              validationRule={ {
-                  inputType: ValidationInputTypeNumber.NUMERIC,
-                  isRequired: true,
-                  range: {
-                      min: minQuantity,
+            <Suspense fallback={ null }>
+                <FieldContainer
+                  type={ FieldType.NUMBER_WITH_CONTROLS }
+                  attr={ {
+                      id: 'item_qty',
+                      name: 'item_qty',
+                      defaultValue: quantity as number,
                       max: maxQuantity,
-                  },
-              } }
-              isDisabled={ !inStock }
-              mix={ { block: this.className, elem: 'Qty' } }
-              events={ { onChange: setQuantity } }
-              validateOn={ ['onChange'] }
-            />
+                      min: minQuantity,
+                  } }
+                  validationRule={ {
+                      inputType: ValidationInputTypeNumber.NUMERIC,
+                      isRequired: true,
+                      range: {
+                          min: minQuantity,
+                          max: maxQuantity,
+                      },
+                  } }
+                  isDisabled={ !inStock }
+                  mix={ { block: this.className, elem: 'Qty' } }
+                  events={ { onChange: setQuantity } }
+                  validateOn={ ['onChange'] }
+                />
+            </Suspense>
         );
     }
     //#endregion
@@ -347,7 +390,14 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
             return null;
         }
 
-        return <ProductReviewRating summary={ rating_summary || 0 } count={ review_count } />;
+        return (
+        <Suspense fallback={ null }>
+            <ProductReviewRating
+              summary={ rating_summary || 0 }
+              count={ review_count }
+            />
+        </Suspense>
+        );
     }
 
     renderBrand(withMeta = false): ReactElement {
