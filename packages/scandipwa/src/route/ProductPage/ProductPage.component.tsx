@@ -136,7 +136,6 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
             <>
                 <div block="ProductPage" elem="SectionPlaceholder" />
                 <div block="ProductPage" elem="SectionPlaceholder" />
-                <div block="ProductPage" elem="SectionPlaceholder" />
             </>
         );
     }

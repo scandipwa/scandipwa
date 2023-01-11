@@ -353,7 +353,11 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
 
     renderSectionOfType(type: RouterItemType): ReactElement {
         return (
-            <Suspense fallback={ this.renderBeforeItemsFallback() }>
+            <Suspense
+              fallback={ type === RouterItemType.BEFORE_ITEMS_TYPE
+                  ? this.renderBeforeItemsFallback()
+                  : <div /> }
+            >
                 { this.renderComponentsOfType(type) }
             </Suspense>
         );
