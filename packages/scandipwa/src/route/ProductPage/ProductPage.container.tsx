@@ -137,6 +137,18 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
             currentProductSKU: prevSKU,
             productOptionsData: prevOptionData,
         } = state;
+        const {
+            isPrefetchValueUsed,
+            actionName: {
+                sku: skuFromActionName,
+            } = {},
+        } = window;
+
+        if (isPrefetchValueUsed) {
+            return {
+                currentProductSKU: skuFromActionName,
+            };
+        }
 
         const currentProductSKU = prevSKU === sku ? '' : prevSKU;
 
@@ -262,6 +274,10 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         }
 
         this._addToRecentlyViewedProducts();
+    }
+
+    componentWillUnmount(): void {
+        window.isPrefetchValueUsed = false;
     }
 
     setActiveProduct(product: IndexedProduct): void {
