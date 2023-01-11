@@ -13,7 +13,6 @@ import { PureComponent } from 'react';
 
 import ProductCard from 'Component/ProductCard';
 import { ProductCardContainerProps } from 'Component/ProductCard/ProductCard.type';
-import RenderWhenVisible from 'Component/RenderWhenVisible';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
@@ -124,13 +123,11 @@ ProductListPageComponentState
         return Array.from(
             { length: numberOfPlaceholders },
             (_, i) => (
-                <RenderWhenVisible fallback={ this.renderInViewPlaceholder }>
-                    <ProductCard
-                      key={ i }
-                      product={ {} }
-                      layout={ layout as CategoryPageLayout }
-                    />
-                </RenderWhenVisible>
+                <ProductCard
+                  key={ i }
+                  product={ {} }
+                  layout={ layout as CategoryPageLayout }
+                />
             ),
         );
     }
@@ -147,10 +144,6 @@ ProductListPageComponentState
         };
     }
 
-    renderInViewPlaceholder(): ReactElement {
-        return <div block="ProductCard" elem="Placeholder" />;
-    }
-
     renderPageItems(): ReactElement {
         const {
             items,
@@ -163,7 +156,6 @@ ProductListPageComponentState
         } = this.props;
 
         return items.map((product, i) => (
-            <RenderWhenVisible fallback={ this.renderInViewPlaceholder }>
                 <ProductCard
                   product={ product }
                 // eslint-disable-next-line react/no-array-index-key
@@ -173,7 +165,6 @@ ProductListPageComponentState
                   { ...this.containerProps() }
                   onLoad={ setLoadedFlag }
                 />
-            </RenderWhenVisible>
         ));
     }
 

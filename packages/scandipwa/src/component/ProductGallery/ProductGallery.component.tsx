@@ -19,7 +19,6 @@ import {
 import { RouteComponentProps, withRouter } from 'react-router';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
-import CarouselScroll from 'Component/CarouselScroll';
 import {
     ARROW_SAFE_AREA,
     CAROUSEL_ITEM_GAP,
@@ -47,6 +46,10 @@ import {
 
 import './ProductGallery.style';
 
+export const CarouselScroll = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-overlays" */
+    'Component/CarouselScroll'
+));
 export const VideoPopup = lowPriorityLazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "product-overlays" */
     'Component/VideoPopup'
@@ -370,14 +373,16 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
 
         return (
             <div block="ProductGallery" elem="Additional" mods={ { isImageZoomPopupActive } }>
-                <CarouselScroll
-                  activeItemId={ activeImage }
-                  onChange={ onActiveImageChange }
-                  showedItemCount={ slidesCount }
-                  isImageZoomPopupActive={ isImageZoomPopupActive }
-                >
-                    { gallery.map(this.renderAdditionalPicture.bind(this)) }
-                </CarouselScroll>
+                <Suspense fallback={ <div /> }>
+                    <CarouselScroll
+                      activeItemId={ activeImage }
+                      onChange={ onActiveImageChange }
+                      showedItemCount={ slidesCount }
+                      isImageZoomPopupActive={ isImageZoomPopupActive }
+                    >
+                        { gallery.map(this.renderAdditionalPicture.bind(this)) }
+                    </CarouselScroll>
+                </Suspense>
             </div>
         );
     }

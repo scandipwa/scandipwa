@@ -15,7 +15,6 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader/Loader.component';
 import ProductGallery from 'Component/ProductGallery';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
-import ProductTabs from 'Component/ProductTabs';
 import { ProductTabShape } from 'Component/ProductTabs/ProductTabs.type';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
@@ -32,6 +31,10 @@ import './ProductPage.style';
 export const ProductReviews = lowPriorityLazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "product-misc" */
     'Component/ProductReviews'
+));
+export const ProductTabs = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-misc" */
+    'Component/ProductTabs'
 ));
 export const ProductAttributes = lowPriorityLazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "product-misc" */
@@ -256,7 +259,9 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
         }
 
         return (
-            <ProductTabs tabs={ tabs } />
+            <Suspense fallback={ <div /> }>
+                <ProductTabs tabs={ tabs } />
+            </Suspense>
         );
     }
 
