@@ -20,8 +20,7 @@ import { NavigationAbstractContainer } from 'Component/NavigationAbstract/Naviga
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
 import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
-import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
-import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
+import { AccountPageUrl, CUSTOMER } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationState, NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';

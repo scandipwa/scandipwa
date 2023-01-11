@@ -15,9 +15,8 @@ import { Dispatch } from 'redux';
 
 import MyAccountQuery from 'Query/MyAccount.query';
 import { ChangeCustomerPasswordOptions, SignInOptions } from 'Query/MyAccount.type';
-import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl, CUSTOMER } from 'Route/MyAccount/MyAccount.config';
 import { updateCustomerDetails, updateIsLoading, updateIsLocked } from 'Store/MyAccount/MyAccount.action';
-import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';

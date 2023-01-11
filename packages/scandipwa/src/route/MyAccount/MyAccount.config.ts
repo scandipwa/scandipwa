@@ -21,5 +21,7 @@ export enum AccountPageUrl {
     ORDER_HISTORY = '/sales/order/history',
 }
 
+export const CUSTOMER = 'customer';
+
 // eslint-disable-next-line max-len
 export const LOCKED_ACCOUNT_ERROR_MESSAGE = __('The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.');
