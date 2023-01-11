@@ -26,10 +26,14 @@ export class CmsPageComponent extends PureComponent<CmsPageComponentProps> {
         isBreadcrumbsActive: true,
     };
 
-    renderHeading(): ReactElement {
-        const { page: { content_heading } } = this.props;
+    componentDidMount() {
+        window.isPriorityLoaded = true;
+    }
 
-        if (!content_heading) {
+    renderHeading(): ReactElement {
+        const { cmsPage: { content_heading }, isLoading } = this.props;
+
+        if (!content_heading || isLoading) {
             return null;
         }
 
@@ -43,7 +47,7 @@ export class CmsPageComponent extends PureComponent<CmsPageComponentProps> {
     renderContent(): ReactElement {
         const {
             isLoading,
-            page: { content },
+            cmsPage: { content },
         } = this.props;
 
         if (isLoading) {
@@ -65,14 +69,13 @@ export class CmsPageComponent extends PureComponent<CmsPageComponentProps> {
 
     render(): ReactElement {
         const {
-            page,
+            cmsPage,
             isBreadcrumbsActive,
             isLoading,
-            isPageLoaded,
         } = this.props;
-        const { page_width } = page;
+        const { page_width, title, content } = cmsPage;
 
-        if (!isLoading && !isPageLoaded) {
+        if (!isLoading && !title && !content) {
             return <NoMatch />;
         }
 

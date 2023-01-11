@@ -14,7 +14,7 @@ import { match as Match } from 'react-router';
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 
 export interface HomePageContainerMapStateProps {
-    pageIdentifiers: string;
+    identifier: string;
 }
 
 export interface HomePageContainerMapDispatchProps {

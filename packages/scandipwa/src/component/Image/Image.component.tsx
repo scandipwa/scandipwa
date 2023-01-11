@@ -16,7 +16,7 @@ import { createRef, PureComponent } from 'react';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
-import { ImageState } from './Image.config';
+import { IMAGE_EAGER_LOADING_POSITION_FROM_TOP, ImageState } from './Image.config';
 import { ImageComponentProps, ImageComponentState, ImageRatio } from './Image.type';
 
 import './Image.style';
@@ -48,9 +48,12 @@ S extends ImageComponentState = ImageComponentState,
         onImageLoad: noopFn,
     };
 
-    image = createRef();
+    image = createRef<HTMLImageElement>();
 
-    state: S = { imageStatus: ImageState.IMAGE_LOADING } as unknown as S;
+    state: S = {
+        imageStatus: ImageState.IMAGE_LOADING,
+        isLazyLoading: false,
+    } as unknown as S;
 
     renderMap = {
         [ImageState.IMAGE_NOT_FOUND]: this.renderImageNotFound.bind(this),
@@ -67,7 +70,15 @@ S extends ImageComponentState = ImageComponentState,
     }
 
     componentDidMount(): void {
+        const { imageRef } = this.props;
+
         this.onImageChange();
+
+        const top = imageRef?.current?.getBoundingClientRect()?.top || 0;
+
+        if (top > IMAGE_EAGER_LOADING_POSITION_FROM_TOP) {
+            this.setState({ isLazyLoading: true });
+        }
     }
 
     componentDidUpdate(prevProps: ImageComponentProps): void {
@@ -123,7 +134,20 @@ S extends ImageComponentState = ImageComponentState,
             style,
             title,
         } = this.props;
-        const { imageStatus } = this.state;
+        const {
+            imageStatus,
+            isLazyLoading,
+        } = this.state;
+
+        const imgSizes: { height?: number; width?: number } = {
+            height: undefined,
+            width: undefined,
+        };
+
+        if (imageStatus === ImageState.IMAGE_LOADED) {
+            imgSizes.height = this.image.current?.clientHeight;
+            imgSizes.width = this.image.current?.clientWidth;
+        }
 
         return (
             <img
@@ -131,12 +155,13 @@ S extends ImageComponentState = ImageComponentState,
               elem="Image"
               src={ src || '' }
               alt={ alt }
+              ref={ this.image }
               mods={ { isLoading: imageStatus === ImageState.IMAGE_LOADING } }
               style={ style }
               title={ title }
               onLoad={ this.onLoad }
               onError={ this.onError }
-              loading="lazy"
+              loading={ isLazyLoading ? 'lazy' : 'eager' }
             />
         );
     }
@@ -149,17 +174,31 @@ S extends ImageComponentState = ImageComponentState,
             title,
             className,
         } = this.props;
+        const { isLazyLoading, imageStatus } = this.state;
+
+        const imgSizes: { height?: number; width?: number } = {
+            height: undefined,
+            width: undefined,
+        };
+
+        if (imageStatus === ImageState.IMAGE_LOADED) {
+            imgSizes.height = this.image.current?.clientHeight;
+            imgSizes.width = this.image.current?.clientWidth;
+        }
 
         return (
             <img
               block={ className }
               src={ src || '' }
               alt={ alt }
+              ref={ this.image }
               style={ style }
               title={ title }
+              height={ imgSizes.height }
+              width={ imgSizes.width }
               onLoad={ this.onLoad }
               onError={ this.onError }
-              loading="lazy"
+              loading={ isLazyLoading ? 'lazy' : 'eager' }
             />
         );
     }

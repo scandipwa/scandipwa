@@ -14,8 +14,8 @@ $icons = $this->getAppIconData();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover">
 
-    <!-- Muli font import from Abode -->
-    <link rel="preload" href="https://use.typekit.net/fji5tuz.css" as="style">
+    <!-- Muli font import from Abode
+    <link rel="preload" href="https://use.typekit.net/fji5tuz.css" as="style"> -->
 
     <title data-prerendered="1"><?= $title ?></title>
     <meta name="description" content="<?= $description ?>" data-prerendered="1">
@@ -36,10 +36,17 @@ $icons = $this->getAppIconData();
 
         // Misc
         window.actionName = {
-            type: `<?= $this->getAction(); ?>`
+            type: `<?= $this->getAction(); ?>`,
+            id: parseInt(`<?= $this->getId(); ?>`) || null,
+            sku: `<?= $this->getSku(); ?>` || null,
+            name: `<?= $this->getName(); ?>`,
+            display_mode: `<?= $this->getDisplayMode(); ?>`,
+            identifier: `<?= $this->getIdentifier(); ?>`,
+            description: `<?= $this->getDescription(); ?>`
         };
         window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
         window.storeCurrency = '<?= $this->getStoreCurrency() ?>';
+        window.catalog_default_sort_by = '<?= $this->getCatalogDefaultSortBy() ?>';
 
         // Multistore
         // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
@@ -52,7 +59,7 @@ $icons = $this->getAppIconData();
     <link rel="preload" as="script" href="<?= $this->getLocaleChunkUrl() ?>">
 
     <!-- Font -->
-    <link rel="stylesheet" href="https://use.typekit.net/fji5tuz.css">
+    <!-- <link rel="stylesheet" href="https://use.typekit.net/fji5tuz.css"> -->
 
     <!-- Icons -->
     <link rel="shortcut icon" href="/media/favicon/favicon.png">

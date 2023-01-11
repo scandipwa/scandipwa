@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
-import CmsPageQuery from 'Query/CmsPage.query';
 import { CmsPageFields, CmsPageQueryOptions } from 'Query/CmsPage.type';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -24,7 +24,6 @@ import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 import { debounce } from 'Util/Request';
-import DataContainer from 'Util/Request/DataContainer';
 import { RootState } from 'Util/Store/Store.type';
 import { getUrlParam, isHomePageUrl } from 'Util/Url';
 
@@ -36,17 +35,22 @@ import {
     CmsPageContainerMapStateProps,
     CmsPageContainerProps,
     CmsPageContainerPropsKeys,
-    CmsPageContainerState,
 } from './CmsPage.type';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
+export const CmsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cms/Cms.dispatcher'
+);
 
 /** @namespace Route/CmsPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CmsPageContainerMapStateProps => ({
     isOffline: state.OfflineReducer.isOffline,
+    cmsPage: state.CmsReducer.cmsPage,
+    isLoading: state.CmsReducer.isLoading,
 });
 
 /** @namespace Route/CmsPage/Container/mapDispatchToProps */
@@ -63,10 +67,15 @@ export const mapDispatchToProps = (dispatch: Dispatch): CmsPageContainerDispatch
         );
         dispatch(toggleBreadcrumbs(isActive));
     },
+    requestPage: (options) => {
+        CmsDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
+        );
+    },
 });
 
 /** @namespace Route/CmsPage/Container */
-export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPageContainerState> {
+export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
     static defaultProps: Partial<CmsPageContainerProps> = {
         pageIds: -1,
         pageIdentifiers: '',
@@ -74,56 +83,20 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
         isBreadcrumbsActive: true,
     };
 
-    state: CmsPageContainerState = {
-        page: {},
-        isLoading: true,
-        isPageLoaded: false,
-    };
-
-    __construct(props: CmsPageContainerProps): void {
-        const params = this.getRequestQueryParams();
-        const { id, identifier } = params;
-
-        super.__construct(props, `CmsPageContainer-${id || identifier}`);
-
+    __construct(): void {
         this.setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
 
         this.updateBreadcrumbs();
-    }
-
-    updateBreadcrumbs(): void {
-        const {
-            toggleBreadcrumbs,
-            isBreadcrumbsActive,
-        } = this.props;
-
-        toggleBreadcrumbs(isBreadcrumbsActive);
-    }
-
-    containerProps(): Pick<
-    CmsPageComponentProps,
-    CmsPageContainerPropsKeys
-    > {
-        const { isBreadcrumbsActive } = this.props;
-        const { page, isPageLoaded, isLoading } = this.state;
-
-        return {
-            isBreadcrumbsActive,
-            isLoading,
-            isPageLoaded,
-            page,
-        };
     }
 
     componentDidMount(): void {
         const {
             isOffline,
             isOnlyPlaceholder,
+            isLoading,
         } = this.props;
 
         scrollToTop();
-
-        const { isLoading } = this.state;
 
         if (isOffline && isLoading) {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
@@ -139,12 +112,14 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
             currentUrl,
             pageIdentifiers,
             pageIds,
+            cmsPage,
         } = this.props;
 
         const {
             currentUrl: prevCurrentUrl,
             pageIdentifiers: prevPageIdentifiers,
             pageIds: prevPageIds,
+            cmsPage: prevCmsPage,
         } = prevProps;
 
         if (
@@ -154,11 +129,36 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
         ) {
             this.requestPage();
         }
+
+        if (JSON.stringify(cmsPage) !== JSON.stringify(prevCmsPage)) {
+            this.onPageLoad();
+        }
+    }
+
+    containerProps(): Pick<
+    CmsPageComponentProps,
+    CmsPageContainerPropsKeys
+    > {
+        const { isBreadcrumbsActive, isLoading, cmsPage } = this.props;
+
+        return {
+            isBreadcrumbsActive,
+            isLoading,
+            cmsPage,
+        };
+    }
+
+    updateBreadcrumbs(): void {
+        const {
+            toggleBreadcrumbs,
+            isBreadcrumbsActive,
+        } = this.props;
+
+        toggleBreadcrumbs(isBreadcrumbsActive);
     }
 
     setOfflineNoticeSize(): void {
-        const { setBigOfflineNotice } = this.props;
-        const { isLoading } = this.state;
+        const { setBigOfflineNotice, isLoading } = this.props;
 
         if (isLoading) {
             setBigOfflineNotice(true);
@@ -167,12 +167,13 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
         }
     }
 
-    onPageLoad({ cmsPage: page }: { cmsPage: CmsPageFields }): void {
+    onPageLoad(): void {
         const {
             updateMeta,
             setHeaderState,
             updateBreadcrumbs,
         } = this.props;
+        const { cmsPage } = this.props;
         const { location: { pathname } } = history;
         const {
             content_heading,
@@ -180,11 +181,11 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
             title,
             meta_description,
             meta_keywords,
-        } = page;
+        } = cmsPage;
 
         debounce(this.setOfflineNoticeSize, LOADING_TIME)();
 
-        updateBreadcrumbs(page);
+        updateBreadcrumbs(cmsPage as CmsPageFields);
         updateMeta({
             title: meta_title || title,
             description: meta_description,
@@ -199,8 +200,6 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
                 onBackClick: () => history.goBack(),
             });
         }
-
-        this.setState({ page, isLoading: false, isPageLoaded: true });
     }
 
     getRequestQueryParams(): Partial<CmsPageQueryOptions> {
@@ -227,7 +226,7 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
     }
 
     requestPage(): void {
-        const { isOffline } = this.props;
+        const { requestPage } = this.props;
         const params = this.getRequestQueryParams();
         const { id, identifier } = params;
 
@@ -235,21 +234,14 @@ export class CmsPageContainer extends DataContainer<CmsPageContainerProps, CmsPa
             return;
         }
 
-        this.setState({ isLoading: true });
-
-        this.fetchData<{ cmsPage: CmsPageFields }>(
-            [CmsPageQuery.getQuery(params)],
-            this.onPageLoad.bind(this),
-            () => this.setState({ isLoading: false }),
-            isOffline,
-        );
+        requestPage(params);
     }
 
     render(): ReactElement {
         return (
-            <CmsPage
-              { ...this.containerProps() }
-            />
+                <CmsPage
+                  { ...this.containerProps() }
+                />
         );
     }
 }

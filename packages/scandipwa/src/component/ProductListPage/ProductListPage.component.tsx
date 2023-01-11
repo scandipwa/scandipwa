@@ -16,6 +16,7 @@ import { ProductCardContainerProps } from 'Component/ProductCard/ProductCard.typ
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
 
 import { DEFAULT_PLACEHOLDER_COUNT } from './ProductListPage.config';
 import { ProductListPageComponentProps, ProductListPageComponentState } from './ProductListPage.type';
@@ -40,13 +41,6 @@ ProductListPageComponentState
         mix: {},
     };
 
-    // state: ProductListPageComponentState = {
-    //     siblingsHaveBrands: false,
-    //     siblingsHavePriceBadge: false,
-    //     siblingsHaveTierPrice: false,
-    //     siblingsHaveConfigurableOptions: false
-    // };
-
     observer?: IntersectionObserver;
 
     node?: Element;
@@ -64,28 +58,9 @@ ProductListPageComponentState
     }
 
     containerProps(): Pick<ProductCardContainerProps, 'isPlp'> {
-        // const {
-        //     siblingsHaveBrands,
-        //     siblingsHavePriceBadge,
-        //     siblingsHaveTierPrice,
-        //     siblingsHaveConfigurableOptions
-        // } = this.state;
-
         const { isPlp } = this.props;
 
         return {
-            // productCardFunctions: {
-            //     setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
-            //     setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
-            //     setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
-            //     setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
-            // },
-            // productCardProps: {
-            //     siblingsHaveBrands,
-            //     siblingsHavePriceBadge,
-            //     siblingsHaveTierPrice,
-            //     siblingsHaveConfigurableOptions
-            // },
             isPlp,
         };
     }
@@ -181,14 +156,15 @@ ProductListPageComponentState
         } = this.props;
 
         return items.map((product, i) => (
-            <ProductCard
-              product={ product }
-              // eslint-disable-next-line react/no-array-index-key
-              key={ i }
-              selectedFilters={ selectedFilters }
-              layout={ layout as CategoryPageLayout }
-              { ...this.containerProps() }
-            />
+                <ProductCard
+                  product={ product }
+                // eslint-disable-next-line react/no-array-index-key
+                  key={ i }
+                  selectedFilters={ selectedFilters }
+                  layout={ layout as CategoryPageLayout }
+                  { ...this.containerProps() }
+                  onLoad={ setLoadedFlag }
+                />
         ));
     }
 

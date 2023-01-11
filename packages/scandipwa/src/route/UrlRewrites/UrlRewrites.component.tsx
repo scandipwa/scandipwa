@@ -11,6 +11,7 @@
 
 import { lazy, PureComponent } from 'react';
 
+import Fallback from 'Component/Fallback';
 import { ReactElement } from 'Type/Common.type';
 
 import {
@@ -39,18 +40,27 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
         type: '',
     };
 
+    fallbackMap: Record<string, ReactElement> = {
+        [UrlRewritePageType.CATEGORY]: this.renderFallback(UrlRewritePageType.CATEGORY),
+        [UrlRewritePageType.PRODUCT]: this.renderFallback(UrlRewritePageType.PRODUCT),
+    };
+
+    renderFallback(type: string): ReactElement {
+        return <Fallback type={ type } />;
+    }
+
     renderDefaultPage(): ReactElement {
-        return (
-            <main />
-        );
+        const { type } = this.props;
+
+        return this.fallbackMap[type] || <main />;
     }
 
     renderProductPage(): ReactElement {
         const { props } = this.props;
         const {
             match,
-            productSKU,
-            id,
+            productSKU = window.actionName?.sku,
+            id = window.actionName?.id,
         } = props;
 
         if (!productSKU) {

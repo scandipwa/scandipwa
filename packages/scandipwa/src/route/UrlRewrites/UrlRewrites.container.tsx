@@ -72,7 +72,9 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
     initialUrl = '';
 
     componentDidMount(): void {
-        this.requestUrlRewrite();
+        if (this.getIsLoading()) {
+            this.requestUrlRewrite();
+        }
 
         this.initialUrl = location.pathname;
     }
@@ -118,8 +120,14 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
 
     getTypeSpecificProps(): Partial<UrlRewriteTypeSpecificProps> {
         const {
+            actionName: {
+                id: actionNameId,
+            } = {},
+            isPrefetchValueUsed,
+        } = window;
+        const {
             urlRewrite: {
-                id,
+                id = isPrefetchValueUsed ? actionNameId : undefined,
                 sku,
                 display_mode,
             },
@@ -223,7 +231,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
     }
 
     getType(): UrlRewritePageType | string {
-        const { urlRewrite: { type, notFound } } = this.props;
+        const { urlRewrite: { type = window.actionName?.type, notFound } } = this.props;
 
         /**
          * If the URL rewrite is loading, prefer state-defined URL type,

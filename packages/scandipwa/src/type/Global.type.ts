@@ -22,7 +22,13 @@ declare global {
         storeRegexText: string;
         actionName?: {
             type?: string;
+            id?: number;
+            sku?: string;
+            name?: string;
+            identifier?: string;
+            description?: string;
         };
+        catalog_default_sort_by: string;
         secure_base_media_url?: string;
         prefetchedImages: Record<string, HTMLImageElement>;
         storeList: Array<string>;
@@ -31,6 +37,8 @@ declare global {
         prompt_event?: BeforeInstallPromptEvent;
         website_code: string;
         storeCurrency: string;
+        isPriorityLoaded: boolean;
+        isPrefetchValueUsed?: boolean;
     }
 
     interface BeforeInstallPromptEvent extends Event {

@@ -342,8 +342,6 @@ export class ProductActionsComponent extends ProductComponent<ProductActionsComp
     renderDesktop(): ReactElement {
         return (
             <>
-                { this.renderBrand(true) }
-                { this.renderName() }
                 { this.renderReviewSection() }
                 { this.renderSkuAndStock() }
                 { this.renderShortDescription() }

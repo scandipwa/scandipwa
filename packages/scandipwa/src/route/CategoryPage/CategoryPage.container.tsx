@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ComponentType, PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -21,7 +21,6 @@ import {
     ProductAttributeFilterOptions,
 } from 'Query/ProductList.type';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
-import CategoryReducer from 'Store/Category/Category.reducer';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
@@ -31,7 +30,6 @@ import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
-import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
@@ -99,7 +97,6 @@ export const mapStateToProps = (state: RootState): CategoryPageContainerMapState
     totalItems: state.ProductListReducer.totalItems,
     plpType: state.ConfigReducer.plp_list_mode,
     isMobile: state.ConfigReducer.device.isMobile,
-    defaultSortKey: state.ConfigReducer.catalog_default_sort_by,
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -261,7 +258,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             isOffline,
             categoryIds,
             category: {
-                id,
+                id = window.actionName?.id,
             },
             currentArgs: {
                 filter,
@@ -502,7 +499,6 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             sortFields: {
                 options = [],
             },
-            defaultSortKey: globalDefaultSortKey,
         } = this.props;
         const { location } = history;
 
@@ -527,14 +523,11 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * - CategoryPage class property "config"
          * (used when global default sort key does not exist for current category)
          */
-        const isGlobalSortKeyAvailable = !!options.find(
-            (sortOption) => sortOption.value === globalDefaultSortKey,
-        );
         const isClassSortKeyAvailable = !!options.find(
             (sortOption) => sortOption.value === classDefaultSortKey,
         );
         const fallbackSortKey = isClassSortKeyAvailable ? classDefaultSortKey : options[0]?.value;
-        const defaultSortKey = isGlobalSortKeyAvailable ? globalDefaultSortKey : fallbackSortKey;
+        const defaultSortKey = window.catalog_default_sort_by || fallbackSortKey;
         const configSortKey = default_sort_by || defaultSortKey;
         const sortKey = getQueryParam('sortKey', location) || configSortKey;
 
@@ -745,10 +738,9 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     }
 }
 
-export default withReducers({
-    CategoryReducer,
-})(
-    connect(mapStateToProps, mapDispatchToProps)(CategoryPageContainer as unknown as ComponentType<
-    CategoryPageContainerProps
-    >),
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(
+    CategoryPageContainer,
 );

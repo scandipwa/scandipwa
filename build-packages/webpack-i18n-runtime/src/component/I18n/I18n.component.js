@@ -20,11 +20,6 @@ export class I18nComponent extends PureComponent {
         const { children } = this.props;
         const currentLocale = i18n.getCurrentLocale();
 
-        // Do not render anything while the translation is loading
-        if (i18n.isLoading) {
-            return null;
-        }
-
         // Remount the application on locale change
         return (
             <div

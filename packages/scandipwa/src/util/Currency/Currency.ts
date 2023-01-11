@@ -11,8 +11,8 @@
 
 import { Currencies, CurrencyData } from 'Query/Config.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/Store.type';
+import { getStoreState } from 'Util/Store';
+
 /**
  *
  * @type {string}
@@ -41,13 +41,11 @@ export const setCurrency = (currency: string): void => {
  * @namespace Util/Currency/getCurrency
  */
 export const getCurrency = (): string => {
-    const store = getStore();
-
     const {
         ConfigReducer: {
             default_display_currency_code = window.storeCurrency,
         } = {},
-    } = store.getState() as RootState;
+    } = getStoreState();
 
     const currency = BrowserDatabase.getItem(CUR_CURRENCY);
 

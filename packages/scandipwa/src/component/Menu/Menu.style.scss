@@ -11,7 +11,6 @@
 
 :root {
     --menu-item-height: 20px;
-    --menu-total-height: 53px;
 }
 
 @mixin subcategory-visible {
@@ -249,6 +248,12 @@
                     columns: 4;
                 }
             }
+        }
+    }
+
+    &-MainCategoriesPlaceholder {
+        @include desktop {
+            height: calc(var(--menu-total-height) - 18px);
         }
     }
 }

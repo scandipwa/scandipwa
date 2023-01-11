@@ -50,4 +50,42 @@
             }
         }
     }
+
+    &-Brand {
+        font-weight: bold;
+        opacity: .48;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    &-Title {
+        margin-block: 8px;
+        text-transform: none;
+
+        @include mobile {
+            font-weight: 400;
+            font-size: 14px;
+        }
+    }
+
+    &-SectionPlaceholder {
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        animation: var(--placeholder-animation);
+        margin: 0;
+        margin-block-end: 10px;
+        padding-block-end: 30%;
+
+        @include mobile {
+            padding-block-end: 60%;
+        }
+
+        &:first-child {
+            padding-block-end: 40%;
+
+            @include mobile {
+                padding-block-end: 100%;
+            }
+        }
+    }
 }

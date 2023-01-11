@@ -34,7 +34,7 @@ import './HomePage.style';
 
 /** @namespace Route/HomePage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): HomePageContainerMapStateProps => ({
-    pageIdentifiers: state.ConfigReducer.cms_home_page,
+    identifier: state.ConfigReducer.cms_home_page,
 });
 
 /** @namespace Route/HomePage/Container/mapDispatchToProps */
@@ -58,14 +58,14 @@ export class HomePageContainer extends PureComponent<HomePageContainerProps> {
             changeHeaderState,
             currentUrl,
             match,
-            pageIdentifiers,
+            identifier,
         } = this.props;
 
         return {
             changeHeaderState,
             currentUrl,
             match,
-            pageIdentifiers,
+            pageIdentifiers: window.actionName?.identifier || identifier,
         };
     }
 

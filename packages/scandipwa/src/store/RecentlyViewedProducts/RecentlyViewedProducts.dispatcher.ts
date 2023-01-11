@@ -22,8 +22,7 @@ import {
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { NetworkError } from 'Type/Common.type';
 import { QueryDispatcher } from 'Util/Request';
-import getStore from 'Util/Store';
-import { RootState } from 'Util/Store/Store.type';
+import { getStoreState } from 'Util/Store';
 
 import {
     RecentlyViewedProductsDispatcherData,
@@ -45,10 +44,10 @@ RecentlyViewedProductsDispatcherData
     }
 
     onSuccess({ products: { items } }: RecentlyViewedProductsDispatcherData, dispatch: Dispatch): void {
-        const state = getStore().getState() as RootState;
+        const state = getStoreState();
         const {
-            code: storeCode,
-        } = state.ConfigReducer;
+            code: storeCode = '',
+        } = state.ConfigReducer || {};
 
         dispatch(updateRecentlyViewedProducts(items, storeCode));
     }

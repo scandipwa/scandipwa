@@ -26,4 +26,31 @@
             inset-block-start: calc(var(--header-total-height) + 10px);
         }
     }
+
+    &-HeaderFallback {
+        height: calc(var(--header-total-height) + 1px);
+        border-bottom: 1px solid var(--primary-divider-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .TextPlaceholder {
+            @include desktop {
+                font-size: 52px;
+            }
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &-BreadcrumbsFallback {
+        height: var(--breadcrumbs-height);
+
+        @include mobile {
+            height: 0;
+            display: none;
+        }
+    }
 }
