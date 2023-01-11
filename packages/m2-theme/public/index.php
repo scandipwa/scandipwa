@@ -40,6 +40,7 @@ $icons = $this->getAppIconData();
             id: parseInt(`<?= $this->getId(); ?>`) || null,
             sku: `<?= $this->getSku(); ?>` || null,
             name: `<?= $this->getName(); ?>`,
+            display_mode: `<?= $this->getDisplayMode(); ?>`,
             identifier: `<?= $this->getIdentifier(); ?>`,
             description: `<?= $this->getDescription(); ?>`
         };
