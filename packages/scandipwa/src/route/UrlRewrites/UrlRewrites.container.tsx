@@ -127,7 +127,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
         } = window;
         const {
             urlRewrite: {
-                id = isPrefetchValueUsed ? undefined : actionNameId,
+                id = isPrefetchValueUsed ? actionNameId : undefined,
                 sku,
                 display_mode,
             },
