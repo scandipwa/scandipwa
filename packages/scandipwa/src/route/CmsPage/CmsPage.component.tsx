@@ -31,9 +31,9 @@ export class CmsPageComponent extends PureComponent<CmsPageComponentProps> {
     }
 
     renderHeading(): ReactElement {
-        const { cmsPage: { content_heading } } = this.props;
+        const { cmsPage: { content_heading }, isLoading } = this.props;
 
-        if (!content_heading) {
+        if (!content_heading || isLoading) {
             return null;
         }
 
