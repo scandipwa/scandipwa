@@ -523,14 +523,11 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * - CategoryPage class property "config"
          * (used when global default sort key does not exist for current category)
          */
-        const isGlobalSortKeyAvailable = !!options.find(
-            (sortOption) => sortOption.value === window.catalog_default_sort_by,
-        );
         const isClassSortKeyAvailable = !!options.find(
             (sortOption) => sortOption.value === classDefaultSortKey,
         );
         const fallbackSortKey = isClassSortKeyAvailable ? classDefaultSortKey : options[0]?.value;
-        const defaultSortKey = isGlobalSortKeyAvailable ? window.catalog_default_sort_by : fallbackSortKey;
+        const defaultSortKey = window.catalog_default_sort_by || fallbackSortKey;
         const configSortKey = default_sort_by || defaultSortKey;
         const sortKey = getQueryParam('sortKey', location) || configSortKey;
 
