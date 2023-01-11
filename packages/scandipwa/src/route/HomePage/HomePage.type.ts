@@ -13,7 +13,9 @@ import { match as Match } from 'react-router';
 
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 
-export interface HomePageContainerMapStateProps {}
+export interface HomePageContainerMapStateProps {
+    identifier: string;
+}
 
 export interface HomePageContainerMapDispatchProps {
     changeHeaderState: (state: NavigationState) => void;

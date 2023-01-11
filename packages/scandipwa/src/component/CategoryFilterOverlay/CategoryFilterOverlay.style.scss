@@ -221,8 +221,14 @@
     }
 
     .TextPlaceholder,
-    .ProductConfigurableAttributes-Placeholder {
-        opacity: 0;
-        animation: appear 100ms 300ms forwards;
+    .ProductConfigurableAttributes {
+        &-Placeholder {
+            opacity: 0;
+            animation: appear 100ms 300ms forwards;
+        }
+
+        &-Placeholders {
+            min-height: 200px;
+        }
     }
 }

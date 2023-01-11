@@ -21,6 +21,7 @@ import { CmsPageContainerProps } from 'Route/CmsPage/CmsPage.type';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
+import { RootState } from 'Util/Store/Store.type';
 
 import {
     HomePageContainerMapDispatchProps,
@@ -32,7 +33,9 @@ import {
 import './HomePage.style';
 
 /** @namespace Route/HomePage/Container/mapStateToProps */
-export const mapStateToProps = (): HomePageContainerMapStateProps => ({});
+export const mapStateToProps = (state: RootState): HomePageContainerMapStateProps => ({
+    identifier: state.ConfigReducer.cms_home_page,
+});
 
 /** @namespace Route/HomePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): HomePageContainerMapDispatchProps => ({
@@ -55,13 +58,14 @@ export class HomePageContainer extends PureComponent<HomePageContainerProps> {
             changeHeaderState,
             currentUrl,
             match,
+            identifier,
         } = this.props;
 
         return {
             changeHeaderState,
             currentUrl,
             match,
-            pageIdentifiers: window.actionName?.identifier || 'homepage',
+            pageIdentifiers: window.actionName?.identifier || identifier,
         };
     }
 

@@ -225,7 +225,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
     }
 
     getType(): UrlRewritePageType | string {
-        const { urlRewrite: { type = window.actionName?.type, notFound } } = this.props;
+        const { urlRewrite: { type, notFound } } = this.props;
 
         /**
          * If the URL rewrite is loading, prefer state-defined URL type,
@@ -249,6 +249,10 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
 
         if (notFound) {
             return UrlRewritePageType.NOTFOUND;
+        }
+
+        if (history.action === 'POP' && !type) {
+            return window.actionName?.type || '';
         }
 
         if (type) {

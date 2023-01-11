@@ -48,6 +48,6 @@ if (!importBooster) {
     window.isPriorityLoaded = true;
 } else {
     window.isPriorityLoaded = false;
-    window.isPrefetchValueUsed = false;
+    window.isPrefetchValueUsed = true;
     importBooster.importChunk();
 }

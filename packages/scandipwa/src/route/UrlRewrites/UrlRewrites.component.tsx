@@ -41,20 +41,12 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
     };
 
     fallbackMap: Record<string, ReactElement> = {
-        [UrlRewritePageType.CATEGORY]: this.renderCategoryFallback(),
-        [UrlRewritePageType.PRODUCT]: this.renderProductFallback(),
+        [UrlRewritePageType.CATEGORY]: this.renderFallback(UrlRewritePageType.CATEGORY),
+        [UrlRewritePageType.PRODUCT]: this.renderFallback(UrlRewritePageType.PRODUCT),
     };
 
-    renderCategoryFallback(): ReactElement {
-        return (
-            <Fallback type={ UrlRewritePageType.CATEGORY } />
-        );
-    }
-
-    renderProductFallback(): ReactElement {
-        return (
-            <Fallback type={ UrlRewritePageType.PRODUCT } />
-        );
+    renderFallback(type: string): ReactElement {
+        return <Fallback type={ type } />;
     }
 
     renderDefaultPage(): ReactElement {

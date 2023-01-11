@@ -104,7 +104,7 @@ export class FallbackComponent extends PureComponent<FallbackComponentProps> {
                         { this.renderCategoryName() }
                         { this.renderCategoryDescription() }
                     </article>
-                    <div block="Fallback" elem="DefaultPlaceholder" />
+                    <div />
                 </ContentWrapper>
             </main>
         );

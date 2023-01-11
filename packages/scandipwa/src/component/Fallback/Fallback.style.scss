@@ -26,6 +26,8 @@
             display: grid;
             padding-block-start: 24px;
             grid-column-gap: 48px;
+            padding-inline-start: 32px;
+            padding-inline-end: 32px;
         }
 
         grid-template-columns: 236px auto;
@@ -79,6 +81,13 @@
 
     &-ProductDetails {
         display: none;
+    }
+
+    &-CategoryDetails {
+        display: grid;
+        grid-template-columns: auto minmax(100px, 160px);
+        grid-gap: 12px;
+        word-break: break-all;
     }
 
     &-CategoryDetails,

@@ -69,7 +69,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CmsPageContainerDispatch
     },
     requestPage: (options) => {
         CmsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.prepareRequest(options),
+            ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
         );
     },
 });
