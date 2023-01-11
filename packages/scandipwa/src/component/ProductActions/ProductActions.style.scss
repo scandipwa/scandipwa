@@ -25,16 +25,6 @@
         line-height: 16px;
     }
 
-    &-Title {
-        margin-block: 8px;
-        text-transform: none;
-
-        @include mobile {
-            font-weight: 400;
-            font-size: 14px;
-        }
-    }
-
     &-ShortDescription {
         @include description-tags {
             line-height: 20px;
