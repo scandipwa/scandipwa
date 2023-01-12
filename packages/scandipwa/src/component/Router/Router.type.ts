@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ErrorInfo, ReactElement } from 'react';
+import { ErrorInfo, ReactElement, ReactNode } from 'react';
 
 import { PrintTypes } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
 import { PageMeta } from 'Store/Meta/Meta.type';
@@ -71,4 +71,5 @@ export interface RouterItem {
     component: ReactElement;
     position: number;
     name: RouterBeforeItemType | RouterSwitchItemType | RouterAfterItemType | PrintTypes;
+    fallback?: ReactNode;
 }
