@@ -28,7 +28,7 @@ export class CategoryPreLoad {
         args: {
             sort: {
                 sortDirection: SortDirections.ASC,
-                sortKey: window.actionName?.catalog_default_sort_by || 'position',
+                sortKey: window?.catalog_default_sort_by || 'position',
             },
             filter: {
                 priceRange: this.getSelectedPriceRangeFromUrl(),

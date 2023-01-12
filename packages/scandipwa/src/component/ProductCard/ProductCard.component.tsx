@@ -10,13 +10,13 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { createRef } from 'react';
+import { createRef, Suspense } from 'react';
 
 import Image from 'Component/Image';
 import { ImageRatio } from 'Component/Image/Image.type';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import { ProductComponent } from 'Component/Product/Product.component';
+import { ProductComponent, ProductConfigurableAttributes } from 'Component/Product/Product.component';
 import { ProductType } from 'Component/Product/Product.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
@@ -338,6 +338,48 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
                     { this.renderProductActions() }
                 </div>
             </>
+        );
+    }
+
+    renderConfigurableOptions(): ReactElement {
+        const {
+            setActiveProduct,
+            parameters,
+            product: { type_id: type, variants = [] },
+            inStock,
+            addToCartTriggeredWithError,
+            updateAddToCartTriggeredWithError,
+        } = this.props;
+
+        if (
+            type !== ProductType.CONFIGURABLE
+            || !Object.keys(this.getConfigurableAttributes()).length
+        ) {
+            return null;
+        }
+
+        return (
+            <div
+              block="ProductActions"
+              elem="AttributesWrapper"
+            >
+                <Suspense fallback={ null }>
+                    <ProductConfigurableAttributes
+                      // eslint-disable-next-line no-magic-numbers
+                      numberOfPlaceholders={ [2, 4] }
+                      updateAddToCartTriggeredWithError={ updateAddToCartTriggeredWithError }
+                      addToCartTriggeredWithError={ addToCartTriggeredWithError }
+                      mix={ { block: this.className, elem: 'Attributes' } }
+                      parameters={ parameters }
+                      variants={ variants }
+                      updateConfigurableVariant={ setActiveProduct }
+                      configurable_options={ this.getConfigurableAttributes() }
+                      isContentExpanded
+                      inStock={ inStock }
+                      showProductAttributeAsLink={ false }
+                    />
+                </Suspense>
+            </div>
         );
     }
 

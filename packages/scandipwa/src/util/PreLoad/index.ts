@@ -27,7 +27,7 @@ export const criticalChunkLoad = {
     },
     CmsChunk: {
         // Request CMS chunk also on homepage visit
-        test: type === UrlRewritePageType.CMS_PAGE || location.pathname === '/',
+        test: type === UrlRewritePageType.CMS_PAGE,
         importChunk: () => {
             import(/* webpackChunkName: "cms", webpackMode: "lazy" */ 'Route/CmsPage');
             CmsPagePreload.preloadCms();
@@ -48,5 +48,6 @@ if (!importBooster) {
     window.isPriorityLoaded = true;
 } else {
     window.isPriorityLoaded = false;
+    window.isPrefetchValueUsed = true;
     importBooster.importChunk();
 }

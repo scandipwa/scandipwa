@@ -14,6 +14,7 @@ import { createRef, PureComponent, Suspense } from 'react';
 
 import { FieldType } from 'Component/Field/Field.config';
 import ProductPrice from 'Component/ProductPrice';
+import ProductReviewRating from 'Component/ProductReviewRating';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
@@ -52,9 +53,6 @@ export const ProductDownloadableLinks = lowPriorityLazy(
 );
 export const ProductDownloadableSamples = lowPriorityLazy(
     () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductDownloadableSamples'),
-);
-export const ProductReviewRating = lowPriorityLazy(
-    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductReviewRating'),
 );
 export const ProductWishlistButton = lowPriorityLazy(
     () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductWishlistButton'),
@@ -391,12 +389,10 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
         }
 
         return (
-        <Suspense fallback={ null }>
             <ProductReviewRating
               summary={ rating_summary || 0 }
               count={ review_count }
             />
-        </Suspense>
         );
     }
 

@@ -43,7 +43,6 @@ export interface CategoryPageContainerMapStateProps {
     totalItems: number;
     plpType: string;
     isMobile: boolean;
-    defaultSortKey: string;
 }
 
 export interface CategoryPageContainerMapDispatchProps {

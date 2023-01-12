@@ -326,6 +326,8 @@ export class ProductListComponent extends PureComponent<ProductListComponentProp
         } = this.props;
 
         if (!isLoading && totalPages === 0) {
+            window.isPriorityLoaded = true;
+
             return this.renderNoProducts();
         }
 

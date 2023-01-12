@@ -41,7 +41,9 @@ export class CmsDispatcher extends QueryDispatcher<Partial<CmsPageQueryOptions>,
         dispatch(updateNoMatch(true));
     }
 
-    prepareRequest(options: Partial<CmsPageQueryOptions>): Query<'cmsPage', CmsPageFields> {
+    prepareRequest(options: Partial<CmsPageQueryOptions>, dispatch: Dispatch): Query<'cmsPage', CmsPageFields> {
+        dispatch(updateCmsPageLoading(true));
+
         return CmsPageQuery.getQuery(options);
     }
 }

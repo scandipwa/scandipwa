@@ -13,11 +13,11 @@ import { PureComponent, Suspense } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader/Loader.component';
-// import ProductActions from 'Component/ProductActions';
 import ProductGallery from 'Component/ProductGallery';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
-import ProductTabs from 'Component/ProductTabs';
 import { ProductTabShape } from 'Component/ProductTabs/ProductTabs.type';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import { ProductPageTabs } from 'Route/ProductPage/ProductPage.config';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
@@ -31,6 +31,10 @@ import './ProductPage.style';
 export const ProductReviews = lowPriorityLazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "product-misc" */
     'Component/ProductReviews'
+));
+export const ProductTabs = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-misc" */
+    'Component/ProductTabs'
 ));
 export const ProductAttributes = lowPriorityLazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "product-misc" */
@@ -90,15 +94,86 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
         },
     };
 
-    renderProductPageContent(): ReactElement {
+    renderProductDesktopMainData(): ReactElement {
+        return (
+            <>
+                { this.renderProductBrand() }
+                { this.renderProductName() }
+            </>
+        );
+    }
+
+    renderProductName(): ReactElement {
+        const { dataSource: { name } } = this.props;
+
+        return (
+            <h1 block="ProductPage" elem="Title" itemProp="name">
+                <TextPlaceholder content={ name } length={ TextPlaceHolderLength.MEDIUM } />
+            </h1>
+        );
+    }
+
+    renderProductBrand(): ReactElement {
+        const {
+            dataSource: {
+                attributes: { brand: { attribute_value: brand = '' } = {} } = {},
+            },
+        } = this.props;
+
+        if (!brand) {
+            return null;
+        }
+
+        return (
+            <>
+                <meta itemProp="brand" content={ brand } />
+                <h4 block="ProductPage" elem="Brand" itemProp="brand">
+                    <TextPlaceholder content={ brand } />
+                </h4>
+            </>
+        );
+    }
+
+    renderProductActionsPlaceholder() {
+        return (
+            <>
+                <div block="ProductPage" elem="SectionPlaceholder" />
+                <div block="ProductPage" elem="SectionPlaceholder" />
+            </>
+        );
+    }
+
+    renderProductActions() {
         const {
             getLink,
             dataSource,
             areDetailsLoaded,
-            activeProduct,
             setActiveProduct,
-            useEmptyGallerySwitcher,
             parameters,
+            isMobile,
+        } = this.props;
+
+        return (
+            <div block="ProductPage" elem="ProductActions">
+                { !isMobile && this.renderProductDesktopMainData() }
+                <Suspense fallback={ this.renderProductActionsPlaceholder() }>
+                    <ProductActions
+                      getLink={ getLink }
+                      product={ dataSource }
+                      parameters={ parameters }
+                      areDetailsLoaded={ areDetailsLoaded }
+                      setActiveProduct={ setActiveProduct }
+                    />
+                </Suspense>
+            </div>
+        );
+    }
+
+    renderProductPageContent(): ReactElement {
+        const {
+            areDetailsLoaded,
+            activeProduct,
+            useEmptyGallerySwitcher,
             isVariant,
         } = this.props;
 
@@ -110,15 +185,7 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
                   isWithEmptySwitcher={ useEmptyGallerySwitcher }
                   showLoader={ isVariant }
                 />
-                <Suspense fallback={ <div /> }>
-                    <ProductActions
-                      getLink={ getLink }
-                      product={ dataSource }
-                      parameters={ parameters }
-                      areDetailsLoaded={ areDetailsLoaded }
-                      setActiveProduct={ setActiveProduct }
-                    />
-                </Suspense>
+                { this.renderProductActions() }
             </>
         );
     }
@@ -192,7 +259,9 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
         }
 
         return (
-            <ProductTabs tabs={ tabs } />
+            <Suspense fallback={ <div /> }>
+                <ProductTabs tabs={ tabs } />
+            </Suspense>
         );
     }
 

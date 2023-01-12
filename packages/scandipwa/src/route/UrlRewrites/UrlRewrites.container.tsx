@@ -120,8 +120,14 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
 
     getTypeSpecificProps(): Partial<UrlRewriteTypeSpecificProps> {
         const {
+            actionName: {
+                id: actionNameId,
+            } = {},
+            isPrefetchValueUsed,
+        } = window;
+        const {
             urlRewrite: {
-                id = window.actionName?.id,
+                id = isPrefetchValueUsed ? actionNameId : undefined,
                 sku,
                 display_mode,
             },

@@ -22,11 +22,6 @@ module.exports = {
                 webpackConfig.optimization.splitChunks.cacheGroups = {};
             }
 
-            webpackConfig.optimization.splitChunks.cacheGroups.field = {
-                test: /(field)/i,
-                name: 'fields',
-            };
-
             webpackConfig.optimization.splitChunks.cacheGroups.reactDom = {
                 test: /[\\/]react-dom[\\/]/i,
                 name: 'react-dom',
