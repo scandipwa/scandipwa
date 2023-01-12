@@ -203,7 +203,7 @@ export class ProductActionsComponent extends ProductComponent<ProductActionsComp
             >
                 { this.renderSchema() }
                 <meta
-                  itemProp="highPrice"
+                  itemProp="price"
                   content={ (minFinalPrice === maxFinalPrice) ? String(minFinalPrice) : String(maxFinalPrice) }
                 />
                 { this.renderPrice() }

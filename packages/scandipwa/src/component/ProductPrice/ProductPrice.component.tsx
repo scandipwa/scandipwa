@@ -187,7 +187,7 @@ export class ProductPriceComponent extends PureComponent<ProductPriceComponentPr
         return (
             <del
               block="ProductPrice"
-              elem="HighPrice"
+              elem="price"
               aria-label={ __('Old product price') }
               itemProp={ isSchemaRequired && variantsCount > 1 ? 'highPrice' : undefined }
             >
