@@ -42,11 +42,12 @@ $icons = $this->getAppIconData();
             name: `<?= $this->getName(); ?>`,
             display_mode: `<?= $this->getDisplayMode(); ?>`,
             identifier: `<?= $this->getIdentifier(); ?>`,
-            description: `<?= $this->getDescription(); ?>`
+            description: `<?= $this->getDescription(); ?>`,
+            catalog_default_sort_by = '<?= $this->getCatalogDefaultSortBy() ?>';
         };
         window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
         window.storeCurrency = '<?= $this->getStoreCurrency() ?>';
-        window.catalog_default_sort_by = '<?= $this->getCatalogDefaultSortBy() ?>';
+        window.catalog_default_sort_by = '<?= $this->getCatalogDefaultSortByConfig() ?>';
 
         // Multistore
         // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`

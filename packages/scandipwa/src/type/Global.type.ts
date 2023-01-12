@@ -27,6 +27,7 @@ declare global {
             name?: string;
             identifier?: string;
             description?: string;
+            catalog_default_sort_by?: string;
         };
         catalog_default_sort_by: string;
         secure_base_media_url?: string;
