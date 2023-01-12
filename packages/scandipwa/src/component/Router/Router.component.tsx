@@ -360,12 +360,12 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
             ));
     }
 
-    _renderComponentsOfType(type: RouterItemType) {
+    _renderComponentsOfType(type: RouterItemType): ReactElement {
         return this.getSortedItems(type)
-            .map(({ position, component }) => cloneElement(component, { key: position }));
+            .map(({ position, component }: RouterItem) => cloneElement(component, { key: position }));
     }
 
-    renderSectionOfType(type: RouterItemType) {
+    renderSectionOfType(type: RouterItemType): ReactElement {
         return (
             <Suspense fallback={ <div /> }>
                 { this.renderComponentsOfType(type) }
@@ -435,7 +435,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         return this.renderDefaultRouterContent();
     }
 
-    render() {
+    render(): ReactElement {
         return (
             <>
                 <Meta />
