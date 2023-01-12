@@ -282,6 +282,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
             component: <Route render={ ({ match }) => <UrlRewrites match={ match } /> } />,
             position: 1000,
             name: RouterSwitchItemType.URL_REWRITES,
+            inline: true,
         },
     ];
 
@@ -352,17 +353,31 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
             return this._renderComponentsOfType(type);
         }
 
-        return this.getSortedItems(type)
-            .map(({ position, component, fallback }: RouterItem) => (
+        return this.getSortedItems(type).map(({
+            position, component, fallback,
+        }: RouterItem) => (
                 <Suspense fallback={ fallback || <div /> }>
                     { cloneElement(component, { key: position }) }
                 </Suspense>
-            ));
+        ));
     }
 
     _renderComponentsOfType(type: RouterItemType): ReactElement {
-        return this.getSortedItems(type)
-            .map(({ position, component }: RouterItem) => cloneElement(component, { key: position }));
+        return this.getSortedItems(type).map(({
+            position, component, fallback, inline,
+        }: RouterItem) => {
+            if (inline) {
+                return (
+                    cloneElement(component, { key: position })
+                );
+            }
+
+            return (
+                <Suspense fallback={ fallback || this.renderFallbackPage() }>
+                    { cloneElement(component, { key: position }) }
+                </Suspense>
+            );
+        });
     }
 
     renderSectionOfType(type: RouterItemType): ReactElement {
@@ -382,7 +397,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
 
         return (
             <Switch>
-                { this.renderComponentsOfType(RouterItemType.SWITCH_ITEMS_TYPE) }
+                { this.renderSectionOfType(RouterItemType.SWITCH_ITEMS_TYPE) }
             </Switch>
         );
     }
@@ -416,7 +431,6 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
 
         return (
             <ErrorHandler setBigOfflineNotice={ setBigOfflineNotice }>
-                { this.renderSectionOfType(RouterItemType.BEFORE_ITEMS_TYPE) }
                 <div block="Router" elem="MainItems">
                     { this.renderMainItems() }
                 </div>
@@ -439,11 +453,10 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         return (
             <>
                 <Meta />
-                <Suspense fallback={ this.renderFallbackPage() }>
-                    <ReactRouter history={ history }>
-                        { this.renderRouterContent() }
-                    </ReactRouter>
-                </Suspense>
+                <ReactRouter history={ history }>
+                    { this.renderSectionOfType(RouterItemType.BEFORE_ITEMS_TYPE) }
+                    { this.renderRouterContent() }
+                </ReactRouter>
             </>
         );
     }

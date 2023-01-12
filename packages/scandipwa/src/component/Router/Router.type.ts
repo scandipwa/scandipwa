@@ -72,4 +72,5 @@ export interface RouterItem {
     position: number;
     name: RouterBeforeItemType | RouterSwitchItemType | RouterAfterItemType | PrintTypes;
     fallback?: ReactNode;
+    inline?: boolean;
 }

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { lazy, PureComponent } from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 
 import Fallback from 'Component/Fallback';
 import { ReactElement } from 'Type/Common.type';
@@ -68,12 +68,14 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
         }
 
         return (
-            <ProductPage
-              match={ match }
-              productSKU={ productSKU }
-              productID={ id }
-              key={ id }
-            />
+            <Suspense fallback={ this.renderDefaultPage() }>
+                <ProductPage
+                  match={ match }
+                  productSKU={ productSKU }
+                  productID={ id }
+                  key={ id }
+                />
+            </Suspense>
         );
     }
 
@@ -85,10 +87,12 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
         } = props;
 
         return (
-            <CmsPage
-              match={ match }
-              pageIds={ pageIds }
-            />
+            <Suspense fallback={ this.renderDefaultPage() }>
+                <CmsPage
+                  match={ match }
+                  pageIds={ pageIds }
+                />
+            </Suspense>
         );
     }
 
@@ -101,11 +105,13 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
         } = props;
 
         return (
-            <CategoryPage
-              match={ match }
-              categoryIds={ categoryIds }
-              displayMode={ displayMode }
-            />
+            <Suspense fallback={ this.renderDefaultPage() }>
+                <CategoryPage
+                  match={ match }
+                  categoryIds={ categoryIds }
+                  displayMode={ displayMode }
+                />
+            </Suspense>
         );
     }
 
