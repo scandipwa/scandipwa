@@ -103,6 +103,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         {
             component: <Header />,
             position: 20,
+            fallback: this.renderHeaderFallback(),
             name: RouterBeforeItemType.HEADER,
         },
         {
@@ -333,7 +334,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         this.setState({ hasError: false });
     }
 
-    renderBeforeItemsFallback(): ReactElement {
+    renderHeaderFallback(): ReactElement {
         const { pathname = appendWithStoreCode('/') } = location;
 
         return (
@@ -347,13 +348,26 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
     }
 
     renderComponentsOfType(type: RouterItemType): ReactElement {
+        if (type === RouterItemType.SWITCH_ITEMS_TYPE) {
+            return this._renderComponentsOfType(type);
+        }
+
         return this.getSortedItems(type)
-            .map(({ position, component }: RouterItem) => cloneElement(component, { key: position }));
+            .map(({ position, component, fallback }: RouterItem) => (
+                <Suspense fallback={ fallback || <div /> }>
+                    { cloneElement(component, { key: position }) }
+                </Suspense>
+            ));
     }
 
-    renderSectionOfType(type: RouterItemType): ReactElement {
+    _renderComponentsOfType(type: RouterItemType) {
+        return this.getSortedItems(type)
+            .map(({ position, component }) => cloneElement(component, { key: position }));
+    }
+
+    renderSectionOfType(type: RouterItemType) {
         return (
-            <Suspense fallback={ this.renderBeforeItemsFallback() }>
+            <Suspense fallback={ <div /> }>
                 { this.renderComponentsOfType(type) }
             </Suspense>
         );
@@ -402,6 +416,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
 
         return (
             <ErrorHandler setBigOfflineNotice={ setBigOfflineNotice }>
+                { this.renderSectionOfType(RouterItemType.BEFORE_ITEMS_TYPE) }
                 <div block="Router" elem="MainItems">
                     { this.renderMainItems() }
                 </div>
@@ -420,16 +435,15 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         return this.renderDefaultRouterContent();
     }
 
-    render(): ReactElement {
+    render() {
         return (
             <>
                 <Meta />
-                <ReactRouter history={ history }>
-                    { this.renderSectionOfType(RouterItemType.BEFORE_ITEMS_TYPE) }
-                    <Suspense fallback={ this.renderFallbackPage(true) }>
+                <Suspense fallback={ this.renderFallbackPage() }>
+                    <ReactRouter history={ history }>
                         { this.renderRouterContent() }
-                    </Suspense>
-                </ReactRouter>
+                    </ReactRouter>
+                </Suspense>
             </>
         );
     }
