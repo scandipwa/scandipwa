@@ -87,7 +87,19 @@
         display: grid;
         grid-template-columns: auto minmax(100px, 160px);
         grid-gap: 12px;
+    }
+
+    &-CategoryDescriptionWrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 400;
         word-break: break-all;
+
+        @include mobile {
+            padding: 28px;
+        }
     }
 
     &-CategoryDetails,

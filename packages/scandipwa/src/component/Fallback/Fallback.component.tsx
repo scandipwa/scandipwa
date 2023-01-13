@@ -101,10 +101,12 @@ export class FallbackComponent extends PureComponent<FallbackComponentProps> {
                       mix={ { block: 'Fallback', elem: 'Placeholder' } }
                     />
                     <article block="Fallback" elem="CategoryDetails">
-                        { this.renderCategoryName() }
-                        { this.renderCategoryDescription() }
+                        <div block="Fallback" elem="CategoryDescriptionWrapper">
+                            { this.renderCategoryName() }
+                            { this.renderCategoryDescription() }
+                        </div>
+                        <div />
                     </article>
-                    <div />
                 </ContentWrapper>
             </main>
         );
