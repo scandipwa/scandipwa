@@ -84,6 +84,11 @@
     }
 
     &-CategoryDetails {
+        display: grid;
+        grid-template-columns: auto minmax(100px, 160px);
+    }
+
+    &-CategoryDescriptionWrapper {
         display: flex;
         flex-direction: column;
         justify-content: center;
