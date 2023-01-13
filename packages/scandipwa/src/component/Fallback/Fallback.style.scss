@@ -86,6 +86,7 @@
     &-CategoryDetails {
         display: grid;
         grid-template-columns: auto minmax(100px, 160px);
+        grid-gap: 12px;
     }
 
     &-CategoryDescriptionWrapper {
