@@ -95,6 +95,10 @@
         font-size: 14px;
         font-weight: 400;
         word-break: break-all;
+
+        @include mobile {
+            padding: 28px;
+        }
     }
 
     &-CategoryDetails,
