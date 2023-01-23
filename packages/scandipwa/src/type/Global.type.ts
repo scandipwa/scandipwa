@@ -29,7 +29,10 @@ declare global {
             description?: string;
             catalog_default_sort_by?: string;
         };
-        catalog_default_sort_by: string;
+        storeConfig?: {
+            cms_home_page: string;
+            catalog_default_sort_by: string;
+        };
         secure_base_media_url?: string;
         prefetchedImages: Record<string, HTMLImageElement>;
         storeList: Array<string>;

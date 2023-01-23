@@ -47,7 +47,7 @@ $icons = $this->getAppIconData();
         };
         window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
         window.storeCurrency = '<?= $this->getStoreCurrency() ?>';
-        window.catalog_default_sort_by = '<?= $this->getCatalogDefaultSortByConfig() ?>';
+        window.storeConfig = <?= json_encode($this->getStoreConfig()); ?> || {};
 
         // Multistore
         // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`

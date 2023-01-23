@@ -527,7 +527,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             (sortOption) => sortOption.value === classDefaultSortKey,
         );
         const fallbackSortKey = isClassSortKeyAvailable ? classDefaultSortKey : options[0]?.value;
-        const defaultSortKey = window.catalog_default_sort_by || fallbackSortKey;
+        const defaultSortKey = window.storeConfig?.catalog_default_sort_by || fallbackSortKey;
         const configSortKey = default_sort_by || defaultSortKey;
         const sortKey = getQueryParam('sortKey', location) || configSortKey;
 
