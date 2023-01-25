@@ -23,6 +23,7 @@ import Link from 'Component/Link';
 import WidgetFactory from 'Component/WidgetFactory';
 import { WidgetFactoryComponentProps } from 'Component/WidgetFactory/WidgetFactory.type';
 import { hash } from 'Util/Request/Hash';
+import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
 
 import { HtmlComponentProps, HtmlParserRule } from './Html.type';
 
@@ -66,10 +67,28 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
         },
     ];
 
+    lastElement: Partial<DomElement> = {};
+
+    isLoadedFlagSet: boolean = false;
+
     parserOptions: HTMLReactParserOptions = {
         // eslint-disable-next-line react/no-unstable-nested-components
         replace: (domNode: DomElement): JSX.Element | undefined => {
-            const { data, name: domName, attribs: domAttrs } = domNode;
+            const {
+                data, name: domName, attribs: domAttrs, next, children,
+            } = domNode;
+
+            if (!parent && next) {
+                if (Array.isArray(children) && children.length) {
+                    this.lastElement = children[children.length - 1];
+                } else {
+                    this.lastElement = domNode;
+                }
+            }
+
+            if (this.lastElement === domNode && !this.isLoadedFlagSet) {
+                setLoadedFlag();
+            }
 
             // Let's remove empty text nodes
             if (data && !data.replace(/\u21b5/g, '').replace(/\s/g, '').length) {
@@ -170,8 +189,10 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
     replaceImages({ attribs }: DomElement): JSX.Element | undefined {
         const attributes = attributesToProps(attribs);
 
+        this.isLoadedFlagSet = true;
+
         if (attribs.src) {
-            return <Image { ...attributes } isPlain />;
+            return <Image { ...attributes } isPlain onImageLoad={ setLoadedFlag } />;
         }
     }
 

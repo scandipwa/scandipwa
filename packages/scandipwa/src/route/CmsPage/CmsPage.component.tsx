@@ -26,10 +26,6 @@ export class CmsPageComponent extends PureComponent<CmsPageComponentProps> {
         isBreadcrumbsActive: true,
     };
 
-    componentDidMount() {
-        window.isPriorityLoaded = true;
-    }
-
     renderHeading(): ReactElement {
         const { cmsPage: { content_heading }, isLoading } = this.props;
 

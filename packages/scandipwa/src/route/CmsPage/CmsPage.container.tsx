@@ -102,7 +102,7 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
         }
 
-        if (!isOnlyPlaceholder) {
+        if (!isOnlyPlaceholder && !window.isPrefetchValueUsed) {
             this.requestPage();
         }
     }
@@ -113,6 +113,7 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
             pageIdentifiers,
             pageIds,
             cmsPage,
+            isLoading,
         } = this.props;
 
         const {
@@ -123,9 +124,10 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
         } = prevProps;
 
         if (
-            currentUrl !== prevCurrentUrl
+            (currentUrl !== prevCurrentUrl
             || pageIds !== prevPageIds
-            || pageIdentifiers !== prevPageIdentifiers
+            || pageIdentifiers !== prevPageIdentifiers)
+            && !isLoading
         ) {
             this.requestPage();
         }
@@ -133,6 +135,10 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
         if (JSON.stringify(cmsPage) !== JSON.stringify(prevCmsPage)) {
             this.onPageLoad();
         }
+    }
+
+    componentWillUnmount(): void {
+        window.isPrefetchValueUsed = false;
     }
 
     containerProps(): Pick<

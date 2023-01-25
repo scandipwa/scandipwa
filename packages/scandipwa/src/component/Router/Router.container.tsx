@@ -23,6 +23,7 @@ import {
     isMobileClientHints,
     isUsingClientHints,
 } from 'Util/Mobile';
+import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
 import { RootState } from 'Util/Store/Store.type';
 
 import Router from './Router.component';
@@ -233,7 +234,9 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
     initializeApplication(): void {
         const { init } = this.props;
 
-        init();
+        waitForPriorityLoad().then(/** @namespace Component/Router/Container/RouterContainer/initializeApplication/waitForPriorityLoad/then/init */
+            () => init(),
+        );
     }
 
     redirectFromPartialUrl(): void {
