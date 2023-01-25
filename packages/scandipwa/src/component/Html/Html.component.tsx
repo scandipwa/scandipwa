@@ -16,20 +16,16 @@
 import parser, { DomElement, HTMLReactParserOptions } from 'html-react-parser';
 import attributesToProps from 'html-react-parser/lib/attributes-to-props';
 import domToReact from 'html-react-parser/lib/dom-to-react';
-import { lazy, PureComponent, Suspense } from 'react';
+import { PureComponent } from 'react';
 
 import Image from 'Component/Image';
 import Link from 'Component/Link';
-import Loader from 'Component/Loader/Loader.component';
+import WidgetFactory from 'Component/WidgetFactory';
 import { WidgetFactoryComponentProps } from 'Component/WidgetFactory/WidgetFactory.type';
 import { hash } from 'Util/Request/Hash';
+import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
 
 import { HtmlComponentProps, HtmlParserRule } from './Html.type';
-
-export const WidgetFactory = lazy(() => import(
-    /* webpackMode: "lazy", webpackChunkName: "widget" */
-    'Component/WidgetFactory'
-));
 
 /**
  * Html content parser
@@ -71,10 +67,28 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
         },
     ];
 
+    lastElement: Partial<DomElement> = {};
+
+    isLoadedFlagSet: boolean = false;
+
     parserOptions: HTMLReactParserOptions = {
         // eslint-disable-next-line react/no-unstable-nested-components
         replace: (domNode: DomElement): JSX.Element | undefined => {
-            const { data, name: domName, attribs: domAttrs } = domNode;
+            const {
+                data, name: domName, attribs: domAttrs, next, children,
+            } = domNode;
+
+            if (!parent && next) {
+                if (Array.isArray(children) && children.length) {
+                    this.lastElement = children[children.length - 1];
+                } else {
+                    this.lastElement = domNode;
+                }
+            }
+
+            if (this.lastElement === domNode && !this.isLoadedFlagSet) {
+                setLoadedFlag();
+            }
 
             // Let's remove empty text nodes
             if (data && !data.replace(/\u21b5/g, '').replace(/\s/g, '').length) {
@@ -175,8 +189,10 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
     replaceImages({ attribs }: DomElement): JSX.Element | undefined {
         const attributes = attributesToProps(attribs);
 
+        this.isLoadedFlagSet = true;
+
         if (attribs.src) {
-            return <Image { ...attributes } isPlain />;
+            return <Image { ...attributes } isPlain onImageLoad={ setLoadedFlag } />;
         }
     }
 
@@ -216,9 +232,7 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
      */
     replaceWidget({ attribs }: DomElement): JSX.Element | undefined {
         return (
-            <Suspense fallback={ <Loader isLoading /> }>
-                <WidgetFactory { ...this.attributesToProps(attribs) as unknown as WidgetFactoryComponentProps } />
-            </Suspense>
+            <WidgetFactory { ...this.attributesToProps(attribs) as unknown as WidgetFactoryComponentProps } />
         );
     }
 

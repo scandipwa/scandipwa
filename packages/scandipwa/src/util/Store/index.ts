@@ -53,4 +53,7 @@ export const store: Store<RootState, AnyAction> = configureStore(createStore(
 /** @namespace Util/Store/Index/getStore */
 export const getStore = (): typeof store => store;
 
+/** @namespace Util/Store/Index/getStoreState */
+export const getStoreState = (): Partial<RootState> => store.getState() || {};
+
 export default getStore;

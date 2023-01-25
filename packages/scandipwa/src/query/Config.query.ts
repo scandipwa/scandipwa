@@ -214,6 +214,7 @@ export class ConfigQuery {
             new Field<'downloadable_disable_guest_checkout', boolean>('downloadable_disable_guest_checkout'),
             new Field<'minimun_password_length', number>('minimun_password_length'),
             new Field<'required_character_classes_number', string>('required_character_classes_number'),
+            new Field<'catalog_default_sort_by', string>('catalog_default_sort_by'),
             ...this._getTimeDateFormatFields(),
             this._getPriceDisplayTypeField(),
         ];

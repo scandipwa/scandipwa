@@ -14,6 +14,7 @@ import { createRoot } from 'react-dom/client';
 
 import App from 'Component/App';
 
+import 'Util/PreLoad';
 import 'Util/Polyfill';
 import 'Style/main';
 

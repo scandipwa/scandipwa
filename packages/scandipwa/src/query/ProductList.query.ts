@@ -200,7 +200,7 @@ export class ProductListQuery {
                 handler: <SortKey extends string>(
                     { sortKey, sortDirection }: { sortKey: SortKey; sortDirection: SortDirections },
                 ): Partial<Record<SortKey, SortDirections>> => {
-                    if (sortKey === NONE_SORT_OPTION_VALUE) {
+                    if (!sortKey || sortKey === NONE_SORT_OPTION_VALUE) {
                         return {};
                     }
 

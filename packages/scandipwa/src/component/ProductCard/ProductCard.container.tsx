@@ -94,6 +94,7 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
             renderContent,
             product,
             isPlp,
+            onLoad,
         } = this.props;
 
         return {
@@ -108,6 +109,7 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
             isPlp,
             thumbnail: getSmallImage(this.getActiveProduct()) || getSmallImage(product),
             linkTo: this.getLinkTo(),
+            onLoad,
         };
     }
 

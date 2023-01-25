@@ -9,23 +9,14 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { CategoryDisplayMode } from 'Route/CategoryPage/CategoryPage.config';
+
 export interface MenuItem {
     url: string;
-    icon: string;
     title: string;
     item_id: string;
     position: number;
-    url_type: number;
     parent_id: number;
-    is_active: boolean;
-    item_class: string;
     category_id: number;
-    cms_page_identifier: string;
-}
-
-export interface Menu {
-    menu_id: string;
-    is_active: boolean;
-    css_class: string;
-    items: MenuItem[];
+    display_mode: CategoryDisplayMode;
 }

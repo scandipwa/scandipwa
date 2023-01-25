@@ -31,10 +31,14 @@ import Meta from 'Component/Meta';
 import {
     PrintTypes,
 } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import UrlRewrites from 'Route/UrlRewrites';
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
+import { appendWithStoreCode, isHomePageUrl } from 'Util/Url';
 
 import {
     RouterAfterItemType,
@@ -49,31 +53,32 @@ import './Router.style';
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Route/CartPage'));
 export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ 'Route/Checkout'));
 export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
-export const CookiePopup = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/CookiePopup'));
-export const DemoNotice = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/DemoNotice'));
-export const Header = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/Header'));
 export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/HomePage'));
 export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/MyAccount'));
 export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/PasswordChangePage'));
 export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "search" */ 'Route/SearchPage'));
-export const SendConfirmationPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/SendConfirmationPage'));
-export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/ConfirmAccountPage'));
-export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/MenuPage'));
-export const Footer = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "footer" */ 'Component/Footer'));
-export const NavigationTabs = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/NavigationTabs'));
-export const NewVersionPopup = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/NewVersionPopup'));
-export const NotificationList = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/NotificationList'));
+export const SendConfirmationPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/SendConfirmationPage'));
+export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/ConfirmAccountPage'));
+export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "menu" */ 'Route/MenuPage'));
 export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/WishlistSharedPage'));
-export const OfflineNotice = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/OfflineNotice'));
 export const ContactPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "contact" */ 'Route/ContactPage'));
 export const ProductComparePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/ProductComparePage'));
 export const CreateAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/CreateAccount'));
 export const LoginAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/LoginAccount'));
 export const ForgotPasswordPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/ForgotPassword'));
-export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "something-went-wrong" */ 'Route/SomethingWentWrong'));
 export const StyleGuidePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "styleguide" */ 'Route/StyleGuidePage'));
-export const Breadcrumbs = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/Breadcrumbs'));
 export const OrderPrintPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "print-order" */ 'Route/OrderPrintPage'));
+
+export const Header = lowPriorityLazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/Header'));
+export const NavigationTabs = lowPriorityLazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/NavigationTabs'));
+export const Footer = lowPriorityLazy(() => import(/* webpackMode: "lazy", webpackChunkName: "footer" */ 'Component/Footer'));
+export const NewVersionPopup = lowPriorityLazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/NewVersionPopup'));
+export const NotificationList = lowPriorityLazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/NotificationList'));
+export const OfflineNotice = lowPriorityLazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/OfflineNotice'));
+export const CookiePopup = lowPriorityLazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/CookiePopup'));
+export const DemoNotice = lowPriorityLazy(() => import(/* webpackMode: "lazy", webpackChunkName: "notice" */ 'Component/DemoNotice'));
+export const SomethingWentWrong = lowPriorityLazy(() => import(/* webpackMode: "lazy", webpackChunkName: "something-went-wrong" */ 'Route/SomethingWentWrong'));
+export const Breadcrumbs = lowPriorityLazy(() => import(/* webpackMode: "lazy", webpackChunkName: "header" */ 'Component/Breadcrumbs'));
 
 /** @namespace Component/Router/Component/withStoreRegex */
 export const withStoreRegex = (path: string): string => window.storeRegexText.concat(path);
@@ -98,6 +103,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         {
             component: <Header />,
             position: 20,
+            fallback: this.renderHeaderFallback(),
             name: RouterBeforeItemType.HEADER,
         },
         {
@@ -276,6 +282,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
             component: <Route render={ ({ match }) => <UrlRewrites match={ match } /> } />,
             position: 1000,
             name: RouterSwitchItemType.URL_REWRITES,
+            inline: true,
         },
     ];
 
@@ -328,14 +335,54 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         this.setState({ hasError: false });
     }
 
+    renderHeaderFallback(): ReactElement {
+        const { pathname = appendWithStoreCode('/') } = location;
+
+        return (
+            <div block="Router">
+                <section block="Router" elem="HeaderFallback">
+                    <TextPlaceholder length={ TextPlaceHolderLength.MEDIUM } />
+                </section>
+                { !isHomePageUrl(pathname) && <section block="Router" elem="BreadcrumbsFallback" /> }
+            </div>
+        );
+    }
+
     renderComponentsOfType(type: RouterItemType): ReactElement {
-        return this.getSortedItems(type)
-            .map(({ position, component }: RouterItem) => cloneElement(component, { key: position }));
+        if (type === RouterItemType.SWITCH_ITEMS_TYPE) {
+            return this._renderComponentsOfType(type);
+        }
+
+        return this.getSortedItems(type).map(({
+            position, component, fallback,
+        }: RouterItem) => (
+                <Suspense fallback={ fallback || <div /> }>
+                    { cloneElement(component, { key: position }) }
+                </Suspense>
+        ));
+    }
+
+    _renderComponentsOfType(type: RouterItemType): ReactElement {
+        return this.getSortedItems(type).map(({
+            position, component, fallback, inline,
+        }: RouterItem) => {
+            if (inline) {
+                return (
+                    cloneElement(component, { key: position })
+                );
+            }
+
+            return (
+                <Suspense fallback={ fallback || this.renderFallbackPage() }>
+                    { cloneElement(component, { key: position }) }
+                </Suspense>
+            );
+        });
     }
 
     renderSectionOfType(type: RouterItemType): ReactElement {
         return (
-            <Suspense fallback={ this.renderFallbackPage() }>
+            <Suspense fallback={ <div /> }>
                 { this.renderComponentsOfType(type) }
             </Suspense>
         );
@@ -350,7 +397,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
 
         return (
             <Switch>
-                { this.renderComponentsOfType(RouterItemType.SWITCH_ITEMS_TYPE) }
+                { this.renderSectionOfType(RouterItemType.SWITCH_ITEMS_TYPE) }
             </Switch>
         );
     }
@@ -408,9 +455,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
                 <Meta />
                 <ReactRouter history={ history }>
                     { this.renderSectionOfType(RouterItemType.BEFORE_ITEMS_TYPE) }
-                    <Suspense fallback={ this.renderFallbackPage(true) }>
-                        { this.renderRouterContent() }
-                    </Suspense>
+                    { this.renderRouterContent() }
                 </ReactRouter>
             </>
         );

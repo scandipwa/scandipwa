@@ -9,39 +9,56 @@
  * @link https://github.com/scandipwa/scandipwa-ProductReviewListtheme
  */
 
-import { lazy, PureComponent, Suspense } from 'react';
+import { PureComponent, Suspense } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader/Loader.component';
-import Popup from 'Component/Popup/Popup.container';
-import ProductActions from 'Component/ProductActions';
-import ProductInformation from 'Component/ProductInformation';
-import ProductLinks from 'Component/ProductLinks';
-import ProductReviewForm from 'Component/ProductReviewForm/ProductReviewForm.container';
+import ProductGallery from 'Component/ProductGallery';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
-import ProductTabs from 'Component/ProductTabs';
 import { ProductTabShape } from 'Component/ProductTabs/ProductTabs.type';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import { ProductPageTabs } from 'Route/ProductPage/ProductPage.config';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { ReactElement } from 'Type/Common.type';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
 
 import { ProductPageComponentProps, ProductPageTab } from './ProductPage.type';
 
 import './ProductPage.style';
 
-export const ProductGallery = lazy(() => import(
-    /* webpackMode: "lazy", webpackChunkName: "product-gallery" */
-    'Component/ProductGallery'
-));
-
-export const ProductReviews = lazy(() => import(
-    /* webpackMode: "lazy", webpackChunkName: "product-reviews" */
+export const ProductReviews = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-misc" */
     'Component/ProductReviews'
 ));
-export const ProductAttributes = lazy(() => import(
-    /* webpackMode: "lazy", webpackChunkName: "product-attributes" */
+export const ProductTabs = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-misc" */
+    'Component/ProductTabs'
+));
+export const ProductAttributes = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-misc" */
     'Component/ProductAttributes'
+));
+export const ProductReviewForm = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-misc" */
+    'Component/ProductReviewForm'
+));
+export const ProductLinks = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-misc" */
+    'Component/ProductLinks'
+));
+export const ProductInformation = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-misc" */
+    'Component/ProductInformation'
+));
+export const Popup = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "overlays" */
+    'Component/Popup/Popup.container'
+));
+export const ProductActions = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "overlays" */
+    'Component/ProductActions'
 ));
 
 /** @namespace Route/ProductPage/Component */
@@ -77,15 +94,86 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
         },
     };
 
-    renderProductPageContent(): ReactElement {
+    renderProductDesktopMainData(): ReactElement {
+        return (
+            <>
+                { this.renderProductBrand() }
+                { this.renderProductName() }
+            </>
+        );
+    }
+
+    renderProductName(): ReactElement {
+        const { dataSource: { name } } = this.props;
+
+        return (
+            <h1 block="ProductPage" elem="Title" itemProp="name">
+                <TextPlaceholder content={ name } length={ TextPlaceHolderLength.MEDIUM } />
+            </h1>
+        );
+    }
+
+    renderProductBrand(): ReactElement {
+        const {
+            dataSource: {
+                attributes: { brand: { attribute_value: brand = '' } = {} } = {},
+            },
+        } = this.props;
+
+        if (!brand) {
+            return null;
+        }
+
+        return (
+            <>
+                <meta itemProp="brand" content={ brand } />
+                <h4 block="ProductPage" elem="Brand" itemProp="brand">
+                    <TextPlaceholder content={ brand } />
+                </h4>
+            </>
+        );
+    }
+
+    renderProductActionsPlaceholder() {
+        return (
+            <>
+                <div block="ProductPage" elem="SectionPlaceholder" />
+                <div block="ProductPage" elem="SectionPlaceholder" />
+            </>
+        );
+    }
+
+    renderProductActions() {
         const {
             getLink,
             dataSource,
             areDetailsLoaded,
-            activeProduct,
             setActiveProduct,
-            useEmptyGallerySwitcher,
             parameters,
+            isMobile,
+        } = this.props;
+
+        return (
+            <div block="ProductPage" elem="ProductActions">
+                { !isMobile && this.renderProductDesktopMainData() }
+                <Suspense fallback={ this.renderProductActionsPlaceholder() }>
+                    <ProductActions
+                      getLink={ getLink }
+                      product={ dataSource }
+                      parameters={ parameters }
+                      areDetailsLoaded={ areDetailsLoaded }
+                      setActiveProduct={ setActiveProduct }
+                    />
+                </Suspense>
+            </div>
+        );
+    }
+
+    renderProductPageContent(): ReactElement {
+        const {
+            areDetailsLoaded,
+            activeProduct,
+            useEmptyGallerySwitcher,
             isVariant,
         } = this.props;
 
@@ -97,13 +185,7 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
                   isWithEmptySwitcher={ useEmptyGallerySwitcher }
                   showLoader={ isVariant }
                 />
-                <ProductActions
-                  getLink={ getLink }
-                  product={ dataSource }
-                  parameters={ parameters }
-                  areDetailsLoaded={ areDetailsLoaded }
-                  setActiveProduct={ setActiveProduct }
-                />
+                { this.renderProductActions() }
             </>
         );
     }
@@ -119,11 +201,13 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
         }
 
         return (
-            <ProductInformation
-              htmlDescription={ html }
-              areDetailsLoaded={ areDetailsLoaded }
-              key={ key }
-            />
+            <Suspense fallback={ null }>
+                <ProductInformation
+                  htmlDescription={ html }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  key={ key }
+                />
+            </Suspense>
         );
     }
 
@@ -175,7 +259,9 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
         }
 
         return (
-            <ProductTabs tabs={ tabs } />
+            <Suspense fallback={ <div /> }>
+                <ProductTabs tabs={ tabs } />
+            </Suspense>
         );
     }
 
@@ -187,16 +273,20 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
         return (
             <>
                 { this.renderProductTabs() }
-                <ProductLinks
-                  linkType={ LinkedProductType.RELATED }
-                  title={ __('Recommended for you') }
-                  areDetailsLoaded={ areDetailsLoaded }
-                />
-                <ProductLinks
-                  linkType={ LinkedProductType.UPSELL }
-                  title={ __('You might also like') }
-                  areDetailsLoaded={ areDetailsLoaded }
-                />
+                <Suspense fallback={ null }>
+                    <ProductLinks
+                      linkType={ LinkedProductType.RELATED }
+                      title={ __('Recommended for you') }
+                      areDetailsLoaded={ areDetailsLoaded }
+                    />
+                </Suspense>
+                <Suspense fallback={ null }>
+                    <ProductLinks
+                      linkType={ LinkedProductType.UPSELL }
+                      title={ __('You might also like') }
+                      areDetailsLoaded={ areDetailsLoaded }
+                    />
+                </Suspense>
             </>
         );
     }
@@ -205,12 +295,14 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
         const { dataSource } = this.props;
 
         return (
-            <Popup
-              id={ REVIEW_POPUP_ID }
-              mix={ { block: 'ProductReviews', elem: 'Popup' } }
-            >
-                <ProductReviewForm product={ dataSource } />
-            </Popup>
+            <Suspense fallback={ null }>
+                <Popup
+                  id={ REVIEW_POPUP_ID }
+                  mix={ { block: 'ProductReviews', elem: 'Popup' } }
+                >
+                    <ProductReviewForm product={ dataSource } />
+                </Popup>
+            </Suspense>
         );
     }
 

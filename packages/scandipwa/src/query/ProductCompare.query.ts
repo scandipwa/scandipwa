@@ -9,7 +9,12 @@
  * @link https://github.com/scandipwa/scandipwa-theme
  */
 
-import { Field, Mutation, Query } from '@tilework/opus';
+import {
+    Field,
+    InlineFragment,
+    Mutation,
+    Query,
+} from '@tilework/opus';
 
 import { ProductListQuery } from 'Query/ProductList.query';
 
@@ -22,6 +27,7 @@ import {
     CompareList,
     ProductId,
 } from './ProductCompare.type';
+import { CustomizableProductFragmentOptions } from './ProductList.type';
 
 /** @namespace Query/ProductCompare/Query */
 export class ProductCompareQuery extends ProductListQuery {
@@ -163,7 +169,25 @@ export class ProductCompareQuery extends ProductListQuery {
             .addField(this._getReviewCountField())
             .addField(this._getRatingSummaryField())
             .addField(this._getDescriptionField())
-            .addField(this._getGroupedProductItems());
+            .addField(this._getGroupedProductItems())
+            .addField(this._getDownloadableProductLinksRequired())
+            .addField(this._getCustomizableProductFragment());
+    }
+
+    _getCustomizableProductFragment(): InlineFragment<'CustomizableProductInterface', {
+        options: CustomizableProductFragmentOptions[];
+    }> {
+        return new InlineFragment<'CustomizableProductInterface', {
+            options: CustomizableProductFragmentOptions[];
+        }>(
+            'CustomizableProductInterface',
+        )
+            .addFieldList([this._getCustomizableProductRequiredOptionsField()]);
+    }
+
+    _getCustomizableProductRequiredOptionsField(): Field<'options', CustomizableProductFragmentOptions, true> {
+        return new Field<'options', CustomizableProductFragmentOptions, true>('options', true)
+            .addField(new Field<'required', boolean>('required'));
     }
 
     _getProductIdsField(): Field<'product', { id: number }> {

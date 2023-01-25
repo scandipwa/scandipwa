@@ -18,6 +18,7 @@ import ProductConfigurableAttributes from 'Component/ProductConfigurableAttribut
 import {
     ProductConfigurableAttribute,
 } from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.type';
+import RenderWhenVisible from 'Component/RenderWhenVisible';
 import { ReactElement } from 'Type/Common.type';
 import { getPriceFilterLabel } from 'Util/Category';
 import { sortBySortOrder } from 'Util/Product';
@@ -85,17 +86,20 @@ CategoryConfigurableAttributesComponentProps
         const isSwatch = !!swatch_data;
 
         return (
-            <ExpandableContent
-              key={ attribute_code }
-              heading={ attribute_label }
-              mix={ {
-                  block: 'ProductConfigurableAttributes',
-                  elem: 'Expandable',
-              } }
-              isContentExpanded={ isContentExpanded }
-            >
-                { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
-            </ExpandableContent>
+            // eslint-disable-next-line react/jsx-no-bind
+            <RenderWhenVisible fallback={ () => <div block="ProductConfigurableAttributes" elem="Placeholders" /> }>
+                <ExpandableContent
+                  key={ attribute_code }
+                  heading={ attribute_label }
+                  mix={ {
+                      block: 'ProductConfigurableAttributes',
+                      elem: 'Expandable',
+                  } }
+                  isContentExpanded={ isContentExpanded }
+                >
+                    { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
+                </ExpandableContent>
+            </RenderWhenVisible>
         );
     }
 

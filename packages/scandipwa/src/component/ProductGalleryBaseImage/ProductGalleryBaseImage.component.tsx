@@ -15,6 +15,7 @@ import { TransformComponent } from 'react-zoom-pan-pinch';
 import Image from 'Component/Image';
 import { ImageRatio } from 'Component/Image/Image.type';
 import { ReactElement } from 'Type/Common.type';
+import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
 
 import { ProductGalleryComponentProps } from './ProductGalleryBaseImage.type';
 
@@ -35,6 +36,7 @@ export class ProductGalleryBaseImageComponent extends PureComponent<ProductGalle
                   } }
                   isPlaceholder={ !src }
                   alt={ alt }
+                  onImageLoad={ setLoadedFlag }
                 />
                 <img
                   style={ { display: 'none' } }

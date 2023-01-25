@@ -4,6 +4,7 @@ const { ResourceType } = require('@scandipwa/scandipwa-development-toolkit-core'
 const creator = require('./lib/creator');
 const componentOptions = require('./lib/options/withComponentOptions');
 const storeOptions = require('./lib/options/withStoreOptions');
+const queryOptions = require('./lib/options/withQueryOptions');
 const withTargetDirectory = require('../../common/options/withTargetDirectory');
 
 module.exports = (yargs) => {
@@ -32,7 +33,7 @@ module.exports = (yargs) => {
         yargs.command(
             'query <name>',
             'Create a query',
-            (yargs) => withTargetDirectory(yargs),
+            (yargs) => queryOptions(withTargetDirectory(yargs)),
             creator(ResourceType.Query)
         );
     });

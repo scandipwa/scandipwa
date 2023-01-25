@@ -72,7 +72,9 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
     initialUrl = '';
 
     componentDidMount(): void {
-        this.requestUrlRewrite();
+        if (this.getIsLoading()) {
+            this.requestUrlRewrite();
+        }
 
         this.initialUrl = location.pathname;
     }
@@ -118,9 +120,16 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
 
     getTypeSpecificProps(): Partial<UrlRewriteTypeSpecificProps> {
         const {
+            actionName: {
+                id: actionNameId,
+            } = {},
+            isPrefetchValueUsed,
+        } = window;
+        const {
             urlRewrite: {
-                id,
+                id = isPrefetchValueUsed ? actionNameId : undefined,
                 sku,
+                display_mode,
             },
             updateCategoryStore,
         } = this.props;
@@ -162,22 +171,31 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
                  */
             if (isLoading) {
                 // TODO: history.state.state looks like undefined all the time.
-                const category = history?.location?.state?.category;
+                if (history) {
+                    const {
+                        location: {
+                            state: {
+                                category,
+                                displayMode,
+                            } = {},
+                        } = {},
+                    } = history;
 
-                if (category && category !== true) {
-                    updateCategoryStore({ categoryIds: category });
+                    if (category && category !== true) {
+                        updateCategoryStore({ categoryIds: category });
 
-                    return { categoryIds: category };
+                        return { categoryIds: category, displayMode };
+                    }
+
+                    updateCategoryStore({ categoryIds: -1 });
+
+                    return {};
                 }
-
-                updateCategoryStore({ categoryIds: -1 });
-
-                return {};
             }
 
             updateCategoryStore({ categoryIds: id || -1 });
 
-            return { categoryIds: id };
+            return { categoryIds: id, displayMode: display_mode };
         case UrlRewritePageType.NOTFOUND:
         default:
             return {};
@@ -214,7 +232,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
     }
 
     getType(): UrlRewritePageType | string {
-        const { urlRewrite: { type, notFound } } = this.props;
+        const { urlRewrite: { type = window.actionName?.type, notFound } } = this.props;
 
         /**
          * If the URL rewrite is loading, prefer state-defined URL type,

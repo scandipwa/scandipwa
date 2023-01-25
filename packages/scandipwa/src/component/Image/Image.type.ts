@@ -58,6 +58,7 @@ export interface ImageComponentProps {
 
 export interface ImageComponentState {
     imageStatus: ImageState;
+    isLazyLoading: boolean;
 }
 
 export interface ImageSize {

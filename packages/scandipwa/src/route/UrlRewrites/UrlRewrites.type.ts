@@ -11,6 +11,7 @@
 
 import { match as Match } from 'react-router';
 
+import { CategoryDisplayMode } from 'Route/CategoryPage/CategoryPage.config';
 import { CategoryStore } from 'Store/Category/Category.type';
 import { UrlRewrite } from 'Store/UrlRewrites/UrlRewrites.type';
 
@@ -50,4 +51,5 @@ export interface UrlRewriteTypeSpecificProps {
     isOnlyPlaceholder: boolean;
     pageIds: number;
     categoryIds: number;
+    displayMode: CategoryDisplayMode;
 }

@@ -10,8 +10,11 @@
  */
 import { Reducer } from 'redux';
 
+import BreadcrumbsReducer from 'Store/Breadcrumbs/Breadcrumbs.reducer';
 import CartReducer from 'Store/Cart/Cart.reducer';
+import CategoryReducer from 'Store/Category/Category.reducer';
 import CheckoutReducer from 'Store/Checkout/Checkout.reducer';
+import CmsReducer from 'Store/Cms/Cms.reducer';
 import ConfigReducer from 'Store/Config/Config.reducer';
 import ContactFormReducer from 'Store/ContactForm/ContactForm.reducer';
 import MetaReducer from 'Store/Meta/Meta.reducer';
@@ -21,6 +24,7 @@ import NoMatchReducer from 'Store/NoMatch/NoMatch.reducer';
 import OfflineReducer from 'Store/Offline/Offline.reducer';
 import OverlayReducer from 'Store/Overlay/Overlay.reducer';
 import PopupReducer from 'Store/Popup/Popup.reducer';
+import ProductReducer from 'Store/Product/Product.reducer';
 import ProductCompareReducer from 'Store/ProductCompare/ProductCompare.reducer';
 import ProductListReducer from 'Store/ProductList/ProductList.reducer';
 import StoreInPickUpReducer from 'Store/StoreInPickUp/StoreInPickUp.reducer';
@@ -43,7 +47,11 @@ export type StaticReducerKeys =
 | 'CheckoutReducer'
 | 'ContactFormReducer'
 | 'ProductCompareReducer'
-| 'StoreInPickUpReducer';
+| 'StoreInPickUpReducer'
+| 'BreadcrumbsReducer'
+| 'ProductReducer'
+| 'CategoryReducer'
+| 'CmsReducer';
 
 /** @namespace Store/Index/getStaticReducers */
 export const getStaticReducers = (): Record<StaticReducerKeys, Reducer> => ({
@@ -63,6 +71,10 @@ export const getStaticReducers = (): Record<StaticReducerKeys, Reducer> => ({
     ContactFormReducer,
     ProductCompareReducer,
     StoreInPickUpReducer,
+    BreadcrumbsReducer,
+    ProductReducer,
+    CategoryReducer,
+    CmsReducer,
 } as Record<StaticReducerKeys, Reducer>);
 
 export default function injectStaticReducers<

@@ -22,7 +22,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedParameteredProducts } from 'Util/Product';
 import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
-import getStore from 'Util/Store';
+import { getStoreState } from 'Util/Store';
 import { SimpleDispatcher } from 'Util/Store/SimpleDispatcher';
 import { getPriceRange } from 'Util/Wishlist';
 
@@ -43,10 +43,10 @@ export const NotificationDispatcher = import(
  * Get wishlist setting.
  * @namespace Store/Wishlist/Dispatcher/isWishlistEnabled */
 export const isWishlistEnabled = (): boolean => {
-    const state = getStore().getState();
+    const state = getStoreState();
     const {
         wishlist_general_active = false,
-    } = state.ConfigReducer;
+    } = state.ConfigReducer || {};
 
     return wishlist_general_active;
 };

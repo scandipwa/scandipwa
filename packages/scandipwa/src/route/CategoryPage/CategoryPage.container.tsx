@@ -9,20 +9,15 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ComponentType, PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.config';
 import { Page } from 'Component/Header/Header.config';
 import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
-import {
-    CategoryPageLayout,
-    LAYOUT_KEY,
-    SortDirections,
-} from 'Route/CategoryPage/CategoryPage.config';
+import { FilterPriceRange } from 'Query/ProductList.type';
 import { updateCategoryStore } from 'Store/Category/Category.action';
-import CategoryReducer from 'Store/Category/Category.reducer';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { updateOfflineStore } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
@@ -33,14 +28,19 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFilter, getFiltersCount, getSelectedFiltersFromUrl } from 'Util/Category';
 import { getIsMatchingInfoFilter, isSearchPage } from 'Util/Category/Category';
 import { getSelectedSortFromUrl } from 'Util/Category/Sort';
-import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
-import { appendWithStoreCode } from 'Util/Url';
+import { appendWithStoreCode, getQueryParam } from 'Util/Url';
 
 import CategoryPage from './CategoryPage.component';
-import { LOADING_TIME } from './CategoryPage.config';
+import {
+    CategoryDisplayMode,
+    CategoryPageLayout,
+    LAYOUT_KEY,
+    LOADING_TIME,
+    SortDirections,
+} from './CategoryPage.config';
 import {
     CategoryPageComponentProps,
     CategoryPageContainerFunctions,
@@ -49,6 +49,7 @@ import {
     CategoryPageContainerProps,
     CategoryPageContainerPropsKeys,
     CategoryPageContainerState,
+    CategorySortOptions,
     CategoryUrlParams,
 } from './CategoryPage.type';
 
@@ -98,6 +99,7 @@ export const mapStateToProps = (state: RootState): CategoryPageContainerMapState
     currentCategoryIds: state.CategoryReducer.currentCategoryIds,
     selectedFilters: state.CategoryReducer.selectedFilters,
     categoryIds: state.CategoryReducer.categoryIds,
+    sortFields: state.ProductListReducer.sortFields,
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -144,6 +146,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         selectedInfoFilter: {},
         isSearchPage: isSearchPage(),
         plpType: '',
+        displayMode: CategoryDisplayMode.PRODUCTS,
     };
 
     config = {
@@ -261,7 +264,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             isOffline,
             categoryIds,
             category: {
-                id,
+                id = window.actionName?.id,
             },
             currentArgs: {
                 filter,
@@ -384,6 +387,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             isMobile,
             totalPages,
             totalItems,
+            displayMode,
         } = this.props;
 
         const {
@@ -406,6 +410,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             totalPages,
             totalItems,
             selectedLayoutType,
+            displayMode,
         };
     }
 
@@ -427,6 +432,74 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
 
             return { ...acc, [key]: value };
         }, {});
+    }
+
+    getSelectedFiltersFromUrl(): Record<string, string[]> {
+        const { location } = history;
+        const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
+
+        return selectedFiltersString.reduce((acc, filter) => {
+            if (!filter) {
+                return acc;
+            }
+            const [key, value] = filter.split(':');
+
+            return { ...acc, [ key ]: value.split(',') };
+        }, {});
+    }
+
+    getSelectedSortFromUrl(): CategorySortOptions {
+        const {
+            category: {
+                default_sort_by,
+            },
+            sortFields: {
+                options = [],
+            },
+        } = this.props;
+        const { location } = history;
+
+        const {
+            sortKey: classDefaultSortKey,
+            sortDirection: defaultSortDirection,
+        } = this.config;
+
+        /**
+         * Default SORT DIRECTION is taken from (sequentially):
+         * - URL param "sortDirection"
+         * - CategoryPage class property "config"
+         */
+        const sortDirection: SortDirections = (getQueryParam('sortDirection', location) as SortDirections)
+            || defaultSortDirection;
+
+        /**
+         * Default SORT KEY is taken from (sequentially):
+         * - URL param "sortKey"
+         * - Category default sort key (Magento 2 configuration)
+         * - Product Listing Sort By (Magento 2 configuration)
+         * - CategoryPage class property "config"
+         * (used when global default sort key does not exist for current category)
+         */
+        const isClassSortKeyAvailable = !!options.find(
+            (sortOption) => sortOption.value === classDefaultSortKey,
+        );
+        const fallbackSortKey = isClassSortKeyAvailable ? classDefaultSortKey : options[0]?.value;
+        const defaultSortKey = window.catalog_default_sort_by || fallbackSortKey;
+        const configSortKey = default_sort_by || defaultSortKey;
+        const sortKey = getQueryParam('sortKey', location) || configSortKey;
+
+        return {
+            sortDirection,
+            sortKey,
+        };
+    }
+
+    getSelectedPriceRangeFromUrl(): FilterPriceRange {
+        const { location } = history;
+        const min = +getQueryParam('priceMin', location);
+        const max = +getQueryParam('priceMax', location);
+
+        return { min, max };
     }
 
     getDefaultPlpType(): CategoryPageLayout {
@@ -599,10 +672,9 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     }
 }
 
-export default withReducers({
-    CategoryReducer,
-})(
-    connect(mapStateToProps, mapDispatchToProps)(CategoryPageContainer as unknown as ComponentType<
-    CategoryPageContainerProps
-    >),
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(
+    CategoryPageContainer,
 );

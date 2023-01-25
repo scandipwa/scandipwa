@@ -15,7 +15,7 @@ import {
 import { TokensByWebsite } from 'Util/Auth/Token.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { debounce } from 'Util/Request';
-import getStore from 'Util/Store';
+import { getStoreState } from 'Util/Store';
 
 /**
  *
@@ -38,10 +38,10 @@ export const ONE_DAY = 86400;
 export const setUid = (uid: string | null): void => {
     const { website_code } = window;
     const tokens: TokensByWebsite = BrowserDatabase.getItem(COMPARE_UID) || {};
-    const state = getStore().getState();
+    const state = getStoreState();
     const {
         access_token_lifetime = ONE_HOUR,
-    } = state.ConfigReducer;
+    } = state.ConfigReducer || {};
 
     const uidExpirationTimeInStorage = isSignedIn()
         ? parseInt(String(access_token_lifetime), 10) * ONE_HOUR_IN_SECONDS

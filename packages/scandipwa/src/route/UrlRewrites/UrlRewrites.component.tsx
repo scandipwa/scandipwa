@@ -9,8 +9,9 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { lazy, PureComponent } from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 
+import Fallback from 'Component/Fallback';
 import { ReactElement } from 'Type/Common.type';
 
 import {
@@ -39,18 +40,27 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
         type: '',
     };
 
+    fallbackMap: Record<string, ReactElement> = {
+        [UrlRewritePageType.CATEGORY]: this.renderFallback(UrlRewritePageType.CATEGORY),
+        [UrlRewritePageType.PRODUCT]: this.renderFallback(UrlRewritePageType.PRODUCT),
+    };
+
+    renderFallback(type: string): ReactElement {
+        return <Fallback type={ type } />;
+    }
+
     renderDefaultPage(): ReactElement {
-        return (
-            <main />
-        );
+        const { type } = this.props;
+
+        return this.fallbackMap[type] || <main />;
     }
 
     renderProductPage(): ReactElement {
         const { props } = this.props;
         const {
             match,
-            productSKU,
-            id,
+            productSKU = window.actionName?.sku,
+            id = window.actionName?.id,
         } = props;
 
         if (!productSKU) {
@@ -58,12 +68,14 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
         }
 
         return (
-            <ProductPage
-              match={ match }
-              productSKU={ productSKU }
-              productID={ id }
-              key={ id }
-            />
+            <Suspense fallback={ this.renderDefaultPage() }>
+                <ProductPage
+                  match={ match }
+                  productSKU={ productSKU }
+                  productID={ id }
+                  key={ id }
+                />
+            </Suspense>
         );
     }
 
@@ -75,10 +87,12 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
         } = props;
 
         return (
-            <CmsPage
-              match={ match }
-              pageIds={ pageIds }
-            />
+            <Suspense fallback={ this.renderDefaultPage() }>
+                <CmsPage
+                  match={ match }
+                  pageIds={ pageIds }
+                />
+            </Suspense>
         );
     }
 
@@ -86,12 +100,16 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
         const { props } = this.props;
         const {
             match,
+            displayMode,
         } = props;
 
         return (
-            <CategoryPage
-              match={ match }
-            />
+            <Suspense fallback={ this.renderDefaultPage() }>
+                <CategoryPage
+                  match={ match }
+                  displayMode={ displayMode }
+                />
+            </Suspense>
         );
     }
 

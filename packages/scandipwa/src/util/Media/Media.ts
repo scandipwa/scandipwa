@@ -8,7 +8,7 @@
  * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
-import getStore from 'Util/Store';
+import { getStoreState } from 'Util/Store';
 
 export const WYSIWYG_MEDIA = 'wysiwyg/';
 export const CATEGORY_MEDIA = 'catalog/category/';
@@ -18,7 +18,7 @@ export const LOGO_MEDIA = 'logo/';
 export default (src: string, subPath = '', isMediaPath = true): string => {
     // If isMediaPath is passed return local media path
 
-    const { ConfigReducer: { secure_base_media_url, base_url } } = getStore().getState();
+    const { ConfigReducer: { secure_base_media_url, base_url } = {} } = getStoreState();
     const baseUrl = isMediaPath
         ? secure_base_media_url || '/media/'
         : base_url;

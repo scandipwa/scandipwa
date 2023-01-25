@@ -17,7 +17,7 @@ import { UrlRewritesActionType, UrlRewritesStore } from './UrlRewrites.type';
 export const getInitialState = (): UrlRewritesStore => ({
     urlRewrite: {},
     isLoading: false,
-    requestedUrl: '',
+    requestedUrl: location.pathname,
 });
 
 /** @namespace Store/UrlRewrites/Reducer/UrlRewritesReducer */

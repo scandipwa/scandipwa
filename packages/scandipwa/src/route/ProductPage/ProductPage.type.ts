@@ -10,6 +10,7 @@
  */
 
 import { Location } from 'history';
+import { match } from 'react-router';
 
 import { ProductListOptions } from 'Query/ProductList.type';
 import { Product as BreadcrumbProduct } from 'Store/Breadcrumbs/Breadcrumbs.type';
@@ -44,6 +45,7 @@ export interface ProductPageContainerMapDispatchProps {
 export interface ProductPageContainerBaseProps {
     productSKU: string;
     productID: number;
+    match: match<{}>;
 }
 
 export type ProductPageContainerProps = ProductPageContainerMapStateProps

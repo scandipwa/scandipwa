@@ -13,7 +13,7 @@ import { History, Location } from 'history';
 import { match as Match } from 'react-router-dom';
 
 import { decodeString } from 'Util/Common';
-import getStore from 'Util/Store';
+import { getStoreState } from 'Util/Store';
 
 /**
  * Update query params without adding to history
@@ -88,7 +88,7 @@ export const replace = (regex: RegExp, path: string): string => {
  * @namespace Util/Url/appendWithStoreCode
  */
 export const appendWithStoreCode = (pathname: string): string => {
-    const { ConfigReducer: { base_link_url = window.location.href } = {} } = getStore().getState() || {};
+    const { ConfigReducer: { base_link_url = window.location.href } = {} } = getStoreState();
     const { pathname: storePrefix } = new URL(base_link_url);
 
     if (!pathname) {
@@ -274,4 +274,15 @@ export const isHomePageUrl = (pathname: string): boolean => {
         || pathname === '';
 
     return isHomePage;
+};
+
+/** @namespace Util/Url/getUrlPathname */
+export const getUrlPathname = (url: string): string => {
+    try {
+        const { pathname } = new URL(url);
+
+        return pathname;
+    } catch (e) {
+        return url;
+    }
 };

@@ -12,9 +12,9 @@ class PlaceholderContainer extends PureComponent {
         // getData: this.getData.bind(this)
     };
 
-    containerProps() {
+    containerProps = () => {
         // isDisabled: this._getIsDisabled()
-    }
+    };
 
     render() {
         return (

@@ -9,19 +9,23 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { PureComponent, Suspense } from 'react';
 
-import Pagination from 'Component/Pagination';
 import ProductListPage from 'Component/ProductListPage';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
 import { IndexedProduct } from 'Util/Product/Product.type';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
 
 import { OBSERVER_THRESHOLD } from './ProductList.config';
 import { PageProps, ProductListComponentProps } from './ProductList.type';
 
 import './ProductList.style';
+
+export const Pagination = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "overlays-misc" */ 'Component/Pagination'
+));
 
 /**
  * List of category products
@@ -287,10 +291,12 @@ export class ProductListComponent extends PureComponent<ProductListComponentProp
         }
 
         return (
-            <Pagination
-              isLoading={ isLoading }
-              totalPages={ totalPages }
-            />
+            <Suspense fallback={ <div /> }>
+                <Pagination
+                  isLoading={ isLoading }
+                  totalPages={ totalPages }
+                />
+            </Suspense>
         );
     }
 
@@ -314,6 +320,8 @@ export class ProductListComponent extends PureComponent<ProductListComponentProp
         } = this.props;
 
         if (!isLoading && totalPages === 0) {
+            window.isPriorityLoaded = true;
+
             return this.renderNoProducts();
         }
 

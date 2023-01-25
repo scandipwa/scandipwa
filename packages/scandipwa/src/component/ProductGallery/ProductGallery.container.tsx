@@ -208,6 +208,8 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
                 .sort((a, b) => a.position - b.position);
         }
 
+        window.isPriorityLoaded = true;
+
         if (!url) {
             return Array(AMOUNT_OF_PLACEHOLDERS + 1).fill({ media_type: 'placeholder' });
         }

@@ -13,7 +13,12 @@ import { History, Location } from 'history';
 import { match as Match } from 'react-router';
 
 import { Category, CategoryQueryOptions } from 'Query/Category.type';
-import { ProductAttributeFilterOptions, ProductListOptionArgs, ProductListOptions } from 'Query/ProductList.type';
+import {
+    ProductAttributeFilterOptions,
+    ProductListOptionArgs,
+    ProductListOptions,
+    SortFields,
+} from 'Query/ProductList.type';
 import { Category as BreadcrumbCategory } from 'Store/Breadcrumbs/Breadcrumbs.type';
 import { CategoryStore } from 'Store/Category/Category.type';
 import { Category as MetaCategory } from 'Store/Meta/Meta.type';
@@ -22,13 +27,17 @@ import { OfflineStore } from 'Store/Offline/Offline.type';
 import { ProductListFilter } from 'Store/ProductList/ProductList.type';
 import { HistoryState } from 'Util/History/History.type';
 
-import { CategoryPageLayout, SortDirections } from './CategoryPage.config';
+import {
+    CategoryDisplayMode,
+    CategoryPageLayout,
+    SortDirections,
+} from './CategoryPage.config';
 
 export interface CategoryPageContainerMapStateProps {
     category: Partial<Category>;
     isOffline: boolean;
     filters: Record<string, ProductListFilter>;
-
+    sortFields: Partial<SortFields>;
     currentArgs: ProductListOptionArgs;
     selectedInfoFilter: Partial<ProductAttributeFilterOptions>;
     isInfoLoading: boolean;
@@ -67,6 +76,7 @@ export interface CategoryPageContainerBaseProps {
     location: Location<HistoryState>;
     match: Match;
     isSearchPage: boolean;
+    displayMode: CategoryDisplayMode;
 }
 
 export type CategoryPageContainerProps = CategoryPageContainerMapStateProps
@@ -98,6 +108,7 @@ export interface CategoryPageComponentProps extends CategoryPageContainerFunctio
     totalItems: number;
     selectedLayoutType?: CategoryPageLayout;
     activeLayoutType?: CategoryPageLayout;
+    displayMode: CategoryDisplayMode;
 }
 
 export interface CategoryPageComponentState {
@@ -119,7 +130,8 @@ export type CategoryPageContainerPropsKeys =
     | 'totalPages'
     | 'totalItems'
     | 'selectedLayoutType'
-    | 'activeLayoutType';
+    | 'activeLayoutType'
+    | 'displayMode';
 
 export interface CategoryUrlParams {
     customFilters: string;

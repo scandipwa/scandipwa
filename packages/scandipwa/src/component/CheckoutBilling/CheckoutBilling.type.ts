@@ -34,6 +34,7 @@ export interface CheckoutBillingContainerMapStateProps {
     paymentMethods: PaymentMethod[];
     shippingAddress: Partial<CheckoutAddress>;
     selectedShippingMethod?: ShippingMethod;
+    isSignedIn: boolean;
 }
 
 export interface CheckoutBillingContainerMapDispatchProps {

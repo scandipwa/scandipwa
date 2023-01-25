@@ -18,10 +18,8 @@ import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.confi
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { updateOfflineStore } from 'Store/Offline/Offline.action';
-import ProductReducer from 'Store/Product/Product.reducer';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
-import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
 import { getAttributesWithValues, getIsConfigurableParameterSelected } from 'Util/Product';
 import { IndexedAttributeWithValue, IndexedProduct } from 'Util/Product/Product.type';
@@ -154,6 +152,18 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
             currentProductSKU: prevSKU,
             productOptionsData: prevOptionData,
         } = state;
+        const {
+            isPrefetchValueUsed,
+            actionName: {
+                sku: skuFromActionName,
+            } = {},
+        } = window;
+
+        if (isPrefetchValueUsed) {
+            return {
+                currentProductSKU: skuFromActionName,
+            };
+        }
 
         const currentProductSKU = prevSKU === sku ? '' : prevSKU;
 
@@ -279,6 +289,10 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
         }
 
         this._addToRecentlyViewedProducts();
+    }
+
+    componentWillUnmount(): void {
+        window.isPrefetchValueUsed = false;
     }
 
     setActiveProduct(product: IndexedProduct): void {
@@ -589,10 +603,4 @@ export class ProductPageContainer extends PureComponent<ProductPageContainerProp
     }
 }
 
-export default withReducers({
-    ProductReducer,
-})(
-    connect(mapStateToProps, mapDispatchToProps)(
-        ProductPageContainer,
-    ),
-);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer);

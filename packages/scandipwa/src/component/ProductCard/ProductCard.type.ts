@@ -45,6 +45,7 @@ export interface ProductCartContainerBaseProps extends ProductContainerBaseProps
     layout: CategoryPageLayout;
     children: Children;
     isPlp: boolean;
+    onLoad: () => void;
 }
 
 export type ProductCardContainerProps = ProductCardContainerMapStateProps
@@ -68,6 +69,7 @@ export interface ProductCardComponentProps extends ProductComponentProps {
     showSelectOptionsNotification: () => void;
     registerSharedElement: (ref: RefObject<HTMLElement>) => void;
     isPlp: boolean;
+    onLoad: () => void;
 }
 
 export type ProductCardContainerPropKeys = ProductContainerPropKeys
@@ -80,7 +82,8 @@ export type ProductCardContainerPropKeys = ProductContainerPropKeys
 | 'renderContent'
 | 'thumbnail'
 | 'linkTo'
-| 'isPlp';
+| 'isPlp'
+| 'onLoad';
 
 export interface ContentObject {
     renderCardLinkWrapper: (children: Children, mix?: Mix) => ReactElement;
