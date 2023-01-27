@@ -17,6 +17,7 @@ import { ERROR_TYPE } from 'Component/Notification/Notification.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
+import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
@@ -36,15 +37,6 @@ import {
     ConfirmAccountPageContainerState,
 } from './ConfirmAccountPage.type';
 
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-export const MyAccountDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/MyAccount/MyAccount.dispatcher'
-);
-
 /** @namespace Route/ConfirmAccountPage/Container/mapStateToProps */
 export const mapStateToProps = (): ConfirmAccountPageContainerMapStateProps => ({});
 
@@ -52,13 +44,9 @@ export const mapStateToProps = (): ConfirmAccountPageContainerMapStateProps => (
 export const mapDispatchToProps = (dispatch: Dispatch): ConfirmAccountPageContainerMapDispatchProps => ({
     toggleBreadcrumbs: (isVisible) => dispatch(toggleBreadcrumbs(isVisible)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    confirmAccount: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.confirmAccount(options, dispatch),
-    ),
+    confirmAccount: (options) => MyAccountDispatcher.confirmAccount(options, dispatch),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    signIn: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch),
-    ),
+    signIn: (options) => MyAccountDispatcher.signIn(options, dispatch),
 });
 
 /** @namespace Route/ConfirmAccountPage/Container */

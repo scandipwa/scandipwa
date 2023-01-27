@@ -14,16 +14,12 @@ import { Dispatch } from 'redux';
 
 import ProductListQuery from 'Query/ProductList.query';
 import { ProductLink, ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
+import LinkedProductsDispatcher from 'Store/LinkedProducts/LinkedProducts.dispatcher';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { updateProductDetails } from 'Store/Product/Product.action';
 import { QueryDispatcher } from 'Util/Request';
 
 import { ProductDispatcherData } from './Product.type';
-
-export const LinkedProductsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/LinkedProducts/LinkedProducts.dispatcher'
-);
 
 /**
  * Product List Dispatcher
@@ -63,15 +59,11 @@ export class ProductDispatcher extends QueryDispatcher<Partial<ProductListOption
             return links;
         }, []);
 
-        LinkedProductsDispatcher.then(
-            ({ default: dispatcher }) => {
-                if (product_links.length > 0) {
-                    dispatcher.handleData(dispatch, product_links);
-                } else {
-                    dispatcher.clearLinkedProducts(dispatch);
-                }
-            },
-        );
+        if (product_links.length > 0) {
+            LinkedProductsDispatcher.handleData(dispatch, product_links);
+        } else {
+            LinkedProductsDispatcher.clearLinkedProducts(dispatch);
+        }
 
         dispatch(updateProductDetails(product));
     }

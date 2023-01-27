@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
@@ -31,11 +32,6 @@ import {
     ProductComparePageContainerProps,
 } from './ProductComparePage.type';
 
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-
 /** @namespace Route/ProductComparePage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductComparePageContainerMapStateProps => ({
     device: state.ConfigReducer.device,
@@ -47,11 +43,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): ProductComparePageContai
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
-    updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
-        );
-    },
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
 });
 
 /** @namespace Route/ProductComparePage/Container */

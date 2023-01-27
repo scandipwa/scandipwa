@@ -15,6 +15,7 @@ import { Dispatch } from 'redux';
 
 import { FIELD_RADIO_NONE, FieldType } from 'Component/Field/Field.config';
 import { ProductType } from 'Component/Product/Product.config';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
@@ -50,16 +51,9 @@ import {
     ProductQuantity,
 } from './Product.type';
 
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
-
 /** @namespace Component/Product/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductContainerMapDispatchProps => ({
-    addProductToCart: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
-    ),
+    addProductToCart: (options) => CartDispatcher.addProductToCart(dispatch, options),
     showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
 });
 

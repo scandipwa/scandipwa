@@ -14,6 +14,7 @@ import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import ContactFormQuery from 'Query/ContactForm.query';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
@@ -30,11 +31,6 @@ import {
     ContactPageContainerProps, ContactPageContainerState, ContactPageMapDispatchProps, ContactPageMapStateProps,
 } from './ContactPage.type';
 
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-
 /** @namespace Route/ContactPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ContactPageMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile,
@@ -45,11 +41,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): ContactPageMapDispatchPr
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
-    updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
-        );
-    },
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
 });
 
 /** @namespace Route/ContactPage/Container */

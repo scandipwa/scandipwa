@@ -22,6 +22,7 @@ import RegionQuery from 'Query/Region.query';
 import { Country } from 'Query/Region.type';
 import ReviewQuery from 'Query/Review.query';
 import { ReviewRatingItem } from 'Query/Review.type';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { updateConfig } from 'Store/Config/Config.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
@@ -34,10 +35,6 @@ import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import { ConfigStore } from './Config.type';
 
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
 /** @namespace Store/Config/Dispatcher */
 export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
     __construct(): void {
@@ -50,9 +47,7 @@ export class ConfigDispatcher extends QueryDispatcher<undefined, ConfigStore> {
         try {
             setCurrency(currencyCode);
 
-            CartDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, true),
-            );
+            CartDispatcher.updateInitialCartData(dispatch, true);
         } catch (e) {
             dispatch(updateConfig({}));
         }

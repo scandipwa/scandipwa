@@ -22,6 +22,8 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CheckoutSteps, UPDATE_EMAIL_CHECK_FREQUENCY } from 'Route/Checkout/Checkout.config';
 import { updateEmail, updateEmailAvailable } from 'Store/Checkout/Checkout.action';
+import CheckoutDispatcher from 'Store/Checkout/Checkout.dispatcher';
+import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
@@ -43,15 +45,6 @@ import {
     CheckoutGuestFormContainerState,
 } from './CheckoutGuestForm.type';
 
-export const MyAccountDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/MyAccount/MyAccount.dispatcher'
-);
-export const CheckoutDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Checkout/Checkout.dispatcher'
-);
-
 /** @namespace Component/CheckoutGuestForm/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CheckoutGuestFormContainerMapStateProps => ({
     isEmailConfirmationRequired: state.ConfigReducer.is_email_confirmation_required,
@@ -63,15 +56,11 @@ export const mapStateToProps = (state: RootState): CheckoutGuestFormContainerMap
 
 /** @namespace Component/CheckoutGuestForm/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutGuestFormContainerMapDispatchProps => ({
-    signIn: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch),
-    ),
+    signIn: (options) => MyAccountDispatcher.signIn(options, dispatch),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
     clearEmailStatus: () => dispatch(updateEmailAvailable(true)),
-    checkEmailAvailability: (email) => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, email),
-    ),
+    checkEmailAvailability: (email) => CheckoutDispatcher.handleData(dispatch, email),
     updateEmail: (email) => dispatch(updateEmail(email)),
 });
 

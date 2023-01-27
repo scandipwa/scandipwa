@@ -157,7 +157,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
             activeImage,
         } = this.props;
 
-        if (!activeImage) {
+        if (activeImage === undefined) {
             return;
         }
 

@@ -40,27 +40,6 @@ import {
     SearchPageContainerState,
 } from './SearchPage.type';
 
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-export const CategoryDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Category/Category.dispatcher'
-);
-export const MetaDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Meta/Meta.dispatcher'
-);
-export const NoMatchDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/NoMatch/NoMatch.dispatcher'
-);
-export const ProductListInfoDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ProductListInfo/ProductListInfo.dispatcher'
-);
-
 /** @namespace Route/SearchPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): SearchPageContainerMapStateProps => ({
     ...sourceMapStateToProps(state),

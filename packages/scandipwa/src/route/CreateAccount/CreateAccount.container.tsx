@@ -34,11 +34,6 @@ import {
     CreateAccountContainerProps,
 } from './CreateAccount.type';
 
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-
 /** @namespace Route/CreateAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CreateAccountContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),

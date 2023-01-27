@@ -26,11 +26,6 @@ import { getAuthorizationToken } from 'Util/Auth';
 import { getUid, removeUid, setUid } from 'Util/Compare';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
-
 /** @namespace Store/ProductCompare/Dispatcher */
 export class ProductCompareDispatcher {
     async getCompareList(dispatch: Dispatch): Promise<boolean> {

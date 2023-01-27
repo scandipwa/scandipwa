@@ -19,6 +19,8 @@ import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccou
 import { CartItem } from 'Query/Cart.type';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { IndexedCartItem } from 'Store/Cart/Cart.type';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -56,16 +58,6 @@ import {
     CartPageContainerState,
 } from './CartPage.type';
 
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
-
 /** @namespace Route/CartPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CartPageContainerMapStateProps => ({
     totals: state.CartReducer.cartTotals,
@@ -85,15 +77,11 @@ export const mapStateToProps = (state: RootState): CartPageContainerMapStateProp
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CartPageContainerMapDispatchProps => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
-    ),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    updateCrossSellProducts: (items) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items as unknown as CartItem[], dispatch),
-    ),
+    updateCrossSellProducts: (items) => CartDispatcher.updateCrossSellProducts(items as unknown as CartItem[], dispatch),
 });
 
 /** @namespace Route/CartPage/Container */

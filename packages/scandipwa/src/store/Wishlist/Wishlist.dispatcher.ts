@@ -13,6 +13,7 @@ import { Dispatch } from 'redux';
 
 import WishlistQuery from 'Query/Wishlist.query';
 import { Wishlist } from 'Query/Wishlist.type';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
 import {
@@ -29,11 +30,6 @@ import { getStoreState } from 'Util/Store';
 import { getPriceRange } from 'Util/Wishlist';
 
 import { ClearWishlistAction, WishlistProduct } from './Wishlist.type';
-
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
 
 /**
  * Get wishlist setting.
@@ -207,9 +203,7 @@ export class WishlistDispatcher {
             await fetchMutation<'moveWishlistToCart', boolean>(WishlistQuery.getMoveWishlistToCart(sharingCode));
         } finally {
             await this._syncWishlistWithBE(dispatch);
-            CartDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken()),
-            );
+            CartDispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken());
             dispatch(showNotification(NotificationType.SUCCESS, __('Available items moved to cart')));
         }
     }

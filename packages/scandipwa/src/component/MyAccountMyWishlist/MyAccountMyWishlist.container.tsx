@@ -17,6 +17,7 @@ import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishl
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
+import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { getErrorMessage } from 'Util/Request';
@@ -33,11 +34,6 @@ import {
     MyAccountMyWishlistContainerState,
 } from './MyAccountMyWishlist.type';
 
-export const WishlistDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Wishlist/Wishlist.dispatcher'
-);
-
 /** @namespace Component/MyAccountMyWishlist/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountMyWishlistContainerMapStateProps => ({
     wishlistItems: state.WishlistReducer.productsInWishlist,
@@ -47,18 +43,12 @@ export const mapStateToProps = (state: RootState): MyAccountMyWishlistContainerM
 
 /** @namespace Component/MyAccountMyWishlist/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyWishlistContainerMapDispatchProps => ({
-    clearWishlist: () => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch),
-    ),
-    moveWishlistToCart: () => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch),
-    ),
+    clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
+    moveWishlistToCart: () => WishlistDispatcher.moveWishlistToCart(dispatch),
     showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
     showNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
-    removeSelectedFromWishlist: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeItemsFromWishlist(dispatch, options),
-    ),
+    removeSelectedFromWishlist: (options) => WishlistDispatcher.removeItemsFromWishlist(dispatch, options),
 });
 
 /** @namespace Component/MyAccountMyWishlist/Container */

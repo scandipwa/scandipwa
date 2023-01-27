@@ -29,11 +29,6 @@ import {
     MyAccountDownloadableContainerState,
 } from './MyAccountDownloadable.type';
 
-export const OrderDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Order/Order.dispatcher'
-);
-
 /** @namespace Component/MyAccountDownloadable/Container/mapStateToProps */
 export const mapStateToProps = (): unknown => ({});
 

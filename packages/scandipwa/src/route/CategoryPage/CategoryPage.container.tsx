@@ -20,12 +20,17 @@ import {
     FilterPriceRange,
     ProductAttributeFilterOptions,
 } from 'Query/ProductList.type';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
+import CategoryDispatcher from 'Store/Category/Category.dispatcher';
+import MetaDispatcher from 'Store/Meta/Meta.dispatcher';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
+import NoMatchDispatcher from 'Store/NoMatch/NoMatch.dispatcher';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
+import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -60,31 +65,6 @@ import {
     CategoryUrlParams,
 } from './CategoryPage.type';
 
-export const ProductListInfoDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ProductListInfo/ProductListInfo.dispatcher'
-);
-
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-
-export const CategoryDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Category/Category.dispatcher'
-);
-
-export const MetaDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Meta/Meta.dispatcher'
-);
-
-export const NoMatchDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/NoMatch/NoMatch.dispatcher'
-);
-
 /** @namespace Route/CategoryPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CategoryPageContainerMapStateProps => ({
     category: state.CategoryReducer.category,
@@ -105,28 +85,16 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: (options) => CategoryDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
-    ),
+    requestCategory: (options) => CategoryDispatcher.handleData(dispatch, options),
     updateBreadcrumbs: (breadcrumbs) => ((Object.keys(breadcrumbs).length)
-        ? BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs, dispatch),
-        )
-        : BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update([], dispatch),
-        )
+        ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
+        : BreadcrumbsDispatcher.update([], dispatch)
     ),
-    requestProductListInfo: (options) => ProductListInfoDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
-    ),
+    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: (options) => NoMatchDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options),
-    ),
+    updateNoMatch: (options) => NoMatchDispatcher.updateNoMatch(dispatch, options),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: (category) => MetaDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch),
-    ),
+    updateMetaFromCategory: (category) => MetaDispatcher.updateWithCategory(category, dispatch),
     clearCategory: () => dispatch(updateCurrentCategory({})),
 });
 

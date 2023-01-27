@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
@@ -30,11 +31,6 @@ import {
     MenuItemMapStateProps,
 } from './MenuItem.type';
 
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-
 /** @namespace Component/MenuItem/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MenuItemMapStateProps => ({
     device: state.ConfigReducer.device,
@@ -42,9 +38,7 @@ export const mapStateToProps = (state: RootState): MenuItemMapStateProps => ({
 
 /** @namespace Component/MenuItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MenuItemMapDispatchProps => ({
-    updateBreadcrumbs: () => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update([], dispatch),
-    ),
+    updateBreadcrumbs: () => BreadcrumbsDispatcher.update([], dispatch),
 });
 
 /** @namespace Component/MenuItem/Container */

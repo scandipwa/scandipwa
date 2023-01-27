@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { CustomerAddress } from 'Query/MyAccount.type';
+import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
@@ -29,11 +30,6 @@ import {
     CheckoutAddressBookContainerState,
 } from './CheckoutAddressBook.type';
 
-export const MyAccountDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/MyAccount/MyAccount.dispatcher'
-);
-
 /** @namespace Component/CheckoutAddressBook/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CheckoutAddressBookContainerMapStateProps => ({
     customer: state.MyAccountReducer.customer,
@@ -41,9 +37,7 @@ export const mapStateToProps = (state: RootState): CheckoutAddressBookContainerM
 
 /** @namespace Component/CheckoutAddressBook/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutAddressBookContainerMapDispatchProps => ({
-    requestCustomerData: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch),
-    ),
+    requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch),
 });
 
 /** @namespace Component/CheckoutAddressBook/Container */

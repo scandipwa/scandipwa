@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import NewsletterSubscriptionDispatcher from 'Store/NewsletterSubscription/NewsletterSubscription.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
@@ -29,11 +30,6 @@ import {
     NewsletterSubscriptionMapStateProps,
 } from './NewsletterSubscription.type';
 
-export const NewsletterSubscriptionDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/NewsletterSubscription/NewsletterSubscription.dispatcher'
-);
-
 /** @namespace Component/NewsletterSubscription/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): NewsletterSubscriptionMapStateProps => ({
     allowGuestSubscribe: state.ConfigReducer.newsletter_subscription_allow_guest_subscribe,
@@ -42,9 +38,7 @@ export const mapStateToProps = (state: RootState): NewsletterSubscriptionMapStat
 
 /** @namespace Component/NewsletterSubscription/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): NewsletterSubscriptionMapDispatchProps => ({
-    subscribeToNewsletter: (email) => NewsletterSubscriptionDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.subscribeToNewsletter(dispatch, email),
-    ),
+    subscribeToNewsletter: (email) => NewsletterSubscriptionDispatcher.subscribeToNewsletter(dispatch, email),
     showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
 });
 

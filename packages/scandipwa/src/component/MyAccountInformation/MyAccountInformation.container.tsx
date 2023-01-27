@@ -17,6 +17,7 @@ import MyAccountQuery from 'Query/MyAccount.query';
 import { ChangeCustomerPasswordOptions, SignInOptions } from 'Query/MyAccount.type';
 import { AccountPageUrl, CUSTOMER } from 'Route/MyAccount/MyAccount.config';
 import { updateCustomerDetails, updateIsLoading, updateIsLocked } from 'Store/MyAccount/MyAccount.action';
+import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
@@ -40,11 +41,6 @@ import {
     MyAccountInformationContainerState,
 } from './MyAccountInformation.type';
 
-export const MyAccountDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/MyAccount/MyAccount.dispatcher'
-);
-
 /** @namespace Component/MyAccountInformation/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountInformationContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile,
@@ -63,9 +59,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): MyAccountInformationCont
     )),
     showSuccessNotification: (message) => dispatch(showNotification(NotificationType.SUCCESS, message)),
     updateCustomerLoadingStatus: (status) => dispatch(updateIsLoading(status)),
-    logout: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.logout(false, false, dispatch),
-    ),
+    logout: () => MyAccountDispatcher.logout(false, false, dispatch),
     updateIsLocked: (isLocked) => dispatch(updateIsLocked(isLocked)),
 });
 

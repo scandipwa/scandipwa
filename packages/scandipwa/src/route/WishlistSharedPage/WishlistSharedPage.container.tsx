@@ -19,6 +19,7 @@ import {
 } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
 import WishlistQuery from 'Query/Wishlist.query';
 import { Wishlist } from 'Query/Wishlist.type';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { ReactElement } from 'Type/Common.type';
 import { getIndexedProduct } from 'Util/Product';
@@ -35,15 +36,6 @@ import {
     WishlistSharedPageContainerState,
 } from './WishlistSharedPage.type';
 
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-export const WishlistDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Wishlist/Wishlist.dispatcher'
-);
-
 /** @namespace Route/WishlistSharedPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): WishlistSharedPageContainerMapStateProps => ({
     ...sourceMapStateToProps(state),
@@ -53,9 +45,7 @@ export const mapStateToProps = (state: RootState): WishlistSharedPageContainerMa
 export const mapDispatchToProps = (dispatch: Dispatch): WishlistSharedPageContainerMapDispatchProps => ({
     ...sourceMapDispatchToProps(dispatch),
     showNoMatch: () => dispatch(updateNoMatch(true)),
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
-    ),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
 });
 
 /** @namespace Route/WishlistSharedPage/Container */

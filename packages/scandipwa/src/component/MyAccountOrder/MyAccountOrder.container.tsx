@@ -19,6 +19,7 @@ import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
+import OrderDispatcher from 'Store/Order/Order.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import { isSignedIn } from 'Util/Auth';
 import { noopFn } from 'Util/Common';
@@ -38,11 +39,6 @@ import {
     MyAccountOrderContainerState,
 } from './MyAccountOrder.type';
 
-export const OrderDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Order/Order.dispatcher'
-);
-
 /** @namespace Component/MyAccountOrder/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountOrderContainerMapStateProps => ({
     display_tax_in_shipping_amount: state.ConfigReducer.cartDisplayConfig.display_tax_in_shipping_amount,
@@ -54,12 +50,8 @@ export const mapStateToProps = (state: RootState): MyAccountOrderContainerMapSta
 /** @namespace Component/MyAccountOrder/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountOrderContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    getOrderById: (orderId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getOrderById(dispatch, orderId),
-    ),
-    reorder: (incrementId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.reorder(dispatch, incrementId),
-    ),
+    getOrderById: (orderId) => OrderDispatcher.getOrderById(dispatch, orderId),
+    reorder: (incrementId) => OrderDispatcher.reorder(dispatch, incrementId),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE)),
 });

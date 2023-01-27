@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+import SearchBarDispatcher from 'Store/SearchBar/SearchBar.dispatcher';
 import { ReactElement, Url } from 'Type/Common.type';
 import { IndexedAttributeWithValue } from 'Util/Product/Product.type';
 
@@ -26,11 +27,6 @@ import {
     SearchItemContainerMapStateProps,
     SearchItemContainerProps,
 } from './SearchItem.type';
-
-export const SearchBarDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/SearchBar/SearchBar.dispatcher'
-);
 
 /** @namespace Component/SearchItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): SearchItemContainerMapDispatchProps => ({

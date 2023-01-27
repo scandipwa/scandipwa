@@ -46,11 +46,6 @@ import {
     CartOverlayContainerState,
 } from './CartOverlay.type';
 
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
-
 /** @namespace Component/CartOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CartOverlayContainerMapStateProps => ({
     totals: state.CartReducer.cartTotals,

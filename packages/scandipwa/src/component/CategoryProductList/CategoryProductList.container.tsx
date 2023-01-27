@@ -18,6 +18,7 @@ import { ProductListContainerProps } from 'Component/ProductList/ProductList.typ
 import { ProductListOptions } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
+import ProductListDispatcher from 'Store/ProductList/ProductList.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -29,11 +30,6 @@ import {
 } from './CategoryProductList.type';
 
 import './CategoryProductList.style';
-
-export const ProductListDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ProductList/ProductList.dispatcher'
-);
 
 /** @namespace Component/CategoryProductList/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CategoryProductListContainerMapStateProps => ({
@@ -47,9 +43,7 @@ export const mapStateToProps = (state: RootState): CategoryProductListContainerM
 
 /** @namespace Component/CategoryProductList/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CategoryProductListContainerMapDispatchProps => ({
-    requestProductList: (options) => ProductListDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
-    ),
+    requestProductList: (options) => ProductListDispatcher.handleData(dispatch, options),
     updateLoadStatus: (isLoading) => dispatch(updateLoadStatus(isLoading)),
 });
 

@@ -23,9 +23,12 @@ import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateShippingPrice } from 'Store/Cart/Cart.action';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { CartTotals } from 'Store/Cart/Cart.type';
 import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
+import CheckoutDispatcher from 'Store/Checkout/Checkout.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
+import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -71,19 +74,6 @@ import {
     PaymentInformation,
 } from './Checkout.type';
 
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
-export const MyAccountDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/MyAccount/MyAccount.dispatcher'
-);
-export const CheckoutDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Checkout/Checkout.dispatcher'
-);
-
 /** @namespace Route/Checkout/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProps => ({
     selectedStore: state.StoreInPickUpReducer.store,
@@ -107,15 +97,11 @@ export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProp
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatchProps => ({
     setPickUpStore: (store) => dispatch(setPickUpStore(store)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    resetCart: () => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken()),
-    ),
-    resetGuestCart: () => CartDispatcher.then(
-        ({ default: dispatcher }) => {
-            dispatcher.resetGuestCart(dispatch);
-            dispatcher.createGuestEmptyCart(dispatch);
-        },
-    ),
+    resetCart: () => CartDispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken()),
+    resetGuestCart: () => {
+        CartDispatcher.resetGuestCart(dispatch);
+        CartDispatcher.createGuestEmptyCart(dispatch);
+    },
     toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
     showInfoNotification: (message) => dispatch(showNotification(NotificationType.INFO, message)),
@@ -124,14 +110,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
     setNavigationState: (stateName) => dispatch(
         changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, stateName),
     ),
-    createAccount: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch),
-    ),
+    createAccount: (options) => MyAccountDispatcher.createAccount(options, dispatch),
     updateShippingFields: (fields) => dispatch(updateShippingFields(fields)),
     updateEmail: (email) => dispatch(updateEmail(email)),
-    checkEmailAvailability: (email) => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, email),
-    ),
+    checkEmailAvailability: (email) => CheckoutDispatcher.handleData(dispatch, email),
     updateShippingPrice: (data) => dispatch(updateShippingPrice(data)),
 });
 
