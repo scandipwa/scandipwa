@@ -15,8 +15,8 @@ import { Dispatch } from 'redux';
 
 import Loader from 'Component/Loader';
 import MyAccountQuery from 'Query/MyAccount.query';
+import { CUSTOMER } from 'Route/MyAccount/MyAccount.config';
 import { updateCustomerDetails } from 'Store/MyAccount/MyAccount.action';
-import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
