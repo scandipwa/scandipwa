@@ -16,10 +16,18 @@ import {
 } from './Cms.type';
 
 /** @namespace Store/Cms/Reducer/getInitialState */
-export const getInitialState = (): CmsStore => ({
-    cmsPage: {},
-    isLoading: true,
-});
+export const getInitialState = (): CmsStore => {
+    const {
+        actionName: {
+            cmsPage = {},
+        } = {},
+    } = window;
+
+    return {
+        cmsPage,
+        isLoading: !Object.keys(cmsPage),
+    };
+};
 
 /** @namespace Store/Cms/Reducer/CmsReducer */
 export const CmsReducer: Reducer<CmsStore, CmsAction> = (
@@ -36,6 +44,7 @@ export const CmsReducer: Reducer<CmsStore, CmsAction> = (
             isLoading: false,
         };
     }
+
     case CmsActionType.UPDATE_CMS_PAGE_LOADING: {
         const { isLoading } = action;
 

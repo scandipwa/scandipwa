@@ -12,7 +12,6 @@
 import { UrlRewritePageType } from 'Route/UrlRewrites/UrlRewrites.config';
 
 import CategoryPreload from './CategoryPreload';
-import CmsPagePreload from './CmsPagePreload';
 import ProductPreload from './ProductPreload';
 
 const { actionName: { type = '' } = {} } = window;
@@ -30,7 +29,6 @@ export const criticalChunkLoad = {
         test: type === UrlRewritePageType.CMS_PAGE,
         importChunk: () => {
             import(/* webpackChunkName: "cms", webpackMode: "lazy" */ 'Route/CmsPage');
-            CmsPagePreload.preloadCms();
         },
     },
     ProductChunk: {
