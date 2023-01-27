@@ -29,6 +29,7 @@ import { ImageRatio } from 'Component/Image/Image.type';
 import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
 import Slider from 'Component/Slider';
+import VideoThumbnail from 'Component/VideoThumbnail';
 import { MediaGalleryEntry } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
@@ -53,10 +54,6 @@ export const CarouselScroll = lowPriorityLazy(() => import(
 export const VideoPopup = lowPriorityLazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "product-overlays" */
     'Component/VideoPopup'
-));
-export const VideoThumbnail = lowPriorityLazy(() => import(
-    /* webpackMode: "lazy", webpackChunkName: "product-overlays" */
-    'Component/VideoThumbnail'
 ));
 
 /**
@@ -160,6 +157,10 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
             activeImage,
         } = this.props;
 
+        if (!activeImage) {
+            return;
+        }
+
         const { media_type } = gallery[activeImage];
 
         if (media_type === MediaType.VIDEO) {
@@ -195,14 +196,12 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
         const { isImageZoomPopupActive, handleImageZoomPopupActiveChange } = this.props;
 
         return (
-            <Suspense fallback={ null }>
-                <VideoThumbnail
-                  key={ index }
-                  media={ media }
-                  isVideoZoomed={ isImageZoomPopupActive }
-                  onZoomedVideoClick={ handleImageZoomPopupActiveChange }
-                />
-            </Suspense>
+            <VideoThumbnail
+              key={ index }
+              media={ media }
+              isVideoZoomed={ isImageZoomPopupActive }
+              onZoomedVideoClick={ handleImageZoomPopupActiveChange }
+            />
         );
     }
 
@@ -284,7 +283,11 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
                   isPlaceholder={ !src }
                   style={ style }
                   showIsLoading={ showLoader }
-                  onImageLoad={ setLoadedFlag }
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onImageLoad={ () => {
+                      setLoadedFlag();
+                      window.isPrefetchValueUsed = false;
+                  } }
                 />
             );
         }
@@ -305,7 +308,6 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
                   minScale: 1,
               } }
             >
-                { /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */ }
                 { /* @ts-ignore */ }
                 { (params: TransformRenderFnProps): ReactNode => {
                     const {
@@ -342,7 +344,17 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
      * @returns {null|*}
      */
     renderSlide(media: MediaGalleryEntry, index: number): ReactElement {
+        const { activeImage } = this.props;
         const { media_type } = media;
+        const { isPrefetchValueUsed = false } = window;
+
+        if (activeImage === undefined) {
+            return null;
+        }
+
+        if (index !== activeImage && isPrefetchValueUsed) {
+            return <div />;
+        }
 
         switch (media_type) {
         case MediaType.IMAGE:

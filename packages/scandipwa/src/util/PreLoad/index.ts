@@ -20,25 +20,16 @@ const { actionName: { type = '' } = {} } = window;
 export const criticalChunkLoad = {
     CategoryChunk: {
         test: type === UrlRewritePageType.CATEGORY,
-        importChunk: () => {
-            import(/* webpackChunkName: "category", webpackMode: "lazy" */ 'Route/CategoryPage');
-            CategoryPreload.preloadProducts();
-        },
+        importChunk: () => CategoryPreload.preloadProducts(),
     },
     CmsChunk: {
         // Request CMS chunk also on homepage visit
         test: type === UrlRewritePageType.CMS_PAGE,
-        importChunk: () => {
-            import(/* webpackChunkName: "cms", webpackMode: "lazy" */ 'Route/CmsPage');
-            CmsPagePreload.preloadCms();
-        },
+        importChunk: () => CmsPagePreload.preloadCms(),
     },
     ProductChunk: {
         test: type === UrlRewritePageType.PRODUCT,
-        importChunk: () => {
-            import(/* webpackChunkName: "product", webpackMode: "lazy" */ 'Route/ProductPage');
-            ProductPreload.preloadProduct();
-        },
+        importChunk: () => ProductPreload.preloadProduct(),
     },
 };
 

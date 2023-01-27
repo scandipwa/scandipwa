@@ -62,6 +62,8 @@ ProductListDispatcherData
         const { args = {}, isNext } = options;
         const { currentPage = 0 } = args;
 
+        dispatch(updateLoadStatus(false));
+
         if (isNext) {
             return dispatch(
                 appendPage(
