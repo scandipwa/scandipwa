@@ -3,9 +3,14 @@ const {
     getLoader, loaderByName, removeLoaders, addBeforeLoaders,
 } = require('@tilework/mosaic-craco');
 
+const { PreloadPlugin } = require('./preload.js');
+
 module.exports = {
     plugin: {
         overrideWebpackConfig: ({ webpackConfig }) => {
+            webpackConfig.plugins.push(new PreloadPlugin());
+
+            // inline entrypoint
             webpackConfig.plugins.forEach((plugin) => {
                 if (plugin.tests) {
                     plugin.tests.push(/main.+[.]js/);
@@ -16,11 +21,11 @@ module.exports = {
                 webpackConfig.optimization.splitChunks = {};
             }
 
-            webpackConfig.optimization.splitChunks.chunks = 'async';
-
             if (!webpackConfig.optimization.splitChunks.cacheGroups) {
                 webpackConfig.optimization.splitChunks.cacheGroups = {};
             }
+
+            webpackConfig.optimization.splitChunks.chunks = 'async';
 
             webpackConfig.optimization.splitChunks.cacheGroups.reactDom = {
                 test: /[\\/]react-dom[\\/]/i,
