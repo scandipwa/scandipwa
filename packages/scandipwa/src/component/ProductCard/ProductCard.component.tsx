@@ -18,6 +18,7 @@ import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { ProductComponent, ProductConfigurableAttributes } from 'Component/Product/Product.component';
 import { ProductType } from 'Component/Product/Product.config';
+import RenderWhenVisible from 'Component/RenderWhenVisible';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { GroupedProductItem } from 'Query/ProductList.type';
@@ -129,12 +130,15 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
                   mix={ { block: 'ProductCard', elem: 'Picture', mix } }
                   isPlaceholder={ !id }
                   onImageLoad={ onLoad }
+                  isRenderWhenVisible
                 />
-                <img
-                  style={ { display: 'none' } }
-                  alt={ name }
-                  src={ thumbnail }
-                />
+                <RenderWhenVisible>
+                    <img
+                      style={ { display: 'none' } }
+                      alt={ name }
+                      src={ thumbnail }
+                    />
+                </RenderWhenVisible>
             </>
         );
     }

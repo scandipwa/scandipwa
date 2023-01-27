@@ -32,6 +32,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
 import history from 'Util/History';
 import { debounce } from 'Util/Request';
+import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
 import { RootState } from 'Util/Store/Store.type';
 import {
     appendWithStoreCode,
@@ -258,7 +259,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             isOffline,
             categoryIds,
             category: {
-                id = window.actionName?.id,
+                id,
             },
             currentArgs: {
                 filter,
@@ -298,7 +299,10 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * category from URL rewrite, request category.
          */
         if (categoryIds !== id) {
-            this.requestCategory();
+            waitForPriorityLoad().then(
+            /** @namespace Route/CategoryPage/Container/CategoryPageContainer/componentDidUpdate/waitForPriorityLoad/then */
+                () => this.requestCategory(),
+            );
         }
 
         /**
@@ -387,7 +391,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         const {
             categoryIds,
             selectedInfoFilter: {
-                categoryIds: selectedCategoryIds,
+                // TODO
+                categoryIds: selectedCategoryIds = window.actionName?.id,
             },
         } = this.props;
 

@@ -9,12 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import { AnyAction, Store } from 'redux';
 import { Provider as UnstatedProvider } from 'unstated-typescript';
 
-import Router from 'Component/Router';
 import SharedTransition from 'Component/SharedTransition';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import injectStaticReducers from 'Store/index';
@@ -23,6 +22,8 @@ import { noopFn } from 'Util/Common';
 import getStore from 'Util/Store';
 
 import { AppComponentState } from './App.type';
+
+export const Router = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "router" */ 'Component/Router'));
 
 /** @namespace Component/App/Component */
 export class AppComponent extends PureComponent<unknown, AppComponentState> {
@@ -147,7 +148,9 @@ export class AppComponent extends PureComponent<unknown, AppComponentState> {
 
     renderRouter(): ReactElement {
         return (
-            <Router key="router" />
+            <Suspense fallback={ null }>
+                <Router key="router" />
+            </Suspense>
         );
     }
 

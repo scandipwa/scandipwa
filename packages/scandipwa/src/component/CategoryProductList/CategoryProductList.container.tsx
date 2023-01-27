@@ -78,7 +78,6 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
             filter,
             isLoading,
             isMatchingListFilter,
-            isCurrentCategoryLoaded,
         } = this.props;
 
         /**
@@ -86,16 +85,6 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
          * show the loading animation, it will soon change to proper category.
          */
         if (filter.categoryIds === -1) {
-            return true;
-        }
-
-        /**
-         * Do not request page, if category is not yet loaded
-         * without this command the products are requested twice:
-         * 1. Once with global default sorting
-         * 2. Once with category default sortingZ
-         */
-        if (!isCurrentCategoryLoaded) {
             return true;
         }
 
