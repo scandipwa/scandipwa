@@ -25,7 +25,7 @@ export const getInitialState = (): CmsStore => {
 
     return {
         cmsPage,
-        isLoading: !Object.keys(cmsPage),
+        isLoading: !Object.keys(cmsPage)?.length,
     };
 };
 
