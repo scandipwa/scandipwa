@@ -11,6 +11,8 @@
 
 import { StoreEnhancer } from 'redux';
 
+import { CmsPageFields } from 'Query/CmsPage.type';
+
 import { Mix } from './Common.type';
 
 declare global {
@@ -25,7 +27,7 @@ declare global {
             id?: number;
             sku?: string;
             name?: string;
-            identifier?: string;
+            cmsPage?: CmsPageData;
             description?: string;
             catalog_default_sort_by?: string;
         };
@@ -134,6 +136,12 @@ declare global {
         contact_us_content?: {
             contact_us_cms_block?: string;
         };
+    }
+
+    interface CmsPageData extends CmsPageFields {
+        page_id?: String;
+        identifier?: String;
+        url_key?: String;
     }
 
     type EmptyObject = Record<string, never>;
