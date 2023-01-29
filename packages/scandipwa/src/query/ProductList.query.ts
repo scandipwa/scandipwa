@@ -12,8 +12,8 @@
 import { Field, InlineFragment, Query } from '@tilework/opus';
 
 import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
+import { CUSTOMER } from 'Route/MyAccount/MyAccount.config';
 import { NONE_SORT_OPTION_VALUE } from 'Route/SearchPage/SearchPage.config';
-import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import {
     GQLCurrencyEnum,
     GQLPriceTypeEnum,

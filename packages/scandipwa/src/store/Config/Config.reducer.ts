@@ -88,31 +88,42 @@ export const getCheckoutAgreementData = (
 ): CheckoutAgreement[] => (base || state.checkoutAgreements || {});
 
 /** @namespace Store/Config/Reducer/getInitialState */
-export const getInitialState = (): Partial<ConfigStore> => ({
-    ...filterStoreConfig(storeConfig),
-    currencyData,
-    currency,
-    countries,
-    reviewRatings,
-    checkoutAgreements: [],
-    isLoading: true,
-    cartDisplayConfig,
-    priceTaxDisplay: {
-        product_price_display_type: '',
-        shipping_price_display_type: '',
-    },
-    category_url_suffix: DEFAULT_CATGORY_URL_SUFFIX,
-    device: {
-        isMobile: true,
-        android: true,
-        ios: false,
-        blackberry: false,
-        opera: false,
-        windows: false,
-        safari: false,
-        standaloneMode: window.matchMedia('(display-mode: standalone)').matches,
-    },
-});
+export const getInitialState = (): Partial<ConfigStore> => {
+    const {
+        storeConfig: {
+            cms_home_page,
+            catalog_default_sort_by,
+        } = {},
+    } = window;
+
+    return {
+        ...filterStoreConfig(storeConfig),
+        currencyData,
+        currency,
+        countries,
+        reviewRatings,
+        checkoutAgreements: [],
+        isLoading: true,
+        cartDisplayConfig,
+        priceTaxDisplay: {
+            product_price_display_type: '',
+            shipping_price_display_type: '',
+        },
+        category_url_suffix: DEFAULT_CATGORY_URL_SUFFIX,
+        device: {
+            isMobile: true,
+            android: true,
+            ios: false,
+            blackberry: false,
+            opera: false,
+            windows: false,
+            safari: false,
+            standaloneMode: window.matchMedia('(display-mode: standalone)').matches,
+        },
+        cms_home_page,
+        catalog_default_sort_by,
+    };
+};
 
 /** @namespace Store/Config/Reducer/ConfigReducer */
 // @ts-ignore

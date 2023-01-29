@@ -18,7 +18,7 @@ import MyAccountQuery from 'Query/MyAccount.query';
 import {
     ConfirmAccountOptions, CreateAccountOptions, Customer, ResetPasswordOptions, SignInOptions,
 } from 'Query/MyAccount.type';
-import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl, CUSTOMER } from 'Route/MyAccount/MyAccount.config';
 import {
     SendConfirmationStatus,
 } from 'Route/SendConfirmationPage/SendConfirmationPage.config';
@@ -47,6 +47,7 @@ import { removeUid } from 'Util/Compare';
 import history from 'Util/History';
 import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation, getErrorMessage } from 'Util/Request';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import { UpdateCustomerPasswordForgotStatusAction, UpdateCustomerPasswordResetStatusAction } from './MyAccount.type';
 
@@ -64,10 +65,6 @@ export const ProductCompareDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/ProductCompare/ProductCompare.dispatcher'
 );
-
-export const CUSTOMER = 'customer';
-
-export const ONE_MONTH_IN_SECONDS = 2628000;
 
 /**
  * My account actions
