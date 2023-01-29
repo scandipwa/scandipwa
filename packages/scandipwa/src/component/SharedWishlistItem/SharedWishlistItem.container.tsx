@@ -17,7 +17,6 @@ import {
     mapStateToProps as sourceMapStateToProps,
     WishlistItemContainer,
 } from 'Component/WishlistItem/WishlistItem.container';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
 

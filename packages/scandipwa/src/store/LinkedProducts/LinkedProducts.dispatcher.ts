@@ -27,14 +27,13 @@ import { IndexedProduct } from 'Util/Product/Product.type';
 import { fetchQuery, QueryDispatcher } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
+import { LINKED_PRODUCTS } from './LinkedProducts.reducer';
 import {
     LinkedProducts,
     LinkedProductsDispatcherData,
     LinkedProductsMap,
     LinkedProductType,
 } from './LinkedProducts.type';
-
-export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';
 
 /**
  * Linked Prodcts List Dispatcher

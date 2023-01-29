@@ -23,7 +23,6 @@ import SharedTransitionContainer, {
 } from 'Component/SharedTransition/SharedTransition.unstated';
 import { UrlRewrite } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement, Url } from 'Type/Common.type';
