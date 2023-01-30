@@ -81,13 +81,15 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
             isLoading,
         } = this.props;
 
+        const { isPrefetchValueUsed } = window;
+
         scrollToTop();
 
         if (isOffline && isLoading) {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
         }
 
-        if (!isOnlyPlaceholder && !window.isPrefetchValueUsed) {
+        if (!isOnlyPlaceholder && !isPrefetchValueUsed) {
             this.requestPage();
         }
     }
@@ -108,6 +110,8 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
             cmsPage: prevCmsPage,
         } = prevProps;
 
+        const { isPrefetchValueUsed } = window;
+
         if (
             (currentUrl !== prevCurrentUrl
             || pageIds !== prevPageIds
@@ -117,7 +121,7 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
             this.requestPage();
         }
 
-        if (JSON.stringify(cmsPage) !== JSON.stringify(prevCmsPage)) {
+        if (JSON.stringify(cmsPage) !== JSON.stringify(prevCmsPage) && !isPrefetchValueUsed) {
             this.onPageLoad();
         }
     }
@@ -219,9 +223,25 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
     requestPage(): void {
         const { requestPage } = this.props;
         const params = this.getRequestQueryParams();
-        const { id, identifier } = params;
+        const { id, identifier = '' } = params;
+        const {
+            actionName: {
+                id: pageId = null,
+                cmsPage: {
+                    identifier: pageIdentifier = null,
+                } = {},
+            } = {},
+        } = window;
 
         if (!id && !identifier) {
+            return;
+        }
+
+        // vvv check if cms page was already loaded from action
+        if (
+            id === pageId
+            || identifier.replace(/^\/+/, '') === pageIdentifier
+        ) {
             return;
         }
 
@@ -230,9 +250,9 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
 
     render(): ReactElement {
         return (
-                <CmsPage
-                  { ...this.containerProps() }
-                />
+            <CmsPage
+              { ...this.containerProps() }
+            />
         );
     }
 }

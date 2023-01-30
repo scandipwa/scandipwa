@@ -41,6 +41,8 @@ $icons = $this->getAppIconData();
             sku: `<?= $this->getSku(); ?>` || null,
             name: `<?= $this->getName(); ?>`,
             display_mode: `<?= $this->getDisplayMode(); ?>`,
+            cmsPage: <?= json_encode($this->getPage()); ?> || {},
+            description: `<?= $this->getDescription(); ?>`
             identifier: `<?= $this->getIdentifier(); ?>`,
             description: `<?= $this->getDescription(); ?>`,
             catalog_default_sort_by = '<?= $this->getCatalogDefaultSortBy() ?>';

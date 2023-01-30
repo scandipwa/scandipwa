@@ -28,6 +28,7 @@ export type SliderWidgetContainerProps = SliderWidgetContainerMapStateProps
 & SliderWidgetContainerMapDispatchProps
 & {
     sliderId: number;
+    onLoad?: () => void;
 };
 
 export interface SliderWidgetContainerState {
@@ -37,6 +38,7 @@ export interface SliderWidgetContainerState {
 export interface SliderWidgetComponentProps {
     device: Device;
     slider: Partial<EnhancedSlider>;
+    onLoad: () => void;
 }
 
 export interface SliderWidgetComponentState {

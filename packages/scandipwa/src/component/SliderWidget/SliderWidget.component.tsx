@@ -129,6 +129,8 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
             title: block,
         } = slide;
 
+        console.log(i, '***');
+
         return (
             <figure
               block="SliderWidget"

@@ -23,7 +23,7 @@ import Link from 'Component/Link';
 import WidgetFactory from 'Component/WidgetFactory';
 import { WidgetFactoryComponentProps } from 'Component/WidgetFactory/WidgetFactory.type';
 import { hash } from 'Util/Request/Hash';
-import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
+import { AfterPriority, setLoadedFlag } from 'Util/Request/LowPriorityLoad';
 
 import { HtmlComponentProps, HtmlParserRule } from './Html.type';
 
@@ -67,28 +67,14 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
         },
     ];
 
-    lastElement: Partial<DomElement> = {};
-
-    isLoadedFlagSet: boolean = false;
+    isPriorityLoading: boolean = false;
 
     parserOptions: HTMLReactParserOptions = {
         // eslint-disable-next-line react/no-unstable-nested-components
         replace: (domNode: DomElement): JSX.Element | undefined => {
             const {
-                data, name: domName, attribs: domAttrs, next, children,
+                data, name: domName, attribs: domAttrs,
             } = domNode;
-
-            if (!parent && next) {
-                if (Array.isArray(children) && children.length) {
-                    this.lastElement = children[children.length - 1];
-                } else {
-                    this.lastElement = domNode;
-                }
-            }
-
-            if (this.lastElement === domNode && !this.isLoadedFlagSet) {
-                setLoadedFlag();
-            }
 
             // Let's remove empty text nodes
             if (data && !data.replace(/\u21b5/g, '').replace(/\s/g, '').length) {
@@ -122,13 +108,41 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
                 return false;
             });
 
+            if (rule?.query.name.some((name) => ['widget', 'img'].includes(name)) && !this.isPriorityLoading) {
+                const { replace } = rule;
+
+                this.isPriorityLoading = true;
+
+                return replace.call(this, domNode);
+            }
+
             if (rule) {
                 const { replace } = rule;
+
+                if (this.isPriorityLoading) {
+                    return (
+                        // @ts-ignore
+                        <AfterPriority fallback={ null }>
+                            { replace.call(this, domNode) }
+                        </AfterPriority>
+                    );
+                }
 
                 return replace.call(this, domNode);
             }
         },
     };
+
+    __construct(props: HtmlComponentProps) {
+        super.__construct?.(props);
+
+        this.setLoadedFlag = this.setLoadedFlag.bind(this);
+    }
+
+    setLoadedFlag() {
+        this.isPriorityLoading = false;
+        setLoadedFlag();
+    }
 
     attributesToProps(attribs: Record<string, string | number>): Record<string, string | number> {
         const toCamelCase = (str: string) => str.replace(/_[a-z]/g, (match: string) => match.substr(1).toUpperCase());
@@ -189,10 +203,8 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
     replaceImages({ attribs }: DomElement): JSX.Element | undefined {
         const attributes = attributesToProps(attribs);
 
-        this.isLoadedFlagSet = true;
-
         if (attribs.src) {
-            return <Image { ...attributes } isPlain onImageLoad={ setLoadedFlag } />;
+            return <Image { ...attributes } isPlain />;
         }
     }
 
@@ -232,7 +244,7 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
      */
     replaceWidget({ attribs }: DomElement): JSX.Element | undefined {
         return (
-            <WidgetFactory { ...this.attributesToProps(attribs) as unknown as WidgetFactoryComponentProps } />
+            <WidgetFactory { ...this.attributesToProps(attribs) as unknown as WidgetFactoryComponentProps } onLoad={ this.setLoadedFlag } />
         );
     }
 

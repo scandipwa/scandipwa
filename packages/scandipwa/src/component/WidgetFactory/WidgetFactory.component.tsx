@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { lazy, PureComponent, Suspense } from 'react';
+import { lazy, PureComponent } from 'react';
 
 import RenderWhenVisible from 'Component/RenderWhenVisible';
 import { ReactElement } from 'Type/Common.type';
@@ -78,6 +78,7 @@ export class WidgetFactoryComponent extends PureComponent<WidgetFactoryComponent
             storeId,
             title,
             conditionsEncoded,
+            onLoad,
         } = this.props;
         const {
             component: Widget,
@@ -95,6 +96,7 @@ export class WidgetFactoryComponent extends PureComponent<WidgetFactoryComponent
                       storeId={ storeId }
                       title={ title }
                       conditionsEncoded={ conditionsEncoded }
+                      onLoad={ onLoad }
                     />
                 </RenderWhenVisible>
             );
@@ -111,11 +113,7 @@ export class WidgetFactoryComponent extends PureComponent<WidgetFactoryComponent
     }
 
     render(): ReactElement {
-        return (
-            <Suspense fallback={ this.renderFallback() }>
-                { this.renderContent() }
-            </Suspense>
-        );
+        return this.renderContent();
     }
 }
 

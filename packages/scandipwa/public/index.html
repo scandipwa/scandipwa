@@ -23,10 +23,24 @@
                 delete Object.prototype.__magic__;
             }());
 
+
+        // vvv default values from route717
+        window.actionName = {
+            type: "PWA_ROUTER",
+            id: null,
+            sku: null,
+            name: '',
+            cmsPage: {},
+            description: ''
+        }
         window.contentConfiguration = {};
         // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
         window.storeList = ['default'].sort().reverse();
         window.storeRegexText = `/(${window.storeList.join('|')})?`;
+        // vvv for development in proxy mode, this should be matching your homepage identifier
+        window.storeConfig = {
+            "cms_home_page": "homepage"
+        };
 
         window.website_code = 'base';
     </script>

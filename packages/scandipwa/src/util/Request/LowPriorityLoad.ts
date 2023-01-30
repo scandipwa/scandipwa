@@ -35,16 +35,6 @@ export const waitForPriorityLoad = () => new Promise((resolve) => {
     waitForIt();
 });
 
-/** @namespace Util/Request/LowPriorityLoad/lowPriorityLazyRequest */
-export const lowPriorityLazyRequest = async (callback: () => void) => {
-    await waitForPriorityLoad();
-
-    const ev = new Event(EV_PRIORITY_LOAD_END);
-    document.dispatchEvent(ev);
-
-    return callback();
-};
-
 /** @namespace Util/Request/LowPriorityLoad/lowPriorityLazy */
 export const lowPriorityLazy = (callback: () => Promise<{ default: ComponentType<any> }>) => lazy(async () => {
     await waitForPriorityLoad();
@@ -57,8 +47,8 @@ export const lowPriorityLazy = (callback: () => Promise<{ default: ComponentType
 
 /** @namespace Util/Request/LowPriorityLoad/AfterPriority */
 export function AfterPriority(
-    { children, fallback }: { children: ReactElement; fallback: () => {} },
-) {
+    { children, fallback }: { children: ReactElement; fallback: ReactElement },
+): ReactElement {
     const [isPriorityLoaded, setIsPriorityLoaded] = useState(window.isPriorityLoaded);
 
     function onPriorityLoad() {

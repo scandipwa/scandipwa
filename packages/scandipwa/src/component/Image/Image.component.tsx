@@ -13,7 +13,6 @@
 
 import { createRef, PureComponent } from 'react';
 
-import RenderWhenVisible from 'Component/RenderWhenVisible';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
@@ -291,16 +290,6 @@ S extends ImageComponentState = ImageComponentState,
     }
 
     render(): ReactElement {
-        const { isRenderWhenVisible } = this.props;
-
-        if (isRenderWhenVisible) {
-            return (
-                <RenderWhenVisible>
-                    { this.renderImageContent() }
-                </RenderWhenVisible>
-            );
-        }
-
         return this.renderImageContent();
     }
 }
