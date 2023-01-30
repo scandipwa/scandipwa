@@ -16,6 +16,7 @@ import { ProductCardContainerProps } from 'Component/ProductCard/ProductCard.typ
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+import { PRODUCTS_PRELOAD_COUNT } from 'Util/Product';
 import { AfterPriority, setLoadedFlag } from 'Util/Request/LowPriorityLoad';
 
 import { DEFAULT_PLACEHOLDER_COUNT } from './ProductListPage.config';
@@ -123,8 +124,7 @@ ProductListPageComponentState
         return Array.from(
             { length: numberOfPlaceholders },
             (_, i) => {
-                // eslint-disable-next-line no-magic-numbers
-                if (i < 4) {
+                if (i < PRODUCTS_PRELOAD_COUNT) {
                     return (
                         <ProductCard
                           key={ i }
@@ -174,8 +174,7 @@ ProductListPageComponentState
         } = this.props;
 
         return items.map((product, i) => {
-            // eslint-disable-next-line no-magic-numbers
-            if (i < 4) {
+            if (i < PRODUCTS_PRELOAD_COUNT) {
                 return (
                     <ProductCard
                       product={ product }

@@ -553,11 +553,11 @@ export const getAdjustedPrice = (
         if (option) {
             const { value } = option;
 
-            if ('priceInclTax' in value) {
+            if ('priceInclTax' in value && 'priceExclTax' in value) {
                 const { priceExclTax = 0, priceInclTax = 0 } = value;
 
-                adjustedPrice.config.inclTax += priceInclTax;
-                adjustedPrice.config.exclTax += priceExclTax;
+                adjustedPrice.config.inclTax += priceInclTax as number;
+                adjustedPrice.config.exclTax += priceExclTax as number;
             }
         }
     });

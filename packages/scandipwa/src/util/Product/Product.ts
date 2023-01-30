@@ -37,6 +37,7 @@ import { decodeBase64 } from 'Util/Base64';
 import getStore from 'Util/Store';
 import { RootState } from 'Util/Store/Store.type';
 
+import { getSmallImage } from './Extract';
 import {
     IndexedAttributeWithValue,
     IndexedAttributeWithValueOption,
@@ -55,6 +56,9 @@ import {
 
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
+
+// Constant is used for preloading images for products and count of shown product cards on PLP for preload
+export const PRODUCTS_PRELOAD_COUNT = 4;
 
 /**
  * Checks whether every option is in attributes
@@ -549,4 +553,16 @@ export const getAttributesWithValues = (product: IndexedProduct): Record<string,
 
         return acc;
     }, {});
+};
+
+/** @namespace Util/Product/preloadProductImage */
+export const preloadProductImage = (product: IndexedProduct): void => {
+    const imageUrl = getSmallImage(product);
+
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = imageUrl;
+
+    document.head.appendChild(link);
 };
