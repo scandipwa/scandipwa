@@ -30,6 +30,7 @@ import { noopFn } from 'Util/Common';
 import scrollToError from 'Util/Form/Form';
 import { debounce, getErrorMessage } from 'Util/Request';
 import { RootState } from 'Util/Store/Store.type';
+import { validateEmail } from 'Util/Validator';
 import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 
 import CheckoutGuestForm from './CheckoutGuestForm.component';
@@ -207,12 +208,14 @@ CheckoutGuestFormContainerState
         const { onEmailChange } = this.props;
         const { value: email = '' } = field || {};
 
-        this.checkEmailAvailability(email);
+        if (validateEmail(email)){
+            this.checkEmailAvailability(email);
+        }
         onEmailChange(email);
 
         const { updateEmail, isEmailAvailable } = this.props;
 
-        if (isEmailAvailable) {
+        if (isEmailAvailable && validateEmail(email)) {
             updateEmail(email);
         }
     }

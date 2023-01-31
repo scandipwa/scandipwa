@@ -47,6 +47,7 @@ import {
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
+import { validateEmail } from 'Util/Validator';
 
 import Checkout from './Checkout.component';
 import {
@@ -254,7 +255,9 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         }
 
         if (email) {
-            this.checkEmailAvailability(email);
+            if (validateEmail(email)){
+                this.checkEmailAvailability(email);
+            }
         }
 
         updateMeta({ title: __('Checkout') });
@@ -350,7 +353,9 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         }
 
         if (email !== prevEmail) {
-            this.checkEmailAvailability(email);
+            if (validateEmail(email)){
+                this.checkEmailAvailability(email);
+            }
 
             if (email && isVisibleEmailRequired !== prevIsVisibleEmailRequired) {
                 this.onChangeEmailRequired();
@@ -358,7 +363,9 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         }
 
         if (!isEmailAvailable) {
-            updateEmail(email);
+            if (validateEmail(email)){
+                updateEmail(email);
+            }
         }
     }
 
