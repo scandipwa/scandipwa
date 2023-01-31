@@ -17,7 +17,7 @@ import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
-import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 import { RootState } from 'Util/Store/Store.type';
 
 import ImageZoomPopup from './ImageZoomPopup.component';

@@ -37,7 +37,7 @@ import UrlRewrites from 'Route/UrlRewrites';
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
-import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 import { appendWithStoreCode, isHomePageUrl } from 'Util/Url';
 
 import {

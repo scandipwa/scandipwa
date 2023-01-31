@@ -19,7 +19,7 @@ import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
 import { filterConfigurableOptions } from 'Util/Product';
 import { IndexedBundleItem, IndexedConfigurableOption } from 'Util/Product/Product.type';
-import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 import { ValidationInputTypeNumber } from 'Util/Validator/Config';
 
 import { ProductType } from './Product.config';

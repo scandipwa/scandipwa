@@ -16,7 +16,8 @@ import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
 import { IndexedProduct } from 'Util/Product/Product.type';
-import { lowPriorityLazy, setLoadedFlag } from 'Util/Request/LowPriorityLoad';
+import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 
 import { OBSERVER_THRESHOLD } from './ProductList.config';
 import { PageProps, ProductListComponentProps } from './ProductList.type';

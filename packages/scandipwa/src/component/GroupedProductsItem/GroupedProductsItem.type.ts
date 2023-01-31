@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ProductQuantity } from 'Component/Product/Product.type';
 import { ProductItem } from 'Query/ProductList.type';
+import { ProductQuantity } from 'Util/Product/Product.type';
 
 export interface GroupedProductsItemContainerFunctions {
     setQuantity: (quantity: number) => void;

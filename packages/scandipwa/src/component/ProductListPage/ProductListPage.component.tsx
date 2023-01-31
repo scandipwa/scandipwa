@@ -17,7 +17,8 @@ import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import { PRODUCTS_PRELOAD_COUNT } from 'Util/Product';
-import { AfterPriority, setLoadedFlag } from 'Util/Request/LowPriorityLoad';
+import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
+import { AfterPriority } from 'Util/Request/LowPriorityRender';
 
 import { DEFAULT_PLACEHOLDER_COUNT } from './ProductListPage.config';
 import { ProductListPageComponentProps, ProductListPageComponentState } from './ProductListPage.type';

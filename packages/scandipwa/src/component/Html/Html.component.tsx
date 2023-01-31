@@ -23,7 +23,8 @@ import Link from 'Component/Link';
 import WidgetFactory from 'Component/WidgetFactory';
 import { WidgetFactoryComponentProps } from 'Component/WidgetFactory/WidgetFactory.type';
 import { hash } from 'Util/Request/Hash';
-import { AfterPriority, setLoadedFlag } from 'Util/Request/LowPriorityLoad';
+import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
+import { AfterPriority } from 'Util/Request/LowPriorityRender';
 
 import { HtmlComponentProps, HtmlParserRule } from './Html.type';
 

@@ -31,14 +31,18 @@ import {
     getPrice,
     getProductInStock,
 } from 'Util/Product/Extract';
-import { IndexedProduct, ProductTransformData } from 'Util/Product/Product.type';
+import {
+    AdjustedPriceMap,
+    ConfigurableProductSelectedVariantValue,
+    IndexedProduct, ProductOption,
+    ProductQuantity,
+    ProductTransformData,
+} from 'Util/Product/Product.type';
 import { magentoProductTransform, transformParameters } from 'Util/Product/Transform';
 import { RootState } from 'Util/Store/Store.type';
 import { validateGroup } from 'Util/Validator';
 
 import {
-    AdjustedPriceMap,
-    ConfigurableProductSelectedVariantValue,
     ProductComponentProps,
     ProductContainerFunctions,
     ProductContainerMapDispatchProps,
@@ -46,8 +50,6 @@ import {
     ProductContainerPropKeys,
     ProductContainerProps,
     ProductContainerState,
-    ProductOption,
-    ProductQuantity,
 } from './Product.type';
 
 /** @namespace Component/Product/Container/mapDispatchToProps */

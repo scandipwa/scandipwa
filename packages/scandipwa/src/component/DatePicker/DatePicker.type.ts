@@ -11,7 +11,7 @@
 
 import { FieldType } from 'Component/Field/Field.config';
 import { FieldDateType } from 'Component/FieldDate/FieldDate.config';
-import { ProductOption } from 'Component/Product/Product.type';
+import { ProductOption } from 'Util/Product/Product.type';
 
 export interface DatePickerContainerMapStateProps {
     yearRange: string;

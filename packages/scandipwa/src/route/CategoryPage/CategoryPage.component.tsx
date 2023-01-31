@@ -24,7 +24,7 @@ import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder
 import { ReactElement } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 
 import {
     CategoryDisplayMode,

@@ -10,8 +10,8 @@
  */
 
 import { FieldDateType } from 'Component/FieldDate/FieldDate.config';
-import { ProductOption } from 'Component/Product/Product.type';
 import { ReactElement } from 'Type/Common.type';
+import { ProductOption } from 'Util/Product/Product.type';
 
 export interface DateSelectContainerMapStateProps {
     yearRange: string;

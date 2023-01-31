@@ -33,7 +33,8 @@ import VideoThumbnail from 'Component/VideoThumbnail';
 import { MediaGalleryEntry } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
-import { lowPriorityLazy, setLoadedFlag } from 'Util/Request/LowPriorityLoad';
+import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 
 import {
     MAX_ZOOM_SCALE,

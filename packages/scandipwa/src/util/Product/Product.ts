@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ConfigurableProductSelectedVariantValue } from 'Component/Product/Product.type';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import {
     AttributeWithValue,
@@ -34,6 +33,7 @@ import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { GQLProductStockStatus } from 'Type/Graphql.type';
 import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { decodeBase64 } from 'Util/Base64';
+import { ConfigurableProductSelectedVariantValue } from 'Util/Product/Product.type';
 import getStore from 'Util/Store';
 import { RootState } from 'Util/Store/Store.type';
 

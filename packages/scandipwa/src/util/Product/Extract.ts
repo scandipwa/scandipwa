@@ -13,7 +13,6 @@
  */
 
 import { ProductType } from 'Component/Product/Product.config';
-import { AdjustedPriceMap, ProductOption } from 'Component/Product/Product.type';
 import { ImageType } from 'Component/ProductGallery/ProductGallery.config';
 import {
     GroupedProductItem,
@@ -24,6 +23,7 @@ import { GQLCurrencyEnum, GQLProductStockStatus } from 'Type/Graphql.type';
 import { decodeBase64 } from 'Util/Base64';
 import { FieldValue } from 'Util/Form/Form.type';
 import { formatPrice } from 'Util/Price';
+import { AdjustedPriceMap, ProductOption } from 'Util/Product/Product.type';
 
 import {
     DEFAULT_MAX_PRODUCTS,

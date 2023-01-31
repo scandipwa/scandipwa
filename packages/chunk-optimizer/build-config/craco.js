@@ -23,7 +23,8 @@ module.exports = {
 
             webpackConfig.plugins.forEach((plugin) => {
                 if (plugin.definitions?.PureComponent) {
-                    plugin.definitions.PureComponent[0] = 'preact/compat';
+                    // plugin.definitions.PureComponent[0] = 'preact/compat';
+                    delete plugin.definitions.PureComponent;
                 }
             });
 
