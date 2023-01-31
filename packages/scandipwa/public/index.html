@@ -26,23 +26,59 @@
 
         // vvv default values from route717
         window.actionName = {
-            type: "PWA_ROUTER",
-            id: null,
+            type: "CATEGORY",
+            id: 118,
             sku: null,
-            name: '',
+            name: "Gaming Controllers",
             cmsPage: {},
-            description: ''
+            description: null
         }
-        window.contentConfiguration = {};
+        window.contentConfiguration = {"footer_content":{"footer_cms":"usa-footer"},"minicart_content":{"minicart_cms":"mini-cart-en"},"cart_content":{"cart_cms":"cart-en"},"checkout_content":{"checkout_shipping_cms":null,"checkout_billing_cms":null},"header_content":{"header_menu":null,"header_cms":"menu-links-en","contacts_cms":null},"product_list_content":{"attribute_to_display":null},"cookie_content":{"cookie_text":"We use cookies in order to give you the best possible experience on our website. ","cookie_link":"\/privacy-policy-cookie-restriction-mode"},"contact_us_content":{"contact_us_cms_block":"contact_us_page_block"}} || {};
+        window.storeCurrency = 'USD';
+        window.catalog_default_sort_by = 'position';
+
+        // Multistore
         // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
-        window.storeList = ['default'].sort().reverse();
+        window.storeList = JSON.parse(`["default","uk_storeview","de_storeview","ca_en","ca_fr"]`).sort().reverse();
         window.storeRegexText = `/(${window.storeList.join('|')})?`;
+        window.website_code = 'base';
+
         // vvv for development in proxy mode, this should be matching your homepage identifier
         window.storeConfig = {
             "cms_home_page": "homepage"
         };
 
+        // Multistore
+        // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
+        window.storeList = JSON.parse(`["default","uk_storeview","de_storeview","ca_en","ca_fr"]`).sort().reverse();
+        window.storeRegexText = `/(${window.storeList.join('|')})?`;
         window.website_code = 'base';
+
+        const chunkValidator = {
+		    // vvv Preload pages conditionaly
+            category: window.actionName.type === 'CATEGORY',
+            cms: window.actionName.type === 'CMS_PAGE',
+            product: window.actionName.type === 'PRODUCT',
+            // vvv Always preload current locale
+            [window.defaultLocale]: true,
+            router: true
+        };
+
+        const appendPreloadLink = (chunk) => {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'script';
+            link.href = chunk;
+            document.head.appendChild(link);
+        }
+
+        if (window.preloadData) {
+            Object.entries(window.preloadData).forEach(([key, chunks]) => {
+            if (chunkValidator[key]) {
+                chunks.forEach((c) => appendPreloadLink(c));
+            }
+            });
+        }
     </script>
 
     <!-- Font -->

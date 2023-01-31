@@ -8,6 +8,25 @@ const { PreloadPlugin } = require('./preload.js');
 module.exports = {
     plugin: {
         overrideWebpackConfig: ({ webpackConfig }) => {
+            webpackConfig.node = false;
+
+            if (!webpackConfig.resolve) {
+                webpackConfig.resolve = {};
+            }
+
+            if (!webpackConfig.resolve.alias) {
+                webpackConfig.resolve.alias = {};
+            }
+
+            webpackConfig.resolve.alias.react = 'preact/compat';
+            webpackConfig.resolve.alias['react-dom'] = 'preact/compat';
+
+            webpackConfig.plugins.forEach((plugin) => {
+                if (plugin.definitions?.PureComponent) {
+                    plugin.definitions.PureComponent[0] = 'preact/compat';
+                }
+            });
+
             webpackConfig.plugins.push(new PreloadPlugin());
 
             // inline entrypoint

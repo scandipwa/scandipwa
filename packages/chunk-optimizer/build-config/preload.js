@@ -36,8 +36,8 @@ class PreloadPlugin {
                     const [HtmlWebpackPlugin] = compiler.options.plugins.filter(
                         (plugin) => plugin.constructor.name === 'HtmlWebpackPlugin'
                     );
-                    console.log('Unable to find an instance of '
-                        + 'HtmlWebpackPlugin in the current compilation.');
+                    // console.log('Unable to find an instance of '
+                    //     + 'HtmlWebpackPlugin in the current compilation.');
                     hook = HtmlWebpackPlugin.constructor.getHooks(compilation).beforeEmit;
                 }
 
