@@ -10,7 +10,7 @@
  */
 import { Reducer } from 'redux';
 
-import { isInitiallySignedIn } from 'Util/Auth';
+import { isInitiallySignedIn } from 'Util/Auth/IsSignedIn';
 
 import { MyAccountAction, MyAccountActionType, MyAccountStore } from './MyAccount.type';
 

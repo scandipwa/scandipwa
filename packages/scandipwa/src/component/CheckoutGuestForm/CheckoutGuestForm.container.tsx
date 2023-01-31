@@ -27,10 +27,11 @@ import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { noopFn } from 'Util/Common';
 import scrollToError from 'Util/Form/Form';
-import { debounce, getErrorMessage } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
+import { getErrorMessage } from 'Util/Request/Error';
 import { RootState } from 'Util/Store/Store.type';
 import { ValidationDOMOutput } from 'Util/Validator/Validator.type';
 

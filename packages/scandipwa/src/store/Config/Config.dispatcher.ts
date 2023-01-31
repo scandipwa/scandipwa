@@ -30,8 +30,8 @@ import { NetworkError } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { returnFilteredCurrencies, setCurrency } from 'Util/Currency';
-import { QueryDispatcher } from 'Util/Request';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/Config';
+import { QueryDispatcher } from 'Util/Request/QueryDispatcher';
 
 import { ConfigStore } from './Config.type';
 

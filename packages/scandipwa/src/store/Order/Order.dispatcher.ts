@@ -19,10 +19,12 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
 import { NetworkError } from 'Type/Common.type';
-import { getAuthorizationToken } from 'Util/Auth';
+import { getAuthorizationToken } from 'Util/Auth/Token';
 import { decodeBase64 } from 'Util/Base64';
 import history from 'Util/History';
-import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
+import { fetchQuery } from 'Util/Request/Query';
 import { appendWithStoreCode } from 'Util/Url';
 
 /** @namespace Store/Order/Dispatcher */

@@ -39,7 +39,7 @@ import ShareIcon from 'Component/ShareIcon';
 import StoreSwitcher from 'Component/StoreSwitcher';
 import UserIcon from 'Component/UserIcon';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { isCrawler, isSSR } from 'Util/Browser';
 import { decodeString } from 'Util/Common';
 import CSS from 'Util/CSS';

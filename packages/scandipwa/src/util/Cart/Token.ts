@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 import { CartTokensByWebsite } from './Cart.type';

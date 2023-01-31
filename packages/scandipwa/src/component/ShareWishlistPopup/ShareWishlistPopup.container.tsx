@@ -21,8 +21,9 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { ReactElement } from 'Type/Common.type';
 import { GQLShareWishlistInput } from 'Type/Graphql.type';
-import { isSignedIn } from 'Util/Auth';
-import { fetchMutation, getErrorMessage } from 'Util/Request';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
 
 import ShareWishlistPopup from './ShareWishlistPopup.component';
 import {

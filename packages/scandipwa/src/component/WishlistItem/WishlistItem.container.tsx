@@ -22,14 +22,14 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 import { IndexedVariant, ProductTransformData, StockCheckProduct } from 'Util/Product/Product.type';
 import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
-import { Debouncer } from 'Util/Request';
+import { Debouncer } from 'Util/Request/Debounce';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 

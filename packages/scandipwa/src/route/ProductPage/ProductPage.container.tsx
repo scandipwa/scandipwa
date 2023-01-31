@@ -28,7 +28,7 @@ import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 import { getAttributesWithValues, getIsConfigurableParameterSelected } from 'Util/Product';
 import { IndexedAttributeWithValue, IndexedProduct } from 'Util/Product/Product.type';
-import { debounce } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
 import { RootState } from 'Util/Store/Store.type';
 import {
     convertQueryStringToKeyValuePairs,

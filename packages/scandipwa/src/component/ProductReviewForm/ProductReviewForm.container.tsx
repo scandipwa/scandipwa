@@ -23,7 +23,7 @@ import ReviewDispatcher from 'Store/Review/Review.dispatcher';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
-import { getErrorMessage } from 'Util/Request';
+import { getErrorMessage } from 'Util/Request/Error';
 import { RootState } from 'Util/Store/Store.type';
 
 import ProductReviewForm from './ProductReviewForm.component';

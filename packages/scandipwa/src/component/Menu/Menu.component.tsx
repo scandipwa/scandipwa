@@ -20,7 +20,7 @@ import StoreSwitcher from 'Component/StoreSwitcher';
 import { ReactElement } from 'Type/Common.type';
 import { getSortedItems } from 'Util/Menu';
 import { FormattedMenuItem } from 'Util/Menu/Menu.type';
-import { debounce } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
 
 import { SCROLL_DEBOUNCE_DELAY } from './Menu.config';
 import { MenuComponentProps } from './Menu.type';

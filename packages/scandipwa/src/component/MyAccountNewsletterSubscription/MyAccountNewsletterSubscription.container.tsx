@@ -20,10 +20,11 @@ import { updateCustomerDetails } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
-import { fetchMutation, getErrorMessage } from 'Util/Request';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/Config';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
 import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountNewsletterSubscription from './MyAccountNewsletterSubscription.component';

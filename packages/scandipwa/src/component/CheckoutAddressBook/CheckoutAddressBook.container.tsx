@@ -16,7 +16,7 @@ import { Dispatch } from 'redux';
 import { CustomerAddress } from 'Query/MyAccount.type';
 import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { noopFn } from 'Util/Common';
 import { RootState } from 'Util/Store/Store.type';
 

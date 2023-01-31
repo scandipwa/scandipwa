@@ -37,17 +37,16 @@ import { setPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { GQLCartAddressInput, GQLEstimateShippingCostsAddress, GQLSaveAddressInformation } from 'Type/Graphql.type';
 import { removeEmptyStreets } from 'Util/Address';
-import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
+import { getAuthorizationToken } from 'Util/Auth/Token';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteCartId, getCartId, getCartTotalSubPrice } from 'Util/Cart';
 import history from 'Util/History';
-import {
-    debounce,
-    fetchMutation,
-    fetchQuery,
-    getErrorMessage,
-} from 'Util/Request';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/Config';
+import { debounce } from 'Util/Request/Debounce';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
+import { fetchQuery } from 'Util/Request/Query';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 

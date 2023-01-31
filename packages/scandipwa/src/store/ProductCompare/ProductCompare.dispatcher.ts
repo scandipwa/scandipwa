@@ -22,9 +22,10 @@ import {
     toggleLoader,
     updateCompareTotals,
 } from 'Store/ProductCompare/ProductCompare.action';
-import { getAuthorizationToken } from 'Util/Auth';
+import { getAuthorizationToken } from 'Util/Auth/Token';
 import { getUid, removeUid, setUid } from 'Util/Compare';
-import { fetchMutation, fetchQuery } from 'Util/Request';
+import { fetchMutation } from 'Util/Request/Mutation';
+import { fetchQuery } from 'Util/Request/Query';
 
 /** @namespace Store/ProductCompare/Dispatcher */
 export class ProductCompareDispatcher {

@@ -17,10 +17,10 @@ import { noopFn } from 'Util/Common';
 import { makeCancelable } from 'Util/Promise';
 import { CancelablePromise } from 'Util/Promise/Promise.type';
 import { prepareQuery } from 'Util/Query';
-import { executeGet, listenForBroadCast } from 'Util/Request';
 import { hash } from 'Util/Request/Hash';
+import { executeGet, listenForBroadCast } from 'Util/Request/Request';
 
-import { ONE_MONTH_IN_SECONDS } from './QueryDispatcher';
+import { ONE_MONTH_IN_SECONDS } from './Config';
 
 /** @namespace Util/Request/DataContainer */
 export class DataContainer<

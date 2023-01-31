@@ -14,7 +14,8 @@ import { Dispatch } from 'redux';
 import NewsletterSubscriptionQuery from 'Query/NewsletterSubscription.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
-import { fetchMutation, getErrorMessage } from 'Util/Request';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
 
 export const NOT_ACTIVE = 'NOT_ACTIVE';
 

@@ -18,7 +18,7 @@ import Image from 'Component/Image';
 import { ImageRatio } from 'Component/Image/Image.type';
 import Slider from 'Component/Slider';
 import { ReactElement } from 'Type/Common.type';
-import { debounce } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
 
 import {
     SliderWidgetComponentProps,

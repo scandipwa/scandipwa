@@ -10,9 +10,17 @@
  */
 
 import { UrlRewritePageType } from 'Route/UrlRewrites/UrlRewrites.config';
+import ProductReducer from 'Store/Product/Product.reducer';
+import ProductListReducer from 'Store/ProductList/ProductList.reducer';
+import getStore, { injectReducers } from 'Util/Store';
 
 import CategoryPreload from './CategoryPreload';
 import ProductPreload from './ProductPreload';
+
+injectReducers(getStore(), {
+    ProductReducer,
+    ProductListReducer,
+});
 
 const { actionName: { type = '' } = {} } = window;
 

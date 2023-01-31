@@ -23,7 +23,7 @@ import { noopFn } from 'Util/Common';
 import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
-import { getErrorMessage } from 'Util/Request';
+import { getErrorMessage } from 'Util/Request/Error';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 

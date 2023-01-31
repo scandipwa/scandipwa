@@ -25,7 +25,7 @@ import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
-import { debounce } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
 import { RootState } from 'Util/Store/Store.type';
 import { getUrlParam, isHomePageUrl } from 'Util/Url';
 

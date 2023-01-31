@@ -17,7 +17,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 import { RootState } from 'Util/Store/Store.type';
 

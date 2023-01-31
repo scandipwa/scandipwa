@@ -24,7 +24,7 @@ import {
     updateProductListItems,
 } from 'Store/ProductList/ProductList.action';
 import { NetworkError } from 'Type/Common.type';
-import { QueryDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request/QueryDispatcher';
 
 import {
     AppendPageAction,

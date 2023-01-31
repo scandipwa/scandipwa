@@ -19,8 +19,8 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
 import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import { NetworkError, ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
-import { getErrorMessage } from 'Util/Request';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
+import { getErrorMessage } from 'Util/Request/Error';
 import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';

@@ -23,7 +23,7 @@ import { OrderItem } from 'Query/Order.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import OrderDispatcher from 'Store/Order/Order.dispatcher';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 

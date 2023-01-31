@@ -20,7 +20,7 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';

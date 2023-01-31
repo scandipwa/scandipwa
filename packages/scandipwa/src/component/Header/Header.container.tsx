@@ -26,7 +26,7 @@ import { NavigationState, NavigationType } from 'Store/Navigation/Navigation.typ
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';

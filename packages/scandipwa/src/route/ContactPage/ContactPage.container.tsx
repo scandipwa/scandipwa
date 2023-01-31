@@ -21,8 +21,8 @@ import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
-import { getErrorMessage } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
+import { getErrorMessage } from 'Util/Request/Error';
 import { RootState } from 'Util/Store/Store.type';
 
 import ContactPage from './ContactPage.component';

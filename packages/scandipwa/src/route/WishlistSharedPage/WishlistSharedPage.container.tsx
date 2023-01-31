@@ -24,8 +24,9 @@ import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { ReactElement } from 'Type/Common.type';
 import { getIndexedProduct } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
-import { executeGet, getErrorMessage } from 'Util/Request';
-import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/Config';
+import { getErrorMessage } from 'Util/Request/Error';
+import { executeGet } from 'Util/Request/Request';
 import { RootState } from 'Util/Store/Store.type';
 
 import WishlistShared from './WishlistSharedPage.component';

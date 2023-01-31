@@ -22,9 +22,12 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
 import { getRegionIdOfRegionName } from 'Util/Address';
-import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
+import { getAuthorizationToken } from 'Util/Auth/Token';
 import { getCartId, setCartId } from 'Util/Cart';
-import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
+import { fetchQuery } from 'Util/Request/Query';
 
 import { AddProductToCartOptions, CheckoutAddress, UpdateProductInCartOptions } from './Cart.type';
 

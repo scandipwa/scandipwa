@@ -24,8 +24,11 @@ import {
 } from 'Store/Wishlist/Wishlist.action';
 import { NetworkError } from 'Type/Common.type';
 import { GQLWishlistItemInput, GQLWishlistItemUpdateInput } from 'Type/Graphql.type';
-import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
-import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
+import { getAuthorizationToken } from 'Util/Auth/Token';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
+import { fetchQuery } from 'Util/Request/Query';
 import { getStoreState } from 'Util/Store';
 import { getPriceRange } from 'Util/Wishlist';
 

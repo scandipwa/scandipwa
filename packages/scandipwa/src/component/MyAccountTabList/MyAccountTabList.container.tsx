@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 
 import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { noopFn } from 'Util/Common';
 
 import MyAccountTabList from './MyAccountTabList.component';

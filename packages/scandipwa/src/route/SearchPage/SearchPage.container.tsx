@@ -26,7 +26,7 @@ import { ReactElement } from 'Type/Common.type';
 import { decodeString, noopFn } from 'Util/Common';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
-import { debounce } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 

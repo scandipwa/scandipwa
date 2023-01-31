@@ -17,7 +17,7 @@ import {
     GQLSSetBillingAddressOnCartInput,
     GQLSSetPaymentMethodOnCartInput,
 } from 'Type/Graphql.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 
 import {
     PaymentDetails,

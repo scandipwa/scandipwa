@@ -12,6 +12,7 @@
 import { Reducer } from 'redux';
 
 import { getIndexedProducts, preloadProductImage, PRODUCTS_PRELOAD_COUNT } from 'Util/Product';
+import { getSmallImage } from 'Util/Product/Extract';
 
 import { ProductListAction, ProductListActionType, ProductListStore } from './ProductList.type';
 
@@ -60,6 +61,19 @@ export const ProductListReducer: Reducer<ProductListStore, ProductListAction> = 
 
     case ProductListActionType.UPDATE_PRODUCT_LIST_ITEMS:
         const products = getIndexedProducts(initialItems);
+
+        const appendPreloadLink = (image: string) => {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'image';
+            link.href = image;
+            document.head.appendChild(link);
+        };
+
+        // eslint-disable-next-line no-magic-numbers
+        products.slice(0, 4).forEach((item) => {
+            appendPreloadLink(getSmallImage(item));
+        });
 
         // Preloading images for product cards on PLP
         if (isPrefetchValueUsed) {

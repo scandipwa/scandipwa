@@ -12,15 +12,15 @@
 
 import { GraphQlResponse } from '@tilework/opus';
 
-import { getAuthorizationToken, isSignedIn, refreshAuthorizationToken } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
+import { getAuthorizationToken, refreshAuthorizationToken } from 'Util/Auth/Token';
 import { refreshUid } from 'Util/Compare';
 import { getCurrency } from 'Util/Currency';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import {
+    GRAPHQL_URI, HTTP_201_CREATED, HTTP_410_GONE, HTTP_503_SERVICE_UNAVAILABLE, ONE_MONTH_IN_SECONDS, WINDOW_ID,
+} from 'Util/Request/Config';
 
 import { hash } from './Hash';
-
-export const GRAPHQL_URI = '/graphql';
-export const WINDOW_ID = 'WINDOW_ID';
 
 /** @namespace Util/Request/getWindowId */
 export const getWindowId = (): string => {
@@ -208,10 +208,6 @@ export const parseResponse = async <T>(response: Response): Promise<T> => {
     }
 };
 
-export const HTTP_503_SERVICE_UNAVAILABLE = 503;
-export const HTTP_410_GONE = 410;
-export const HTTP_201_CREATED = 201;
-
 // TODO
 export interface QueryObject {
     query: string;
@@ -312,41 +308,3 @@ export const listenForBroadCast = <T = unknown>(name: string): Promise<T> => new
         };
     }
 });
-
-// TODO
-/** @namespace Util/Request/debounce */
-export const debounce = <T>(
-    callback: (...args: T[]) => void | Promise<void>, delay: number): (...args: T[]) => void => {
-    // eslint-disable-next-line fp/no-let
-    let timeout: NodeJS.Timeout;
-
-    return (...args: T[]) => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => callback.apply(this, args as []), delay);
-    };
-};
-
-/** @namespace Util/Request */
-export class Debouncer {
-    timeout!: NodeJS.Timeout;
-
-    handler = (): void => {};
-
-    startDebounce = <T = unknown>(
-        callback: (...args: T[]) => void,
-        delay: number,
-    ) => (...args: T[]): void => {
-        clearTimeout(this.timeout);
-        this.handler = () => callback.apply(this, args);
-        this.timeout = setTimeout(this.handler, delay);
-    };
-
-    cancelDebounce = (): void => {
-        clearTimeout(this.timeout);
-    };
-
-    cancelDebounceAndExecuteImmediately = (): void => {
-        clearTimeout(this.timeout);
-        this.handler();
-    };
-}

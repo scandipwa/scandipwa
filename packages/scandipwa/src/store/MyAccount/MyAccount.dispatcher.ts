@@ -37,20 +37,18 @@ import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearComparedProducts } from 'Store/ProductCompare/ProductCompare.action';
 import ProductCompareDispatcher from 'Store/ProductCompare/ProductCompare.dispatcher';
 import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
-import {
-    deleteAuthorizationToken,
-    getAuthorizationToken,
-    GRAPHQL_AUTH,
-    isSignedIn,
-    setAuthorizationToken,
-} from 'Util/Auth';
+import { GRAPHQL_AUTH } from 'Util/Auth/Config';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
+import { deleteAuthorizationToken, getAuthorizationToken, setAuthorizationToken } from 'Util/Auth/Token';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteCartId, getCartId, setCartId } from 'Util/Cart';
 import { removeUid } from 'Util/Compare';
 import history from 'Util/History';
 import { prepareQuery } from 'Util/Query';
-import { executePost, fetchMutation, getErrorMessage } from 'Util/Request';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/Config';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
+import { executePost } from 'Util/Request/Request';
 
 import { UpdateCustomerPasswordForgotStatusAction, UpdateCustomerPasswordResetStatusAction } from './MyAccount.type';
 

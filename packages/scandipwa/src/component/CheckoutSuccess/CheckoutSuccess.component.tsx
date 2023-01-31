@@ -15,7 +15,7 @@ import Link from 'Component/Link';
 import { ORDER_ID } from 'Component/MyAccountOrder/MyAccountOrder.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { appendWithStoreCode } from 'Util/Url';
 
 import { CheckoutSuccessComponentProps } from './CheckoutSuccess.type';

@@ -32,7 +32,7 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { GQLProductStockStatus } from 'Type/Graphql.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { decodeBase64 } from 'Util/Base64';
 import getStore from 'Util/Store';
 import { RootState } from 'Util/Store/Store.type';

@@ -14,7 +14,8 @@ import { Dispatch } from 'redux';
 import ContactFormQuery from 'Query/ContactForm.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
-import { fetchMutation, getErrorMessage } from 'Util/Request';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
 
 import { updateContactForm } from './ContactForm.action';
 import { ContactFormDispatcherOptions } from './ContactForm.type';

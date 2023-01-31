@@ -36,7 +36,7 @@ import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
 import history from 'Util/History';
-import { debounce } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
 import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
 import { RootState } from 'Util/Store/Store.type';
 import {

@@ -17,8 +17,7 @@ import {
 
 import { ReactElement } from 'Type/Common.type';
 
-export const EV_PRIORITY_LOAD_END = 'pr_end';
-export const INTERVAL_OF_CHECK = 50; // ms
+import { EV_PRIORITY_LOAD_END, INTERVAL_OF_CHECK } from './Config';
 
 /** @namespace Util/Request/LowPriorityLoad/waitForPriorityLoad */
 export const waitForPriorityLoad = () => new Promise((resolve) => {

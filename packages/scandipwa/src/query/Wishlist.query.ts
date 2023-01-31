@@ -18,7 +18,7 @@ import {
     GQLWishlistItemInput,
     GQLWishlistItemUpdateInput,
 } from 'Type/Graphql.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { getCartId } from 'Util/Cart';
 
 import { ProductItem } from './ProductList.type';

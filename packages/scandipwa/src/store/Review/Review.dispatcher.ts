@@ -15,7 +15,7 @@ import ReviewQuery from 'Query/Review.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { GQLCreateProductReviewInput } from 'Type/Graphql.type';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation } from 'Util/Request/Mutation';
 
 import { ReviewItem } from './Review.type';
 

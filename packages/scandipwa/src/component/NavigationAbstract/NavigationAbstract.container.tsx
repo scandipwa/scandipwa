@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { isScrollDisabled, toggleScroll } from 'Util/Browser';
 import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';

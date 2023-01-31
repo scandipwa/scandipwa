@@ -22,8 +22,9 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { GQLCustomerAddressInput } from 'Type/Graphql.type';
-import { isSignedIn } from 'Util/Auth';
-import { fetchMutation, getErrorMessage } from 'Util/Request';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
 import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountAddressPopup from './MyAccountAddressPopup.component';

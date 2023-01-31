@@ -18,8 +18,8 @@ import { ProductLink, ProductListOptions, ProductsQueryOutput } from 'Query/Prod
 import LinkedProductsDispatcher from 'Store/LinkedProducts/LinkedProducts.dispatcher';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { updateProductDetails } from 'Store/Product/Product.action';
-import { QueryDispatcher } from 'Util/Request';
 import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
+import { QueryDispatcher } from 'Util/Request/QueryDispatcher';
 
 import { ProductDispatcherData } from './Product.type';
 

@@ -28,7 +28,7 @@ import {
     MyAccountTabs, MyAccountTabsSection,
 } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
