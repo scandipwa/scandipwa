@@ -47,21 +47,21 @@ module.exports = {
 
             webpackConfig.optimization.splitChunks.chunks = 'async';
 
-            webpackConfig.optimization.splitChunks.cacheGroups.reactDom = {
-                test: /[\\/]react-dom[\\/]/i,
-                name: 'react-dom',
-            };
+            // webpackConfig.optimization.splitChunks.cacheGroups.reactDom = {
+            //     test: /[\\/]react-dom[\\/]/i,
+            //     name: 'react-dom',
+            // };
 
-            webpackConfig.optimization.splitChunks.cacheGroups.redux = {
-                test: /[\\/]redux|react-redux[\\/]/,
-                name: 'redux',
-            };
+            // webpackConfig.optimization.splitChunks.cacheGroups.redux = {
+            //     test: /[\\/]redux|react-redux[\\/]/,
+            //     name: 'redux',
+            // };
 
-            webpackConfig.optimization.splitChunks.cacheGroups.history = {
-                test: /[\\/]react-property[\\/]/i,
-                name: 'react-property',
-                chunks: 'all',
-            };
+            // webpackConfig.optimization.splitChunks.cacheGroups.history = {
+            //     test: /[\\/]react-property[\\/]/i,
+            //     name: 'react-property',
+            //     chunks: 'all',
+            // };
 
             const { isFound: isStyleLoaderFound, match: styleLoader } = getLoader(
                 webpackConfig,
