@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { createRoot } from 'react-dom/client';
+import { render } from 'react-dom';
 
 import App from 'Component/App';
 
@@ -27,12 +27,9 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-const container = document.getElementById('root');
-const root = createRoot(container!);
-
-// Code bellow enables the hot reloading of plugins
-// Why? I have no idea. Further debugging needed.
-// TODO: understand why this helps HMR
+// // Code bellow enables the hot reloading of plugins
+// // Why? I have no idea. Further debugging needed.
+// // TODO: understand why this helps HMR
 if (module.hot) {
     module.hot.accept();
 }
@@ -41,4 +38,4 @@ function HotApp() {
     return <App />;
 }
 
-root.render(<HotApp />);
+render(<HotApp />, document.getElementById('root'));
