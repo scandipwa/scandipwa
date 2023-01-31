@@ -9,15 +9,6 @@ module.exports = {
     plugin: {
         overrideWebpackConfig: ({ webpackConfig }) => {
             webpackConfig.node = false;
-
-            if (!webpackConfig.resolve) {
-                webpackConfig.resolve = {};
-            }
-
-            if (!webpackConfig.resolve.alias) {
-                webpackConfig.resolve.alias = {};
-            }
-
             webpackConfig.resolve.alias.react = 'preact/compat';
             webpackConfig.resolve.alias['react-dom'] = 'preact/compat';
 
@@ -37,31 +28,8 @@ module.exports = {
                 }
             });
 
-            if (!webpackConfig.optimization.splitChunks) {
-                webpackConfig.optimization.splitChunks = {};
-            }
-
-            if (!webpackConfig.optimization.splitChunks.cacheGroups) {
-                webpackConfig.optimization.splitChunks.cacheGroups = {};
-            }
-
             webpackConfig.optimization.splitChunks.chunks = 'async';
-
-            // webpackConfig.optimization.splitChunks.cacheGroups.reactDom = {
-            //     test: /[\\/]react-dom[\\/]/i,
-            //     name: 'react-dom',
-            // };
-
-            // webpackConfig.optimization.splitChunks.cacheGroups.redux = {
-            //     test: /[\\/]redux|react-redux[\\/]/,
-            //     name: 'redux',
-            // };
-
-            // webpackConfig.optimization.splitChunks.cacheGroups.history = {
-            //     test: /[\\/]react-property[\\/]/i,
-            //     name: 'react-property',
-            //     chunks: 'all',
-            // };
+            // webpackConfig.optimization.splitChunks.minSize = 100000; // 100kb => 10kb (Gzip)
 
             const { isFound: isStyleLoaderFound, match: styleLoader } = getLoader(
                 webpackConfig,
