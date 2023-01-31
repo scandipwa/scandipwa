@@ -71,7 +71,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutGuestFormContain
     showErrorNotification: (error) => dispatch(showNotification(NotificationType.ERROR, getErrorMessage(error))),
     clearEmailStatus: () => dispatch(updateEmailAvailable(true)),
     checkEmailAvailability: (email) => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, email),
+        ({ default: dispatcher }) => dispatcher.requestEmailValidation(dispatch, email),
     ),
     updateEmail: (email) => dispatch(updateEmail(email)),
 });

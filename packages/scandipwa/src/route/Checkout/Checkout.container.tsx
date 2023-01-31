@@ -131,7 +131,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CheckoutContainerDispatc
     updateShippingFields: (fields) => dispatch(updateShippingFields(fields)),
     updateEmail: (email) => dispatch(updateEmail(email)),
     checkEmailAvailability: (email) => CheckoutDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, email),
+        ({ default: dispatcher }) => dispatcher.requestEmailValidation(dispatch, email),
     ),
     updateShippingPrice: (data) => dispatch(updateShippingPrice(data)),
 });

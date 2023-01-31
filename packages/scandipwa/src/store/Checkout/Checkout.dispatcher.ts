@@ -9,41 +9,37 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Query } from '@tilework/opus';
 import { Dispatch } from 'redux';
 
 import CheckEmailQuery from 'Query/CheckEmail.query';
-import { NetworkError } from 'Type/Common.type';
-import { QueryDispatcher } from 'Util/Request';
+import { prepareQuery } from 'Util/Query';
+import { executePost } from 'Util/Request';
 
 import { updateEmailAvailable } from './Checkout.action';
 import { CheckoutDispatcherData } from './Checkout.type';
-
 /**
  * Checkout Dispatcher
  * @class CheckoutDispatcher
  * @extends QueryDispatcher
  * @namespace Store/Checkout/Dispatcher
  */
-export class CheckoutDispatcher extends QueryDispatcher<string, CheckoutDispatcherData> {
-    __construct(): void {
-        super.__construct('Checkout');
-    }
+export class CheckoutDispatcher {
+    requestEmailValidation(dispatch: Dispatch, email:string): Promise<void> {
+        const query = CheckEmailQuery.getIsEmailAvailableQuery(email);
 
-    onSuccess(data: CheckoutDispatcherData, dispatch: Dispatch): void {
-        const { isEmailAvailable: { is_email_available } } = data;
+        return executePost<CheckoutDispatcherData>(prepareQuery([query])).then(
+            /** @namespace Store/Checkout/Dispatcher/CheckoutDispatcher/requestEmailValidation/executePost/then */
+            (data) => {
+                const { isEmailAvailable: { is_email_available } } = data;
+                dispatch(updateEmailAvailable(is_email_available));
+            },
+            /** @namespace Store/Checkout/Dispatcher/CheckoutDispatcher/requestEmailValidation/executePost/then/catch */
+            (error) => {
+                dispatch(updateEmailAvailable(true));
 
-        dispatch(updateEmailAvailable(is_email_available));
-    }
-
-    onError(error: NetworkError | NetworkError[], dispatch: Dispatch): unknown {
-        dispatch(updateEmailAvailable(true));
-
-        return error;
-    }
-
-    prepareRequest(email: string): Query<'isEmailAvailable', { is_email_available: boolean }> {
-        return CheckEmailQuery.getIsEmailAvailableQuery(email);
+                return error;
+            },
+        );
     }
 }
 
