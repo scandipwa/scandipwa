@@ -5,6 +5,7 @@ $title = $this->getThemeConfiguration('design/head/default_title');
 $description = $this->getThemeConfiguration('design/head/default_description');
 $themeColor = $this->getThemeConfiguration('webmanifest_customization/webmanifest/theme_color');
 $layoutDirection = $this->getThemeConfiguration('layout_direction_configuration/layout_direction_section/layout_direction') ?: 'ltr';
+$faviconPath = $this->getThemeConfiguration('design/head/shortcut_icon') ?: '/media/favicon/favicon.png';
 $icons = $this->getAppIconData();
 ?>
 <!DOCTYPE html>
@@ -54,7 +55,7 @@ $icons = $this->getAppIconData();
     <link rel="stylesheet" href="https://use.typekit.net/fji5tuz.css">
 
     <!-- Icons -->
-    <link rel="shortcut icon" href="/media/favicon/favicon.png">
+    <link rel="shortcut icon" href="<?= $faviconPath ?>">
 
     <?php foreach ($icons['ios_startup'] as $icon) : ?>
         <?= sprintf('<link rel="apple-touch-startup-image" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
