@@ -57,6 +57,7 @@ export const mapStateToProps = (state: RootState): CheckoutShippingContainerMapS
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutShippingContainerMapDispatchProps => ({
     updateShippingFields: (fields) => dispatch(updateShippingFields(fields)),
+    updateShippingAddress: (fields) => dispatch(updateShippingAddress(fields)),
 });
 
 /** @namespace Component/CheckoutShipping/Container */
@@ -233,6 +234,7 @@ CheckoutShippingContainerState
         const {
             saveAddressInformation,
             updateShippingFields,
+            updateShippingAddress,
             addressLinesQty,
             selectedStoreAddress,
             customer: { default_shipping },
@@ -287,7 +289,7 @@ CheckoutShippingContainerState
         const shipping_method = `${shipping_carrier_code}_${shipping_method_code}`;
         const { street = [] } = formattedFields;
 
-        updateShippingAddress(data);
+        updateShippingAddress({ ...data.shipping_address });
         updateShippingFields({
             ...(
                 street.length

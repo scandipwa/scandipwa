@@ -29,6 +29,7 @@ export interface CheckoutShippingContainerMapStateProps {
 
 export interface CheckoutShippingContainerMapDispatchProps {
     updateShippingFields: (fields: Record<string, unknown>) => void;
+    updateShippingAddress: (fields: Record<string, unknown>) => void;
 }
 
 export interface CheckoutShippingContainerFunctions {

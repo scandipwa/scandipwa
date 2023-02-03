@@ -11,6 +11,7 @@
 
 import { Reducer } from 'redux';
 
+import { SHIPPING_ADDRESS } from 'Route/Checkout/Checkout.config';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 import {
@@ -19,12 +20,9 @@ import {
     CheckoutStore,
 } from './Checkout.type';
 
-export const SHIPPING_FIELDS = 'shipping_fields';
-export const SHIPPING_ADDRESS = 'shippingAddress';
-
 /** @namespace Store/Checkout/Reducer/getInitialState */
 export const getInitialState = (): CheckoutStore => ({
-    shippingFields: BrowserDatabase.getItem(SHIPPING_FIELDS) || {},
+    shippingFields: {},
     shippingAddress: BrowserDatabase.getItem(SHIPPING_ADDRESS) || {},
     email: '',
     isEmailAvailable: true,
@@ -41,11 +39,6 @@ CheckoutAction
     switch (action.type) {
     case CheckoutActionType.UPDATE_SHIPPING_FIELDS:
         const { shippingFields } = action;
-
-        BrowserDatabase.setItem(
-            shippingFields,
-            SHIPPING_FIELDS,
-        );
 
         return {
             ...state,

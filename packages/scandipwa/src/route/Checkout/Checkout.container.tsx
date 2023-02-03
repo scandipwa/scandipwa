@@ -55,6 +55,7 @@ import {
     CheckoutStepUrl,
     CheckoutUrlSteps,
     PAYMENT_TOTALS,
+    SHIPPING_ADDRESS,
     UPDATE_EMAIL_CHECK_FREQUENCY,
     UPDATE_SHIPPING_COST_ESTIMATES_FREQUENCY,
 } from './Checkout.config';
@@ -100,7 +101,7 @@ export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProp
     savedEmail: state.CheckoutReducer.email,
     isSignedIn: state.MyAccountReducer.isSignedIn,
     shippingFields: state.CheckoutReducer.shippingFields,
-    shippingAddress: state.CheckoutReducer.shippingAddress,
+    formattedShippingAddress: state.CheckoutReducer.shippingAddress,
     minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount,
 });
 
@@ -274,7 +275,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             isEmailAvailable,
             updateEmail,
             isCartLoading,
-            shippingAddress: formatedShippingFields,
+            formattedShippingAddress,
             shippingFields: {
                 shipping_method,
             },
@@ -329,7 +330,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
                 this.setState({ checkoutStep: CheckoutSteps.SHIPPING_STEP });
             }
 
-            this.saveShippingFieldsAsShippingAddress(formatedShippingFields, !!is_virtual);
+            this.saveShippingFieldsAsShippingAddress(formattedShippingAddress, !!is_virtual);
         }
 
         // Handle going back from billing to shipping
@@ -356,11 +357,18 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         }
 
         if (
+            urlStep.includes(CheckoutUrlSteps.DETAILS_URL_STEP)
+            && prevUrlStep.includes(CheckoutUrlSteps.BILLING_URL_STEP)
+        ) {
+            BrowserDatabase.deleteItem(SHIPPING_ADDRESS);
+        }
+
+        if (
             urlStep.includes(CheckoutUrlSteps.BILLING_URL_STEP)
             && prevUrlStep.includes(CheckoutUrlSteps.BILLING_URL_STEP)
             && !shippingAddress
         ) {
-            this.saveShippingFieldsAsShippingAddress(formatedShippingFields, !!is_virtual);
+            this.saveShippingFieldsAsShippingAddress(formattedShippingAddress, !!is_virtual);
         }
 
         if (email !== prevEmail) {
