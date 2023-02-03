@@ -20,10 +20,12 @@ import {
 } from './Checkout.type';
 
 export const SHIPPING_FIELDS = 'shipping_fields';
+export const SHIPPING_ADDRESS = 'shippingAddress';
 
 /** @namespace Store/Checkout/Reducer/getInitialState */
 export const getInitialState = (): CheckoutStore => ({
     shippingFields: BrowserDatabase.getItem(SHIPPING_FIELDS) || {},
+    shippingAddress: BrowserDatabase.getItem(SHIPPING_ADDRESS) || {},
     email: '',
     isEmailAvailable: true,
 });
@@ -48,6 +50,19 @@ CheckoutAction
         return {
             ...state,
             shippingFields,
+        };
+
+    case CheckoutActionType.UPDATE_SHIPPING_ADDRESS:
+        const { shippingAddress } = action;
+
+        BrowserDatabase.setItem(
+            shippingAddress,
+            SHIPPING_ADDRESS,
+        );
+
+        return {
+            ...state,
+            shippingAddress,
         };
 
     case CheckoutActionType.UPDATE_EMAIL:

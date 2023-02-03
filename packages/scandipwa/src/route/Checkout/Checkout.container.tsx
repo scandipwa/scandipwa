@@ -100,6 +100,7 @@ export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProp
     savedEmail: state.CheckoutReducer.email,
     isSignedIn: state.MyAccountReducer.isSignedIn,
     shippingFields: state.CheckoutReducer.shippingFields,
+    shippingAddress: state.CheckoutReducer.shippingAddress,
     minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount,
 });
 
@@ -273,7 +274,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             isEmailAvailable,
             updateEmail,
             isCartLoading,
-            shippingFields,
+            shippingAddress: formatedShippingFields,
             shippingFields: {
                 shipping_method,
             },
@@ -328,7 +329,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
                 this.setState({ checkoutStep: CheckoutSteps.SHIPPING_STEP });
             }
 
-            this.saveShippingFieldsAsShippingAddress(shippingFields, !!is_virtual);
+            this.saveShippingFieldsAsShippingAddress(formatedShippingFields, !!is_virtual);
         }
 
         // Handle going back from billing to shipping
@@ -359,7 +360,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             && prevUrlStep.includes(CheckoutUrlSteps.BILLING_URL_STEP)
             && !shippingAddress
         ) {
-            this.saveShippingFieldsAsShippingAddress(shippingFields, !!is_virtual);
+            this.saveShippingFieldsAsShippingAddress(formatedShippingFields, !!is_virtual);
         }
 
         if (email !== prevEmail) {

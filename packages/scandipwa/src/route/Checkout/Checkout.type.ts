@@ -40,6 +40,7 @@ export interface CheckoutContainerMapStateProps {
     isSignedIn: boolean;
     isCartLoading: boolean;
     shippingFields: Record<string, unknown>;
+    shippingAddress: Record<string, unknown>;
     minimumOrderAmount: MinimumOrderAmount | undefined;
 }
 

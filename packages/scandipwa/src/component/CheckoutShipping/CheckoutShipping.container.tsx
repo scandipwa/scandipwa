@@ -20,7 +20,7 @@ import {
 import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.type';
 import { ShippingMethod } from 'Query/Checkout.type';
 import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
-import { updateShippingFields } from 'Store/Checkout/Checkout.action';
+import { updateShippingAddress, updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { ReactElement } from 'Type/Common.type';
 import {
     trimCheckoutAddress,
@@ -283,9 +283,11 @@ CheckoutShippingContainerState
         };
 
         saveAddressInformation(data);
+
         const shipping_method = `${shipping_carrier_code}_${shipping_method_code}`;
         const { street = [] } = formattedFields;
 
+        updateShippingAddress(data);
         updateShippingFields({
             ...(
                 street.length

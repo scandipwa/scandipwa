@@ -12,6 +12,7 @@ import { AnyAction } from 'redux';
 
 export enum CheckoutActionType {
     UPDATE_SHIPPING_FIELDS = 'UPDATE_SHIPPING_FIELDS',
+    UPDATE_SHIPPING_ADDRESS = 'UPDATE_SHIPPING_ADDRESS',
     UPDATE_EMAIL = 'UPDATE_EMAIL',
     UPDATE_EMAIL_AVAILABLE = 'UPDATE_EMAIL_AVAILABLE',
 }
@@ -19,6 +20,11 @@ export enum CheckoutActionType {
 export interface UpdateShippingFieldsAction extends AnyAction {
     type: CheckoutActionType.UPDATE_SHIPPING_FIELDS;
     shippingFields: Record<string, unknown>;
+}
+
+export interface UpdateShippingAddressAction extends AnyAction {
+    type: CheckoutActionType.UPDATE_SHIPPING_ADDRESS;
+    shippingAddress: Record<string, unknown>;
 }
 export interface UpdateEmailAction extends AnyAction {
     type: CheckoutActionType.UPDATE_EMAIL;
@@ -30,11 +36,13 @@ export interface UpdateEmailAvailableAction extends AnyAction {
 }
 
 export type CheckoutAction = UpdateShippingFieldsAction
+| UpdateShippingAddressAction
 | UpdateEmailAction
 | UpdateEmailAvailableAction;
 
 export interface CheckoutStore {
     shippingFields: Record<string, unknown>;
+    shippingAddress: Record<string, unknown>;
     email: string;
     isEmailAvailable: boolean;
 }

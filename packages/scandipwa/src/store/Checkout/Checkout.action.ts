@@ -12,6 +12,7 @@ import {
     CheckoutActionType,
     UpdateEmailAction,
     UpdateEmailAvailableAction,
+    UpdateShippingAddressAction,
     UpdateShippingFieldsAction,
 } from './Checkout.type';
 
@@ -19,6 +20,12 @@ import {
 export const updateShippingFields = (shippingFields: Record<string, unknown>): UpdateShippingFieldsAction => ({
     type: CheckoutActionType.UPDATE_SHIPPING_FIELDS,
     shippingFields,
+});
+
+/** @namespace Store/Checkout/Action/updateShippingAddress */
+export const updateShippingAddress = (shippingAddress: Record<string, unknown>): UpdateShippingAddressAction => ({
+    type: CheckoutActionType.UPDATE_SHIPPING_ADDRESS,
+    shippingAddress,
 });
 
 /** @namespace Store/Checkout/Action/updateEmail */
