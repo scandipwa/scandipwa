@@ -292,7 +292,12 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             isCartLoading: prevIsCartLoading,
         } = prevProps;
 
-        const { email, checkoutStep, isVisibleEmailRequired } = this.state;
+        const {
+            email,
+            checkoutStep,
+            isVisibleEmailRequired,
+            shippingAddress,
+        } = this.state;
         const { email: prevEmail, isVisibleEmailRequired: prevIsVisibleEmailRequired } = prevState;
         const { location: { pathname = '' } } = history;
 
@@ -347,6 +352,14 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         )) {
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
             history.push(appendWithStoreCode(CART_URL));
+        }
+
+        if (
+            urlStep.includes(CheckoutUrlSteps.BILLING_URL_STEP)
+            && prevUrlStep.includes(CheckoutUrlSteps.BILLING_URL_STEP)
+            && !shippingAddress
+        ) {
+            this.saveShippingFieldsAsShippingAddress(shippingFields, !!is_virtual);
         }
 
         if (email !== prevEmail) {
