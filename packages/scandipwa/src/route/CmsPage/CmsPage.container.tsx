@@ -113,10 +113,11 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
         const { isPrefetchValueUsed } = window;
 
         if (
-            (currentUrl !== prevCurrentUrl
+            ((currentUrl !== prevCurrentUrl
             || pageIds !== prevPageIds
             || pageIdentifiers !== prevPageIdentifiers)
-            && !isLoading
+            && !isLoading)
+            && !isPrefetchValueUsed
         ) {
             this.requestPage();
         }

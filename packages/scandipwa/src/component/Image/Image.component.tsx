@@ -144,10 +144,8 @@ S extends ImageComponentState = ImageComponentState,
             width: undefined,
         };
 
-        if (imageStatus === ImageState.IMAGE_LOADED) {
-            imgSizes.height = this.image.current?.clientHeight;
-            imgSizes.width = this.image.current?.clientWidth;
-        }
+        imgSizes.height = this.image.current?.clientHeight;
+        imgSizes.width = this.image.current?.clientWidth;
 
         return (
             <img
@@ -161,6 +159,8 @@ S extends ImageComponentState = ImageComponentState,
               title={ title }
               onLoad={ this.onLoad }
               onError={ this.onError }
+              height={ imgSizes.height }
+              width={ imgSizes.width }
               loading={ isLazyLoading ? 'lazy' : 'eager' }
             />
         );
@@ -174,17 +174,15 @@ S extends ImageComponentState = ImageComponentState,
             title,
             className,
         } = this.props;
-        const { isLazyLoading, imageStatus } = this.state;
+        const { isLazyLoading } = this.state;
 
         const imgSizes: { height?: number; width?: number } = {
             height: undefined,
             width: undefined,
         };
 
-        if (imageStatus === ImageState.IMAGE_LOADED) {
-            imgSizes.height = this.image.current?.clientHeight;
-            imgSizes.width = this.image.current?.clientWidth;
-        }
+        imgSizes.height = this.image.current?.clientHeight;
+        imgSizes.width = this.image.current?.clientWidth;
 
         return (
             <img

@@ -66,6 +66,10 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
             query: { name: ['table'] },
             replace: this.wrapTable,
         },
+        {
+            query: { name: ['div'] },
+            replace: this.replaceDiv,
+        },
     ];
 
     isPriorityLoading: boolean = false;
@@ -109,24 +113,19 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
                 return false;
             });
 
-            if (rule?.query.name.some((name) => ['widget', 'img'].includes(name)) && !this.isPriorityLoading) {
-                const { replace } = rule;
-
-                this.isPriorityLoading = true;
-
-                return replace.call(this, domNode);
-            }
-
             if (rule) {
                 const { replace } = rule;
 
                 if (this.isPriorityLoading) {
                     return (
-                        // @ts-ignore
-                        <AfterPriority fallback={ null }>
+                        <AfterPriority fallback={ <div style={ { height: '100vh' } } /> }>
                             { replace.call(this, domNode) }
                         </AfterPriority>
                     );
+                }
+
+                if (rule.query.name.some((name) => ['widget', 'img'].includes(name)) && !this.isPriorityLoading) {
+                    this.isPriorityLoading = true;
                 }
 
                 return replace.call(this, domNode);
@@ -136,13 +135,6 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
 
     __construct(props: HtmlComponentProps) {
         super.__construct?.(props);
-
-        this.setLoadedFlag = this.setLoadedFlag.bind(this);
-    }
-
-    setLoadedFlag() {
-        this.isPriorityLoading = false;
-        setLoadedFlag();
     }
 
     attributesToProps(attribs: Record<string, string | number>): Record<string, string | number> {
@@ -175,7 +167,7 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
      * @return {void|JSX} Return JSX if link is allowed to be replaced
      * @memberof Html
      */
-    replaceLinks({ attribs, children }: DomElement): JSX.Element | undefined {
+    replaceLinks({ attribs, children }: DomElement): JSX.Element {
         const { href, ...attrs } = attribs;
 
         if (href) {
@@ -193,6 +185,16 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
                 );
             }
         }
+
+        return domToReact(children, this.parserOptions) as JSX.Element;
+    }
+
+    replaceDiv({ attribs, children }: DomElement): JSX.Element {
+        return (
+            <div { ...attribs }>
+                { domToReact(children, this.parserOptions) }
+            </div>
+        );
     }
 
     /**
@@ -201,12 +203,14 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
      * @return {void|JSX} Return JSX with image
      * @memberof Html
      */
-    replaceImages({ attribs }: DomElement): JSX.Element | undefined {
+    replaceImages({ attribs }: DomElement): JSX.Element {
         const attributes = attributesToProps(attribs);
 
         if (attribs.src) {
-            return <Image { ...attributes } isPlain />;
+            return <Image { ...attributes } isPlain onImageLoad={ setLoadedFlag } />;
         }
+
+        return <></>;
     }
 
     /**
@@ -215,7 +219,7 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
      * @return {void|JSX} Return JSX with image
      * @memberof Html
      */
-    replaceInput({ attribs }: DomElement): JSX.Element | undefined {
+    replaceInput({ attribs }: DomElement): JSX.Element {
         return <input { ...attributesToProps(attribs) } />;
     }
 
@@ -226,7 +230,7 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
      * @param children
      * @returns {*}
      */
-    wrapTable({ attribs, children }: DomElement): JSX.Element | undefined {
+    wrapTable({ attribs, children }: DomElement): JSX.Element {
         return (
             <div block="Table" elem="Wrapper">
                 <table { ...attributesToProps(attribs) }>
@@ -243,13 +247,14 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
      * @returns {null|JSX} Return Widget
      * @memberof Html
      */
-    replaceWidget({ attribs }: DomElement): JSX.Element | undefined {
+    replaceWidget({ attribs }: DomElement): JSX.Element {
         return (
-            <WidgetFactory { ...this.attributesToProps(attribs) as unknown as WidgetFactoryComponentProps } onLoad={ this.setLoadedFlag } />
+            // eslint-disable-next-line react/jsx-no-bind
+            <WidgetFactory { ...this.attributesToProps(attribs) as unknown as WidgetFactoryComponentProps } onLoad={ setLoadedFlag } />
         );
     }
 
-    replaceStyle(elem: DomElement): JSX.Element | undefined {
+    replaceStyle(elem: DomElement): JSX.Element {
         const { children } = elem;
         const elemHash = hash(children[0].data);
 
@@ -269,7 +274,7 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
         return <></>;
     }
 
-    replaceScript(elem: DomElement): JSX.Element | undefined {
+    replaceScript(elem: DomElement): JSX.Element {
         const { attribs, children } = elem;
         const { src = '' } = attribs;
         const scriptContent = children[0] ? children[0].data : '';

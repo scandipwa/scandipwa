@@ -13,17 +13,25 @@
 import { render } from 'react-dom';
 
 import App from 'Component/App';
+import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
 
 import 'Style/main';
 
 // let's register service-worker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        const swUrl = '/service-worker.js';
+waitForPriorityLoad().then(
+    /** @namespace Render/waitForPriorityLoad/then */
+    () => {
+        if ('serviceWorker' in navigator) {
+            const swUrl = '/service-worker.js';
+            navigator.serviceWorker.register(swUrl, { scope: '/' });
+        }
 
-        navigator.serviceWorker.register(swUrl, { scope: '/' });
-    });
-}
+        if (window.metaHtml) {
+            const doc = new DOMParser().parseFromString(window.metaHtml, 'text/html');
+            Object.values(doc?.head?.children || {}).forEach((node) => document.head.appendChild(node));
+        }
+    },
+);
 
 // Code bellow enables the hot reloading of plugins
 // Why? I have no idea. Further debugging needed.

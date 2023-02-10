@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { lazy, PureComponent } from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 
 import RenderWhenVisible from 'Component/RenderWhenVisible';
 import { ReactElement } from 'Type/Common.type';
@@ -82,23 +82,25 @@ export class WidgetFactoryComponent extends PureComponent<WidgetFactoryComponent
         } = this.props;
         const {
             component: Widget,
-            fallback,
+            fallback = () => <div />,
         } = this.renderMap[type] || {};
 
         if (Widget !== undefined) {
             return (
-                <RenderWhenVisible fallback={ fallback }>
-                    <Widget
-                      sliderId={ sliderId }
-                      displayType={ displayType }
-                      productsCount={ productsCount }
-                      showPager={ !!showPager }
-                      storeId={ storeId }
-                      title={ title }
-                      conditionsEncoded={ conditionsEncoded }
-                      onLoad={ onLoad }
-                    />
-                </RenderWhenVisible>
+                <Suspense fallback={ fallback() }>
+                    <RenderWhenVisible>
+                        <Widget
+                          sliderId={ sliderId }
+                          displayType={ displayType }
+                          productsCount={ productsCount }
+                          showPager={ !!showPager }
+                          storeId={ storeId }
+                          title={ title }
+                          conditionsEncoded={ conditionsEncoded }
+                          onLoad={ onLoad }
+                        />
+                    </RenderWhenVisible>
+                </Suspense>
             );
         }
 

@@ -23,7 +23,6 @@
     @include desktop {
         &-Loader {
             height: calc(100vh - var(--header-total-height) - 10px);
-            inset-block-start: calc(var(--header-total-height) + 10px);
         }
     }
 

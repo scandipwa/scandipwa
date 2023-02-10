@@ -38,7 +38,7 @@ export interface SliderWidgetContainerState {
 export interface SliderWidgetComponentProps {
     device: Device;
     slider: Partial<EnhancedSlider>;
-    onLoad: () => void;
+    onLoad?: () => void;
 }
 
 export interface SliderWidgetComponentState {

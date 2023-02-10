@@ -9,14 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { useEffect, useState } from 'preact/hooks';
 import {
     ComponentType,
     lazy,
-    useEffect,
-    useState,
 } from 'react';
-
-import { ReactElement } from 'Type/Common.type';
 
 import { EV_PRIORITY_LOAD_END } from './Config';
 import { waitForPriorityLoad } from './LowPriorityLoad';
@@ -34,8 +31,8 @@ export const lowPriorityLazy = (callback: () => Promise<{ default: ComponentType
 /** @namespace Util/Request/LowPriorityRender/AfterPriority */
 
 export function AfterPriority(
-    { children, fallback }: { children: ReactElement; fallback: ReactElement },
-): ReactElement {
+    { children, fallback }: { children: JSX.Element; fallback?: JSX.Element },
+): JSX.Element {
     const [isPriorityLoaded, setIsPriorityLoaded] = useState(window.isPriorityLoaded);
 
     function onPriorityLoad() {
@@ -50,7 +47,7 @@ export function AfterPriority(
         };
     }, []);
 
-    if (!isPriorityLoaded) {
+    if (!isPriorityLoaded && fallback) {
         return fallback;
     }
 

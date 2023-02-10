@@ -19,6 +19,8 @@ import { ImageRatio } from 'Component/Image/Image.type';
 import Slider from 'Component/Slider';
 import { ReactElement } from 'Type/Common.type';
 import { debounce } from 'Util/Request/Debounce';
+import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
+import { AfterPriority } from 'Util/Request/LowPriorityRender';
 
 import {
     SliderWidgetComponentProps,
@@ -38,7 +40,7 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
         slider: {},
     };
 
-    changeSlideDebounced?: () => void;
+    changeSlideDebounced!: () => void;
 
     state: SliderWidgetComponentState = {
         activeImage: 0,
@@ -67,7 +69,10 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
 
         if (slideSpeed !== prevSlideSpeed && slides?.length !== 1) {
             this.changeSlideDebounced = debounce(this.changeSlide.bind(this), slideSpeed);
-            this.changeSlideDebounced();
+            waitForPriorityLoad().then(
+                /** @namespace Component/SliderWidget/Component/SliderWidgetComponent/componentDidUpdate/waitForPriorityLoad/then */
+                () => this.changeSlideDebounced(),
+            );
         }
 
         if (prevActiveImage !== activeImage) {
@@ -112,24 +117,23 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
         const { device } = this.props;
 
         if (device.isMobile && mobile_image) {
-            return `/${mobile_image}`;
+            return `https://40kskudemo.scandipwa.com/${mobile_image}`;
         }
 
         if (!desktop_image) {
             return '';
         }
 
-        return `/${desktop_image}`;
+        return `https://40kskudemo.scandipwa.com/${desktop_image}`;
     }
 
-    renderSlide(slide: SlideWithPlaceholder, i: number): ReactElement {
+    renderSlideImage(slide: SlideWithPlaceholder, i: number): JSX.Element {
+        const { onLoad } = this.props;
         const {
             slide_text,
             isPlaceholder,
             title: block,
         } = slide;
-
-        console.log(i, '***');
 
         return (
             <figure
@@ -142,6 +146,7 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
                   ratio={ ImageRatio.IMG_CUSTOM }
                   src={ this.getSlideImage(slide) }
                   isPlaceholder={ isPlaceholder }
+                  onImageLoad={ onLoad }
                 />
                 <figcaption
                   block="SliderWidget"
@@ -152,6 +157,21 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
                 </figcaption>
             </figure>
         );
+    }
+
+    renderSlide(slide: SlideWithPlaceholder, i: number): ReactElement {
+        const { activeImage } = this.state;
+        const { isPriorityLoaded } = window;
+
+        if (activeImage !== i && !isPriorityLoaded) {
+            return (
+                <AfterPriority fallback={ <div /> }>
+                    { this.renderSlideImage(slide, i) }
+                </AfterPriority>
+            );
+        }
+
+        return this.renderSlideImage(slide, i);
     }
 
     render(): ReactElement {

@@ -4,7 +4,7 @@ const path = require('path');
 class PreloadPlugin {
     addPreloadConfig(compilation, htmlPluginData) {
         const stats = compilation.getStats().toJson({ all: false, chunkGroups: true });
-        const cacheGroupWhitelist = ['render', 'cms', 'product', 'category'];
+        const cacheGroupWhitelist = ['widget-slider', 'render', 'cms', 'product', 'category'];
         const localeCacheGroup = Object.keys(stats.namedChunkGroups).filter((cacheGroup) => /[a-z]{2}_[A-Z]{2}/.test(cacheGroup));
 
         const preloadData = [

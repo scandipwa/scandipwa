@@ -70,6 +70,11 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
             category: { description, id },
             isCurrentCategoryLoaded,
         } = this.props;
+        const { isPrefetchValueUsed, actionName: { description: preloadDescription } } = window;
+
+        if (isPrefetchValueUsed && !preloadDescription) {
+            return null;
+        }
 
         if (!id || !isCurrentCategoryLoaded) {
             return this.renderCategoryDescriptionPlaceholder();
