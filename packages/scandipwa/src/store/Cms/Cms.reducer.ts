@@ -46,6 +46,7 @@ export const CmsReducer: Reducer<CmsStore, CmsAction> = (
             isLoading: false,
         };
     }
+
     case CmsActionType.UPDATE_CMS_PAGE_LOADING: {
         const { isLoading } = action;
 
