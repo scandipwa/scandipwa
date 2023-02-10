@@ -13,20 +13,24 @@
 import { createRef, PureComponent, Suspense } from 'react';
 
 import { FieldType } from 'Component/Field/Field.config';
-import ProductPrice from 'Component/ProductPrice';
-import ProductReviewRating from 'Component/ProductReviewRating';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
 import { filterConfigurableOptions } from 'Util/Product';
 import { IndexedBundleItem, IndexedConfigurableOption } from 'Util/Product/Product.type';
-import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 import { ValidationInputTypeNumber } from 'Util/Validator/Config';
 
 import { ProductType } from './Product.config';
 import { ProductComponentProps } from './Product.type';
 
+export const ProductPrice = lowPriorityLazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductPrice'),
+);
+export const ProductReviewRating = lowPriorityLazy(
+    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductReviewRating'),
+);
 export const ProductConfigurableAttributes = lowPriorityLazy(
     () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container'),
 );
@@ -389,10 +393,12 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
         }
 
         return (
-            <ProductReviewRating
-              summary={ rating_summary || 0 }
-              count={ review_count }
-            />
+            <Suspense fallback={ null }>
+                <ProductReviewRating
+                  summary={ rating_summary || 0 }
+                  count={ review_count }
+                />
+            </Suspense>
         );
     }
 
@@ -435,13 +441,15 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
               block={ this.className }
               elem="PriceWrapper"
             >
-                <ProductPrice
-                  price={ productPrice }
-                  priceType={ type as ProductType }
-                  tierPrices={ priceTiers }
-                  isPreview={ isPreview }
-                  mix={ { block: this.className, elem: 'Price' } }
-                />
+                <Suspense fallback={ null }>
+                    <ProductPrice
+                      price={ productPrice }
+                      priceType={ type as ProductType }
+                      tierPrices={ priceTiers }
+                      isPreview={ isPreview }
+                      mix={ { block: this.className, elem: 'Price' } }
+                    />
+                </Suspense>
             </div>
         );
     }

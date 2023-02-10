@@ -22,7 +22,7 @@ import NoMatchHandler from 'Route/NoMatchHandler';
 import { ProductPageTabs } from 'Route/ProductPage/ProductPage.config';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { ReactElement } from 'Type/Common.type';
-import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 
 import { ProductPageComponentProps, ProductPageTab } from './ProductPage.type';
 

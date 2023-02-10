@@ -40,6 +40,7 @@ export class ImageContainer<P extends ImageContainerProps = ImageContainerProps>
         isPlain: false,
         showIsLoading: false,
         onImageLoad: noopFn,
+        isRenderWhenVisible: false,
     };
 
     containerProps(): ImageComponentProps {
@@ -54,6 +55,7 @@ export class ImageContainer<P extends ImageContainerProps = ImageContainerProps>
             isPlain,
             showIsLoading,
             onImageLoad,
+            isRenderWhenVisible,
         } = this.props;
 
         return {
@@ -71,6 +73,7 @@ export class ImageContainer<P extends ImageContainerProps = ImageContainerProps>
             showIsLoading,
             isCached: this._isCached(),
             onImageLoad,
+            isRenderWhenVisible,
         };
     }
 

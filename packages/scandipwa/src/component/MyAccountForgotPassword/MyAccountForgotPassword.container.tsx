@@ -15,6 +15,7 @@ import { Dispatch } from 'redux';
 
 import { MyAccountPageState } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { updateCustomerPasswordForgotEmail } from 'Store/MyAccount/MyAccount.action';
+import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
@@ -29,19 +30,12 @@ import {
     MyAccountForgotPasswordContainerPropsKeys,
 } from './MyAccountForgotPassword.type';
 
-export const MyAccountDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/MyAccount/MyAccount.dispatcher'
-);
-
 /** @namespace Component/MyAccountForgotPassword/Container/mapStateToProps */
 export const mapStateToProps = (): MyAccountForgotPasswordContainerMapStateProps => ({});
 
 /** @namespace Component/MyAccountForgotPassword/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountForgotPasswordContainerMapDispatchProps => ({
-    forgotPassword: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch),
-    ),
+    forgotPassword: (options) => MyAccountDispatcher.forgotPassword(options, dispatch),
     forgotPasswordEmail: (email) => dispatch(updateCustomerPasswordForgotEmail(email)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
 

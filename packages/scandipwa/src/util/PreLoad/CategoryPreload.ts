@@ -11,9 +11,7 @@
 
 import { ProductListOptions } from 'Query/ProductList.type';
 import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
-import CategoryDispatcher from 'Store/Category/Category.dispatcher';
 import ProductListDispatcher from 'Store/ProductList/ProductList.dispatcher';
-import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
 import history from 'Util/History';
 import getStore from 'Util/Store';
 import { getQueryParam } from 'Util/Url';
@@ -38,17 +36,6 @@ export class CategoryPreLoad {
             search: '',
             pageSize: 24,
             currentPage: this.getPageFromUrl(),
-        },
-    };
-
-    productListInfoOptions = {
-        args: {
-            filter: {
-                priceRange: this.getSelectedPriceRangeFromUrl(),
-                customFilters: this.getSelectedFiltersFromUrl(),
-                categoryIds: window.actionName?.id,
-            },
-            search: '',
         },
     };
 
@@ -84,8 +71,6 @@ export class CategoryPreLoad {
 
     preloadProducts() {
         ProductListDispatcher.handleData(this.dispatch, this.productListOptions);
-        ProductListInfoDispatcher.handleData(this.dispatch, this.productListInfoOptions);
-        CategoryDispatcher.handleData(this.dispatch, { isSearchPage: false, categoryIds: window.actionName?.id || 0 });
     }
 }
 

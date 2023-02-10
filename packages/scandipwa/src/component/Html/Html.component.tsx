@@ -24,8 +24,12 @@ import WidgetFactory from 'Component/WidgetFactory';
 import { WidgetFactoryComponentProps } from 'Component/WidgetFactory/WidgetFactory.type';
 import { hash } from 'Util/Request/Hash';
 import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
+import { AfterPriority } from 'Util/Request/LowPriorityRender';
 
 import { HtmlComponentProps, HtmlParserRule } from './Html.type';
+
+// Used to load LCP elements as high priority
+export const HIGH_PRIORITY_ELEMENTS = ['widget', 'img'];
 
 /**
  * Html content parser
@@ -65,30 +69,20 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
             query: { name: ['table'] },
             replace: this.wrapTable,
         },
+        {
+            query: { name: ['div'] },
+            replace: this.replaceDiv,
+        },
     ];
 
-    lastElement: Partial<DomElement> = {};
-
-    isLoadedFlagSet: boolean = false;
+    isPriorityLoading: boolean = false;
 
     parserOptions: HTMLReactParserOptions = {
         // eslint-disable-next-line react/no-unstable-nested-components
         replace: (domNode: DomElement): JSX.Element | undefined => {
             const {
-                data, name: domName, attribs: domAttrs, next, children,
+                data, name: domName, attribs: domAttrs,
             } = domNode;
-
-            if (!parent && next) {
-                if (Array.isArray(children) && children.length) {
-                    this.lastElement = children[children.length - 1];
-                } else {
-                    this.lastElement = domNode;
-                }
-            }
-
-            if (this.lastElement === domNode && !this.isLoadedFlagSet) {
-                setLoadedFlag();
-            }
 
             // Let's remove empty text nodes
             if (data && !data.replace(/\u21b5/g, '').replace(/\s/g, '').length) {
@@ -125,10 +119,26 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
             if (rule) {
                 const { replace } = rule;
 
+                if (this.isPriorityLoading) {
+                    return (
+                        <AfterPriority fallback={ <div style={ { height: '100vh' } } /> }>
+                            { replace.call(this, domNode) }
+                        </AfterPriority>
+                    );
+                }
+
+                if (rule.query.name.some((name) => HIGH_PRIORITY_ELEMENTS.includes(name)) && !this.isPriorityLoading) {
+                    this.isPriorityLoading = true;
+                }
+
                 return replace.call(this, domNode);
             }
         },
     };
+
+    __construct(props: HtmlComponentProps) {
+        super.__construct?.(props);
+    }
 
     attributesToProps(attribs: Record<string, string | number>): Record<string, string | number> {
         const toCamelCase = (str: string) => str.replace(/_[a-z]/g, (match: string) => match.substr(1).toUpperCase());
@@ -160,7 +170,7 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
      * @return {void|JSX} Return JSX if link is allowed to be replaced
      * @memberof Html
      */
-    replaceLinks({ attribs, children }: DomElement): JSX.Element | undefined {
+    replaceLinks({ attribs, children }: DomElement): JSX.Element {
         const { href, ...attrs } = attribs;
 
         if (href) {
@@ -178,6 +188,16 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
                 );
             }
         }
+
+        return domToReact(children, this.parserOptions) as JSX.Element;
+    }
+
+    replaceDiv({ attribs, children }: DomElement): JSX.Element {
+        return (
+            <div { ...attribs }>
+                { domToReact(children, this.parserOptions) }
+            </div>
+        );
     }
 
     /**
@@ -186,14 +206,14 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
      * @return {void|JSX} Return JSX with image
      * @memberof Html
      */
-    replaceImages({ attribs }: DomElement): JSX.Element | undefined {
+    replaceImages({ attribs }: DomElement): JSX.Element {
         const attributes = attributesToProps(attribs);
-
-        this.isLoadedFlagSet = true;
 
         if (attribs.src) {
             return <Image { ...attributes } isPlain onImageLoad={ setLoadedFlag } />;
         }
+
+        return <></>;
     }
 
     /**
@@ -202,7 +222,7 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
      * @return {void|JSX} Return JSX with image
      * @memberof Html
      */
-    replaceInput({ attribs }: DomElement): JSX.Element | undefined {
+    replaceInput({ attribs }: DomElement): JSX.Element {
         return <input { ...attributesToProps(attribs) } />;
     }
 
@@ -213,7 +233,7 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
      * @param children
      * @returns {*}
      */
-    wrapTable({ attribs, children }: DomElement): JSX.Element | undefined {
+    wrapTable({ attribs, children }: DomElement): JSX.Element {
         return (
             <div block="Table" elem="Wrapper">
                 <table { ...attributesToProps(attribs) }>
@@ -230,13 +250,14 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
      * @returns {null|JSX} Return Widget
      * @memberof Html
      */
-    replaceWidget({ attribs }: DomElement): JSX.Element | undefined {
+    replaceWidget({ attribs }: DomElement): JSX.Element {
         return (
-            <WidgetFactory { ...this.attributesToProps(attribs) as unknown as WidgetFactoryComponentProps } />
+            // eslint-disable-next-line react/jsx-no-bind
+            <WidgetFactory { ...this.attributesToProps(attribs) as unknown as WidgetFactoryComponentProps } onLoad={ setLoadedFlag } />
         );
     }
 
-    replaceStyle(elem: DomElement): JSX.Element | undefined {
+    replaceStyle(elem: DomElement): JSX.Element {
         const { children } = elem;
         const elemHash = hash(children[0].data);
 
@@ -256,7 +277,7 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
         return <></>;
     }
 
-    replaceScript(elem: DomElement): JSX.Element | undefined {
+    replaceScript(elem: DomElement): JSX.Element {
         const { attribs, children } = elem;
         const { src = '' } = attribs;
         const scriptContent = children[0] ? children[0].data : '';

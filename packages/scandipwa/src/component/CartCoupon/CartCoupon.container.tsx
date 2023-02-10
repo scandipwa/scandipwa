@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 
 import CartCoupon from './CartCoupon.component';
@@ -25,22 +26,13 @@ import {
     CartCouponContainerState,
 } from './CartCoupon.type';
 
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
-
 /** @namespace Component/CartCoupon/Container/mapStateToProps */
 export const mapStateToProps = (): CartCouponContainerMapStateProps => ({});
 
 /** @namespace Component/CartCoupon/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CartCouponContainerMapDispatchProps => ({
-    applyCouponToCart: (couponCode: string) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.applyCouponToCart(dispatch, couponCode),
-    ),
-    removeCouponFromCart: () => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeCouponFromCart(dispatch),
-    ),
+    applyCouponToCart: (couponCode: string) => CartDispatcher.applyCouponToCart(dispatch, couponCode),
+    removeCouponFromCart: () => CartDispatcher.removeCouponFromCart(dispatch),
 });
 
 /** @namespace Component/CartCoupon/Container */

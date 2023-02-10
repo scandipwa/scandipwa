@@ -16,6 +16,7 @@ import { PureComponent } from 'react';
 import Image from 'Component/Image/Image.container';
 import { ImageRatio } from 'Component/Image/Image.type';
 import { ReactElement } from 'Type/Common.type';
+import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
 
 import { VideoThumbnailComponentProps } from './VideoThumbnail.type';
 
@@ -64,6 +65,11 @@ export class VideoThumbnailComponent extends PureComponent<VideoThumbnailCompone
                       } }
                       isPlaceholder={ !url }
                       alt={ video_title }
+                      // eslint-disable-next-line react/jsx-no-bind
+                      onImageLoad={ () => {
+                          setLoadedFlag();
+                          window.isPrefetchValueUsed = false;
+                      } }
                     />
                     { this.renderPlayIcon() }
                 </button>

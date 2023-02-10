@@ -18,7 +18,7 @@ import { FieldType } from 'Component/Field/Field.config';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { ValidationInputTypeInput } from 'Util/Validator/Config';
 
 import { SendConfirmationPageComponentProps } from './SendConfirmationPage.type';

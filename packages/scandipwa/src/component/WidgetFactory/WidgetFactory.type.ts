@@ -24,6 +24,7 @@ export interface WidgetFactoryComponentProps {
     storeId: string;
     title: string;
     conditionsEncoded: string;
+    onLoad: () => void;
 }
 
 export interface WidgetComponentProps {

@@ -9,6 +9,7 @@
     "scandipwa": {
         "type": "extension",
         "build": {
+            "before": "build-config/before.js",
             "cracoPlugins": [
                 "build-config/craco.js"
             ]

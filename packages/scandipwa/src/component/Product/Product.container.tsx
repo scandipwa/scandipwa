@@ -31,14 +31,18 @@ import {
     getPrice,
     getProductInStock,
 } from 'Util/Product/Extract';
-import { IndexedProduct, ProductTransformData } from 'Util/Product/Product.type';
+import {
+    AdjustedPriceMap,
+    ConfigurableProductSelectedVariantValue,
+    IndexedProduct, ProductOption,
+    ProductQuantity,
+    ProductTransformData,
+} from 'Util/Product/Product.type';
 import { magentoProductTransform, transformParameters } from 'Util/Product/Transform';
 import { RootState } from 'Util/Store/Store.type';
 import { validateGroup } from 'Util/Validator';
 
 import {
-    AdjustedPriceMap,
-    ConfigurableProductSelectedVariantValue,
     ProductComponentProps,
     ProductContainerFunctions,
     ProductContainerMapDispatchProps,
@@ -46,20 +50,18 @@ import {
     ProductContainerPropKeys,
     ProductContainerProps,
     ProductContainerState,
-    ProductOption,
-    ProductQuantity,
 } from './Product.type';
-
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
 
 /** @namespace Component/Product/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductContainerMapDispatchProps => ({
-    addProductToCart: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
-    ),
+    addProductToCart: async (options) => {
+        import(
+            /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+            'Store/Cart/Cart.dispatcher'
+        ).then(/** @namespace Component/Product/Container/mapDispatchToProps/then */
+            ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
+        );
+    },
     showError: (message) => dispatch(showNotification(NotificationType.ERROR, message)),
 });
 

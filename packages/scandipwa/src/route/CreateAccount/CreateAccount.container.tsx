@@ -22,7 +22,7 @@ import {
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
@@ -33,11 +33,6 @@ import {
     CreateAccountContainerMapDispatchProps,
     CreateAccountContainerProps,
 } from './CreateAccount.type';
-
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
 
 /** @namespace Route/CreateAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CreateAccountContainerMapDispatchProps => ({

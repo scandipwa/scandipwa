@@ -12,7 +12,9 @@
 import { Reducer } from 'redux';
 
 import {
-    CmsAction, CmsActionType, CmsStore,
+    CmsAction,
+    CmsActionType,
+    CmsStore,
 } from './Cms.type';
 
 /** @namespace Store/Cms/Reducer/getInitialState */

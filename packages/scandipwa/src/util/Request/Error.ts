@@ -11,7 +11,7 @@
 
 import { NetworkError } from 'Type/Common.type';
 
-export const DEFAULT_ERROR_MESSAGE = __('Something went wrong!');
+import { DEFAULT_ERROR_MESSAGE } from './Config';
 
 /**
  * Get error message from an array of errors from graphql, or from a regular error object.

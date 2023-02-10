@@ -22,7 +22,7 @@ import {
     transformCountriesToOptions,
 } from 'Util/Address';
 import { CountryOption } from 'Util/Address/Address.type';
-import { debounce } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
 import { RootState } from 'Util/Store/Store.type';
 
 import MyAccountAddressForm from './MyAccountAddressForm.component';

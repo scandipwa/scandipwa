@@ -13,6 +13,7 @@ import { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import SearchBarDispatcher from 'Store/SearchBar/SearchBar.dispatcher';
 import SearchBarReducer from 'Store/SearchBar/SearchBar.reducer';
 import { ReactElement } from 'Type/Common.type';
 import { withReducers } from 'Util/DynamicReducer';
@@ -28,11 +29,6 @@ import {
     SearchOverlayContainerProps,
 } from './SearchOverlay.type';
 
-export const SearchBarDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/SearchBar/SearchBar.dispatcher'
-);
-
 /** @namespace Component/SearchOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): SearchOverlayContainerMapStateProps => ({
     searchResults: state.SearchBarReducer.productsInSearch,
@@ -41,12 +37,8 @@ export const mapStateToProps = (state: RootState): SearchOverlayContainerMapStat
 
 /** @namespace Component/SearchOverlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): SearchOverlayContainerMapDispatchProps => ({
-    makeSearchRequest: (options) => SearchBarDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
-    ),
-    clearSearchResults: () => SearchBarDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.clearSearchResults(dispatch),
-    ),
+    makeSearchRequest: (options) => SearchBarDispatcher.handleData(dispatch, options),
+    clearSearchResults: () => SearchBarDispatcher.clearSearchResults(dispatch),
 });
 
 /** @namespace Component/SearchOverlay/Container */

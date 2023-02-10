@@ -15,8 +15,10 @@ import { Dispatch } from 'redux';
 
 import { ProductType } from 'Component/Product/Product.config';
 import { GroupedProductItem } from 'Query/ProductList.type';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
+import ProductCompareDispatcher from 'Store/ProductCompare/ProductCompare.dispatcher';
 import { ReactElement, Url } from 'Type/Common.type';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
@@ -36,15 +38,6 @@ import {
     ProductCompareItemContainerState,
 } from './ProductCompareItem.type';
 
-export const ProductCompareDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ProductCompare/ProductCompare.dispatcher'
-);
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
-
 /** @namespace Component/ProductCompareItem/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductCompareItemContainerMapStateProps => ({
     device: state.ConfigReducer.device,
@@ -53,12 +46,8 @@ export const mapStateToProps = (state: RootState): ProductCompareItemContainerMa
 
 /** @namespace Component/ProductCompareItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareItemContainerMapDispatchProps => ({
-    removeComparedProduct: (productId) => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch),
-    ),
-    addProductToCart: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
-    ),
+    removeComparedProduct: (productId) => ProductCompareDispatcher.removeComparedProduct(productId, dispatch),
+    addProductToCart: (options) => CartDispatcher.addProductToCart(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
 });
 

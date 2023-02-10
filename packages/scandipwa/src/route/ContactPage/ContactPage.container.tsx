@@ -14,14 +14,15 @@ import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
 import ContactFormQuery from 'Query/ContactForm.query';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
-import { getErrorMessage } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
+import { getErrorMessage } from 'Util/Request/Error';
 import { RootState } from 'Util/Store/Store.type';
 
 import ContactPage from './ContactPage.component';
@@ -29,11 +30,6 @@ import {
     ContactPageComponentProps,
     ContactPageContainerProps, ContactPageContainerState, ContactPageMapDispatchProps, ContactPageMapStateProps,
 } from './ContactPage.type';
-
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
 
 /** @namespace Route/ContactPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ContactPageMapStateProps => ({
@@ -45,11 +41,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): ContactPageMapDispatchPr
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
-    updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
-        );
-    },
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
 });
 
 /** @namespace Route/ContactPage/Container */

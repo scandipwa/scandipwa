@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import UrlRewritesDispatcher from 'Store/UrlRewrites/UrlRewrites.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
@@ -31,16 +32,6 @@ import {
     UrlRewriteTypeSpecificProps,
 } from './UrlRewrites.type';
 
-export const UrlRewritesDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/UrlRewrites/UrlRewrites.dispatcher'
-);
-
-export const NoMatchDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/NoMatch/NoMatch.dispatcher'
-);
-
 /** @namespace Route/UrlRewrites/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): UrlRewritesContainerMapStateProps => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
@@ -50,11 +41,7 @@ export const mapStateToProps = (state: RootState): UrlRewritesContainerMapStateP
 
 /** @namespace Route/UrlRewrites/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): UrlRewritesContainerMapDispatchProps => ({
-    requestUrlRewrite: (urlParam) => {
-        UrlRewritesDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, { urlParam }),
-        );
-    },
+    requestUrlRewrite: (urlParam) => UrlRewritesDispatcher.handleData(dispatch, { urlParam }),
 });
 
 /** @namespace Route/UrlRewrites/Container */

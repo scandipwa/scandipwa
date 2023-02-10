@@ -10,11 +10,12 @@
  */
 
 import {
-    isSignedIn, ONE_HOUR, ONE_HOUR_IN_SECONDS, TOKEN_REFRESH_DELAY,
-} from 'Util/Auth';
+    ONE_HOUR, ONE_HOUR_IN_SECONDS, TOKEN_REFRESH_DELAY,
+} from 'Util/Auth/Config';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { TokensByWebsite } from 'Util/Auth/Token.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { debounce } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
 import { getStoreState } from 'Util/Store';
 
 /**

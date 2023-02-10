@@ -11,12 +11,11 @@
 
 import { MouseEvent } from 'react';
 
-import { ProductQuantity } from 'Component/Product/Product.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { AddProductToCartOptions } from 'Store/Cart/Cart.type';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { Mix } from 'Type/Common.type';
-import { IndexedProduct } from 'Util/Product/Product.type';
+import { IndexedProduct, ProductQuantity } from 'Util/Product/Product.type';
 
 export interface AddToCartContainerMapStateProps {
     cartId: string;

@@ -17,7 +17,8 @@ import ProductAlertsQuery from 'Query/ProductAlerts.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
-import { fetchMutation, getErrorMessage } from 'Util/Request';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
 import { RootState } from 'Util/Store/Store.type';
 
 import ProductAlerts from './ProductAlerts.component';

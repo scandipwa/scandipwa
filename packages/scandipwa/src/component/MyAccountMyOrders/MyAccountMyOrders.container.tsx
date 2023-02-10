@@ -16,6 +16,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 
 import { MyAccountContainerProps } from 'Route/MyAccount/MyAccount.type';
+import OrderDispatcher from 'Store/Order/Order.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { RootState } from 'Util/Store/Store.type';
@@ -30,11 +31,6 @@ import {
     MyAccountMyOrdersContainerPropsKeys,
 } from './MyAccountMyOrders.type';
 
-export const OrderDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Order/Order.dispatcher'
-);
-
 /** @namespace Component/MyAccountMyOrders/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountMyOrdersContainerMapStateProps => ({
     orderList: state.OrderReducer.orderList,
@@ -44,9 +40,7 @@ export const mapStateToProps = (state: RootState): MyAccountMyOrdersContainerMap
 
 /** @namespace Component/MyAccountMyOrders/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountMyOrdersContainerMapDispatchProps => ({
-    getOrderList: (page) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch, page),
-    ),
+    getOrderList: (page) => OrderDispatcher.requestOrders(dispatch, page),
 });
 
 /** @namespace Component/MyAccountMyOrders/Container */

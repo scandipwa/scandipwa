@@ -18,12 +18,13 @@ import { Page } from 'Component/Header/Header.config';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
+import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
@@ -41,11 +42,6 @@ import {
     PasswordChangePageContainerState,
 } from './PasswordChangePage.type';
 
-export const MyAccountDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/MyAccount/MyAccount.dispatcher'
-);
-
 /** @namespace Route/PasswordChangePage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): PasswordChangePageContainerMapStateProps => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus,
@@ -60,11 +56,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): PasswordChangePageContai
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (visibility) => dispatch(toggleBreadcrumbs(visibility)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, headerState)),
-    resetPassword(options) {
-        MyAccountDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch),
-        );
-    },
+    resetPassword: (options) => MyAccountDispatcher.resetPassword(options, dispatch),
     showNotification(type, message) {
         dispatch(showNotification(type, message));
     },

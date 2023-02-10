@@ -14,20 +14,18 @@ import { Dispatch } from 'redux';
 import OrderQuery from 'Query/Order.query';
 import { OrderItem, ReorderOutput } from 'Query/Order.type';
 import { CART_URL } from 'Route/CartPage/CartPage.config';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { getOrderList, setLoadingStatus } from 'Store/Order/Order.action';
 import { NetworkError } from 'Type/Common.type';
-import { getAuthorizationToken } from 'Util/Auth';
+import { getAuthorizationToken } from 'Util/Auth/Token';
 import { decodeBase64 } from 'Util/Base64';
 import history from 'Util/History';
-import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
+import { fetchQuery } from 'Util/Request/Query';
 import { appendWithStoreCode } from 'Util/Url';
-
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
 
 /** @namespace Store/Order/Dispatcher */
 export class OrderDispatcher {
@@ -56,9 +54,7 @@ export class OrderDispatcher {
             } = {},
         } = await this.handleReorderMutation(dispatch, incrementId) || {};
 
-        const cartDispatcher = (await CartDispatcher).default;
-
-        cartDispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken());
+        CartDispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken());
 
         history.push(appendWithStoreCode(CART_URL));
 

@@ -21,10 +21,10 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { NavigationState, NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { scrollToTop } from 'Util/Browser';
 import browserHistory from 'Util/History';
-import { debounce } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 

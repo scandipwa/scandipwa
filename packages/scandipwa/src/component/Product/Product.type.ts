@@ -11,10 +11,17 @@
 
 import { RefObject } from 'react';
 
-import { PriceRange } from 'Query/ProductList.type';
 import { AddProductToCartOptions } from 'Store/Cart/Cart.type';
 import { Device } from 'Type/Device.type';
-import { IndexedProduct, ProductExtractPrice, ProductTransformData } from 'Util/Product/Product.type';
+import {
+    AdjustedPriceMap,
+    ConfigurableProductSelectedVariantValue,
+    IndexedProduct,
+    ProductExtractPrice,
+    ProductOption,
+    ProductQuantity,
+    ProductTransformData,
+} from 'Util/Product/Product.type';
 
 export interface ProductContainerMapStateProps {
     cartId: string;
@@ -102,30 +109,3 @@ export type ProductContainerPropKeys =
     | 'minQuantity'
     | 'productName'
     | 'productPrice';
-
-export type ProductQuantity = number | Record<number, number>;
-
-export interface ProductOption {
-    uid: string;
-    value: string;
-}
-
-export interface AdjustedPrice {
-    exclTax: number;
-    inclTax: number;
-    requiresDiscountCalculations: boolean;
-    hasDiscountCalculated: boolean;
-}
-
-export interface AdjustedPriceMap {
-    downloadable: AdjustedPrice;
-    bundle: AdjustedPrice;
-    config: AdjustedPrice;
-}
-
-export interface ProductPrice {
-    minimum_price: Partial<PriceRange>;
-    maximum_price: Partial<PriceRange>;
-}
-
-export type ConfigurableProductSelectedVariantValue = string | number | boolean;

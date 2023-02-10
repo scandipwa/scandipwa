@@ -9,8 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ProductQuantity } from 'Component/Product/Product.type';
-import { IndexedProduct } from 'Util/Product/Product.type';
+import { IndexedProduct, ProductQuantity } from 'Util/Product/Product.type';
 
 export interface GroupedProductListComponentProps {
     product: IndexedProduct;

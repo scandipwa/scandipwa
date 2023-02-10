@@ -15,6 +15,7 @@ import { Dispatch } from 'redux';
 
 import { SignInOptions } from 'Query/MyAccount.type';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
+import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError, ReactElement } from 'Type/Common.type';
@@ -22,7 +23,7 @@ import { noopFn } from 'Util/Common';
 import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
 import history from 'Util/History';
-import { getErrorMessage } from 'Util/Request';
+import { getErrorMessage } from 'Util/Request/Error';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -37,11 +38,6 @@ import {
     MyAccountSignInContainerState,
 } from './MyAccountSignIn.type';
 
-export const MyAccountDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/MyAccount/MyAccount.dispatcher'
-);
-
 /** @namespace Component/MyAccountSignIn/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountSignInContainerMapStateProps => ({
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
@@ -51,9 +47,7 @@ export const mapStateToProps = (state: RootState): MyAccountSignInContainerMapSt
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountSignInContainerMapDispatchProps => ({
-    signIn: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch),
-    ),
+    signIn: (options) => MyAccountDispatcher.signIn(options, dispatch),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
 });
 

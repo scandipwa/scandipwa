@@ -43,7 +43,7 @@ export type ProductGalleryContainerProps = ProductGalleryContainerMapStateProps
 & ProductGalleryContainerBaseProps;
 
 export interface ProductGalleryContainerState {
-    activeImage: number;
+    activeImage?: number;
     isZoomEnabled: boolean;
     prevProdId?: number;
     isImageZoomPopupActive: boolean;
@@ -53,7 +53,7 @@ export interface ProductGalleryComponentProps
     extends ProductGalleryContainerFunctions {
     gallery: MediaGalleryEntry[];
     productName: string;
-    activeImage: number;
+    activeImage?: number;
     isZoomEnabled: boolean;
     productId?: number;
     isMobile: boolean;

@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 import CmsPageQuery from 'Query/CmsPage.query';
 import { CmsPageFields, CmsPageQueryOptions } from 'Query/CmsPage.type';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
-import { QueryDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request/QueryDispatcher';
 
 import { updateCmsPage, updateCmsPageLoading } from './Cms.action';
 import { CmsDispatcherData } from './Cms.type';

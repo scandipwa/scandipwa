@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ProductOption } from 'Component/Product/Product.type';
 import { ImageType } from 'Component/ProductGallery/ProductGallery.config';
 import {
     AttributeWithValue,
@@ -22,7 +21,7 @@ import {
     CustomizableProductFragmentOptions,
     CustomizableSelectionValue,
     GroupedProductItem,
-    ProductItem,
+    PriceRange, ProductItem,
     ProductReview,
     ProductStockItem,
     RatingsBreakdown,
@@ -231,3 +230,30 @@ export interface StockCheckProduct {
     items?: Partial<StockCheckProduct>[];
     variants?: Partial<StockCheckProduct>[];
 }
+
+export type ProductQuantity = number | Record<number, number>;
+
+export interface ProductOption {
+    uid: string;
+    value: string;
+}
+
+export interface AdjustedPrice {
+    exclTax: number;
+    inclTax: number;
+    requiresDiscountCalculations: boolean;
+    hasDiscountCalculated: boolean;
+}
+
+export interface AdjustedPriceMap {
+    downloadable: AdjustedPrice;
+    bundle: AdjustedPrice;
+    config: AdjustedPrice;
+}
+
+export interface ProductPrice {
+    minimum_price: Partial<PriceRange>;
+    maximum_price: Partial<PriceRange>;
+}
+
+export type ConfigurableProductSelectedVariantValue = string | number | boolean;

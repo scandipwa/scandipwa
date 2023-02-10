@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ProductOption } from 'Component/Product/Product.type';
+import { ProductOption } from 'Util/Product/Product.type';
 
 import { FieldDateType } from './FieldDate.config';
 

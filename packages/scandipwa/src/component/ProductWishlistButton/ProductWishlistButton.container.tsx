@@ -15,8 +15,9 @@ import { Dispatch } from 'redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
+import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { IndexedWishlistProduct } from 'Util/Product/Product.type';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -31,11 +32,6 @@ import {
     ProductWishlistButtonContainerState,
 } from './ProductWishlistButton.type';
 
-export const WishlistDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Wishlist/Wishlist.dispatcher'
-);
-
 /** @namespace Component/ProductWishlistButton/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductWishlistButtonContainerMapStateProps => ({
     productsInWishlist: state.WishlistReducer.productsInWishlist,
@@ -47,12 +43,8 @@ export const mapStateToProps = (state: RootState): ProductWishlistButtonContaine
 
 /** @namespace Component/ProductWishlistButton/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductWishlistButtonContainerMapDispatchProps => ({
-    addProductToWishlist: (wishlistItem) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addItemToWishlist(dispatch, wishlistItem),
-    ),
-    removeProductFromWishlist: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options),
-    ),
+    addProductToWishlist: (wishlistItem) => WishlistDispatcher.addItemToWishlist(dispatch, wishlistItem),
+    removeProductFromWishlist: (options) => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
 });
 

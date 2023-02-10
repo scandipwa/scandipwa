@@ -10,10 +10,9 @@
  */
 
 import { FieldType } from 'Component/Field/Field.config';
-import { ProductOption } from 'Component/Product/Product.type';
 import { ReactElement } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
-import { IndexedCustomOptionValue } from 'Util/Product/Product.type';
+import { IndexedCustomOptionValue, ProductOption } from 'Util/Product/Product.type';
 
 import { ConfigFieldType } from './ProductCustomizableOption.config';
 

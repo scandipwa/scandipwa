@@ -36,7 +36,11 @@ export class ProductGalleryBaseImageComponent extends PureComponent<ProductGalle
                   } }
                   isPlaceholder={ !src }
                   alt={ alt }
-                  onImageLoad={ setLoadedFlag }
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onImageLoad={ () => {
+                      setLoadedFlag();
+                      window.isPrefetchValueUsed = false;
+                  } }
                 />
                 <img
                   style={ { display: 'none' } }

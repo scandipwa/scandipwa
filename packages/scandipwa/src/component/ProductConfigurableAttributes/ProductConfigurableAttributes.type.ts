@@ -11,11 +11,10 @@
 
 import { AnimationEvent } from 'react';
 
-import { ConfigurableProductSelectedVariantValue } from 'Component/Product/Product.type';
 import { StockStatus } from 'Component/Product/Stock.config';
 import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
 import { Merge, Mix } from 'Type/Common.type';
-import { IndexedConfigurableOption, IndexedVariant } from 'Util/Product/Product.type';
+import { ConfigurableProductSelectedVariantValue, IndexedConfigurableOption, IndexedVariant } from 'Util/Product/Product.type';
 
 export interface ProductConfigurableAttributesContainerProps {
     getLink: (filterKey: string, value: string) => string;

@@ -18,8 +18,7 @@ import { CancelablePromise } from 'Util/Promise/Promise.type';
 import { prepareQuery } from 'Util/Query';
 import { executeGet, listenForBroadCast } from 'Util/Request/Request';
 
-export const ONE_MONTH_IN_SECONDS = 2592000;
-export const FIVE_MINUTES_IN_SECONDS = 300;
+import { ONE_MONTH_IN_SECONDS } from './Config';
 
 /**
  * Abstract request dispatcher.

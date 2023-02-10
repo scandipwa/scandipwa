@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 import ProductCard from 'Component/ProductCard';
 import { RecentlyViewedProductItem } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.type';
@@ -48,22 +48,6 @@ export class RecentlyViewedWidgetComponent extends Component<RecentlyViewedWidge
     }
 
     renderProductCard(product: RecentlyViewedProductItem): ReactElement {
-        // const {
-        //     productCardProps: {
-        //         siblingsHaveBrands,
-        //         siblingsHavePriceBadge,
-        //         siblingsHaveTierPrice,
-        //         siblingsHaveConfigurableOptions
-        //     },
-        //     productCardFunctions: {
-        //         setSiblingsHaveBrands,
-        //         setSiblingsHavePriceBadge,
-        //         setSiblingsHaveTierPrice,
-        //         setSiblingsHaveConfigurableOptions
-        //     },
-        //     isLoading
-        // } = this.props;
-
         const {
             id,
             // !FIXME: Possible obsolete code. selectedFilters is always undefined and doesn't exist in type.
@@ -77,16 +61,6 @@ export class RecentlyViewedWidgetComponent extends Component<RecentlyViewedWidge
               selectedFilters={ selectedFilters }
               product={ product }
               key={ id }
-            // !FIXME: Possible obsolete code. We should check it and remove if unused.
-            //   isPreview={ isLoading }
-            //   siblingsHaveBrands={ siblingsHaveBrands }
-            //   siblingsHavePriceBadge={ siblingsHavePriceBadge }
-            //   siblingsHaveTierPrice={ siblingsHaveTierPrice }
-            //   siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
-            //   setSiblingsHaveBrands={ setSiblingsHaveBrands }
-            //   setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
-            //   setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
-            //   setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
             />
         );
     }

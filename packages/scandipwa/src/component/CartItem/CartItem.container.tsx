@@ -17,6 +17,7 @@ import { Dispatch } from 'redux';
 import { ProductType } from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { CartTotals } from 'Query/Cart.type';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ReactElement, Url } from 'Type/Common.type';
 import { encodeBase64 } from 'Util/Base64';
@@ -39,11 +40,6 @@ import {
     CartItemContainerState,
 } from './CartItem.type';
 
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
-
 /** @namespace Component/CartItem/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CartItemContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile,
@@ -52,18 +48,10 @@ export const mapStateToProps = (state: RootState): CartItemContainerMapStateProp
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CartItemContainerMapDispatchProps => ({
-    addProduct: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
-    ),
-    changeItemQty: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.changeItemQty(dispatch, options),
-    ),
-    removeProduct: (itemId) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, itemId),
-    ),
-    updateCrossSellProducts: (items) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items, dispatch),
-    ),
+    addProduct: (options) => CartDispatcher.addProductToCart(dispatch, options),
+    changeItemQty: (options) => CartDispatcher.changeItemQty(dispatch, options),
+    removeProduct: (itemId) => CartDispatcher.removeProductFromCart(dispatch, itemId),
+    updateCrossSellProducts: (items) => CartDispatcher.updateCrossSellProducts(items, dispatch),
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error)),
 });
 

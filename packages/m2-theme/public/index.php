@@ -42,10 +42,9 @@ $icons = $this->getAppIconData();
             name: `<?= $this->getName(); ?>`,
             display_mode: `<?= $this->getDisplayMode(); ?>`,
             cmsPage: <?= json_encode($this->getPage()); ?> || {},
-            description: `<?= $this->getDescription(); ?>`
             identifier: `<?= $this->getIdentifier(); ?>`,
             description: `<?= $this->getDescription(); ?>`,
-            catalog_default_sort_by = '<?= $this->getCatalogDefaultSortBy() ?>';
+            slider: `<?= $this->getSlider(); ?>`,
         };
         window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
         window.storeCurrency = '<?= $this->getStoreCurrency() ?>';
@@ -56,10 +55,56 @@ $icons = $this->getAppIconData();
         window.storeList = JSON.parse(`<?= $this->getStoreListJson() ?>`).sort().reverse();
         window.storeRegexText = `/(${window.storeList.join('|')})?`;
         window.website_code = '<?= $this->getWebsiteCode() ?>';
+        window.metaHtml = `
+            <!-- Manifest -->
+            <link rel="manifest" href="<?= $manifestPath ?>">
+        `;
     </script>
+    <script>
+        // This script is made for preloading chunks and images
+        const chunkValidator = {
+		    // vvv Preload pages conditionaly
+            category: window.actionName.type === 'CATEGORY',
+            cms: window.actionName.type === 'CMS_PAGE',
+            product: window.actionName.type === 'PRODUCT',
+            'widget-slider': window.actionName.type === 'CMS_PAGE' && Object.keys(window.actionName.slider).length,
+            // vvv Always preload current locale
+            [window.defaultLocale]: true,
+            render: true
+        };
 
-    <!-- Preload i18n chunk for the store -->
-    <link rel="preload" as="script" href="<?= $this->getLocaleChunkUrl() ?>">
+        const appendPreloadLink = (chunk) => {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'script';
+            link.href = chunk;
+            document.head.appendChild(link);
+        }
+
+        if (window.preloadData) {
+            Object.entries(window.preloadData).forEach(([key, chunks]) => {
+                if (chunkValidator[key]) {
+                    chunks.forEach((c) => appendPreloadLink(c));
+                }
+            });
+        }
+
+        const { actionName: { slider: { slides } = {}, slider = {} } } = window;
+
+        // Preload for slider first image
+        if (Object.keys(slider).length) {
+            const [{ desktop_image, mobile_image }] = slides;
+
+            const imageUrl = window.matchMedia('(max-width: 810px)').matches && window.matchMedia('screen').matches ? mobile_image : desktop_image;
+
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'image';
+            link.href = `/${imageUrl}`;
+
+            document.head.appendChild(link);
+        }
+    </script>
 
     <!-- Font -->
     <!-- <link rel="stylesheet" href="https://use.typekit.net/fji5tuz.css"> -->

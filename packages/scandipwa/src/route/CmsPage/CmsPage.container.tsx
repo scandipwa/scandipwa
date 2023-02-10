@@ -16,6 +16,8 @@ import { Dispatch } from 'redux';
 import { Page } from 'Component/Header/Header.config';
 import { CmsPageFields, CmsPageQueryOptions } from 'Query/CmsPage.type';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
+import CmsDispatcher from 'Store/Cms/Cms.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
@@ -23,7 +25,7 @@ import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
-import { debounce } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
 import { RootState } from 'Util/Store/Store.type';
 import { getUrlParam, isHomePageUrl } from 'Util/Url';
 
@@ -37,15 +39,6 @@ import {
     CmsPageContainerPropsKeys,
 } from './CmsPage.type';
 
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-export const CmsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cms/Cms.dispatcher'
-);
-
 /** @namespace Route/CmsPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CmsPageContainerMapStateProps => ({
     isOffline: state.OfflineReducer.isOffline,
@@ -55,23 +48,15 @@ export const mapStateToProps = (state: RootState): CmsPageContainerMapStateProps
 
 /** @namespace Route/CmsPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CmsPageContainerDispatchStateProps => ({
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs, dispatch),
-    ),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.updateWithCmsPage(breadcrumbs, dispatch),
     setHeaderState: (stateName) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, stateName)),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (isActive) => {
-        BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update([], dispatch),
-        );
+        BreadcrumbsDispatcher.update([], dispatch);
         dispatch(toggleBreadcrumbs(isActive));
     },
-    requestPage: (options) => {
-        CmsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
-        );
-    },
+    requestPage: (options) => CmsDispatcher.handleData(dispatch, options),
 });
 
 /** @namespace Route/CmsPage/Container */
@@ -96,13 +81,15 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
             isLoading,
         } = this.props;
 
+        const { isPrefetchValueUsed } = window;
+
         scrollToTop();
 
         if (isOffline && isLoading) {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
         }
 
-        if (!isOnlyPlaceholder && !window.isPrefetchValueUsed) {
+        if (!isOnlyPlaceholder && !isPrefetchValueUsed) {
             this.requestPage();
         }
     }
@@ -123,16 +110,19 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
             cmsPage: prevCmsPage,
         } = prevProps;
 
+        const { isPrefetchValueUsed } = window;
+
         if (
-            (currentUrl !== prevCurrentUrl
+            ((currentUrl !== prevCurrentUrl
             || pageIds !== prevPageIds
             || pageIdentifiers !== prevPageIdentifiers)
-            && !isLoading
+            && !isLoading)
+            && !isPrefetchValueUsed
         ) {
             this.requestPage();
         }
 
-        if (JSON.stringify(cmsPage) !== JSON.stringify(prevCmsPage)) {
+        if (JSON.stringify(cmsPage) !== JSON.stringify(prevCmsPage) && !isPrefetchValueUsed) {
             this.onPageLoad();
         }
     }

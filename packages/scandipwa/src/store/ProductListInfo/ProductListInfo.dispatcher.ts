@@ -22,7 +22,7 @@ import {
     updateProductListInfo,
 } from 'Store/ProductListInfo/ProductListInfo.action';
 import { NetworkError } from 'Type/Common.type';
-import { QueryDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request/QueryDispatcher';
 
 import { ProductListInfoDispatcherData } from './ProductListInfo.type';
 

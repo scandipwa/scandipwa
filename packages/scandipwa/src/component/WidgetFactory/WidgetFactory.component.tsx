@@ -78,25 +78,29 @@ export class WidgetFactoryComponent extends PureComponent<WidgetFactoryComponent
             storeId,
             title,
             conditionsEncoded,
+            onLoad,
         } = this.props;
         const {
             component: Widget,
-            fallback,
+            fallback = () => <div />,
         } = this.renderMap[type] || {};
 
         if (Widget !== undefined) {
             return (
-                <RenderWhenVisible fallback={ fallback }>
-                    <Widget
-                      sliderId={ sliderId }
-                      displayType={ displayType }
-                      productsCount={ productsCount }
-                      showPager={ !!showPager }
-                      storeId={ storeId }
-                      title={ title }
-                      conditionsEncoded={ conditionsEncoded }
-                    />
-                </RenderWhenVisible>
+                <Suspense fallback={ fallback() }>
+                    <RenderWhenVisible>
+                        <Widget
+                          sliderId={ sliderId }
+                          displayType={ displayType }
+                          productsCount={ productsCount }
+                          showPager={ !!showPager }
+                          storeId={ storeId }
+                          title={ title }
+                          conditionsEncoded={ conditionsEncoded }
+                          onLoad={ onLoad }
+                        />
+                    </RenderWhenVisible>
+                </Suspense>
             );
         }
 
@@ -111,11 +115,7 @@ export class WidgetFactoryComponent extends PureComponent<WidgetFactoryComponent
     }
 
     render(): ReactElement {
-        return (
-            <Suspense fallback={ this.renderFallback() }>
-                { this.renderContent() }
-            </Suspense>
-        );
+        return this.renderContent();
     }
 }
 

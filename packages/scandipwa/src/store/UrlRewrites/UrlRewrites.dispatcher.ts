@@ -19,7 +19,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { setIsUrlRewritesLoading, updateUrlRewrite } from 'Store/UrlRewrites/UrlRewrites.action';
 import { NetworkError } from 'Type/Common.type';
-import { QueryDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request/QueryDispatcher';
 
 import { UrlRewritesDispatcherData } from './UrlRewrites.type';
 

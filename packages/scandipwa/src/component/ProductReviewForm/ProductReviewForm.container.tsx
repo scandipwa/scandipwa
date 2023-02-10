@@ -19,10 +19,11 @@ import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+import ReviewDispatcher from 'Store/Review/Review.dispatcher';
 import { NetworkError, ReactElement } from 'Type/Common.type';
 import { FieldData } from 'Util/Form/Form.type';
 import transformToNameValuePair from 'Util/Form/Transform';
-import { getErrorMessage } from 'Util/Request';
+import { getErrorMessage } from 'Util/Request/Error';
 import { RootState } from 'Util/Store/Store.type';
 
 import ProductReviewForm from './ProductReviewForm.component';
@@ -36,11 +37,6 @@ import {
     ProductReviewFormContainerState,
 } from './ProductReviewForm.type';
 
-export const ReviewDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Review/Review.dispatcher'
-);
-
 /** @namespace Component/ProductReviewForm/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductReviewFormContainerMapStateProps => ({
     customer: state.MyAccountReducer.customer,
@@ -49,9 +45,7 @@ export const mapStateToProps = (state: RootState): ProductReviewFormContainerMap
 
 /** @namespace Component/ProductReviewForm/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductReviewFormContainerMapDispatchProps => ({
-    addReview: (options) => ReviewDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.submitProductReview(dispatch, options),
-    ),
+    addReview: (options) => ReviewDispatcher.submitProductReview(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),

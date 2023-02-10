@@ -26,7 +26,8 @@ import { clearPickUpStore } from 'Store/StoreInPickUp/StoreInPickUp.action';
 import { ReactElement } from 'Type/Common.type';
 import { GQLCountryCodeEnum } from 'Type/Graphql.type';
 import { checkIfStoreIncluded, transformCountriesToOptions } from 'Util/Address';
-import { fetchQuery, getErrorMessage } from 'Util/Request';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchQuery } from 'Util/Request/Query';
 import { RootState } from 'Util/Store/Store.type';
 
 import StoreInPickUpPopupComponent from './StoreInPickUpPopup.component';

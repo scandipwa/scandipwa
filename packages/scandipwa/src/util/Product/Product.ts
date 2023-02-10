@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ConfigurableProductSelectedVariantValue } from 'Component/Product/Product.type';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import {
     AttributeWithValue,
@@ -32,11 +31,13 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { WishlistProduct } from 'Store/Wishlist/Wishlist.type';
 import { GQLProductStockStatus } from 'Type/Graphql.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { decodeBase64 } from 'Util/Base64';
+import { ConfigurableProductSelectedVariantValue } from 'Util/Product/Product.type';
 import getStore from 'Util/Store';
 import { RootState } from 'Util/Store/Store.type';
 
+import { getSmallImage } from './Extract';
 import {
     IndexedAttributeWithValue,
     IndexedAttributeWithValueOption,
@@ -55,6 +56,9 @@ import {
 
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
+
+// Constant is used for preloading images for products and count of shown product cards on PLP for preload
+export const PRODUCTS_PRELOAD_COUNT = 4;
 
 /**
  * Checks whether every option is in attributes
@@ -549,4 +553,16 @@ export const getAttributesWithValues = (product: IndexedProduct): Record<string,
 
         return acc;
     }, {});
+};
+
+/** @namespace Util/Product/preloadProductImage */
+export const preloadProductImage = (product: IndexedProduct): void => {
+    const imageUrl = getSmallImage(product);
+
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = imageUrl;
+
+    document.head.appendChild(link);
 };

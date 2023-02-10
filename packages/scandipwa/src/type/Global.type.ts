@@ -12,6 +12,7 @@
 import { StoreEnhancer } from 'redux';
 
 import { CmsPageFields } from 'Query/CmsPage.type';
+import { Slider } from 'Query/Slider.type';
 
 import { Mix } from './Common.type';
 
@@ -22,7 +23,7 @@ declare global {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         '__REDUX_DEVTOOLS_EXTENSION__'?: (options: unknown) => StoreEnhancer<unknown, unknown>;
         storeRegexText: string;
-        actionName?: {
+        actionName: {
             type?: string;
             id?: number;
             sku?: string;
@@ -30,6 +31,7 @@ declare global {
             cmsPage?: CmsPageData;
             description?: string;
             catalog_default_sort_by?: string;
+            slider?: Slider;
         };
         storeConfig?: {
             cms_home_page: string;
@@ -45,6 +47,7 @@ declare global {
         storeCurrency: string;
         isPriorityLoaded: boolean;
         isPrefetchValueUsed?: boolean;
+        metaHtml?: string;
     }
 
     interface BeforeInstallPromptEvent extends Event {
