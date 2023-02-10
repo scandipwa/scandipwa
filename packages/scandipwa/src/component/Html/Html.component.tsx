@@ -28,6 +28,9 @@ import { AfterPriority } from 'Util/Request/LowPriorityRender';
 
 import { HtmlComponentProps, HtmlParserRule } from './Html.type';
 
+// Used to load LCP elements as high priority
+export const HIGH_PRIORITY_ELEMENTS = ['widget', 'img'];
+
 /**
  * Html content parser
  * Component converts HTML strings to React components
@@ -124,7 +127,7 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
                     );
                 }
 
-                if (rule.query.name.some((name) => ['widget', 'img'].includes(name)) && !this.isPriorityLoading) {
+                if (rule.query.name.some((name) => HIGH_PRIORITY_ELEMENTS.includes(name)) && !this.isPriorityLoading) {
                     this.isPriorityLoading = true;
                 }
 

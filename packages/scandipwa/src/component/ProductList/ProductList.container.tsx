@@ -121,6 +121,10 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
         const prevPage = this._getPageFromUrl(prevLocation);
         const currentPage = this._getPageFromUrl();
 
+        if (JSON.stringify(filter) !== JSON.stringify(prevFilter)) {
+            window.isPrefetchValueUsed = false;
+        }
+
         if (search !== prevSearch
             || currentPage !== prevPage
             || JSON.stringify(sort) !== JSON.stringify(prevSort)

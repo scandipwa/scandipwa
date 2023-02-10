@@ -37,7 +37,7 @@ export const reduceFilters = (filters: Aggregation[]): Record<string, ProductLis
     const { attribute_values, attribute_options } = filter_items.reduce(
         (
             attribute: { attribute_values: string[]; attribute_options: Record<string, AggregationOption> },
-            option,
+            option: AggregationOption,
         ) => {
             const { value_string } = option;
             const { attribute_values, attribute_options } = attribute;

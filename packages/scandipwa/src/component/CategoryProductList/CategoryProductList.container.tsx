@@ -96,8 +96,9 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
 
     getIsPreventRequest(): boolean {
         const { isMatchingListFilter, isMatchingInfoFilter } = this.props;
+        const { isPrefetchValueUsed } = window;
 
-        return isMatchingListFilter && isMatchingInfoFilter; // if filter match - prevent request
+        return isMatchingListFilter && isMatchingInfoFilter && !isPrefetchValueUsed; // if filter match - prevent request
     }
 
     getLayout(): CategoryPageLayout {
