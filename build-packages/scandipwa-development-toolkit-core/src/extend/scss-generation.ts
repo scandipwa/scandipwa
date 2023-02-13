@@ -6,7 +6,7 @@ import { createNewFileFromTemplate } from '../util/file';
 import { getConfigByKey } from './config';
 
 // Initial paths' calculation
-const templateDirectory = path.join(__dirname, '..', 'templates');
+const templateDirectory = path.join(__dirname, '..', 'templates/javascript');
 const templatePath = path.join(templateDirectory, 'stylesheet.scss');
 
 export const getStyleFileName = (
