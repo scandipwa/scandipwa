@@ -41,9 +41,9 @@ $icons = $this->getAppIconData();
             sku: `<?= $this->getSku(); ?>` || null,
             name: `<?= $this->getName(); ?>`,
             display_mode: `<?= $this->getDisplayMode(); ?>`,
-            cmsPage: <?= json_encode($this->getPage()); ?> || {},
+            cmsPage: <?= json_encode($this->getCmsPage()); ?> || {},
             description: `<?= $this->getDescription(); ?>`,
-            slider: `<?= $this->getSlider(); ?>`,
+            slider: `<?= json_encode($this->getSlider()); ?>` || {},
         };
         window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
         window.storeCurrency = '<?= $this->getStoreCurrency() ?>';
@@ -56,7 +56,7 @@ $icons = $this->getAppIconData();
         window.website_code = '<?= $this->getWebsiteCode() ?>';
         window.metaHtml = `
             <!-- Manifest -->
-            <link rel="manifest" href="<?= $manifestPath ?>">
+            <link rel="manifest" href="/media/webmanifest/manifest.json">
         `;
     </script>
     <script>
