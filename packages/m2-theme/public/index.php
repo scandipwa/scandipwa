@@ -42,7 +42,6 @@ $icons = $this->getAppIconData();
             name: `<?= $this->getName(); ?>`,
             display_mode: `<?= $this->getDisplayMode(); ?>`,
             cmsPage: <?= json_encode($this->getPage()); ?> || {},
-            identifier: `<?= $this->getIdentifier(); ?>`,
             description: `<?= $this->getDescription(); ?>`,
             slider: `<?= $this->getSlider(); ?>`,
         };
