@@ -24,6 +24,7 @@ import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder
 import { ReactElement } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
 import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 
 import {
@@ -363,6 +364,8 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         const { activeLayoutType } = this.state;
 
         if (!this.displayProducts()) {
+            setLoadedFlag();
+
             return null;
         }
 

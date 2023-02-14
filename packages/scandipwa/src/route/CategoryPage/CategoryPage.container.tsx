@@ -259,6 +259,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * will persist in the history state.
          */
         if (categoryIds !== prevCategoryIds) {
+            window.isPrefetchValueUsed = false;
             this.updateHistory();
         }
 

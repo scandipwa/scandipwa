@@ -13,6 +13,7 @@ import { StoreEnhancer } from 'redux';
 
 import { CmsPageFields } from 'Query/CmsPage.type';
 import { Slider } from 'Query/Slider.type';
+import { CategoryDisplayMode } from 'Route/CategoryPage/CategoryPage.config';
 
 import { Mix } from './Common.type';
 
@@ -32,6 +33,7 @@ declare global {
             description?: string;
             catalog_default_sort_by?: string;
             slider?: Slider;
+            display_mode?: CategoryDisplayMode;
         };
         storeConfig?: {
             cms_home_page: string;

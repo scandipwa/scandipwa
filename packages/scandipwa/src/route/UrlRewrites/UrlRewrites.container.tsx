@@ -109,6 +109,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
         const {
             actionName: {
                 id: actionNameId,
+                display_mode: preloadDisplayMode,
             } = {},
             isPrefetchValueUsed,
         } = window;
@@ -170,7 +171,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
                     if (category && category !== true) {
                         return {
                             categoryIds: category,
-                            displayMode,
+                            displayMode: isPrefetchValueUsed ? preloadDisplayMode : displayMode,
                         };
                     }
                 }
@@ -180,7 +181,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
 
             return {
                 categoryIds: id,
-                displayMode: display_mode,
+                displayMode: isPrefetchValueUsed ? preloadDisplayMode : display_mode,
             };
         case UrlRewritePageType.NOTFOUND:
         default:
