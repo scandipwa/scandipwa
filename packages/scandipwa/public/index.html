@@ -32,7 +32,7 @@
             name: '',
             cmsPage: {},
             description: ''
-        }
+}
         window.contentConfiguration = {};
 
         // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
@@ -91,7 +91,7 @@
             const link = document.createElement('link');
             link.rel = 'preload';
             link.as = 'image';
-            link.href = `https://40kskudemo.scandipwa.com/${imageUrl}`;
+            link.href = `/${imageUrl}`;
 
             document.head.appendChild(link);
         }

@@ -117,14 +117,14 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
         const { device } = this.props;
 
         if (device.isMobile && mobile_image) {
-            return `https://40kskudemo.scandipwa.com/${mobile_image}`;
+            return `/${mobile_image}`;
         }
 
         if (!desktop_image) {
             return '';
         }
 
-        return `https://40kskudemo.scandipwa.com/${desktop_image}`;
+        return `/${desktop_image}`;
     }
 
     renderSlideImage(slide: SlideWithPlaceholder, i: number): JSX.Element {
