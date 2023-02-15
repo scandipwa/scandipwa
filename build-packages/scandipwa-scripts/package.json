@@ -21,10 +21,10 @@
     "dependencies": {
         "@scandipwa/next-emulator": "0.0.4",
         "@scandipwa/scandipwa-template-plugin-system": "0.1.22",
-        "@tilework/mosaic-cra-scripts": "^0.1.24-alpha.14"
+        "@tilework/mosaic-cra-scripts": "^0.1.27"
     },
     "peerDependencies": {
-        "@tilework/mosaic": "^0.1.4"
+        "@tilework/mosaic": "^1.0.0"
     },
     "license": "OSL-3.0",
     "publishConfig": {
