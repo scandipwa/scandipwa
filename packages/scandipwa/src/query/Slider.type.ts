@@ -20,7 +20,7 @@ export interface Slide {
 
 export interface Slider {
     slides: Slide[];
-    slideSpeed: number;
+    slide_speed: number;
     slider_id: number;
     title: string;
 }

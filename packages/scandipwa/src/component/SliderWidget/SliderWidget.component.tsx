@@ -57,8 +57,8 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
         prevProps: SliderWidgetComponentProps,
         prevState: SliderWidgetComponentState,
     ): void {
-        const { slider: { slideSpeed, slides } } = this.props;
-        const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
+        const { slider: { slide_speed: slideSpeed, slides } } = this.props;
+        const { slider: { slide_speed: prevSlideSpeed } } = prevProps;
 
         const { activeImage } = this.state;
         const { activeImage: prevActiveImage } = prevState;
@@ -76,7 +76,7 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
         }
 
         if (prevActiveImage !== activeImage) {
-            this.changeSlideDebounced?.();
+            this.changeSlideDebounced();
         }
     }
 

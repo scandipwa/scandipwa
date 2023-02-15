@@ -66,8 +66,9 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
         this.initialUrl = location.pathname;
     }
 
-    componentDidUpdate(): void {
-        const { isLoading } = this.props;
+    componentDidUpdate(prevProps: UrlRewritesContainerProps): void {
+        const { isLoading, location: { pathname } } = this.props;
+        const { location: { pathname: prevPathname } } = prevProps;
 
         /**
          * If the latest requested URL rewrite is not related
@@ -82,6 +83,10 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
          * Make sure that PDP & PLP url don't have "/" in the end
          */
         this.redirectToCorrectUrl();
+
+        if (pathname !== prevPathname) {
+            window.isPrefetchValueUsed = false;
+        }
     }
 
     redirectToCorrectUrl(): void {
@@ -198,10 +203,12 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
     getProps(): UrlRewriteProps {
         const {
             match,
+            location,
         } = this.props;
 
         return {
             match,
+            location,
             ...this.getTypeSpecificProps(),
         };
     }

@@ -257,4 +257,15 @@
             height: var(--layout-button-size);
         }
     }
+
+    &-CategorySortPlaceholder {
+        height: 19px;
+        animation: var(--placeholder-animation);
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+
+        @include desktop {
+            height: 46px;
+        }
+    }
 }

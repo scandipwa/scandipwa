@@ -102,6 +102,7 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
             match,
             categoryIds,
             displayMode,
+            location,
         } = props;
 
         return (
@@ -110,6 +111,7 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
                   match={ match }
                   categoryIds={ categoryIds }
                   displayMode={ displayMode }
+                  location={ location }
                 />
             </Suspense>
         );

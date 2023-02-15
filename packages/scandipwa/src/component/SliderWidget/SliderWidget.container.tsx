@@ -44,7 +44,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): SliderWidgetContainerMap
 export class SliderWidgetContainer extends DataContainer<SliderWidgetContainerProps, SliderWidgetContainerState> {
     state: SliderWidgetContainerState = {
         slider: {
-            slideSpeed: 0,
+            slide_speed: 0,
             slides: [{
                 slide_id: 0,
                 slide_text: '',

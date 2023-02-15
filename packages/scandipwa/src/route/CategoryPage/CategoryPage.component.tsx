@@ -121,11 +121,12 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
             category,
             isCurrentCategoryLoaded,
         } = this.props;
+        const { isPrefetchValueUsed } = window;
 
         return (
             <CategoryDetails
               category={ category }
-              isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
+              isCurrentCategoryLoaded={ isPrefetchValueUsed || isCurrentCategoryLoaded }
             />
         );
     }
@@ -262,7 +263,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         }
 
         return (
-            <Suspense fallback={ null }>
+            <Suspense fallback={ <div block="CategoryPage" elem="CategorySortPlaceholder" /> }>
                 <CategorySort
                   isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
                   isMatchingInfoFilter={ isMatchingInfoFilter }

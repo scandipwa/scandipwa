@@ -15,6 +15,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { Location } from 'history';
 import {
     cloneElement,
     ErrorInfo,
@@ -37,6 +38,7 @@ import UrlRewrites from 'Route/UrlRewrites';
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
+import { HistoryState } from 'Util/History/History.type';
 import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 import { appendWithStoreCode, isHomePageUrl } from 'Util/Url';
 
@@ -278,7 +280,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
             name: PrintTypes.PRINT_ORDER,
         },
         {
-            component: <Route render={ ({ match }) => <UrlRewrites match={ match } /> } />,
+            component: <Route render={ ({ match }) => <UrlRewrites match={ match } location={ location as unknown as Location<HistoryState> } /> } />,
             position: 1000,
             name: RouterSwitchItemType.URL_REWRITES,
         },

@@ -8,11 +8,12 @@
  * @package scandipwa/scandipwa-theme
  * @link https://github.com/scandipwa/scandipwa
  */
-
+import { Location } from 'history';
 import { match as Match } from 'react-router';
 
 import { CategoryDisplayMode } from 'Route/CategoryPage/CategoryPage.config';
 import { UrlRewrite } from 'Store/UrlRewrites/UrlRewrites.type';
+import { HistoryState } from 'Util/History/History.type';
 
 export interface UrlRewritesContainerMapStateProps {
     urlRewrite: UrlRewrite;
@@ -28,6 +29,7 @@ export type UrlRewritesContainerProps = UrlRewritesContainerMapStateProps
 & UrlRewritesContainerMapDispatchProps
 & {
     match: Match;
+    location: Location<HistoryState>;
 };
 
 export interface UrlRewritesComponentProps {
@@ -40,6 +42,7 @@ export type UrlRewritesContainerPropsKeys = 'type'
 
 export type UrlRewriteProps = Partial<UrlRewriteTypeSpecificProps> & {
     match: Match;
+    location: Location<HistoryState>;
 };
 
 export interface UrlRewriteTypeSpecificProps {

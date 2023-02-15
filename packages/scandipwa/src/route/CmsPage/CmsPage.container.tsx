@@ -122,7 +122,7 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
             this.requestPage();
         }
 
-        if (JSON.stringify(cmsPage) !== JSON.stringify(prevCmsPage) && !isPrefetchValueUsed) {
+        if (JSON.stringify(cmsPage) !== JSON.stringify(prevCmsPage) || isPrefetchValueUsed) {
             this.onPageLoad();
         }
     }

@@ -29,7 +29,7 @@ export class SliderQuery {
 
     _getSliderFields(): Array<
     Field<'slides', Slide, true>
-    | Field<'slideSpeed', number>
+    | Field<'slide_speed', number>
     | Field<'slider_id', number>
     | Field<'title', string>
     > {
@@ -64,8 +64,8 @@ export class SliderQuery {
             .addFieldList(this._getSlideFields());
     }
 
-    _getSlideSpeedField(): Field<'slideSpeed', number> {
-        return new Field<'slide_speed', number>('slide_speed').setAlias('slideSpeed');
+    _getSlideSpeedField(): Field<'slide_speed', number> {
+        return new Field<'slide_speed', number>('slide_speed');
     }
 }
 
