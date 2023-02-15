@@ -76,7 +76,7 @@
             "zh_TW": true
         },
         "extensions": {
-            "@scandipwa/bundle-analyzer": true,
+            "@scandipwa/bundle-analyzer": false,
             "@scandipwa/m2-theme": true,
             "@scandipwa/webpack-i18n-runtime": true,
             "@scandipwa/service-worker": true,
