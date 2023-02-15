@@ -37,7 +37,6 @@ import { ConfigurableProductSelectedVariantValue } from 'Util/Product/Product.ty
 import getStore from 'Util/Store';
 import { RootState } from 'Util/Store/Store.type';
 
-import { getSmallImage } from './Extract';
 import {
     IndexedAttributeWithValue,
     IndexedAttributeWithValueOption,
@@ -556,9 +555,7 @@ export const getAttributesWithValues = (product: IndexedProduct): Record<string,
 };
 
 /** @namespace Util/Product/preloadProductImage */
-export const preloadProductImage = (product: IndexedProduct): void => {
-    const imageUrl = getSmallImage(product);
-
+export const preloadProductImage = (imageUrl: string): void => {
     const link = document.createElement('link');
     link.rel = 'preload';
     link.as = 'image';

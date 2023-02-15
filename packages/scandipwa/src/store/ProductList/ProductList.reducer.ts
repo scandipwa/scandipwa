@@ -62,23 +62,10 @@ export const ProductListReducer: Reducer<ProductListStore, ProductListAction> = 
     case ProductListActionType.UPDATE_PRODUCT_LIST_ITEMS:
         const products = getIndexedProducts(initialItems);
 
-        const appendPreloadLink = (image: string) => {
-            const link = document.createElement('link');
-            link.rel = 'preload';
-            link.as = 'image';
-            link.href = image;
-            document.head.appendChild(link);
-        };
-
-        // eslint-disable-next-line no-magic-numbers
-        products.slice(0, 4).forEach((item) => {
-            appendPreloadLink(getSmallImage(item));
-        });
-
         // Preloading images for product cards on PLP
         if (isPrefetchValueUsed) {
             products.slice(0, PRODUCTS_PRELOAD_COUNT).forEach((item) => {
-                preloadProductImage(item);
+                preloadProductImage(getSmallImage(item));
             });
         }
 
