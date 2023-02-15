@@ -38,10 +38,6 @@
                 font-size: 52px;
             }
         }
-
-        @include mobile {
-            display: none;
-        }
     }
 
     &-BreadcrumbsFallback {
