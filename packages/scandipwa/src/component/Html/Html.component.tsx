@@ -91,7 +91,7 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
                 children = [],
             } = domNode;
 
-            if (!parent && !next && children.length && this.lastBlock) {
+            if (!parent && !next && children.length && !this.lastBlock) {
                 this.lastBlock = this.getLastRenderElement(children[children.length - 1]);
             }
 
