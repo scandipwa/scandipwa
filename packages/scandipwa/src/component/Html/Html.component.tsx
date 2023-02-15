@@ -77,12 +77,27 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
 
     isPriorityLoading: boolean = false;
 
+    lastBlock: DomElement = null;
+
     parserOptions: HTMLReactParserOptions = {
         // eslint-disable-next-line react/no-unstable-nested-components
         replace: (domNode: DomElement): JSX.Element | undefined => {
             const {
-                data, name: domName, attribs: domAttrs,
+                data,
+                name: domName,
+                attribs: domAttrs,
+                parent,
+                next,
+                children = [],
             } = domNode;
+
+            if (!parent && !next && children.length && this.lastBlock) {
+                this.lastBlock = this.getLastRenderElement(children[children.length - 1]);
+            }
+
+            if (this.lastBlock === domNode && !this.isPriorityLoading) {
+                setLoadedFlag();
+            }
 
             // Let's remove empty text nodes
             if (data && !data.replace(/\u21b5/g, '').replace(/\s/g, '').length) {
@@ -138,6 +153,16 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
 
     __construct(props: HtmlComponentProps) {
         super.__construct?.(props);
+    }
+
+    getLastRenderElement(lastChildren: DomElement): DomElement {
+        const { children = [] } = lastChildren;
+
+        if (children.length) {
+            return this.getLastRenderElement(children[children.length - 1]);
+        }
+
+        return lastChildren;
     }
 
     attributesToProps(attribs: Record<string, string | number>): Record<string, string | number> {
