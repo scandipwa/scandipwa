@@ -13,6 +13,7 @@
 import { createRef, PureComponent, Suspense } from 'react';
 
 import { FieldType } from 'Component/Field/Field.config';
+import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
@@ -25,9 +26,6 @@ import { ValidationInputTypeNumber } from 'Util/Validator/Config';
 import { ProductType } from './Product.config';
 import { ProductComponentProps } from './Product.type';
 
-export const ProductPrice = lowPriorityLazy(
-    () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductPrice'),
-);
 export const ProductReviewRating = lowPriorityLazy(
     () => import(/* webpackMode: "lazy", webpackChunkName: "product-misc" */ 'Component/ProductReviewRating'),
 );
@@ -441,15 +439,13 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
               block={ this.className }
               elem="PriceWrapper"
             >
-                <Suspense fallback={ null }>
-                    <ProductPrice
-                      price={ productPrice }
-                      priceType={ type as ProductType }
-                      tierPrices={ priceTiers }
-                      isPreview={ isPreview }
-                      mix={ { block: this.className, elem: 'Price' } }
-                    />
-                </Suspense>
+                <ProductPrice
+                  price={ productPrice }
+                  priceType={ type as ProductType }
+                  tierPrices={ priceTiers }
+                  isPreview={ isPreview }
+                  mix={ { block: this.className, elem: 'Price' } }
+                />
             </div>
         );
     }

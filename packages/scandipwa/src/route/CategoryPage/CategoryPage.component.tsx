@@ -17,7 +17,6 @@ import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryProductList from 'Component/CategoryProductList';
 import { CategorySortField } from 'Component/CategorySort/CategorySort.type';
 import ContentWrapper from 'Component/ContentWrapper';
-// import Html from 'Component/Html';
 import Loader from 'Component/Loader';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';

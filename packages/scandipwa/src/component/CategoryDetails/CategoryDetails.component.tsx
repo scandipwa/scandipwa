@@ -37,10 +37,18 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
             category: { name },
             isCurrentCategoryLoaded,
         } = this.props;
+        const {
+            actionName: {
+                name: preloadName,
+            },
+            isPrefetchValueUsed,
+        } = window;
 
-        if (isCurrentCategoryLoaded) {
+        const categoryName = isPrefetchValueUsed ? preloadName : name;
+
+        if (isCurrentCategoryLoaded || isPrefetchValueUsed) {
             return (
-                <TextPlaceholder content={ name } />
+                <TextPlaceholder content={ categoryName } />
             );
         }
 
@@ -53,8 +61,11 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
         const {
             category: { name, id },
         } = this.props;
+        const {
+            isPrefetchValueUsed,
+        } = window;
 
-        if (id && !name) {
+        if (!id && !name && !isPrefetchValueUsed) {
             return null;
         }
 
@@ -72,11 +83,15 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
         } = this.props;
         const { isPrefetchValueUsed, actionName: { description: preloadDescription } } = window;
 
-        if (isPrefetchValueUsed && !preloadDescription) {
+        if (isPrefetchValueUsed) {
+            if (preloadDescription) {
+                return <Html content={ preloadDescription } />;
+            }
+
             return null;
         }
 
-        if (!id || !isCurrentCategoryLoaded) {
+        if ((!id || !isCurrentCategoryLoaded)) {
             return this.renderCategoryDescriptionPlaceholder();
         }
 
