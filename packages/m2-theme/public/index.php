@@ -43,7 +43,7 @@ $icons = $this->getAppIconData();
             display_mode: `<?= $this->getDisplayMode(); ?>`,
             cmsPage: <?= json_encode($this->getCmsPage()); ?> || {},
             description: `<?= $this->getDescription(); ?>`,
-            slider: `<?= json_encode($this->getSlider()); ?>` || {},
+            slider: <?= json_encode($this->getSlider()); ?> || {},
         };
         window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
         window.storeCurrency = '<?= $this->getStoreCurrency() ?>';
