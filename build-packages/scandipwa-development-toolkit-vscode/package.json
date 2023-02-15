@@ -1,6 +1,6 @@
 {
 	"private": true,
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"name": "scandipwa-vscode-tools",
 	"publisher": "scandipwa-new",
 	"displayName": "ScandiPWA tools for VSCode",
@@ -112,7 +112,7 @@
 		"@babel/parser": "^7.9.6",
 		"@babel/traverse": "^7.9.6",
 		"@babel/types": "^7.9.6",
-		"@scandipwa/scandipwa-development-toolkit-core": "1.1.1",
+		"@scandipwa/scandipwa-development-toolkit-core": "1.1.2",
 		"@tilework/mosaic-dev-utils": "0.0.5"
 	},
 	"devDependencies": {
