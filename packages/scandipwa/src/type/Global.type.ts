@@ -31,7 +31,7 @@ declare global {
             name?: string;
             cmsPage?: CmsPageData;
             description?: string;
-            catalog_default_sort_by?: string;
+            categoryDefaultSortBy?: string;
             slider?: Slider;
             display_mode?: CategoryDisplayMode;
         };

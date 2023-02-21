@@ -26,17 +26,19 @@
 
         // vvv default values from route717
         window.actionName = {
-            type: "PWA_ROUTER",
-            id: null,
-            sku: null,
-            name: '',
-            cmsPage: {},
-            description: ''
-}
+            "type": "CATEGORY",
+            "id": 529,
+            "sku": null,
+            "name": "Laptops and Computers",
+            "display_mode": "PRODUCTS",
+            "cmsPage": {},
+            "description": "",
+            "slider": {}
+        }
         window.contentConfiguration = {};
 
         // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
-        window.storeList = JSON.parse(`["default"]`).sort().reverse();
+        window.storeList = JSON.parse(`["tech_storeview"]`).sort().reverse();
         window.storeRegexText = `/(${window.storeList.join('|')})?`;
         window.website_code = 'base';
 
@@ -97,18 +99,12 @@
         }
     </script>
 
-    <!-- Font -->
-    <!-- <link rel="stylesheet" href="https://use.typekit.net/fji5tuz.css"> -->
-
     <!-- Icons -->
     <link rel="shortcut icon" href="/icon_ios_640x640.png"/>
 
     <link rel="apple-touch-startup-image" href="/icon_ios_640x640.png">
     <link rel="apple-touch-icon" href="/icon_ios_640x640.png">
     <link rel="icon" href="/icon_ios_640x640.png">
-
-    <!-- Manifest -->
-    <link rel="manifest" href="/manifest.json">
 </head>
 <body id="html-body">
     <noscript>You need to enable JavaScript to run this app.</noscript>

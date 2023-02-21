@@ -18,7 +18,7 @@ import { getQueryParam } from 'Util/Url';
 
 /** @namespace Util/PreLoad/CategoryPreload */
 export class CategoryPreLoad {
-    productListOptions: Partial<ProductListOptions> = {
+    productListOptions = (sortBy: string): Partial<ProductListOptions> => ({
         isNext: false,
         isPlp: true,
         noAttributes: false,
@@ -26,7 +26,7 @@ export class CategoryPreLoad {
         args: {
             sort: {
                 sortDirection: SortDirections.ASC,
-                sortKey: window.storeConfig?.catalog_default_sort_by || 'position',
+                sortKey: sortBy,
             },
             filter: {
                 priceRange: this.getSelectedPriceRangeFromUrl(),
@@ -37,7 +37,7 @@ export class CategoryPreLoad {
             pageSize: 24,
             currentPage: this.getPageFromUrl(),
         },
-    };
+    });
 
     getPageFromUrl() {
         const { location } = history;
@@ -70,7 +70,18 @@ export class CategoryPreLoad {
     dispatch = getStore().dispatch;
 
     preloadProducts() {
-        ProductListDispatcher.handleData(this.dispatch, this.productListOptions);
+        const {
+            actionName: {
+                categoryDefaultSortBy,
+            } = {},
+            storeConfig: {
+                catalog_default_sort_by,
+            } = {},
+        } = window;
+
+        const sortBy = categoryDefaultSortBy?.length ? categoryDefaultSortBy : catalog_default_sort_by;
+
+        ProductListDispatcher.handleData(this.dispatch, this.productListOptions(sortBy || 'position'));
     }
 }
 

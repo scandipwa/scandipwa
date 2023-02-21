@@ -52,4 +52,5 @@ export interface UrlRewriteTypeSpecificProps {
     pageIds: number;
     categoryIds: number;
     displayMode: CategoryDisplayMode;
+    sort_by: string;
 }

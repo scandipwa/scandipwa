@@ -73,6 +73,7 @@ export interface CategoryPageContainerBaseProps {
     categoryIds: number;
     isSearchPage: boolean;
     displayMode: CategoryDisplayMode;
+    categoryDefaultSortBy: string;
 }
 
 export type CategoryPageContainerProps = CategoryPageContainerMapStateProps

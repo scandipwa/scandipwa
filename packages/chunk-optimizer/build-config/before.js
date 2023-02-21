@@ -1,4 +1,6 @@
 module.exports = () => {
     // disable source maps
-    process.env.GENERATE_SOURCEMAP = 'false';
+    if (process.env.NODE_ENV === 'production') {
+        process.env.GENERATE_SOURCEMAP = 'false';
+    }
 };

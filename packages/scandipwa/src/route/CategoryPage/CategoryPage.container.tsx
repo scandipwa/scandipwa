@@ -466,12 +466,10 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
 
     getSelectedSortFromUrl(): CategorySortOptions {
         const {
-            category: {
-                default_sort_by,
-            },
             sortFields: {
                 options = [],
             },
+            categoryDefaultSortBy,
         } = this.props;
         const { location } = history;
 
@@ -499,9 +497,10 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         const isClassSortKeyAvailable = !!options.find(
             (sortOption) => sortOption.value === classDefaultSortKey,
         );
+
         const fallbackSortKey = isClassSortKeyAvailable ? classDefaultSortKey : options[0]?.value;
         const defaultSortKey = window.storeConfig?.catalog_default_sort_by || fallbackSortKey;
-        const configSortKey = default_sort_by || defaultSortKey;
+        const configSortKey = categoryDefaultSortBy || defaultSortKey;
         const sortKey = getQueryParam('sortKey', location) || configSortKey;
 
         return {

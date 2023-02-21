@@ -123,6 +123,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
                 id = isPrefetchValueUsed ? actionNameId : undefined,
                 sku,
                 display_mode,
+                sort_by,
             },
         } = this.props;
 
@@ -177,6 +178,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
                         return {
                             categoryIds: category,
                             displayMode: isPrefetchValueUsed ? preloadDisplayMode : displayMode,
+                            sort_by,
                         };
                     }
                 }
@@ -187,6 +189,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
             return {
                 categoryIds: id,
                 displayMode: isPrefetchValueUsed ? preloadDisplayMode : display_mode,
+                sort_by,
             };
         case UrlRewritePageType.NOTFOUND:
         default:
