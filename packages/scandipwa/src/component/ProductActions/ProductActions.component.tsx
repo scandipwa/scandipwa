@@ -263,6 +263,10 @@ export class ProductActionsComponent extends ProductComponent<ProductActionsComp
             return <TextPlaceholder />;
         }
 
+        if (baseType === ProductType.CONFIGURABLE && !inStock) {
+            return null;
+        }
+
         return super.renderPrice(!inStock || notConfigured || isPricePreview);
     }
 
