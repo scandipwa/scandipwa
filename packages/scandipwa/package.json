@@ -129,6 +129,6 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "http://localhost:83/",
+    "proxy": "https://40kskudemo.scandipwa.com/",
     "gitHead": "187276597fcf17521bcccdac1238b4e0061e5418"
 }
