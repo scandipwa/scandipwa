@@ -25,15 +25,18 @@
 
 
         // vvv default values from route717
-        window.actionName = window.actionName = {
+        window.actionName = {
             type: "PWA_ROUTER",
             id: null,
             sku: null,
             name: '',
             cmsPage: {},
             description: ''
-    }
-        window.contentConfiguration = {};
+        };
+        window.contentConfiguration = {
+            "cms_home_page": "home",
+            "catalog_default_sort_by": "position"
+        };
 
         // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
         window.storeList = JSON.parse(`["default"]`).sort().reverse();
