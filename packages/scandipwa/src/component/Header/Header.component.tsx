@@ -383,7 +383,10 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
     }
 
     renderLogo(isVisible = false): ReactElement {
-        const { isLoading } = this.props;
+        const {
+            isLoading,
+            logo_alt,
+        } = this.props;
 
         if (isLoading) {
             return null;
@@ -392,7 +395,7 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
         return (
             <Link
               to="/"
-              aria-label="Go to homepage by clicking on ScandiPWA logo"
+              aria-label={ `Go to homepage by clicking on ${logo_alt}` }
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
               block="Header"
