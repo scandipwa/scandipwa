@@ -5,7 +5,7 @@ $title = $this->getThemeConfiguration('design/head/default_title');
 $description = $this->getThemeConfiguration('design/head/default_description');
 $themeColor = $this->getThemeConfiguration('webmanifest_customization/webmanifest/theme_color');
 $layoutDirection = $this->getThemeConfiguration('layout_direction_configuration/layout_direction_section/layout_direction') ?: 'ltr';
-$faviconPath = "/media/favicon/" . $this->getThemeConfiguration('design/head/shortcut_icon') ?: '/media/favicon/favicon.png';
+$faviconPath = "/media/favicon/" . ($this->getThemeConfiguration('design/head/shortcut_icon') ?: 'favicon.png');
 $icons = $this->getAppIconData();
 ?>
 <!DOCTYPE html>
