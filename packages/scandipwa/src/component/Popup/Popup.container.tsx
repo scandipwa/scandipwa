@@ -63,6 +63,7 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
         children: [],
         isStatic: false,
         isCloseOnOutsideClick: true,
+        isHistoryBackHandle: true,
     };
 
     containerFunctions: PopupContainerFunctions = {
@@ -104,6 +105,7 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
             hideActiveOverlay,
             resetHideActivePopup,
             goToPreviousNavigationState,
+            isHistoryBackHandle,
         } = this.props;
 
         return {
@@ -123,6 +125,7 @@ export class PopupContainer extends PureComponent<PopupContainerProps> {
             hideActiveOverlay,
             resetHideActivePopup,
             goToPreviousNavigationState,
+            isHistoryBackHandle,
             title: this._getPopupTitle(),
         };
     }

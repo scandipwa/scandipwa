@@ -300,7 +300,9 @@ export class ProductPageComponent extends PureComponent<ProductPageComponentProp
                   id={ REVIEW_POPUP_ID }
                   mix={ { block: 'ProductReviews', elem: 'Popup' } }
                 >
-                    <ProductReviewForm product={ dataSource } />
+                    <Suspense fallback={ null }>
+                        <ProductReviewForm product={ dataSource } />
+                    </Suspense>
                 </Popup>
             </Suspense>
         );
