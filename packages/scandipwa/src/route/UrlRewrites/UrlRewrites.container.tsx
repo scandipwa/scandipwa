@@ -187,7 +187,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
             }
 
             return {
-                categoryIds: id,
+                categoryIds: !isPrefetchValueUsed && this.initialUrl === location.pathname ? window.actionName.id : id,
                 displayMode: isPrefetchValueUsed ? preloadDisplayMode : display_mode,
                 sort_by,
             };

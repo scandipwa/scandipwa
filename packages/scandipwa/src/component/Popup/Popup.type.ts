@@ -46,6 +46,7 @@ export type PopupContainerProps = PopupContainerMapStateProps
     children: Children;
     id: string;
     isCloseOnOutsideClick: boolean;
+    isHistoryBackHandle: boolean;
 };
 
 export type PopupComponentProps = OverlayComponentProps & {
@@ -57,6 +58,7 @@ export type PopupComponentProps = OverlayComponentProps & {
     hideActiveOverlay: () => void;
     shouldPopupClose: boolean;
     isCloseOnOutsideClick: boolean;
+    isHistoryBackHandle: boolean;
 };
 
 export type PopupContainerPropsKeys = 'activeOverlay'
@@ -76,4 +78,5 @@ export type PopupContainerPropsKeys = 'activeOverlay'
 | 'resetHideActivePopup'
 | 'goToPreviousNavigationState'
 | 'title'
-| 'isCloseOnOutsideClick';
+| 'isCloseOnOutsideClick'
+| 'isHistoryBackHandle';

@@ -470,6 +470,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
                 options = [],
             },
             categoryDefaultSortBy,
+            isSearchPage,
         } = this.props;
         const { location } = history;
 
@@ -499,7 +500,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         );
 
         const fallbackSortKey = isClassSortKeyAvailable ? classDefaultSortKey : options[0]?.value;
-        const defaultSortKey = window.storeConfig?.catalog_default_sort_by || fallbackSortKey;
+        const defaultSortKey = isSearchPage ? fallbackSortKey : window.storeConfig?.catalog_default_sort_by || fallbackSortKey;
         const configSortKey = categoryDefaultSortBy || defaultSortKey;
         const sortKey = getQueryParam('sortKey', location) || configSortKey;
 
