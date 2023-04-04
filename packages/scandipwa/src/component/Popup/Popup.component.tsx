@@ -98,8 +98,13 @@ export class PopupComponent extends Overlay<PopupComponentProps> {
     }
 
     hidePopupAndGoBack(): void {
+        const { isHistoryBackHandle } = this.props;
+
         this.hidePopUp();
-        history.goBack();
+
+        if (isHistoryBackHandle) {
+            history.goBack();
+        }
     }
 
     // Same with click outside

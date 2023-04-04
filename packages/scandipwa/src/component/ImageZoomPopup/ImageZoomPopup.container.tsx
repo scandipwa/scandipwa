@@ -95,6 +95,7 @@ export class ImageZoomPopupContainer extends PureComponent<ImageZoomPopupContain
                   contentMix={ { block: 'ImageZoomPopup', elem: 'PopupContent' } }
                   onClose={ onClose }
                   onHide={ onClose }
+                  isHistoryBackHandle={ false }
                 >
                     <ImageZoomPopup
                       { ...this.containerProps() }

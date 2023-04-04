@@ -31,7 +31,19 @@ export const criticalChunkLoad = {
     },
     CmsChunk: {
         test: type === UrlRewritePageType.CMS_PAGE,
-        importChunk: () => {},
+        importChunk: () => {
+            const {
+                actionName: {
+                    cmsPage: {
+                        content = '',
+                    } = {},
+                } = {},
+            } = window;
+
+            if (!content.trim().length) {
+                window.isPriorityLoaded = true;
+            }
+        },
     },
     ProductChunk: {
         test: type === UrlRewritePageType.PRODUCT,
