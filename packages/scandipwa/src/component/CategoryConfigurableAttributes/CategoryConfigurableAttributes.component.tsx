@@ -34,11 +34,15 @@ CategoryConfigurableAttributesComponentProps
         const { getSubCategories } = this.props;
 
         const optionWithSubcategories = getSubCategories(option);
-        const { attribute_values = [] } = optionWithSubcategories;
+        const { attribute_values = [], attribute_options = {} } = optionWithSubcategories;
 
-        if (!attribute_values.length) {
+        const attributeValues = attribute_values.length ? attribute_values : Object.keys(attribute_options);
+
+        if (!attributeValues.length) {
             return null;
         }
+
+        optionWithSubcategories.attribute_values = attributeValues;
 
         return this.renderDropdownOrSwatch(optionWithSubcategories);
     }
@@ -133,7 +137,7 @@ CategoryConfigurableAttributesComponentProps
         switch (attribute_code) {
         case 'price':
             return this.renderPriceSwatch(option);
-        case 'category_id':
+        case 'category_uid':
             return this.renderSubCategories(option);
         default:
             return this.renderDropdownOrSwatch(option);
