@@ -89,9 +89,11 @@ export class CategorySortContainer extends PureComponent<CategorySortContainerPr
         }
 
         const selectOptions = sortFields.reduce((acc: CategorySortOption[], option) => {
-            const { id } = option;
+            const { id: oldId } = option;
             const label = this._getLabel(option);
             const { asc, desc } = label;
+
+            const id = oldId === 'none' ? 'position' : oldId;
 
             if (asc) {
                 acc.push({
