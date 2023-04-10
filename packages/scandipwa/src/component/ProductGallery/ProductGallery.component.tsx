@@ -176,10 +176,13 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
     }
 
     renderAdditionalPicture(media: MediaGalleryEntry, index = 0): ReactElement {
+        const { productName } = this.props;
+
         return (
             <ProductGalleryThumbnailImage
               key={ index }
               media={ media }
+              productName={ productName }
             />
         );
     }
@@ -259,6 +262,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
             isMobile,
             isImageZoomPopupActive,
             showLoader,
+            productName,
         } = this.props;
         const { scrollEnabled } = this.state;
 
@@ -275,6 +279,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
                 <Image
                   key={ index }
                   src={ src }
+                  alt={ productName }
                   ratio={ ImageRatio.IMG_CUSTOM }
                   mix={ {
                       block: 'ProductGallery',
