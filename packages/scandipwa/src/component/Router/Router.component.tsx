@@ -339,7 +339,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         const { pathname = appendWithStoreCode('/') } = location;
 
         return (
-            <div block="Router">
+            <div block="Router" elem="HeaderFallbackWrapper">
                 <section block="Router" elem="HeaderFallback">
                     <TextPlaceholder length={ TextPlaceHolderLength.MEDIUM } />
                 </section>

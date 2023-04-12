@@ -26,6 +26,7 @@ export class I18nComponent extends PureComponent {
               block="LocalizationWrapper"
               elem={ currentLocale }
               key={ currentLocale }
+              style={ { overflow: 'auto' }}
             >
                 { children }
             </div>

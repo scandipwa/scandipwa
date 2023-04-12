@@ -11,11 +11,13 @@
 
 :root {
     --layout-button-size: 24px;
-    --category-page-miscellaneous-height: 0px;
+    --category-page-miscellaneous-height: 44px;
 }
 
 .CategoryPage {
-    --category-page-miscellaneous-height: 44px;
+    @include mobile {
+        margin-block-start: calc(var(--header-total-height) + var(--category-page-miscellaneous-height));
+    }
 
     &_noResults {
         --category-page-miscellaneous-height: 0;
@@ -267,5 +269,10 @@
         @include desktop {
             height: 46px;
         }
+    }
+
+    &-FilterPlaceholder {
+        height: 24px;
+        width: 18px;
     }
 }

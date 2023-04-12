@@ -170,7 +170,9 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
               elem="Filter"
               onClick={ onFilterButtonClick }
             >
-                <Suspense fallback={ null }><FilterIcon /></Suspense>
+                <Suspense fallback={ <div block="CategoryPage" elem="FilterPlaceholder" /> }>
+                    <FilterIcon />
+                </Suspense>
                 <span>{ __('Filters') }</span>
                 { this.renderFiltersCount() }
             </button>
