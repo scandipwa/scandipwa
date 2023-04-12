@@ -38,6 +38,11 @@
                 font-size: 52px;
             }
         }
+
+        position: fixed;
+        inset-block-start: 0;
+        width: 100%;
+        z-index: 5;
     }
 
     &-BreadcrumbsFallback {
@@ -47,5 +52,12 @@
             height: 0;
             display: none;
         }
+    }
+
+    &-HeaderFallbackWrapper {
+        position: relative;
+        inset-block-start: 0;
+        width: 100%;
+        margin-block-end: var(--header-total-height);
     }
 }
