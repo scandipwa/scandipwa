@@ -33,10 +33,6 @@
             cmsPage: {},
             description: ''
         };
-        window.contentConfiguration = {
-            "cms_home_page": "home",
-            "catalog_default_sort_by": "position"
-        };
 
         // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
         window.storeList = JSON.parse(`["default"]`).sort().reverse();
@@ -45,9 +41,11 @@
 
         // vvv for development in proxy mode, this should be matching your homepage identifier
         window.storeConfig = {
-            "cms_home_page": "homepage",
-            "catalog_default_sort_by": 'name'
+            "cms_home_page": "home",
+            "catalog_default_sort_by": 'position'
         };
+
+        window.storeCurrency = 'USD';
 
         window.metaHtml = `
             <!-- Manifest -->

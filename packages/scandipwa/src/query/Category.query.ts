@@ -45,7 +45,6 @@ export class CategoryQuery {
         const { categoryIds } = this.options;
 
         if (categoryIds) {
-            // return ['id', 'Int!', categoryIds];
             return {
                 name: 'id',
                 type: 'Int!',
