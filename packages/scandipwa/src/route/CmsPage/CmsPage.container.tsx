@@ -17,6 +17,7 @@ import { Page } from 'Component/Header/Header.config';
 import { CmsPageFields, CmsPageQueryOptions } from 'Query/CmsPage.type';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
+import { updateCmsPage } from 'Store/Cms/Cms.action';
 import CmsDispatcher from 'Store/Cms/Cms.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -57,6 +58,9 @@ export const mapDispatchToProps = (dispatch: Dispatch): CmsPageContainerDispatch
         dispatch(toggleBreadcrumbs(isActive));
     },
     requestPage: (options) => CmsDispatcher.handleData(dispatch, options),
+    updateWithInitialCmsPage: (cmsPage) => {
+        dispatch(updateCmsPage(cmsPage));
+    },
 });
 
 /** @namespace Route/CmsPage/Container */
@@ -222,15 +226,13 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
     }
 
     requestPage(): void {
-        const { requestPage } = this.props;
+        const { requestPage, updateWithInitialCmsPage } = this.props;
         const params = this.getRequestQueryParams();
         const { id, identifier = '' } = params;
         const {
             actionName: {
                 id: pageId = null,
-                cmsPage: {
-                    identifier: pageIdentifier = null,
-                } = {},
+                cmsPage: { identifier: pageIdentifier = null } = {},
             } = {},
         } = window;
 
@@ -243,6 +245,8 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
             id === pageId
             || identifier.replace(/^\/+/, '') === pageIdentifier
         ) {
+            updateWithInitialCmsPage(window.actionName.cmsPage!);
+
             return;
         }
 

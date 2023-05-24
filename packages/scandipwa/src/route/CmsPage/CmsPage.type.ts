@@ -28,6 +28,7 @@ export interface CmsPageContainerDispatchStateProps {
     updateMeta: (meta: Partial<PageMeta>) => void;
     toggleBreadcrumbs: (isActive: boolean) => void;
     requestPage: (options: Partial<CmsPageQueryOptions>) => void;
+    updateWithInitialCmsPage: (cmsPage: CmsPageFields) => void;
 }
 
 export interface CmsPageContainerBaseProps {
