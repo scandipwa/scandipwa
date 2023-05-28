@@ -101,6 +101,8 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             search,
             filter,
             pages,
+            device,
+            isPlp,
         } = this.props;
 
         const {
@@ -129,10 +131,15 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             window.isPrefetchValueUsed = false;
         }
 
-        if (search !== prevSearch
+        // prevents requestPage() fired twice on Mobile PLP with enabled infinite scroll
+        if (device.isMobile && this._getIsInfiniteLoaderEnabled() && isPlp) {
+            return;
+        }
+
+        if ((search !== prevSearch
             || currentPage !== prevPage
             || JSON.stringify(sort) !== JSON.stringify(prevSort)
-            || JSON.stringify(filter) !== JSON.stringify(prevFilter)
+            || JSON.stringify(filter) !== JSON.stringify(prevFilter))
         ) {
             this.requestPage(this._getPageFromUrl());
         }
@@ -348,13 +355,15 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
     }
 
     updatePage(pageNumber: number): void {
-        const { location, history } = this.props;
+        const { location, history, device } = this.props;
 
         setQueryParams({
             page: pageNumber === 1 ? '' : String(pageNumber),
         }, location, history);
 
-        scrollToTop();
+        if (!device.isMobile && this._getIsInfiniteLoaderEnabled()) {
+            scrollToTop();
+        }
     }
 
     render(): ReactElement {
