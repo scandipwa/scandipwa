@@ -136,10 +136,10 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             return;
         }
 
-        if ((search !== prevSearch
+        if (search !== prevSearch
             || currentPage !== prevPage
             || JSON.stringify(sort) !== JSON.stringify(prevSort)
-            || JSON.stringify(filter) !== JSON.stringify(prevFilter))
+            || JSON.stringify(filter) !== JSON.stringify(prevFilter)
         ) {
             this.requestPage(this._getPageFromUrl());
         }
@@ -361,7 +361,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             page: pageNumber === 1 ? '' : String(pageNumber),
         }, location, history);
 
-        if (!device.isMobile) {
+        if (!device.isMobile && !this._getIsInfiniteLoaderEnabled()) {
             scrollToTop();
         }
     }
