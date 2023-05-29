@@ -361,7 +361,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             page: pageNumber === 1 ? '' : String(pageNumber),
         }, location, history);
 
-        if (!device.isMobile && this._getIsInfiniteLoaderEnabled()) {
+        if (!device.isMobile) {
             scrollToTop();
         }
     }
