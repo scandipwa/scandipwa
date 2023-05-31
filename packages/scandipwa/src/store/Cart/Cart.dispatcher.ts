@@ -142,8 +142,6 @@ export class CartDispatcher {
 
             const quoteId = await this._getNewQuoteId();
 
-            dispatch(updateIsLoadingCart(false));
-
             setCartId(quoteId);
 
             return quoteId;
