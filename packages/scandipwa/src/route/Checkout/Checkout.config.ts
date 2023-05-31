@@ -32,6 +32,7 @@ export enum CheckoutStepUrl {
 export const CHECKOUT_URL_REGEX = new RegExp(`^(${appendWithStoreCode('')})?${CheckoutStepUrl.CHECKOUT_URL}(/)?$`);
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
+export const SHIPPING_ADDRESS = 'shippingAddress';
 
 export const UPDATE_EMAIL_CHECK_FREQUENCY = 1500; // ms
 export const UPDATE_SHIPPING_COST_ESTIMATES_FREQUENCY = 800; // ms

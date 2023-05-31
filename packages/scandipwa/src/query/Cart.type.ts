@@ -72,7 +72,7 @@ export interface CartAddress {
     telephone: string;
     vat_id: string;
     email: string;
-    street: string;
+    street: Array<string>;
 }
 
 export interface SelectedShippingMethod {

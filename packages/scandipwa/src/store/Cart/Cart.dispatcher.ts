@@ -113,14 +113,12 @@ export class CartDispatcher {
 
     prepareCheckoutAddressFormat(address: Partial<CartAddress>): CheckoutAddress {
         const {
-            street: addressStreet = '',
+            street = [],
             email,
             country: { code: country_id } = {},
             region,
             ...data
         } = address;
-
-        const street = addressStreet.split('\n');
 
         const street_index: Record<string, string> = {};
 
@@ -143,6 +141,8 @@ export class CartDispatcher {
             dispatch(updateIsLoadingCart(true));
 
             const quoteId = await this._getNewQuoteId();
+
+            dispatch(updateIsLoadingCart(false));
 
             setCartId(quoteId);
 

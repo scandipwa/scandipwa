@@ -20,7 +20,7 @@ import {
 import { StoreWithCountryId } from 'Component/StoreInPickUpPopup/StoreInPickUpPopup.type';
 import { ShippingMethod } from 'Query/Checkout.type';
 import { CheckoutAddress } from 'Route/Checkout/Checkout.type';
-import { updateShippingFields } from 'Store/Checkout/Checkout.action';
+import { updateShippingAddress, updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { ReactElement } from 'Type/Common.type';
 import {
     trimCheckoutAddress,
@@ -57,6 +57,7 @@ export const mapStateToProps = (state: RootState): CheckoutShippingContainerMapS
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CheckoutShippingContainerMapDispatchProps => ({
     updateShippingFields: (fields) => dispatch(updateShippingFields(fields)),
+    updateShippingAddress: (fields) => dispatch(updateShippingAddress(fields)),
 });
 
 /** @namespace Component/CheckoutShipping/Container */
@@ -235,6 +236,7 @@ CheckoutShippingContainerState
             updateShippingFields,
             addressLinesQty,
             selectedStoreAddress,
+            updateShippingAddress,
             customer: { default_shipping },
         } = this.props;
 
@@ -285,6 +287,17 @@ CheckoutShippingContainerState
         saveAddressInformation(data);
         const shipping_method = `${shipping_carrier_code}_${shipping_method_code}`;
         const { street = [] } = formattedFields;
+
+        updateShippingAddress({
+            ...(
+                street.length
+                || ('id' in data.shipping_address
+                && default_shipping
+                && parseInt(default_shipping, 10) === data.shipping_address.id)
+                    ? formattedFields : data.shipping_address
+            ),
+            shipping_method,
+        });
 
         updateShippingFields({
             ...(

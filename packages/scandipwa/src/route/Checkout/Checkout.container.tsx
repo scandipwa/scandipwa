@@ -57,6 +57,7 @@ import {
     CheckoutStepUrl,
     CheckoutUrlSteps,
     PAYMENT_TOTALS,
+    SHIPPING_ADDRESS,
     UPDATE_EMAIL_CHECK_FREQUENCY,
     UPDATE_SHIPPING_COST_ESTIMATES_FREQUENCY,
 } from './Checkout.config';
@@ -88,6 +89,7 @@ export const mapStateToProps = (state: RootState): CheckoutContainerMapStateProp
     isGuestNotAllowDownloadable: state.ConfigReducer.downloadable_disable_guest_checkout,
     savedEmail: state.CheckoutReducer.email,
     isSignedIn: state.MyAccountReducer.isSignedIn,
+    formattedShippingAddress: state.CheckoutReducer.shippingAddress,
     shippingFields: state.CheckoutReducer.shippingFields,
     minimumOrderAmount: state.CartReducer.cartTotals.minimum_order_amount,
 });
@@ -254,8 +256,8 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             isEmailAvailable,
             updateEmail,
             isCartLoading,
-            shippingFields,
-            shippingFields: {
+            formattedShippingAddress,
+            formattedShippingAddress: {
                 shipping_method,
             },
             totals: {
@@ -273,7 +275,9 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
             isCartLoading: prevIsCartLoading,
         } = prevProps;
 
-        const { email, checkoutStep, isVisibleEmailRequired } = this.state;
+        const {
+            email, checkoutStep, isVisibleEmailRequired, shippingAddress,
+        } = this.state;
         const { email: prevEmail, isVisibleEmailRequired: prevIsVisibleEmailRequired } = prevState;
         const { location: { pathname = '' } } = history;
 
@@ -304,7 +308,7 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
                 this.setState({ checkoutStep: CheckoutSteps.SHIPPING_STEP });
             }
 
-            this.saveShippingFieldsAsShippingAddress(shippingFields, !!is_virtual);
+            this.saveShippingFieldsAsShippingAddress(formattedShippingAddress, !!is_virtual);
         }
 
         // Handle going back from billing to shipping
@@ -328,6 +332,21 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         )) {
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
             history.push(appendWithStoreCode(CART_URL));
+        }
+
+        if (
+            urlStep.includes(CheckoutUrlSteps.DETAILS_URL_STEP)
+            && prevUrlStep.includes(CheckoutUrlSteps.BILLING_URL_STEP)
+        ) {
+            BrowserDatabase.deleteItem(SHIPPING_ADDRESS);
+        }
+
+        if (
+            urlStep.includes(CheckoutUrlSteps.BILLING_URL_STEP)
+            && prevUrlStep.includes(CheckoutUrlSteps.BILLING_URL_STEP)
+            && !shippingAddress
+        ) {
+            this.saveShippingFieldsAsShippingAddress(formattedShippingAddress, !!is_virtual);
         }
 
         if (email !== prevEmail) {
