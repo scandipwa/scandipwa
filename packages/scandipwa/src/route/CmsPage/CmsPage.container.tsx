@@ -233,7 +233,7 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
             actionName: {
                 id: pageId = null,
                 cmsPage: { identifier: pageIdentifier = null } = {},
-                cmsPage = {}
+                cmsPage = {},
             } = {},
         } = window;
 
@@ -246,7 +246,7 @@ export class CmsPageContainer extends PureComponent<CmsPageContainerProps> {
             id === pageId
             || identifier.replace(/^\/+/, '') === pageIdentifier
         ) {
-            updateWithInitialCmsPage(cmsPage!);
+            updateWithInitialCmsPage(cmsPage as CmsPageData);
 
             return;
         }
