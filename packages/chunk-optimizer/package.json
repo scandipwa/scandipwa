@@ -4,7 +4,8 @@
     "version": "1.0.1",
     "license": "OSL-3.0",
     "dependencies": {
-        "@tilework/mosaic-craco": "0.0.5"
+        "@tilework/mosaic-craco": "0.0.5",
+        "circular-dependency-plugin": "^5.2.2"
     },
     "scandipwa": {
         "type": "extension",

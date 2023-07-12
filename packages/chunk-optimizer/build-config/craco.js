@@ -5,6 +5,8 @@ const {
 
 const { PreloadPlugin } = require('./preload.js');
 
+// const CircularDependencyPlugin = require('circular-dependency-plugin');
+
 module.exports = {
     plugin: {
         overrideWebpackConfig: ({ webpackConfig }) => {
@@ -24,6 +26,13 @@ module.exports = {
                     delete plugin.definitions.PureComponent;
                 }
             });
+
+            // webpackConfig.plugins.push(new CircularDependencyPlugin({
+            //     exclude: /node_modules/,
+            //     include: /src/,
+            //     failOnError: true,
+            //     allowAsyncCycles: false,
+            // }));
 
             webpackConfig.plugins.push(new PreloadPlugin());
 

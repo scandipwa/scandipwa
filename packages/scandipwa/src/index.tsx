@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import 'Util/PreLoad';
+import 'Util/Preload';
 
 import(
     /* webpackMode: "lazy", webpackChunkName: "render" */

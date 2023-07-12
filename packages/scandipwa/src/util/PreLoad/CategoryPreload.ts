@@ -16,8 +16,8 @@ import history from 'Util/History';
 import getStore from 'Util/Store';
 import { getQueryParam } from 'Util/Url';
 
-/** @namespace Util/PreLoad/CategoryPreload */
-export class CategoryPreLoad {
+/** @namespace Util/Preload/CategoryPreload */
+export class CategoryPreload {
     productListOptions = (): Partial<ProductListOptions> => ({
         isNext: false,
         isPlp: true,
@@ -74,4 +74,4 @@ export class CategoryPreLoad {
     }
 }
 
-export default new CategoryPreLoad();
+export default new CategoryPreload();
