@@ -11,6 +11,7 @@
     "dependencies": {
         "@scandipwa/bundle-analyzer": "0.1.0",
         "@scandipwa/chunk-optimizer": "1.0.1",
+        "@scandipwa/preact-integration": "0.0.0",
         "@scandipwa/m2-theme": "0.3.1",
         "@scandipwa/next-emulator": "0.0.4",
         "@scandipwa/postcss-config": "0.0.3",
@@ -32,7 +33,6 @@
         "intersection-observer": "^0.12.0",
         "jwt-decode": "^3.1.2",
         "postcss": "8.4.5",
-        "preact": "^10.11.3",
         "prop-types": "^15.6.2",
         "react": "18.2.0",
         "react-datepicker": "^4.3.0",
@@ -76,6 +76,7 @@
             "zh_TW": true
         },
         "extensions": {
+            "@scandipwa/preact-integration": false,
             "@scandipwa/bundle-analyzer": false,
             "@scandipwa/m2-theme": true,
             "@scandipwa/webpack-i18n-runtime": true,

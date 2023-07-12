@@ -9,10 +9,10 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { useEffect, useState } from 'preact/hooks';
 import {
     ComponentType,
     lazy,
+    useEffect, useState,
 } from 'react';
 
 import { EV_PRIORITY_LOAD_END } from './Config';

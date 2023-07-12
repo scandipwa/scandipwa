@@ -1,0 +1,23 @@
+{
+    "name": "@scandipwa/preact-integration",
+    "description": "Preact integration extension used by CSA.",
+    "version": "0.0.0",
+    "license": "OSL-3.0",
+    "dependencies": {
+        "preact": "^10.11.3"
+    },
+    "scandipwa": {
+        "type": "extension",
+        "build": {
+            "cracoPlugins": [
+                "build-config/preact.js"
+            ]
+        }
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "eslintConfig": {
+        "extends": "@scandipwa"
+    }
+}
