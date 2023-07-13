@@ -615,6 +615,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             url = '',
             name = '',
             breadcrumbs = [],
+            is_active = false,
         } = isUnmatchedCategory ? {} : category;
 
         updateBreadcrumbs({
@@ -622,6 +623,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             url,
             name,
             breadcrumbs,
+            is_active,
         });
 
         this.setState({ breadcrumbsWereUpdated: true });
