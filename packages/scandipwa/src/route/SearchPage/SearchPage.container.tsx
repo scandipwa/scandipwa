@@ -83,6 +83,7 @@ SearchPageContainerState
             url: '',
             name: search,
             id: '',
+            is_active: true,
             breadcrumbs: [],
         });
     }

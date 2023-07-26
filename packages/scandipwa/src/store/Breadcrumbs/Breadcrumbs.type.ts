@@ -29,6 +29,7 @@ export interface Category {
     url: string;
     name: string;
     breadcrumbs: CategoryBreadcrumb[];
+    is_active: boolean;
 }
 
 export interface Product {
@@ -52,7 +53,9 @@ export interface UpdateBreadcrumbsAction extends AnyAction {
     breadcrumbs?: Breadcrumb[];
 }
 
-export type BreadcrumbsAction = ToggleBreadcrumbsAction | UpdateBreadcrumbsAction;
+export type BreadcrumbsAction =
+    | ToggleBreadcrumbsAction
+    | UpdateBreadcrumbsAction;
 
 export interface BreadcrumbsStore {
     breadcrumbs: Breadcrumb[];

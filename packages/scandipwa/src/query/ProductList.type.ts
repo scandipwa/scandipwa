@@ -379,12 +379,19 @@ export interface Breadcrumb {
     category_is_active: boolean;
 }
 
+export interface CategoryTreeFragment {
+    is_active: boolean;
+}
+
 export interface CategoryInterface {
     id: string;
     name: string;
     url: string;
     breadcrumbs: Breadcrumb[];
+    CategoryTree: CategoryTreeFragment;
 }
+
+export type Category = CategoryInterface & CategoryTreeFragment;
 
 export interface DownloadableProductSamples {
     title: string;
@@ -485,7 +492,7 @@ export interface BaseProductItem {
     meta_title: string;
     meta_keyword: string;
     meta_description: string;
-    categories: CategoryInterface[];
+    categories: Category[];
     reviews: ProductReviews;
     CustomizableProductInterface: {
         options: CustomizableProductFragmentOptions[];

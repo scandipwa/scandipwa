@@ -55,8 +55,15 @@ export class BreadcrumbsDispatcher {
      * @param {Function} dispatch
      * @memberof BreadcrumbsDispatcher
      */
-    updateWithProduct(product: Product, prevCategoryId: number, dispatch: Dispatch): void {
-        const breadcrumbs = this._getProductBreadcrumbs(product, prevCategoryId);
+    updateWithProduct(
+        product: Product,
+        prevCategoryId: number,
+        dispatch: Dispatch,
+    ): void {
+        const breadcrumbs = this._getProductBreadcrumbs(
+            product,
+            prevCategoryId,
+        );
 
         dispatch(toggleBreadcrumbs(true));
         dispatch(updateBreadcrumbs(breadcrumbs));
@@ -93,7 +100,9 @@ export class BreadcrumbsDispatcher {
 
         if (breadcrumbs?.length) {
             breadcrumbs
-                .sort((a, b) => (a?.category_level || 0) - (b?.category_level || 0))
+                .sort(
+                    (a, b) => (a?.category_level || 0) - (b?.category_level || 0),
+                )
                 .forEach((crumb) => {
                     if (crumb) {
                         const {
@@ -121,44 +130,62 @@ export class BreadcrumbsDispatcher {
                 });
         }
 
-        return [
-            { url, name },
-            ...breadcrumbsList.reverse(),
-        ];
+        return [{ url, name }, ...breadcrumbsList.reverse()];
     }
 
-    findCategoryById(categories: Category[], categoryId: number): Category | undefined {
+    findCategoryById(
+        categories: Category[],
+        categoryId: number,
+    ): Category | undefined {
         return categories.find(({ id }) => id === categoryId);
     }
 
     findLongestBreadcrumbs(categories: Category[]): Partial<Category> {
-        const {
-            breadcrumbsCategory = {},
-        } = categories.reduce((acc, category) => {
-            const { longestBreadcrumbsLength } = acc;
-            const { breadcrumbs } = category;
-            const breadcrumbsLength = (breadcrumbs || []).length;
+        const { breadcrumbsCategory = {} } = categories.reduce(
+            (acc, category) => {
+                const { longestBreadcrumbsLength } = acc;
+                const breadcrumbs = category.breadcrumbs || [];
+                const { is_active } = category;
+                const breadcrumbsLength = breadcrumbs.length;
 
-            if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) {
-                return acc;
-            }
+                if (!is_active) {
+                    return acc;
+                }
 
-            if (longestBreadcrumbsLength === 0) {
-                return { ...acc, breadcrumbsCategory: category };
-            }
+                if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) {
+                    return acc;
+                }
 
-            if (breadcrumbsLength <= longestBreadcrumbsLength) {
-                return acc;
-            }
+                if (
+                    breadcrumbs.some(
+                        (breadcrumb) => !breadcrumb.category_is_active,
+                    )
+                ) {
+                    return acc;
+                }
 
-            return {
-                breadcrumbsCategory: category,
-                longestBreadcrumbsLength: breadcrumbsLength,
-            };
-        }, {
-            breadcrumbsCategory: {},
-            longestBreadcrumbsLength: 0,
-        });
+                if (longestBreadcrumbsLength === 0) {
+                    return {
+                        ...acc,
+                        breadcrumbsCategory: category,
+                        longestBreadcrumbsLength: breadcrumbsLength,
+                    };
+                }
+
+                if (breadcrumbsLength <= longestBreadcrumbsLength) {
+                    return acc;
+                }
+
+                return {
+                    breadcrumbsCategory: category,
+                    longestBreadcrumbsLength: breadcrumbsLength,
+                };
+            },
+            {
+                breadcrumbsCategory: {},
+                longestBreadcrumbsLength: 0,
+            },
+        );
 
         return breadcrumbsCategory;
     }
@@ -186,7 +213,7 @@ export class BreadcrumbsDispatcher {
             { url, name },
             ...this._getCategoryBreadcrumbs(
                 this.findCategoryById(categories, prevCategoryId || 0)
-                || this.findLongestBreadcrumbs(categories),
+                    || this.findLongestBreadcrumbs(categories),
             ),
         ];
     }
