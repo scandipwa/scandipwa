@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/preact-integration",
     "description": "Preact integration extension used by CSA.",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "license": "OSL-3.0",
     "dependencies": {
         "preact": "^10.11.3"
