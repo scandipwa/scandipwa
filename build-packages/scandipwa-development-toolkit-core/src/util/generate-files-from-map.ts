@@ -6,6 +6,8 @@ import { createNewFileFromTemplate } from './file';
 
 const getIsNested = (resourceType: ResourceType) => resourceType !== ResourceType.Query;
 
+const indexFileNames = ['index.js', 'index.ts'];
+
 /**
  * Generate files from the filemap
  * Returns relative paths to the created files
@@ -45,8 +47,8 @@ const generateFilesFromMap = (
             const templatePath = path.join(templateDirectory, templateName);
 
             // Index.js is not a postfix, it should be handled differently
-            const newFileName = postfix === 'index.js'
-                ? 'index.js'
+            const newFileName = indexFileNames.includes(postfix)
+                ? `index.${isTypescript ? 'ts' : 'js'}`
                 : `${resourceName}.${postfix}`;
 
             // Calculate the new file path
