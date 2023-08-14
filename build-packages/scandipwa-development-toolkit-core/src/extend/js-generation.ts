@@ -136,7 +136,7 @@ const generateClassExtend = (chosenExports: ExportData[], sourceModuleAlias: str
     ].join('\n');
 };
 
-const generateMappingsExtends = (chosenExports: ExportData[], sourceModuleAlias: string): Array<string> => chosenExports
+const generateMappingsExtends = (chosenExports: ExportData[], sourceModuleAlias: string, isTypescript: boolean): Array<string> => chosenExports
     .filter(({ name }) => isMapping(name))
     .map(
         ({ name }) => {
@@ -145,13 +145,22 @@ const generateMappingsExtends = (chosenExports: ExportData[], sourceModuleAlias:
                 : 'dispatch';
             const isState = argument === 'state';
 
-            const newExport = [
+            const newExport = (
+                isTypescript ?
+            [
                 `import { ${ isState ? 'RootState' : 'Dispatch' } } from '${isState ? 'Util/Store/Store.type' : 'redux'}'`,
                 `export const ${name} = (${argument}: ${isState ? 'RootState' : 'Dispatch'}) => ({`,
                 `    ...${getPrefixedName(name, sourceModuleAlias)}(${argument}),`,
                 `    // TODO extend ${name}`,
                 '});',
-            ].join('\n');
+            ]
+            :
+            [
+                `export const ${name} = (${argument}) => ({`,
+                `    ...${getPrefixedName(name, sourceModuleAlias)}(${argument}),`,
+                `    // TODO extend ${name}`,
+                '});',
+            ]).join('\n');
 
             return newExport;
         },
@@ -236,6 +245,7 @@ const generateNewFileContents = ({
     sourceModuleName,
     sourceModuleType,
     sourceModuleAlias,
+    isTypescript
 }: FileInformation) : string => {
     const importPath = getImportPath(
         resourceName,
@@ -257,7 +267,7 @@ const generateNewFileContents = ({
         generateStyleImport(fileName, resourceName, resourceType, chosenStylesOption),
         generateExportsFromSource(notChosenExports),
         ...generateExtendStrings(chosenExports, sourceModuleAlias),
-        ...generateMappingsExtends(chosenExports, sourceModuleAlias),
+        ...generateMappingsExtends(chosenExports, sourceModuleAlias, isTypescript),
         generateClassExtend(chosenExports, sourceModuleAlias),
         generateTSInterfaceExtend(importPath, interfacesExports),
         ...generateTSTypes(chosenExports, sourceModuleAlias),

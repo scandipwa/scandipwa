@@ -5,6 +5,7 @@ import { ILogger, IUserInteraction, ResourceType } from '../types';
 import { ExportData, StylesOption } from '../types/extend-component.types';
 import fixESLint from '../util/eslint';
 import { createNewFileWithContents } from '../util/file';
+import { replaceTsWithJs } from '../util/js-generation';
 import { getModuleInformation } from '../util/module';
 import { getDefaultExportCode, getExportPathsFromCode, getNamedExportsNames } from './ast-interactions';
 import { ConfigType, setConfig } from './config';
@@ -31,6 +32,7 @@ const extend = async (
     userInteraction: IUserInteraction,
     optionalSourceModulePath?: string,
     config?: ConfigType,
+    isTypescript = false
 ): Promise<string[]> => {
     setConfig(config);
 
@@ -75,12 +77,17 @@ const extend = async (
     const createdFiles = await sourceFiles.reduce(async (acc: Promise<string[]>, fileName: string): Promise<string[]> => {
         const createdFiles = await acc;
 
+        if(!isTypescript && fileName.includes('.type.ts')){
+            return createdFiles;
+        }
+
         // Query's resource path is the file path
         // For other resources - it is a parent dir
         const sourceFilePath = resourceType === ResourceType.Query
             ? sourceResourcePath
             : path.resolve(sourceResourcePath, fileName);
-        const newFilePath = path.resolve(targetResourceDirectory, fileName);
+
+        const newFilePath = path.resolve(targetResourceDirectory, isTypescript ? fileName : replaceTsWithJs(fileName));
 
         // Prevent overwriting
         if (fs.existsSync(newFilePath)) {
@@ -153,6 +160,7 @@ const extend = async (
             sourceModuleName,
             sourceModuleType,
             sourceModuleAlias,
+            isTypescript
         });
 
         // Attempt actual file creation

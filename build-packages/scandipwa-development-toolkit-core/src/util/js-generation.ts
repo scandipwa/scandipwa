@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { ResourceType, SourceType } from '../types';
+import { JS_FILE_EXTENSION, ResourceType, SourceType } from '../types';
 import { capitalize } from './misc';
 
 export const getImportPath = (
@@ -28,3 +28,5 @@ export const getImportPath = (
         removeFileExtension(fileName),
     );
 };
+
+export const replaceTsWithJs = (fileName: string) => fileName.replace(/\.ts|\.tsx$/, JS_FILE_EXTENSION)
