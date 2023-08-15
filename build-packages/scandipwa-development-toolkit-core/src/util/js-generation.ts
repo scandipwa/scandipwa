@@ -29,4 +29,10 @@ export const getImportPath = (
     );
 };
 
-export const replaceTsWithJs = (fileName: string) => fileName.replace(/\.ts|\.tsx$/, JS_FILE_EXTENSION)
+export const replaceTsWithJs = (fileName: string) => fileName.replace(/\.ts|\.tsx$/, JS_FILE_EXTENSION);
+
+export const removeTsAnnotationsFromDefault = (input: string): string =>
+    input.replace(
+        /(.*?)(?: as unknown as (?:React\.)?ComponentType<[^>]+>)(.*?)(,)/g,
+        '$1$2$3'
+    );

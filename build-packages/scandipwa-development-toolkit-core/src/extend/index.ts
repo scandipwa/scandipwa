@@ -5,7 +5,7 @@ import { ILogger, IUserInteraction, ResourceType } from '../types';
 import { ExportData, StylesOption } from '../types/extend-component.types';
 import fixESLint from '../util/eslint';
 import { createNewFileWithContents } from '../util/file';
-import { replaceTsWithJs } from '../util/js-generation';
+import { removeTsAnnotationsFromDefault, replaceTsWithJs } from '../util/js-generation';
 import { getModuleInformation } from '../util/module';
 import { getDefaultExportCode, getExportPathsFromCode, getNamedExportsNames } from './ast-interactions';
 import { ConfigType, setConfig } from './config';
@@ -77,7 +77,7 @@ const extend = async (
     const createdFiles = await sourceFiles.reduce(async (acc: Promise<string[]>, fileName: string): Promise<string[]> => {
         const createdFiles = await acc;
 
-        if(!isTypescript && fileName.includes('.type.ts')){
+        if (!isTypescript && fileName.includes('.type.ts')) {
             return createdFiles;
         }
 
@@ -111,7 +111,12 @@ const extend = async (
         }
 
         // Get default export code
-        const defaultExportCode = getDefaultExportCode(exportsPaths, code);
+        const defaultExportCodeSource = getDefaultExportCode(exportsPaths, code);
+
+        // Remove `as unknown` conversions if those are present
+        const defaultExportCode = !isTypescript && defaultExportCodeSource ?
+            removeTsAnnotationsFromDefault(defaultExportCodeSource) :
+            defaultExportCodeSource;
 
         // Choose exports to extend
         const chosenExports = await userInteraction.multiSelect<ExportData>(
