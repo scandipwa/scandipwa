@@ -77,6 +77,7 @@ const extend = async (
     const createdFiles = await sourceFiles.reduce(async (acc: Promise<string[]>, fileName: string): Promise<string[]> => {
         const createdFiles = await acc;
 
+        // Skipping generation of type files for JS
         if (!isTypescript && fileName.includes('.type.ts')) {
             return createdFiles;
         }

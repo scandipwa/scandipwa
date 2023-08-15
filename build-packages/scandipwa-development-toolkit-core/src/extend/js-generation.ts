@@ -229,6 +229,19 @@ const generateTSEnums = (chosenExports: ExportData[], sourceModuleAlias: string)
         ].join('\n\n'));
 };
 
+const convertTSEnumsIntoJS = (chosenExports: ExportData[], sourceModuleAlias: string): Array<string> => {
+    if (!chosenExports.length) {
+        return [];
+    }
+
+    return chosenExports
+        .filter((one) => one.type === ExportType.ts_enum)
+        .map(({ name }) => [
+            `//? TODO: Since override is to JavaScript, you need to handle overridden ENUMS
+            export const ${name} = {...${sourceModuleAlias}${name}}`,
+        ].join('\n\n'));
+};
+
 /**
  * Generate all necessary contents for the created file
  */
@@ -260,6 +273,14 @@ const generateNewFileContents = ({
     const notChosenExports = allExports.filter((one) => !chosenExports.includes(one));
     const interfacesExports = chosenExports.filter((exportItem) => exportItem.type === ExportType.ts_interface);
 
+    const typescriptResult = isTypescript ? [
+        generateTSInterfaceExtend(importPath, interfacesExports),
+        ...generateTSTypes(chosenExports, sourceModuleAlias),
+        ...generateTSEnums(chosenExports, sourceModuleAlias),
+    ] : [
+        ...convertTSEnumsIntoJS(chosenExports, sourceModuleAlias)
+    ];
+
     // Generate new file: imports + exports from source + all extendables + class template + exdf + interface + types + enums
     const result = [
         generateAdditionalImportString(originalCode, defaultExportCode),
@@ -269,9 +290,7 @@ const generateNewFileContents = ({
         ...generateExtendStrings(chosenExports, sourceModuleAlias),
         ...generateMappingsExtends(chosenExports, sourceModuleAlias, isTypescript),
         generateClassExtend(chosenExports, sourceModuleAlias),
-        generateTSInterfaceExtend(importPath, interfacesExports),
-        ...generateTSTypes(chosenExports, sourceModuleAlias),
-        ...generateTSEnums(chosenExports, sourceModuleAlias),
+        ...typescriptResult,
         defaultExportCode,
     ].filter(Boolean).join('\n\n').concat('\n');
 
