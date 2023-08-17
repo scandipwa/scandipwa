@@ -5,6 +5,7 @@ import { ILogger, IUserInteraction, ResourceType } from '../types';
 import { ExportData, StylesOption } from '../types/extend-component.types';
 import fixESLint from '../util/eslint';
 import { createNewFileWithContents } from '../util/file';
+import { removeTsAnnotationsFromDefault, replaceTsWithJs } from '../util/js-generation';
 import { getModuleInformation } from '../util/module';
 import { getDefaultExportCode, getExportPathsFromCode, getNamedExportsNames } from './ast-interactions';
 import { ConfigType, setConfig } from './config';
@@ -31,6 +32,7 @@ const extend = async (
     userInteraction: IUserInteraction,
     optionalSourceModulePath?: string,
     config?: ConfigType,
+    isTypescript = false
 ): Promise<string[]> => {
     setConfig(config);
 
@@ -75,12 +77,18 @@ const extend = async (
     const createdFiles = await sourceFiles.reduce(async (acc: Promise<string[]>, fileName: string): Promise<string[]> => {
         const createdFiles = await acc;
 
+        // Skipping generation of type files for JS
+        if (!isTypescript && fileName.includes('.type.ts')) {
+            return createdFiles;
+        }
+
         // Query's resource path is the file path
         // For other resources - it is a parent dir
         const sourceFilePath = resourceType === ResourceType.Query
             ? sourceResourcePath
             : path.resolve(sourceResourcePath, fileName);
-        const newFilePath = path.resolve(targetResourceDirectory, fileName);
+
+        const newFilePath = path.resolve(targetResourceDirectory, isTypescript ? fileName : replaceTsWithJs(fileName));
 
         // Prevent overwriting
         if (fs.existsSync(newFilePath)) {
@@ -104,7 +112,12 @@ const extend = async (
         }
 
         // Get default export code
-        const defaultExportCode = getDefaultExportCode(exportsPaths, code);
+        const defaultExportCodeSource = getDefaultExportCode(exportsPaths, code);
+
+        // Remove `as unknown` conversions if those are present
+        const defaultExportCode = !isTypescript && defaultExportCodeSource ?
+            removeTsAnnotationsFromDefault(defaultExportCodeSource) :
+            defaultExportCodeSource;
 
         // Choose exports to extend
         const chosenExports = await userInteraction.multiSelect<ExportData>(
@@ -153,6 +166,7 @@ const extend = async (
             sourceModuleName,
             sourceModuleType,
             sourceModuleAlias,
+            isTypescript
         });
 
         // Attempt actual file creation

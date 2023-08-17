@@ -14,7 +14,7 @@
         "archiver": "^5.0.2",
         "inquirer": "^7.3.3",
         "node-fetch": "^2.6.1",
-        "yargs": "^16.1.0"
+        "yargs": "^17.7.2"
     },
     "publishConfig": {
         "access": "public"

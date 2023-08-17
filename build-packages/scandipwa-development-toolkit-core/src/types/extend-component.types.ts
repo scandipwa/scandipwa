@@ -50,6 +50,7 @@ export interface FileInformation {
     sourceModuleName: string;
     sourceModuleType: SourceType;
     sourceModuleAlias: string;
+    isTypescript: boolean;
 }
 
 export type ModuleInformation = {
@@ -62,3 +63,5 @@ export enum SourceType {
     Theme = 'theme',
     Extension = 'extension',
 }
+
+export const JS_FILE_EXTENSION = '.js' as const;

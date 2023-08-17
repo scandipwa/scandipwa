@@ -136,7 +136,7 @@ const generateClassExtend = (chosenExports: ExportData[], sourceModuleAlias: str
     ].join('\n');
 };
 
-const generateMappingsExtends = (chosenExports: ExportData[], sourceModuleAlias: string): Array<string> => chosenExports
+const generateMappingsExtends = (chosenExports: ExportData[], sourceModuleAlias: string, isTypescript: boolean): Array<string> => chosenExports
     .filter(({ name }) => isMapping(name))
     .map(
         ({ name }) => {
@@ -145,13 +145,22 @@ const generateMappingsExtends = (chosenExports: ExportData[], sourceModuleAlias:
                 : 'dispatch';
             const isState = argument === 'state';
 
-            const newExport = [
+            const newExport = (
+                isTypescript ?
+            [
                 `import { ${ isState ? 'RootState' : 'Dispatch' } } from '${isState ? 'Util/Store/Store.type' : 'redux'}'`,
                 `export const ${name} = (${argument}: ${isState ? 'RootState' : 'Dispatch'}) => ({`,
                 `    ...${getPrefixedName(name, sourceModuleAlias)}(${argument}),`,
                 `    // TODO extend ${name}`,
                 '});',
-            ].join('\n');
+            ]
+            :
+            [
+                `export const ${name} = (${argument}) => ({`,
+                `    ...${getPrefixedName(name, sourceModuleAlias)}(${argument}),`,
+                `    // TODO extend ${name}`,
+                '});',
+            ]).join('\n');
 
             return newExport;
         },
@@ -220,6 +229,19 @@ const generateTSEnums = (chosenExports: ExportData[], sourceModuleAlias: string)
         ].join('\n\n'));
 };
 
+const convertTSEnumsIntoJS = (chosenExports: ExportData[], sourceModuleAlias: string): Array<string> => {
+    if (!chosenExports.length) {
+        return [];
+    }
+
+    return chosenExports
+        .filter((one) => one.type === ExportType.ts_enum)
+        .map(({ name }) => [
+            `//? TODO: Since override is to JavaScript, you need to handle overridden ENUMS
+            export const ${name} = {...${sourceModuleAlias}${name}}`,
+        ].join('\n\n'));
+};
+
 /**
  * Generate all necessary contents for the created file
  */
@@ -236,6 +258,7 @@ const generateNewFileContents = ({
     sourceModuleName,
     sourceModuleType,
     sourceModuleAlias,
+    isTypescript
 }: FileInformation) : string => {
     const importPath = getImportPath(
         resourceName,
@@ -250,6 +273,14 @@ const generateNewFileContents = ({
     const notChosenExports = allExports.filter((one) => !chosenExports.includes(one));
     const interfacesExports = chosenExports.filter((exportItem) => exportItem.type === ExportType.ts_interface);
 
+    const typescriptResult = isTypescript ? [
+        generateTSInterfaceExtend(importPath, interfacesExports),
+        ...generateTSTypes(chosenExports, sourceModuleAlias),
+        ...generateTSEnums(chosenExports, sourceModuleAlias),
+    ] : [
+        ...convertTSEnumsIntoJS(chosenExports, sourceModuleAlias)
+    ];
+
     // Generate new file: imports + exports from source + all extendables + class template + exdf + interface + types + enums
     const result = [
         generateAdditionalImportString(originalCode, defaultExportCode),
@@ -257,11 +288,9 @@ const generateNewFileContents = ({
         generateStyleImport(fileName, resourceName, resourceType, chosenStylesOption),
         generateExportsFromSource(notChosenExports),
         ...generateExtendStrings(chosenExports, sourceModuleAlias),
-        ...generateMappingsExtends(chosenExports, sourceModuleAlias),
+        ...generateMappingsExtends(chosenExports, sourceModuleAlias, isTypescript),
         generateClassExtend(chosenExports, sourceModuleAlias),
-        generateTSInterfaceExtend(importPath, interfacesExports),
-        ...generateTSTypes(chosenExports, sourceModuleAlias),
-        ...generateTSEnums(chosenExports, sourceModuleAlias),
+        ...typescriptResult,
         defaultExportCode,
     ].filter(Boolean).join('\n\n').concat('\n');
 

@@ -10,6 +10,7 @@ const extender = (resourceType) => async ({
     targetModule = process.cwd(),
     sourceModule,
     stylePostfix,
+    typescript: isTypescript,
 }) => {
     const isExtendedSuccessfully = await invokeGenerator(
         targetModule,
@@ -20,7 +21,8 @@ const extender = (resourceType) => async ({
             logger,
             userInteraction,
             sourceModule,
-            { stylePostfix }
+            { stylePostfix },
+            isTypescript
         )
     );
 
