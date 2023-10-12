@@ -143,7 +143,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
 
             updateMeta({
                 default_title,
-                title: meta_title || default_title,
+                title: meta_title,
                 default_description,
                 description: default_description,
                 default_keywords,
