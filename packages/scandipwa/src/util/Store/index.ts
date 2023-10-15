@@ -56,4 +56,24 @@ export const getStore = (): typeof store => store;
 /** @namespace Util/Store/Index/getStoreState */
 export const getStoreState = (): Partial<RootState> => store.getState() || {};
 
+/** @namespace Util/Store/Index/injectReducers */
+export function injectReducers<
+    S,
+    T extends ModifiedReduxStore<S>,
+>(store: T, reducers: Record<string, Reducer>): T {
+    // eslint-disable-next-line no-param-reassign
+    // store.asyncReducers = {};
+
+    // Inject all the static reducers into the store
+    Object.entries(reducers).forEach(
+        ([name, reducer]) => {
+            if (store.injectReducer) {
+                store.injectReducer(name, reducer);
+            }
+        },
+    );
+
+    return store;
+}
+
 export default getStore;

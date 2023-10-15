@@ -33,7 +33,9 @@ class I18n {
         this.isLoading = false;
 
         // Rerender the app for changes to get applied
-        this.rerenderApplication();
+        if (this.rerenderApplication) {
+            this.rerenderApplication();
+        }
     };
 
     /**

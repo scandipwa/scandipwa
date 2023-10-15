@@ -9,8 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ProductOption } from 'Component/Product/Product.type';
-import { IndexedCustomOption } from 'Util/Product/Product.type';
+import { IndexedCustomOption, ProductOption } from 'Util/Product/Product.type';
 
 export interface ProductCustomizableOptionsContainerProps {
     options: IndexedCustomOption[];

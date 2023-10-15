@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import { ReactElement } from 'Type/Common.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/Config';
 
 import { COOKIE_POPUP } from './CookiePopup.config';
 import { CookiePopupComponentProps, CookiePopupComponentState } from './CookiePopup.type';

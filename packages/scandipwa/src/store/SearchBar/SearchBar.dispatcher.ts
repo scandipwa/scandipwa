@@ -14,7 +14,7 @@ import { Dispatch } from 'redux';
 
 import ProductListQuery from 'Query/ProductList.query';
 import { ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
-import { QueryDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request/QueryDispatcher';
 
 import { clearSearchResults, updateLoadStatus, updateSearchBar } from './SearchBar.action';
 import { SearchBarDispatcherData } from './SearchBar.type';

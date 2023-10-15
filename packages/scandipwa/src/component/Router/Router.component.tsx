@@ -15,6 +15,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { Location } from 'history';
 import {
     cloneElement,
     ErrorInfo,
@@ -37,7 +38,8 @@ import UrlRewrites from 'Route/UrlRewrites';
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
-import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
+import { HistoryState } from 'Util/History/History.type';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 import { appendWithStoreCode, isHomePageUrl } from 'Util/Url';
 
 import {
@@ -278,7 +280,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
             name: PrintTypes.PRINT_ORDER,
         },
         {
-            component: <Route render={ ({ match }) => <UrlRewrites match={ match } /> } />,
+            component: <Route render={ ({ match }) => <UrlRewrites match={ match } location={ location as unknown as Location<HistoryState> } /> } />,
             position: 1000,
             name: RouterSwitchItemType.URL_REWRITES,
         },
@@ -337,7 +339,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         const { pathname = appendWithStoreCode('/') } = location;
 
         return (
-            <div block="Router">
+            <div block="Router" elem="HeaderFallbackWrapper">
                 <section block="Router" elem="HeaderFallback">
                     <TextPlaceholder length={ TextPlaceHolderLength.MEDIUM } />
                 </section>
@@ -371,9 +373,11 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         }
 
         return (
-            <Switch>
-                { this.renderComponentsOfType(RouterItemType.SWITCH_ITEMS_TYPE) }
-            </Switch>
+            <Suspense fallback={ null }>
+                <Switch>
+                    { this.renderComponentsOfType(RouterItemType.SWITCH_ITEMS_TYPE) }
+                </Switch>
+            </Suspense>
         );
     }
 
@@ -430,9 +434,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
                 <Meta />
                 <ReactRouter history={ history }>
                     { this.renderSectionOfType(RouterItemType.BEFORE_ITEMS_TYPE) }
-                    <Suspense fallback={ this.renderFallbackPage(true) }>
-                        { this.renderRouterContent() }
-                    </Suspense>
+                    { this.renderRouterContent() }
                 </ReactRouter>
             </>
         );

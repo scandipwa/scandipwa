@@ -14,8 +14,10 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { Page } from 'Component/Header/Header.config';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { updateIsLocked } from 'Store/MyAccount/MyAccount.action';
+import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -26,7 +28,7 @@ import {
     MyAccountTabs, MyAccountTabsSection,
 } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { scrollToTop } from 'Util/Browser';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
@@ -45,15 +47,6 @@ import {
     MyAccountTab,
 } from './MyAccount.type';
 
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-export const MyAccountDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/MyAccount/MyAccount.dispatcher'
-);
-
 /** @namespace Route/MyAccount/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): MyAccountContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile,
@@ -69,19 +62,13 @@ export const mapStateToProps = (state: RootState): MyAccountContainerMapStatePro
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountContainerMapDispatchProps => ({
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch),
-    ),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
-    requestCustomerData: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch),
-    ),
+    requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch),
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    logout: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.logout(false, false, dispatch),
-    ),
+    logout: () => MyAccountDispatcher.logout(false, false, dispatch),
     updateIsLocked: (isLocked) => dispatch(updateIsLocked(isLocked)),
 });
 

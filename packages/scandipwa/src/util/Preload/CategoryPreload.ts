@@ -11,24 +11,22 @@
 
 import { ProductListOptions } from 'Query/ProductList.type';
 import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
-import CategoryDispatcher from 'Store/Category/Category.dispatcher';
 import ProductListDispatcher from 'Store/ProductList/ProductList.dispatcher';
-import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
 import history from 'Util/History';
 import getStore from 'Util/Store';
 import { getQueryParam } from 'Util/Url';
 
-/** @namespace Util/PreLoad/CategoryPreload */
-export class CategoryPreLoad {
-    productListOptions: Partial<ProductListOptions> = {
+/** @namespace Util/Preload/CategoryPreload */
+export class CategoryPreload {
+    productListOptions = (): Partial<ProductListOptions> => ({
         isNext: false,
         isPlp: true,
         noAttributes: false,
         noVariants: false,
         args: {
             sort: {
-                sortDirection: SortDirections.ASC,
-                sortKey: window?.catalog_default_sort_by || 'position',
+                sortDirection: getQueryParam('sortDirection', history.location) as SortDirections || SortDirections.ASC,
+                sortKey: getQueryParam('sortKey', history.location) || 'position',
             },
             filter: {
                 priceRange: this.getSelectedPriceRangeFromUrl(),
@@ -39,18 +37,7 @@ export class CategoryPreLoad {
             pageSize: 24,
             currentPage: this.getPageFromUrl(),
         },
-    };
-
-    productListInfoOptions = {
-        args: {
-            filter: {
-                priceRange: this.getSelectedPriceRangeFromUrl(),
-                customFilters: this.getSelectedFiltersFromUrl(),
-                categoryIds: window.actionName?.id,
-            },
-            search: '',
-        },
-    };
+    });
 
     getPageFromUrl() {
         const { location } = history;
@@ -83,10 +70,8 @@ export class CategoryPreLoad {
     dispatch = getStore().dispatch;
 
     preloadProducts() {
-        ProductListDispatcher.handleData(this.dispatch, this.productListOptions);
-        ProductListInfoDispatcher.handleData(this.dispatch, this.productListInfoOptions);
-        CategoryDispatcher.handleData(this.dispatch, { isSearchPage: false, categoryIds: window.actionName?.id || 0 });
+        ProductListDispatcher.handleData(this.dispatch, this.productListOptions());
     }
 }
 
-export default new CategoryPreLoad();
+export default new CategoryPreload();

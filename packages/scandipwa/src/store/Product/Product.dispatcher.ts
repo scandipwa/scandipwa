@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/no-duplicate-namespaces */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -14,16 +15,13 @@ import { Dispatch } from 'redux';
 
 import ProductListQuery from 'Query/ProductList.query';
 import { ProductLink, ProductListOptions, ProductsQueryOutput } from 'Query/ProductList.type';
+import LinkedProductsDispatcher from 'Store/LinkedProducts/LinkedProducts.dispatcher';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { updateProductDetails } from 'Store/Product/Product.action';
-import { QueryDispatcher } from 'Util/Request';
+import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
+import { QueryDispatcher } from 'Util/Request/QueryDispatcher';
 
 import { ProductDispatcherData } from './Product.type';
-
-export const LinkedProductsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/LinkedProducts/LinkedProducts.dispatcher'
-);
 
 /**
  * Product List Dispatcher
@@ -63,15 +61,30 @@ export class ProductDispatcher extends QueryDispatcher<Partial<ProductListOption
             return links;
         }, []);
 
-        LinkedProductsDispatcher.then(
-            ({ default: dispatcher }) => {
-                if (product_links.length > 0) {
-                    dispatcher.handleData(dispatch, product_links);
-                } else {
-                    dispatcher.clearLinkedProducts(dispatch);
-                }
-            },
-        );
+        if (product_links.length > 0) {
+            waitForPriorityLoad().then(/** @namespace Store/Product/Dispatcher/ProductDispatcher/onSuccess/waitForPriorityLoad/then */
+                () => {
+                    import(
+                    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+                        'Store/LinkedProducts/LinkedProducts.dispatcher'
+                    ).then(/** @namespace Store/Product/Dispatcher/ProductDispatcher/onSuccess/waitForPriorityLoad/then/then */
+                        ({ default: dispatcher }) => dispatcher.handleData(dispatch, product_links),
+                    );
+                },
+            );
+        } else {
+            waitForPriorityLoad().then(/** @namespace Store/Product/Dispatcher/ProductDispatcher/onSuccess/waitForPriorityLoad/then */
+                () => {
+                    import(
+                        /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+                        'Store/LinkedProducts/LinkedProducts.dispatcher'
+                    ).then(/** @namespace Store/Product/Dispatcher/ProductDispatcher/onSuccess/waitForPriorityLoad/then/then */
+                        ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch),
+                    );
+                },
+            );
+            LinkedProductsDispatcher.clearLinkedProducts(dispatch);
+        }
 
         dispatch(updateProductDetails(product));
     }

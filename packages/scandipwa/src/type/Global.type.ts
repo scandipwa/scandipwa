@@ -11,6 +11,10 @@
 
 import { StoreEnhancer } from 'redux';
 
+import { CmsPageFields } from 'Query/CmsPage.type';
+import { Slider } from 'Query/Slider.type';
+import { CategoryDisplayMode } from 'Route/CategoryPage/CategoryPage.config';
+
 import { Mix } from './Common.type';
 
 declare global {
@@ -20,15 +24,21 @@ declare global {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         '__REDUX_DEVTOOLS_EXTENSION__'?: (options: unknown) => StoreEnhancer<unknown, unknown>;
         storeRegexText: string;
-        actionName?: {
+        actionName: {
             type?: string;
             id?: number;
             sku?: string;
             name?: string;
-            identifier?: string;
+            cmsPage?: CmsPageData;
             description?: string;
+            categoryDefaultSortBy?: string;
+            slider?: Slider;
+            display_mode?: CategoryDisplayMode;
         };
-        catalog_default_sort_by: string;
+        storeConfig?: {
+            cms_home_page: string;
+            catalog_default_sort_by: string;
+        };
         secure_base_media_url?: string;
         prefetchedImages: Record<string, HTMLImageElement>;
         storeList: Array<string>;
@@ -39,6 +49,7 @@ declare global {
         storeCurrency: string;
         isPriorityLoaded: boolean;
         isPrefetchValueUsed?: boolean;
+        metaHtml?: string;
     }
 
     interface BeforeInstallPromptEvent extends Event {
@@ -130,6 +141,12 @@ declare global {
         contact_us_content?: {
             contact_us_cms_block?: string;
         };
+    }
+
+    interface CmsPageData extends CmsPageFields {
+        page_id?: String;
+        identifier?: String;
+        url_key?: String;
     }
 
     type EmptyObject = Record<string, never>;

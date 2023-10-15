@@ -16,7 +16,7 @@ export const getFileListForResource = (
     resourceDirectory: string,
 ): Array<string> => {
     if ([ResourceType.Query].includes(extendableType)) {
-        return [`${extendableName}.query.js`];
+        return [`${extendableName}.query.ts`];
     }
 
     if ([ResourceType.Component, ResourceType.Route, ResourceType.Store].includes(extendableType)) {

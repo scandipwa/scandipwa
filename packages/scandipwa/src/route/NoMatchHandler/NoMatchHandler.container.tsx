@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
+import NoMatchDispatcher from 'Store/NoMatch/NoMatch.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
@@ -27,11 +28,6 @@ import {
     NoMatchHandlerContainerPropsKeys,
 } from './NoMatchHandler.type';
 
-export const NoMatchDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/NoMatch/NoMatch.dispatcher'
-);
-
 /** @namespace Route/NoMatchHandler/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): NoMatchHandlerContainerMapStateProps => ({
     noMatch: state.NoMatchReducer.noMatch,
@@ -40,11 +36,7 @@ export const mapStateToProps = (state: RootState): NoMatchHandlerContainerMapSta
 /** @namespace Route/NoMatchHandler/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): NoMatchHandlerContainerMapDispatchProps => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    updateNoMatch: (options) => {
-        NoMatchDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options),
-        );
-    },
+    updateNoMatch: (options) => NoMatchDispatcher.updateNoMatch(dispatch, options),
 });
 
 /** @namespace Route/NoMatchHandler/Container */

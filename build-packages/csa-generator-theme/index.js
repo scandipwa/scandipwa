@@ -141,6 +141,7 @@ const run = async (options) => {
     const reactTypesVersion = '18.0.17';
     const reactReduxVersion = '8.0.2';
     const nodeTypesVersion = '18.7.15';
+    const typescriptTransformPluginVersion = '7.20.2';
 
     try {
         scandipwaVersion = await getLatestVersion('@scandipwa/scandipwa');
@@ -203,6 +204,7 @@ const run = async (options) => {
         nodeTypesVersion,
         proxy: DEFAULT_PROXY,
         eslintConfigVersion,
+        typescriptTransformPluginVersion,
     };
 
     // create filesystem from template

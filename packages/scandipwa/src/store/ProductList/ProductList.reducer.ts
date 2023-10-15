@@ -11,7 +11,8 @@
 
 import { Reducer } from 'redux';
 
-import { getIndexedProducts } from 'Util/Product';
+import { getIndexedProducts, preloadProductImage, PRODUCTS_PRELOAD_COUNT } from 'Util/Product';
+import { getSmallImage } from 'Util/Product/Extract';
 
 import { ProductListAction, ProductListActionType, ProductListStore } from './ProductList.type';
 
@@ -43,6 +44,9 @@ export const ProductListReducer: Reducer<ProductListStore, ProductListAction> = 
         isLoading,
         args: currentArgs,
     } = action;
+    const {
+        isPrefetchValueUsed,
+    } = window;
 
     switch (type) {
     case ProductListActionType.APPEND_PAGE:
@@ -56,13 +60,22 @@ export const ProductListReducer: Reducer<ProductListStore, ProductListAction> = 
         };
 
     case ProductListActionType.UPDATE_PRODUCT_LIST_ITEMS:
+        const products = getIndexedProducts(initialItems);
+
+        // Preloading images for product cards on PLP
+        if (isPrefetchValueUsed) {
+            products.slice(0, PRODUCTS_PRELOAD_COUNT).forEach((item) => {
+                preloadProductImage(getSmallImage(item));
+            });
+        }
+
         return {
             ...state,
             currentArgs,
             isLoading: false,
             totalItems,
             totalPages,
-            pages: { [currentPage]: getIndexedProducts(initialItems) },
+            pages: { [currentPage]: products },
         };
 
     case ProductListActionType.UPDATE_PAGE_LOAD_STATUS:

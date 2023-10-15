@@ -18,10 +18,11 @@ import MyAccountQuery from 'Query/MyAccount.query';
 import {
     ConfirmAccountOptions, CreateAccountOptions, Customer, ResetPasswordOptions, SignInOptions,
 } from 'Query/MyAccount.type';
-import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
+import { AccountPageUrl, CUSTOMER } from 'Route/MyAccount/MyAccount.config';
 import {
     SendConfirmationStatus,
 } from 'Route/SendConfirmationPage/SendConfirmationPage.config';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import {
     updateCustomerDetails,
     updateCustomerPasswordForgotStatus,
@@ -34,40 +35,22 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType, ShowNotificationAction } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { clearComparedProducts } from 'Store/ProductCompare/ProductCompare.action';
-import {
-    deleteAuthorizationToken,
-    getAuthorizationToken,
-    GRAPHQL_AUTH,
-    isSignedIn,
-    setAuthorizationToken,
-} from 'Util/Auth';
+import ProductCompareDispatcher from 'Store/ProductCompare/ProductCompare.dispatcher';
+import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
+import { GRAPHQL_AUTH } from 'Util/Auth/Config';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
+import { deleteAuthorizationToken, getAuthorizationToken, setAuthorizationToken } from 'Util/Auth/Token';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteCartId, getCartId, setCartId } from 'Util/Cart';
 import { removeUid } from 'Util/Compare';
 import history from 'Util/History';
 import { prepareQuery } from 'Util/Query';
-import { executePost, fetchMutation, getErrorMessage } from 'Util/Request';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/Config';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
+import { executePost } from 'Util/Request/Request';
 
 import { UpdateCustomerPasswordForgotStatusAction, UpdateCustomerPasswordResetStatusAction } from './MyAccount.type';
-
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
-
-export const WishlistDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Wishlist/Wishlist.dispatcher'
-);
-
-export const ProductCompareDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ProductCompare/ProductCompare.dispatcher'
-);
-
-export const CUSTOMER = 'customer';
-
-export const ONE_MONTH_IN_SECONDS = 2628000;
 
 /**
  * My account actions
@@ -135,15 +118,9 @@ export class MyAccountDispatcher {
 
         // After logout cart, wishlist and compared product list is always empty.
         // There is no need to fetch it from the backend.
-        CartDispatcher.then(
-            ({ default: dispatcher }) => {
-                dispatcher.resetGuestCart(dispatch);
-                dispatcher.createGuestEmptyCart(dispatch);
-            },
-        );
-        WishlistDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.resetWishlist(dispatch),
-        );
+        CartDispatcher.resetGuestCart(dispatch);
+        CartDispatcher.createGuestEmptyCart(dispatch);
+        WishlistDispatcher.resetWishlist(dispatch);
 
         dispatch(clearComparedProducts());
         dispatch(updateCustomerDetails({}));
@@ -297,26 +274,21 @@ export class MyAccountDispatcher {
 
         setAuthorizationToken(token);
 
-        ProductCompareDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.assignCompareList(dispatch),
-        );
+        ProductCompareDispatcher.assignCompareList(dispatch);
 
-        const cartDispatcher = (await CartDispatcher).default;
         const guestCartToken = getCartId() || '';
         // if customer is authorized, `createEmptyCart` mutation returns customer cart token
-        const customerCartToken = await cartDispatcher.createGuestEmptyCart(dispatch) || '';
+        const customerCartToken = await CartDispatcher.createGuestEmptyCart(dispatch) || '';
 
         if (guestCartToken && guestCartToken !== customerCartToken) {
             // merge guest cart id and customer cart id using magento capabilities
-            await cartDispatcher.mergeCarts(guestCartToken, customerCartToken, dispatch);
+            CartDispatcher.mergeCarts(guestCartToken, customerCartToken, dispatch);
         }
 
         setCartId(customerCartToken);
-        cartDispatcher.updateInitialCartData(dispatch, true);
+        CartDispatcher.updateInitialCartData(dispatch, true);
 
-        WishlistDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch),
-        );
+        WishlistDispatcher.updateInitialWishlistData(dispatch);
 
         await this.requestCustomerData(dispatch);
 
@@ -349,9 +321,7 @@ export class MyAccountDispatcher {
         }
 
         BrowserDatabase.deleteItem(CUSTOMER);
-        CartDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.resetGuestCart(dispatch),
-        );
+        CartDispatcher.resetGuestCart(dispatch);
     }
 }
 

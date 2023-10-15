@@ -10,35 +10,44 @@
  */
 
 import { UrlRewritePageType } from 'Route/UrlRewrites/UrlRewrites.config';
+import ProductReducer from 'Store/Product/Product.reducer';
+import ProductListReducer from 'Store/ProductList/ProductList.reducer';
+import getStore, { injectReducers } from 'Util/Store';
 
 import CategoryPreload from './CategoryPreload';
-import CmsPagePreload from './CmsPagePreload';
 import ProductPreload from './ProductPreload';
+
+injectReducers(getStore(), {
+    ProductReducer,
+    ProductListReducer,
+});
 
 const { actionName: { type = '' } = {} } = window;
 
 export const criticalChunkLoad = {
     CategoryChunk: {
         test: type === UrlRewritePageType.CATEGORY,
-        importChunk: () => {
-            import(/* webpackChunkName: "category", webpackMode: "lazy" */ 'Route/CategoryPage');
-            CategoryPreload.preloadProducts();
-        },
+        importChunk: () => CategoryPreload.preloadProducts(),
     },
     CmsChunk: {
-        // Request CMS chunk also on homepage visit
         test: type === UrlRewritePageType.CMS_PAGE,
         importChunk: () => {
-            import(/* webpackChunkName: "cms", webpackMode: "lazy" */ 'Route/CmsPage');
-            CmsPagePreload.preloadCms();
+            const {
+                actionName: {
+                    cmsPage: {
+                        content = '',
+                    } = {},
+                } = {},
+            } = window;
+
+            if (!content.trim().length) {
+                window.isPriorityLoaded = true;
+            }
         },
     },
     ProductChunk: {
         test: type === UrlRewritePageType.PRODUCT,
-        importChunk: () => {
-            import(/* webpackChunkName: "product", webpackMode: "lazy" */ 'Route/ProductPage');
-            ProductPreload.preloadProduct();
-        },
+        importChunk: () => ProductPreload.preloadProduct(),
     },
 };
 

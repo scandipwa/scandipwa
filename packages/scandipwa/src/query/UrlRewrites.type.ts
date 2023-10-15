@@ -17,6 +17,7 @@ export interface UrlRewritesOutput {
     type: GQLUrlRewriteEntityTypeEnum;
     id: number;
     display_mode: CategoryDisplayMode;
+    sort_by: string;
 }
 
 export interface UrlRewritesQueryOptions {

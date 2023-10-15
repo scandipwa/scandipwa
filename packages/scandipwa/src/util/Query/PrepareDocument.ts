@@ -11,7 +11,7 @@
 
 import { AbstractField, Mutation, Query } from '@tilework/opus';
 
-import { QueryObject, QueryVariables } from 'Util/Request';
+import { QueryObject, QueryVariables } from 'Util/Request/Request';
 
 import { FieldType } from './Query.type';
 

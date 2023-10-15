@@ -17,17 +17,14 @@ import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryProductList from 'Component/CategoryProductList';
 import { CategorySortField } from 'Component/CategorySort/CategorySort.type';
 import ContentWrapper from 'Component/ContentWrapper';
-import FilterIcon from 'Component/FilterIcon';
-import GridIcon from 'Component/GridIcon';
-import Html from 'Component/Html';
-import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { lowPriorityLazy } from 'Util/Request/LowPriorityLoad';
+import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 
 import {
     CategoryDisplayMode,
@@ -41,8 +38,17 @@ import './CategoryPage.style';
 export const CategoryFilterOverlay = lowPriorityLazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "overlays-category" */ 'Component/CategoryFilterOverlay'
 ));
+export const FilterIcon = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "category-misc" */ 'Component/FilterIcon'
+));
+export const GridIcon = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "category-misc" */ 'Component/GridIcon'
+));
+export const ListIcon = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "category-misc" */ 'Component/ListIcon'
+));
 export const CategorySort = lowPriorityLazy(() => import(
-    /* webpackMode: "lazy", webpackChunkName: "overlays-category" */ 'Component/CategorySort'
+    /* webpackMode: "lazy", webpackChunkName: "category-misc" */ 'Component/CategorySort'
 ));
 
 /** @namespace Route/CategoryPage/Component */
@@ -115,11 +121,12 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
             category,
             isCurrentCategoryLoaded,
         } = this.props;
+        const { isPrefetchValueUsed } = window;
 
         return (
             <CategoryDetails
               category={ category }
-              isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
+              isCurrentCategoryLoaded={ isPrefetchValueUsed || isCurrentCategoryLoaded }
             />
         );
     }
@@ -163,7 +170,9 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
               elem="Filter"
               onClick={ onFilterButtonClick }
             >
-                <FilterIcon />
+                <Suspense fallback={ <div block="CategoryPage" elem="FilterPlaceholder" /> }>
+                    <FilterIcon />
+                </Suspense>
                 <span>{ __('Filters') }</span>
                 { this.renderFiltersCount() }
             </button>
@@ -256,7 +265,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         }
 
         return (
-            <Suspense fallback={ null }>
+            <Suspense fallback={ <div block="CategoryPage" elem="CategorySortPlaceholder" /> }>
                 <CategorySort
                   isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
                   isMatchingInfoFilter={ isMatchingInfoFilter }
@@ -289,7 +298,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
                   } }
                   aria-label="grid"
                 >
-                    <GridIcon isActive={ activeLayoutType === CategoryPageLayout.GRID } />
+                    <Suspense fallback={ null }><GridIcon isActive={ activeLayoutType === CategoryPageLayout.GRID } /></Suspense>
                 </button>
             );
         case CategoryPageLayout.LIST:
@@ -303,7 +312,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
                   } }
                   aria-label="list"
                 >
-                    <ListIcon isActive={ activeLayoutType === CategoryPageLayout.LIST } />
+                    <Suspense fallback={ null }><ListIcon isActive={ activeLayoutType === CategoryPageLayout.LIST } /></Suspense>
                 </button>
             );
         default:
@@ -357,6 +366,8 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         const { activeLayoutType } = this.state;
 
         if (!this.displayProducts()) {
+            setLoadedFlag();
+
             return null;
         }
 
@@ -398,9 +409,9 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
             <div
               block="CategoryPage"
               elem="CMS"
-            >
-                <Html content={ content } />
-            </div>
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={ { __html: content } }
+            />
         );
     }
 

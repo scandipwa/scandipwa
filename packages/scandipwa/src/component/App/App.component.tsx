@@ -17,10 +17,10 @@ import { Provider as UnstatedProvider } from 'unstated-typescript';
 import Router from 'Component/Router';
 import SharedTransition from 'Component/SharedTransition';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
-import injectStaticReducers from 'Store/index';
+import { getStaticReducers } from 'Store/index';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
-import getStore from 'Util/Store';
+import getStore, { injectReducers } from 'Util/Store';
 
 import { AppComponentState } from './App.type';
 
@@ -73,7 +73,7 @@ export class AppComponent extends PureComponent<unknown, AppComponentState> {
     configureStore(): void {
         const store = getStore();
 
-        injectStaticReducers(store);
+        injectReducers(store, getStaticReducers());
 
         this.reduxStore = store;
     }

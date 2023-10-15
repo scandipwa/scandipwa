@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import ContactFormDispatcher from 'Store/ContactForm/ContactForm.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import { GQLContactForm } from 'Type/Graphql.type';
 import { FieldData } from 'Util/Form/Form.type';
@@ -28,11 +29,6 @@ import {
     ContactFormContainerProps,
 } from './ContactForm.type';
 
-export const ContactFormDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ContactForm/ContactForm.dispatcher'
-);
-
 /** @namespace Component/ContactForm/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ContactFormContainerMapStateProps => ({
     isLoading: state.ContactFormReducer.isLoading,
@@ -40,9 +36,7 @@ export const mapStateToProps = (state: RootState): ContactFormContainerMapStateP
 
 /** @namespace Component/ContactForm/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ContactFormContainerMapDispatchProps => ({
-    sendMessage: (data) => ContactFormDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.prepareRequest(data, dispatch),
-    ),
+    sendMessage: (data) => ContactFormDispatcher.prepareRequest(data, dispatch),
 });
 
 /** @namespace Component/ContactForm/Container */

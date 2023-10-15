@@ -107,7 +107,7 @@ export const appendWithStoreCode = (pathname: string): string => {
 /**
  * Get query variable value (from react router)
  * @param {String} variable Variable from URL
- * @param {Object} variable location object from react-router
+ * @param {Object} location location object from react-router
  * @return {String|false} Variable value
  * @namespace Util/Url/getQueryParam
  */

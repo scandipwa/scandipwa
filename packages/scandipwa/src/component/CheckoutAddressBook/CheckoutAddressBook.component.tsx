@@ -20,7 +20,7 @@ import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import { getDefaultAddressLabel } from 'Util/Address';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 
 import { CheckoutAddressBookComponentProps, CheckoutAddressBookComponentState } from './CheckoutAddressBook.type';
 

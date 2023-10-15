@@ -18,7 +18,9 @@ import Image from 'Component/Image';
 import { ImageRatio } from 'Component/Image/Image.type';
 import Slider from 'Component/Slider';
 import { ReactElement } from 'Type/Common.type';
-import { debounce } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
+import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
+import { AfterPriority } from 'Util/Request/LowPriorityRender';
 
 import {
     SliderWidgetComponentProps,
@@ -38,7 +40,7 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
         slider: {},
     };
 
-    changeSlideDebounced?: () => void;
+    changeSlideDebounced!: () => void;
 
     state: SliderWidgetComponentState = {
         activeImage: 0,
@@ -55,8 +57,8 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
         prevProps: SliderWidgetComponentProps,
         prevState: SliderWidgetComponentState,
     ): void {
-        const { slider: { slideSpeed, slides } } = this.props;
-        const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
+        const { slider: { slide_speed: slideSpeed, slides } } = this.props;
+        const { slider: { slide_speed: prevSlideSpeed } } = prevProps;
 
         const { activeImage } = this.state;
         const { activeImage: prevActiveImage } = prevState;
@@ -67,11 +69,14 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
 
         if (slideSpeed !== prevSlideSpeed && slides?.length !== 1) {
             this.changeSlideDebounced = debounce(this.changeSlide.bind(this), slideSpeed);
-            this.changeSlideDebounced();
+            waitForPriorityLoad().then(
+                /** @namespace Component/SliderWidget/Component/SliderWidgetComponent/componentDidUpdate/waitForPriorityLoad/then */
+                () => this.changeSlideDebounced(),
+            );
         }
 
         if (prevActiveImage !== activeImage) {
-            this.changeSlideDebounced?.();
+            this.changeSlideDebounced();
         }
     }
 
@@ -122,7 +127,8 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
         return `/${desktop_image}`;
     }
 
-    renderSlide(slide: SlideWithPlaceholder, i: number): ReactElement {
+    renderSlideImage(slide: SlideWithPlaceholder, i: number): JSX.Element {
+        const { onLoad } = this.props;
         const {
             slide_text,
             isPlaceholder,
@@ -140,6 +146,7 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
                   ratio={ ImageRatio.IMG_CUSTOM }
                   src={ this.getSlideImage(slide) }
                   isPlaceholder={ isPlaceholder }
+                  onImageLoad={ onLoad }
                 />
                 <figcaption
                   block="SliderWidget"
@@ -150,6 +157,21 @@ export class SliderWidgetComponent extends PureComponent<SliderWidgetComponentPr
                 </figcaption>
             </figure>
         );
+    }
+
+    renderSlide(slide: SlideWithPlaceholder, i: number): ReactElement {
+        const { activeImage } = this.state;
+        const { isPriorityLoaded } = window;
+
+        if (activeImage !== i && !isPriorityLoaded) {
+            return (
+                <AfterPriority fallback={ <div /> }>
+                    { this.renderSlideImage(slide, i) }
+                </AfterPriority>
+            );
+        }
+
+        return this.renderSlideImage(slide, i);
     }
 
     render(): ReactElement {

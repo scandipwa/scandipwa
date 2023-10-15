@@ -7,7 +7,7 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 // TODO update this import when action is done
 import { action } from 'Store/Placeholder/Placeholder.action';
 import { NetworkError } from 'Type/Common.type';
-import { QueryDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request/QueryDispatcher';
 
 import { PlaceholderDispatcherData } from './Placeholder.type';
 

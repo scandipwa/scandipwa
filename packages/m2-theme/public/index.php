@@ -41,25 +41,70 @@ $icons = $this->getAppIconData();
             sku: `<?= $this->getSku(); ?>` || null,
             name: `<?= $this->getName(); ?>`,
             display_mode: `<?= $this->getDisplayMode(); ?>`,
-            identifier: `<?= $this->getIdentifier(); ?>`,
-            description: `<?= $this->getDescription(); ?>`
+            cmsPage: <?= json_encode($this->getCmsPage()); ?> || {},
+            description: `<?= $this->getDescription(); ?>`,
+            slider: <?= json_encode($this->getSlider()); ?> || {},
+            categoryDefaultSortBy: `<?= $this->getCategoryDefaultSortBy(); ?>`,
         };
         window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
         window.storeCurrency = '<?= $this->getStoreCurrency() ?>';
-        window.catalog_default_sort_by = '<?= $this->getCatalogDefaultSortBy() ?>';
+        window.storeConfig = <?= json_encode($this->getStoreConfig()); ?> || {};
 
         // Multistore
         // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
         window.storeList = JSON.parse(`<?= $this->getStoreListJson() ?>`).sort().reverse();
         window.storeRegexText = `/(${window.storeList.join('|')})?`;
         window.website_code = '<?= $this->getWebsiteCode() ?>';
+        window.metaHtml = `
+            <!-- Manifest -->
+            <link rel="manifest" href="/media/webmanifest/manifest.json">
+        `;
     </script>
+    <script>
+        // This script is made for preloading chunks and images
+        const chunkValidator = {
+		    // vvv Preload pages conditionaly
+            category: window.actionName.type === 'CATEGORY',
+            cms: window.actionName.type === 'CMS_PAGE',
+            product: window.actionName.type === 'PRODUCT',
+            'widget-slider': window.actionName.type === 'CMS_PAGE' && Object.keys(window.actionName.slider).length,
+            // vvv Always preload current locale
+            [window.defaultLocale]: true,
+            render: true
+        };
 
-    <!-- Preload i18n chunk for the store -->
-    <link rel="preload" as="script" href="<?= $this->getLocaleChunkUrl() ?>">
+        const appendPreloadLink = (chunk) => {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'script';
+            link.href = chunk;
+            document.head.appendChild(link);
+        }
 
-    <!-- Font -->
-    <!-- <link rel="stylesheet" href="https://use.typekit.net/fji5tuz.css"> -->
+        if (window.preloadData) {
+            Object.entries(window.preloadData).forEach(([key, chunks]) => {
+                if (chunkValidator[key]) {
+                    chunks.forEach((c) => appendPreloadLink(c));
+                }
+            });
+        }
+
+        const { actionName: { slider: { slides } = {}, slider = {} } } = window;
+
+        // Preload for slider first image
+        if (Object.keys(slider).length) {
+            const [{ desktop_image, mobile_image }] = slides;
+
+            const imageUrl = window.matchMedia('(max-width: 810px)').matches && window.matchMedia('screen').matches ? mobile_image : desktop_image;
+
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'image';
+            link.href = `/${imageUrl}`;
+
+            document.head.appendChild(link);
+        }
+    </script>
 
     <!-- Icons -->
     <link rel="shortcut icon" href="/media/favicon/favicon.png">
@@ -75,9 +120,6 @@ $icons = $this->getAppIconData();
     <?php foreach ($icons['icon'] as $icon) : ?>
         <?= sprintf('<link rel="icon" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
     <?php endforeach; ?>
-
-    <!-- Manifest -->
-    <link rel="manifest" href="/media/webmanifest/manifest.json">
     <style>
         <?php if ($colorConfig['enable_color_customization']['enable_custom_colors'] !== "0") : ?><?php $colorArray = $colorConfig['primary_colors'] + $colorConfig['secondary_colors']; ?> :root {
             <?php foreach ($colorArray as $code => $color) : ?><?php if (strpos($code, 'color') !== false) : ?><?= sprintf('--imported_%s: #%s;', $code, $color); ?><?php endif; ?><?php endforeach; ?>

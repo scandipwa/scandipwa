@@ -98,6 +98,7 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
             product: {
                 type_id: baseType,
             } = {},
+            inStock,
         } = this.props;
 
         const {
@@ -107,6 +108,10 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
 
         if (!priceRange) {
             return this.renderTextPlaceholder();
+        }
+
+        if (baseType === ProductType.CONFIGURABLE && !inStock) {
+            return null;
         }
 
         // If product is not a variant.
@@ -354,6 +359,7 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
         if (
             type !== ProductType.CONFIGURABLE
             || !Object.keys(this.getConfigurableAttributes()).length
+            || !inStock
         ) {
             return null;
         }

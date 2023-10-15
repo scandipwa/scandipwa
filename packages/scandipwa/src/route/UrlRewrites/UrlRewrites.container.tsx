@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import UrlRewritesDispatcher from 'Store/UrlRewrites/UrlRewrites.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
@@ -31,16 +32,6 @@ import {
     UrlRewriteTypeSpecificProps,
 } from './UrlRewrites.type';
 
-export const UrlRewritesDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/UrlRewrites/UrlRewrites.dispatcher'
-);
-
-export const NoMatchDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/NoMatch/NoMatch.dispatcher'
-);
-
 /** @namespace Route/UrlRewrites/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): UrlRewritesContainerMapStateProps => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
@@ -50,11 +41,7 @@ export const mapStateToProps = (state: RootState): UrlRewritesContainerMapStateP
 
 /** @namespace Route/UrlRewrites/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): UrlRewritesContainerMapDispatchProps => ({
-    requestUrlRewrite: (urlParam) => {
-        UrlRewritesDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, { urlParam }),
-        );
-    },
+    requestUrlRewrite: (urlParam) => UrlRewritesDispatcher.handleData(dispatch, { urlParam }),
 });
 
 /** @namespace Route/UrlRewrites/Container */
@@ -79,8 +66,9 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
         this.initialUrl = location.pathname;
     }
 
-    componentDidUpdate(): void {
-        const { isLoading } = this.props;
+    componentDidUpdate(prevProps: UrlRewritesContainerProps): void {
+        const { isLoading, location: { pathname } } = this.props;
+        const { location: { pathname: prevPathname } } = prevProps;
 
         /**
          * If the latest requested URL rewrite is not related
@@ -95,6 +83,10 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
          * Make sure that PDP & PLP url don't have "/" in the end
          */
         this.redirectToCorrectUrl();
+
+        if (pathname !== prevPathname) {
+            window.isPrefetchValueUsed = false;
+        }
     }
 
     redirectToCorrectUrl(): void {
@@ -122,6 +114,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
         const {
             actionName: {
                 id: actionNameId,
+                display_mode: preloadDisplayMode,
             } = {},
             isPrefetchValueUsed,
         } = window;
@@ -130,6 +123,7 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
                 id = isPrefetchValueUsed ? actionNameId : undefined,
                 sku,
                 display_mode,
+                sort_by,
             },
         } = this.props;
 
@@ -183,7 +177,8 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
                     if (category && category !== true) {
                         return {
                             categoryIds: category,
-                            displayMode,
+                            displayMode: isPrefetchValueUsed ? preloadDisplayMode : displayMode,
+                            sort_by,
                         };
                     }
                 }
@@ -192,8 +187,9 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
             }
 
             return {
-                categoryIds: id,
-                displayMode: display_mode,
+                categoryIds: isPrefetchValueUsed && this.initialUrl === location.pathname ? window.actionName.id : id,
+                displayMode: isPrefetchValueUsed ? preloadDisplayMode : display_mode,
+                sort_by,
             };
         case UrlRewritePageType.NOTFOUND:
         default:
@@ -210,10 +206,12 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
     getProps(): UrlRewriteProps {
         const {
             match,
+            location,
         } = this.props;
 
         return {
             match,
+            location,
             ...this.getTypeSpecificProps(),
         };
     }

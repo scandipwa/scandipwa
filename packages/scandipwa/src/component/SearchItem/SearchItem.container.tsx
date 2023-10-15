@@ -27,11 +27,6 @@ import {
     SearchItemContainerProps,
 } from './SearchItem.type';
 
-export const SearchBarDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/SearchBar/SearchBar.dispatcher'
-);
-
 /** @namespace Component/SearchItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): SearchItemContainerMapDispatchProps => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),

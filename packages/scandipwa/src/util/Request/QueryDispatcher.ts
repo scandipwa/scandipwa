@@ -18,8 +18,7 @@ import { CancelablePromise } from 'Util/Promise/Promise.type';
 import { prepareQuery } from 'Util/Query';
 import { executeGet, listenForBroadCast } from 'Util/Request/Request';
 
-export const ONE_MONTH_IN_SECONDS = 2592000;
-export const FIVE_MINUTES_IN_SECONDS = 300;
+import { ONE_MONTH_IN_SECONDS } from './Config';
 
 /**
  * Abstract request dispatcher.
@@ -58,12 +57,17 @@ export abstract class QueryDispatcher<Options, Data, Error = NetworkError | Netw
             return;
         }
 
+        if (this.controller) {
+            this.controller.abort();
+        }
+
         const queries = rawQueries instanceof Query ? [rawQueries] : rawQueries;
 
         this.controller = new AbortController();
+        const { signal } = this.controller;
 
         try {
-            this.promise = await executeGet(prepareQuery(queries), name, cacheTTL, this.controller.signal);
+            this.promise = await executeGet(prepareQuery(queries), name, cacheTTL, signal);
 
             if (this.promise) {
                 this.onSuccess(this.promise, dispatch, options);
@@ -75,6 +79,7 @@ export abstract class QueryDispatcher<Options, Data, Error = NetworkError | Netw
                 }
             }
         }
+
         const broadcast = await listenForBroadCast<Data>(name);
 
         this.onUpdate(broadcast, dispatch, options);

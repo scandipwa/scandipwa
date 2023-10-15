@@ -44,7 +44,7 @@ export class CheckoutDeliveryOptionsComponent extends PureComponent<CheckoutDeli
 
         return (
             <CheckoutDeliveryOption
-              key={ carrier_code }
+              key={ `${carrier_code}-${method_code}` }
               isSelected={ isSelected }
               option={ option }
               onClick={ selectShippingMethod }

@@ -23,7 +23,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { scrollToTop } from 'Util/Browser';
 import {
     getCartShippingPrice,
@@ -45,11 +45,6 @@ import {
     CartOverlayContainerProps,
     CartOverlayContainerState,
 } from './CartOverlay.type';
-
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
 
 /** @namespace Component/CartOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): CartOverlayContainerMapStateProps => ({

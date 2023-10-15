@@ -11,15 +11,13 @@
 
 import { Reducer } from 'redux';
 
-import history from 'Util/History';
-
 import { UrlRewritesAction, UrlRewritesActionType, UrlRewritesStore } from './UrlRewrites.type';
 
 /** @namespace Store/UrlRewrites/Reducer/getInitialState */
 export const getInitialState = (): UrlRewritesStore => ({
     urlRewrite: {},
     isLoading: false,
-    requestedUrl: history.location.pathname,
+    requestedUrl: window.isPrefetchValueUsed ? location.pathname : '',
 });
 
 /** @namespace Store/UrlRewrites/Reducer/UrlRewritesReducer */

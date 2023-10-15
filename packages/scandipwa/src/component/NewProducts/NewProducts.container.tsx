@@ -20,7 +20,7 @@ import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
 import { getIndexedProducts } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
-import { executeGet } from 'Util/Request';
+import { executeGet } from 'Util/Request/Request';
 import { RootState } from 'Util/Store/Store.type';
 
 import NewProducts from './NewProducts.component';

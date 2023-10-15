@@ -15,19 +15,21 @@ import { Dispatch } from 'redux';
 
 import { ProductType } from 'Component/Product/Product.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
+import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { ADD_TO_CART } from 'Util/Product';
 import { getMaxQuantity, getMinQuantity, getProductInStock } from 'Util/Product/Extract';
 import { IndexedVariant, ProductTransformData, StockCheckProduct } from 'Util/Product/Product.type';
 import { getSelectedOptions, magentoProductTransform } from 'Util/Product/Transform';
-import { Debouncer } from 'Util/Request';
+import { Debouncer } from 'Util/Request/Debounce';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -43,15 +45,6 @@ import {
     WishlistItemContainerState,
 } from './WishlistItem.type';
 
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
-export const WishlistDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Wishlist/Wishlist.dispatcher'
-);
-
 /** @namespace Component/WishlistItem/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): WishlistItemContainerMapStateProps => ({
     isMobile: state.ConfigReducer.device.isMobile,
@@ -61,15 +54,9 @@ export const mapStateToProps = (state: RootState): WishlistItemContainerMapState
 /** @namespace Component/WishlistItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): WishlistItemContainerMapDispatchProps => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options),
-    ),
-    updateWishlistItem: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options),
-    ),
-    removeFromWishlist: (options) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options),
-    ),
+    addProductToCart: (options) => CartDispatcher.addProductToCart(dispatch, options),
+    updateWishlistItem: (options) => WishlistDispatcher.updateWishlistItem(dispatch, options),
+    removeFromWishlist: (options) => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
 });
 

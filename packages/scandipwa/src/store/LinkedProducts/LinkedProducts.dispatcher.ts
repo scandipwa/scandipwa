@@ -24,17 +24,17 @@ import { NetworkError } from 'Type/Common.type';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
 import { IndexedProduct } from 'Util/Product/Product.type';
-import { fetchQuery, QueryDispatcher } from 'Util/Request';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/Config';
+import { fetchQuery } from 'Util/Request/Query';
+import { QueryDispatcher } from 'Util/Request/QueryDispatcher';
 
+import { LINKED_PRODUCTS } from './LinkedProducts.reducer';
 import {
     LinkedProducts,
     LinkedProductsDispatcherData,
     LinkedProductsMap,
     LinkedProductType,
 } from './LinkedProducts.type';
-
-export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';
 
 /**
  * Linked Prodcts List Dispatcher

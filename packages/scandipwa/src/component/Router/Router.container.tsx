@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/use-namespace */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -23,6 +24,7 @@ import {
     isMobileClientHints,
     isUsingClientHints,
 } from 'Util/Mobile';
+import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
 import { RootState } from 'Util/Store/Store.type';
 
 import Router from './Router.component';
@@ -35,27 +37,6 @@ import {
     RouterContainerPropsKeys,
     RouterContainerState,
 } from './Router.type';
-
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
-export const ConfigDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Config/Config.dispatcher'
-);
-export const WishlistDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Wishlist/Wishlist.dispatcher'
-);
-export const ProductCompareDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ProductCompare/ProductCompare.dispatcher'
-);
-export const MyAccountDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/MyAccount/MyAccount.dispatcher'
-);
 
 /** @namespace Component/Router/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): RouterContainerMapStateProps => ({
@@ -78,25 +59,31 @@ export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispat
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    init: async () => {
-        ConfigDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, undefined),
-        );
-
-        const { default: dispatcher } = await MyAccountDispatcher;
-
-        await dispatcher.handleCustomerDataOnInit(dispatch);
-
-        WishlistDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch),
-        );
-        CartDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch),
-        );
-        ProductCompareDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch),
-        );
-    },
+    init: () => waitForPriorityLoad().then(
+        /** @namespace Component/Router/Container/mapDispatchToProps/waitForPriorityLoad/then */
+        () => {
+            import(
+                /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+                'Store/Config/Config.dispatcher'
+            ).then(({ default: dispatcher }) => dispatcher.handleData(dispatch, undefined));
+            import(
+                /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+                'Store/Wishlist/Wishlist.dispatcher'
+            ).then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
+            import(
+                /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+                'Store/MyAccount/MyAccount.dispatcher'
+            ).then(({ default: dispatcher }) => dispatcher.handleCustomerDataOnInit(dispatch));
+            import(
+                /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+                'Store/Cart/Cart.dispatcher'
+            ).then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch));
+            import(
+                /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+                'Store/ProductCompare/ProductCompare.dispatcher'
+            ).then(({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch));
+        },
+    ),
 });
 
 /** @namespace Component/Router/Container */

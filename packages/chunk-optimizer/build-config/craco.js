@@ -3,40 +3,33 @@ const {
     getLoader, loaderByName, removeLoaders, addBeforeLoaders,
 } = require('@tilework/mosaic-craco');
 
+const { PreloadPlugin } = require('./preload.js');
+
+// const CircularDependencyPlugin = require('circular-dependency-plugin');
+
 module.exports = {
     plugin: {
         overrideWebpackConfig: ({ webpackConfig }) => {
+            webpackConfig.node = false;
+
+            // webpackConfig.plugins.push(new CircularDependencyPlugin({
+            //     exclude: /node_modules/,
+            //     include: /src/,
+            //     failOnError: true,
+            //     allowAsyncCycles: false,
+            // }));
+
+            webpackConfig.plugins.push(new PreloadPlugin());
+
+            // inline entrypoint
             webpackConfig.plugins.forEach((plugin) => {
                 if (plugin.tests) {
                     plugin.tests.push(/main.+[.]js/);
                 }
             });
 
-            if (!webpackConfig.optimization.splitChunks) {
-                webpackConfig.optimization.splitChunks = {};
-            }
-
             webpackConfig.optimization.splitChunks.chunks = 'async';
-
-            if (!webpackConfig.optimization.splitChunks.cacheGroups) {
-                webpackConfig.optimization.splitChunks.cacheGroups = {};
-            }
-
-            webpackConfig.optimization.splitChunks.cacheGroups.reactDom = {
-                test: /[\\/]react-dom[\\/]/i,
-                name: 'react-dom',
-            };
-
-            webpackConfig.optimization.splitChunks.cacheGroups.redux = {
-                test: /[\\/]redux|react-redux[\\/]/,
-                name: 'redux',
-            };
-
-            webpackConfig.optimization.splitChunks.cacheGroups.history = {
-                test: /[\\/]react-property[\\/]/i,
-                name: 'react-property',
-                chunks: 'all',
-            };
+            // webpackConfig.optimization.splitChunks.minSize = 100000; // 100kb => 10kb (Gzip)
 
             const { isFound: isStyleLoaderFound, match: styleLoader } = getLoader(
                 webpackConfig,

@@ -31,6 +31,8 @@ export class TranslateOnCursorMoveComponent extends PureComponent<TranslateOnCur
 
     componentDidMount(): void {
         window.addEventListener('resize', this.handleLoad);
+
+        this.handleLoad();
     }
 
     componentDidUpdate(prevProps: TranslateOnCursorMoveComponentProps): void {
@@ -119,9 +121,6 @@ export class TranslateOnCursorMoveComponent extends PureComponent<TranslateOnCur
         return (
             <div
               block="TranslateOnCursorMove"
-              // TODO: investigate why does this work ???
-              // eslint-disable-next-line react/no-unknown-property
-              onLoad={ this.handleLoad }
               onMouseMove={ this.handleMouseMove }
               ref={ this.ref }
             >

@@ -9,10 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { Buffer } from 'buffer';
-
 /** @namespace Util/Base64/encodeBase64 */
-export const encodeBase64 = (data: string): string => Buffer.from(data).toString('base64');
+export const encodeBase64 = (data: string): string => btoa(data);
 
 /** @namespace Util/Base64/decodeBase64 */
-export const decodeBase64 = (data: string): string => Buffer.from(data, 'base64').toString('utf8');
+export const decodeBase64 = (data: string): string => atob(data);

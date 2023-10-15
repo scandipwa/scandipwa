@@ -16,23 +16,22 @@ import { CartAddress, CartItem, CartTotals as QuoteData } from 'Query/Cart.type'
 import { ProductLink } from 'Query/ProductList.type';
 import { updateIsLoadingCart, updateTotals } from 'Store/Cart/Cart.action';
 import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
+import LinkedProductsDispatcher from 'Store/LinkedProducts/LinkedProducts.dispatcher';
 import { LinkedProductType } from 'Store/LinkedProducts/LinkedProducts.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { NetworkError } from 'Type/Common.type';
 import { getRegionIdOfRegionName } from 'Util/Address';
-import { getAuthorizationToken, isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
+import { getAuthorizationToken } from 'Util/Auth/Token';
 import { getCartId, setCartId } from 'Util/Cart';
-import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchMutation } from 'Util/Request/Mutation';
+import { fetchQuery } from 'Util/Request/Query';
 
 import { AddProductToCartOptions, CheckoutAddress, UpdateProductInCartOptions } from './Cart.type';
 
 export const CURRENT_WEBSITE = 'base';
-
-export const LinkedProductsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/LinkedProducts/LinkedProducts.dispatcher'
-);
 
 /**
  * Product Cart Dispatcher
@@ -353,18 +352,12 @@ export class CartDispatcher {
             }, []);
 
             if (product_links.length !== 0) {
-                LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.fetchCrossSellProducts(dispatch, product_links),
-                );
+                LinkedProductsDispatcher.fetchCrossSellProducts(dispatch, product_links);
             } else {
-                LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(dispatch),
-                );
+                LinkedProductsDispatcher.clearCrossSellProducts(dispatch);
             }
         } else {
-            LinkedProductsDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(dispatch),
-            );
+            LinkedProductsDispatcher.clearCrossSellProducts(dispatch);
         }
     }
 

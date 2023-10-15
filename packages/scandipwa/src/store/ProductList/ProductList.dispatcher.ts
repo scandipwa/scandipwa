@@ -24,7 +24,7 @@ import {
     updateProductListItems,
 } from 'Store/ProductList/ProductList.action';
 import { NetworkError } from 'Type/Common.type';
-import { QueryDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request/QueryDispatcher';
 
 import {
     AppendPageAction,
@@ -61,6 +61,8 @@ ProductListDispatcherData
 
         const { args = {}, isNext } = options;
         const { currentPage = 0 } = args;
+
+        dispatch(updateLoadStatus(false));
 
         if (isNext) {
             return dispatch(

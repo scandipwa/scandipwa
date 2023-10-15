@@ -2,7 +2,7 @@ import PlaceholderQuery from 'Query/Placeholder.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 // TODO update this import when action is done
 import { action } from 'Store/Placeholder/Placeholder.action';
-import { QueryDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request/QueryDispatcher';
 
 export class PlaceholderDispatcher extends QueryDispatcher {
     constructor() {

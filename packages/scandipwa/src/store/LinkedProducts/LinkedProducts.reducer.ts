@@ -13,7 +13,6 @@ import { Reducer } from 'redux';
 
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-import { LINKED_PRODUCTS } from './LinkedProducts.dispatcher';
 import {
     LinkedProducts,
     LinkedProductsActionType,
@@ -21,6 +20,8 @@ import {
     LinkedProductType,
     UpdateLinkedProductsAction,
 } from './LinkedProducts.type';
+
+export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';
 
 /** @namespace Store/LinkedProducts/Reducer/getInitialState */
 export const getInitialState = (): LinkedProductsStore => ({

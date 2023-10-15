@@ -20,5 +20,5 @@ export interface HtmlParserRule {
         name: string[];
         attribs?: Record<string, string>[];
     };
-    replace: (elm: DomElement) => JSX.Element | undefined;
+    replace: (elm: DomElement) => JSX.Element;
 }

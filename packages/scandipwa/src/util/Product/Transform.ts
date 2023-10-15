@@ -12,12 +12,12 @@
 
 import { FieldType } from 'Component/Field/Field.config';
 import { ProductType } from 'Component/Product/Product.config';
-import { ProductOption } from 'Component/Product/Product.type';
 import { NONE_RADIO_OPTION } from 'Component/ProductCustomizableOption/ProductCustomizableOption.config';
 import { CustomizableSelectionValue, GroupedProductItem } from 'Query/ProductList.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
 import { decodeBase64, encodeBase64 } from 'Util/Base64';
 import { formatPrice } from 'Util/Price';
+import { ProductOption } from 'Util/Product/Product.type';
 
 import { getProductInStock } from './Extract';
 import { ADD_TO_CART } from './Product';

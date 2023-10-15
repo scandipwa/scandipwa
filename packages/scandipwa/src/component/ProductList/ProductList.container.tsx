@@ -20,6 +20,7 @@ import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dis
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { HistoryState } from 'Util/History/History.type';
+import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
 import { RootState } from 'Util/Store/Store.type';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
@@ -79,20 +80,17 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
 
     componentDidMount(): void {
         const {
-            pages, isPreventRequest, isWidget, location: { pathname },
+            pages, isPreventRequest,
         } = this.props;
         const { pagesCount } = this.state;
         const pagesLength = Object.keys(pages).length;
-
-        const isSearch = pathname.includes(Page.SEARCH);
-        const isPrefetched = window.isPrefetchValueUsed && !isWidget && !isSearch;
 
         if (pagesCount !== pagesLength) {
             this.setState({ pagesCount: pagesLength });
         }
 
         // Is true when category is changed. This check prevents making new requests when navigating back to PLP from PDP
-        if (!isPreventRequest && !isPrefetched) {
+        if (!isPreventRequest) {
             this.requestPage(this._getPageFromUrl());
         }
     }
@@ -103,6 +101,8 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             search,
             filter,
             pages,
+            device,
+            isPlp,
         } = this.props;
 
         const {
@@ -122,6 +122,19 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
 
         const prevPage = this._getPageFromUrl(prevLocation);
         const currentPage = this._getPageFromUrl();
+
+        if (
+            JSON.stringify(filter) !== JSON.stringify(prevFilter)
+            || JSON.stringify(sort) !== JSON.stringify(prevSort)
+            || currentPage !== prevPage
+        ) {
+            window.isPrefetchValueUsed = false;
+        }
+
+        // prevents requestPage() fired twice on Mobile PLP with enabled infinite scroll
+        if (device.isMobile && this._getIsInfiniteLoaderEnabled() && isPlp) {
+            return;
+        }
 
         if (search !== prevSearch
             || currentPage !== prevPage
@@ -169,7 +182,12 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             noVariants,
             isWidget,
             device,
+            location: { pathname },
         } = this.props;
+        const { isPrefetchValueUsed } = window;
+
+        const isSearch = pathname.includes(Page.SEARCH);
+        const isPrefetched = isPrefetchValueUsed && !isWidget && !isSearch;
 
         /**
          * In case the wrong category was passed down to the product list,
@@ -210,10 +228,15 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             },
         };
 
-        requestProductList(options);
+        if (!isPrefetched) {
+            requestProductList(options);
+        }
 
         if (!isWidget) {
-            requestProductListInfo(infoOptions);
+            waitForPriorityLoad().then(
+            /** @namespace Component/ProductList/Container/ProductListContainer/requestPage/waitForPriorityLoad/then/requestProductListInfo */
+                () => requestProductListInfo(infoOptions),
+            );
 
             if (!device.isMobile) {
                 scrollToTop();
@@ -332,13 +355,15 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
     }
 
     updatePage(pageNumber: number): void {
-        const { location, history } = this.props;
+        const { location, history, device } = this.props;
 
         setQueryParams({
             page: pageNumber === 1 ? '' : String(pageNumber),
         }, location, history);
 
-        scrollToTop();
+        if (!device.isMobile && !this._getIsInfiniteLoaderEnabled()) {
+            scrollToTop();
+        }
     }
 
     render(): ReactElement {

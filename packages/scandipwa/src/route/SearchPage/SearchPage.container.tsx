@@ -26,7 +26,7 @@ import { ReactElement } from 'Type/Common.type';
 import { decodeString, noopFn } from 'Util/Common';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
-import { debounce } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -39,27 +39,6 @@ import {
     SearchPageContainerMapDispatchProps, SearchPageContainerMapStateProps, SearchPageContainerProps,
     SearchPageContainerState,
 } from './SearchPage.type';
-
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-export const CategoryDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Category/Category.dispatcher'
-);
-export const MetaDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Meta/Meta.dispatcher'
-);
-export const NoMatchDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/NoMatch/NoMatch.dispatcher'
-);
-export const ProductListInfoDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ProductListInfo/ProductListInfo.dispatcher'
-);
 
 /** @namespace Route/SearchPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): SearchPageContainerMapStateProps => ({
@@ -104,6 +83,7 @@ SearchPageContainerState
             url: '',
             name: search,
             id: '',
+            is_active: true,
             breadcrumbs: [],
         });
     }

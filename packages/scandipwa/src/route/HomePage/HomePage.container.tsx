@@ -65,7 +65,7 @@ export class HomePageContainer extends PureComponent<HomePageContainerProps> {
             changeHeaderState,
             currentUrl,
             match,
-            pageIdentifiers: window.actionName?.identifier || identifier,
+            pageIdentifiers: identifier,
         };
     }
 

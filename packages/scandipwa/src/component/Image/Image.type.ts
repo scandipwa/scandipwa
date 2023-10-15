@@ -37,6 +37,7 @@ export interface ImageContainerProps {
     isPlain: boolean;
     showIsLoading: boolean;
     onImageLoad: () => void;
+    isRenderWhenVisible: boolean;
 }
 
 export interface ImageComponentProps {
@@ -54,6 +55,7 @@ export interface ImageComponentProps {
     showIsLoading: boolean;
     isCached: boolean;
     onImageLoad: () => void;
+    isRenderWhenVisible: boolean;
 }
 
 export interface ImageComponentState {

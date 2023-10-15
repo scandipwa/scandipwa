@@ -16,6 +16,7 @@ import { Dispatch } from 'redux';
 import {
     PRODUCT_COMPARE_FIRST_COLUMN_WIDTH,
 } from 'Component/ProductCompare/ProductCompare.config';
+import ProductCompareDispatcher from 'Store/ProductCompare/ProductCompare.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { getProductInStock } from 'Util/Product/Extract';
@@ -32,11 +33,6 @@ import {
     ProductCompareContainerProps,
 } from './ProductCompare.type';
 
-export const ProductCompareDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ProductCompare/ProductCompare.dispatcher'
-);
-
 /** @namespace Component/ProductCompare/Container/mapStateToProps  */
 export const mapStateToProps = (state: RootState): ProductCompareContainerMapStateProps => ({
     products: state.ProductCompareReducer.products,
@@ -48,12 +44,8 @@ export const mapStateToProps = (state: RootState): ProductCompareContainerMapSta
 
 /** @namespace Component/ProductCompare/Container/mapDispatchToProps  */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareContainerMapDispatchProps => ({
-    fetchCompareList: () => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getCompareList(dispatch),
-    ),
-    clearCompareList: () => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.clearComparedProducts(dispatch),
-    ),
+    fetchCompareList: () => ProductCompareDispatcher.getCompareList(dispatch),
+    clearCompareList: () => ProductCompareDispatcher.clearComparedProducts(dispatch),
 });
 
 /** @namespace Component/ProductCompare/Container */

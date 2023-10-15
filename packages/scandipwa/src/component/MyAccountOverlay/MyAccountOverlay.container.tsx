@@ -25,7 +25,7 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { noopFn } from 'Util/Common';
 import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
@@ -91,7 +91,9 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState,
 
     __construct(props: MyAccountOverlayContainerProps): void {
         super.__construct?.(props);
+        const { showOverlay } = props;
 
+        showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
         this.state = this.redirectOrGetState(props) as State;
     }
 

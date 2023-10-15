@@ -44,7 +44,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): SliderWidgetContainerMap
 export class SliderWidgetContainer extends DataContainer<SliderWidgetContainerProps, SliderWidgetContainerState> {
     state: SliderWidgetContainerState = {
         slider: {
-            slideSpeed: 0,
+            slide_speed: 0,
             slides: [{
                 slide_id: 0,
                 slide_text: '',
@@ -76,15 +76,29 @@ export class SliderWidgetContainer extends DataContainer<SliderWidgetContainerPr
         }
     }
 
-    containerProps(): Pick<SliderWidgetComponentProps, 'device' | 'slider'> {
-        const { device } = this.props;
+    containerProps(): Pick<SliderWidgetComponentProps, 'device' | 'slider' | 'onLoad'> {
+        const { device, onLoad } = this.props;
         const { slider } = this.state;
 
-        return { device, slider };
+        return { device, slider, onLoad };
     }
 
     requestSlider(): void {
         const { sliderId, showNotification, isOffline } = this.props;
+        const {
+            actionName: {
+                slider: {
+                    slider_id: preloadedSliderId,
+                } = {},
+                slider: preloadedSlider = {},
+            },
+        } = window;
+
+        if (sliderId === Number(preloadedSliderId)) {
+            this.setState({ slider: preloadedSlider });
+
+            return;
+        }
 
         this.fetchData<{ slider: Slider }>(
             [SliderQuery.getQuery({ sliderId: String(sliderId) })],

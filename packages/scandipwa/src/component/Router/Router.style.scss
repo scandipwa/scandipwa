@@ -23,7 +23,6 @@
     @include desktop {
         &-Loader {
             height: calc(100vh - var(--header-total-height) - 10px);
-            inset-block-start: calc(var(--header-total-height) + 10px);
         }
     }
 
@@ -40,9 +39,10 @@
             }
         }
 
-        @include mobile {
-            display: none;
-        }
+        position: fixed;
+        inset-block-start: 0;
+        width: 100%;
+        z-index: 5;
     }
 
     &-BreadcrumbsFallback {
@@ -52,5 +52,12 @@
             height: 0;
             display: none;
         }
+    }
+
+    &-HeaderFallbackWrapper {
+        position: relative;
+        inset-block-start: 0;
+        width: 100%;
+        margin-block-end: var(--header-total-height);
     }
 }

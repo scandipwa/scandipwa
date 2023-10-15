@@ -22,7 +22,7 @@ import MyAccountTabList from 'Component/MyAccountTabList';
 import NoMatch from 'Route/NoMatch';
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 
 import { AccountPageUrl } from './MyAccount.config';
 import { MyAccountComponentProps } from './MyAccount.type';

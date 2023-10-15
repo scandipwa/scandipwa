@@ -21,8 +21,9 @@ import {
 } from 'Component/MyAccountOrderPrint/MyAccountOrderPrint.config';
 import { OrderItem } from 'Query/Order.type';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
+import OrderDispatcher from 'Store/Order/Order.dispatcher';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -36,22 +37,11 @@ import {
     OrderPrintPageContainerPropsKeys,
 } from './OrderPrintPage.type';
 
-export const OrderDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Order/Order.dispatcher'
-);
-
 /** @namespace Route/OrderPrintPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): OrderPrintPageContainerMapDispatchProps => ({
-    getOrderInvoice: (invoiceId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getOrderInvoice(dispatch, invoiceId),
-    ),
-    getOrderShipment: (shipmentId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getOrderShipment(dispatch, shipmentId),
-    ),
-    getOrderRefund: (refundId) => OrderDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.getOrderRefund(dispatch, refundId),
-    ),
+    getOrderInvoice: (invoiceId) => OrderDispatcher.getOrderInvoice(dispatch, invoiceId),
+    getOrderShipment: (shipmentId) => OrderDispatcher.getOrderShipment(dispatch, shipmentId),
+    getOrderRefund: (refundId) => OrderDispatcher.getOrderRefund(dispatch, refundId),
 });
 
 /** @namespace Route/OrderPrintPage/Container/mapStateToProps */

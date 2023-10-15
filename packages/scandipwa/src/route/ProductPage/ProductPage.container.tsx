@@ -16,16 +16,19 @@ import { Dispatch } from 'redux';
 import { Page } from 'Component/Header/Header.config';
 import { NavigationTabsMap } from 'Component/NavigationTabs/NavigationTabs.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
+import MetaDispatcher from 'Store/Meta/Meta.dispatcher';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import ProductDispatcher from 'Store/Product/Product.dispatcher';
 import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import history from 'Util/History';
 import { getAttributesWithValues, getIsConfigurableParameterSelected } from 'Util/Product';
 import { IndexedAttributeWithValue, IndexedProduct } from 'Util/Product/Product.type';
-import { debounce } from 'Util/Request';
+import { debounce } from 'Util/Request/Debounce';
 import { RootState } from 'Util/Store/Store.type';
 import {
     convertQueryStringToKeyValuePairs,
@@ -45,21 +48,6 @@ import {
     ProductPageContainerState,
 } from './ProductPage.type';
 
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-
-export const MetaDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Meta/Meta.dispatcher'
-);
-
-export const ProductDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Product/Product.dispatcher'
-);
-
 /** @namespace Route/ProductPage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductPageContainerMapStateProps => ({
     isOffline: state.OfflineReducer.isOffline,
@@ -74,19 +62,10 @@ export const mapStateToProps = (state: RootState): ProductPageContainerMapStateP
 export const mapDispatchToProps = (dispatch: Dispatch): ProductPageContainerMapDispatchProps => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: (state) => dispatch(changeNavigationState(NavigationType.BOTTOM_NAVIGATION_TYPE, state)),
-    requestProduct: (options) => {
-        // TODO: check linked products, there might be issues :'(
-        ProductDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, options),
-        );
-    },
+    requestProduct: (options) => ProductDispatcher.handleData(dispatch, options),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateBreadcrumbs: (breadcrumbs, prevCategoryId) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, prevCategoryId, dispatch),
-    ),
-    updateMetaFromProduct: (product) => MetaDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch),
-    ),
+    updateBreadcrumbs: (breadcrumbs, prevCategoryId) => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, prevCategoryId, dispatch),
+    updateMetaFromProduct: (product) => MetaDispatcher.updateWithProduct(product, dispatch),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(NavigationType.TOP_NAVIGATION_TYPE)),
     addRecentlyViewedProduct: (product, store) => dispatch(addRecentlyViewedProduct(product, store)),
 });

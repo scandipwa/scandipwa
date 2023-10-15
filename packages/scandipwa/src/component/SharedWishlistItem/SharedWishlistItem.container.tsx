@@ -30,11 +30,6 @@ import {
     SharedWishlistItemContainerState,
 } from './SharedWishlistItem.type';
 
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
-
 /** @namespace Component/SharedWishlistItem/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): SharedWishlistItemContainerMapStateProps => ({
     ...sourceMapStateToProps(state),

@@ -15,6 +15,7 @@ import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import NoMatchDispatcher from 'Store/NoMatch/NoMatch.dispatcher';
 import { ReactElement, Url } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 import { RootState } from 'Util/Store/Store.type';
@@ -29,11 +30,6 @@ import {
     LinkContainerProps,
 } from './Link.type';
 
-export const NoMatchDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/NoMatch/NoMatch.dispatcher'
-);
-
 /** @namespace Component/Link/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): LinkContainerMapStateProps => ({
     baseLinkUrl: state.ConfigReducer.base_link_url || '',
@@ -41,9 +37,7 @@ export const mapStateToProps = (state: RootState): LinkContainerMapStateProps =>
 
 /** @namespace Component/Link/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): LinkContainerDispatchProps => ({
-    updateNoMatch: (noMatch) => NoMatchDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, { noMatch }),
-    ),
+    updateNoMatch: (noMatch) => NoMatchDispatcher.updateNoMatch(dispatch, { noMatch }),
 });
 
 /** @namespace Component/Link/Container */

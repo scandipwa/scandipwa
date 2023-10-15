@@ -41,11 +41,6 @@ import {
     ProductCardContainerProps,
 } from './ProductCard.type';
 
-export const CartDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Cart/Cart.dispatcher'
-);
-
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductCardContainerMapStateProps => ({
     ...sourceMapStateToProps(state),

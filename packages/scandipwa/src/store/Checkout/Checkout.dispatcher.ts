@@ -14,7 +14,7 @@ import { Dispatch } from 'redux';
 
 import CheckEmailQuery from 'Query/CheckEmail.query';
 import { NetworkError } from 'Type/Common.type';
-import { QueryDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request/QueryDispatcher';
 
 import { updateEmailAvailable } from './Checkout.action';
 import { CheckoutDispatcherData } from './Checkout.type';

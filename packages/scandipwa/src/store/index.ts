@@ -24,9 +24,7 @@ import NoMatchReducer from 'Store/NoMatch/NoMatch.reducer';
 import OfflineReducer from 'Store/Offline/Offline.reducer';
 import OverlayReducer from 'Store/Overlay/Overlay.reducer';
 import PopupReducer from 'Store/Popup/Popup.reducer';
-import ProductReducer from 'Store/Product/Product.reducer';
 import ProductCompareReducer from 'Store/ProductCompare/ProductCompare.reducer';
-import ProductListReducer from 'Store/ProductList/ProductList.reducer';
 import ProductListInfoReducer from 'Store/ProductListInfo/ProductListInfo.reducer';
 import StoreInPickUpReducer from 'Store/StoreInPickUp/StoreInPickUp.reducer';
 import UrlRewritesReducer from 'Store/UrlRewrites/UrlRewrites.reducer';
@@ -57,7 +55,6 @@ export type StaticReducerKeys =
 
 /** @namespace Store/Index/getStaticReducers */
 export const getStaticReducers = (): Record<StaticReducerKeys, Reducer> => ({
-    ProductListReducer,
     ProductListInfoReducer,
     CartReducer,
     WishlistReducer,
@@ -75,26 +72,6 @@ export const getStaticReducers = (): Record<StaticReducerKeys, Reducer> => ({
     ProductCompareReducer,
     StoreInPickUpReducer,
     BreadcrumbsReducer,
-    ProductReducer,
     CategoryReducer,
     CmsReducer,
 } as Record<StaticReducerKeys, Reducer>);
-
-export default function injectStaticReducers<
-    S,
-    T extends ModifiedReduxStore<S>,
->(store: T): T {
-    // eslint-disable-next-line no-param-reassign
-    // store.asyncReducers = {};
-
-    // Inject all the static reducers into the store
-    Object.entries(getStaticReducers()).forEach(
-        ([name, reducer]) => {
-            if (store.injectReducer) {
-                store.injectReducer(name, reducer);
-            }
-        },
-    );
-
-    return store;
-}

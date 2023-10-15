@@ -30,10 +30,14 @@ export const resolveExtendableResourcePath = (
 
     // Queries don't have their own directories
     if (resourceType === ResourceType.Query) {
-        const queryName = `${resourceName}.query.js`;
+        const queryName = `${resourceName}.query.ts`;
         const queryFilePath = path.join(relativeResourceDirectory, queryName);
 
-        return FallbackPlugin.getFallbackPathname(queryFilePath, cwd);
+        // Adding legacy to resolve .js file in case it's used to override
+        const legacyQueryName = `${resourceName}.query.js`;
+        const legacyFilePath = path.join(relativeResourceDirectory, legacyQueryName);
+
+        return FallbackPlugin.getFallbackPathname(queryFilePath, cwd, [legacyFilePath]);
     }
 
     // If a directory with resource's name exists -> resource exists

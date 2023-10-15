@@ -13,7 +13,6 @@
  */
 
 import { ProductType } from 'Component/Product/Product.config';
-import { AdjustedPriceMap, ProductOption } from 'Component/Product/Product.type';
 import { ImageType } from 'Component/ProductGallery/ProductGallery.config';
 import {
     GroupedProductItem,
@@ -24,6 +23,7 @@ import { GQLCurrencyEnum, GQLProductStockStatus } from 'Type/Graphql.type';
 import { decodeBase64 } from 'Util/Base64';
 import { FieldValue } from 'Util/Form/Form.type';
 import { formatPrice } from 'Util/Price';
+import { AdjustedPriceMap, ProductOption } from 'Util/Product/Product.type';
 
 import {
     DEFAULT_MAX_PRODUCTS,
@@ -553,11 +553,11 @@ export const getAdjustedPrice = (
         if (option) {
             const { value } = option;
 
-            if ('priceInclTax' in value) {
+            if ('priceInclTax' in value && 'priceExclTax' in value) {
                 const { priceExclTax = 0, priceInclTax = 0 } = value;
 
-                adjustedPrice.config.inclTax += priceInclTax;
-                adjustedPrice.config.exclTax += priceExclTax;
+                adjustedPrice.config.inclTax += priceInclTax as number;
+                adjustedPrice.config.exclTax += priceExclTax as number;
             }
         }
     });

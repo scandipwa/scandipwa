@@ -12,8 +12,8 @@
 import { Field, InlineFragment, Query } from '@tilework/opus';
 
 import { SortDirections } from 'Route/CategoryPage/CategoryPage.config';
+import { CUSTOMER } from 'Route/MyAccount/MyAccount.config';
 import { NONE_SORT_OPTION_VALUE } from 'Route/SearchPage/SearchPage.config';
-import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import {
     GQLCurrencyEnum,
     GQLPriceTypeEnum,
@@ -36,6 +36,7 @@ import {
     BundlePriceOption,
     BundleProductFragment,
     CategoryInterface,
+    CategoryTreeFragment,
     ComplexTextValue,
     ConfigurableCartProductFragment,
     ConfigurableProductFragment,
@@ -691,13 +692,19 @@ export class ProductListQuery {
     | Field<'name', string>
     | Field<'url', string>
     | Field<'breadcrumbs', Breadcrumb, true>
+    | InlineFragment<'CategoryTree', CategoryTreeFragment>
     > {
         return [
             new Field<'id', string>('id'),
             new Field<'name', string>('name'),
             new Field<'url', string>('url'),
+            this._getIsCategoryActive(),
             this._getBreadcrumbsField(),
         ];
+    }
+
+    _getIsCategoryActive(): InlineFragment<'CategoryTree', CategoryTreeFragment> {
+        return new InlineFragment<'CategoryTree', CategoryTreeFragment>('CategoryTree').addField('is_active');
     }
 
     _getCategoriesField(): Field<'categories', CategoryInterface, true> {

@@ -18,7 +18,8 @@ import { CustomerDownloadableProduct } from 'Query/Order.type';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { NotificationType } from 'Store/Notification/Notification.type';
 import { ReactElement } from 'Type/Common.type';
-import { fetchQuery, getErrorMessage } from 'Util/Request';
+import { getErrorMessage } from 'Util/Request/Error';
+import { fetchQuery } from 'Util/Request/Query';
 
 import MyAccountDownloadable from './MyAccountDownloadable.component';
 import {
@@ -28,11 +29,6 @@ import {
     MyAccountDownloadableContainerProps,
     MyAccountDownloadableContainerState,
 } from './MyAccountDownloadable.type';
-
-export const OrderDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Order/Order.dispatcher'
-);
 
 /** @namespace Component/MyAccountDownloadable/Container/mapStateToProps */
 export const mapStateToProps = (): unknown => ({});

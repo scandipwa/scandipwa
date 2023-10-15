@@ -6,6 +6,11 @@ module.exports = {
         tsconfigRootDir: __dirname,
         project: './tsconfig.json',
         requireConfigFile: false,
+        babelOptions: {
+            parserOpts: {
+                plugins: ['jsx'],
+            },
+        },
     },
     rules: {
         '@typescript-eslint/object-curly-spacing': 'off',

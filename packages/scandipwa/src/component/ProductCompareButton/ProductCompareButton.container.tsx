@@ -13,6 +13,7 @@ import { MouseEvent, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import ProductCompareDispatcher from 'Store/ProductCompare/ProductCompare.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import { RootState } from 'Util/Store/Store.type';
 
@@ -27,11 +28,6 @@ import {
     ProductCompareButtonContainerState,
 } from './ProductCompareButton.type';
 
-export const ProductCompareDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ProductCompare/ProductCompare.dispatcher'
-);
-
 /** @namespace Component/ProductCompareButton/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): ProductCompareButtonContainerMapStateProps => ({
     comparedProducts: state.ProductCompareReducer.productIds,
@@ -39,12 +35,8 @@ export const mapStateToProps = (state: RootState): ProductCompareButtonContainer
 
 /** @namespace Component/ProductCompareButton/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): ProductCompareButtonContainerMapDispatchProps => ({
-    addProductToCompare: (productId) => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCompare(productId, dispatch),
-    ),
-    removeComparedProduct: (productId) => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch),
-    ),
+    addProductToCompare: (productId) => ProductCompareDispatcher.addProductToCompare(productId, dispatch),
+    removeComparedProduct: (productId) => ProductCompareDispatcher.removeComparedProduct(productId, dispatch),
 });
 
 /** @namespace Component/ProductCompareButton/Container */

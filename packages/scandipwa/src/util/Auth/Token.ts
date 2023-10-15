@@ -11,21 +11,14 @@
 
 import jwtDecode from 'jwt-decode';
 
-import { updateCustomerSignInStatus } from 'Store/MyAccount/MyAccount.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { deleteCartId } from 'Util/Cart';
-import { removeUid } from 'Util/Compare';
-import { debounce } from 'Util/Request';
-import getStore, { getStoreState } from 'Util/Store';
+import { debounce } from 'Util/Request/Debounce';
+import { getStoreState } from 'Util/Store';
 
+import {
+    AUTH_TOKEN, MILLISECONDS_IN_SECOND, ONE_HOUR_IN_SECONDS, TOKEN_REFRESH_DELAY,
+} from './Config';
 import { Token, TokensByWebsite } from './Token.type';
-
-export const AUTH_TOKEN = 'auth_token';
-
-export const ONE_HOUR_IN_SECONDS = 3600;
-export const ONE_HOUR = 1;
-export const TOKEN_REFRESH_DELAY = 2000;
-export const MILLISECONDS_IN_SECOND = 1000;
 
 /** @namespace Util/Auth/Token/setAuthorizationToken */
 export const setAuthorizationToken = (token: string | null): void => {
@@ -34,7 +27,7 @@ export const setAuthorizationToken = (token: string | null): void => {
 
         const state = getStoreState();
         const {
-            access_token_lifetime = ONE_HOUR,
+            access_token_lifetime = ONE_HOUR_IN_SECONDS,
         } = state.ConfigReducer || {};
 
         const tokens: TokensByWebsite = BrowserDatabase.getItem(AUTH_TOKEN) || {};
@@ -84,36 +77,3 @@ export const refreshAuthorizationToken = debounce(
     () => setAuthorizationToken(getAuthorizationToken()),
     TOKEN_REFRESH_DELAY,
 );
-
-/** @namespace Util/Auth/Token/isInitiallySignedIn */
-export const isInitiallySignedIn = (): boolean => !!getAuthorizationToken();
-
-/** @namespace Util/Auth/Token/isSignedIn */
-export const isSignedIn = (): boolean => {
-    const hasAuthToken = !!getAuthorizationToken();
-    const store = getStore();
-
-    const {
-        MyAccountReducer: {
-            isSignedIn: isCustomerSignedIn = false,
-        } = {},
-    } = getStoreState();
-
-    const { dispatch } = store;
-
-    if (!hasAuthToken && isCustomerSignedIn) {
-        // since logout is async and slow, remove cart id / compare uid
-        // and set customer sign in status here on auth token expiration
-        deleteCartId();
-        dispatch(updateCustomerSignInStatus(false));
-        removeUid();
-
-        const MyAccountDispatcher = import('../../store/MyAccount/MyAccount.dispatcher');
-
-        MyAccountDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.logout(true, true, dispatch),
-        );
-    }
-
-    return hasAuthToken;
-};

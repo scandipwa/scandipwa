@@ -16,7 +16,9 @@ import { ProductCardContainerProps } from 'Component/ProductCard/ProductCard.typ
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { ReactElement } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+import { PRODUCTS_PRELOAD_COUNT } from 'Util/Product';
 import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
+import { AfterPriority } from 'Util/Request/LowPriorityRender';
 
 import { DEFAULT_PLACEHOLDER_COUNT } from './ProductListPage.config';
 import { ProductListPageComponentProps, ProductListPageComponentState } from './ProductListPage.type';
@@ -122,13 +124,30 @@ ProductListPageComponentState
 
         return Array.from(
             { length: numberOfPlaceholders },
-            (_, i) => (
-                <ProductCard
-                  key={ i }
-                  product={ {} }
-                  layout={ layout as CategoryPageLayout }
-                />
-            ),
+            (_, i) => {
+                if (i < PRODUCTS_PRELOAD_COUNT) {
+                    return (
+                        <ProductCard
+                          key={ i }
+                          product={ {} }
+                          layout={ layout as CategoryPageLayout }
+                          onLoad={ setLoadedFlag }
+                        />
+                    );
+                }
+
+                return (
+                    // @ts-ignore
+                    <AfterPriority fallback={ <div style={ { minHeight: 200 } } /> }>
+                        <ProductCard
+                          key={ i }
+                          product={ {} }
+                          layout={ layout as CategoryPageLayout }
+                          onLoad={ setLoadedFlag }
+                        />
+                    </AfterPriority>
+                );
+            },
         );
     }
 
@@ -155,17 +174,36 @@ ProductListPageComponentState
             },
         } = this.props;
 
-        return items.map((product, i) => (
-                <ProductCard
-                  product={ product }
-                // eslint-disable-next-line react/no-array-index-key
-                  key={ i }
-                  selectedFilters={ selectedFilters }
-                  layout={ layout as CategoryPageLayout }
-                  { ...this.containerProps() }
-                  onLoad={ setLoadedFlag }
-                />
-        ));
+        return items.map((product, i) => {
+            if (i < PRODUCTS_PRELOAD_COUNT) {
+                return (
+                    <ProductCard
+                      product={ product }
+                    // eslint-disable-next-line react/no-array-index-key
+                      key={ i }
+                      selectedFilters={ selectedFilters }
+                      layout={ layout as CategoryPageLayout }
+                      { ...this.containerProps() }
+                      onLoad={ setLoadedFlag }
+                    />
+                );
+            }
+
+            return (
+                // @ts-ignore
+                <AfterPriority fallback={ <div style={ { minHeight: 200 } } /> }>
+                    <ProductCard
+                      product={ product }
+                    // eslint-disable-next-line react/no-array-index-key
+                      key={ i }
+                      selectedFilters={ selectedFilters }
+                      layout={ layout as CategoryPageLayout }
+                      { ...this.containerProps() }
+                      onLoad={ setLoadedFlag }
+                    />
+                </AfterPriority>
+            );
+        });
     }
 
     renderPlaceholderItems(): ReactElement {

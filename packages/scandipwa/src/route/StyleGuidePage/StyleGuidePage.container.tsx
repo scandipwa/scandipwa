@@ -30,11 +30,6 @@ import {
     StyleGuidePageContainerProps,
 } from './StyleGuidePage.type';
 
-export const ProductDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Product/Product.dispatcher'
-);
-
 /** @namespace Route/StyleGuidePage/Container/mapStateToProps */
 export const mapStateToProps = (state: RootState): StyleGuidePageContainerMapStateProps => ({
     product: state.ProductReducer.product,

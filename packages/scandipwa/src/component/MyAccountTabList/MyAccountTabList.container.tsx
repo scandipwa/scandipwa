@@ -13,8 +13,9 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { ReactElement } from 'Type/Common.type';
-import { isSignedIn } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth/IsSignedIn';
 import { noopFn } from 'Util/Common';
 
 import MyAccountTabList from './MyAccountTabList.component';
@@ -27,19 +28,12 @@ import {
     MyAccountTabListContainerState,
 } from './MyAccountTabList.type';
 
-export const MyAccountDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/MyAccount/MyAccount.dispatcher'
-);
-
 /** @namespace Component/MyAccountTabList/Container/mapStateToProps */
 export const mapStateToProps = (): MyAccountTabListContainerMapStateProps => ({});
 
 /** @namespace Component/MyAccountTabList/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): MyAccountTabListContainerDispatchProps => ({
-    logout: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.logout(false, true, dispatch),
-    ),
+    logout: () => MyAccountDispatcher.logout(false, true, dispatch),
 });
 
 /** @namespace Component/MyAccountTabList/Container */

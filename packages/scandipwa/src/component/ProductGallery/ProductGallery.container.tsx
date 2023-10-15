@@ -74,7 +74,7 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
         const { product: { id } = {} } = props;
 
         this.state = {
-            activeImage: this.getBaseImage(),
+            activeImage: this.getBaseImage(true),
             isZoomEnabled: false,
             prevProdId: id,
             isImageZoomPopupActive: false,
@@ -151,14 +151,14 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
         this.setState({ isImageZoomPopupActive });
     }
 
-    onActiveImageChange(activeImage: number): void {
+    onActiveImageChange(activeImage?: number): void {
         this.setState({
-            activeImage: Math.abs(activeImage),
+            activeImage: activeImage !== undefined ? Math.abs(activeImage) : activeImage,
             isZoomEnabled: false,
         });
     }
 
-    getBaseImage(): number {
+    getBaseImage(isInitial?: boolean): number | undefined {
         const {
             product: {
                 media_gallery_entries: mediaGallery = [],
@@ -167,6 +167,10 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
 
         const baseImage = mediaGallery.find((value) => value.types.includes(MediaType.IMAGE));
         const { position = 0 } = baseImage || {};
+
+        if (isInitial && !mediaGallery.length) {
+            return undefined;
+        }
 
         if (!mediaGallery.length) {
             return 0;
@@ -207,8 +211,6 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
                 .filter(({ disabled }) => !disabled)
                 .sort((a, b) => a.position - b.position);
         }
-
-        window.isPriorityLoaded = true;
 
         if (!url) {
             return Array(AMOUNT_OF_PLACEHOLDERS + 1).fill({ media_type: 'placeholder' });

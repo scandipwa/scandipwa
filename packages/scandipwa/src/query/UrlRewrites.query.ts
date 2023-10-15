@@ -28,6 +28,7 @@ export class UrlRewritesQuery {
         type: GQLUrlRewriteEntityTypeEnum;
         id: number;
         display_mode: CategoryDisplayMode;
+        sort_by: string;
     }> {
         return new Query<'urlResolver', UrlRewritesOutput>('urlResolver')
             .addArgument('url', 'String!', urlParam)
@@ -39,12 +40,14 @@ export class UrlRewritesQuery {
     | Field<'type', GQLUrlRewriteEntityTypeEnum>
     | Field<'id', number>
     | Field<'display_mode', CategoryDisplayMode>
+    | Field<'sort_by', string>
     > {
         return [
             new Field<'sku', string>('sku'),
             new Field<'type', GQLUrlRewriteEntityTypeEnum>('type'),
             new Field<'id', number>('id'),
             new Field<'display_mode', CategoryDisplayMode>('display_mode'),
+            new Field<'sort_by', string>('sort_by'),
         ];
     }
 }
