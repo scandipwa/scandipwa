@@ -171,7 +171,6 @@ export class ProductActionsComponent extends ProductComponent<ProductActionsComp
                 <a
                   block="ProductActions"
                   elem="SchemaUrl"
-                  itemProp="url"
                   href={ metaLink }
                 >
                     { productName }
