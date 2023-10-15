@@ -95,9 +95,11 @@ export class ProductPriceComponent extends PureComponent<ProductPriceComponentPr
                     value: contentPrice = 0,
                 } = {},
             } = {},
+            discountPercentage,
         } = this.props;
 
-        if (variantsCount > 1) {
+        // Render lowPrice if there is variants or there is discount
+        if (variantsCount > 1 || discountPercentage !== 0) {
             return isSchemaRequired ? { itemProp: 'lowPrice', content: contentPrice } : {};
         }
 
