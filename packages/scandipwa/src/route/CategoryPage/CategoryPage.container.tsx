@@ -596,8 +596,29 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         }
     }
 
+    getCanonicalWithPageNumber(canonical_url?: string) {
+        if (!canonical_url) {
+            return null;
+        }
+
+        const pageNumber = getQueryParam('page', history?.location);
+
+        if (pageNumber) {
+            return canonical_url.concat(`?page=${pageNumber}`);
+        }
+
+        return canonical_url;
+    }
+
     updateMeta(): void {
-        const { updateMetaFromCategory, category } = this.props;
+        const {
+            updateMetaFromCategory,
+            category,
+            category: {
+                canonical_url,
+            } = {},
+        } = this.props;
+
         const meta_robots = history.location.search
             ? ''
             : 'follow, index';
@@ -605,6 +626,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         updateMetaFromCategory({
             ...category,
             meta_robots,
+            canonical_url: this.getCanonicalWithPageNumber(canonical_url),
         });
     }
 
