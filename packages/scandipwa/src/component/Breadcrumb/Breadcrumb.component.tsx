@@ -61,7 +61,7 @@ export class BreadcrumbComponent extends PureComponent<BreadcrumbComponentProps>
             >
                 <meta
                   itemProp="item"
-                  content={ window.location.origin + url }
+                  content={ window.location.origin + url.pathname }
                 />
                 <span block="Breadcrumb" elem="Link-Name" itemProp="name">
                     <TextPlaceholder content={ nameToString } />
