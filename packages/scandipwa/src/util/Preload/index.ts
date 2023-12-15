@@ -53,7 +53,7 @@ export const criticalChunkLoad = {
 
 export const importBooster = Object.values(criticalChunkLoad).find(({ test }) => test);
 
-if (!importBooster) {
+if (importBooster?.test) {
     window.isPriorityLoaded = true;
 } else {
     window.isPriorityLoaded = false;
