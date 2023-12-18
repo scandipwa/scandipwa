@@ -51,12 +51,12 @@ export const criticalChunkLoad = {
     },
 };
 
-export const importBooster = Object.values(criticalChunkLoad).find(({ test }) => test);
+export const importBooster:any = Object.values(criticalChunkLoad).find(({ test }) => test);
 
 if (importBooster?.test) {
     window.isPriorityLoaded = true;
 } else {
     window.isPriorityLoaded = false;
     window.isPrefetchValueUsed = true;
-    importBooster.importChunk();
+    importBooster?.importChunk();
 }
