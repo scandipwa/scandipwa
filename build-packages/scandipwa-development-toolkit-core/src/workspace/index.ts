@@ -47,7 +47,7 @@ const createWorkspace = async (userInteraction: IUserInteraction) => {
         if (!context) {
             // make sure we are in ScandiPWA theme context
             logger.error(
-                'To deploy your code you must be located in ScandiPWA theme directory.',
+                'To create a workspace you must be located in ScandiPWA theme directory.',
                 `We looked up six folders up starting from ${logger.style.file(process.cwd())}!`,
                 `There was no folders containing ${logger.style.file('package.json')}, where ${logger.style.misc(
                     'scandipwa.type'
