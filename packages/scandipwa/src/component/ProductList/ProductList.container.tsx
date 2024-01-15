@@ -131,8 +131,15 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             window.isPrefetchValueUsed = false;
         }
 
-        // prevents requestPage() fired twice on Mobile PLP with enabled infinite scroll
-        if (device.isMobile && this._getIsInfiniteLoaderEnabled() && isPlp) {
+        // prevents requestPage() fired twice on Mobile PLP with enabled
+        // infinite scroll unless filter/search/sort was changed
+        if (
+            device.isMobile
+            && this._getIsInfiniteLoaderEnabled()
+            && isPlp
+            && currentPage !== prevPage
+            && currentPage !== 1
+        ) {
             return;
         }
 
