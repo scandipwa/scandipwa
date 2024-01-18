@@ -103,8 +103,11 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
             categoryIds,
             displayMode,
             location,
-            sort_by,
+            // sort_by,
+            category_sort,
         } = props;
+
+        console.log('>>> sss', category_sort);
 
         return (
             <Suspense fallback={ this.renderDefaultPage() }>
@@ -113,7 +116,7 @@ export class UrlRewritesComponent extends PureComponent<UrlRewritesComponentProp
                   categoryIds={ categoryIds }
                   displayMode={ displayMode }
                   location={ location }
-                  categoryDefaultSortBy={ sort_by }
+                  categoryDefaultSortBy={ category_sort }
                 />
             </Suspense>
         );

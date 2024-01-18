@@ -37,6 +37,7 @@ export const mapStateToProps = (state: RootState): UrlRewritesContainerMapStateP
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
     isLoading: state.UrlRewritesReducer.isLoading,
     requestedUrl: state.UrlRewritesReducer.requestedUrl,
+    category_sort: state.ProductListReducer.currentArgs.sort?.sortKey,
 });
 
 /** @namespace Route/UrlRewrites/Container/mapDispatchToProps */
@@ -207,11 +208,13 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
         const {
             match,
             location,
+            category_sort,
         } = this.props;
 
         return {
             match,
             location,
+            category_sort,
             ...this.getTypeSpecificProps(),
         };
     }
