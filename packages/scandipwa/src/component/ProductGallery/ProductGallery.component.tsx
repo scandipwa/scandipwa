@@ -414,6 +414,30 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
         return url;
     }
 
+    renderPlaceholderImage(): ReactElement {
+        const { activeImage } = this.props;
+
+        const {
+            state: {
+                state: {
+                    product: { small_image: { url } },
+                },
+            },
+        } = history;
+
+        return (
+            <Image
+              src={ url }
+              ratio={ ImageRatio.IMG_CUSTOM }
+              mix={ {
+                  block: 'ProductGallery',
+                  elem: 'SliderImage',
+                  mods: { isHidden: activeImage !== undefined },
+              } }
+            />
+        );
+    }
+
     renderSlider(): ReactElement {
         const {
             gallery,
@@ -451,6 +475,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
                   sliderHeight={ isImageZoomPopupActive ? '100%' : 0 }
                   isHeightTransitionDisabledOnMount
                 >
+                    { this.renderPlaceholderImage() }
                     { gallery.map(this.renderSlide) }
                 </Slider>
             </div>

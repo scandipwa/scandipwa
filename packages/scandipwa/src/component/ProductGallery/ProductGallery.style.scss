@@ -90,5 +90,10 @@
     &-SliderImage {
         height: 100%;
         width: 100%;
+
+        &_isHidden {
+            position: absolute;
+            z-index: -1100;
+        }
     }
 }
