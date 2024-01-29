@@ -64,7 +64,6 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
             /** @namespace Route/UrlRewrites/Container/UrlRewritesContainer/componentDidMount/waitForPriorityLoad/then */
             () => this.requestUrlRewrite(),
         );
-        this.initialUrl = location.pathname;
 
         this.initialUrl = location.pathname;
     }
