@@ -36,7 +36,7 @@ import { ClearWishlistAction, WishlistProduct } from './Wishlist.type';
 
 /**
  * Get wishlist setting.
- * @namespace Store/Wishlist/Dispatcher/isWishlistEnabled */
+ /* @namespace Store/Wishlist/Dispatcher/isWishlistEnabled */
 export const isWishlistEnabled = (): boolean => {
     const state = getStoreState();
     const {
@@ -49,8 +49,7 @@ export const isWishlistEnabled = (): boolean => {
 /**
  * Product Wishlist Dispatcher
  * @class WishlistDispatcher
- * @namespace Store/Wishlist/Dispatcher
- */
+ /* @namespace Store/Wishlist/Dispatcher */
 export class WishlistDispatcher {
     updateInitialWishlistData(dispatch: Dispatch): void {
         if (isSignedIn() && isWishlistEnabled()) {
@@ -204,10 +203,12 @@ export class WishlistDispatcher {
 
         try {
             await fetchMutation<'moveWishlistToCart', boolean>(WishlistQuery.getMoveWishlistToCart(sharingCode));
+            dispatch(showNotification(NotificationType.SUCCESS, __('Available items moved to cart')));
+        } catch (err) {
+            throw new Error(err as string);
         } finally {
             await this._syncWishlistWithBE(dispatch);
             CartDispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken());
-            dispatch(showNotification(NotificationType.SUCCESS, __('Available items moved to cart')));
         }
     }
 
