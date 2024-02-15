@@ -18,6 +18,7 @@ export interface CurrencySwitcherMapStateProps {
 
 export interface CurrencySwitcherMapDispatchProps {
     updateCurrency: (options: { currencyCode: GQLCurrencyEnum }) => Promise<void>;
+    updateCurrentCurrency: (options: string) => void;
 }
 
 export interface CurrencySwitcherContainerFunctions {
