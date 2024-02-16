@@ -20,7 +20,6 @@ export interface UrlRewritesContainerMapStateProps {
     isLoading: boolean;
     requestedUrl: string;
     category_sort?: string;
-
 }
 
 export interface UrlRewritesContainerMapDispatchProps {
