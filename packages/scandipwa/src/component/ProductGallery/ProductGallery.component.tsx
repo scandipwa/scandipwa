@@ -33,6 +33,7 @@ import VideoThumbnail from 'Component/VideoThumbnail';
 import { MediaGalleryEntry } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
+import history from 'Util/History';
 import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
 import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 
@@ -418,12 +419,12 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
         const { activeImage } = this.props;
 
         const {
-            state: {
+            location: {
                 state: {
-                    product: { small_image: { url } },
-                },
-            },
-        } = history;
+                    product: { small_image: { url = '' } = {} } = {},
+                } = {},
+            } = {},
+        } = history ?? {};
 
         return (
             <Image
