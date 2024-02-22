@@ -24,14 +24,7 @@ import './NoMatch.style';
 export class NoMatchComponent extends PureComponent<NoMatchComponentProps> {
     componentDidMount(): void {
         this.updateBreadcrumbs();
-        this.cleanUpTransition();
         scrollToTop();
-    }
-
-    cleanUpTransition(): void {
-        const { cleanUpTransition } = this.props;
-
-        cleanUpTransition();
     }
 
     updateBreadcrumbs(): void {

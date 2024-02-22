@@ -12,10 +12,8 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Subscribe } from 'unstated-typescript';
 
 import { Page } from 'Component/Header/Header.config';
-import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -90,15 +88,9 @@ export class NoMatchContainer extends PureComponent<NoMatchContainerProps> {
 
     render(): ReactElement {
         return (
-            <Subscribe to={ [SharedTransitionContainer] }>
-                { /* eslint-disable-next-line @typescript-eslint/no-explicit-any */ }
-                { ({ cleanUpTransition }: any) => (
-                    <NoMatch
-                      { ...this.containerProps() }
-                      cleanUpTransition={ cleanUpTransition }
-                    />
-                ) }
-            </Subscribe>
+            <NoMatch
+              { ...this.containerProps() }
+            />
         );
     }
 }

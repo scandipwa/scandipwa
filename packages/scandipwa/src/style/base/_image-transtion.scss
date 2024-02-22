@@ -1,0 +1,47 @@
+@keyframes disappear {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+:root {
+    --transition-el-z-index: 90;
+}
+
+.element-transition {
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+
+    * {
+        will-change: transform;
+        transform-origin: top left;
+        transform: translate3d(0, 0, 0);
+        transition: transform 0.15s linear;
+        // object-fit: fill;
+        position: fixed;
+        z-index: calc(var(--transition-el-z-index) + 1);
+    }
+
+    &::before {
+        content: '';
+        position: fixed;
+        background: #fff;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        width: 100%;
+        height: 100%;
+        z-index: var(--transition-el-z-index);
+    }
+
+    &--active {
+        opacity: 0;
+    }
+
+    .Image {
+        padding-block-end: unset;
+    }
+}

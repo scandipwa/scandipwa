@@ -24,7 +24,7 @@
     display: flex;
     flex-direction: column;
     height: 500px;
-    margin-inline: 45px;
+    margin: unset;
 
     @include ultra-narrow-desktop {
         min-width: 332px;
@@ -35,8 +35,13 @@
     }
 
     @include mobile {
-        height: calc(100vh / 2);
-        margin-block-end: 16px;
+        // height: calc(100vh / 2);
+        width: 100%;
+        height: auto;
+    }
+    
+    .Image-Image:not(.ProductGallery-ProductPage) {
+        position: relative;
     }
 
     &-Additional {
@@ -68,8 +73,9 @@
     }
 
     &-SliderWrapper {
-        flex: 1;
-        height: 100%;
+        // flex: 1;
+        // max-height: 100%;
+        height: inherit;
     }
 
     &-Slider {
