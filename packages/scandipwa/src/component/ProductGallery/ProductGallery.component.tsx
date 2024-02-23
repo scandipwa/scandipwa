@@ -33,6 +33,7 @@ import VideoThumbnail from 'Component/VideoThumbnail';
 import { MediaGalleryEntry } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
+import history from 'Util/History';
 import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
 import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 
@@ -414,6 +415,30 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
         return url;
     }
 
+    renderPlaceholderImage(): ReactElement {
+        const { activeImage } = this.props;
+
+        const {
+            location: {
+                state: {
+                    product: { small_image: { url = '' } = {} } = {},
+                } = {},
+            } = {},
+        } = history ?? {};
+
+        return (
+            <Image
+              src={ url }
+              ratio={ ImageRatio.IMG_CUSTOM }
+              mix={ {
+                  block: 'ProductGallery',
+                  elem: 'SliderImage',
+                  mods: { isHidden: activeImage !== undefined },
+              } }
+            />
+        );
+    }
+
     renderSlider(): ReactElement {
         const {
             gallery,
@@ -451,6 +476,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
                   sliderHeight={ isImageZoomPopupActive ? '100%' : 0 }
                   isHeightTransitionDisabledOnMount
                 >
+                    { this.renderPlaceholderImage() }
                     { gallery.map(this.renderSlide) }
                 </Slider>
             </div>
