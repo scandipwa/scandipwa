@@ -41,6 +41,12 @@
         opacity: 0;
     }
 
+    &_remove-object-fit {
+        .Image-Image {
+            object-fit: unset;
+        }
+    }
+
     .Image {
         padding-block-end: unset;
     }

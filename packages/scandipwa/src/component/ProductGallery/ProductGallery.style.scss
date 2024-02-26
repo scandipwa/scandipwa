@@ -24,7 +24,7 @@
     display: flex;
     flex-direction: column;
     height: 500px;
-    margin: unset;
+    margin-inline: 45px;
 
     @include ultra-narrow-desktop {
         min-width: 332px;
@@ -35,13 +35,8 @@
     }
 
     @include mobile {
-        // height: calc(100vh / 2);
-        width: 100%;
-        height: auto;
-    }
-    
-    .Image-Image:not(.ProductGallery-ProductPage) {
-        position: relative;
+        height: calc(100vh / 2);
+        margin-block-end: 16px;
     }
 
     &-Additional {
@@ -73,9 +68,8 @@
     }
 
     &-SliderWrapper {
-        // flex: 1;
-        // max-height: 100%;
-        height: inherit;
+        flex: 1;
+        height: 100%;
     }
 
     &-Slider {
@@ -96,5 +90,10 @@
     &-SliderImage {
         height: 100%;
         width: 100%;
+
+        &_isHidden {
+            position: absolute;
+            z-index: -1100;
+        }
     }
 }

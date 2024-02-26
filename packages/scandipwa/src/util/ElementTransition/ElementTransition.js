@@ -71,28 +71,53 @@ export const transitionElementFromTo = async ({
     const imageTo = elToCallback();
 
     const {
-        top: tt, left: tl, width: tw,
+        top: tt, left: tl, width: tw, height: th,
     } = imageTo.getBoundingClientRect();
 
+    const newHeight = (th / tw) * sh;
+    const translateYCorrection = (newHeight - sh) / 2;
+    const newSt = st - translateYCorrection;
+
     const translateX = tl - sl;
-    const translateY = tt - st;
+    const translateY = tt - newSt;
     const scale = tw / sw;
-    // const scaleY = th / sh;
+    const scaleY = th / newHeight;
 
-    // clonedElement.style.transform = `translate3d(${ translateX }px, ${ translateY }px, 0) scale(${ scaleX }, ${ scaleY })`;
-    clonedElement.style.transform = `translate3d(${ translateX }px, ${ translateY }px, 0) scale(${ scale })`;
+    clonedElement.style.top = `${ newSt }px`;
+    clonedElement.style.height = `${ newHeight }px`;
+    clonedElement.style.transform = `translate3d(${ translateX }px, ${ translateY }px, 0) scale(${ scale }, ${ scaleY })`;
 
-    const productGallery = document.querySelector('.ProductGallery');
-    const th = sh * scale;
-    productGallery.style.height = `${ th }px`;
+    function waitForElementToExist(selector) {
+        // eslint-disable-next-line consistent-return
+        return new Promise((resolve) => {
+            if (document.querySelector(selector)) {
+                return resolve(document.querySelector(selector));
+            }
+            const observer = new MutationObserver(() => {
+                if (document.querySelector(selector)) {
+                    resolve(document.querySelector(selector));
+                    observer.disconnect();
+                }
+            });
 
-    setTimeout(() => {
-        transitionWrapper.classList.add('element-transition--active');
-        // eslint-disable-next-line no-magic-numbers
-    }, 150);
+            observer.observe(document.body, {
+                subtree: true,
+                childList: true,
+            });
+        });
+    }
 
-    setTimeout(() => {
-        transitionWrapper.remove();
-        // eslint-disable-next-line no-magic-numbers
-    }, 300);
+    waitForElementToExist('.ProductGallery-SliderImage').then(
+        /** @namespace Util/ElementTransition/transitionElementFromTo/waitForElementToExist/then */
+        () => {
+            setTimeout(() => {
+                transitionWrapper.classList.add('element-transition--active');
+            // eslint-disable-next-line no-magic-numbers
+            }, 150);
+            setTimeout(() => {
+                transitionWrapper.remove();
+            // eslint-disable-next-line no-magic-numbers
+            }, 300);
+        }
+    );
 };
