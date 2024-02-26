@@ -9,7 +9,6 @@
  * @package scandipwa/scandipwa
  * @link https://github.com/scandipwa/scandipwa
  */
-
 export const transitionElementFromTo = async ({
     elFrom,
     elToCallback,
@@ -83,7 +82,9 @@ export const transitionElementFromTo = async ({
     const scale = tw / sw;
     const scaleY = th / newHeight;
 
+    // Top is changed to get correct top location after transform
     clonedElement.style.top = `${ newSt }px`;
+    // Height is changed to get correct aspect ratio before tranform
     clonedElement.style.height = `${ newHeight }px`;
     clonedElement.style.transform = `translate3d(${ translateX }px, ${ translateY }px, 0) scale(${ scale }, ${ scaleY })`;
 
