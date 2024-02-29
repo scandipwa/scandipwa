@@ -53,7 +53,7 @@ export class CurrencySwitcherContainer extends DataContainer<CurrencySwitcherCon
     }
 
     async _handleCurrencySelect(currencyCode: GQLCurrencyEnum): Promise<void> {
-        const { updateCurrency } = this.props;
+        const { updateCurrency, updateCurrentCurrency } = this.props;
 
         try {
             await updateCurrency({ currencyCode });
