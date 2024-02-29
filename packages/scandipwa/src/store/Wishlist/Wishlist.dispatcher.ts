@@ -49,7 +49,8 @@ export const isWishlistEnabled = (): boolean => {
 /**
  * Product Wishlist Dispatcher
  * @class WishlistDispatcher
- * @namespace Store/Wishlist/Dispatcher */
+ * @namespace Store/Wishlist/Dispatcher
+ */
 export class WishlistDispatcher {
     updateInitialWishlistData(dispatch: Dispatch): void {
         if (isSignedIn() && isWishlistEnabled()) {
