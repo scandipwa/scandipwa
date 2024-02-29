@@ -14,7 +14,7 @@
         min-height: calc(100vh - var(--header-total-height) + 10px);
 
         @include mobile {
-            padding-block-end: var(--mobile-myAccount-page-padding-bottom);
+            padding-block-end: var(--mobile-my-account-page-padding-bottom);
         }
     }
 
