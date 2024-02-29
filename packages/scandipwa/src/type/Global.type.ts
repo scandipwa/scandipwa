@@ -50,6 +50,7 @@ declare global {
         isPriorityLoaded: boolean;
         isPrefetchValueUsed?: boolean;
         metaHtml?: string;
+        isInstallPromptAvailable?: boolean;
     }
 
     interface BeforeInstallPromptEvent extends Event {

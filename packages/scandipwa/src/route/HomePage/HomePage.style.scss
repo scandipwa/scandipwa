@@ -1,8 +1,38 @@
+:root {
+    --install-prompt-fallback-height: 184px;
+}
+
 .HomePage {
     .CmsPage {
         &,
         &-Wrapper {
             margin-block-end: 0;
+        }
+    }
+
+    &-InstallPromptFallback {
+        &Wrapper {
+            height: var(--install-prompt-fallback-height);
+            padding-inline: 14px;
+            padding-block-start: 14px;
+        }
+
+        height: 100%;
+        width: 100%;
+        animation: var(--placeholder-animation);
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+    }
+
+    &_mobile {
+        border-block-start: 1px solid transparent;
+
+        .CmsPage {
+            margin-block-start: 14px;
+
+            &-Wrapper {
+                margin-block-start: 0;
+            }
         }
     }
 }

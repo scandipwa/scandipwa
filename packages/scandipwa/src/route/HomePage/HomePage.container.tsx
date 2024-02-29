@@ -9,18 +9,20 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { PureComponent, Suspense } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import Footer from 'Component/Footer';
-import InstallPrompt from 'Component/InstallPrompt';
+// import InstallPrompt from 'Component/InstallPrompt';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import CmsPage from 'Route/CmsPage';
 import { CmsPageContainerProps } from 'Route/CmsPage/CmsPage.type';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { ReactElement } from 'Type/Common.type';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 import { RootState } from 'Util/Store/Store.type';
 
 import {
@@ -42,10 +44,30 @@ export const mapDispatchToProps = (dispatch: Dispatch): HomePageContainerMapDisp
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
 });
 
+// export const InstallPrompt = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "install-prompt" */ 'Component/InstallPrompt'));
+
+export const InstallPrompt = lowPriorityLazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "install-prompt" */
+    'Component/InstallPrompt'
+));
+
 /** @namespace Route/HomePage/Container */
 export class HomePageContainer extends PureComponent<HomePageContainerProps> {
+    state = {
+        isInstallPromptAvailable: window.isInstallPromptAvailable,
+    };
+
     componentDidMount(): void {
-        const { changeHeaderState } = this.props;
+        const beforeInstallPromptHandler = (event: Event) => {
+            event.preventDefault();
+            BrowserDatabase.deleteItem('app_installed');
+            window.removeEventListener('beforeinstallprompt', beforeInstallPromptHandler);
+        };
+
+        window.addEventListener('beforeinstallprompt', beforeInstallPromptHandler);
+        const {
+            changeHeaderState,
+        } = this.props;
 
         changeHeaderState({
             name: DEFAULT_STATE_NAME,
@@ -69,10 +91,31 @@ export class HomePageContainer extends PureComponent<HomePageContainerProps> {
         };
     }
 
-    render(): ReactElement {
+    renderInstallPrompt() {
+        const { isInstallPromptAvailable } = this.state;
+
+        if (!isInstallPromptAvailable) {
+            return null;
+        }
+
         return (
-            <div block="HomePage">
+            <Suspense fallback={ (
+                <div block="HomePage" elem="InstallPromptFallbackWrapper">
+                    <div block="HomePage" elem="InstallPromptFallback" />
+                </div>
+            ) }
+            >
                 <InstallPrompt />
+            </Suspense>
+        );
+    }
+
+    render(): ReactElement {
+        const { isInstallPromptAvailable } = this.state;
+
+        return (
+            <div block="HomePage" mods={ { mobile: !!isInstallPromptAvailable } }>
+                { this.renderInstallPrompt() }
                 <CmsPage { ...this.containerProps() } />
                 <Footer isVisibleOnMobile />
             </div>
