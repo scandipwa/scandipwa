@@ -76,7 +76,7 @@ export const returnFilteredCurrencies = (
             ...currencyData,
             available_currencies_data:
                 availableCurrencies.filter(({ value }) => (
-                    value === base || (rates?.find(({ currency_to }) => currency_to === value)?.rate || 0) > 0
+                    value === base || Number(rates?.find(({ currency_to }) => currency_to === value)?.rate || 0) > 0
                 )),
         },
         currency: currencyRates,
