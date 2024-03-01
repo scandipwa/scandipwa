@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import Footer from 'Component/Footer';
-// import InstallPrompt from 'Component/InstallPrompt';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import CmsPage from 'Route/CmsPage';
 import { CmsPageContainerProps } from 'Route/CmsPage/CmsPage.type';
@@ -44,8 +43,6 @@ export const mapDispatchToProps = (dispatch: Dispatch): HomePageContainerMapDisp
     changeHeaderState: (state) => dispatch(changeNavigationState(NavigationType.TOP_NAVIGATION_TYPE, state)),
 });
 
-// export const InstallPrompt = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "install-prompt" */ 'Component/InstallPrompt'));
-
 export const InstallPrompt = lowPriorityLazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "install-prompt" */
     'Component/InstallPrompt'
@@ -58,13 +55,6 @@ export class HomePageContainer extends PureComponent<HomePageContainerProps> {
     };
 
     componentDidMount(): void {
-        const beforeInstallPromptHandler = (event: Event) => {
-            event.preventDefault();
-            BrowserDatabase.deleteItem('app_installed');
-            window.removeEventListener('beforeinstallprompt', beforeInstallPromptHandler);
-        };
-
-        window.addEventListener('beforeinstallprompt', beforeInstallPromptHandler);
         const {
             changeHeaderState,
         } = this.props;
@@ -95,6 +85,14 @@ export class HomePageContainer extends PureComponent<HomePageContainerProps> {
         const { isInstallPromptAvailable } = this.state;
 
         if (!isInstallPromptAvailable) {
+            const beforeInstallPromptHandler = (event: Event) => {
+                event.preventDefault();
+                BrowserDatabase.deleteItem('app_installed');
+                window.removeEventListener('beforeinstallprompt', beforeInstallPromptHandler);
+            };
+
+            window.addEventListener('beforeinstallprompt', beforeInstallPromptHandler);
+
             return null;
         }
 
