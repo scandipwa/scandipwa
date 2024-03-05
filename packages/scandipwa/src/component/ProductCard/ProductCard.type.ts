@@ -29,6 +29,7 @@ export interface ProductCardContainerMapStateProps extends ProductContainerMapSt
     baseLinkUrl: string;
     productUsesCategories: boolean;
     categoryUrlSuffix: string;
+    isMobile: boolean;
 }
 
 export interface ProductCardContainerMapDispatchProps extends ProductContainerMapDispatchProps {
@@ -70,6 +71,7 @@ export interface ProductCardComponentProps extends ProductComponentProps {
     registerSharedElement: (ref: RefObject<HTMLElement>) => void;
     isPlp: boolean;
     onLoad: () => void;
+    isMobile: boolean;
 }
 
 export type ProductCardContainerPropKeys = ProductContainerPropKeys
@@ -83,7 +85,8 @@ export type ProductCardContainerPropKeys = ProductContainerPropKeys
 | 'thumbnail'
 | 'linkTo'
 | 'isPlp'
-| 'onLoad';
+| 'onLoad'
+| 'isMobile';
 
 export interface ContentObject {
     renderCardLinkWrapper: (children: Children, mix?: Mix) => ReactElement;

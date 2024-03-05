@@ -33,7 +33,7 @@ import './ProductCard.style';
 /**
  * Product card
  * @class ProductCard
- * @namespace Component/ProductCard/Component */
+ /* @namespace Component/ProductCard/Component */
 export class ProductCardComponent extends ProductComponent<ProductCardComponentProps> {
     static defaultProps: Partial<ProductCardComponentProps> = {
         ...ProductComponent.defaultProps,
@@ -390,7 +390,7 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
     }
 
     renderCardContent(): ReactElement {
-        const { renderContent, product: { name } } = this.props;
+        const { renderContent, product: { name }, isMobile } = this.props;
 
         if (renderContent) {
             return renderContent(this.contentObject);
@@ -401,6 +401,12 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
                 <div block="ProductCard" elem="LinkInnerWrapper" mods={ { loaded: !!name } }>
                     <div block="ProductCard" elem="FigureReview">
                         <figure block="ProductCard" elem="Figure">
+                            { isMobile && (
+                                <div block="ProductCard" elem="MobileActions">
+                                    { this.renderProductCardWishlistButton() }
+                                    { this.renderProductCompareButton() }
+                                </div>
+                            ) }
                             { this.renderPicture() }
                         </figure>
                     </div>
@@ -411,7 +417,7 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
                         { this.renderPrice() }
                     </div>
                     <div block="ProductCard" elem="VisibleOnHover">
-                        { this.renderVisibleOnHover() }
+                    { this.renderVisibleOnHover() }
                     </div>
                 </div>
             ))

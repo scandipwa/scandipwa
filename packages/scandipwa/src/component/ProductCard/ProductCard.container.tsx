@@ -47,6 +47,7 @@ export const mapStateToProps = (state: RootState): ProductCardContainerMapStateP
     baseLinkUrl: state.ConfigReducer.base_link_url || '',
     productUsesCategories: state.ConfigReducer.product_use_categories || false,
     categoryUrlSuffix: state.ConfigReducer.category_url_suffix,
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
@@ -85,6 +86,7 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
             product,
             isPlp,
             onLoad,
+            isMobile,
         } = this.props;
 
         return {
@@ -100,6 +102,7 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
             thumbnail: getSmallImage(this.getActiveProduct()) || getSmallImage(product),
             linkTo: this.getLinkTo(),
             onLoad,
+            isMobile,
         };
     }
 
