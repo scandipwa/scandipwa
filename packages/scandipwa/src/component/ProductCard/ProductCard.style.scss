@@ -49,6 +49,10 @@
         }
     }
 
+    &:hover {
+        z-index: 4;
+    }
+
     .ProductConfigurableAttributes {
         &-Title {
             display: none;
