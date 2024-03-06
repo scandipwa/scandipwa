@@ -290,7 +290,7 @@ export class MyAccountDispatcher {
         WishlistDispatcher.updateInitialWishlistData(dispatch);
 
         await this.requestCustomerData(dispatch);
-        
+
         CartDispatcher.updateInitialCartData(dispatch, true);
 
         dispatch(updateCustomerSignInStatus(true));
