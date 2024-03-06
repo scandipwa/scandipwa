@@ -80,10 +80,6 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
             },
         } = this.props;
 
-        if (!isPlp) {
-            scrollToTop();
-        }
-
         if (isMobile) {
             const imageToCallback = () => document.querySelector('[data-is-pdp=true]');
 
@@ -92,6 +88,10 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
                 elToCallback: imageToCallback,
                 isCopyCssProperties: true,
             });
+        }
+
+        if (!isPlp) {
+            scrollToTop();
         }
     }
 

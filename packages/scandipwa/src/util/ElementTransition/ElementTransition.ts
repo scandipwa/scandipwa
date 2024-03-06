@@ -13,7 +13,7 @@ export const transitionElementFromTo = async ({
     elFrom,
     elToCallback,
     isCopyCssProperties,
-}) => {
+}: any) => {
     if (!elFrom || !elToCallback) {
         return;
     }
@@ -59,7 +59,7 @@ export const transitionElementFromTo = async ({
 
             if (condition) {
                 clearInterval(interval);
-                resolve();
+                resolve(true);
             }
 
             maxTries -= 1;
@@ -88,37 +88,13 @@ export const transitionElementFromTo = async ({
     clonedElement.style.height = `${ newHeight }px`;
     clonedElement.style.transform = `translate3d(${ translateX }px, ${ translateY }px, 0) scale(${ scale }, ${ scaleY })`;
 
-    function waitForElementToExist(selector) {
-        // eslint-disable-next-line consistent-return
-        return new Promise((resolve) => {
-            if (document.querySelector(selector)) {
-                return resolve(document.querySelector(selector));
-            }
-            const observer = new MutationObserver(() => {
-                if (document.querySelector(selector)) {
-                    resolve(document.querySelector(selector));
-                    observer.disconnect();
-                }
-            });
+    setTimeout(() => {
+        transitionWrapper.classList.add('element-transition--active');
+        // eslint-disable-next-line no-magic-numbers
+    }, 150);
 
-            observer.observe(document.body, {
-                subtree: true,
-                childList: true,
-            });
-        });
-    }
-
-    waitForElementToExist('.ProductGallery-SliderImage').then(
-        /** @namespace Util/ElementTransition/transitionElementFromTo/waitForElementToExist/then */
-        () => {
-            setTimeout(() => {
-                transitionWrapper.classList.add('element-transition--active');
-            // eslint-disable-next-line no-magic-numbers
-            }, 150);
-            setTimeout(() => {
-                transitionWrapper.remove();
-            // eslint-disable-next-line no-magic-numbers
-            }, 300);
-        }
-    );
+    setTimeout(() => {
+        transitionWrapper.remove();
+        // eslint-disable-next-line no-magic-numbers
+    }, 300);
 };
