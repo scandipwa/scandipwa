@@ -80,6 +80,7 @@ export class InstallPromptContainer extends PureComponent<InstallPromptContainer
             (choice) => {
                 if (choice.outcome === 'accepted') {
                     this.setState({ isBannerClosed: true });
+                    BrowserDatabase.setItem(true, 'app_installed');
                 }
 
                 // Clear the saved prompt since it can't be used again

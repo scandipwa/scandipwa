@@ -28,21 +28,6 @@ export class InstallPromptComponent extends PureComponent<InstallPromptComponent
      * - Samsung Internet
      * But iOS has own "Add to Home Screen button" on Safari share menu
      */
-    hasSupport():boolean {
-        const { device, hasInstallPromptEvent, isBannerClosed } = this.props;
-        const {
-            android,
-            ios,
-            safari,
-            standaloneMode,
-        } = device;
-        const isAndroid = android && hasInstallPromptEvent;
-        const isIos = ios && safari;
-
-        return (isAndroid || isIos)
-            && !standaloneMode
-            && !isBannerClosed;
-    }
 
     renderPrompt(): ReactElement {
         const {
@@ -72,15 +57,17 @@ export class InstallPromptComponent extends PureComponent<InstallPromptComponent
     }
 
     render(): ReactElement {
-        const displayComponent = this.hasSupport();
+        const { isBannerClosed } = this.props;
 
-        if (!displayComponent) {
+        if (isBannerClosed) {
             return null;
         }
 
         return (
             <div block="InstallPrompt">
+                <div block="InstallPrompt" elem="Wrapper">
                 { this.renderPrompt() }
+                </div>
             </div>
         );
     }

@@ -1,6 +1,15 @@
+:root {
+    --install-prompt-height: 170px;
+}
+
 .InstallPrompt {
     // prevent margin merging
     border-block-start: 1px solid transparent;
+
+    &-Wrapper {
+        height: var(--install-prompt-height);
+        margin-block: 14px;
+    }
 
     @include mobile {
         + .CmsPage {
