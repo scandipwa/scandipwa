@@ -54,13 +54,16 @@ export class BreadcrumbsComponent extends PureComponent<BreadcrumbsComponentProp
     }
 
     shouldHideBreadcrumbs(): boolean {
-        const { areBreadcrumbsVisible } = this.props;
-        const { pathname = appendWithStoreCode('/') } = location;
+        const {
+            areBreadcrumbsVisible,
+            baseUrl = window.base_link_url,
+        } = this.props;
+        const { pathname = appendWithStoreCode('/', baseUrl) } = location;
 
         return !!(
             !areBreadcrumbsVisible
-            || pathname.match(appendWithStoreCode(CheckoutStepUrl.CHECKOUT_URL))
-            || isHomePageUrl(pathname)
+            || pathname.match(appendWithStoreCode(CheckoutStepUrl.CHECKOUT_URL, baseUrl))
+            || isHomePageUrl(pathname, baseUrl)
         );
     }
 

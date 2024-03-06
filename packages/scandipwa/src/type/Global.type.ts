@@ -46,6 +46,7 @@ declare global {
         contentConfiguration?: ContentConfiguration;
         prompt_event?: BeforeInstallPromptEvent;
         website_code: string;
+        base_link_url: string;
         storeCurrency: string;
         isPriorityLoaded: boolean;
         isPrefetchValueUsed?: boolean;

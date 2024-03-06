@@ -55,6 +55,7 @@ $icons = $this->getAppIconData();
         window.storeList = JSON.parse(`<?= $this->getStoreListJson() ?>`).sort().reverse();
         window.storeRegexText = `/(${window.storeList.join('|')})?`;
         window.website_code = '<?= $this->getWebsiteCode() ?>';
+        window.base_link_url = '<?= $this->getBaseLinkUrl() ?>';
         window.metaHtml = `
             <!-- Manifest -->
             <link rel="manifest" href="/media/webmanifest/manifest.json">

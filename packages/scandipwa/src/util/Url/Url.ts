@@ -87,8 +87,13 @@ export const replace = (regex: RegExp, path: string): string => {
  * @param {String} pathname the URL to append store code to
  * @namespace Util/Url/appendWithStoreCode
  */
-export const appendWithStoreCode = (pathname: string): string => {
-    const { ConfigReducer: { base_link_url = window.location.href } = {} } = getStoreState();
+export const appendWithStoreCode = (pathname: string, baseUrl?: string): string => {
+    const {
+        ConfigReducer: {
+            base_link_url = baseUrl || window.location.href,
+        } = {},
+    } = getStoreState();
+
     const { pathname: storePrefix } = new URL(base_link_url);
 
     if (!pathname) {
@@ -267,10 +272,10 @@ export const objectToUri = (keyValueObject: Record<string, string> = {}): string
 };
 
 /** @namespace Util/Url/isHomePageUrl */
-export const isHomePageUrl = (pathname: string): boolean => {
-    const isHomePage = pathname === appendWithStoreCode('/')
+export const isHomePageUrl = (pathname: string, baseUrl?: string): boolean => {
+    const isHomePage = pathname === appendWithStoreCode('/', baseUrl)
         || pathname === '/'
-        || pathname === appendWithStoreCode('')
+        || pathname === appendWithStoreCode('', baseUrl)
         || pathname === '';
 
     return isHomePage;
