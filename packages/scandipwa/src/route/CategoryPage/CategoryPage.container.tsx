@@ -231,6 +231,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             },
             currentArgs: {
                 filter,
+                currentPage,
             } = {},
         } = this.props;
 
@@ -245,6 +246,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             },
             currentArgs: {
                 filter: prevFilter,
+                currentPage: prevPage,
             } = {},
         } = prevProps;
 
@@ -280,7 +282,9 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * Or if the breadcrumbs were not yet updated after category request,
          * and the category ID expected to load was loaded, update data.
          */
-        const categoryChange = id !== prevId || (!breadcrumbsWereUpdated && id === categoryIds);
+        const categoryChange = id !== prevId
+            || (!breadcrumbsWereUpdated && id === categoryIds)
+            || currentPage !== prevPage;
 
         if (categoryChange) {
             this.checkIsActive();
