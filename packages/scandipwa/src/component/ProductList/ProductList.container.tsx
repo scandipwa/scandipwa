@@ -122,25 +122,20 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
 
         const prevPage = this._getPageFromUrl(prevLocation);
         const currentPage = this._getPageFromUrl();
+        const isProductListUpdated = JSON.stringify(filter) !== JSON.stringify(prevFilter)
+                                    || JSON.stringify(sort) !== JSON.stringify(prevSort)
+                                    || currentPage !== prevPage;
 
-        if (
-            JSON.stringify(filter) !== JSON.stringify(prevFilter)
-            || JSON.stringify(sort) !== JSON.stringify(prevSort)
-            || currentPage !== prevPage
-        ) {
+        if (isProductListUpdated) {
             window.isPrefetchValueUsed = false;
         }
 
         // prevents requestPage() fired twice on Mobile PLP with enabled infinite scroll
-        if (device.isMobile && this._getIsInfiniteLoaderEnabled() && isPlp) {
+        if (device.isMobile && this._getIsInfiniteLoaderEnabled() && isPlp && !isProductListUpdated) {
             return;
         }
 
-        if (search !== prevSearch
-            || currentPage !== prevPage
-            || JSON.stringify(sort) !== JSON.stringify(prevSort)
-            || JSON.stringify(filter) !== JSON.stringify(prevFilter)
-        ) {
+        if (search !== prevSearch || isProductListUpdated) {
             this.requestPage(this._getPageFromUrl());
         }
     }
