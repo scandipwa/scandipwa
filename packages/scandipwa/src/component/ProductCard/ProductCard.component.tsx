@@ -23,6 +23,7 @@ import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder
 import { GroupedProductItem } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { Children, ReactElement } from 'Type/Common.type';
+import { transitionElementFromTo } from 'Util/ElementTransition/ElementTransition';
 import { IndexedConfigurableOption } from 'Util/Product/Product.type';
 
 import { scrollToTop } from '../../util/Browser/Browser';
@@ -72,13 +73,26 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
     }
 
     handleLinkClick(): void {
-        const { registerSharedElement, isPlp } = this.props;
+        const {
+            isPlp,
+            device: {
+                isMobile,
+            },
+        } = this.props;
+
+        if (isMobile) {
+            const imageToCallback = () => document.querySelector('[data-is-pdp=true]');
+
+            transitionElementFromTo({
+                elFrom: this.imageRef.current,
+                elToCallback: imageToCallback,
+                isCopyCssProperties: true,
+            });
+        }
 
         if (!isPlp) {
             scrollToTop();
         }
-
-        registerSharedElement(this.imageRef);
     }
 
     //#region PRICE

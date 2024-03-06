@@ -11,16 +11,12 @@
 
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Subscribe } from 'unstated-typescript';
 
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps as sourceMapStateToProps,
     ProductContainer,
 } from 'Component/Product/Product.container';
-import SharedTransitionContainer, {
-    SharedTransitionUnstated,
-} from 'Component/SharedTransition/SharedTransition.unstated';
 import { UrlRewrite } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -148,15 +144,10 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
 
     render(): ReactElement {
         return (
-            <Subscribe to={ [SharedTransitionContainer] }>
-                { ({ registerSharedElement }: SharedTransitionUnstated): JSX.Element => (
-                    <ProductCard
-                      { ...this.containerFunctions }
-                      { ...this.containerProps() }
-                      registerSharedElement={ registerSharedElement }
-                    />
-                ) }
-            </Subscribe>
+            <ProductCard
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
+            />
         );
     }
 }

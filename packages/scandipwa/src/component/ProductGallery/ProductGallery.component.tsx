@@ -93,28 +93,21 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
     }
 
     componentDidMount(): void {
-        this.updateSharedDestinationElement();
         window.addEventListener('resize', this.calculateGallerySize);
     }
 
     componentDidUpdate(prevProps: ProductGalleryComponentProps): void {
         const {
-            productId,
             location: { pathname = '' } = {},
             sliderRef,
             isImageZoomPopupActive,
         } = this.props;
 
         const {
-            productId: prevProductId,
             location: { pathname: prevPathname = '' } = {},
         } = prevProps;
 
         const { prevZoom } = this.state;
-
-        if (productId !== prevProductId) {
-            this.updateSharedDestinationElement();
-        }
 
         if (sliderRef?.current?.draggableRef && pathname !== prevPathname) {
             CSS.setVariable(
@@ -170,12 +163,6 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
         }
 
         handleImageZoomPopupActiveChange(true);
-    }
-
-    updateSharedDestinationElement(): void {
-        const { registerSharedElementDestination } = this.props;
-
-        registerSharedElementDestination(this.imageRef);
     }
 
     renderAdditionalPicture(media: MediaGalleryEntry, index = 0): ReactElement {
@@ -462,6 +449,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
               ref={ this.imageRef }
               block="ProductGallery"
               elem="SliderWrapper"
+              data-is-pdp
             >
                 <meta itemProp="image" content={ this.getImageUrl() } />
                 <Slider

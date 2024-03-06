@@ -11,11 +11,9 @@
 
 import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Subscribe } from 'unstated-typescript';
 
 import ImageZoomPopup from 'Component/ImageZoomPopup';
 import { ProductType } from 'Component/Product/Product.config';
-import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { MediaGalleryEntry } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
 import { cacheImages } from 'Util/Cache/Cache';
@@ -36,7 +34,6 @@ import {
     ProductGalleryContainerMapStateProps,
     ProductGalleryContainerProps,
     ProductGalleryContainerState,
-    SharedTransitionContainerRenderFnProps,
     SliderWithDraggableRef,
 } from './ProductGallery.type';
 
@@ -295,21 +292,10 @@ export class ProductGalleryContainer extends PureComponent<ProductGalleryContain
               activeImageId={ activeImage }
               popupId={ PRODUCT_GALLERY_POPUP_ID }
             >
-                <Subscribe to={ [SharedTransitionContainer] }>
-                    { (props) => {
-                        const {
-                            registerSharedElementDestination,
-                        } = props as unknown as SharedTransitionContainerRenderFnProps;
-
-                        return (
-                            <ProductGallery
-                              registerSharedElementDestination={ registerSharedElementDestination }
-                              { ...this.containerProps() }
-                              { ...this.containerFunctions }
-                            />
-                        );
-                    } }
-                </Subscribe>
+                <ProductGallery
+                  { ...this.containerProps() }
+                  { ...this.containerFunctions }
+                />
             </ImageZoomPopup>
         );
     }

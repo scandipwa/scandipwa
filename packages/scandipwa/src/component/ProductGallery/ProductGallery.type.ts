@@ -61,7 +61,6 @@ export interface ProductGalleryComponentProps
     sliderRef: RefObject<SliderWithDraggableRef>;
     isWithEmptySwitcher: boolean;
     showLoader: boolean;
-    registerSharedElementDestination: (element: RefObject<HTMLElement>) => void;
     location?: Location;
 }
 
@@ -92,8 +91,4 @@ export interface TransformRenderFnProps {
     previousScale: number;
     resetTransform: () => void;
     setTransform: (a: null, b: null, initialScale: number, transformationSpeed: number) => void;
-}
-
-export interface SharedTransitionContainerRenderFnProps {
-    registerSharedElementDestination: (element: RefObject<HTMLElement>) => void;
 }
