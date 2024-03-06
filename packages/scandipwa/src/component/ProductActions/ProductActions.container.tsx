@@ -122,7 +122,7 @@ ProductActionsContainerState
     getOfferType(): string {
         const { product: { variants } } = this.props;
 
-        if (variants && variants.length >= 1) {
+        if (variants && variants.length > 1) {
             return 'https://schema.org/AggregateOffer';
         }
 
