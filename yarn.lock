@@ -3144,10 +3144,10 @@
     deepmerge "^4.2.2"
     globby "^11.0.2"
 
-"@tilework/mosaic-cra-scripts@^0.1.28":
-  version "0.1.28"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-cra-scripts/-/mosaic-cra-scripts-0.1.28.tgz#5f0e01fa6d368ec7f4ac9c4dffea1ad886a4e8c5"
-  integrity sha512-j53p0tM0p6E/ftfsqCSvQNbh8U3WOJo1fcyOlDvd++LfTfYV1hl+Zt8hliyFN5yWM+XHFfd4ZHca/0I9wuvVvw==
+"@tilework/mosaic-cra-scripts@^0.1.29":
+  version "0.1.29"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-cra-scripts/-/mosaic-cra-scripts-0.1.29.tgz#fbf5d851b325d56b730ce13fbfb0192132cedd3b"
+  integrity sha512-ocjhhko4GMzoWp2St665xevuYQp+wA3/XJGCJaozrgRt8m1x6BFyEinGyYAmHTBn45DaK5FzX5KIvSDq3nmhIQ==
   dependencies:
     "@tilework/mosaic-config-injectors" "0.2.4"
     "@tilework/mosaic-craco" "0.0.6"
