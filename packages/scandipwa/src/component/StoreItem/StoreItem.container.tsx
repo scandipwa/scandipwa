@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { MouseEvent, PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
 
@@ -23,7 +23,7 @@ import {
 /** @namespace Component/StoreItem/Container */
 export class StoreItemContainer extends PureComponent<StoreItemContainerProps> {
     containerFunctions: StoreItemContainerFunctions = {
-        getStoreCode: this.getStoreCode.bind(this),
+        handleStoreItemClick: this.handleStoreItemClick.bind(this),
     };
 
     containerProps(): Pick<StoreItemComponentProps, 'item'>{
@@ -32,7 +32,9 @@ export class StoreItemContainer extends PureComponent<StoreItemContainerProps> {
         return { item };
     }
 
-    getStoreCode(): void {
+    handleStoreItemClick(e: MouseEvent): void {
+        e.preventDefault();
+
         const { item: { value }, handleStoreSelect } = this.props;
 
         handleStoreSelect(value);
