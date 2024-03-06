@@ -166,10 +166,13 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
     }
 
     renderAdditionalPicture(media: MediaGalleryEntry, index = 0): ReactElement {
+        const { productName } = this.props;
+
         return (
             <ProductGalleryThumbnailImage
               key={ index }
               media={ media }
+              productName={ productName }
             />
         );
     }
@@ -247,6 +250,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
             isMobile,
             isImageZoomPopupActive,
             showLoader,
+            productName,
         } = this.props;
         const { scrollEnabled } = this.state;
 
@@ -254,6 +258,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
             const {
                 base: { url: baseSrc } = {},
                 large: { url: largeSrc } = {},
+                label,
             } = mediaData;
 
             const style = isImageZoomPopupActive ? { height: 'auto' } : {};
@@ -269,6 +274,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
                       elem: 'SliderImage',
                       mods: { isPlaceholder: !src },
                   } }
+                  alt={ label || productName }
                   isPlaceholder={ !src }
                   style={ style }
                   showIsLoading={ showLoader }
