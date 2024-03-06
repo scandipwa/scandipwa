@@ -118,6 +118,8 @@
     }
 
     &-Heading {
+        text-transform: none;
+
         @include mobile {
             color: var(--header-color);
             height: 30px;

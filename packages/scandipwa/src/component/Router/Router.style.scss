@@ -46,6 +46,7 @@
     }
 
     &-BreadcrumbsFallback {
+        margin-block-start: var(--header-total-height);
         height: var(--breadcrumbs-height);
 
         @include mobile {
@@ -58,6 +59,5 @@
         position: relative;
         inset-block-start: 0;
         width: 100%;
-        margin-block-end: var(--header-total-height);
     }
 }
