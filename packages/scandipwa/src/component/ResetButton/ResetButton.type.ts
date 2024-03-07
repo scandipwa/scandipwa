@@ -25,12 +25,16 @@ export interface ResetButtonContainerFunctions {
     resetFilters: () => void;
 }
 
-export type ResetButtonContainerProps = RouteComponentProps & ResetButtonContainerBaseProps;
+export type ResetButtonContainerProps = RouteComponentProps & ResetButtonContainerBaseProps & ResetButtonContainerMapDispatchProps;
 
 export interface ResetButtonComponentProps extends ResetButtonContainerFunctions {
     mix: Mix;
     onClick: () => void;
     isContentFiltered: boolean;
+}
+
+export interface ResetButtonContainerMapDispatchProps {
+    resetFilter: () => void;
 }
 
 export type ResetButtonComponentContainerPropKeys =

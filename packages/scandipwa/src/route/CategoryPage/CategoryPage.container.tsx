@@ -134,6 +134,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             defaultPlpType: undefined,
             activeLayoutType: undefined,
             plpTypes: [] as CategoryPageLayout[],
+            categoryChange: false,
         } as S;
 
         this.setOfflineNoticeSize = this.setOfflineNoticeSize.bind(this);
@@ -286,6 +287,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             || (!breadcrumbsWereUpdated && id === categoryIds)
             || currentPage !== prevPage;
 
+        this.setState({ categoryChange });
+
         if (categoryChange) {
             this.checkIsActive();
             this.updateMeta();
@@ -368,8 +371,10 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             },
         } = this.props;
 
+        const { categoryChange } = this.state;
+
         // Requested category is equal to current category
-        return categoryIds === selectedCategoryIds;
+        return categoryIds === selectedCategoryIds || !categoryChange;
     }
 
     getAppliedFiltersCount(): number {
@@ -390,7 +395,9 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             isSearchPage,
         } = this.props;
 
-        return isSearchPage || categoryIds === id;
+        const { categoryChange } = this.state;
+
+        return isSearchPage || categoryIds === id || !categoryChange;
     }
 
     containerProps(): Pick<CategoryPageComponentProps, CategoryPageContainerPropsKeys> {
@@ -537,11 +544,20 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     }
 
     getFilter(): ProductAttributeFilterOptions {
-        const { categoryIds } = this.props;
+        const { categoryIds, category: { id } } = this.props;
+        const { categoryChange } = this.state;
         const customFilters = this.getSelectedFiltersFromUrl();
         const priceRange = this.getSelectedPriceRangeFromUrl();
 
         if (categoryIds === -1) {
+            if (!categoryChange) {
+                return {
+                    priceRange,
+                    customFilters,
+                    categoryIds: id,
+                };
+            }
+
             return {
                 priceRange,
                 customFilters,
