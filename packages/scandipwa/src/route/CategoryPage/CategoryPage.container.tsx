@@ -554,7 +554,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
                 return {
                     priceRange,
                     customFilters,
-                    categoryIds: id,
+                    categoryIds: Number(id),
                 };
             }
 
