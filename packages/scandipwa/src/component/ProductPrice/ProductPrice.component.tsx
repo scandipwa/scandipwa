@@ -376,12 +376,16 @@ export class ProductPriceComponent extends PureComponent<ProductPriceComponentPr
             return this.renderPrice(taxPrice, label);
         }
 
-        return (
-            <>
-                { this.renderPrice(basePrice, label) }
-                { this.renderSubPrice(taxPrice) }
-            </>
-        );
+        if (displayTaxInPrice === DisplayProductPricesInCatalog.BOTH) {
+            return (
+                <>
+                    { this.renderPrice(basePrice, label) }
+                    { this.renderSubPrice(taxPrice) }
+                </>
+            );
+        }
+
+        return null;
     }
 
     renderTierPrice(): ReactElement {

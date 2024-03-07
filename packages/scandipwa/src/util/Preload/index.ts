@@ -10,12 +10,15 @@
  */
 
 import { UrlRewritePageType } from 'Route/UrlRewrites/UrlRewrites.config';
+import ConfigDispatcher from 'Store/Config/Config.dispatcher';
 import ProductReducer from 'Store/Product/Product.reducer';
 import ProductListReducer from 'Store/ProductList/ProductList.reducer';
 import getStore, { injectReducers } from 'Util/Store';
 
 import CategoryPreload from './CategoryPreload';
 import ProductPreload from './ProductPreload';
+
+ConfigDispatcher.handleData(getStore().dispatch, undefined);
 
 injectReducers(getStore(), {
     ProductReducer,
