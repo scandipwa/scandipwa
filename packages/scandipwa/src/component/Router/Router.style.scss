@@ -33,6 +33,10 @@
         justify-content: center;
         align-items: center;
 
+        @include mobile {
+            border-bottom: 0;
+        }
+
         .TextPlaceholder {
             @include desktop {
                 font-size: 52px;
@@ -59,5 +63,9 @@
         position: relative;
         inset-block-start: 0;
         width: 100%;
+        
+        @include mobile {
+            -webkit-margin-after: var(--header-total-height);
+        }
     }
 }

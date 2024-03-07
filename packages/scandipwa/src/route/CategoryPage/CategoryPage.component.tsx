@@ -416,9 +416,12 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
     }
 
     renderMiscellaneous(): ReactElement {
-        const { totalItems } = this.props;
+        const {
+            totalItems,
+            isLoading,
+        } = this.props;
 
-        if (totalItems === 0 || !this.displayProducts()) {
+        if (!isLoading && (totalItems === 0 || !this.displayProducts())) {
             return <aside block="CategoryPage" elem="Miscellaneous" mods={ { noResults: true } } />;
         }
 
