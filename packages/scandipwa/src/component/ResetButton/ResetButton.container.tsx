@@ -11,6 +11,7 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { resetFilters } from 'Store/ProductList/ProductList.action';
 import { ReactElement } from 'Type/Common.type';
@@ -22,6 +23,7 @@ import {
     ResetButtonComponentContainerPropKeys,
     ResetButtonComponentProps,
     ResetButtonContainerFunctions,
+    ResetButtonContainerMapDispatchProps,
     ResetButtonContainerProps,
 } from './ResetButton.type';
 

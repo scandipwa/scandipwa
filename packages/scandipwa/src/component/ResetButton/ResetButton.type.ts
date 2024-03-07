@@ -34,7 +34,7 @@ export interface ResetButtonComponentProps extends ResetButtonContainerFunctions
 }
 
 export interface ResetButtonContainerMapDispatchProps {
-    resetFilter: () => void;
+    resetFilters: () => void;
 }
 
 export type ResetButtonComponentContainerPropKeys =
