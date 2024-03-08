@@ -222,11 +222,23 @@ export class HtmlComponent extends PureComponent<HtmlComponentProps> {
     }
 
     replaceDiv({ attribs, children }: DomElement): JSX.Element {
-        return (
-            <div { ...attribs }>
-                { domToReact(children, this.parserOptions) }
-            </div>
-        );
+        const dataContentType = attribs['data-content-type'] || '';
+
+        switch (dataContentType) {
+        case 'html':
+            return (
+                <div>
+                    { children.length && children.map(({ data = '' }) => parser(data, this.parserOptions)) }
+                </div>
+            );
+
+        default:
+            return (
+                <div { ...attribs }>
+                    { domToReact(children, this.parserOptions) }
+                </div>
+            );
+        }
     }
 
     /**
