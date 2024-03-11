@@ -9,12 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
-import MyAccountCustomerTable from 'Component/MyAccountCustomerTable';
 import { AccountPageUrl } from 'Route/MyAccount/MyAccount.config';
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
@@ -22,6 +21,11 @@ import { ReactElement } from 'Type/Common.type';
 import { MyAccountDashboardComponentProps } from './MyAccountDashboard.type';
 
 import './MyAccountDashboard.style';
+
+export const MyAccountCustomerTable = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-info" */
+    'Component/MyAccountCustomerTable'
+));
 
 /** @namespace Component/MyAccountDashboard/Component */
 export class MyAccountDashboardComponent extends PureComponent<MyAccountDashboardComponentProps> {
@@ -118,10 +122,12 @@ export class MyAccountDashboardComponent extends PureComponent<MyAccountDashboar
                 <div block="MyAccountDashboard" elem="BlockTitle">
                     <span>{ __('Account Information') }</span>
                 </div>
-                <MyAccountCustomerTable
-                  customer={ customer }
-                  title={ __('My profile') }
-                />
+                <Suspense fallback={ <div block="MyAccountDashboard" elem="MyAccountCustomerTableFallback" /> }>
+                    <MyAccountCustomerTable
+                      customer={ customer }
+                      title={ __('My profile') }
+                    />
+                </Suspense>
             </div>
         );
     }
