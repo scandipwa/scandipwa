@@ -33,10 +33,6 @@
         justify-content: center;
         align-items: center;
 
-        @include mobile {
-            border-bottom: 0;
-        }
-
         .TextPlaceholder {
             @include desktop {
                 font-size: 52px;
@@ -47,10 +43,13 @@
         inset-block-start: 0;
         width: 100%;
         z-index: 5;
+
+        @include mobile {
+            height: calc(var(--header-placeholder-total-height-mobile) + 1px);
+        }
     }
 
     &-BreadcrumbsFallback {
-        margin-block-start: var(--header-total-height);
         height: var(--breadcrumbs-height);
 
         @include mobile {
@@ -63,9 +62,10 @@
         position: relative;
         inset-block-start: 0;
         width: 100%;
-        
+        margin-block-end: var(--header-total-height);
+
         @include mobile {
-            -webkit-margin-after: var(--header-total-height);
+            margin-block-end: var(--header-placeholder-total-height-mobile);
         }
     }
 }

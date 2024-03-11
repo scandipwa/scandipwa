@@ -64,6 +64,10 @@ export const mapDispatchToProps = (dispatch: Dispatch): RouterContainerMapDispat
         () => {
             import(
                 /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+                'Store/Config/Config.dispatcher'
+            ).then(({ default: dispatcher }) => dispatcher.handleData(dispatch, undefined));
+            import(
+                /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
                 'Store/Wishlist/Wishlist.dispatcher'
             ).then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
             import(

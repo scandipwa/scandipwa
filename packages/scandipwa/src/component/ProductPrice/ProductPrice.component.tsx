@@ -366,26 +366,26 @@ export class ProductPriceComponent extends PureComponent<ProductPriceComponentPr
         taxPrice: Partial<FormattedMoney>,
         label?: string | ReactElement,
     ): ReactElement {
-        const { displayTaxInPrice } = this.props;
+        const {
+            storeConfig: {
+                tax_display_type,
+            } = {},
+        } = window;
 
-        if (displayTaxInPrice === DisplayProductPricesInCatalog.INCL_TAX) {
+        if (tax_display_type === DisplayProductPricesInCatalog.INCL_TAX) {
             return this.renderPrice(basePrice, label);
         }
 
-        if (displayTaxInPrice === DisplayProductPricesInCatalog.EXCL_TAX) {
+        if (tax_display_type === DisplayProductPricesInCatalog.EXCL_TAX) {
             return this.renderPrice(taxPrice, label);
         }
 
-        if (displayTaxInPrice === DisplayProductPricesInCatalog.BOTH) {
-            return (
-                <>
-                    { this.renderPrice(basePrice, label) }
-                    { this.renderSubPrice(taxPrice) }
-                </>
-            );
-        }
-
-        return null;
+        return (
+            <>
+                { this.renderPrice(basePrice, label) }
+                { this.renderSubPrice(taxPrice) }
+            </>
+        );
     }
 
     renderTierPrice(): ReactElement {
