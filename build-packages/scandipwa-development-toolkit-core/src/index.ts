@@ -3,7 +3,7 @@ import extend from './extend';
 import { getRelativeResourceDirectory } from './extend/fs-interactions';
 import createExtension from './extension/create';
 import installExtension from './extension/install';
-
+import createWorkspace from './workspace';
 export * from './types';
 
 export {
@@ -12,4 +12,5 @@ export {
     createExtension,
     installExtension,
     getRelativeResourceDirectory,
+    createWorkspace
 };
