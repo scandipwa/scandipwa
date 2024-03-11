@@ -14,6 +14,16 @@
 .ProductActions {
     line-height: 16px;
 
+    &-skuAndStockPlaceholder {
+        display: flex;
+        flex-direction: column;
+        height: 50px;
+
+        & .TextPlaceholder {
+            margin-block-start: 4px;
+        }
+    }
+
     &-Attributes {
         padding: 0;
     }

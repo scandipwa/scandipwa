@@ -76,6 +76,30 @@ export class ProductActionsComponent extends ProductComponent<ProductActionsComp
         );
     }
 
+    renderSkuAndStockPlaceholder(): ReactElement {
+        const {
+            isMobile,
+        } = this.props;
+
+        console.log(isMobile);
+
+        if (isMobile) {
+            return (
+                <div
+                  block="ProductActions"
+                  elem="skuAndStockPlaceholder"
+                >
+                    <TextPlaceholder />
+                    <TextPlaceholder />
+                </div>
+            );
+        }
+
+        return (
+            <TextPlaceholder />
+        );
+    }
+
     renderSkuAndStock(): ReactElement {
         const {
             getActiveProduct,
@@ -99,7 +123,7 @@ export class ProductActionsComponent extends ProductComponent<ProductActionsComp
                             { this.renderStock() }
                         </>
                     ),
-                    <TextPlaceholder />,
+                    this.renderSkuAndStockPlaceholder(),
                 ) }
             </section>
         );
