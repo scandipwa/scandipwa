@@ -81,8 +81,6 @@ export class ProductActionsComponent extends ProductComponent<ProductActionsComp
             isMobile,
         } = this.props;
 
-        console.log(isMobile);
-
         if (isMobile) {
             return (
                 <div
