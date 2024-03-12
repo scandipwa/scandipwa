@@ -12,7 +12,6 @@
 import { Device } from 'Type/Device.type';
 
 export interface DemoNoticeContainerMapStateProps {
-    isDemoNoticeEnabled: boolean;
     device: Device;
 }
 
@@ -20,6 +19,5 @@ export interface DemoNoticeContainerMapStateProps {
 export interface DemoNoticeContainerMapDispatchProps {}
 
 export interface DemoNoticeComponentProps {
-    isDemoNoticeEnabled: boolean;
     device: Device;
 }

@@ -23,8 +23,4 @@
     inset-block-start: 0;
     width: 100%;
     z-index: 110;
-
-    @at-root .isDemoVisible {
-        --demo-notice-height: 48px;
-    }
 }

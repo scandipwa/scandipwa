@@ -19,28 +19,6 @@ import './DemoNotice.style';
 
 /** @namespace Component/DemoNotice/Component */
 export class DemoNoticeComponent extends PureComponent<DemoNoticeComponentProps> {
-    static defaultProps: Partial<DemoNoticeComponentProps> = {
-        isDemoNoticeEnabled: false,
-    };
-
-    componentDidMount(): void {
-        this.checkForDemoNotice();
-    }
-
-    componentDidUpdate(): void {
-        this.checkForDemoNotice();
-    }
-
-    checkForDemoNotice(): void {
-        const { isDemoNoticeEnabled } = this.props;
-
-        if (isDemoNoticeEnabled) {
-            document.documentElement.classList.add('isDemoVisible');
-        } else {
-            document.documentElement.classList.remove('isDemoVisible');
-        }
-    }
-
     renderText(): ReactElement {
         const { device } = this.props;
 
@@ -52,9 +30,13 @@ export class DemoNoticeComponent extends PureComponent<DemoNoticeComponentProps>
     }
 
     render(): ReactElement {
-        const { isDemoNoticeEnabled } = this.props;
+        const {
+            storeConfig: {
+                demo_notice,
+            } = {},
+        } = window;
 
-        if (!isDemoNoticeEnabled) {
+        if (!demo_notice) {
             return null;
         }
 
