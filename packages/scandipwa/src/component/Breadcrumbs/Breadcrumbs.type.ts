@@ -14,9 +14,14 @@ import { Breadcrumb } from 'Store/Breadcrumbs/Breadcrumbs.type';
 export interface BreadcrumbsContainerMapStateProps {
     breadcrumbs: Breadcrumb[];
     areBreadcrumbsVisible: boolean;
+    baseUrl?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface BreadcrumbsContainerMapDispatchProps {}
 
 export type BreadcrumbsComponentProps = BreadcrumbsContainerMapStateProps & BreadcrumbsContainerMapDispatchProps;
+
+export type BreadcrumbsContainerProps = BreadcrumbsContainerMapStateProps & BreadcrumbsContainerMapDispatchProps;
+
+export type BreadcrumbsContainerPropsKeys = 'breadcrumbs' | 'areBreadcrumbsVisible' | 'baseUrl';
