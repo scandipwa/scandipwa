@@ -93,7 +93,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
 
     _getSelectedFiltersFromUrl(): Record<string, string[]> {
         const { location } = history;
-        const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
+        const selectedFiltersString = (getQueryParam('customFilters', location, false) || '').split(';');
 
         return selectedFiltersString.reduce((acc, filter) => {
             if (!filter) {
