@@ -19,6 +19,7 @@ export enum ProductListActionType {
     UPDATE_PRODUCT_LIST_ITEMS = 'UPDATE_PRODUCT_LIST_ITEMS',
     UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS',
     UPDATE_PAGE_LOAD_STATUS = 'UPDATE_PAGE_LOAD_STATUS',
+    RESET_FILTERS = 'RESET_FILTERS',
 }
 
 export interface AppendPageAction extends AnyAction {
@@ -45,10 +46,15 @@ export interface UpdatePageLoadingStatusAction extends AnyAction {
     type: ProductListActionType.UPDATE_PAGE_LOAD_STATUS;
 }
 
+export interface ResetFilterAction extends AnyAction {
+    type: ProductListActionType.RESET_FILTERS;
+}
+
 export type ProductListAction = AppendPageAction
 | UpdateProductListItemsAction
 | UpdateLoadStatusAction
-| UpdatePageLoadingStatusAction;
+| UpdatePageLoadingStatusAction
+| ResetFilterAction;
 
 export interface ProductListStore {
     pages: Record<number, IndexedProduct[]>;

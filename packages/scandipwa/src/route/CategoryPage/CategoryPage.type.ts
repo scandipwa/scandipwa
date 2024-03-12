@@ -87,6 +87,7 @@ export interface CategoryPageContainerState {
     defaultPlpType?: CategoryPageLayout;
     activeLayoutType?: CategoryPageLayout;
     plpTypes: CategoryPageLayout[];
+    categoryChange: boolean;
 }
 
 export interface CategoryPageComponentProps extends CategoryPageContainerFunctions {
