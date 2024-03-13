@@ -335,13 +335,32 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         this.setState({ hasError: false });
     }
 
+    renderHeaderFallbackPlaceholder(): ReactElement {
+        const {
+            actionName: {
+                type,
+                name,
+            },
+        } = window;
+
+        if (type === 'PRODUCT' && name) {
+            return (
+                <h1 block="Router" elem="HeaderProductSku">{ name }</h1>
+            );
+        }
+
+        return (
+            <TextPlaceholder length={ TextPlaceHolderLength.MEDIUM } />
+        );
+    }
+
     renderBeforeItemsFallback(): ReactElement {
         const { pathname = appendWithStoreCode('/') } = location;
 
         return (
             <div block="Router" elem="HeaderFallbackWrapper">
                 <section block="Router" elem="HeaderFallback">
-                    <TextPlaceholder length={ TextPlaceHolderLength.MEDIUM } />
+                    { this.renderHeaderFallbackPlaceholder() }
                 </section>
                 { !isHomePageUrl(pathname) && <section block="Router" elem="BreadcrumbsFallback" /> }
             </div>
