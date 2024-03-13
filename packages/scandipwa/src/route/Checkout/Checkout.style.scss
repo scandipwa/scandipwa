@@ -34,6 +34,10 @@
         }
     }
 
+    &-SummaryFallback {
+        height: var(--summary-height);
+    }
+
     &-FullPageLoader {
         height: 100vh;
         position: fixed;
