@@ -52,6 +52,7 @@ export const mapStateToProps = (state: RootState): RouterContainerMapStateProps 
     isBigOffline: state.OfflineReducer.isBig,
     status_code: state.MetaReducer.status_code,
     base_link_url: state.ConfigReducer.base_link_url,
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/Router/Container/mapDispatchToProps */
@@ -206,7 +207,11 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
     }
 
     containerProps(): Pick<RouterComponentProps, RouterContainerPropsKeys> {
-        const { isBigOffline, setBigOfflineNotice } = this.props;
+        const {
+            isBigOffline,
+            setBigOfflineNotice,
+            isMobile,
+        } = this.props;
         const { isOnlyMainItems, currentUrl } = this.state;
 
         return {
@@ -214,6 +219,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
             setBigOfflineNotice,
             isOnlyMainItems,
             currentUrl,
+            isMobile,
         };
     }
 

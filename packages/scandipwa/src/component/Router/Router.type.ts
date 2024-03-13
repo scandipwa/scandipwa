@@ -30,6 +30,7 @@ export interface RouterContainerMapStateProps {
     isBigOffline: boolean;
     status_code?: string;
     base_link_url: string;
+    isMobile: boolean;
 }
 
 export interface RouterContainerMapDispatchProps {
@@ -52,12 +53,14 @@ export interface RouterComponentProps {
     currentUrl: string;
     setBigOfflineNotice: (isBig: boolean) => void;
     isOnlyMainItems: boolean;
+    isMobile: boolean;
 }
 
 export type RouterContainerPropsKeys = 'isBigOffline'
 | 'setBigOfflineNotice'
 | 'isOnlyMainItems'
-| 'currentUrl';
+| 'currentUrl'
+| 'isMobile';
 
 export interface RouterComponentState {
     errorDetails: {

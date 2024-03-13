@@ -337,13 +337,17 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
 
     renderHeaderFallbackPlaceholder(): ReactElement {
         const {
+            isMobile,
+        } = this.props;
+
+        const {
             actionName: {
                 type,
                 name,
             },
         } = window;
 
-        if (type === 'PRODUCT' && name) {
+        if (isMobile && type === 'PRODUCT' && name) {
             return (
                 <h1 block="Router" elem="HeaderProductSku">{ name }</h1>
             );
