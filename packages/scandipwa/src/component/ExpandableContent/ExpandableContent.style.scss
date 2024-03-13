@@ -88,9 +88,14 @@
         transition-duration: 200ms;
 
         @include mobile {
-            max-height: 0;
             overflow: hidden;
-            opacity: 0;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 500ms;
+
+            & > div {
+                overflow: hidden;
+            }
         }
 
         @include desktop {
@@ -99,7 +104,7 @@
 
         &_isContentExpanded {
             @include mobile {
-                @include expanded-content;
+                grid-template-rows: 1fr;
             }
         }
     }
