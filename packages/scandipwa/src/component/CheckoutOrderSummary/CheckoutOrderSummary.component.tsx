@@ -14,7 +14,6 @@ import { lazy, PureComponent } from 'react';
 import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
-// import Loader from 'Component/Loader';
 import { CheckoutSteps } from 'Route/Checkout/Checkout.config';
 import { IndexedCartItem } from 'Store/Cart/Cart.type';
 import { Mods, ReactElement } from 'Type/Common.type';
@@ -433,11 +432,8 @@ export class CheckoutOrderSummaryComponent extends PureComponent<CheckoutOrderSu
     }
 
     render(): ReactElement {
-        // const { isLoading } = this.props;
-
         return (
             <article block="CheckoutOrderSummary" aria-label="Order Summary">
-                { /* <Loader isLoading={ isLoading } /> */ }
                 { this.renderContent() }
             </article>
         );
