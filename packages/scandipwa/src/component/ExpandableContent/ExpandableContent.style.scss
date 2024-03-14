@@ -94,7 +94,7 @@
             grid-template-rows: 0fr;
             transition: grid-template-rows var(--transition-duration-expand-content);
 
-            & > div {
+            & > .ExpandableContent-Expand {
                 overflow: hidden;
             }
         }
