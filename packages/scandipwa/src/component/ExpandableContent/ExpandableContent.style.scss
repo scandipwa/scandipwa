@@ -13,6 +13,7 @@
     --expandable-content-color: var(--color-karaka);
     --expandable-content-divider-color: var(--primary-divider-color);
     --toggle-button-size: 18px;
+    --transition-duration-expand-content: 500ms;
 }
 
 @mixin expanded-content {
@@ -91,7 +92,7 @@
             overflow: hidden;
             display: grid;
             grid-template-rows: 0fr;
-            transition: grid-template-rows 500ms;
+            transition: grid-template-rows var(--transition-duration-expand-content);
 
             & > div {
                 overflow: hidden;
