@@ -34,8 +34,12 @@
         }
     }
 
-    &-SummaryFallback {
-        height: var(--summary-height);
+    &-SummaryFallbackStart {
+        min-height: 264px;
+    }
+
+    &-SummaryFallbackItem {
+        height: 120px;
     }
 
     &-FullPageLoader {

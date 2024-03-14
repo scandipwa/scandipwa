@@ -10,7 +10,7 @@
  */
 
 import {
-    createRef, lazy, PureComponent, Suspense,
+    lazy, PureComponent, Suspense,
 } from 'react';
 
 import CheckoutGuestForm from 'Component/CheckoutGuestForm';
@@ -19,7 +19,6 @@ import { Page } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
-import CSS from 'Util/CSS';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -98,8 +97,6 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
             areTotalsVisible: false,
         },
     };
-
-    checkoutRef = createRef<HTMLDivElement>();
 
     componentDidMount(): void {
         this.updateHeader();
@@ -340,6 +337,23 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
         );
     }
 
+    renderItemsForSummaryFallback(count: number): ReactElement {
+        const maxCount = 3;
+        const updatedCount = Math.min(count, maxCount);
+
+        return (
+            <>
+                { Array.from({ length: updatedCount }, (_, index) => (
+                    <div
+                      block="Checkout"
+                      elem="SummaryFallbackItem"
+                      key={ index }
+                    />
+                )) }
+            </>
+        );
+    }
+
     renderSummaryFallback(): ReactElement {
         const {
             checkoutTotals,
@@ -352,18 +366,18 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
             );
         }
 
-        const startHeight = 264;
-        const itemHeight = 120;
-        const itemsCount = checkoutTotals.items?.length;
-        const height = (itemsCount ? itemsCount * itemHeight : 0) + startHeight;
-
-        CSS.setVariable(this.checkoutRef, 'summary-height', `${height}px`);
+        const itemsCount = checkoutTotals.items?.length || 0;
 
         return (
             <div
               block="Checkout"
               elem="SummaryFallback"
             >
+                <div
+                  block="Checkout"
+                  elem="SummaryFallbackStart"
+                />
+                { this.renderItemsForSummaryFallback(itemsCount) }
                 <Loader />
             </div>
         );
@@ -478,7 +492,7 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
         }
 
         return (
-             <main block="Checkout" ref={ this.checkoutRef }>
+             <main block="Checkout">
                  <ContentWrapper
                    wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
                    label={ __('Checkout page') }
