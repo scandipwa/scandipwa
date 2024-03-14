@@ -113,6 +113,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
         this.initializeApplication();
         this.redirectFromPartialUrl();
         this.handleResize();
+        this.setDemoNoticeHeight();
 
         this.handleResize = this.handleResize.bind(this);
     }
@@ -206,6 +207,20 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
 
     setRenderOnlyMainItems(): void {
         this.setState({ isOnlyMainItems: true });
+    }
+
+    setDemoNoticeHeight(): void {
+        const {
+            storeConfig: {
+                demo_notice,
+            } = {},
+        } = window;
+
+        if (demo_notice) {
+            const demoNoticeHeight = 48;
+            const root = document.querySelector(':root') as HTMLElement;
+            root?.style.setProperty('--demo-notice-height', `${demoNoticeHeight}px`);
+        }
     }
 
     containerProps(): Pick<RouterComponentProps, RouterContainerPropsKeys> {

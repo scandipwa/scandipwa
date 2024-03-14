@@ -311,19 +311,6 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         });
     }
 
-    setDemoNoticeHeight(): void {
-        const {
-            storeConfig: {
-                demo_notice,
-            } = {},
-        } = window;
-
-        if (demo_notice) {
-            const root = document.querySelector(':root') as HTMLElement;
-            root?.style.setProperty('--demo-notice-height', '48px');
-        }
-    }
-
     getSortedItems(type: RouterItemType): RouterItem[] {
         const sortedRouteItems: RouterItem[] = this[type].sort(
             (a, b) => a.position - b.position,
@@ -350,7 +337,6 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
 
     renderBeforeItemsFallback(): ReactElement {
         const { pathname = appendWithStoreCode('/') } = location;
-        this.setDemoNoticeHeight();
 
         return (
             <div block="Router" elem="HeaderFallbackWrapper">
