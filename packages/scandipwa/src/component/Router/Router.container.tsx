@@ -53,6 +53,7 @@ export const mapStateToProps = (state: RootState): RouterContainerMapStateProps 
     status_code: state.MetaReducer.status_code,
     base_link_url: state.ConfigReducer.base_link_url,
     canonical_url: state.MetaReducer.canonical_url,
+    demo_notice: state.ConfigReducer.demo_notice,
 });
 
 /** @namespace Component/Router/Container/mapDispatchToProps */
@@ -211,10 +212,8 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
 
     setDemoNoticeHeight(): void {
         const {
-            storeConfig: {
-                demo_notice,
-            } = {},
-        } = window;
+            demo_notice,
+        } = this.props;
 
         if (demo_notice) {
             const demoNoticeHeight = 48;

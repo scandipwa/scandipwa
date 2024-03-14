@@ -31,10 +31,8 @@ export class DemoNoticeComponent extends PureComponent<DemoNoticeComponentProps>
 
     render(): ReactElement {
         const {
-            storeConfig: {
-                demo_notice,
-            } = {},
-        } = window;
+            demo_notice,
+        } = this.props;
 
         if (!demo_notice) {
             return null;
