@@ -13,7 +13,7 @@
     --expandable-content-color: var(--color-karaka);
     --expandable-content-divider-color: var(--primary-divider-color);
     --toggle-button-size: 18px;
-    --transition-duration-expand-content: 500ms;
+    --transition-duration-expand-content: 300ms;
 }
 
 @mixin expanded-content {
