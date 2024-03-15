@@ -121,7 +121,7 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
                               mods={ { activeClosingAnimation } }
                               ref={ this.resultRef }
                             >
-                                    { this.renderSearchResults() }
+                                { this.renderSearchResults() }
                             </div>
                         </div>
                 </>
@@ -138,7 +138,7 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
                   elem="Results"
                   aria-label="Search results"
                 >
-                        { this.renderSearchResults() }
+                    { this.renderSearchResults() }
                 </article>
             </Overlay>
         );
