@@ -329,13 +329,13 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
 
     onSearchOutsideClick(): void {
         const {
-            // goToPreviousNavigationState,
+            goToPreviousNavigationState,
             navigationState: { name },
         } = this.props;
 
         if (name === Page.SEARCH) {
             this.hideSearchOverlay();
-            // goToPreviousNavigationState();
+            goToPreviousNavigationState();
         }
     }
 
