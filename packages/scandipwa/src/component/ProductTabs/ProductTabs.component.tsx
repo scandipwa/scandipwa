@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductTab from 'Component/ProductTab';
@@ -27,14 +27,26 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
         activeTab: '',
     };
 
+    activeTabContentRef = createRef<HTMLDivElement>();
+
+    tabContentRef = createRef<HTMLDivElement>();
+
+    private observer: ResizeObserver | null = null;
+
     __construct(props: ProductTabsComponentProps): void {
         super.__construct?.(props);
 
         this.onTabClick = this.onTabClick.bind(this);
+        this.handleResize = this.handleResize.bind(this);
     }
 
     componentDidMount(): void {
         this.updateDefaultSelectedTab();
+        this.observer = new ResizeObserver(this.handleResize);
+
+        if (this.activeTabContentRef.current) {
+            this.observer.observe(this.activeTabContentRef.current);
+        }
     }
 
     componentDidUpdate(prevProps: ProductTabsComponentProps): void {
@@ -45,6 +57,16 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
 
         if (tab?.id !== prevTab?.id) {
             this.updateDefaultSelectedTab();
+        }
+    }
+
+    handleResize(entries: ResizeObserverEntry[]): void {
+        if (this.tabContentRef.current) {
+            this.tabContentRef.current.style.height = `${entries[0].contentRect.height }px`;
+        }
+
+        if (this.activeTabContentRef.current) {
+            this.activeTabContentRef.current.classList.add('fadeIn');
         }
     }
 
@@ -68,6 +90,10 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
 
         if (activeTab !== currentTab) {
             this.setActiveTab(currentTab);
+
+            if (this.activeTabContentRef.current) {
+                this.activeTabContentRef.current.classList.remove('fadeIn');
+            }
         }
     }
 
@@ -123,7 +149,11 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
                 <ul block="ProductTabs">
                     { tabs.map(this.renderTab.bind(this)) }
                 </ul>
-                { this.renderActiveTab() }
+                <div block="ProductTabsContent" ref={ this.tabContentRef }>
+                    <div block="ProductTabsContent" elem="ActiveTab" ref={ this.activeTabContentRef }>
+                        { this.renderActiveTab() }
+                    </div>
+                </div>
             </>
         );
     }
