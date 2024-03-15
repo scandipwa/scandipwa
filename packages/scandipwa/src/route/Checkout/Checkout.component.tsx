@@ -26,6 +26,7 @@ import {
     CHECKOUT_URL_REGEX,
     CheckoutSteps,
     CheckoutStepUrl,
+    MAX_ITEMS_COUNT_FOR_SUMMARY_FALLBACK,
 } from './Checkout.config';
 import { CheckoutComponentProps, CheckoutMapStep } from './Checkout.type';
 
@@ -338,8 +339,7 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
     }
 
     renderItemsForSummaryFallback(count: number): ReactElement {
-        const maxCount = 3;
-        const updatedCount = Math.min(count, maxCount);
+        const updatedCount = Math.min(count, MAX_ITEMS_COUNT_FOR_SUMMARY_FALLBACK);
 
         return (
             <>
