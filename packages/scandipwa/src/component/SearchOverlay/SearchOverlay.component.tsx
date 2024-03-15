@@ -89,13 +89,21 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
 
         if (isHideOverlay) {
             return (
-                <article
-                  block="SearchOverlay"
-                  elem="Results"
-                  aria-label="Search results"
-                >
-                    { this.renderSearchResults() }
-                </article>
+                <>
+                    <div block="SearchOverlay" />
+                        <div
+                          block="SearchOverlay"
+                          elem="ResultsWrapper"
+                        >
+                            <div
+                              block="SearchOverlay"
+                              elem="Results"
+                              aria-label="Search results"
+                            >
+                                    { this.renderSearchResults() }
+                            </div>
+                        </div>
+                </>
             );
         }
 
@@ -109,7 +117,7 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
                   elem="Results"
                   aria-label="Search results"
                 >
-                    { this.renderSearchResults() }
+                        { this.renderSearchResults() }
                 </article>
             </Overlay>
         );
