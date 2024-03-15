@@ -43,6 +43,11 @@ export interface SearchOverlayComponentProps extends SearchOverlayContainerFunct
     searchResults: IndexedProduct[];
 }
 
+export interface SearchOverlayComponentState {
+    prevSearchCriteria: string;
+    activeClosingAnimation: boolean;
+}
+
 export type SearchOverlayComponentContainerPropKeys =
     | 'clearSearchResults'
     | 'isHideOverlay'

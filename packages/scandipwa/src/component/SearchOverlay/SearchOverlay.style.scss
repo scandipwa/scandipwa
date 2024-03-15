@@ -55,14 +55,6 @@
     background-color: rgba(81, 81, 81, 0.265);
     pointer-events: none;
 
-    &_isVisible {
-        .SearchOverlay {
-            &-Results {
-                display: block;
-            }
-        }
-    }
-
     &-ResultsWrapper {
         width: 100%;
         position: absolute;
@@ -74,12 +66,13 @@
         animation-name: slideIn;
         border: 1px solid var(--input-border-color);
         background: var(--color-white);
-        display: none;
+        display: block;
         z-index: 110;
         width: 100%;
 
-        &_onClose {
-            animation: slideOut 0.3s;
+        &_activeClosingAnimation {
+            animation-duration: 0.3s;
+            animation-name: slideOut;
         }
 
         .NoResults {

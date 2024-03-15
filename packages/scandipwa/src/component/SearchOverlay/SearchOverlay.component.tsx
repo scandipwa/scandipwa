@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 
 import Overlay from 'Component/Overlay';
 import SearchItem from 'Component/SearchItem';
@@ -20,7 +20,7 @@ import {
     AMOUNT_OF_PLACEHOLDERS,
     SEARCH_TIMEOUT,
 } from './SearchOverlay.config';
-import { SearchOverlayComponentProps } from './SearchOverlay.type';
+import { SearchOverlayComponentProps, SearchOverlayComponentState } from './SearchOverlay.type';
 
 import './SearchOverlay.style';
 
@@ -30,11 +30,19 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
         searchCriteria: '',
     };
 
+    state: SearchOverlayComponentState = {
+        prevSearchCriteria: '',
+        activeClosingAnimation: false,
+    };
+
     timeout: NodeJS.Timeout | null = null;
+
+    resultRef = createRef<HTMLDivElement>();
 
     componentDidUpdate(prevProps: SearchOverlayComponentProps): void {
         const { searchCriteria: prevSearchCriteria } = prevProps;
         const { searchCriteria, clearSearchResults, makeSearchRequest } = this.props;
+        this.setState({ prevSearchCriteria });
 
         if (searchCriteria !== prevSearchCriteria) {
             if (this.timeout) {
@@ -82,8 +90,19 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
 
     render(): ReactElement {
         const { isHideOverlay, searchCriteria } = this.props;
+        const { prevSearchCriteria, activeClosingAnimation } = this.state;
 
-        if (!searchCriteria.trim()) {
+        if (!searchCriteria.trim() && searchCriteria !== prevSearchCriteria) {
+            this.setState({ activeClosingAnimation: true });
+
+            const animationendHandler = () => {
+                this.setState({ activeClosingAnimation: false });
+
+                this.resultRef.current?.removeEventListener('animationend', animationendHandler);
+            };
+
+            this.resultRef.current?.addEventListener('animationend', animationendHandler);
+        } else if (!searchCriteria.trim() && !activeClosingAnimation) {
             return null;
         }
 
@@ -99,6 +118,8 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
                               block="SearchOverlay"
                               elem="Results"
                               aria-label="Search results"
+                              mods={ { activeClosingAnimation } }
+                              ref={ this.resultRef }
                             >
                                     { this.renderSearchResults() }
                             </div>
