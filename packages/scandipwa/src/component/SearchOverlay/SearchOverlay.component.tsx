@@ -88,6 +88,22 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
         );
     }
 
+    renderSearchOverlayResults(): ReactElement {
+        const { activeClosingAnimation } = this.state;
+
+        return (
+            <div
+              block="SearchOverlay"
+              elem="Results"
+              aria-label="Search results"
+              mods={ { activeClosingAnimation } }
+              ref={ this.resultRef }
+            >
+                { this.renderSearchResults() }
+            </div>
+        );
+    }
+
     render(): ReactElement {
         const { isHideOverlay, searchCriteria } = this.props;
         const { prevSearchCriteria, activeClosingAnimation } = this.state;
@@ -114,15 +130,7 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
                           block="SearchOverlay"
                           elem="ResultsWrapper"
                         >
-                            <div
-                              block="SearchOverlay"
-                              elem="Results"
-                              aria-label="Search results"
-                              mods={ { activeClosingAnimation } }
-                              ref={ this.resultRef }
-                            >
-                                { this.renderSearchResults() }
-                            </div>
+                            { this.renderSearchOverlayResults() }
                         </div>
                 </>
             );
@@ -133,13 +141,7 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
               id="search"
               mix={ { block: 'SearchOverlay' } }
             >
-                <article
-                  block="SearchOverlay"
-                  elem="Results"
-                  aria-label="Search results"
-                >
-                    { this.renderSearchResults() }
-                </article>
+                { this.renderSearchOverlayResults() }
             </Overlay>
         );
     }
