@@ -114,6 +114,15 @@ export class MyAccountDashboardComponent extends PureComponent<MyAccountDashboar
         );
     }
 
+    renderMyAccountCustomerTableFallback(): ReactElement {
+        return (
+            <div
+              block="MyAccountDashboard"
+              elem="MyAccountCustomerTableFallback"
+            />
+        );
+    }
+
     renderCustomerTable(): ReactElement {
         const { customer } = this.props;
 
@@ -122,7 +131,7 @@ export class MyAccountDashboardComponent extends PureComponent<MyAccountDashboar
                 <div block="MyAccountDashboard" elem="BlockTitle">
                     <span>{ __('Account Information') }</span>
                 </div>
-                <Suspense fallback={ <div block="MyAccountDashboard" elem="MyAccountCustomerTableFallback" /> }>
+                <Suspense fallback={ this.renderMyAccountCustomerTableFallback() }>
                     <MyAccountCustomerTable
                       customer={ customer }
                       title={ __('My profile') }
