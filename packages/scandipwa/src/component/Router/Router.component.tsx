@@ -35,6 +35,7 @@ import {
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import UrlRewrites from 'Route/UrlRewrites';
+import { UrlRewritePageType } from 'Route/UrlRewrites/UrlRewrites.config';
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
@@ -347,7 +348,7 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
             },
         } = window;
 
-        if (isMobile && type === 'PRODUCT' && name) {
+        if (isMobile && type === UrlRewritePageType.PRODUCT && name) {
             return (
                 <h1 block="Router" elem="HeaderProductSku">{ name }</h1>
             );

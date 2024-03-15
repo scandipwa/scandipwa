@@ -85,7 +85,7 @@ export class ProductActionsComponent extends ProductComponent<ProductActionsComp
             return (
                 <div
                   block="ProductActions"
-                  elem="skuAndStockPlaceholder"
+                  elem="SkuAndStockPlaceholder"
                 >
                     <TextPlaceholder />
                     <TextPlaceholder />
