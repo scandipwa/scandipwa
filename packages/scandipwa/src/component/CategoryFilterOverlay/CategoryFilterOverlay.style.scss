@@ -30,12 +30,12 @@
     }
 
     @include mobile {
-        transform: translateX(-100%);
+        transform: translateX(100%);
         transition: transform var(--category-filter-overlay-transition-speed) ease, opacity var(--category-filter-overlay-transition-speed) step-end;
         will-change: transform, opacity;
         overflow-y: hidden;
         opacity: 0;
-        z-index: 99;
+        z-index: 101;
 
         &-Wrapper {
             display: grid;
