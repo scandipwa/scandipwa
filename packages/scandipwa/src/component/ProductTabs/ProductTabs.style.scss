@@ -11,6 +11,7 @@
 
 :root {
     --transition-speed: 300ms;
+    --tab-content-height: 0;
 }
 
 .ProductTabs {
@@ -46,19 +47,19 @@
 
 .ProductTabsContent {
     overflow: hidden;
-    height: 0;
+    height: var(--tab-content-height);
     transition: height var(--transition-speed) ease;
 
-    .fadeIn {
-        animation: fadeIn var(--transition-speed) ease forwards; /* Animation named 'fadeIn' with duration and easing */
+    &_isFadeIn {
+        animation: fadeIn var(--transition-speed) ease forwards;
 
         @keyframes fadeIn {
             from {
-                opacity: 0; /* Start opacity */
+                opacity: 0;
             }
 
             to {
-                opacity: 1; /* End opacity */
+                opacity: 1;
             }
         }
     }

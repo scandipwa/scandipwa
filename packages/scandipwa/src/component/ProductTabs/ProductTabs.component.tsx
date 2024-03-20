@@ -15,6 +15,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import ProductTab from 'Component/ProductTab';
 import { ReactElement } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
+import CSS from 'Util/CSS';
 import { isMobile } from 'Util/Mobile';
 
 import { ProductTabsComponentProps, ProductTabsComponentState, ProductTabShape } from './ProductTabs.type';
@@ -25,6 +26,7 @@ import './ProductTabs.style';
 export class ProductTabsComponent extends PureComponent<ProductTabsComponentProps, ProductTabsComponentState> {
     state = {
         activeTab: '',
+        isFadeIn: false,
     };
 
     activeTabContentRef = createRef<HTMLDivElement>();
@@ -61,12 +63,14 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
     }
 
     handleResize(entries: ResizeObserverEntry[]): void {
+        const [currentTabContent] = entries;
+
         if (this.tabContentRef.current) {
-            this.tabContentRef.current.style.height = `${entries[0].contentRect.height }px`;
+            CSS.setVariable(this.tabContentRef, 'tab-content-height', `${currentTabContent.contentRect.height}px`);
         }
 
         if (this.activeTabContentRef.current) {
-            this.activeTabContentRef.current.classList.add('fadeIn');
+            this.setState({ isFadeIn: true });
         }
     }
 
@@ -92,7 +96,7 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
             this.setActiveTab(currentTab);
 
             if (this.activeTabContentRef.current) {
-                this.activeTabContentRef.current.classList.remove('fadeIn');
+                this.setState({ isFadeIn: false });
             }
         }
     }
@@ -135,6 +139,7 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
 
     renderTabs(): ReactElement {
         const { tabs } = this.props;
+        const { isFadeIn } = this.state;
 
         if (!tabs?.length) {
             return null;
@@ -149,7 +154,7 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
                 <ul block="ProductTabs">
                     { tabs.map(this.renderTab.bind(this)) }
                 </ul>
-                <div block="ProductTabsContent" ref={ this.tabContentRef }>
+                <div block="ProductTabsContent" mods={ { isFadeIn } } ref={ this.tabContentRef }>
                     <div block="ProductTabsContent" elem="ActiveTab" ref={ this.activeTabContentRef }>
                         { this.renderActiveTab() }
                     </div>
