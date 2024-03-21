@@ -316,10 +316,14 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     }
 
     onSortChange(sortDirection: SortDirections, sortKey: string[]): void {
+        if (JSON.stringify(this.getSelectedSortFromUrl()) === JSON.stringify({ sortDirection, sortKey: sortKey[0] })) {
+            return;
+        }
         const { location } = history;
 
-        setQueryParams({ sortKey: sortKey.join(','), sortDirection, page: '' }, location, history);
-        this.updateMeta();
+        setTimeout(() => {
+            setQueryParams({ sortKey: sortKey.join(','), sortDirection, page: '' }, location, history);
+        }, 0);
     }
 
     onFilterButtonClick(): void {
