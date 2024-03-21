@@ -59,6 +59,7 @@ export class LinkContainer extends PureComponent<LinkContainerProps> {
             baseLinkUrl, // remove this prop
             dispatch, // remove this prop
             updateNoMatch,
+            showLoader,
             ...restProps
         } = this.props;
 
@@ -71,6 +72,7 @@ export class LinkContainer extends PureComponent<LinkContainerProps> {
                 mods,
                 mix,
             },
+            showLoader,
         };
     }
 

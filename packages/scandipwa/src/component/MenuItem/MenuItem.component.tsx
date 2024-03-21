@@ -97,6 +97,7 @@ export class MenuItemComponent extends PureComponent<MenuItemComponentProps> {
               onMouseLeave={ handleLinkLeave }
               mods={ { isHovered } }
               onClick={ onItemClick }
+              showLoader
             >
                 { this.renderItemContent(item, itemMods) }
             </Link>

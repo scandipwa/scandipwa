@@ -23,6 +23,10 @@ export interface LinkContainerMapStateProps {
     baseLinkUrl: string;
 }
 
+export interface LinkComponentState {
+    isLoaderActive: boolean;
+}
+
 export interface LinkContainerDispatchProps {
     updateNoMatch: (noMatch: boolean) => void;
 }
@@ -47,6 +51,7 @@ export type LinkContainerProps =
         onMouseEnter?: () => void;
         onMouseLeave?: () => void;
         tabIndex?: number;
+        showLoader?: boolean;
     };
 
 export interface LinkComponentProps {
@@ -60,4 +65,5 @@ export interface LinkComponentProps {
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
     tabIndex?: number;
+    showLoader?: boolean;
 }
