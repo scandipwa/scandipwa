@@ -28,7 +28,7 @@ import './ProductListPage.style';
 /**
  * Placeholder for List of category product
  * @class ProductListPage
- * @namespace Component/ProductListPage/Component
+* @namespace Component/ProductListPage/Component
  */
 export class ProductListPageComponent extends PureComponent<
 ProductListPageComponentProps,
@@ -89,6 +89,8 @@ ProductListPageComponentState
 
                 // must not be a product items list, and must not be loading
                 if (intersectionRatio > 0 && !items.length && !isLoading) {
+                    // disable isPrefetchValueUsed value to let next pages to be requested on direct links (on preloads)
+                    window.isPrefetchValueUsed = false;
                     this.stopObserving();
                     updatePages();
                 }
