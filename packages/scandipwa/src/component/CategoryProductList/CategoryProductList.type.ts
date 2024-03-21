@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { RefObject } from 'react';
+
 import { ProductAttributeFilterOptions, ProductListOptions } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { CategorySortOptions } from 'Route/CategoryPage/CategoryPage.type';
@@ -42,6 +44,7 @@ export interface CategoryProductListContainerBaseProps {
     sort: CategorySortOptions;
     selectedFilters: Record<string, string[]>;
     isPlp: boolean;
+    productListLoaderRef?: RefObject<HTMLDivElement>;
 }
 
 export type CategoryProductListContainerProps = CategoryProductListContainerMapStateProps
@@ -60,4 +63,5 @@ export type CategoryProductListContainerPropKeys =
     | 'isLoading'
     | 'isPreventRequest'
     | 'mix'
-    | 'isPlp';
+    | 'isPlp'
+    | 'productListLoaderRef';

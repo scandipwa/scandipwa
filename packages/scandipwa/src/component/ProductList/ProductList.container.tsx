@@ -262,6 +262,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             title = '',
             totalPages,
             isPlp,
+            productListLoaderRef,
         } = this.props;
 
         return {
@@ -281,6 +282,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             requestPage: this.requestPage,
             // disable this property to enable infinite scroll on desktop
             isInfiniteLoaderEnabled: this._getIsInfiniteLoaderEnabled(),
+            productListLoaderRef,
         };
     }
 

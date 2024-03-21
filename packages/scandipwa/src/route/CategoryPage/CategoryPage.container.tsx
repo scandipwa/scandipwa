@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { createRef, PureComponent, RefObject } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -35,6 +35,7 @@ import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
+import CSS from 'Util/CSS';
 import history from 'Util/History';
 import { debounce } from 'Util/Request/Debounce';
 import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
@@ -116,6 +117,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         sortKey: 'name',
         sortDirection: SortDirections.ASC,
     };
+
+    productListLoaderRef: RefObject<HTMLDivElement> = createRef();
 
     containerFunctions: CategoryPageContainerFunctions = {
         onSortChange: this.onSortChange.bind(this),
@@ -306,13 +309,21 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     }
 
     onGridButtonClick(): void {
-        BrowserDatabase.setItem(CategoryPageLayout.GRID, LAYOUT_KEY);
-        this.setState({ selectedLayoutType: CategoryPageLayout.GRID });
+        CSS.setVariable(this.productListLoaderRef, 'product-list-loader-position', 'block');
+        setTimeout(() => {
+            BrowserDatabase.setItem(CategoryPageLayout.GRID, LAYOUT_KEY);
+            this.setState({ selectedLayoutType: CategoryPageLayout.GRID });
+            CSS.setVariable(this.productListLoaderRef, 'product-list-loader-position', 'none');
+        }, 0);
     }
 
     onListButtonClick(): void {
-        BrowserDatabase.setItem(CategoryPageLayout.LIST, LAYOUT_KEY);
-        this.setState({ selectedLayoutType: CategoryPageLayout.LIST });
+        CSS.setVariable(this.productListLoaderRef, 'product-list-loader-position', 'block');
+        setTimeout(() => {
+            BrowserDatabase.setItem(CategoryPageLayout.LIST, LAYOUT_KEY);
+            this.setState({ selectedLayoutType: CategoryPageLayout.LIST });
+            CSS.setVariable(this.productListLoaderRef, 'product-list-loader-position', 'none');
+        }, 0);
     }
 
     onSortChange(sortDirection: SortDirections, sortKey: string[]): void {
@@ -435,6 +446,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             selectedLayoutType,
             activeLayoutType,
             displayMode,
+            productListLoaderRef: this.productListLoaderRef,
         };
     }
 
