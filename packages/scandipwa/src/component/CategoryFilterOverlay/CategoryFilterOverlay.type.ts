@@ -10,6 +10,7 @@
  */
 
 import { History, Location } from 'history';
+import { RefObject } from 'react';
 
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
@@ -46,6 +47,7 @@ export interface CategoryFilterOverlayContainerBaseProps {
     isCategoryAnchor: boolean;
     isMatchingInfoFilter: boolean;
     isSearchPage: boolean;
+    categoryPageRef: RefObject<HTMLElement>;
 }
 
 export type CategoryFilterOverlayContainerProps = CategoryFilterOverlayContainerMapStateProps
