@@ -197,6 +197,14 @@
         }
     }
 
+    &-SubCategoriesWrapper {
+        display: none;
+
+        &_isVisible {
+            display: block;
+        }
+    }
+
     &-Sub {
         &ItemWrapper {
             > .Menu-Link {

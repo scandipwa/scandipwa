@@ -144,7 +144,6 @@ export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
         device,
     } = action;
 
-    const { currentCurrency = '' } = action;
     const { currencyData: prevCurrencyData } = state;
 
     switch (type) {
@@ -178,11 +177,13 @@ export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
         };
 
     case ConfigActionType.UPDATE_CURRENT_CURRENCY:
+        const { selectedCurrency } = action;
+
         return {
             ...state,
             currencyData: {
                 ...prevCurrencyData,
-                current_currency_code: currentCurrency,
+                current_currency_code: selectedCurrency,
             },
         };
 

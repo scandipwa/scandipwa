@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/scandipwa",
     "description": "ScandiPWA source code used by CSA.",
-    "version": "6.2.3",
+    "version": "6.2.5",
     "scripts": {
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
@@ -11,11 +11,11 @@
     "dependencies": {
         "@scandipwa/bundle-analyzer": "0.1.0",
         "@scandipwa/chunk-optimizer": "1.0.2",
-        "@scandipwa/m2-theme": "0.3.1",
+        "@scandipwa/m2-theme": "0.3.2",
         "@scandipwa/next-emulator": "0.0.4",
         "@scandipwa/postcss-config": "0.0.3",
         "@scandipwa/preact-integration": "0.0.1",
-        "@scandipwa/scandipwa-scripts": "2.4.24",
+        "@scandipwa/scandipwa-scripts": "2.4.25",
         "@scandipwa/service-worker": "0.0.18",
         "@scandipwa/stylelint-config": "0.0.8",
         "@scandipwa/webpack-i18n-runtime": "0.0.36",
@@ -93,7 +93,7 @@
             "scandipwa/persisted-query": "3.1.1",
             "scandipwa/slider-graphql": "2.1.1",
             "scandipwa/cms-graphql": "1.4.7",
-            "scandipwa/catalog-graphql": "3.3.4",
+            "scandipwa/catalog-graphql": "3.3.6",
             "scandipwa/route717": "2.1.5",
             "scandipwa/performance": "1.5.7",
             "scandipwa/customer-graph-ql": "4.0.5",

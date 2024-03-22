@@ -30,6 +30,7 @@ export interface RouterContainerMapStateProps {
     isBigOffline: boolean;
     status_code?: string;
     base_link_url: string;
+    canonical_url?: string;
 }
 
 export interface RouterContainerMapDispatchProps {

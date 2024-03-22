@@ -11,6 +11,7 @@
 
 import { PureComponent } from 'react';
 
+import Link from 'Component/Link';
 import { ReactElement } from 'Type/Common.type';
 
 import { StoreItemComponentProps } from './StoreItem.type';
@@ -21,18 +22,22 @@ import './StoreItem.style';
 export class StoreItemComponent extends PureComponent<StoreItemComponentProps> {
     render(): ReactElement {
         const {
-            item: { label },
-            getStoreCode,
+            item: {
+                label,
+                storeLinkUrl,
+            },
+            handleStoreItemClick,
         } = this.props;
 
         return (
-            <button
+            <Link
               block="StoreItem"
               elem="Item"
-              onClick={ getStoreCode }
+              onClick={ handleStoreItemClick }
+              to={ storeLinkUrl }
             >
                 { label }
-            </button>
+            </Link>
         );
     }
 }

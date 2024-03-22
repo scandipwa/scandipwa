@@ -19,6 +19,7 @@ export interface UrlRewritesContainerMapStateProps {
     urlRewrite: UrlRewrite;
     isLoading: boolean;
     requestedUrl: string;
+    category_sort?: string;
 }
 
 export interface UrlRewritesContainerMapDispatchProps {
@@ -43,6 +44,7 @@ export type UrlRewritesContainerPropsKeys = 'type'
 export type UrlRewriteProps = Partial<UrlRewriteTypeSpecificProps> & {
     match: Match;
     location: Location<HistoryState>;
+    category_sort?: string;
 };
 
 export interface UrlRewriteTypeSpecificProps {
