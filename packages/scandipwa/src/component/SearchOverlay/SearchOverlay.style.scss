@@ -13,35 +13,50 @@
     --search-criteria-background: var(--secondary-base-color);
     --search-criteria-label-color: rgba(10, 10, 10, .44);
     --search-criteria-search-term-color: #0a0a0a;
+    --slide-content-in-duration: 300ms;
+    --slide-content-out-duration: 300ms;
+    --fade-content-in-duration: 300ms;
 }
 
-@keyframes slideIn {
-    from {
-        transform: translateY(-100%);
-    }
+@mixin slide-content-in {
+    animation: slide-in var(--slide-content-in-duration) ease forwards;
 
-    to {
-        transform: translateY(0);
-    }
-}
+    @keyframes slide-in {
+        from {
+            transform: translateY(-100%);
+        }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
+        to {
+            transform: translateY(0);
+        }
     }
 }
 
-@keyframes slideOut {
-    from {
-        transform: translateY(0);
-    }
+@mixin slide-content-out {
+    animation: slide-out var(--slide-content-out-duration) ease forwards;
 
-    to {
-        transform: translateY(-100%);
+    @keyframes slide-out {
+        from {
+            transform: translateY(0);
+        }
+
+        to {
+            transform: translateY(-100%);
+        }
+    }
+}
+
+@mixin fade-content-in {
+    animation: fade-in var(--fade-content-in-duration) ease forwards;
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
     }
 }
 
@@ -54,8 +69,8 @@
 
     &-Background {
         @include desktop {
-            animation-duration: 0.15s;
-            animation-name: fadeIn;
+            @include fade-content-in();
+
             position: fixed;
             inset-block-start: var(--header-total-height);
             inset-block-end: 0;
@@ -72,8 +87,8 @@
     }
 
     &-Results {
-        animation-duration: 0.3s;
-        animation-name: slideIn;
+        @include slide-content-in();
+
         border: 1px solid var(--input-border-color);
         background: var(--color-white);
         display: block;
@@ -81,8 +96,7 @@
         width: 100%;
 
         &_activeClosingAnimation {
-            animation-duration: 0.3s;
-            animation-name: slideOut;
+            @include slide-content-out();
         }
 
         .NoResults {
