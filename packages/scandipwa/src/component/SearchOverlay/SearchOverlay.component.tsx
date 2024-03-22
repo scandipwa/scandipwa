@@ -31,7 +31,6 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
     };
 
     state: SearchOverlayComponentState = {
-        prevSearchCriteria: '',
         activeClosingAnimation: false,
     };
 
@@ -42,7 +41,18 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
     componentDidUpdate(prevProps: SearchOverlayComponentProps): void {
         const { searchCriteria: prevSearchCriteria } = prevProps;
         const { searchCriteria, clearSearchResults, makeSearchRequest } = this.props;
-        this.setState({ prevSearchCriteria });
+
+        if (!searchCriteria.trim() && searchCriteria !== prevSearchCriteria) {
+            this.setState({ activeClosingAnimation: true });
+
+            const animationendHandler = () => {
+                this.setState({ activeClosingAnimation: false });
+
+                this.resultRef.current?.removeEventListener('animationend', animationendHandler);
+            };
+
+            this.resultRef.current?.addEventListener('animationend', animationendHandler);
+        }
 
         if (searchCriteria !== prevSearchCriteria) {
             if (this.timeout) {
@@ -106,40 +116,31 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
 
     render(): ReactElement {
         const { isHideOverlay, searchCriteria } = this.props;
-        const { prevSearchCriteria, activeClosingAnimation } = this.state;
+        const { activeClosingAnimation } = this.state;
 
-        if (!searchCriteria.trim() && searchCriteria !== prevSearchCriteria) {
-            this.setState({ activeClosingAnimation: true });
-
-            const animationendHandler = () => {
-                this.setState({ activeClosingAnimation: false });
-
-                this.resultRef.current?.removeEventListener('animationend', animationendHandler);
-            };
-
-            this.resultRef.current?.addEventListener('animationend', animationendHandler);
-        } else if (!searchCriteria.trim() && !activeClosingAnimation) {
-            return null;
-        }
+        const isOpen = searchCriteria.trim().length > 0 || activeClosingAnimation;
 
         if (isHideOverlay) {
             return (
-                <>
-                    <div block="SearchOverlay" />
+                <div
+                  block="SearchOverlay"
+                  mods={ { isOpen } }
+                >
+                        <div block="SearchOverlay" elem="Background" />
                         <div
                           block="SearchOverlay"
                           elem="ResultsWrapper"
                         >
                             { this.renderSearchOverlayResults() }
                         </div>
-                </>
+                </div>
             );
         }
 
         return (
             <Overlay
               id="search"
-              mix={ { block: 'SearchOverlay' } }
+              isOpen={ isOpen }
             >
                 { this.renderSearchOverlayResults() }
             </Overlay>

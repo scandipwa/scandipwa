@@ -46,15 +46,23 @@
 }
 
 .SearchOverlay {
-    @include desktop {
-        animation-duration: 0.15s;
-        animation-name: fadeIn;
-        position: fixed;
-        inset-block-start: var(--header-total-height);
-        inset-block-end: 0;
-        inset-inline: 0;
-        background-color: rgba(81, 81, 81, 0.265);
-        pointer-events: none;
+    display: none;
+
+    &_isOpen {
+        display: block;
+    }
+
+    &-Background {
+        @include desktop {
+            animation-duration: 0.15s;
+            animation-name: fadeIn;
+            position: fixed;
+            inset-block-start: var(--header-total-height);
+            inset-block-end: 0;
+            inset-inline: 0;
+            background-color: rgba(81, 81, 81, 0.265);
+            pointer-events: none;
+        }
     }
 
     &-ResultsWrapper {

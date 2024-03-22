@@ -44,7 +44,6 @@ export interface SearchOverlayComponentProps extends SearchOverlayContainerFunct
 }
 
 export interface SearchOverlayComponentState {
-    prevSearchCriteria: string;
     activeClosingAnimation: boolean;
 }
 
