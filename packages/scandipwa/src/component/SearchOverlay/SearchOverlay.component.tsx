@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { createRef, PureComponent } from 'react';
+import { PureComponent } from 'react';
 
 import Overlay from 'Component/Overlay';
 import SearchItem from 'Component/SearchItem';
@@ -20,7 +20,7 @@ import {
     AMOUNT_OF_PLACEHOLDERS,
     SEARCH_TIMEOUT,
 } from './SearchOverlay.config';
-import { SearchOverlayComponentProps, SearchOverlayComponentState } from './SearchOverlay.type';
+import { SearchOverlayComponentProps } from './SearchOverlay.type';
 
 import './SearchOverlay.style';
 
@@ -30,29 +30,11 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
         searchCriteria: '',
     };
 
-    state: SearchOverlayComponentState = {
-        activeClosingAnimation: false,
-    };
-
     timeout: NodeJS.Timeout | null = null;
-
-    resultRef = createRef<HTMLDivElement>();
 
     componentDidUpdate(prevProps: SearchOverlayComponentProps): void {
         const { searchCriteria: prevSearchCriteria } = prevProps;
         const { searchCriteria, clearSearchResults, makeSearchRequest } = this.props;
-
-        if (!searchCriteria.trim() && searchCriteria !== prevSearchCriteria) {
-            this.setState({ activeClosingAnimation: true });
-
-            const animationendHandler = () => {
-                this.setState({ activeClosingAnimation: false });
-
-                this.resultRef.current?.removeEventListener('animationend', animationendHandler);
-            };
-
-            this.resultRef.current?.addEventListener('animationend', animationendHandler);
-        }
 
         if (searchCriteria !== prevSearchCriteria) {
             if (this.timeout) {
@@ -99,7 +81,10 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
     }
 
     renderSearchOverlayResults(): ReactElement {
-        const { activeClosingAnimation } = this.state;
+        const {
+            activeClosingAnimation,
+            resultRef,
+        } = this.props;
 
         return (
             <div
@@ -107,7 +92,7 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
               elem="Results"
               aria-label="Search results"
               mods={ { activeClosingAnimation } }
-              ref={ this.resultRef }
+              ref={ resultRef }
             >
                 { this.renderSearchResults() }
             </div>
@@ -115,8 +100,11 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
     }
 
     render(): ReactElement {
-        const { isHideOverlay, searchCriteria } = this.props;
-        const { activeClosingAnimation } = this.state;
+        const {
+            isHideOverlay,
+            searchCriteria,
+            activeClosingAnimation,
+        } = this.props;
 
         const isOpen = searchCriteria.trim().length > 0 || activeClosingAnimation;
 

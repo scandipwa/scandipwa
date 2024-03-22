@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { RefObject } from 'react';
+
 import { ProductListOptions } from 'Query/ProductList.type';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
@@ -41,9 +43,11 @@ export interface SearchOverlayComponentProps extends SearchOverlayContainerFunct
     isLoading: boolean;
     searchCriteria: string;
     searchResults: IndexedProduct[];
+    resultRef: RefObject<HTMLDivElement>;
+    activeClosingAnimation: boolean;
 }
 
-export interface SearchOverlayComponentState {
+export interface SearchOverlayContainerState {
     activeClosingAnimation: boolean;
 }
 
@@ -52,4 +56,6 @@ export type SearchOverlayComponentContainerPropKeys =
     | 'isHideOverlay'
     | 'isLoading'
     | 'searchCriteria'
-    | 'searchResults';
+    | 'searchResults'
+    | 'resultRef'
+    | 'activeClosingAnimation';

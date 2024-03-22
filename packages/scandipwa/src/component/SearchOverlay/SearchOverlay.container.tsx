@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { ComponentType, PureComponent } from 'react';
+import { ComponentType, createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -27,6 +27,7 @@ import {
     SearchOverlayContainerMapDispatchProps,
     SearchOverlayContainerMapStateProps,
     SearchOverlayContainerProps,
+    SearchOverlayContainerState,
 } from './SearchOverlay.type';
 
 /** @namespace Component/SearchOverlay/Container/mapStateToProps */
@@ -51,6 +52,29 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
         makeSearchRequest: this.makeSearchRequest.bind(this),
     };
 
+    resultRef = createRef<HTMLDivElement>();
+
+    state: SearchOverlayContainerState = {
+        activeClosingAnimation: false,
+    };
+
+    componentDidUpdate(prevProps: Readonly<SearchOverlayContainerProps>): void {
+        const { searchCriteria: prevSearchCriteria } = prevProps;
+        const { searchCriteria } = this.props;
+
+        if (!searchCriteria.trim() && searchCriteria !== prevSearchCriteria) {
+            this.setState({ activeClosingAnimation: true });
+
+            const animationendHandler = () => {
+                this.setState({ activeClosingAnimation: false });
+
+                this.resultRef.current?.removeEventListener('animationend', animationendHandler);
+            };
+
+            this.resultRef.current?.addEventListener('animationend', animationendHandler);
+        }
+    }
+
     containerProps(): Pick<SearchOverlayComponentProps, SearchOverlayComponentContainerPropKeys> {
         const {
             clearSearchResults,
@@ -60,12 +84,18 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
             searchResults,
         } = this.props;
 
+        const {
+            activeClosingAnimation,
+        } = this.state;
+
         return {
             clearSearchResults,
             isHideOverlay,
             isLoading,
             searchCriteria,
             searchResults,
+            resultRef: this.resultRef,
+            activeClosingAnimation,
         };
     }
 
