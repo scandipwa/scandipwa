@@ -15,8 +15,18 @@
 }
 
 .CategoryPage {
+    --content-loader-display: none;
+
     @include mobile {
         margin-block-start: calc(var(--header-total-height) + var(--category-page-miscellaneous-height));
+    }
+
+    &-Loader {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(255,255,255,.6);
+        z-index: 90;
+        display: var(--content-loader-display);
     }
 
     &_noResults {

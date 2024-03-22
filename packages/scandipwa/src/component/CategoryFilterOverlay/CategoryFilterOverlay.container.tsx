@@ -19,6 +19,7 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { NavigationType } from 'Store/Navigation/Navigation.type';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { ReactElement } from 'Type/Common.type';
+import CSS from 'Util/CSS';
 import history from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
 import { getQueryParam, setQueryParams } from 'Util/Url';
@@ -67,11 +68,17 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
 
     updateFilter(filterName: string, filterArray: string[]): void {
         const { location } = history;
+        const { categoryPageRef } = this.props;
 
-        setQueryParams({
-            customFilters: this.getFilterUrl(filterName, filterArray, false),
-            page: '',
-        }, location, history);
+        CSS.setVariable(categoryPageRef, 'content-loader-display', 'block');
+
+        setTimeout(() => {
+            setQueryParams({
+                customFilters: this.getFilterUrl(filterName, filterArray, false),
+                page: '',
+            }, location, history);
+            CSS.setVariable(categoryPageRef, 'content-loader-display', 'none');
+        }, 0);
     }
 
     toggleCustomFilter(requestVar: string, value: string | number | boolean): void {
