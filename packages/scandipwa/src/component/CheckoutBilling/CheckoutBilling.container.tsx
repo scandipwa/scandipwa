@@ -228,7 +228,10 @@ CheckoutBillingContainerState
     }
 
     onBillingSuccess(form: HTMLFormElement, fields: FieldData[]): void {
-        const { savePaymentInformation, onChangeEmailRequired } = this.props;
+        const {
+            savePaymentInformation,
+            onChangeEmailRequired,
+        } = this.props;
 
         const extractedFields = transformToNameValuePair<Record<string, unknown>>(fields);
         const address = this._getAddress(extractedFields);
@@ -284,7 +287,7 @@ CheckoutBillingContainerState
     }
 
     _getAddress(fields: Record<string, unknown>): CheckoutAddress {
-        const { addressLinesQty } = this.props;
+        const { addressLinesQty, totals: { is_virtual } } = this.props;
 
         const {
             isSameAsShipping,
@@ -293,7 +296,7 @@ CheckoutBillingContainerState
 
         const formFields = getFormFields(fields, addressLinesQty);
 
-        if (isSameAsShipping) {
+        if (isSameAsShipping && !is_virtual) {
             return this.getBillingSameAsShipping() as CheckoutAddress;
         }
 
