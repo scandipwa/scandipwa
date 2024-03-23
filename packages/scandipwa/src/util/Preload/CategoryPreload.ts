@@ -47,7 +47,7 @@ export class CategoryPreload {
 
     getSelectedFiltersFromUrl() {
         const { location } = history;
-        const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
+        const selectedFiltersString = (getQueryParam('customFilters', location, false) || '').split(';');
 
         return selectedFiltersString.reduce((acc, filter) => {
             if (!filter) {
