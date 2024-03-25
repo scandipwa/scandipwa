@@ -32,6 +32,7 @@ export type MenuContainerProps = MenuContainerMapStateProps & MenuContainerMapDi
 export interface MenuContainerState {
     activeMenuItemsStack: string[];
     menu: Record<string, FormattedMenuItem>;
+    collapseMenuItemsStack: string[];
 }
 
 export interface MenuComponentProps {
@@ -42,4 +43,5 @@ export interface MenuComponentProps {
     closeMenu: () => void;
     onCategoryHover: (activeSubcategory: FormattedMenuItem) => void;
     device: Device;
+    collapseMenuItemsStack: string[];
 }
