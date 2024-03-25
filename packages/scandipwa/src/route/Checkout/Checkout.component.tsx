@@ -9,7 +9,9 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { lazy, PureComponent, Suspense } from 'react';
+import {
+    lazy, PureComponent, Suspense,
+} from 'react';
 
 import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -24,6 +26,7 @@ import {
     CHECKOUT_URL_REGEX,
     CheckoutSteps,
     CheckoutStepUrl,
+    MAX_ITEMS_COUNT_FOR_SUMMARY_FALLBACK,
 } from './Checkout.config';
 import { CheckoutComponentProps, CheckoutMapStep } from './Checkout.type';
 
@@ -335,6 +338,51 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
         );
     }
 
+    renderItemsForSummaryFallback(count: number): ReactElement {
+        const updatedCount = Math.min(count, MAX_ITEMS_COUNT_FOR_SUMMARY_FALLBACK);
+
+        return (
+            <>
+                { Array.from({ length: updatedCount }, (_, index) => (
+                    <div
+                      block="Checkout"
+                      elem="SummaryFallbackItem"
+                      key={ index }
+                    />
+                )) }
+            </>
+        );
+    }
+
+    renderSummaryFallback(): ReactElement {
+        const {
+            checkoutTotals,
+            isMobile,
+        } = this.props;
+
+        if (isMobile) {
+            return (
+                <Loader />
+            );
+        }
+
+        const itemsCount = checkoutTotals.items?.length || 0;
+
+        return (
+            <div
+              block="Checkout"
+              elem="SummaryFallback"
+            >
+                <div
+                  block="Checkout"
+                  elem="SummaryFallbackStart"
+                />
+                { this.renderItemsForSummaryFallback(itemsCount) }
+                <Loader />
+            </div>
+        );
+    }
+
     renderSummary(showOnMobile = false): ReactElement {
         const {
             checkoutTotals,
@@ -349,7 +397,7 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
         }
 
         return (
-            <>
+            <Suspense fallback={ this.renderSummaryFallback() }>
                  <CheckoutOrderSummary
                    checkoutStep={ checkoutStep }
                    totals={ checkoutTotals }
@@ -358,7 +406,7 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
                    showItems
                  />
                  { !showOnMobile && this.renderDiscountCode() }
-            </>
+            </Suspense>
         );
     }
 
@@ -460,8 +508,8 @@ export class CheckoutComponent extends PureComponent<CheckoutComponentProps> {
                          </div>
                      </div>
                      <div>
+                        { this.renderSummary() }
                          <Suspense fallback={ <Loader /> }>
-                             { this.renderSummary() }
                              { this.renderPromo() }
                          </Suspense>
                      </div>

@@ -34,6 +34,14 @@
         }
     }
 
+    &-SummaryFallbackStart {
+        min-height: 264px;
+    }
+
+    &-SummaryFallbackItem {
+        height: 120px;
+    }
+
     &-FullPageLoader {
         height: 100vh;
         position: fixed;
