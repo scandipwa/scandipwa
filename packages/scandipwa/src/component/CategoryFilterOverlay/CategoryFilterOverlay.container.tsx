@@ -231,6 +231,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
             isProductsLoading,
             isSearchPage,
             totalPages,
+            categoryPageRef,
         } = this.props;
 
         return {
@@ -244,6 +245,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
             customFiltersValues,
             areFiltersEmpty: this.getAreFiltersEmpty(),
             isContentFiltered: this.isContentFiltered(),
+            categoryPageRef,
         };
     }
 
