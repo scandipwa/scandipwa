@@ -55,7 +55,7 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
     resultRef = createRef<HTMLDivElement>();
 
     state: SearchOverlayContainerState = {
-        activeClosingAnimation: false,
+        isActiveClosingAnimation: false,
     };
 
     componentDidUpdate(prevProps: Readonly<SearchOverlayContainerProps>): void {
@@ -63,10 +63,10 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
         const { searchCriteria } = this.props;
 
         if (!searchCriteria.trim() && searchCriteria !== prevSearchCriteria) {
-            this.setState({ activeClosingAnimation: true });
+            this.setState({ isActiveClosingAnimation: true });
 
             const animationendHandler = () => {
-                this.setState({ activeClosingAnimation: false });
+                this.setState({ isActiveClosingAnimation: false });
 
                 this.resultRef.current?.removeEventListener('animationend', animationendHandler);
             };
@@ -85,7 +85,7 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
         } = this.props;
 
         const {
-            activeClosingAnimation,
+            isActiveClosingAnimation,
         } = this.state;
 
         return {
@@ -95,7 +95,7 @@ export class SearchOverlayContainer extends PureComponent<SearchOverlayContainer
             searchCriteria,
             searchResults,
             resultRef: this.resultRef,
-            activeClosingAnimation,
+            isActiveClosingAnimation,
         };
     }
 

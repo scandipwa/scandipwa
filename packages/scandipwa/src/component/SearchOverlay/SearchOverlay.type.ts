@@ -44,11 +44,11 @@ export interface SearchOverlayComponentProps extends SearchOverlayContainerFunct
     searchCriteria: string;
     searchResults: IndexedProduct[];
     resultRef: RefObject<HTMLDivElement>;
-    activeClosingAnimation: boolean;
+    isActiveClosingAnimation: boolean;
 }
 
 export interface SearchOverlayContainerState {
-    activeClosingAnimation: boolean;
+    isActiveClosingAnimation: boolean;
 }
 
 export type SearchOverlayComponentContainerPropKeys =
@@ -58,4 +58,4 @@ export type SearchOverlayComponentContainerPropKeys =
     | 'searchCriteria'
     | 'searchResults'
     | 'resultRef'
-    | 'activeClosingAnimation';
+    | 'isActiveClosingAnimation';

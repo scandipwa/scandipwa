@@ -82,7 +82,7 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
 
     renderSearchOverlayResults(): ReactElement {
         const {
-            activeClosingAnimation,
+            isActiveClosingAnimation,
             resultRef,
         } = this.props;
 
@@ -91,7 +91,7 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
               block="SearchOverlay"
               elem="Results"
               aria-label="Search results"
-              mods={ { activeClosingAnimation } }
+              mods={ { isActiveClosingAnimation } }
               ref={ resultRef }
             >
                 { this.renderSearchResults() }
@@ -103,10 +103,10 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
         const {
             isHideOverlay,
             searchCriteria,
-            activeClosingAnimation,
+            isActiveClosingAnimation,
         } = this.props;
 
-        const isOpen = searchCriteria.trim().length > 0 || activeClosingAnimation;
+        const isOpen = searchCriteria.trim().length > 0 || isActiveClosingAnimation;
 
         if (isHideOverlay) {
             return (
@@ -114,13 +114,13 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
                   block="SearchOverlay"
                   mods={ { isOpen } }
                 >
-                        <div block="SearchOverlay" elem="Background" />
-                        <div
-                          block="SearchOverlay"
-                          elem="ResultsWrapper"
-                        >
-                            { this.renderSearchOverlayResults() }
-                        </div>
+                    <div block="SearchOverlay" elem="Background" />
+                    <div
+                      block="SearchOverlay"
+                      elem="ResultsWrapper"
+                    >
+                        { this.renderSearchOverlayResults() }
+                    </div>
                 </div>
             );
         }

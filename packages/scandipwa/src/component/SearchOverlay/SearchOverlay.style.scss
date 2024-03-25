@@ -95,7 +95,7 @@
         z-index: 110;
         width: 100%;
 
-        &_activeClosingAnimation {
+        &_isActiveClosingAnimation {
             @include slide-content-out();
         }
 
