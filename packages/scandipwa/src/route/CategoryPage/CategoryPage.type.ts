@@ -10,6 +10,7 @@
  */
 
 import { History, Location } from 'history';
+import { RefObject } from 'react';
 import { match as Match } from 'react-router';
 
 import { Category, CategoryQueryOptions } from 'Query/Category.type';
@@ -111,6 +112,7 @@ export interface CategoryPageComponentProps extends CategoryPageContainerFunctio
     selectedLayoutType?: CategoryPageLayout;
     activeLayoutType?: CategoryPageLayout;
     displayMode: CategoryDisplayMode;
+    productListLoaderRef: RefObject<HTMLDivElement>;
 }
 
 export interface CategoryPageComponentState {
@@ -137,7 +139,8 @@ export type CategoryPageContainerPropsKeys =
     | 'totalItems'
     | 'selectedLayoutType'
     | 'activeLayoutType'
-    | 'displayMode';
+    | 'displayMode'
+    | 'productListLoaderRef';
 
 export interface CategoryUrlParams {
     customFilters: string;

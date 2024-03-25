@@ -11,10 +11,12 @@
 
 import { PureComponent, Suspense } from 'react';
 
+import Loader from 'Component/Loader';
 import ProductListPage from 'Component/ProductListPage';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import { noopFn } from 'Util/Common';
+import CSS from 'Util/CSS';
 import { IndexedProduct } from 'Util/Product/Product.type';
 import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
 import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
@@ -319,6 +321,26 @@ export class ProductListComponent extends PureComponent<ProductListComponentProp
         );
     }
 
+    renderLayoutChangingLoader(): ReactElement {
+        const {
+            productListLoaderRef,
+        } = this.props;
+
+        const width = productListLoaderRef?.current?.offsetWidth;
+
+        if (productListLoaderRef?.current) {
+            CSS.setVariable(productListLoaderRef, 'product-list-loader-width', `${width}px`);
+        }
+
+        return (
+            <div block="ProductList" elem="LayoutChangingLoader" ref={ productListLoaderRef }>
+                <div block="ProductList" elem="LayoutChangingLoaderWrapper">
+                    <Loader />
+                </div>
+            </div>
+        );
+    }
+
     render(): ReactElement {
         const {
             totalPages,
@@ -338,6 +360,7 @@ export class ProductListComponent extends PureComponent<ProductListComponentProp
               mods={ { isLoading } }
               mix={ mix }
             >
+                { this.renderLayoutChangingLoader() }
                 { this.renderTitle() }
                 { this.renderLoadButton() }
                 { this.renderPages() }
