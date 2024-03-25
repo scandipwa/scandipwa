@@ -71,7 +71,7 @@ export interface LinkComponentProps {
     handleLinkClick: () => void;
 }
 
-export type ProductGalleryComponentContainerPropKeys =
+export type LinkComponentContainerPropKeys =
     | 'to'
     | 'children'
     | 'onClick'

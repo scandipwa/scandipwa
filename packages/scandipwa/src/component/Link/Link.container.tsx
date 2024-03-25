@@ -24,13 +24,13 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import Link from './Link.component';
 import {
+    LinkComponentContainerPropKeys,
     LinkComponentProps,
     LinkContainerDispatchProps,
     LinkContainerFunctions,
     LinkContainerMapStateProps,
     LinkContainerProps,
     LinkContainerState,
-    ProductGalleryComponentContainerPropKeys,
 } from './Link.type';
 
 /** @namespace Component/Link/Container/mapStateToProps */
@@ -58,7 +58,7 @@ export class LinkContainer extends PureComponent<LinkContainerProps> {
         handleLinkClick: this.handleLinkClick.bind(this),
     };
 
-    containerProps(): Pick<LinkComponentProps, ProductGalleryComponentContainerPropKeys> {
+    containerProps(): Pick<LinkComponentProps, LinkComponentContainerPropKeys> {
         const {
             block,
             elem,
