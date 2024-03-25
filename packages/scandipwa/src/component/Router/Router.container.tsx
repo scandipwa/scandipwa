@@ -28,7 +28,7 @@ import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
 import { RootState } from 'Util/Store/Store.type';
 
 import Router from './Router.component';
-import { URL_ONLY_MAIN_ITEMS_RENDER } from './Router.config';
+import { DEMO_NOTICE_HEIGHT, URL_ONLY_MAIN_ITEMS_RENDER } from './Router.config';
 import {
     RouterComponentProps,
     RouterContainerMapDispatchProps,
@@ -216,9 +216,8 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
         } = this.props;
 
         if (demo_notice) {
-            const demoNoticeHeight = 48;
             const root = document.querySelector(':root') as HTMLElement;
-            root?.style.setProperty('--demo-notice-height', `${demoNoticeHeight}px`);
+            root?.style.setProperty('--demo-notice-height', `${DEMO_NOTICE_HEIGHT}px`);
         }
     }
 
