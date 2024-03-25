@@ -12,3 +12,5 @@
 export const SCROLL_DEBOUNCE_DELAY = 10;
 
 export const HEADER_CMS_BLOCK = 'header_cms';
+
+export const MENU_TRANSITION_DURATION = 300;

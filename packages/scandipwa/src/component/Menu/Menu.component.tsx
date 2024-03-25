@@ -164,18 +164,23 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
             >
                 <div
                   block="Menu"
-                  elem="ItemList"
-                  mods={ { ...subcategoryMods } }
+                  elem="SubMenuMobileWrapper"
                 >
-                    { device.isMobile && (
-                        <MenuItem
-                          activeMenuItemsStack={ activeMenuItemsStack }
-                          item={ { ...category, title: __('All %s', title) } }
-                          itemMods={ { ...subcategoryMods, isSecondLevel } }
-                          isLink
-                        />
-                    ) }
-                    { childrenArray.map((item) => this.renderSubLevelItems(item, isSecondLevel)) }
+                    <div
+                      block="Menu"
+                      elem="ItemList"
+                      mods={ { ...subcategoryMods } }
+                    >
+                        { device.isMobile && (
+                            <MenuItem
+                              activeMenuItemsStack={ activeMenuItemsStack }
+                              item={ { ...category, title: __('All %s', title) } }
+                              itemMods={ { ...subcategoryMods, isSecondLevel } }
+                              isLink
+                            />
+                        ) }
+                        { childrenArray.map((item) => this.renderSubLevelItems(item, isSecondLevel)) }
+                    </div>
                 </div>
             </div>
         );
