@@ -93,6 +93,7 @@ export const getInitialState = (): Partial<ConfigStore> => {
         storeConfig: {
             cms_home_page,
             catalog_default_sort_by,
+            demo_notice,
         } = {},
     } = window;
 
@@ -122,6 +123,7 @@ export const getInitialState = (): Partial<ConfigStore> => {
         },
         cms_home_page,
         catalog_default_sort_by,
+        demo_notice,
     };
 };
 

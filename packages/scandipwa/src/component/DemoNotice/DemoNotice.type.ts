@@ -12,14 +12,14 @@
 import { Device } from 'Type/Device.type';
 
 export interface DemoNoticeContainerMapStateProps {
-    isDemoNoticeEnabled: boolean;
     device: Device;
+    demo_notice: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface DemoNoticeContainerMapDispatchProps {}
 
 export interface DemoNoticeComponentProps {
-    isDemoNoticeEnabled: boolean;
     device: Device;
+    demo_notice: boolean;
 }

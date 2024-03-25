@@ -31,6 +31,7 @@ export interface RouterContainerMapStateProps {
     status_code?: string;
     base_link_url: string;
     canonical_url?: string;
+    demo_notice: boolean;
 }
 
 export interface RouterContainerMapDispatchProps {

@@ -38,6 +38,7 @@ declare global {
         storeConfig?: {
             cms_home_page: string;
             catalog_default_sort_by: string;
+            demo_notice: boolean;
         };
         secure_base_media_url?: string;
         prefetchedImages: Record<string, HTMLImageElement>;
