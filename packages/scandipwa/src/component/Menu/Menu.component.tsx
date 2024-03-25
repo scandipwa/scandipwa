@@ -183,16 +183,18 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
 
     renderSubMenuDesktopItems(item: FormattedMenuItem): ReactElement {
         const { item_id, children } = item;
+        const { collapseMenuItemsStack } = this.props;
 
-        if (!Object.keys(children).length) {
+        if (!Object.keys(children).length && !collapseMenuItemsStack.includes(item_id)) {
             return null;
         }
 
         const { activeMenuItemsStack, closeMenu } = this.props;
         const isVisible = activeMenuItemsStack.includes(item_id);
+        const isCollapse = !isVisible && collapseMenuItemsStack.includes(item_id);
 
         // We need to render menu in DOM for Bots
-        if (!isCrawler() && !isVisible) {
+        if (!isCrawler() && !isVisible && !isCollapse) {
             return null;
         }
 
@@ -200,7 +202,7 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
             <div
               block="Menu"
               elem="SubCategoriesWrapper"
-              mods={ { isVisible } }
+              mods={ { isVisible, isCollapse } }
               key={ item_id }
             >
                 <div
@@ -227,15 +229,26 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
     }
 
     renderSubMenuDesktop(itemList: Record<string, FormattedMenuItem>): ReactElement {
-        const { device } = this.props;
+        const { device, activeMenuItemsStack, collapseMenuItemsStack } = this.props;
 
         if (device.isMobile) {
             return null;
         }
 
+        const isVisible = activeMenuItemsStack.length !== 0 && collapseMenuItemsStack.length === 0;
         const childrenArray = getSortedItems(Object.values(itemList));
 
-        return childrenArray.map(this.renderSubMenuDesktopItems.bind(this));
+        return (
+            <div
+              block="Menu"
+              elem="SubMenuDesktop"
+              mods={ { isVisible } }
+            >
+                <div block="Menu" elem="SubMenuDesktopExpand">
+                    { childrenArray.map(this.renderSubMenuDesktopItems.bind(this)) }
+                </div>
+            </div>
+        );
     }
 
     renderAdditionalInformation(checkMobile = false): ReactElement {

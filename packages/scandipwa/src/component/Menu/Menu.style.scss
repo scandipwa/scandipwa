@@ -198,10 +198,28 @@
         }
     }
 
-    &-SubCategoriesWrapper {
-        display: none;
+    &-SubMenuDesktop {
+        overflow: hidden;
+        position: relative;
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows var(--menu-transition-duration);
+
+        & > .Menu-SubMenuDesktopExpand {
+            overflow: hidden;
+        }
 
         &_isVisible {
+            grid-template-rows: 1fr;
+        }
+    }
+
+    &-SubCategoriesWrapper {
+        display: none;
+        position: relative;
+
+        &_isVisible,
+        &_isCollapse {
             display: block;
         }
     }
