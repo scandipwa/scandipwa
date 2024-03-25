@@ -10,7 +10,9 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent, Suspense } from 'react';
+import {
+    createRef, PureComponent, RefObject, Suspense,
+} from 'react';
 
 import CategoryDetails from 'Component/CategoryDetails';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
@@ -100,6 +102,8 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
 
         return { activeLayoutType };
     }
+
+    categoryPageRef: RefObject<HTMLDivElement> = createRef();
 
     displayProducts() {
         const { displayMode } = this.props;
@@ -241,6 +245,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
                   isCategoryAnchor={ !!is_anchor }
                   isSearchPage={ isSearchPage }
                   renderPlaceholder={ this.renderPlaceholder }
+                  categoryPageRef={ this.categoryPageRef }
                 />
             </Suspense>
         );
@@ -466,7 +471,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
         const { totalItems } = this.props;
 
         return (
-            <main block="CategoryPage" mods={ { noResults: totalItems === 0 } }>
+            <main block="CategoryPage" mods={ { noResults: totalItems === 0 } } ref={ this.categoryPageRef }>
                 <ContentWrapper
                   wrapperMix={ {
                       block: 'CategoryPage',
@@ -475,6 +480,11 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
                   } }
                   label="Category page"
                 >
+                    <div
+                      block="CategoryPage"
+                      elem="Loader"
+                      mods={ {} }
+                    />
                     { this.renderContent() }
                 </ContentWrapper>
             </main>

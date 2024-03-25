@@ -12,6 +12,8 @@
 import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
+import { scrollToTop } from 'Util/Browser';
+import CSS from 'Util/CSS';
 import history from 'Util/History';
 import { setQueryParams } from 'Util/Url';
 
@@ -30,7 +32,7 @@ export class ResetButtonContainer extends PureComponent<ResetButtonContainerProp
     };
 
     containerFunctions: ResetButtonContainerFunctions = {
-        resetFilters: this.resetFilters.bind(this),
+        onClick: this.onClick.bind(this),
     };
 
     containerProps(): Pick<ResetButtonComponentProps, ResetButtonComponentContainerPropKeys> {
@@ -68,6 +70,18 @@ export class ResetButtonContainer extends PureComponent<ResetButtonContainerProp
 
             return { ...acc, [ key ]: value };
         }, {});
+    }
+
+    onClick(): void {
+        const { onClick, categoryPageRef } = this.props;
+
+        CSS.setVariable(categoryPageRef, 'content-loader-display', 'block');
+        setTimeout(() => {
+            onClick();
+            this.resetFilters();
+            scrollToTop();
+            CSS.setVariable(categoryPageRef, 'content-loader-display', 'none');
+        }, 0);
     }
 
     render(): ReactElement {
