@@ -23,7 +23,7 @@ export interface LinkContainerMapStateProps {
     baseLinkUrl: string;
 }
 
-export interface LinkComponentState {
+export interface LinkContainerState {
     isLoaderActive: boolean;
 }
 
@@ -33,6 +33,7 @@ export interface LinkContainerDispatchProps {
 
 export interface LinkContainerFunctions {
     onClick: (e: MouseEvent) => void;
+    handleLinkClick: () => void;
 }
 
 export type LinkContainerProps =
@@ -66,4 +67,21 @@ export interface LinkComponentProps {
     onMouseLeave?: () => void;
     tabIndex?: number;
     showLoader?: boolean;
+    isLoaderActive: boolean;
+    handleLinkClick: () => void;
 }
+
+export type ProductGalleryComponentContainerPropKeys =
+    | 'to'
+    | 'children'
+    | 'onClick'
+    | 'bemProps'
+    | 'className'
+    | 'isOpenInNewTab'
+    | 'id'
+    | 'onMouseEnter'
+    | 'onMouseLeave'
+    | 'tabIndex'
+    | 'tabIndex'
+    | 'showLoader'
+    | 'isLoaderActive';

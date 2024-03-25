@@ -20,9 +20,8 @@ import {
     ReactElement,
 } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
-import { history } from 'Util/History';
 
-import { LinkComponentProps, LinkComponentState } from './Link.type';
+import { LinkComponentProps } from './Link.type';
 
 import './Link.style';
 /** @namespace Component/Link/Component */
@@ -33,10 +32,6 @@ export class LinkComponent extends PureComponent<LinkComponentProps> {
         onClick: noopFn,
         isOpenInNewTab: false,
         id: '',
-    };
-
-    state: LinkComponentState = {
-        isLoaderActive: false,
     };
 
     scrollToElement(e: MouseEvent): void {
@@ -132,21 +127,6 @@ export class LinkComponent extends PureComponent<LinkComponentProps> {
         );
     }
 
-    handleLinkClick = (): void => {
-        const {
-            to,
-        } = this.props;
-
-        this.setState({ isLoaderActive: true });
-
-        const timeout = 0;
-
-        setTimeout(() => {
-            const link: any = to;
-            history.push(link);
-        }, timeout);
-    };
-
     render(): ReactElement {
         const {
             className,
@@ -179,16 +159,10 @@ export class LinkComponent extends PureComponent<LinkComponentProps> {
         if (showLoader) {
             const {
                 onClick: onClickProp,
-                ...otherProps
-            } = props;
-
-            const {
                 isLoaderActive,
-            } = this.state;
-
-            setTimeout(() => {
-                this.setState({ isLoaderActive: false });
-            }, 0);
+                handleLinkClick,
+                ...otherProps
+            } = this.props;
 
             return (
                 <>
@@ -204,10 +178,10 @@ export class LinkComponent extends PureComponent<LinkComponentProps> {
                       elem="Button"
                       role="button"
                       tabIndex={ 0 }
-                      onKeyDown={ this.handleLinkClick }
+                      onKeyDown={ handleLinkClick }
                     // eslint-disable-next-line react/forbid-dom-props
                       className={ classNameConverted }
-                      onClick={ this.handleLinkClick }
+                      onClick={ handleLinkClick }
                       { ...otherProps }
                     >
                         { children }
