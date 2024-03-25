@@ -421,7 +421,7 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
         );
     }
 
-    renderPrice(isPreview = false): ReactElement {
+    renderPrice(isPreview = false, isSchemaRequired = false): ReactElement {
         const { getActiveProduct, productPrice } = this.props;
         const product = getActiveProduct();
 
@@ -444,6 +444,7 @@ export class ProductComponent<P extends ProductComponentProps = ProductComponent
                   priceType={ type as ProductType }
                   tierPrices={ priceTiers }
                   isPreview={ isPreview }
+                  isSchemaRequired={ isSchemaRequired }
                   mix={ { block: this.className, elem: 'Price' } }
                 />
             </div>

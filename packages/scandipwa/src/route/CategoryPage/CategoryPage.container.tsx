@@ -231,6 +231,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             },
             currentArgs: {
                 filter,
+                currentPage,
             } = {},
         } = this.props;
 
@@ -245,6 +246,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             },
             currentArgs: {
                 filter: prevFilter,
+                currentPage: prevPage,
             } = {},
         } = prevProps;
 
@@ -280,7 +282,9 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * Or if the breadcrumbs were not yet updated after category request,
          * and the category ID expected to load was loaded, update data.
          */
-        const categoryChange = id !== prevId || (!breadcrumbsWereUpdated && id === categoryIds);
+        const categoryChange = id !== prevId
+            || (!breadcrumbsWereUpdated && id === categoryIds)
+            || currentPage !== prevPage;
 
         if (categoryChange) {
             this.checkIsActive();
@@ -596,8 +600,29 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         }
     }
 
+    getCanonicalWithPageNumber(canonical_url?: string) {
+        if (!canonical_url) {
+            return null;
+        }
+
+        const pageNumber = getQueryParam('page', history?.location);
+
+        if (pageNumber) {
+            return canonical_url.concat(`?page=${pageNumber}`);
+        }
+
+        return canonical_url;
+    }
+
     updateMeta(): void {
-        const { updateMetaFromCategory, category } = this.props;
+        const {
+            updateMetaFromCategory,
+            category,
+            category: {
+                canonical_url,
+            } = {},
+        } = this.props;
+
         const meta_robots = history.location.search
             ? ''
             : 'follow, index';
@@ -605,6 +630,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         updateMetaFromCategory({
             ...category,
             meta_robots,
+            canonical_url: this.getCanonicalWithPageNumber(canonical_url),
         });
     }
 

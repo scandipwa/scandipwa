@@ -54,6 +54,7 @@
     --header-height: 60px;
     --header-nav-height: 60px;
     --header-total-height: calc(var(--header-height) + var(--offline-notice-height) + var(--demo-notice-height) + env(safe-area-inset-top));
+    --mobile-my-account-page-padding-bottom: 10px;
 
     @include desktop {
         --header-top-menu-height: 32px;

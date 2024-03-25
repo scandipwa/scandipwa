@@ -15,7 +15,6 @@ import { AnyAction, Store } from 'redux';
 import { Provider as UnstatedProvider } from 'unstated-typescript';
 
 import Router from 'Component/Router';
-import SharedTransition from 'Component/SharedTransition';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import { getStaticReducers } from 'Store/index';
 import { ReactElement } from 'Type/Common.type';
@@ -43,7 +42,6 @@ export class AppComponent extends PureComponent<unknown, AppComponentState> {
 
     rootComponents = [
         this.renderRouter.bind(this),
-        this.renderSharedTransition.bind(this),
     ];
 
     contextProviders = [
@@ -137,12 +135,6 @@ export class AppComponent extends PureComponent<unknown, AppComponentState> {
 
     handleErrorReset(): void {
         this.setState({ isSomethingWentWrong: false });
-    }
-
-    renderSharedTransition(): ReactElement {
-        return (
-            <SharedTransition key="transition" />
-        );
     }
 
     renderRouter(): ReactElement {

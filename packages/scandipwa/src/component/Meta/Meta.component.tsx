@@ -47,6 +47,10 @@ export class MetaComponent extends PureComponent<MetaComponentProps> {
         const titlePrefix = title_prefix ? `${ title_prefix } | ` : '';
         const titleSuffix = title_suffix ? ` | ${ title_suffix }` : '';
 
+        if (!title || !title?.length) {
+            return null;
+        }
+
         return (
             <title>
                 { `${ titlePrefix }${ title || default_title }${ titleSuffix }` }

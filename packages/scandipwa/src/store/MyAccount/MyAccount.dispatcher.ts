@@ -286,11 +286,12 @@ export class MyAccountDispatcher {
         }
 
         setCartId(customerCartToken);
-        CartDispatcher.updateInitialCartData(dispatch, true);
 
         WishlistDispatcher.updateInitialWishlistData(dispatch);
 
         await this.requestCustomerData(dispatch);
+
+        CartDispatcher.updateInitialCartData(dispatch, true);
 
         dispatch(updateCustomerSignInStatus(true));
         dispatch(updateIsLoading(false));

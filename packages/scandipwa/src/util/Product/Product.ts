@@ -64,8 +64,7 @@ export const PRODUCTS_PRELOAD_COUNT = 4;
  * @param {Object} attributes
  * @param {{ attribute_code: string }[]} options
  * @returns {boolean}
- * @namespace Util/Product/checkEveryOption
- */
+ /* @namespace Util/Product/checkEveryOption */
 export const checkEveryOption = (
     attributes: Record<string, IndexedAttributeWithValue>,
     options: Record<string, string>,
@@ -103,25 +102,33 @@ export const getIndexedAttributeOption = (option: AttributeWithValueOption): Ind
 
 /** @namespace Util/Product/getIndexedAttributes */
 export const getIndexedAttributes = (
-    attributes: AttributeWithValue[],
-): Record<string, IndexedAttributeWithValue> => attributes.reduce((indexedAttributes, attribute) => {
-    const { attribute_code, attribute_options = [] } = attribute;
+    attributes: AttributeWithValue[] | null | undefined,
+): Record<string, IndexedAttributeWithValue> => {
+    if (attributes == null) {
+        return {};
+    }
 
-    return {
-        ...indexedAttributes,
-        [attribute_code]: {
-            ...attribute,
-            attribute_options: attribute_options.reduce((acc, option) => {
-                const { value } = option;
+    return attributes.reduce((indexedAttributes, attribute) => {
+        const { attribute_code, attribute_options = [] } = attribute;
 
-                return {
-                    ...acc,
-                    [value]: getIndexedAttributeOption(option),
-                };
-            }, {}),
-        },
-    };
-}, {});
+        return {
+            ...indexedAttributes,
+            [attribute_code]: {
+                ...attribute,
+                attribute_options: Array.isArray(attribute_options)
+                    ? attribute_options.reduce((acc, option) => {
+                        const { value } = option;
+
+                        return {
+                            ...acc,
+                            [value]: getIndexedAttributeOption(option),
+                        };
+                    }, {})
+                    : {},
+            },
+        };
+    }, {});
+};
 
 /** @namespace Util/Product/getIndexedConfigurableOptions */
 export const getIndexedConfigurableOptions = (
@@ -201,8 +208,7 @@ export const getVariantsIndexes = (
  * @param {{ attribute_code: string }[]} options
  * @pram {boolean} inStockOnly
  * @returns {number}
- * @namespace Util/Product/getVariantIndex
- */
+ /* @namespace Util/Product/getVariantIndex */
 export const getVariantIndex = (
     variants: IndexedVariant[],
     options: Record<string, string>,

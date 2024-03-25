@@ -12,6 +12,8 @@
 import { UrlRewritePageType } from 'Route/UrlRewrites/UrlRewrites.config';
 import ProductReducer from 'Store/Product/Product.reducer';
 import ProductListReducer from 'Store/ProductList/ProductList.reducer';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { isMobile } from 'Util/Mobile';
 import getStore, { injectReducers } from 'Util/Store';
 
 import CategoryPreload from './CategoryPreload';
@@ -32,6 +34,17 @@ export const criticalChunkLoad = {
     CmsChunk: {
         test: type === UrlRewritePageType.CMS_PAGE,
         importChunk: () => {
+            const isAndroid = isMobile.android();
+            const isIos = isMobile.iOS() && isMobile.safari();
+
+            if ((isAndroid || isIos)
+                && !isMobile.standaloneMode()
+                && !BrowserDatabase.getItem('postpone_installation')
+                && !BrowserDatabase.getItem('app_installed')
+            ) {
+                window.isInstallPromptAvailable = true;
+            }
+
             const {
                 actionName: {
                     cmsPage: {

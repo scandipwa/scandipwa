@@ -2,8 +2,12 @@
     background: var(--secondary-light-color);
     padding: 12px;
     margin: 12px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 
-    @include mobile {
+    @include mobile {   
         padding: 14px;
         margin: 14px;
     }
@@ -20,7 +24,7 @@
     &-Content {
         align-items: center;
         display: flex;
-        justify-content: center;
+        justify-content: center;    
     }
 
     &-Close {

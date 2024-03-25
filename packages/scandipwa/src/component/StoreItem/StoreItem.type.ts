@@ -9,10 +9,12 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+import { MouseEvent } from 'react';
+
 import { FormattedStore } from 'Component/StoreSwitcher/StoreSwitcher.type';
 
 export interface StoreItemContainerFunctions {
-    getStoreCode: () => void;
+    handleStoreItemClick: (e: MouseEvent) => void;
 }
 
 export interface StoreItemContainerProps {

@@ -521,18 +521,18 @@ export class CheckoutContainer extends PureComponent<CheckoutContainerProps, Che
         deleteCartId();
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
-        if (isSignedIn()) {
-            resetCart();
-        } else {
-            resetGuestCart();
-        }
-
         this.setState({
             isLoading: false,
             paymentTotals: undefined,
             checkoutStep: CheckoutSteps.DETAILS_STEP,
             orderID,
         });
+
+        if (isSignedIn()) {
+            resetCart();
+        } else {
+            resetGuestCart();
+        }
 
         setNavigationState({
             name: NavigationTabsMap.CART_TAB,

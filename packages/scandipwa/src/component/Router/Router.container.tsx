@@ -53,6 +53,7 @@ export const mapStateToProps = (state: RootState): RouterContainerMapStateProps 
     status_code: state.MetaReducer.status_code,
     base_link_url: state.ConfigReducer.base_link_url,
     isMobile: state.ConfigReducer.device.isMobile,
+    canonical_url: state.MetaReducer.canonical_url,
 });
 
 /** @namespace Component/Router/Container/mapDispatchToProps */
@@ -140,11 +141,12 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
                 title_suffix,
                 meta_title,
                 status_code,
+                canonical_url,
             } = this.props;
 
             updateMeta({
                 default_title,
-                title: meta_title || default_title,
+                title: meta_title,
                 default_description,
                 description: default_description,
                 default_keywords,
@@ -152,6 +154,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
                 title_prefix,
                 title_suffix,
                 status_code,
+                canonical_url,
             });
         }
     }

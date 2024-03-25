@@ -11,16 +11,12 @@
 
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Subscribe } from 'unstated-typescript';
 
 import {
     mapDispatchToProps as sourceMapDispatchToProps,
     mapStateToProps as sourceMapStateToProps,
     ProductContainer,
 } from 'Component/Product/Product.container';
-import SharedTransitionContainer, {
-    SharedTransitionUnstated,
-} from 'Component/SharedTransition/SharedTransition.unstated';
 import { UrlRewrite } from 'Query/ProductList.type';
 import { CategoryPageLayout } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -47,6 +43,7 @@ export const mapStateToProps = (state: RootState): ProductCardContainerMapStateP
     baseLinkUrl: state.ConfigReducer.base_link_url || '',
     productUsesCategories: state.ConfigReducer.product_use_categories || false,
     categoryUrlSuffix: state.ConfigReducer.category_url_suffix,
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
@@ -85,6 +82,7 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
             product,
             isPlp,
             onLoad,
+            isMobile,
         } = this.props;
 
         return {
@@ -100,6 +98,7 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
             thumbnail: getSmallImage(this.getActiveProduct()) || getSmallImage(product),
             linkTo: this.getLinkTo(),
             onLoad,
+            isMobile,
         };
     }
 
@@ -145,15 +144,10 @@ export class ProductCardContainer extends ProductContainer<ProductCardContainerP
 
     render(): ReactElement {
         return (
-            <Subscribe to={ [SharedTransitionContainer] }>
-                { ({ registerSharedElement }: SharedTransitionUnstated): JSX.Element => (
-                    <ProductCard
-                      { ...this.containerFunctions }
-                      { ...this.containerProps() }
-                      registerSharedElement={ registerSharedElement }
-                    />
-                ) }
-            </Subscribe>
+            <ProductCard
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
+            />
         );
     }
 }

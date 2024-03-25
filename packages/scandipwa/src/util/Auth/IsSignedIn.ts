@@ -16,12 +16,14 @@ import { getAuthorizationToken } from './Token';
 export const isSignedIn = (): boolean => {
     const hasAuthToken = !!getAuthorizationToken();
 
-    import('./LogoutIfSignedIn').then(
-        /** @namespace Util/Auth/IsSignedIn/isSignedIn/then */
-        ({ logoutIfSignedIn }) => {
-            logoutIfSignedIn();
-        },
-    );
+    if (!hasAuthToken) {
+        import('./LogoutIfSignedIn').then(
+            /** @namespace Util/Auth/IsSignedIn/isSignedIn/then */
+            ({ logoutIfSignedIn }) => {
+                logoutIfSignedIn();
+            },
+        );
+    }
 
     return hasAuthToken;
 };

@@ -31,6 +31,7 @@ export interface RouterContainerMapStateProps {
     status_code?: string;
     base_link_url: string;
     isMobile: boolean;
+    canonical_url?: string;
 }
 
 export interface RouterContainerMapDispatchProps {

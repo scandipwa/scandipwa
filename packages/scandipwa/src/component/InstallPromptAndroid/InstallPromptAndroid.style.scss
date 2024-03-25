@@ -15,10 +15,10 @@
     background: var(--install-prompt-android-background);
     padding: 12px;
     margin: 12px;
+    height: 100%;
 
     @include mobile {
         padding: 14px;
-        margin: 14px;
     }
 
     &-Content {
