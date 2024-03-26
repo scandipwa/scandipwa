@@ -1,0 +1,23 @@
+{
+	"type": "root",
+	"children": [
+		{
+			"type": "element",
+			"tagName": "svg",
+			"metadata": "<?xml version=\"1.0\" standalone=\"yes\"?>\n",
+			"properties": {
+				"xmlns": "http://www.w3.org/2000/svg"
+			},
+			"children": [
+				{
+					"type": "element",
+					"tagName": "path",
+					"properties": {
+						"d": "M0,0 L10,0 L10,10 L0,10Z"
+					},
+					"children": []
+				}
+			]
+		}
+	]
+}

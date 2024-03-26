@@ -1,0 +1,15 @@
+{
+	"type": "root",
+	"children": [
+		{
+			"type": "element",
+			"tagName": "svg",
+			"metadata": "",
+			"properties": {
+				"empty-attr": "",
+				"space-attr": " "
+			},
+			"children": []
+		}
+	]
+}

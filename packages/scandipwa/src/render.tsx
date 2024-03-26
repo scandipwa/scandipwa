@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom/client';
 
 import App from 'Component/App';
 import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
@@ -44,4 +44,5 @@ function HotApp() {
     return <App />;
 }
 
-render(<HotApp />, document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+root.render(<HotApp />);

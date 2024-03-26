@@ -59,9 +59,11 @@ class WebpackI18nTracker {
     };
 
     recompileHandler = (compiler) => {
-        const changedFiles = Object.keys(compiler.watchFileSystem.watcher.mtimes);
+        if (!compiler?.modifiedFiles) {
+            return;
+        }
 
-        changedFiles.forEach((filename) => this.localizationManager.unlinkTranslatablesFromModule(filename));
+        compiler.modifiedFiles.forEach((filename) => this.localizationManager.unlinkTranslatablesFromModule(filename));
     };
 
     apply(compiler) {

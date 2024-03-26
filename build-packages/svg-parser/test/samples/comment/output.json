@@ -1,0 +1,11 @@
+{
+	"type": "root",
+	"children": [
+		{
+			"type": "element",
+			"tagName": "g",
+			"properties": {},
+			"children": []
+		}
+	]
+}

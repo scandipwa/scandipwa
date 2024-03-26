@@ -1,0 +1,13 @@
+{
+	"type": "root",
+	"children": [
+		{
+			"type": "element",
+			"tagName": "g",
+			"properties": {
+				"data-old_color": "red"
+			},
+			"children": []
+		}
+	]
+}
