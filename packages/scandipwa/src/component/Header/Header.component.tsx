@@ -385,7 +385,6 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
         }
 
         return (
-            // <div id="test">
             <Link
               to="/"
               aria-label="Go to homepage by clicking on ScandiPWA logo"
@@ -398,7 +397,6 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
             >
                 { this.renderLogoImage() }
             </Link>
-            // </div>
         );
     }
 

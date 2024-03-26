@@ -54,7 +54,12 @@
     }
 
     &-HeaderProductSku {
+        padding-inline-start: calc(14px + 20px);
+        padding-inline-end: 14px;
         margin-block-start: -3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     &-BreadcrumbsFallback {
