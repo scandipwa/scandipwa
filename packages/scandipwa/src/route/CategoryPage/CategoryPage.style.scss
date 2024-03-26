@@ -20,17 +20,17 @@
 }
 
 .CategoryPage {
-    --mobile-background-darkening-display: none;
+    --mobile-backdrop-display: none;
 
     @include mobile {
         margin-block-start: calc(var(--header-total-height) + var(--category-page-miscellaneous-height));
     }
 
-    &-MobileBackgroundDarkening {
+    &-MobileBackdrop {
         @include mobile {
             @include fade-content-in();
 
-            display: var(--mobile-background-darkening-display);
+            display: var(--mobile-backdrop-display);
             position: fixed;
             z-index: 100;
             inset: 0;

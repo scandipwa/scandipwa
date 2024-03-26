@@ -47,7 +47,7 @@ export interface CategoryFilterOverlayContainerBaseProps {
     isCategoryAnchor: boolean;
     isMatchingInfoFilter: boolean;
     isSearchPage: boolean;
-    mobileBackgroundDarkeningRef?: RefObject<HTMLDivElement>;
+    mobileBackdrop?: RefObject<HTMLDivElement>;
 }
 
 export type CategoryFilterOverlayContainerProps = CategoryFilterOverlayContainerMapStateProps

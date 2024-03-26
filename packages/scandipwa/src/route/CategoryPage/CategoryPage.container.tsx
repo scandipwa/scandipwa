@@ -125,7 +125,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         onFilterButtonClick: this.onFilterButtonClick.bind(this),
     };
 
-    mobileBackgroundDarkeningRef: RefObject<HTMLDivElement> = createRef();
+    mobileBackdrop: RefObject<HTMLDivElement> = createRef();
 
     __construct(props: P): void {
         super.__construct?.(props);
@@ -328,7 +328,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     onFilterButtonClick(): void {
         const { toggleOverlayByKey } = this.props;
 
-        CSS.setVariable(this.mobileBackgroundDarkeningRef, 'mobile-background-darkening-display', 'block');
+        CSS.setVariable(this.mobileBackdrop, 'mobile-backdrop-display', 'block');
         setTimeout(() => {
             toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
         }, 0);
@@ -437,7 +437,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             selectedLayoutType,
             activeLayoutType,
             displayMode,
-            mobileBackgroundDarkeningRef: this.mobileBackgroundDarkeningRef,
+            mobileBackdrop: this.mobileBackdrop,
         };
     }
 

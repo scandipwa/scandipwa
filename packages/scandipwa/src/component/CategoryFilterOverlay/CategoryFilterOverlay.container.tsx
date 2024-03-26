@@ -204,11 +204,11 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
 
     onHide(): void {
         const {
-            mobileBackgroundDarkeningRef = null,
+            mobileBackdrop = null,
         } = this.props;
 
-        if (mobileBackgroundDarkeningRef) {
-            CSS.setVariable(mobileBackgroundDarkeningRef, 'mobile-background-darkening-display', 'none');
+        if (mobileBackdrop) {
+            CSS.setVariable(mobileBackdrop, 'mobile-backdrop-display', 'none');
         }
 
         window.removeEventListener('popstate', this.historyBackHook);
