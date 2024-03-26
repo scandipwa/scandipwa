@@ -369,6 +369,7 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
         // if no src defined from the backend, pass null in order to display placeholder
         // and prevent unnecessary load of corrupted resource
         const logoSrc = header_logo_src ? media(header_logo_src, LOGO_MEDIA) : null;
+        const logoAlt = logo_alt || 'logo';
 
         CSS.setVariable(this.logoRef, 'header-logo-height', `${logo_height}px`);
         CSS.setVariable(this.logoRef, 'header-logo-width', `${logo_width}px`);
@@ -376,6 +377,7 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
         return (
             <Logo
               src={ logoSrc }
+              aria-label={ `Go to homepage by clicking on ${logoAlt}` }
               alt={ logo_alt }
               title={ logo_alt }
             />
@@ -383,7 +385,10 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
     }
 
     renderLogo(isVisible = false): ReactElement {
-        const { isLoading } = this.props;
+        const {
+            isLoading,
+            logo_alt,
+        } = this.props;
 
         if (isLoading) {
             return null;
@@ -392,7 +397,7 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
         return (
             <Link
               to="/"
-              aria-label="Go to homepage by clicking on ScandiPWA logo"
+              aria-label={ `Go to homepage by clicking on ${logo_alt}` }
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
               block="Header"
