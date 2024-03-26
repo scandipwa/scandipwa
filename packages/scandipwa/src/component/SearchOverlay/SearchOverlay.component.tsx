@@ -114,7 +114,7 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
                   block="SearchOverlay"
                   mods={ { isOpen } }
                 >
-                    <div block="SearchOverlay" elem="Background" />
+                    <div block="SearchOverlay" elem="Background" mods={ { isActiveClosingAnimation } } />
                     <div
                       block="SearchOverlay"
                       elem="ResultsWrapper"
