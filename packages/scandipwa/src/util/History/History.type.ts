@@ -28,4 +28,6 @@ export interface HistoryState {
     email?: string;
     overlayOpen?: boolean;
     displayMode?: CategoryDisplayMode;
+    name?: string;
+    description?: string;
 }
