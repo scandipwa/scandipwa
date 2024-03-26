@@ -12,29 +12,36 @@
 import { Reducer } from 'redux';
 
 import {
+    CategoryAction,
     CategoryActionType,
     CategoryStore,
-    UpdateCurrentCategoryAction,
 } from './Category.type';
 
 /** @namespace Store/Category/Reducer/getInitialState */
 export const getInitialState = (): CategoryStore => ({
     category: {},
+    scrollPosition: 0,
 });
 
 /** @namespace Store/Category/Reducer/CategoryReducer */
 export const CategoryReducer: Reducer<
 CategoryStore,
-UpdateCurrentCategoryAction
+CategoryAction
 > = (
     state = getInitialState(),
-    { type, category },
+    action,
 ) => {
-    switch (type) {
+    switch (action.type) {
     case CategoryActionType.UPDATE_CURRENT_CATEGORY:
         return {
             ...state,
-            category: { ...category },
+            category: { ...action.category },
+        };
+
+    case CategoryActionType.SET_SCROLL_POSITION:
+        return {
+            ...state,
+            scrollPosition: action.payload,
         };
 
     default:
