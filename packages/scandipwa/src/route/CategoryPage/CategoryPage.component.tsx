@@ -224,6 +224,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
             selectedFilters,
             isMatchingInfoFilter,
             isSearchPage,
+            mobileBackgroundDarkeningRef,
         } = this.props;
 
         const { category: { is_anchor } } = this.props;
@@ -241,6 +242,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
                   isCategoryAnchor={ !!is_anchor }
                   isSearchPage={ isSearchPage }
                   renderPlaceholder={ this.renderPlaceholder }
+                  mobileBackgroundDarkeningRef={ mobileBackgroundDarkeningRef }
                 />
             </Suspense>
         );
@@ -463,7 +465,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
 
     render(): ReactElement {
         const hideProducts = !this.displayProducts();
-        const { totalItems } = this.props;
+        const { totalItems, mobileBackgroundDarkeningRef } = this.props;
 
         return (
             <main block="CategoryPage" mods={ { noResults: totalItems === 0 } }>
@@ -475,6 +477,11 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
                   } }
                   label="Category page"
                 >
+                    <div
+                      block="CategoryPage"
+                      elem="MobileBackgroundDarkening"
+                      ref={ mobileBackgroundDarkeningRef }
+                    />
                     { this.renderContent() }
                 </ContentWrapper>
             </main>
