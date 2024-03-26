@@ -91,6 +91,7 @@ export class MyAccountOrderPrintComponent extends MyAccountOrder<MyAccountOrderP
         } = this.props;
 
         const logoSrc = logo_src ? media(logo_src, LOGO_MEDIA) : null;
+        const logoAlt = logo_alt || 'logo';
 
         CSS.setVariable(this.logoRef, 'header-logo-height', `${logo_height}px`);
         CSS.setVariable(this.logoRef, 'header-logo-width', `${logo_width}px`);
@@ -98,7 +99,7 @@ export class MyAccountOrderPrintComponent extends MyAccountOrder<MyAccountOrderP
         return (
             <Link
               to="/"
-              aria-label="Go to homepage by clicking on ScandiPWA logo"
+              aria-label={ `Go to homepage by clicking on ${logoAlt}` }
               block="MyAccountOrderPrint"
               elem="LogoWrapper"
               key="logo"
