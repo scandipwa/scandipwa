@@ -19,8 +19,7 @@ import { FormattedMenuItem, MenuLocation } from './Menu.type';
  *
  * @param unsortedItems an array of items to be sorted
  * @returns {array} the sorted array
- * @namespace Util/Menu/getSortedItems
- */
+ /* @namespace Util/Menu/getSortedItems */
 export const getSortedItems = <T extends MenuItem | FormattedMenuItem>(
     unsortedItems: T[],
 ): T[] => Array.from(unsortedItems).sort((
@@ -35,31 +34,37 @@ export class Menu {
     menuPositionReference: Record<string, number[]> = {};
 
     getMenuUrl(
-        { url, category_id, display_mode }: Pick<
-        MenuItem,
-        'url'
-        | 'category_id'
-        | 'display_mode'>,
+        {
+            url, title, category_id, display_mode,
+            category_banner, category_description,
+        }: Pick<MenuItem, 'url'
+        | 'title' | 'category_id' | 'display_mode'
+        | 'category_banner' | 'category_description'>,
     ): MenuLocation | string {
         return {
             pathname: getUrlPathname(url),
             search: '',
             state: {
+                title,
                 category: category_id,
                 displayMode: display_mode,
+                categoryBanner: category_banner,
+                categoryDescription: category_description,
             },
         };
     }
 
     getMenuData({
-        url,
-        category_id,
-        display_mode,
+        url, title, category_id, display_mode,
+        category_banner, category_description,
         ...item
     }: MenuItem): FormattedMenuItem {
         return {
+            title,
             ...item,
-            url: this.getMenuUrl({ url, category_id, display_mode }),
+            url: this.getMenuUrl({
+                url, title, category_id, display_mode, category_banner, category_description,
+            }),
             children: {},
         };
     }
