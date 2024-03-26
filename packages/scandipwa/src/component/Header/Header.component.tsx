@@ -362,16 +362,11 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
         const {
             header_logo_src,
             logo_alt,
-            logo_height,
-            logo_width,
         } = this.props;
 
         // if no src defined from the backend, pass null in order to display placeholder
         // and prevent unnecessary load of corrupted resource
         const logoSrc = header_logo_src ? media(header_logo_src, LOGO_MEDIA) : null;
-
-        CSS.setVariable(this.logoRef, 'header-logo-height', `${logo_height}px`);
-        CSS.setVariable(this.logoRef, 'header-logo-width', `${logo_width}px`);
 
         return (
             <Logo
@@ -390,6 +385,7 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
         }
 
         return (
+            // <div id="test">
             <Link
               to="/"
               aria-label="Go to homepage by clicking on ScandiPWA logo"
@@ -402,6 +398,7 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
             >
                 { this.renderLogoImage() }
             </Link>
+            // </div>
         );
     }
 
@@ -702,6 +699,8 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
             navigationState: { name, isHiddenOnMobile = false },
             isCheckout,
             device: { isMobile },
+            logo_width,
+            logo_height,
         } = this.props;
 
         if (!isMobile) {
@@ -710,6 +709,9 @@ export class HeaderComponent extends NavigationAbstract<HeaderComponentProps> {
             stateMap[Page.CUSTOMER_WISHLIST].share = false;
             stateMap[Page.CART_OVERLAY].edit = false;
         }
+
+        CSS.setVariable(this.logoRef, 'header-logo-width', `${logo_width}px`);
+        CSS.setVariable(this.logoRef, 'header-logo-height', `${logo_height}px`);
 
         return (
             <section
