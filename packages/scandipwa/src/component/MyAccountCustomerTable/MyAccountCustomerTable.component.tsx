@@ -16,6 +16,8 @@ import { ReactElement } from 'Type/Common.type';
 
 import { MyAccountCustomerTableComponentProps } from './MyAccountCustomerTable.type';
 
+import './MyAccountCustomerTable.style';
+
 /** @namespace Component/MyAccountCustomerTable/Component */
 export class MyAccountCustomerTableComponent extends KeyValueTable<MyAccountCustomerTableComponentProps> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -73,7 +75,9 @@ export class MyAccountCustomerTableComponent extends KeyValueTable<MyAccountCust
     render(): ReactElement {
         return (
             <div block="MyAccountCustomerTable">
-                { this.renderTable() }
+                <div block="MyAccountCustomerTable" elem="TableWrapper">
+                    { this.renderTable() }
+                </div>
                 { this.renderActions() }
             </div>
         );

@@ -93,4 +93,12 @@
             margin-inline-start: 12px;
         }
     }
+
+    &-MyAccountCustomerTableFallback {
+        height: 218px;
+
+        @include mobile {
+            height: 323px;
+        }
+    }
 }
