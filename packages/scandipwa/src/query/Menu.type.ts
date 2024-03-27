@@ -19,4 +19,6 @@ export interface MenuItem {
     parent_id: number;
     category_id: number;
     display_mode: CategoryDisplayMode;
+    category_banner: string;
+    category_description: string;
 }
