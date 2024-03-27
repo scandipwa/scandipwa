@@ -159,10 +159,8 @@ export class LinkComponent extends PureComponent<LinkComponentProps> {
 
         if (showLoader) {
             const {
-                onClick: onClickProp,
                 isLoaderActive,
                 handleLinkClick,
-                ...otherProps
             } = this.props;
 
             return (
@@ -183,7 +181,6 @@ export class LinkComponent extends PureComponent<LinkComponentProps> {
                     // eslint-disable-next-line react/forbid-dom-props
                       className={ classNameConverted }
                       onClick={ handleLinkClick }
-                      { ...otherProps }
                     >
                         { children }
                     </div>
