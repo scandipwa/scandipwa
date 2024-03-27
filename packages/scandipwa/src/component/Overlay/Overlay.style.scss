@@ -26,6 +26,10 @@
     opacity: 0;
     background-color: var(--overlay-content-background);
 
+    &_isClosed {
+        display: none;
+    }
+
     &:not(.Overlay_isStatic) {
         @include mobile {
             -webkit-overflow-scrolling: touch;

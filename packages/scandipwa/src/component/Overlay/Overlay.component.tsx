@@ -118,15 +118,20 @@ export class OverlayComponent<P extends OverlayComponentProps = OverlayComponent
             mix,
             areOtherOverlaysOpen,
             isStatic,
+            isOpen,
         } = this.props;
 
         const isVisible = this.getIsVisible();
+
+        const isClosed = isOpen === undefined ? false : !isOpen;
 
         return this.renderInMobilePortal(
             <div
               block="Overlay"
               ref={ this.overlayRef }
-              mods={ { isVisible, isStatic, isInstant: areOtherOverlaysOpen } }
+              mods={ {
+                  isVisible: isVisible || (isOpen !== undefined && !isClosed), isStatic, isInstant: areOtherOverlaysOpen, isClosed,
+              } }
               mix={ { ...mix, mods: { ...(mix?.mods || {}), isVisible } } }
             >
                 { children && children }

@@ -13,33 +13,91 @@
     --search-criteria-background: var(--secondary-base-color);
     --search-criteria-label-color: rgba(10, 10, 10, .44);
     --search-criteria-search-term-color: #0a0a0a;
+    --slide-content-in-duration: 300ms;
+    --slide-content-out-duration: 300ms;
+    --fade-content-in-duration: 300ms;
+    --fade-content-out-duration: 300ms;
+}
+
+@mixin slide-content-in {
+    animation: slideIn var(--slide-content-in-duration) ease forwards;
+}
+
+@mixin slide-content-out {
+    animation: slideOut var(--slide-content-out-duration) ease forwards;
+}
+
+@mixin fade-content-in {
+    animation: fadeIn var(--fade-content-in-duration) ease forwards;
+}
+
+@mixin fade-content-out {
+    animation: fadeOut var(--fade-content-out-duration) ease forwards;
 }
 
 .SearchOverlay {
-    &_isVisible {
-        .SearchOverlay {
-            &-Results {
-                display: block;
+    display: none;
+
+    &_isOpen {
+        display: block;
+    }
+
+    &-Background {
+        @include desktop {
+            @include fade-content-in();
+
+            position: fixed;
+            inset-block-start: var(--header-total-height);
+            inset-block-end: 0;
+            inset-inline: 0;
+            background-color: rgba(81, 81, 81, 0.265);
+            pointer-events: none;
+
+            &_isActiveClosingAnimation {
+                @include fade-content-out();
             }
         }
     }
 
+    &-ResultsWrapper {
+        width: 100%;
+        position: absolute;
+        overflow: hidden;
+    }
+
     &-Results {
+        @include slide-content-in();
+
+        border: 1px solid var(--input-border-color);
         background: var(--color-white);
-        display: none;
+        display: block;
         z-index: 110;
         width: 100%;
 
+        &_isActiveClosingAnimation {
+            @include slide-content-out();
+        }
+
+        @include mobile {
+            height: 100%;
+        }
+
         .NoResults {
-            padding: 20px;
+            padding-block-start: 25px;
+            padding-inline-start: 20px;
             margin: 0;
+            font-size: 16px;
+        }
+
+        @include mobile {
+            box-shadow: 0px 3px 3px rgba(195, 195, 195, 0.648);
         }
 
         @include desktop {
             padding-inline-end: 0;
-            position: absolute;
             width: 100%;
             box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+            height: 400px;
 
             ul {
                 max-height: 400px;
