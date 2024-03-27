@@ -78,6 +78,10 @@
             @include slide-content-out();
         }
 
+        @include mobile {
+            height: 100%;
+        }
+
         .NoResults {
             padding-block-start: 25px;
             padding-inline-start: 20px;
