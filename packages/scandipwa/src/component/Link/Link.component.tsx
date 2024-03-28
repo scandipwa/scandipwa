@@ -161,6 +161,7 @@ export class LinkComponent extends PureComponent<LinkComponentProps> {
             const {
                 isLoaderActive,
                 handleLinkClick,
+                ...otherProps
             } = this.props;
 
             return (
@@ -178,6 +179,7 @@ export class LinkComponent extends PureComponent<LinkComponentProps> {
                       role="button"
                       tabIndex={ 0 }
                       onKeyDown={ handleLinkClick }
+                      { ...otherProps }
                     // eslint-disable-next-line react/forbid-dom-props
                       className={ classNameConverted }
                       onClick={ handleLinkClick }
