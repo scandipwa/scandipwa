@@ -1,0 +1,11 @@
+<svg>
+	<defs>
+		<style type="text/css"><![CDATA[
+			rect {
+				fill: red;
+				stroke: blue;
+				stroke-width: 3
+			}
+			]]></style>
+	</defs>
+</svg>

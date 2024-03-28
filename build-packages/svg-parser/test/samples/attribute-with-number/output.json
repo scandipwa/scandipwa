@@ -1,0 +1,16 @@
+{
+	"type": "root",
+	"children": [
+		{
+			"type": "element",
+			"tagName": "line",
+			"properties": {
+				"x1": 0,
+				"y1": 0,
+				"x2": 10,
+				"y2": 0
+			},
+			"children": []
+		}
+	]
+}

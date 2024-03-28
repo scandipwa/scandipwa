@@ -28,6 +28,10 @@ module.exports = {
                 }
             });
 
+            if (!webpackConfig.optimization?.splitChunks) {
+                webpackConfig.optimization.splitChunks = {};
+            }
+
             webpackConfig.optimization.splitChunks.chunks = 'async';
             // webpackConfig.optimization.splitChunks.minSize = 100000; // 100kb => 10kb (Gzip)
 

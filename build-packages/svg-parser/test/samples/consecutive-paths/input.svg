@@ -1,0 +1,5 @@
+<svg viewBox="0 0 50 10">
+	<path fill='green' d="M0 0L10 0 10 10 0 10 Z" ></path>
+	<path fill='blue' d="M20 0L30 0 30 10 20 10 Z" ></path>
+	<path fill='red' d="M40 0L50 0 50 10 40 10 Z" ></path>
+</svg>
