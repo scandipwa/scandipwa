@@ -114,7 +114,12 @@ export class LinkContainer extends PureComponent<LinkContainerProps> {
     handleLinkClick(): void {
         const {
             to,
+            onClickBeforeLoader,
         } = this.props;
+
+        if (onClickBeforeLoader) {
+            onClickBeforeLoader();
+        }
 
         this.setState({ isLoaderActive: true });
 

@@ -53,6 +53,7 @@ export type LinkContainerProps =
         onMouseLeave?: () => void;
         tabIndex?: number;
         showLoader?: boolean;
+        onClickBeforeLoader?: () => void;
     };
 
 export interface LinkComponentProps {
