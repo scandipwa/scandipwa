@@ -39,6 +39,7 @@ export const mapStateToProps = (state: RootState): ProductActionsContainerMapSta
     isInStockAlertEnabled: state.ConfigReducer.product_alert_allow_stock,
     displayProductStockStatus: state.ConfigReducer.display_product_stock_status,
     areReviewsEnabled: state.ConfigReducer.reviews_are_enabled,
+    isMobile: state.ConfigReducer.device.isMobile,
 });
 
 /** @namespace Component/ProductActions/Container */
@@ -61,6 +62,7 @@ ProductActionsContainerState
             getLink,
             isInStockAlertEnabled,
             isPriceAlertEnabled,
+            isMobile,
         } = this.props;
 
         return {
@@ -76,6 +78,7 @@ ProductActionsContainerState
             offerType: this.getOfferType(),
             stockMeta: this.getStockMeta(),
             metaLink: this.getMetaLink(),
+            isMobile,
         };
     }
 

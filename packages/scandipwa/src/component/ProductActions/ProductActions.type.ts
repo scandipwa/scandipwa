@@ -27,6 +27,7 @@ export interface ProductActionsContainerMapStateProps extends ProductContainerMa
     isInStockAlertEnabled: boolean;
     displayProductStockStatus: boolean;
     areReviewsEnabled: boolean;
+    isMobile: boolean;
 }
 
 export type ProductActionsContainerMapDispatchProps = ProductContainerMapDispatchProps;
@@ -67,6 +68,7 @@ export interface ProductActionsComponentProps extends ProductComponentProps {
     displayProductStockStatus: boolean;
     areReviewsEnabled: boolean;
     isPricePreview: boolean;
+    isMobile: boolean;
 }
 
 export type ProductActionsContainerPropKeys = ProductContainerPropKeys
@@ -80,4 +82,5 @@ export type ProductActionsContainerPropKeys = ProductContainerPropKeys
 | 'offerCount'
 | 'offerType'
 | 'stockMeta'
-| 'metaLink';
+| 'metaLink'
+| 'isMobile';

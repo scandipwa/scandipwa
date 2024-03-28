@@ -35,6 +35,7 @@ import {
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import UrlRewrites from 'Route/UrlRewrites';
+import { UrlRewritePageType } from 'Route/UrlRewrites/UrlRewrites.config';
 import { MyAccountTabs } from 'Type/Account.type';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
@@ -335,13 +336,36 @@ export class RouterComponent extends PureComponent<RouterComponentProps, RouterC
         this.setState({ hasError: false });
     }
 
+    renderHeaderFallbackPlaceholder(): ReactElement {
+        const {
+            isMobile,
+        } = this.props;
+
+        const {
+            actionName: {
+                type,
+                name,
+            },
+        } = window;
+
+        if (isMobile && type === UrlRewritePageType.PRODUCT && name) {
+            return (
+                <h1 block="Router" elem="HeaderProductSku">{ name }</h1>
+            );
+        }
+
+        return (
+            <TextPlaceholder length={ TextPlaceHolderLength.MEDIUM } />
+        );
+    }
+
     renderBeforeItemsFallback(): ReactElement {
         const { pathname = appendWithStoreCode('/') } = location;
 
         return (
             <div block="Router" elem="HeaderFallbackWrapper">
                 <section block="Router" elem="HeaderFallback">
-                    <TextPlaceholder length={ TextPlaceHolderLength.MEDIUM } />
+                    { this.renderHeaderFallbackPlaceholder() }
                 </section>
                 { !isHomePageUrl(pathname) && <section block="Router" elem="BreadcrumbsFallback" /> }
             </div>
