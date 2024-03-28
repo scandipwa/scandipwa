@@ -23,12 +23,17 @@ export interface LinkContainerMapStateProps {
     baseLinkUrl: string;
 }
 
+export interface LinkContainerState {
+    isLoaderActive: boolean;
+}
+
 export interface LinkContainerDispatchProps {
     updateNoMatch: (noMatch: boolean) => void;
 }
 
 export interface LinkContainerFunctions {
     onClick: (e: MouseEvent) => void;
+    handleLinkClick: () => void;
 }
 
 export type LinkContainerProps =
@@ -47,6 +52,8 @@ export type LinkContainerProps =
         onMouseEnter?: () => void;
         onMouseLeave?: () => void;
         tabIndex?: number;
+        showLoader?: boolean;
+        onClickBeforeLoader?: () => void;
     };
 
 export interface LinkComponentProps {
@@ -60,4 +67,22 @@ export interface LinkComponentProps {
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
     tabIndex?: number;
+    showLoader?: boolean;
+    isLoaderActive: boolean;
+    handleLinkClick: () => void;
 }
+
+export type LinkComponentContainerPropKeys =
+    | 'to'
+    | 'children'
+    | 'onClick'
+    | 'bemProps'
+    | 'className'
+    | 'isOpenInNewTab'
+    | 'id'
+    | 'onMouseEnter'
+    | 'onMouseLeave'
+    | 'tabIndex'
+    | 'tabIndex'
+    | 'showLoader'
+    | 'isLoaderActive';

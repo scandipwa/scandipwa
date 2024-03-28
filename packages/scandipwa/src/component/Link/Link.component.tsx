@@ -15,10 +15,15 @@ import { MouseEvent, PureComponent } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { stringify } from 'rebem-classname';
 
-import { ReactElement } from 'Type/Common.type';
+import Loader from 'Component/Loader';
+import {
+    ReactElement,
+} from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
 
 import { LinkComponentProps } from './Link.type';
+
+import './Link.style';
 
 /** @namespace Component/Link/Component */
 export class LinkComponent extends PureComponent<LinkComponentProps> {
@@ -130,6 +135,7 @@ export class LinkComponent extends PureComponent<LinkComponentProps> {
             children,
             to,
             isOpenInNewTab,
+            showLoader,
             ...props
         } = this.props;
 
@@ -149,6 +155,39 @@ export class LinkComponent extends PureComponent<LinkComponentProps> {
 
         if (/^https?:\/\//.test(to as string) || isOpenInNewTab) {
             return this.renderAbsolutePathLink(classNameConverted);
+        }
+
+        if (showLoader) {
+            const {
+                isLoaderActive,
+                handleLinkClick,
+                ...otherProps
+            } = this.props;
+
+            return (
+                <>
+                    <div
+                      block="Link"
+                      elem="LoaderWrapper"
+                      mods={ { isLoaderActive } }
+                    >
+                        <Loader />
+                    </div>
+                    <div
+                      block="Link"
+                      elem="Button"
+                      role="button"
+                      tabIndex={ 0 }
+                      onKeyDown={ handleLinkClick }
+                      { ...otherProps }
+                    // eslint-disable-next-line react/forbid-dom-props
+                      className={ classNameConverted }
+                      onClick={ handleLinkClick }
+                    >
+                        { children }
+                    </div>
+                </>
+            );
         }
 
         return (

@@ -18,16 +18,19 @@ import { Dispatch } from 'redux';
 import NoMatchDispatcher from 'Store/NoMatch/NoMatch.dispatcher';
 import { ReactElement, Url } from 'Type/Common.type';
 import { noopFn } from 'Util/Common';
+import { history } from 'Util/History';
 import { RootState } from 'Util/Store/Store.type';
 import { appendWithStoreCode } from 'Util/Url';
 
 import Link from './Link.component';
 import {
+    LinkComponentContainerPropKeys,
     LinkComponentProps,
     LinkContainerDispatchProps,
     LinkContainerFunctions,
     LinkContainerMapStateProps,
     LinkContainerProps,
+    LinkContainerState,
 } from './Link.type';
 
 /** @namespace Component/Link/Container/mapStateToProps */
@@ -46,11 +49,16 @@ export class LinkContainer extends PureComponent<LinkContainerProps> {
         onClick: noopFn,
     };
 
-    containerFunctions: LinkContainerFunctions = {
-        onClick: this.onClick.bind(this),
+    state: LinkContainerState = {
+        isLoaderActive: false,
     };
 
-    containerProps(): LinkComponentProps {
+    containerFunctions: LinkContainerFunctions = {
+        onClick: this.onClick.bind(this),
+        handleLinkClick: this.handleLinkClick.bind(this),
+    };
+
+    containerProps(): Pick<LinkComponentProps, LinkComponentContainerPropKeys> {
         const {
             block,
             elem,
@@ -59,8 +67,13 @@ export class LinkContainer extends PureComponent<LinkContainerProps> {
             baseLinkUrl, // remove this prop
             dispatch, // remove this prop
             updateNoMatch,
+            showLoader,
             ...restProps
         } = this.props;
+
+        const {
+            isLoaderActive,
+        } = this.state;
 
         return {
             ...restProps,
@@ -71,6 +84,8 @@ export class LinkContainer extends PureComponent<LinkContainerProps> {
                 mods,
                 mix,
             },
+            showLoader,
+            isLoaderActive,
         };
     }
 
@@ -94,6 +109,25 @@ export class LinkContainer extends PureComponent<LinkContainerProps> {
             ...to,
             pathname: appendWithStoreCode(pathname),
         };
+    }
+
+    handleLinkClick(): void {
+        const {
+            to,
+            onClickBeforeLoader,
+        } = this.props;
+
+        if (onClickBeforeLoader) {
+            onClickBeforeLoader();
+        }
+
+        this.setState({ isLoaderActive: true });
+
+        setTimeout(() => {
+            const link: any = to;
+            history.push(link);
+            this.setState({ isLoaderActive: false });
+        }, 0);
     }
 
     // Resets no match state on redirect

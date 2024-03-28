@@ -1,0 +1,16 @@
+.Link {
+    &-LoaderWrapper {
+        position: fixed;
+        z-index: 90;
+        inset: 0;
+        display: none;
+
+        &_isLoaderActive {
+            display: block;
+        }
+    }
+
+    &-Button {
+        cursor: pointer;
+    }
+}
