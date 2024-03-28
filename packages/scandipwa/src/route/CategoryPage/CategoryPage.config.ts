@@ -10,6 +10,7 @@
  */
 
 export const LOADING_TIME = 500;
+export const SCROLL_DEBOUNCE_TIME = 300;
 export const LAYOUT_KEY = 'layout';
 
 export enum CategoryDisplayMode {

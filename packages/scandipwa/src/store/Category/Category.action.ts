@@ -14,6 +14,7 @@ import { Category } from 'Query/Category.type';
 
 import {
     CategoryActionType,
+    SetScrollPositionyAction,
     UpdateCurrentCategoryAction,
 } from './Category.type';
 
@@ -28,4 +29,10 @@ export const updateCurrentCategory = (
 ): UpdateCurrentCategoryAction => ({
     type: CategoryActionType.UPDATE_CURRENT_CATEGORY,
     category,
+});
+
+/** @namespace Store/Category/Action/setScrollPosition */
+export const setScrollPosition = (lastScrollPosition: number): SetScrollPositionyAction => ({
+    type: CategoryActionType.SET_SCROLL_POSITION,
+    payload: lastScrollPosition,
 });

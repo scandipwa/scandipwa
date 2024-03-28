@@ -43,6 +43,7 @@ export interface CategoryPageContainerMapStateProps {
     totalItems: number;
     plpType: string;
     isMobile: boolean;
+    scrollPosition?: number;
 }
 
 export interface CategoryPageContainerMapDispatchProps {
@@ -57,6 +58,7 @@ export interface CategoryPageContainerMapDispatchProps {
     setBigOfflineNotice: (isBig: boolean) => void;
     updateMetaFromCategory: (category: MetaCategory) => void;
     clearCategory: () => void;
+    setScrollPosition: (scrollPosition: number) => void;
 }
 
 export interface CategoryPageContainerFunctions {

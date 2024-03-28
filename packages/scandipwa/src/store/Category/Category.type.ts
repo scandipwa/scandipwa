@@ -14,6 +14,7 @@ import { Category } from 'Query/Category.type';
 
 export enum CategoryActionType {
     UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY',
+    SET_SCROLL_POSITION = 'SET_SCROLL_POSITION',
 }
 
 export interface UpdateCurrentCategoryAction extends AnyAction {
@@ -21,8 +22,16 @@ export interface UpdateCurrentCategoryAction extends AnyAction {
     category?: Partial<Category>;
 }
 
+export interface SetScrollPositionyAction extends AnyAction {
+    type: CategoryActionType.SET_SCROLL_POSITION;
+    payload: number;
+}
+
+export type CategoryAction = UpdateCurrentCategoryAction | SetScrollPositionyAction;
+
 export interface CategoryStore {
     category: Partial<Category>;
+    scrollPosition: number;
 }
 
 declare module 'Util/Store/Store.type' {
