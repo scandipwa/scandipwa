@@ -17,6 +17,7 @@ import { ImageRatio } from 'Component/Image/Image.type';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
+import history from 'Util/History';
 
 import { CategoryDetailsComponentProps } from './CategoryDetails.type';
 
@@ -46,7 +47,9 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
 
         const categoryName = isPrefetchValueUsed ? preloadName : name;
 
-        if (isCurrentCategoryLoaded || isPrefetchValueUsed) {
+        const { location: { state: { name: title = '' } = {} } = {} } = history;
+
+        if (isCurrentCategoryLoaded || isPrefetchValueUsed || title) {
             return (
                 <TextPlaceholder content={ categoryName } />
             );
@@ -65,7 +68,9 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
             isPrefetchValueUsed,
         } = window;
 
-        if (!id && !name && !isPrefetchValueUsed) {
+        const { location: { state: { name: title = '' } = {} } = {} } = history;
+
+        if (!id && !name && !isPrefetchValueUsed && !title) {
             return null;
         }
 
@@ -83,9 +88,11 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
         } = this.props;
         const { isPrefetchValueUsed, actionName: { description: preloadDescription } } = window;
 
-        if (isPrefetchValueUsed) {
-            if (preloadDescription) {
-                return <Html content={ preloadDescription } />;
+        const { location: { state: { description: categoryDescription = '' } = {} } = {} } = history;
+
+        if (isPrefetchValueUsed || categoryDescription) {
+            if (preloadDescription || categoryDescription) {
+                return <Html content={ preloadDescription || categoryDescription } />;
             }
 
             return null;

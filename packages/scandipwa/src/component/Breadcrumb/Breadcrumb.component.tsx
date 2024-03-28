@@ -30,16 +30,35 @@ export class BreadcrumbComponent extends PureComponent<BreadcrumbComponentProps>
     getLinkUrl(): Url {
         const {
             url = '',
+            name,
+            description,
+            banner,
         } = this.props;
 
         if (typeof url === 'string' || !url) {
             return {
                 pathname: url || '',
                 search: '',
+                state: {
+                    name,
+                    description,
+                    banner,
+                },
             };
         }
 
-        return url;
+        const { state: urlState = {} } = url;
+
+        return {
+            ...url,
+            state: {
+                // @ts-ignore
+                ...urlState,
+                name,
+                description,
+                banner,
+            },
+        };
     }
 
     renderLink(): ReactElement {
