@@ -238,6 +238,7 @@ export class ProductCardComponent extends ProductComponent<ProductCardComponentP
               to={ linkTo }
               onClick={ this.handleLinkClick }
               showLoader
+              onClickBeforeLoader={ this.handleLinkClick }
               mix={ mix }
             >
               { children }
