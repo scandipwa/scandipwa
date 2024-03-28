@@ -47,6 +47,10 @@
         inset-block-start: 0;
         width: 100%;
         z-index: 5;
+
+        @include mobile {
+            height: calc(var(--header-placeholder-total-height-mobile) + 1px);
+        }
     }
 
     &-BreadcrumbsFallback {
@@ -63,5 +67,9 @@
         inset-block-start: 0;
         width: 100%;
         margin-block-end: var(--header-total-height);
+
+        @include mobile {
+            margin-block-end: var(--header-placeholder-total-height-mobile);
+        }
     }
 }

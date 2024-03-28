@@ -236,6 +236,10 @@
 
         &-Placeholders {
             min-height: 200px;
+
+            @include mobile {
+                min-height: 0px;
+            }
         }
     }
 }
