@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { UrlRewritePageType } from 'Route/UrlRewrites/UrlRewrites.config';
 import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
@@ -109,6 +110,13 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
             currentUrl: window.location.pathname,
             isOnlyMainItems: this.handleCheckIfOnlyMainItemsRender(),
         });
+
+        const { actionName: { type } = {} } = window;
+
+        if (type === UrlRewritePageType.CATEGORY) {
+            const root = document.querySelector(':root') as HTMLElement;
+            root.style.setProperty('--miscellaneous-mobile-height', '44px');
+        }
 
         this.initializeApplication();
         this.redirectFromPartialUrl();

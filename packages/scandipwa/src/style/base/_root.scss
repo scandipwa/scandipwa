@@ -53,7 +53,7 @@
 
     --header-height: 60px;
     --header-nav-height: 60px;
-    --miscellaneous-mobile-height: 44px;
+    --miscellaneous-mobile-height: 0px;
     --header-total-height: calc(var(--header-height) + var(--offline-notice-height) + var(--demo-notice-height) + env(safe-area-inset-top));
     --header-placeholder-total-height-mobile: calc(var(--header-height) + var(--offline-notice-height) + var(--demo-notice-height) + env(safe-area-inset-top) + var(--miscellaneous-mobile-height));
     --mobile-my-account-page-padding-bottom: 10px;
