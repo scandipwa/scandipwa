@@ -155,6 +155,29 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
         const isVisible = activeMenuItemsStack.includes(item_id);
         const subcategoryMods = { type: 'subcategory' };
 
+        if (device.isMobile) {
+            return (
+                <div
+                  block="Menu"
+                  elem="SubMenu"
+                  mods={ { isVisible } }
+                  key={ item_id }
+                >
+                    <div block="Menu" elem="SubMenuMobileWrapper">
+                        <div block="Menu" elem="ItemList" mods={ { ...subcategoryMods } }>
+                            <MenuItem
+                              activeMenuItemsStack={ activeMenuItemsStack }
+                              item={ { ...category, title: __('All %s', title) } }
+                              itemMods={ { ...subcategoryMods, isSecondLevel } }
+                              isLink
+                            />
+                            { childrenArray.map((item) => this.renderSubLevelItems(item, isSecondLevel)) }
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <div
               block="Menu"
@@ -164,23 +187,10 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
             >
                 <div
                   block="Menu"
-                  elem="SubMenuMobileWrapper"
+                  elem="ItemList"
+                  mods={ { ...subcategoryMods } }
                 >
-                    <div
-                      block="Menu"
-                      elem="ItemList"
-                      mods={ { ...subcategoryMods } }
-                    >
-                        { device.isMobile && (
-                            <MenuItem
-                              activeMenuItemsStack={ activeMenuItemsStack }
-                              item={ { ...category, title: __('All %s', title) } }
-                              itemMods={ { ...subcategoryMods, isSecondLevel } }
-                              isLink
-                            />
-                        ) }
-                        { childrenArray.map((item) => this.renderSubLevelItems(item, isSecondLevel)) }
-                    </div>
+                    { childrenArray.map((item) => this.renderSubLevelItems(item, isSecondLevel)) }
                 </div>
             </div>
         );
