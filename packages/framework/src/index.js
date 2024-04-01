@@ -1,8 +1,6 @@
-/* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one */
-import ReactDOM from 'react-dom/client';
+// eslint-disable-next-line react/no-deprecated
+import { render } from 'react-dom';
 
 import App from './component/App';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-
-root.render(<App />);
+render(<App />, document.getElementById('root'));

@@ -10,7 +10,8 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import ReactDOM from 'react-dom/client';
+// eslint-disable-next-line react/no-deprecated
+import { render } from 'react-dom';
 
 import App from 'Component/App';
 import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
@@ -44,5 +45,4 @@ function HotApp() {
     return <App />;
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-root.render(<HotApp />);
+render(<HotApp />, document.getElementById('root'));
