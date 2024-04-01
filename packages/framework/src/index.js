@@ -1,5 +1,8 @@
-import { render } from 'react-dom';
+/* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one */
+import ReactDOM from 'react-dom/client';
 
 import App from './component/App';
 
-render(<App />, document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(<App />);
