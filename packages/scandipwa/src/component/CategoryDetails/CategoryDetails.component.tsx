@@ -35,7 +35,7 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
 
     renderCategoryText(): ReactElement {
         const {
-            category: { name },
+            category: { id, name },
             isCurrentCategoryLoaded,
         } = this.props;
         const {
@@ -45,10 +45,16 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
             isPrefetchValueUsed,
         } = window;
 
-        const { location: { state: { title = '' } = {} } = {} } = history;
-        const categoryName = (isPrefetchValueUsed ? preloadName : name) || title;
+        const { location: { state: { title = '', category = 0 } = {} } = {} } = history;
+        const categoryName = isPrefetchValueUsed ? preloadName || title : name || title;
 
         if (isCurrentCategoryLoaded || isPrefetchValueUsed || title) {
+            if (id !== category && title) {
+                return (
+                    <TextPlaceholder content={ title } />
+                );
+            }
+
             return (
                 <TextPlaceholder content={ categoryName } />
             );
@@ -85,10 +91,14 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
             isCurrentCategoryLoaded,
         } = this.props;
         const { isPrefetchValueUsed, actionName: { description: preloadDescription } } = window;
-        const { location: { state: { categoryDescription = '' } = {} } = {} } = history;
+        const { location: { state: { categoryDescription = '', category = 0 } = {} } = {} } = history;
 
         if (isPrefetchValueUsed || categoryDescription) {
             if (preloadDescription || categoryDescription) {
+                if (id !== category && categoryDescription) {
+                    return <Html content={ categoryDescription } />;
+                }
+
                 const descriptionContent = preloadDescription || categoryDescription;
 
                 return <Html content={ descriptionContent } />;
