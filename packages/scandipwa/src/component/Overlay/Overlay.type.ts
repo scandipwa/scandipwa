@@ -31,6 +31,7 @@ export interface OverlayContainerBaseProps {
     children?: ReactElement;
     id: string;
     isRenderInPortal?: boolean;
+    isOpen?: boolean;
 }
 
 export type OverlayComponentProps = OverlayContainerMapStateProps
