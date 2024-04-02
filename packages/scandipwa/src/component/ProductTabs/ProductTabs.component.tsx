@@ -9,12 +9,13 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductTab from 'Component/ProductTab';
 import { ReactElement } from 'Type/Common.type';
 import { isCrawler, isSSR } from 'Util/Browser';
+import CSS from 'Util/CSS';
 import { isMobile } from 'Util/Mobile';
 
 import { ProductTabsComponentProps, ProductTabsComponentState, ProductTabShape } from './ProductTabs.type';
@@ -25,16 +26,29 @@ import './ProductTabs.style';
 export class ProductTabsComponent extends PureComponent<ProductTabsComponentProps, ProductTabsComponentState> {
     state = {
         activeTab: '',
+        isFadeIn: false,
     };
+
+    activeTabContentRef = createRef<HTMLDivElement>();
+
+    tabContentRef = createRef<HTMLDivElement>();
+
+    private observer: ResizeObserver | null = null;
 
     __construct(props: ProductTabsComponentProps): void {
         super.__construct?.(props);
 
         this.onTabClick = this.onTabClick.bind(this);
+        this.handleResize = this.handleResize.bind(this);
     }
 
     componentDidMount(): void {
         this.updateDefaultSelectedTab();
+        this.observer = new ResizeObserver(this.handleResize);
+
+        if (this.activeTabContentRef.current) {
+            this.observer.observe(this.activeTabContentRef.current);
+        }
     }
 
     componentDidUpdate(prevProps: ProductTabsComponentProps): void {
@@ -45,6 +59,18 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
 
         if (tab?.id !== prevTab?.id) {
             this.updateDefaultSelectedTab();
+        }
+    }
+
+    handleResize(entries: ResizeObserverEntry[]): void {
+        const [currentTabContent] = entries;
+
+        if (this.tabContentRef.current) {
+            CSS.setVariable(this.tabContentRef, 'tab-content-height', `${currentTabContent.contentRect.height}px`);
+        }
+
+        if (this.activeTabContentRef.current) {
+            this.setState({ isFadeIn: true });
         }
     }
 
@@ -68,6 +94,10 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
 
         if (activeTab !== currentTab) {
             this.setActiveTab(currentTab);
+
+            if (this.activeTabContentRef.current) {
+                this.setState({ isFadeIn: false });
+            }
         }
     }
 
@@ -109,6 +139,7 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
 
     renderTabs(): ReactElement {
         const { tabs } = this.props;
+        const { isFadeIn } = this.state;
 
         if (!tabs?.length) {
             return null;
@@ -123,7 +154,11 @@ export class ProductTabsComponent extends PureComponent<ProductTabsComponentProp
                 <ul block="ProductTabs">
                     { tabs.map(this.renderTab.bind(this)) }
                 </ul>
-                { this.renderActiveTab() }
+                <div block="ProductTabsContent" mods={ { isFadeIn } } ref={ this.tabContentRef }>
+                    <div block="ProductTabsContent" elem="ActiveTab" ref={ this.activeTabContentRef }>
+                        { this.renderActiveTab() }
+                    </div>
+                </div>
             </>
         );
     }

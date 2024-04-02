@@ -9,6 +9,11 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
+:root {
+    --transition-speed: 300ms;
+    --tab-content-height: 0;
+}
+
 .ProductTabs {
     display: none;
     border-block-end: 1px solid var(--secondary-base-color);
@@ -18,6 +23,10 @@
     }
 
     &-Wrapper {
+        display: grid;
+        grid-template-rows: 1fr;
+        transition: grid-template-rows 1s;
+
         @include mobile {
             padding: 0;
         }
@@ -32,6 +41,26 @@
 
         & > :first-child {
             border-block-start: 0;
+        }
+    }
+}
+
+.ProductTabsContent {
+    overflow: hidden;
+    height: var(--tab-content-height);
+    transition: height var(--transition-speed) ease;
+
+    &_isFadeIn {
+        animation: fadeIn var(--transition-speed) ease forwards;
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
     }
 }

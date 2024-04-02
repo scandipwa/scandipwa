@@ -10,7 +10,7 @@ To do this, use `yarn` or `npm i` command.
 
 ### Recommended packages
 
-For the best expirience, install `scandipwa-cli` package globally. To do this, run:
+For the best experience, install `scandipwa-cli` package globally. To do this, run:
 
 ```bash
 npm i -g scandipwa-cli

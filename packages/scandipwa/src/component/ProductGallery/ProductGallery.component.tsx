@@ -268,6 +268,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
                 <Image
                   key={ index }
                   src={ src }
+                  alt={ productName }
                   ratio={ ImageRatio.IMG_CUSTOM }
                   mix={ {
                       block: 'ProductGallery',
