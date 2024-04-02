@@ -58,6 +58,7 @@ export class BreadcrumbComponent extends PureComponent<BreadcrumbComponentProps>
               elem="Link"
               to={ url }
               tabIndex={ isDisabled ? -1 : 0 }
+              showLoader
             >
                 <meta
                   itemProp="item"
