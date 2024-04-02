@@ -74,12 +74,13 @@ export class CategoryFilterOverlayComponent extends PureComponent<CategoryFilter
     }
 
     renderResetButton(): ReactElement {
-        const { onSeeResultsClick } = this.props;
+        const { onSeeResultsClick, categoryPageRef } = this.props;
 
         return (
             <ResetButton
               onClick={ onSeeResultsClick }
               mix={ { block: 'CategoryFilterOverlay', elem: 'ResetButton' } }
+              categoryPageRef={ categoryPageRef }
             />
         );
     }

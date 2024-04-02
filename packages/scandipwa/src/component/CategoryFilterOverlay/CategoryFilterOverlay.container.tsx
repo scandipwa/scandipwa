@@ -68,11 +68,17 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
 
     updateFilter(filterName: string, filterArray: string[]): void {
         const { location } = history;
+        const { categoryPageRef } = this.props;
 
-        setQueryParams({
-            customFilters: this.getFilterUrl(filterName, filterArray, false),
-            page: '',
-        }, location, history);
+        CSS.setVariable(categoryPageRef, 'content-loader-display', 'block');
+
+        setTimeout(() => {
+            setQueryParams({
+                customFilters: this.getFilterUrl(filterName, filterArray, false),
+                page: '',
+            }, location, history);
+            CSS.setVariable(categoryPageRef, 'content-loader-display', 'none');
+        }, 0);
     }
 
     toggleCustomFilter(requestVar: string, value: string | number | boolean): void {
@@ -233,6 +239,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
             isProductsLoading,
             isSearchPage,
             totalPages,
+            categoryPageRef,
         } = this.props;
 
         return {
@@ -246,6 +253,7 @@ export class CategoryFilterOverlayContainer extends PureComponent<CategoryFilter
             customFiltersValues,
             areFiltersEmpty: this.getAreFiltersEmpty(),
             isContentFiltered: this.isContentFiltered(),
+            categoryPageRef,
         };
     }
 
