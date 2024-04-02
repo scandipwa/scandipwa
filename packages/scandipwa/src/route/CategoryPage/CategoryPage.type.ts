@@ -113,6 +113,7 @@ export interface CategoryPageComponentProps extends CategoryPageContainerFunctio
     activeLayoutType?: CategoryPageLayout;
     displayMode: CategoryDisplayMode;
     productListLoaderRef: RefObject<HTMLDivElement>;
+    mobileBackdrop: RefObject<HTMLDivElement>;
 }
 
 export interface CategoryPageComponentState {
@@ -140,7 +141,8 @@ export type CategoryPageContainerPropsKeys =
     | 'selectedLayoutType'
     | 'activeLayoutType'
     | 'displayMode'
-    | 'productListLoaderRef';
+    | 'productListLoaderRef'
+    | 'mobileBackdrop';
 
 export interface CategoryUrlParams {
     customFilters: string;

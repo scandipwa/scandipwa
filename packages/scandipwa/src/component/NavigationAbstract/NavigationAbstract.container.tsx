@@ -66,7 +66,11 @@ State extends NavigationAbstractContainerState,
                 return;
             }
 
-            this.handlePageScroll();
+            // vvv don't enable scroll when overlay is open and it's disabled by it
+            if (!state || (state && !state.overlayOpen)) {
+                this.handlePageScroll();
+            }
+
             this.setState(this.onRouteChanged(history));
         });
     }

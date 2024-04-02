@@ -136,7 +136,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             return;
         }
 
-        if (search !== prevSearch || isProductListUpdated) {
+        if (!device.isMobile && (search !== prevSearch || isProductListUpdated)) {
             this.requestPage(this._getPageFromUrl());
         }
 

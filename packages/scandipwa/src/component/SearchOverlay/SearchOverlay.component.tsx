@@ -80,37 +80,57 @@ export class SearchOverlayComponent extends PureComponent<SearchOverlayComponent
         );
     }
 
-    render(): ReactElement {
-        const { isHideOverlay, searchCriteria } = this.props;
+    renderSearchOverlayResults(): ReactElement {
+        const {
+            isActiveClosingAnimation,
+            resultRef,
+        } = this.props;
 
-        if (!searchCriteria.trim()) {
-            return null;
-        }
+        return (
+            <div
+              block="SearchOverlay"
+              elem="Results"
+              aria-label="Search results"
+              mods={ { isActiveClosingAnimation } }
+              ref={ resultRef }
+            >
+                { this.renderSearchResults() }
+            </div>
+        );
+    }
+
+    render(): ReactElement {
+        const {
+            isHideOverlay,
+            searchCriteria,
+            isActiveClosingAnimation,
+        } = this.props;
+
+        const isOpen = searchCriteria.trim().length > 0 || isActiveClosingAnimation;
 
         if (isHideOverlay) {
             return (
-                <article
+                <div
                   block="SearchOverlay"
-                  elem="Results"
-                  aria-label="Search results"
+                  mods={ { isOpen } }
                 >
-                    { this.renderSearchResults() }
-                </article>
+                    <div block="SearchOverlay" elem="Background" mods={ { isActiveClosingAnimation } } />
+                    <div
+                      block="SearchOverlay"
+                      elem="ResultsWrapper"
+                    >
+                        { this.renderSearchOverlayResults() }
+                    </div>
+                </div>
             );
         }
 
         return (
             <Overlay
               id="search"
-              mix={ { block: 'SearchOverlay' } }
+              isOpen={ isOpen }
             >
-                <article
-                  block="SearchOverlay"
-                  elem="Results"
-                  aria-label="Search results"
-                >
-                    { this.renderSearchResults() }
-                </article>
+                { this.renderSearchOverlayResults() }
             </Overlay>
         );
     }

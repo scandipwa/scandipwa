@@ -127,6 +127,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         onFilterButtonClick: this.onFilterButtonClick.bind(this),
     };
 
+    mobileBackdrop: RefObject<HTMLDivElement> = createRef();
+
     __construct(props: P): void {
         super.__construct?.(props);
 
@@ -340,7 +342,10 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     onFilterButtonClick(): void {
         const { toggleOverlayByKey } = this.props;
 
-        toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
+        CSS.setVariable(this.mobileBackdrop, 'mobile-backdrop-display', 'block');
+        setTimeout(() => {
+            toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
+        }, 0);
     }
 
     setOfflineNoticeSize(): void {
@@ -447,6 +452,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             activeLayoutType,
             displayMode,
             productListLoaderRef: this.productListLoaderRef,
+            mobileBackdrop: this.mobileBackdrop,
         };
     }
 
