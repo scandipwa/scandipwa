@@ -12,11 +12,30 @@
 :root {
     --layout-button-size: 24px;
     --category-page-miscellaneous-height: 44px;
+    --fade-content-in-duration: 300ms;
+}
+
+@mixin fade-content-in {
+    animation: fadeIn var(--fade-content-in-duration) ease forwards;
 }
 
 .CategoryPage {
+    --mobile-backdrop-display: none;
+
     @include mobile {
         margin-block-start: calc(var(--header-total-height) + var(--category-page-miscellaneous-height));
+    }
+
+    &-MobileBackdrop {
+        @include mobile {
+            @include fade-content-in();
+
+            display: var(--mobile-backdrop-display);
+            position: fixed;
+            z-index: 100;
+            inset: 0;
+            background-color: rgba(125,125,125,.6);
+        }
     }
 
     &_noResults {
