@@ -70,12 +70,16 @@ export class CategoryQuery {
     | Field<'category_level', number>
     | Field<'category_url', string>
     | Field<'category_is_active', boolean>
+    | Field<'category_description', string>
+    | Field<'category_banner', string>
     > {
         return [
             new Field<'category_name', string>('category_name'),
             new Field<'category_level', number>('category_level'),
             new Field<'category_url', string>('category_url'),
             new Field<'category_is_active', boolean>('category_is_active'),
+            new Field<'category_description', string>('category_description'),
+            new Field<'category_banner', string>('category_banner'),
         ];
     }
 

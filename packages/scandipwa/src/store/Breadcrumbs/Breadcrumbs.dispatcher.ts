@@ -109,12 +109,16 @@ export class BreadcrumbsDispatcher {
                             category_url,
                             category_name,
                             category_is_active,
+                            category_description,
+                            category_banner,
                         } = crumb;
 
                         // do not add link to inactive categories
                         if (category_is_active) {
                             breadcrumbsList.push({
                                 name: category_name || '',
+                                categoryDescription: category_description || '',
+                                categoryBanner: category_banner || '',
                                 url: {
                                     pathname: category_url || '',
                                     state: { category: true },

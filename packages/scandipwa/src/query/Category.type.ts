@@ -21,6 +21,8 @@ export interface Breadcrumb {
     category_level: number;
     category_url: string;
     category_is_active: boolean;
+    category_description: string;
+    category_banner: string;
 }
 
 export interface CategoryTree {

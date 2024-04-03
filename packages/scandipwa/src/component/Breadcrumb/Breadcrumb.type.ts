@@ -16,4 +16,6 @@ export interface BreadcrumbComponentProps {
     isDisabled: boolean;
     url: string | Url;
     name: string;
+    categoryDescription: string;
+    categoryBanner: string;
 }
