@@ -13,13 +13,17 @@ import { CategoryDisplayMode } from 'Route/CategoryPage/CategoryPage.config';
 import { IndexedProduct } from 'Util/Product/Product.type';
 
 export interface HistoryState {
+    title?: string;
+    category?: number | boolean;
+    categoryBanner?: string;
+    categoryDescription?: string;
+    displayMode?: CategoryDisplayMode;
     popupOpen?: boolean;
     page?: number | Partial<IndexedProduct> | undefined;
     product?: Partial<IndexedProduct>;
     isForgotPassword?: boolean;
     isFromLocked?: boolean;
     editPassword?: boolean;
-    category?: number | boolean;
     isFromEmailChange?: boolean;
     prevCategoryId?: number;
     stack?: string[];
@@ -27,5 +31,4 @@ export interface HistoryState {
     lastName?: string;
     email?: string;
     overlayOpen?: boolean;
-    displayMode?: CategoryDisplayMode;
 }

@@ -38,6 +38,8 @@ export class MenuQuery {
     | Field<'parent_id', number>
     | Field<'category_id', number>
     | Field<'display_mode', CategoryDisplayMode>
+    | Field<'category_banner', string>
+    | Field<'category_description', string>
     > {
         return [
             new Field<'url', string>('url'),
@@ -47,6 +49,8 @@ export class MenuQuery {
             new Field<'parent_id', number>('parent_id'),
             new Field<'category_id', number>('category_id'),
             new Field<'display_mode', CategoryDisplayMode>('display_mode'),
+            new Field<'category_banner', string>('category_banner'),
+            new Field<'category_description', string>('category_description'),
         ];
     }
 }

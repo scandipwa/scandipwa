@@ -17,6 +17,7 @@ import { ImageRatio } from 'Component/Image/Image.type';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TextPlaceHolderLength } from 'Component/TextPlaceholder/TextPlaceholder.config';
 import { ReactElement } from 'Type/Common.type';
+import history from 'Util/History';
 
 import { CategoryDetailsComponentProps } from './CategoryDetails.type';
 
@@ -34,7 +35,7 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
 
     renderCategoryText(): ReactElement {
         const {
-            category: { name },
+            category: { id, name },
             isCurrentCategoryLoaded,
         } = this.props;
         const {
@@ -44,9 +45,16 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
             isPrefetchValueUsed,
         } = window;
 
-        const categoryName = isPrefetchValueUsed ? preloadName : name;
+        const { location: { state: { title = '', category = 0 } = {} } = {} } = history;
+        const categoryName = isPrefetchValueUsed ? preloadName || title : name || title;
 
-        if (isCurrentCategoryLoaded || isPrefetchValueUsed) {
+        if (isCurrentCategoryLoaded || isPrefetchValueUsed || title) {
+            if (id !== category && title) {
+                return (
+                    <TextPlaceholder content={ title } />
+                );
+            }
+
             return (
                 <TextPlaceholder content={ categoryName } />
             );
@@ -64,8 +72,9 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
         const {
             isPrefetchValueUsed,
         } = window;
+        const { location: { state: { title = '' } = {} } = {} } = history;
 
-        if (!id && !name && !isPrefetchValueUsed) {
+        if (!id && !name && !isPrefetchValueUsed && !title) {
             return null;
         }
 
@@ -82,10 +91,17 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
             isCurrentCategoryLoaded,
         } = this.props;
         const { isPrefetchValueUsed, actionName: { description: preloadDescription } } = window;
+        const { location: { state: { categoryDescription = '', category = 0 } = {} } = {} } = history;
 
-        if (isPrefetchValueUsed) {
-            if (preloadDescription) {
-                return <Html content={ preloadDescription } />;
+        if (isPrefetchValueUsed || categoryDescription) {
+            if (preloadDescription || categoryDescription) {
+                if (id !== category && categoryDescription) {
+                    return <Html content={ categoryDescription } />;
+                }
+
+                const descriptionContent = preloadDescription || categoryDescription;
+
+                return <Html content={ descriptionContent } />;
             }
 
             return null;

@@ -17,14 +17,19 @@ export interface MenuLocation {
     pathname: string;
     search: string;
     state: {
-        category?: number;
         page?: boolean;
+        title?: string;
+        category?: number;
         displayMode?: CategoryDisplayMode;
+        categoryBanner?: string;
+        categoryDescription?: string;
     };
 }
 
 export type FormattedMenuItem = Merge<
-Omit<MenuItem, 'cms_page_identifier' | 'url_type' | 'category_id' | 'display_mode'>,
+Omit<MenuItem, 'cms_page_identifier' | 'url_type' | 'category_id'
+| 'display_mode' | 'category_banner' | 'category_description'
+>,
 {
     url: MenuLocation | string;
     children: Record<string, FormattedMenuItem>;
