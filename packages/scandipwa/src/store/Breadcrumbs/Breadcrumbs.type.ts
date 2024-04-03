@@ -15,8 +15,8 @@ import { Url } from 'Type/Common.type';
 export interface Breadcrumb {
     url?: Url | string;
     name: string;
-    description?: string;
-    banner?: string;
+    categoryDescription?: string;
+    categoryBanner?: string;
 }
 
 export interface CategoryBreadcrumb {

@@ -47,11 +47,13 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
 
         const categoryName = isPrefetchValueUsed ? preloadName : name;
 
-        const { location: { state: { name: title = '' } = {} } = {} } = history;
+        const { location: { state: { name: categoryTitle = '', title = '' } = {} } = {} } = history;
 
-        if (isCurrentCategoryLoaded || isPrefetchValueUsed || title) {
+        const categoryNamefromHistory = categoryTitle || title;
+
+        if (isCurrentCategoryLoaded || isPrefetchValueUsed || categoryNamefromHistory) {
             return (
-                <TextPlaceholder content={ categoryName } />
+                <TextPlaceholder content={ categoryName || categoryNamefromHistory } />
             );
         }
 
@@ -68,9 +70,7 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
             isPrefetchValueUsed,
         } = window;
 
-        const { location: { state: { name: title = '' } = {} } = {} } = history;
-
-        if (!id && !name && !isPrefetchValueUsed && !title) {
+        if (!id && !name && !isPrefetchValueUsed) {
             return null;
         }
 
@@ -88,7 +88,7 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
         } = this.props;
         const { isPrefetchValueUsed, actionName: { description: preloadDescription } } = window;
 
-        const { location: { state: { description: categoryDescription = '' } = {} } = {} } = history;
+        const { location: { state: { categoryDescription = '' } = {} } = {} } = history;
 
         if (isPrefetchValueUsed || categoryDescription) {
             if (preloadDescription || categoryDescription) {

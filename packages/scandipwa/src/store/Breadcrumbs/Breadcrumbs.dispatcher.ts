@@ -117,8 +117,8 @@ export class BreadcrumbsDispatcher {
                         if (category_is_active) {
                             breadcrumbsList.push({
                                 name: category_name || '',
-                                description: category_description || '',
-                                banner: category_banner || '',
+                                categoryDescription: category_description || '',
+                                categoryBanner: category_banner || '',
                                 url: {
                                     pathname: category_url || '',
                                     state: { category: true },

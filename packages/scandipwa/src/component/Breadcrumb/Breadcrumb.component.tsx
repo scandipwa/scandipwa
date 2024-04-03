@@ -31,8 +31,8 @@ export class BreadcrumbComponent extends PureComponent<BreadcrumbComponentProps>
         const {
             url = '',
             name,
-            description,
-            banner,
+            categoryDescription,
+            categoryBanner,
         } = this.props;
 
         if (typeof url === 'string' || !url) {
@@ -41,8 +41,8 @@ export class BreadcrumbComponent extends PureComponent<BreadcrumbComponentProps>
                 search: '',
                 state: {
                     name,
-                    description,
-                    banner,
+                    categoryDescription,
+                    categoryBanner,
                 },
             };
         }
@@ -55,8 +55,8 @@ export class BreadcrumbComponent extends PureComponent<BreadcrumbComponentProps>
                 // @ts-ignore
                 ...urlState,
                 name,
-                description,
-                banner,
+                categoryDescription,
+                categoryBanner,
             },
         };
     }

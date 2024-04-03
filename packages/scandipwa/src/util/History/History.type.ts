@@ -29,5 +29,7 @@ export interface HistoryState {
     overlayOpen?: boolean;
     displayMode?: CategoryDisplayMode;
     name?: string;
-    description?: string;
+    categoryDescription?: string;
+    categoryBanner?: string;
+    title?: string;
 }
