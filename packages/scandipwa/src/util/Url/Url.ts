@@ -205,7 +205,9 @@ export const generateQuery = (
     history: History,
 ): string => Object.entries(keyValueObject)
     .reduce((acc, pair) => {
-        const [key, value] = pair;
+        const [key, rawValue] = pair;
+
+        const value = encodeURI(rawValue);
 
         const keyAndValueExist = !!key && !!value;
 
