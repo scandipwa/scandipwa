@@ -368,6 +368,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
             isMatchingListFilter,
             isCurrentCategoryLoaded,
             isMatchingInfoFilter,
+            productListLoaderRef,
         } = this.props;
 
         const { activeLayoutType } = this.state;
@@ -394,6 +395,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
                   isMatchingListFilter={ isMatchingListFilter }
                   isMatchingInfoFilter={ isMatchingInfoFilter }
                   layout={ activeLayoutType || CategoryPageLayout.GRID }
+                  productListLoaderRef={ productListLoaderRef }
                 />
             </div>
         );
@@ -484,6 +486,7 @@ S extends CategoryPageComponentState = CategoryPageComponentState,
                     <div
                       block="CategoryPage"
                       elem="Loader"
+                      mods={ {} }
                     />
                     { this.renderContent() }
                 </ContentWrapper>

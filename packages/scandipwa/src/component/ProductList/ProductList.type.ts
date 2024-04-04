@@ -10,6 +10,7 @@
  */
 
 import { History, Location } from 'history';
+import { RefObject } from 'react';
 
 import { ProductAttributeFilterOptions, ProductListOptions } from 'Query/ProductList.type';
 import { CategorySortOptions } from 'Route/CategoryPage/CategoryPage.type';
@@ -49,6 +50,7 @@ export interface ProductListContainerBaseProps {
     title?: string;
     totalPages: number;
     isPlp?: boolean;
+    productListLoaderRef?: RefObject<HTMLDivElement>;
 }
 
 export interface ProductListContainerFunctions {
@@ -84,6 +86,7 @@ export interface ProductListComponentProps {
     loadPrevPage: () => void;
     loadPage: (next?: boolean) => void;
     updatePage: (pageNumber: number) => void;
+    productListLoaderRef?: RefObject<HTMLDivElement>;
 }
 
 export type ProductListComponentContainerPropKeys =
@@ -101,7 +104,8 @@ export type ProductListComponentContainerPropKeys =
     | 'isVisible'
     | 'requestPage'
     | 'isInfiniteLoaderEnabled'
-    | 'isPlp';
+    | 'isPlp'
+    | 'productListLoaderRef';
 
 export interface PageBounds {
     maxPage: number;

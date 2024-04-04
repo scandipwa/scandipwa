@@ -119,6 +119,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         sortDirection: SortDirections.ASC,
     };
 
+    productListLoaderRef: RefObject<HTMLDivElement> = createRef();
+
     containerFunctions: CategoryPageContainerFunctions = {
         onSortChange: this.onSortChange.bind(this),
         onGridButtonClick: this.onGridButtonClick.bind(this),
@@ -310,20 +312,32 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     }
 
     onGridButtonClick(): void {
-        BrowserDatabase.setItem(CategoryPageLayout.GRID, LAYOUT_KEY);
-        this.setState({ selectedLayoutType: CategoryPageLayout.GRID });
+        CSS.setVariable(this.productListLoaderRef, 'product-list-loader-position', 'block');
+        setTimeout(() => {
+            BrowserDatabase.setItem(CategoryPageLayout.GRID, LAYOUT_KEY);
+            this.setState({ selectedLayoutType: CategoryPageLayout.GRID });
+            CSS.setVariable(this.productListLoaderRef, 'product-list-loader-position', 'none');
+        }, 0);
     }
 
     onListButtonClick(): void {
-        BrowserDatabase.setItem(CategoryPageLayout.LIST, LAYOUT_KEY);
-        this.setState({ selectedLayoutType: CategoryPageLayout.LIST });
+        CSS.setVariable(this.productListLoaderRef, 'product-list-loader-position', 'block');
+        setTimeout(() => {
+            BrowserDatabase.setItem(CategoryPageLayout.LIST, LAYOUT_KEY);
+            this.setState({ selectedLayoutType: CategoryPageLayout.LIST });
+            CSS.setVariable(this.productListLoaderRef, 'product-list-loader-position', 'none');
+        }, 0);
     }
 
     onSortChange(sortDirection: SortDirections, sortKey: string[]): void {
+        if (JSON.stringify(this.getSelectedSortFromUrl()) === JSON.stringify({ sortDirection, sortKey: sortKey[0] })) {
+            return;
+        }
         const { location } = history;
 
-        setQueryParams({ sortKey: sortKey.join(','), sortDirection, page: '' }, location, history);
-        this.updateMeta();
+        setTimeout(() => {
+            setQueryParams({ sortKey: sortKey.join(','), sortDirection, page: '' }, location, history);
+        }, 0);
     }
 
     onFilterButtonClick(): void {
@@ -439,6 +453,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             selectedLayoutType,
             activeLayoutType,
             displayMode,
+            productListLoaderRef: this.productListLoaderRef,
             isLoading,
             mobileBackdrop: this.mobileBackdrop,
         };
