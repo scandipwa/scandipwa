@@ -7,7 +7,7 @@ const logger = require('@scandipwa/scandipwa-dev-utils/logger');
 const { getComposerDeps } = require('@scandipwa/scandipwa-dev-utils/composer');
 const writeJson = require('@scandipwa/scandipwa-dev-utils/write-json');
 
-const DEFAULT_PROXY = 'https://tech-demo.scandipwa.com/';
+const DEFAULT_PROXY = 'https://40kskudemo.scandipwa.com/';
 
 const ensureLatestComposer = (pathname) => {
     const composerDeps = getComposerDeps(pathname);
