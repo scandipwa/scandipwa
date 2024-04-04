@@ -13,6 +13,7 @@
     --category-filter-overlay-desktop-color: #979797;
     --category-filter-overlay-selected-color: var(--primary-base-color);
     --category-filter-overlay-hover-color: var(--primary-light-color);
+    --category-filter-overlay-transition-speed: 300ms;
 }
 
 .CategoryFilterOverlay {
@@ -29,9 +30,12 @@
     }
 
     @include mobile {
-        transform: translateY(100%);
-        will-change: transform;
+        transform: translateX(100%);
+        transition: transform var(--category-filter-overlay-transition-speed) ease, opacity var(--category-filter-overlay-transition-speed) step-end;
+        will-change: transform, opacity;
         overflow-y: hidden;
+        opacity: 0;
+        z-index: 101;
 
         &-Wrapper {
             display: grid;
@@ -42,7 +46,10 @@
     }
 
     &_isVisible {
-        transform: translateY(0%);
+        transition: transform var(--category-filter-overlay-transition-speed) ease;
+        will-change: transform, opacity;
+        transform: translateX(0);
+        opacity: 1;
     }
 
     &-NoResults {

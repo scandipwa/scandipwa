@@ -12,7 +12,7 @@
     "scandipwa": {
         "type": "extension",
         "extensions": {
-            "@scandipwa/webpack-after-emit-logger": true
+            "@scandipwa/webpack-after-emit-logger": false
         },
         "build": {
             "cracoPlugins": [

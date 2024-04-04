@@ -10,6 +10,7 @@
  */
 
 import { History, Location } from 'history';
+import { RefObject } from 'react';
 import { match as Match } from 'react-router';
 
 import { Category, CategoryQueryOptions } from 'Query/Category.type';
@@ -113,6 +114,7 @@ export interface CategoryPageComponentProps extends CategoryPageContainerFunctio
     activeLayoutType?: CategoryPageLayout;
     displayMode: CategoryDisplayMode;
     isLoading: boolean;
+    mobileBackdrop: RefObject<HTMLDivElement>;
 }
 
 export interface CategoryPageComponentState {
@@ -140,7 +142,8 @@ export type CategoryPageContainerPropsKeys =
     | 'selectedLayoutType'
     | 'activeLayoutType'
     | 'isLoading'
-    | 'displayMode';
+    | 'displayMode'
+    | 'mobileBackdrop';
 
 export interface CategoryUrlParams {
     customFilters: string;

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { createRef, PureComponent, RefObject } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -35,6 +35,7 @@ import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
+import CSS from 'Util/CSS';
 import history from 'Util/History';
 import { debounce } from 'Util/Request/Debounce';
 import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
@@ -124,6 +125,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         onListButtonClick: this.onListButtonClick.bind(this),
         onFilterButtonClick: this.onFilterButtonClick.bind(this),
     };
+
+    mobileBackdrop: RefObject<HTMLDivElement> = createRef();
 
     __construct(props: P): void {
         super.__construct?.(props);
@@ -326,7 +329,10 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     onFilterButtonClick(): void {
         const { toggleOverlayByKey } = this.props;
 
-        toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
+        CSS.setVariable(this.mobileBackdrop, 'mobile-backdrop-display', 'block');
+        setTimeout(() => {
+            toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
+        }, 0);
     }
 
     setOfflineNoticeSize(): void {
@@ -434,6 +440,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             activeLayoutType,
             displayMode,
             isLoading,
+            mobileBackdrop: this.mobileBackdrop,
         };
     }
 

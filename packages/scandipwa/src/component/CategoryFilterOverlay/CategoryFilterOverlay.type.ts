@@ -10,6 +10,7 @@
  */
 
 import { History, Location } from 'history';
+import { RefObject } from 'react';
 
 import { NavigationState } from 'Store/Navigation/Navigation.type';
 import { ProductListFilter } from 'Store/ProductListInfo/ProductListInfo.type';
@@ -46,6 +47,8 @@ export interface CategoryFilterOverlayContainerBaseProps {
     isCategoryAnchor: boolean;
     isMatchingInfoFilter: boolean;
     isSearchPage: boolean;
+    categoryPageRef: RefObject<HTMLElement>;
+    mobileBackdrop?: RefObject<HTMLDivElement>;
 }
 
 export type CategoryFilterOverlayContainerProps = CategoryFilterOverlayContainerMapStateProps
@@ -68,6 +71,7 @@ export interface CategoryFilterOverlayComponentProps {
     onHide: () => void;
     toggleCustomFilter: (requestVar: string, value: string | number | boolean) => void;
     getFilterUrl: (filterKey: string, value: string) => string;
+    categoryPageRef: RefObject<HTMLElement>;
 }
 
 export type CategoryFilterComponentContainerPropsKey =
@@ -80,4 +84,5 @@ export type CategoryFilterComponentContainerPropsKey =
     | 'totalPages'
     | 'customFiltersValues'
     | 'areFiltersEmpty'
-    | 'isContentFiltered';
+    | 'isContentFiltered'
+    | 'categoryPageRef';

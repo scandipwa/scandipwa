@@ -39,6 +39,7 @@ declare global {
             cms_home_page: string;
             catalog_default_sort_by: string;
             tax_display_type: string;
+            demo_notice: boolean;
         };
         secure_base_media_url?: string;
         prefetchedImages: Record<string, HTMLImageElement>;
