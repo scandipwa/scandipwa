@@ -12,6 +12,7 @@
 :root {
     --layout-button-size: 24px;
     --category-page-miscellaneous-height: 44px;
+    --miscellaneous-mobile-height: 44px;
     --fade-content-in-duration: 300ms;
 }
 
@@ -209,7 +210,7 @@
             background: #fff;
             border-block-end: 1px solid var(--primary-divider-color);
             grid-template-columns: repeat(2, 1fr);
-            height: 44px;
+            height: var(--miscellaneous-mobile-height);
 
             &_noResults {
                 height: auto;

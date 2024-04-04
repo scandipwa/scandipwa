@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { UrlRewritePageType } from 'Route/UrlRewrites/UrlRewrites.config';
 import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
@@ -52,6 +53,7 @@ export const mapStateToProps = (state: RootState): RouterContainerMapStateProps 
     isBigOffline: state.OfflineReducer.isBig,
     status_code: state.MetaReducer.status_code,
     base_link_url: state.ConfigReducer.base_link_url,
+    isMobile: state.ConfigReducer.device.isMobile,
     canonical_url: state.MetaReducer.canonical_url,
     demo_notice: state.ConfigReducer.demo_notice,
 });
@@ -110,6 +112,13 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
             currentUrl: window.location.pathname,
             isOnlyMainItems: this.handleCheckIfOnlyMainItemsRender(),
         });
+
+        const { actionName: { type } = {} } = window;
+
+        if (type === UrlRewritePageType.CATEGORY) {
+            const root = document.querySelector(':root') as HTMLElement;
+            root.style.setProperty('--miscellaneous-mobile-height', '44px');
+        }
 
         this.initializeApplication();
         this.redirectFromPartialUrl();
@@ -222,7 +231,11 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
     }
 
     containerProps(): Pick<RouterComponentProps, RouterContainerPropsKeys> {
-        const { isBigOffline, setBigOfflineNotice } = this.props;
+        const {
+            isBigOffline,
+            setBigOfflineNotice,
+            isMobile,
+        } = this.props;
         const { isOnlyMainItems, currentUrl } = this.state;
 
         return {
@@ -230,6 +243,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
             setBigOfflineNotice,
             isOnlyMainItems,
             currentUrl,
+            isMobile,
         };
     }
 
