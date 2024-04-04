@@ -1,6 +1,6 @@
 {
     "name": "@scandipwa/ts-server-plugin",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "license": "OSL-3.0",
     "main": "./out",
     "publishConfig": {
@@ -11,7 +11,7 @@
         "start": "tsc --watch --sourceMap --outDir ./out"
     },
     "dependencies": {
-        "@scandipwa/scandipwa-dev-utils": "0.1.16"
+        "@scandipwa/scandipwa-dev-utils": "0.1.17"
     },
     "scandipwa": {
         "type": "extension",

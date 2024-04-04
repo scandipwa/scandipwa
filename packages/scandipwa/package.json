@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/scandipwa",
     "description": "ScandiPWA source code used by CSA.",
-    "version": "6.2.5",
+    "version": "6.3.0",
     "scripts": {
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
@@ -9,16 +9,16 @@
         "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/bundle-analyzer": "0.1.0",
-        "@scandipwa/chunk-optimizer": "1.0.2",
-        "@scandipwa/m2-theme": "0.3.2",
+        "@scandipwa/bundle-analyzer": "0.1.1",
+        "@scandipwa/chunk-optimizer": "1.0.3",
+        "@scandipwa/m2-theme": "0.3.3",
         "@scandipwa/next-emulator": "0.0.4",
         "@scandipwa/postcss-config": "0.0.3",
         "@scandipwa/preact-integration": "0.0.1",
-        "@scandipwa/scandipwa-scripts": "2.4.25",
+        "@scandipwa/scandipwa-scripts": "2.5.0",
         "@scandipwa/service-worker": "0.0.18",
         "@scandipwa/stylelint-config": "0.0.8",
-        "@scandipwa/webpack-i18n-runtime": "0.0.36",
+        "@scandipwa/webpack-i18n-runtime": "0.1.0",
         "@tilework/opus": "0.0.12",
         "@types/react": "^18.2.0",
         "@types/react-datepicker": "^4.4.1",
