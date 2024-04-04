@@ -103,6 +103,7 @@ export const getNamedExportsNames = (exports: ExportsPaths) : ExportData[] => {
                     path.stop();
                 },
                 ClassDeclaration: (path) => {
+                    // @ts-ignore
                     const { node: { id: { name } } } = path;
                     searchResult = { name, type: ExportType.class };
                     path.stop();
