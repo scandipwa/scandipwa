@@ -21,7 +21,7 @@ import {
     ProductAttributeFilterOptions,
 } from 'Query/ProductList.type';
 import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
-import { updateCurrentCategory } from 'Store/Category/Category.action';
+import { setScrollPosition, updateCurrentCategory } from 'Store/Category/Category.action';
 import CategoryDispatcher from 'Store/Category/Category.dispatcher';
 import MetaDispatcher from 'Store/Meta/Meta.dispatcher';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -52,6 +52,7 @@ import {
     CategoryPageLayout,
     LAYOUT_KEY,
     LOADING_TIME,
+    SCROLL_DEBOUNCE_TIME,
     SortDirections,
 } from './CategoryPage.config';
 import {
@@ -79,6 +80,7 @@ export const mapStateToProps = (state: RootState): CategoryPageContainerMapState
     totalItems: state.ProductListReducer.totalItems,
     plpType: state.ConfigReducer.plp_list_mode,
     isMobile: state.ConfigReducer.device.isMobile,
+    scrollPosition: state.CategoryReducer.scrollPosition,
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -97,6 +99,7 @@ export const mapDispatchToProps = (dispatch: Dispatch): CategoryPageContainerMap
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateMetaFromCategory: (category) => MetaDispatcher.updateWithCategory(category, dispatch),
     clearCategory: () => dispatch(updateCurrentCategory({})),
+    setScrollPosition: (scrollPosition) => dispatch(setScrollPosition(scrollPosition)),
 });
 
 /** @namespace Route/CategoryPage/Container */
@@ -187,14 +190,17 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     }
 
     componentDidMount(): void {
+        if (('scrollRestoration' in window.history)) {
+            window.history.scrollRestoration = 'manual';
+        }
+
         const {
             categoryIds,
             category: {
                 id,
             },
+            scrollPosition,
         } = this.props;
-
-        scrollToTop();
 
         /**
          * Always make sure the navigation show / hide mode (on scroll)
@@ -204,13 +210,13 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
 
         /**
          * Always update the history, ensure the history contains category
-         */
+        */
         this.updateHistory();
 
         /**
-         * Make sure to update header state, if the category visited
-         * was already loaded.
-         */
+        * Make sure to update header state, if the category visited
+        * was already loaded.
+       */
         if (categoryIds === id) {
             this.updateBreadcrumbs();
             this.updateHeaderState();
@@ -219,10 +225,17 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             /**
              * Still update header and breadcrumbs, but ignore
              * the category data, as it is outdated
-             */
+            */
             this.updateHeaderState(true);
             this.updateBreadcrumbs(true);
         }
+        debounce(
+            () => window.scrollTo({
+                top: scrollPosition,
+                behavior: 'smooth',
+            }),
+            SCROLL_DEBOUNCE_TIME,
+        )();
     }
 
     componentDidUpdate(prevProps: CategoryPageContainerProps): void {
@@ -234,8 +247,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             },
             currentArgs: {
                 filter,
-                currentPage,
             } = {},
+            setScrollPosition,
         } = this.props;
 
         const {
@@ -249,7 +262,6 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             },
             currentArgs: {
                 filter: prevFilter,
-                currentPage: prevPage,
             } = {},
         } = prevProps;
 
@@ -285,15 +297,15 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * Or if the breadcrumbs were not yet updated after category request,
          * and the category ID expected to load was loaded, update data.
          */
-        const categoryChange = id !== prevId
-            || (!breadcrumbsWereUpdated && id === categoryIds)
-            || currentPage !== prevPage;
+        const categoryChange = id !== prevId || (!breadcrumbsWereUpdated && id === categoryIds);
 
         if (categoryChange) {
             this.checkIsActive();
             this.updateMeta();
             this.updateBreadcrumbs();
             this.updateHeaderState();
+            scrollToTop();
+            setScrollPosition(0);
         }
 
         /*
@@ -306,6 +318,12 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         ) {
             this.updateMeta();
         }
+    }
+
+    componentWillUnmount() {
+        const { setScrollPosition } = this.props;
+        setScrollPosition(window.scrollY);
+        window.history.scrollRestoration = 'auto';
     }
 
     onGridButtonClick(): void {
@@ -607,29 +625,8 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         }
     }
 
-    getCanonicalWithPageNumber(canonical_url?: string) {
-        if (!canonical_url) {
-            return null;
-        }
-
-        const pageNumber = getQueryParam('page', history?.location);
-
-        if (pageNumber) {
-            return canonical_url.concat(`?page=${pageNumber}`);
-        }
-
-        return canonical_url;
-    }
-
     updateMeta(): void {
-        const {
-            updateMetaFromCategory,
-            category,
-            category: {
-                canonical_url,
-            } = {},
-        } = this.props;
-
+        const { updateMetaFromCategory, category } = this.props;
         const meta_robots = history.location.search
             ? ''
             : 'follow, index';
@@ -637,7 +634,6 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         updateMetaFromCategory({
             ...category,
             meta_robots,
-            canonical_url: this.getCanonicalWithPageNumber(canonical_url),
         });
     }
 
