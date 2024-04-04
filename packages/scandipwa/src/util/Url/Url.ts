@@ -118,7 +118,7 @@ export const getQueryParam = (
     isReplaceEqual: boolean = true,
 ): string | false => {
     const query = decodeString(location.search.substring(1));
-    const vars = query.split('&');
+    const vars = query.split(/[?&]/);
 
     return vars.reduce((acc: string | false, item: string) => {
         const splitIdx = item.indexOf('=');
