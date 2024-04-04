@@ -79,6 +79,7 @@ export const mapStateToProps = (state: RootState): CategoryPageContainerMapState
     totalItems: state.ProductListReducer.totalItems,
     plpType: state.ConfigReducer.plp_list_mode,
     isMobile: state.ConfigReducer.device.isMobile,
+    isLoading: state.ProductListReducer.isLoading,
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -409,6 +410,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             totalItems,
             isSearchPage,
             displayMode,
+            isLoading,
         } = this.props;
 
         const {
@@ -437,6 +439,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             selectedLayoutType,
             activeLayoutType,
             displayMode,
+            isLoading,
             mobileBackdrop: this.mobileBackdrop,
         };
     }

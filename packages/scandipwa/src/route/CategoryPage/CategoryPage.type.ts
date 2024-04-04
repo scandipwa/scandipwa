@@ -44,6 +44,7 @@ export interface CategoryPageContainerMapStateProps {
     totalItems: number;
     plpType: string;
     isMobile: boolean;
+    isLoading: boolean;
 }
 
 export interface CategoryPageContainerMapDispatchProps {
@@ -112,6 +113,7 @@ export interface CategoryPageComponentProps extends CategoryPageContainerFunctio
     selectedLayoutType?: CategoryPageLayout;
     activeLayoutType?: CategoryPageLayout;
     displayMode: CategoryDisplayMode;
+    isLoading: boolean;
     mobileBackdrop: RefObject<HTMLDivElement>;
 }
 
@@ -139,6 +141,7 @@ export type CategoryPageContainerPropsKeys =
     | 'totalItems'
     | 'selectedLayoutType'
     | 'activeLayoutType'
+    | 'isLoading'
     | 'displayMode'
     | 'mobileBackdrop';
 

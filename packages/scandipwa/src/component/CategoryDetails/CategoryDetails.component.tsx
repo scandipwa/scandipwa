@@ -81,9 +81,9 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
             category: { description, id },
             isCurrentCategoryLoaded,
         } = this.props;
-        const { isPrefetchValueUsed, actionName: { description: preloadDescription } } = window;
+        const { isPrefetchValueUsed, actionName: { name: preloadDescription } } = window;
 
-        if (isPrefetchValueUsed) {
+        if (isPrefetchValueUsed && !isCurrentCategoryLoaded) {
             if (preloadDescription) {
                 return <Html content={ preloadDescription } />;
             }
@@ -91,7 +91,7 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
             return null;
         }
 
-        if ((!id || !isCurrentCategoryLoaded)) {
+        if ((!id || !isCurrentCategoryLoaded) && !preloadDescription) {
             return this.renderCategoryDescriptionPlaceholder();
         }
 
@@ -104,9 +104,9 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
 
     renderCategoryDescriptionPlaceholder(): ReactElement {
         return (
-            <p>
-                <TextPlaceholder length={ TextPlaceHolderLength.LONG } />
-            </p>
+            <h1>
+                <TextPlaceholder length={ TextPlaceHolderLength.MEDIUM } />
+            </h1>
         );
     }
 
@@ -126,12 +126,12 @@ export class CategoryDetailsComponent extends PureComponent<CategoryDetailsCompo
             isCurrentCategoryLoaded,
         } = this.props;
 
-        if (!id || !isCurrentCategoryLoaded) {
-            return this.renderCategoryImagePlaceholder();
-        }
-
         if (!image) {
             return null;
+        }
+
+        if (!id || !isCurrentCategoryLoaded) {
+            return this.renderCategoryImagePlaceholder();
         }
 
         return (
