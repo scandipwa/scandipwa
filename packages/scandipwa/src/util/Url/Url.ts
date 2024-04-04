@@ -108,10 +108,15 @@ export const appendWithStoreCode = (pathname: string): string => {
  * Get query variable value (from react router)
  * @param {String} variable Variable from URL
  * @param {Object} location location object from react-router
+ * @param {Boolean} isReplaceEqual condition to replace equal sign
  * @return {String|false} Variable value
  * @namespace Util/Url/getQueryParam
  */
-export const getQueryParam = (variable: string, location: Location): string | false => {
+export const getQueryParam = (
+    variable: string,
+    location: Location,
+    isReplaceEqual: boolean = true,
+): string | false => {
     const query = decodeString(location.search.substring(1));
     const vars = query.split('&');
 
@@ -119,7 +124,11 @@ export const getQueryParam = (variable: string, location: Location): string | fa
         const splitIdx = item.indexOf('=');
         const [k, v] = [item.slice(0, splitIdx), item.slice(splitIdx + 1)];
 
-        return k === variable ? v.replace(/=/g, ':') : acc;
+        if (k !== variable) {
+            return acc;
+        }
+
+        return isReplaceEqual ? v.replace(/=/g, ':') : v;
     }, false);
 };
 
