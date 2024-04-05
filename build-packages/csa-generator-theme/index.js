@@ -140,7 +140,7 @@ const run = async (options) => {
     const postcssVersion = '8.4.5';
     const reactTypesVersion = '18.2.74';
     const reactReduxVersion = '8.0.2';
-    const nodeTypesVersion = '20.12.4"';
+    const nodeTypesVersion = '20.12.4';
     const typescriptTransformPluginVersion = '7.20.2';
     const proposalPrivatePropertyInObjectPluginVersion = '7.21.11';
     const transformPrivatePropertyInObjectPluginVersion = '7.24.1';
