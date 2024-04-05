@@ -7,7 +7,7 @@ const logger = require('@scandipwa/scandipwa-dev-utils/logger');
 const { getComposerDeps } = require('@scandipwa/scandipwa-dev-utils/composer');
 const writeJson = require('@scandipwa/scandipwa-dev-utils/write-json');
 
-const DEFAULT_PROXY = 'https://demo100-ors-1588667385-csa-hcx.scandipwa.cloud/';
+const DEFAULT_PROXY = 'https://40kskudemo.scandipwa.com/';
 
 const ensureLatestComposer = (pathname) => {
     const composerDeps = getComposerDeps(pathname);
@@ -138,10 +138,12 @@ const run = async (options) => {
     let mosaicCracoVersion = '0.0.0';
     let tsServerPluginVersion = '0.0.0';
     const postcssVersion = '8.4.5';
-    const reactTypesVersion = '18.0.17';
+    const reactTypesVersion = '18.2.74';
     const reactReduxVersion = '8.0.2';
-    const nodeTypesVersion = '18.7.15';
+    const nodeTypesVersion = '20.12.4"';
     const typescriptTransformPluginVersion = '7.20.2';
+    const proposalPrivatePropertyInObjectPluginVersion = '7.21.11';
+    const transformPrivatePropertyInObjectPluginVersion = '7.24.1';
 
     try {
         scandipwaVersion = await getLatestVersion('@scandipwa/scandipwa');
@@ -205,6 +207,8 @@ const run = async (options) => {
         proxy: DEFAULT_PROXY,
         eslintConfigVersion,
         typescriptTransformPluginVersion,
+        proposalPrivatePropertyInObjectPluginVersion,
+        transformPrivatePropertyInObjectPluginVersion,
     };
 
     // create filesystem from template
