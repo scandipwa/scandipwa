@@ -282,7 +282,7 @@ export class MyAccountDispatcher {
 
         if (guestCartToken && guestCartToken !== customerCartToken) {
             // merge guest cart id and customer cart id using magento capabilities
-            CartDispatcher.mergeCarts(guestCartToken, customerCartToken, dispatch);
+            await CartDispatcher.mergeCarts(guestCartToken, customerCartToken, dispatch);
         }
 
         setCartId(customerCartToken);
@@ -290,7 +290,7 @@ export class MyAccountDispatcher {
         WishlistDispatcher.updateInitialWishlistData(dispatch);
 
         await this.requestCustomerData(dispatch);
-        
+
         CartDispatcher.updateInitialCartData(dispatch, true);
 
         dispatch(updateCustomerSignInStatus(true));
