@@ -3,7 +3,6 @@ const path = require('path');
 const FallbackPlugin = require('@scandipwa/webpack-fallback-plugin');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { getLoader, loaderByName } = require('@scandipwa/craco');
 
 // The variable is passed automatically, use --magento flag
 const isMagento = process.env.BUILD_MODE === 'magento';
@@ -54,16 +53,6 @@ module.exports = {
                 // Supress error, there is nothing to see here :D
             }
 
-            const { isFound: isFileLoaderFound, match: fileLoader } = getLoader(
-                webpackConfig,
-                loaderByName('file-loader')
-            );
-
-            if (isFileLoaderFound) {
-                // Add .php to ignore files (otherwise php will compile into /media as file)
-                fileLoader.loader.exclude.push(/\.php$/);
-            }
-
             webpackConfig.output.path = path.join(process.cwd(), 'magento', 'Magento_Theme', 'web');
 
             return webpackConfig;
@@ -74,10 +63,10 @@ module.exports = {
             }
 
             // Allow non "localhost" hosts
-            devServerConfig.disableHostCheck = true;
+            devServerConfig.allowedHosts = 'all';
 
             // Write to disk, so Magento can pickup changes
-            devServerConfig.writeToDisk = true;
+            devServerConfig.devMiddleware.writeToDisk = true;
 
             return devServerConfig;
         },
