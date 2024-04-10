@@ -138,6 +138,8 @@ const run = async (options) => {
     let mosaicCracoVersion = '0.0.0';
     let tsServerPluginVersion = '0.0.0';
     const postcssVersion = '8.4.5';
+    const reactVersion = '18.2.0';
+    const reactDomVersion = '18.2.0';
     const reactTypesVersion = '18.2.74';
     const reactReduxVersion = '8.0.2';
     const nodeTypesVersion = '20.12.4';
@@ -201,6 +203,8 @@ const run = async (options) => {
         mosaicVersion,
         mosaicCracoVersion,
         postcssVersion,
+        reactVersion,
+        reactDomVersion,
         reactTypesVersion,
         reactReduxVersion,
         nodeTypesVersion,

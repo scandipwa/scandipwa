@@ -12,6 +12,8 @@
         "@types/react": "<%= reactTypesVersion %>",
         "@types/node": "<%= nodeTypesVersion %>",
         "postcss": "<%= postcssVersion %>",
+        "react": "<%= reactVersion %>",
+        "react-dom": "<%= reactDomVersion %>",
         "react-redux": "<%= reactReduxVersion %>",
         "@babel/plugin-transform-typescript": "<%= typescriptTransformPluginVersion %>"
     },
