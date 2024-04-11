@@ -3298,16 +3298,6 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.10.1.tgz#7ca168b6937818e9a74b47ac4e2112b2e1a024cf"
   integrity sha512-S3Kq8e7LqxkA9s7HKLqXGTGck1uwis5vAXan3FnU5yw1Ec5hsSGnq4s/UCaSqABPOnOTg7zASLyst7+ohgWexg==
 
-"@scandipwa/craco@0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@scandipwa/craco/-/craco-0.1.1.tgz#a010ed86fb6905b2e6fe4683eb502ad58c14f8f5"
-  integrity sha512-RFMbINkaLlNC8aEYglDqK1XfBbpPLyRpmpIYxF22VHtflSQWyjqJHcdL1OZeGY5Bq9Gi9sWmDGGKkVDbV0G/aw==
-  dependencies:
-    cross-spawn "^7.0.0"
-    lodash "^4.17.15"
-    semver "^7.3.2"
-    webpack-merge "^4.2.2"
-
 "@scandipwa/scandipwa-dev-utils@0.0.25":
   version "0.0.25"
   resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-dev-utils/-/scandipwa-dev-utils-0.0.25.tgz#136accd708210871364240136e29ae9d862ed534"
@@ -3543,9 +3533,9 @@
     globby "^11.0.2"
 
 "@tilework/mosaic-cra-scripts@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-cra-scripts/-/mosaic-cra-scripts-1.0.1.tgz#c99909f83c05a2f67e6f5223b69ced67a1bba133"
-  integrity sha512-EFcqV668sBG/nbsOvitQNQy9fhMho5RgedI74liySp+CvEz3gR9KtNRYm0By38XLdHZ4PZ7RgFVB6yf80kVLzw==
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-cra-scripts/-/mosaic-cra-scripts-1.0.3.tgz#782810338a671fc29d35fff67d3a26281344e87f"
+  integrity sha512-v4XcIRvJUSRV4ntcrJL7o3hX/NoMZp5FkqwBrZwRW8Ljll1c4ivza9AIdUWOWcb6MUSGTgoRppVWCD3x5togtw==
   dependencies:
     "@tilework/mosaic-config-injectors" "0.3.0"
     "@tilework/mosaic-craco" "1.0.1"
@@ -8823,7 +8813,7 @@ expect@^29.0.0:
     jest-message-util "^29.7.0"
     jest-util "^29.7.0"
 
-express@^4.17.3:
+express@^4.17.3, express@^4.18.2:
   version "4.19.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.19.2.tgz#e25437827a3aa7f2a827bc8171bbbb664a356465"
   integrity sha512-5T6nhjsT+EOMzuck8JjBHARTHfMht0POzlA60WV2pMD3gyXw2LZnZ+ueGdNxG+0calOJcWKbpFcuzLZ91YWq9Q==
@@ -10213,7 +10203,7 @@ http-proxy-agent@^4.0.1:
     agent-base "6"
     debug "4"
 
-http-proxy-middleware@^2.0.3:
+http-proxy-middleware@^2.0.3, http-proxy-middleware@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/http-proxy-middleware/-/http-proxy-middleware-2.0.6.tgz#e1a4dd6979572c7ab5a4e4b55095d1f32a74963f"
   integrity sha512-ya/UeJ6HVBYxrgYotAZo1KvPWlgB48kUJLDePFeneHsVujFaW5WNj2NgWCAE//B1Dl02BIfYlpNgBy8Kf8Rjmw==

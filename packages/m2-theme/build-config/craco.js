@@ -53,6 +53,17 @@ module.exports = {
                 // Supress error, there is nothing to see here :D
             }
 
+            webpackConfig.module.rules.forEach((rule) => {
+                if (rule?.oneOf) {
+                    rule.oneOf.forEach((subRule) => {
+                        if (subRule?.exclude && subRule?.type === 'asset/resource') {
+                            // Add .php to ignore files (otherwise php will compile into /media as file)
+                            subRule.exclude.push(/\.php$/);
+                        }
+                    });
+                }
+            });
+
             webpackConfig.output.path = path.join(process.cwd(), 'magento', 'Magento_Theme', 'web');
 
             return webpackConfig;
