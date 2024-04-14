@@ -10,3 +10,7 @@
  */
 
 export const SHARED_ELEMENT_TRANSITION = 250;
+
+export const PRODUCT_GALLERY_SLIDER_CLASS_NAME = 'ProductGallery-SliderWrapper';
+
+export const HEADER_HEIGHT = 60;

@@ -12,6 +12,7 @@
 import { RefObject } from 'react';
 import { Container } from 'unstated-typescript';
 
+import { HEADER_HEIGHT, PRODUCT_GALLERY_SLIDER_CLASS_NAME } from './SharedTransition.config';
 import { SharedTransitionPosition, SharedTransitionState } from './SharedTransition.type';
 
 export const sharedTransitionInitialState: SharedTransitionState = {
@@ -41,6 +42,8 @@ export class SharedTransitionUnstated extends Container<SharedTransitionState> {
 
     registerSharedElementDestination({ current }: RefObject<HTMLElement>): void {
         if (current) {
+            const isPdpDestination = current.classList.contains(PRODUCT_GALLERY_SLIDER_CLASS_NAME);
+
             this.setState(({ sharedElementDestination }) => {
                 if (sharedElementDestination) {
                     return {};
@@ -48,7 +51,11 @@ export class SharedTransitionUnstated extends Container<SharedTransitionState> {
 
                 return {
                     sharedElementDestination: current,
-                    destinationPosition: this._parseRectangle(current.getBoundingClientRect()),
+                    destinationPosition: isPdpDestination ? {
+                        ...this._parseRectangle(current.getBoundingClientRect()),
+                        // to make sure animation will end at the correct position
+                        top: HEADER_HEIGHT,
+                    } : this._parseRectangle(current.getBoundingClientRect()),
                 };
             });
         }
