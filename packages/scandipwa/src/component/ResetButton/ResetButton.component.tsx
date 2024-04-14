@@ -12,7 +12,6 @@
 import { PureComponent } from 'react';
 
 import { ReactElement } from 'Type/Common.type';
-import { scrollToTop } from 'Util/Browser';
 
 import { ResetButtonComponentProps } from './ResetButton.type';
 
@@ -26,20 +25,10 @@ export class ResetButtonComponent extends PureComponent<ResetButtonComponentProp
 
     __construct(props: ResetButtonComponentProps): void {
         super.__construct?.(props);
-
-        this.onClick = this.onClick.bind(this);
-    }
-
-    onClick(): void {
-        const { onClick, resetFilters } = this.props;
-
-        onClick();
-        resetFilters();
-        scrollToTop();
     }
 
     render(): ReactElement {
-        const { mix, isContentFiltered } = this.props;
+        const { mix, isContentFiltered, onClick } = this.props;
 
         if (!isContentFiltered) {
             return null;
@@ -51,7 +40,7 @@ export class ResetButtonComponent extends PureComponent<ResetButtonComponentProp
               mix={ mix }
             >
                 <button
-                  onClick={ this.onClick }
+                  onClick={ onClick }
                   block="ResetButton"
                   elem="Button"
                   mix={ {

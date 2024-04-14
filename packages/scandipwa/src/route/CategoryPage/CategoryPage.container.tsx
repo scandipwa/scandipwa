@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-import { PureComponent } from 'react';
+import { createRef, PureComponent, RefObject } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -35,6 +35,7 @@ import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
+import CSS from 'Util/CSS';
 import history from 'Util/History';
 import { debounce } from 'Util/Request/Debounce';
 import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
@@ -78,6 +79,7 @@ export const mapStateToProps = (state: RootState): CategoryPageContainerMapState
     totalItems: state.ProductListReducer.totalItems,
     plpType: state.ConfigReducer.plp_list_mode,
     isMobile: state.ConfigReducer.device.isMobile,
+    isLoading: state.ProductListReducer.isLoading,
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -117,12 +119,16 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         sortDirection: SortDirections.ASC,
     };
 
+    productListLoaderRef: RefObject<HTMLDivElement> = createRef();
+
     containerFunctions: CategoryPageContainerFunctions = {
         onSortChange: this.onSortChange.bind(this),
         onGridButtonClick: this.onGridButtonClick.bind(this),
         onListButtonClick: this.onListButtonClick.bind(this),
         onFilterButtonClick: this.onFilterButtonClick.bind(this),
     };
+
+    mobileBackdrop: RefObject<HTMLDivElement> = createRef();
 
     __construct(props: P): void {
         super.__construct?.(props);
@@ -231,6 +237,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             },
             currentArgs: {
                 filter,
+                currentPage,
             } = {},
         } = this.props;
 
@@ -245,6 +252,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             },
             currentArgs: {
                 filter: prevFilter,
+                currentPage: prevPage,
             } = {},
         } = prevProps;
 
@@ -280,7 +288,9 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
          * Or if the breadcrumbs were not yet updated after category request,
          * and the category ID expected to load was loaded, update data.
          */
-        const categoryChange = id !== prevId || (!breadcrumbsWereUpdated && id === categoryIds);
+        const categoryChange = id !== prevId
+            || (!breadcrumbsWereUpdated && id === categoryIds)
+            || currentPage !== prevPage;
 
         if (categoryChange) {
             this.checkIsActive();
@@ -302,26 +312,41 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
     }
 
     onGridButtonClick(): void {
-        BrowserDatabase.setItem(CategoryPageLayout.GRID, LAYOUT_KEY);
-        this.setState({ selectedLayoutType: CategoryPageLayout.GRID });
+        CSS.setVariable(this.productListLoaderRef, 'product-list-loader-position', 'block');
+        setTimeout(() => {
+            BrowserDatabase.setItem(CategoryPageLayout.GRID, LAYOUT_KEY);
+            this.setState({ selectedLayoutType: CategoryPageLayout.GRID });
+            CSS.setVariable(this.productListLoaderRef, 'product-list-loader-position', 'none');
+        }, 0);
     }
 
     onListButtonClick(): void {
-        BrowserDatabase.setItem(CategoryPageLayout.LIST, LAYOUT_KEY);
-        this.setState({ selectedLayoutType: CategoryPageLayout.LIST });
+        CSS.setVariable(this.productListLoaderRef, 'product-list-loader-position', 'block');
+        setTimeout(() => {
+            BrowserDatabase.setItem(CategoryPageLayout.LIST, LAYOUT_KEY);
+            this.setState({ selectedLayoutType: CategoryPageLayout.LIST });
+            CSS.setVariable(this.productListLoaderRef, 'product-list-loader-position', 'none');
+        }, 0);
     }
 
     onSortChange(sortDirection: SortDirections, sortKey: string[]): void {
+        if (JSON.stringify(this.getSelectedSortFromUrl()) === JSON.stringify({ sortDirection, sortKey: sortKey[0] })) {
+            return;
+        }
         const { location } = history;
 
-        setQueryParams({ sortKey: sortKey.join(','), sortDirection, page: '' }, location, history);
-        this.updateMeta();
+        setTimeout(() => {
+            setQueryParams({ sortKey: sortKey.join(','), sortDirection, page: '' }, location, history);
+        }, 0);
     }
 
     onFilterButtonClick(): void {
         const { toggleOverlayByKey } = this.props;
 
-        toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
+        CSS.setVariable(this.mobileBackdrop, 'mobile-backdrop-display', 'block');
+        setTimeout(() => {
+            toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
+        }, 0);
     }
 
     setOfflineNoticeSize(): void {
@@ -399,6 +424,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             totalItems,
             isSearchPage,
             displayMode,
+            isLoading,
         } = this.props;
 
         const {
@@ -427,6 +453,9 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
             selectedLayoutType,
             activeLayoutType,
             displayMode,
+            productListLoaderRef: this.productListLoaderRef,
+            isLoading,
+            mobileBackdrop: this.mobileBackdrop,
         };
     }
 
@@ -452,7 +481,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
 
     getSelectedFiltersFromUrl(): Record<string, string[]> {
         const { location } = history;
-        const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
+        const selectedFiltersString = (getQueryParam('customFilters', location, false) || '').split(';');
 
         return selectedFiltersString.reduce((acc, filter) => {
             if (!filter) {
@@ -596,8 +625,29 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         }
     }
 
+    getCanonicalWithPageNumber(canonical_url?: string) {
+        if (!canonical_url) {
+            return null;
+        }
+
+        const pageNumber = getQueryParam('page', history?.location);
+
+        if (pageNumber) {
+            return canonical_url.concat(`?page=${pageNumber}`);
+        }
+
+        return canonical_url;
+    }
+
     updateMeta(): void {
-        const { updateMetaFromCategory, category } = this.props;
+        const {
+            updateMetaFromCategory,
+            category,
+            category: {
+                canonical_url,
+            } = {},
+        } = this.props;
+
         const meta_robots = history.location.search
             ? ''
             : 'follow, index';
@@ -605,6 +655,7 @@ S extends CategoryPageContainerState = CategoryPageContainerState,
         updateMetaFromCategory({
             ...category,
             meta_robots,
+            canonical_url: this.getCanonicalWithPageNumber(canonical_url),
         });
     }
 

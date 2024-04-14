@@ -14,6 +14,7 @@ import { Dispatch } from 'redux';
 
 import { CART_URL } from 'Route/CartPage/CartPage.config';
 import { CheckoutStepUrl } from 'Route/Checkout/Checkout.config';
+import { updateCurrentCurrency } from 'Store/Config/Config.action';
 import { ConfigDispatcher } from 'Store/Config/Config.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import { GQLCurrencyEnum } from 'Type/Graphql.type';
@@ -38,6 +39,7 @@ export const mapStateToProps = (state: RootState): CurrencySwitcherMapStateProps
 /** @namespace Component/CurrencySwitcher/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch: Dispatch): CurrencySwitcherMapDispatchProps => ({
     updateCurrency: (options) => ConfigDispatcher.updateCurrency(dispatch, options),
+    updateCurrentCurrency: (options) => dispatch(updateCurrentCurrency(options)),
 });
 
 /** @namespace Component/CurrencySwitcher/Container */
@@ -51,10 +53,11 @@ export class CurrencySwitcherContainer extends DataContainer<CurrencySwitcherCon
     }
 
     async _handleCurrencySelect(currencyCode: GQLCurrencyEnum): Promise<void> {
-        const { updateCurrency } = this.props;
+        const { updateCurrency, updateCurrentCurrency } = this.props;
 
         try {
             await updateCurrency({ currencyCode });
+            updateCurrentCurrency(currencyCode);
 
             const { pathname = '' } = location;
             const checkoutOrCartUrlsRegex = (

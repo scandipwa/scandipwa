@@ -92,16 +92,20 @@ export class ProductPriceComponent extends PureComponent<ProductPriceComponentPr
             variantsCount,
             price: {
                 finalPrice: {
-                    value: contentPrice = 0,
+                    valueFormatted = '$0.00',
                 } = {},
             } = {},
+            discountPercentage,
         } = this.props;
 
-        if (variantsCount > 1) {
-            return isSchemaRequired ? { itemProp: 'lowPrice', content: contentPrice } : {};
+        const priceRounded = parseFloat(valueFormatted.replace('$', ''));
+
+        // Render lowPrice if there is variants or there is discount
+        if (variantsCount > 1 || discountPercentage !== 0) {
+            return isSchemaRequired ? { itemProp: 'lowPrice', content: priceRounded } : {};
         }
 
-        return isSchemaRequired ? { itemProp: 'price', content: contentPrice } : {};
+        return isSchemaRequired ? { itemProp: 'price', content: priceRounded } : {};
     }
 
     renderPrice(price: Partial<FormattedMoney>, label: string | ReactElement): ReactElement {
@@ -124,17 +128,20 @@ export class ProductPriceComponent extends PureComponent<ProductPriceComponentPr
         }
 
         return (
-            <PriceSemanticElementName block="ProductPrice" elem="Price">
-                { this.renderPriceBadge(label) }
-                <span
-                  itemScope
-                  block="ProductPrice"
-                  elem="PriceValue"
-                >
-                    <meta itemProp={ itemProp } content={ String(content) } />
-                    { priceFormatted }
-                </span>
-            </PriceSemanticElementName>
+            <>
+                { /** <meta itemprop isn't recognized inside <ins> tag */ }
+                <meta itemProp={ itemProp } content={ String(content) } />
+                <PriceSemanticElementName block="ProductPrice" elem="Price">
+                    { this.renderPriceBadge(label) }
+                    <span
+                      itemScope
+                      block="ProductPrice"
+                      elem="PriceValue"
+                    >
+                        { priceFormatted }
+                    </span>
+                </PriceSemanticElementName>
+            </>
         );
     }
 
@@ -366,13 +373,17 @@ export class ProductPriceComponent extends PureComponent<ProductPriceComponentPr
         taxPrice: Partial<FormattedMoney>,
         label?: string | ReactElement,
     ): ReactElement {
-        const { displayTaxInPrice } = this.props;
+        const {
+            storeConfig: {
+                tax_display_type,
+            } = {},
+        } = window;
 
-        if (displayTaxInPrice === DisplayProductPricesInCatalog.INCL_TAX) {
+        if (tax_display_type === DisplayProductPricesInCatalog.INCL_TAX) {
             return this.renderPrice(basePrice, label);
         }
 
-        if (displayTaxInPrice === DisplayProductPricesInCatalog.EXCL_TAX) {
+        if (tax_display_type === DisplayProductPricesInCatalog.EXCL_TAX) {
             return this.renderPrice(taxPrice, label);
         }
 

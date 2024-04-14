@@ -12,6 +12,10 @@
 .Router {
     &-MainItems {
         min-height: calc(100vh - var(--header-total-height) + 10px);
+
+        @include mobile {
+            padding-block-end: var(--mobile-my-account-page-padding-bottom);
+        }
     }
 
     &-Loader {
@@ -33,6 +37,10 @@
         justify-content: center;
         align-items: center;
 
+        @include mobile {
+            padding-block-start: calc(var(--demo-notice-height));
+        }
+
         .TextPlaceholder {
             @include desktop {
                 font-size: 52px;
@@ -43,6 +51,19 @@
         inset-block-start: 0;
         width: 100%;
         z-index: 5;
+
+        @include mobile {
+            height: calc(var(--header-placeholder-total-height-mobile) + 1px);
+        }
+    }
+
+    &-HeaderProductSku {
+        padding-inline-start: calc(14px + 20px);
+        padding-inline-end: 14px;
+        margin-block-start: -3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     &-BreadcrumbsFallback {
@@ -59,5 +80,9 @@
         inset-block-start: 0;
         width: 100%;
         margin-block-end: var(--header-total-height);
+
+        @include mobile {
+            margin-block-end: var(--header-placeholder-total-height-mobile);
+        }
     }
 }

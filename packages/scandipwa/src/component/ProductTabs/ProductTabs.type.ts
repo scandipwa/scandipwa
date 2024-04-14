@@ -17,6 +17,7 @@ export interface ProductTabsComponentProps {
 
 export interface ProductTabsComponentState {
     activeTab: string;
+    isFadeIn: boolean;
 }
 
 export interface ProductTabShape {

@@ -12,8 +12,14 @@
         "@types/react": "<%= reactTypesVersion %>",
         "@types/node": "<%= nodeTypesVersion %>",
         "postcss": "<%= postcssVersion %>",
+        "react": "<%= reactVersion %>",
+        "react-dom": "<%= reactDomVersion %>",
         "react-redux": "<%= reactReduxVersion %>",
         "@babel/plugin-transform-typescript": "<%= typescriptTransformPluginVersion %>"
+    },
+    "devDependencies": {
+        "@babel/plugin-proposal-private-property-in-object": "<%= proposalPrivatePropertyInObjectPluginVersion %>",
+        "@babel/plugin-transform-private-property-in-object": "<%= transformPrivatePropertyInObjectPluginVersion %>"
     },
     "scandipwa": {
         "type": "theme",

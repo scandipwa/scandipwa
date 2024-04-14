@@ -91,9 +91,7 @@ State extends MyAccountOverlayContainerState = MyAccountOverlayContainerState,
 
     __construct(props: MyAccountOverlayContainerProps): void {
         super.__construct?.(props);
-        const { showOverlay } = props;
 
-        showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
         this.state = this.redirectOrGetState(props) as State;
     }
 

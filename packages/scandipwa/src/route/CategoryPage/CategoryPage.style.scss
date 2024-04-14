@@ -12,11 +12,40 @@
 :root {
     --layout-button-size: 24px;
     --category-page-miscellaneous-height: 44px;
+    --miscellaneous-mobile-height: 44px;
+    --fade-content-in-duration: 300ms;
+}
+
+@mixin fade-content-in {
+    animation: fadeIn var(--fade-content-in-duration) ease forwards;
 }
 
 .CategoryPage {
+    --content-loader-display: none;
+    --mobile-backdrop-display: none;
+
     @include mobile {
         margin-block-start: calc(var(--header-total-height) + var(--category-page-miscellaneous-height));
+    }
+
+    &-Loader {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(255,255,255,.6);
+        z-index: 105;
+        display: var(--content-loader-display);
+    }
+
+    &-MobileBackdrop {
+        @include mobile {
+            @include fade-content-in();
+
+            display: var(--mobile-backdrop-display);
+            position: fixed;
+            z-index: 100;
+            inset: 0;
+            background-color: rgba(125,125,125,.6);
+        }
     }
 
     &_noResults {
@@ -181,7 +210,7 @@
             background: #fff;
             border-block-end: 1px solid var(--primary-divider-color);
             grid-template-columns: repeat(2, 1fr);
-            height: 44px;
+            height: var(--miscellaneous-mobile-height);
 
             &_noResults {
                 height: auto;

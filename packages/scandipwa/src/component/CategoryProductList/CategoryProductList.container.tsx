@@ -124,6 +124,7 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
             totalItems,
             totalPages,
             isPlp,
+            productListLoaderRef,
         } = this.props;
 
         return {
@@ -139,6 +140,7 @@ export class CategoryProductListContainer extends PureComponent<CategoryProductL
             isPreventRequest: this.getIsPreventRequest(),
             isPlp,
             mix: { block: 'CategoryProductList', mods: { layout: this.getLayout() } },
+            productListLoaderRef,
         };
     }
 

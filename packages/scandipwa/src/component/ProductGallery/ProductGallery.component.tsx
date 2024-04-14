@@ -33,6 +33,7 @@ import VideoThumbnail from 'Component/VideoThumbnail';
 import { MediaGalleryEntry } from 'Query/ProductList.type';
 import { ReactElement } from 'Type/Common.type';
 import CSS from 'Util/CSS';
+import history from 'Util/History';
 import { setLoadedFlag } from 'Util/Request/LowPriorityLoad';
 import { lowPriorityLazy } from 'Util/Request/LowPriorityRender';
 
@@ -92,28 +93,21 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
     }
 
     componentDidMount(): void {
-        this.updateSharedDestinationElement();
         window.addEventListener('resize', this.calculateGallerySize);
     }
 
     componentDidUpdate(prevProps: ProductGalleryComponentProps): void {
         const {
-            productId,
             location: { pathname = '' } = {},
             sliderRef,
             isImageZoomPopupActive,
         } = this.props;
 
         const {
-            productId: prevProductId,
             location: { pathname: prevPathname = '' } = {},
         } = prevProps;
 
         const { prevZoom } = this.state;
-
-        if (productId !== prevProductId) {
-            this.updateSharedDestinationElement();
-        }
 
         if (sliderRef?.current?.draggableRef && pathname !== prevPathname) {
             CSS.setVariable(
@@ -171,17 +165,14 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
         handleImageZoomPopupActiveChange(true);
     }
 
-    updateSharedDestinationElement(): void {
-        const { registerSharedElementDestination } = this.props;
-
-        registerSharedElementDestination(this.imageRef);
-    }
-
     renderAdditionalPicture(media: MediaGalleryEntry, index = 0): ReactElement {
+        const { productName } = this.props;
+
         return (
             <ProductGalleryThumbnailImage
               key={ index }
               media={ media }
+              productName={ productName }
             />
         );
     }
@@ -259,6 +250,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
             isMobile,
             isImageZoomPopupActive,
             showLoader,
+            productName,
         } = this.props;
         const { scrollEnabled } = this.state;
 
@@ -266,6 +258,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
             const {
                 base: { url: baseSrc } = {},
                 large: { url: largeSrc } = {},
+                label,
             } = mediaData;
 
             const style = isImageZoomPopupActive ? { height: 'auto' } : {};
@@ -281,6 +274,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
                       elem: 'SliderImage',
                       mods: { isPlaceholder: !src },
                   } }
+                  alt={ label || productName }
                   isPlaceholder={ !src }
                   style={ style }
                   showIsLoading={ showLoader }
@@ -414,6 +408,30 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
         return url;
     }
 
+    renderPlaceholderImage(): ReactElement {
+        const { activeImage } = this.props;
+
+        const {
+            location: {
+                state: {
+                    product: { small_image: { url = '' } = {} } = {},
+                } = {},
+            } = {},
+        } = history ?? {};
+
+        return (
+            <Image
+              src={ url }
+              ratio={ ImageRatio.IMG_CUSTOM }
+              mix={ {
+                  block: 'ProductGallery',
+                  elem: 'SliderImage',
+                  mods: { isHidden: activeImage !== undefined },
+              } }
+            />
+        );
+    }
+
     renderSlider(): ReactElement {
         const {
             gallery,
@@ -437,6 +455,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
               ref={ this.imageRef }
               block="ProductGallery"
               elem="SliderWrapper"
+              data-is-pdp
             >
                 <meta itemProp="image" content={ this.getImageUrl() } />
                 <Slider
@@ -451,6 +470,7 @@ export class ProductGalleryComponent extends PureComponent<ProductGalleryCompone
                   sliderHeight={ isImageZoomPopupActive ? '100%' : 0 }
                   isHeightTransitionDisabledOnMount
                 >
+                    { this.renderPlaceholderImage() }
                     { gallery.map(this.renderSlide) }
                 </Slider>
             </div>

@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/service-worker",
     "description": "Service-worker capabilities for CSA.",
-    "version": "0.0.18",
+    "version": "0.1.0",
     "license": "OSL-3.0",
     "scandipwa": {
         "type": "extension",
@@ -19,7 +19,7 @@
         "lodash.clonedeep": "^4.5.0"
     },
     "peerDependencies": {
-        "@tilework/mosaic-craco": "0.0.5"
+        "@tilework/mosaic-craco": "^1.0.0"
     },
     "publishConfig": {
         "access": "public"

@@ -177,7 +177,9 @@ export class ExpandableContentComponent extends PureComponent<ExpandableContentC
               mods={ mods }
               mix={ { ...mix, elem: 'ExpandableContentContent', mods } }
             >
-                { children }
+                <div block="ExpandableContent" elem="Expand">
+                    { children }
+                </div>
             </div>
         );
     }

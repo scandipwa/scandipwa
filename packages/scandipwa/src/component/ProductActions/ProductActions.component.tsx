@@ -76,6 +76,28 @@ export class ProductActionsComponent extends ProductComponent<ProductActionsComp
         );
     }
 
+    renderSkuAndStockPlaceholder(): ReactElement {
+        const {
+            isMobile,
+        } = this.props;
+
+        if (isMobile) {
+            return (
+                <div
+                  block="ProductActions"
+                  elem="SkuAndStockPlaceholder"
+                >
+                    <TextPlaceholder />
+                    <TextPlaceholder />
+                </div>
+            );
+        }
+
+        return (
+            <TextPlaceholder />
+        );
+    }
+
     renderSkuAndStock(): ReactElement {
         const {
             getActiveProduct,
@@ -99,7 +121,7 @@ export class ProductActionsComponent extends ProductComponent<ProductActionsComp
                             { this.renderStock() }
                         </>
                     ),
-                    <TextPlaceholder />,
+                    this.renderSkuAndStockPlaceholder(),
                 ) }
             </section>
         );
@@ -180,32 +202,44 @@ export class ProductActionsComponent extends ProductComponent<ProductActionsComp
         );
     }
 
-    renderPriceWithSchema(): ReactElement {
+    renderHighPrice() {
         const {
             productPrice,
+            offerCount,
         } = this.props;
 
         const {
-            originalPrice: {
-                minFinalPrice: {
-                    value: minFinalPrice = 0,
+            price: {
+                discount: {
+                    percentOff: discountPercentage = 0,
                 } = {},
-                maxFinalPrice: {
-                    value: maxFinalPrice = 0,
+                originalPrice: {
+                    value: originalPrice = 0,
                 } = {},
             } = {},
         } = productPrice;
 
+        // Render highPrice as originalPrice if there is discount or variants
+        if (discountPercentage !== 0 || offerCount > 1) {
+            return (
+                <meta
+                  itemProp="highPrice"
+                  content={ String(originalPrice) }
+                />
+            );
+        }
+
+        return null;
+    }
+
+    renderPriceWithSchema(): ReactElement {
         return (
             <div
               block="ProductActions"
               elem="PriceWrapper"
             >
                 { this.renderSchema() }
-                <meta
-                  itemProp="highPrice"
-                  content={ (minFinalPrice === maxFinalPrice) ? String(minFinalPrice) : String(maxFinalPrice) }
-                />
+                { this.renderHighPrice() }
                 { this.renderPrice() }
             </div>
         );
@@ -267,7 +301,10 @@ export class ProductActionsComponent extends ProductComponent<ProductActionsComp
             return null;
         }
 
-        return super.renderPrice(!inStock || notConfigured || isPricePreview);
+        return super.renderPrice(
+            !inStock || notConfigured || isPricePreview,
+            true,
+        );
     }
 
     renderTierPrices(): ReactElement {

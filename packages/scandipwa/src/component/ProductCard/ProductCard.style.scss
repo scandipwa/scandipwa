@@ -34,6 +34,7 @@
     min-width: 0;
     display: flex;
     align-items: stretch;
+    animation: appear 0.3s ease-in-out forwards;
 
 
     &::before {
@@ -46,6 +47,10 @@
         @include mobile {
             margin-block-end: 8px;
         }
+    }
+
+    &:hover {
+        z-index: 4;
     }
 
     .ProductConfigurableAttributes {
@@ -174,7 +179,7 @@
     }
 
     &-Picture {
-        padding-block-end: 120%;
+        padding-block-end: 100%;
     }
 
     &-PictureMissing {
@@ -321,6 +326,18 @@
 
     &-Figure {
         flex-grow: 1;
+    }
+
+    &-MobileActions {
+        position: absolute;
+        inset-block-start: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
     }
 
     &-Link {

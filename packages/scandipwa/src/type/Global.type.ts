@@ -38,6 +38,8 @@ declare global {
         storeConfig?: {
             cms_home_page: string;
             catalog_default_sort_by: string;
+            tax_display_type: string;
+            demo_notice: boolean;
         };
         secure_base_media_url?: string;
         prefetchedImages: Record<string, HTMLImageElement>;
@@ -50,6 +52,7 @@ declare global {
         isPriorityLoaded: boolean;
         isPrefetchValueUsed?: boolean;
         metaHtml?: string;
+        isInstallPromptAvailable?: boolean;
     }
 
     interface BeforeInstallPromptEvent extends Event {

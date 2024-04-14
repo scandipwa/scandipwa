@@ -16,6 +16,7 @@ import { Dispatch } from 'redux';
 import UrlRewritesDispatcher from 'Store/UrlRewrites/UrlRewrites.dispatcher';
 import { ReactElement } from 'Type/Common.type';
 import history from 'Util/History';
+import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
 import { RootState } from 'Util/Store/Store.type';
 
 import UrlRewrites from './UrlRewrites.component';
@@ -37,6 +38,7 @@ export const mapStateToProps = (state: RootState): UrlRewritesContainerMapStateP
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
     isLoading: state.UrlRewritesReducer.isLoading,
     requestedUrl: state.UrlRewritesReducer.requestedUrl,
+    category_sort: state.ProductListReducer.currentArgs.sort?.sortKey,
 });
 
 /** @namespace Route/UrlRewrites/Container/mapDispatchToProps */
@@ -59,9 +61,10 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
     initialUrl = '';
 
     componentDidMount(): void {
-        if (this.getIsLoading()) {
-            this.requestUrlRewrite();
-        }
+        waitForPriorityLoad().then(
+            /** @namespace Route/UrlRewrites/Container/UrlRewritesContainer/componentDidMount/waitForPriorityLoad/then */
+            () => this.requestUrlRewrite(),
+        );
 
         this.initialUrl = location.pathname;
     }
@@ -207,11 +210,13 @@ export class UrlRewritesContainer extends PureComponent<UrlRewritesContainerProp
         const {
             match,
             location,
+            category_sort,
         } = this.props;
 
         return {
             match,
             location,
+            category_sort,
             ...this.getTypeSpecificProps(),
         };
     }

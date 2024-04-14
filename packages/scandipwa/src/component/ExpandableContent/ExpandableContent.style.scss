@@ -13,6 +13,7 @@
     --expandable-content-color: var(--color-karaka);
     --expandable-content-divider-color: var(--primary-divider-color);
     --toggle-button-size: 18px;
+    --transition-duration-expand-content: 300ms;
 }
 
 @mixin expanded-content {
@@ -88,9 +89,14 @@
         transition-duration: 200ms;
 
         @include mobile {
-            max-height: 0;
             overflow: hidden;
-            opacity: 0;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows var(--transition-duration-expand-content);
+
+            & > .ExpandableContent-Expand {
+                overflow: hidden;
+            }
         }
 
         @include desktop {
@@ -99,7 +105,7 @@
 
         &_isContentExpanded {
             @include mobile {
-                @include expanded-content;
+                grid-template-rows: 1fr;
             }
         }
     }

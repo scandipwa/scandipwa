@@ -10,6 +10,7 @@
  */
 
 import { History, Location } from 'history';
+import { RefObject } from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import { Mix } from 'Type/Common.type';
@@ -19,17 +20,17 @@ export interface ResetButtonContainerBaseProps {
     location: Location;
     mix: Mix;
     onClick: () => void;
+    categoryPageRef: RefObject<HTMLElement>;
 }
 
 export interface ResetButtonContainerFunctions {
-    resetFilters: () => void;
+    onClick: () => void;
 }
 
 export type ResetButtonContainerProps = RouteComponentProps & ResetButtonContainerBaseProps;
 
 export interface ResetButtonComponentProps extends ResetButtonContainerFunctions {
     mix: Mix;
-    onClick: () => void;
     isContentFiltered: boolean;
 }
 

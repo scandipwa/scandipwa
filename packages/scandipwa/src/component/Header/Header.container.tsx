@@ -255,16 +255,10 @@ export class HeaderContainer extends NavigationAbstractContainer<HeaderContainer
     }
 
     hideSearchOverlay(): void {
-        const { hideActiveOverlay, activeOverlay } = this.props;
-
         this.setState({ searchCriteria: '' });
 
         if (document.activeElement instanceof HTMLElement) {
             document.activeElement.blur();
-        }
-
-        if (activeOverlay === Page.SEARCH) {
-            hideActiveOverlay();
         }
     }
 

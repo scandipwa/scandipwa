@@ -122,26 +122,27 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
 
         const prevPage = this._getPageFromUrl(prevLocation);
         const currentPage = this._getPageFromUrl();
+        const isProductListUpdated = JSON.stringify(filter) !== JSON.stringify(prevFilter)
+                                    || currentPage !== prevPage;
 
-        if (
-            JSON.stringify(filter) !== JSON.stringify(prevFilter)
-            || JSON.stringify(sort) !== JSON.stringify(prevSort)
-            || currentPage !== prevPage
-        ) {
+        const isSortUpdated = JSON.stringify(sort) !== JSON.stringify(prevSort);
+
+        if (isProductListUpdated || isSortUpdated) {
             window.isPrefetchValueUsed = false;
         }
 
         // prevents requestPage() fired twice on Mobile PLP with enabled infinite scroll
-        if (device.isMobile && this._getIsInfiniteLoaderEnabled() && isPlp) {
+        if (device.isMobile && this._getIsInfiniteLoaderEnabled() && isPlp && !(isProductListUpdated || isSortUpdated)) {
             return;
         }
 
-        if (search !== prevSearch
-            || currentPage !== prevPage
-            || JSON.stringify(sort) !== JSON.stringify(prevSort)
-            || JSON.stringify(filter) !== JSON.stringify(prevFilter)
-        ) {
+        if (!device.isMobile && (search !== prevSearch || isProductListUpdated)) {
             this.requestPage(this._getPageFromUrl());
+        }
+
+        if (isSortUpdated) {
+            const isOnlySortUpdated = true;
+            this.requestPage(this._getPageFromUrl(), false, isOnlySortUpdated);
         }
     }
 
@@ -170,7 +171,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
         return validFilters.length > 0;
     }
 
-    requestPage(currentPage = 1, isNext = false): void {
+    requestPage(currentPage = 1, isNext = false, isOnlySortUpdated = false): void {
         const {
             sort,
             search,
@@ -233,10 +234,12 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
         }
 
         if (!isWidget) {
-            waitForPriorityLoad().then(
-            /** @namespace Component/ProductList/Container/ProductListContainer/requestPage/waitForPriorityLoad/then/requestProductListInfo */
-                () => requestProductListInfo(infoOptions),
-            );
+            if (!isOnlySortUpdated) {
+                waitForPriorityLoad().then(
+                /** @namespace Component/ProductList/Container/ProductListContainer/requestPage/waitForPriorityLoad/then/requestProductListInfo */
+                    () => requestProductListInfo(infoOptions),
+                );
+            }
 
             if (!device.isMobile) {
                 scrollToTop();
@@ -259,6 +262,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             title = '',
             totalPages,
             isPlp,
+            productListLoaderRef,
         } = this.props;
 
         return {
@@ -278,6 +282,7 @@ export class ProductListContainer extends PureComponent<ProductListContainerProp
             requestPage: this.requestPage,
             // disable this property to enable infinite scroll on desktop
             isInfiniteLoaderEnabled: this._getIsInfiniteLoaderEnabled(),
+            productListLoaderRef,
         };
     }
 

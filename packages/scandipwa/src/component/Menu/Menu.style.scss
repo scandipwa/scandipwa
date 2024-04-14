@@ -11,6 +11,7 @@
 
 :root {
     --menu-item-height: 20px;
+    --menu-transition-duration: 300ms;
 }
 
 @mixin subcategory-visible {
@@ -197,6 +198,32 @@
         }
     }
 
+    &-SubMenuDesktop {
+        overflow: hidden;
+        position: relative;
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows var(--menu-transition-duration);
+
+        & > .Menu-SubMenuDesktopExpand {
+            overflow: hidden;
+        }
+
+        &_isVisible {
+            grid-template-rows: 1fr;
+        }
+    }
+
+    &-SubCategoriesWrapper {
+        display: none;
+        position: relative;
+
+        &_isVisible,
+        &_isCollapse {
+            display: block;
+        }
+    }
+
     &-Sub {
         &ItemWrapper {
             > .Menu-Link {
@@ -211,15 +238,24 @@
 
         &Menu {
             display: none;
-            margin-block-end: 28px;
+
+            @include mobile {
+                overflow: hidden;
+                position: relative;
+                display: grid;
+                grid-template-rows: 0fr;
+                transition: grid-template-rows var(--menu-transition-duration);
+
+                & > .Menu-SubMenuMobileWrapper {
+                    overflow: hidden;
+                }
+            }
 
             &_isVisible {
                 background: var(--color-gray);
-                display: block;
-                padding-inline: 16px;
 
                 @include mobile {
-                    margin-block-end: 0;
+                    grid-template-rows: 1fr;
                 }
             }
 

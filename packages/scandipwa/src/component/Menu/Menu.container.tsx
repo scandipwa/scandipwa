@@ -22,6 +22,7 @@ import DataContainer from 'Util/Request/DataContainer';
 import { RootState } from 'Util/Store/Store.type';
 
 import Menu from './Menu.component';
+import { MENU_TRANSITION_DURATION } from './Menu.config';
 import {
     MenuComponentProps,
     MenuContainerFunctions,
@@ -54,6 +55,7 @@ export class MenuContainer extends DataContainer<MenuContainerProps, MenuContain
 
         this.state = {
             activeMenuItemsStack,
+            collapseMenuItemsStack: [],
             menu: {},
         };
     }
@@ -80,18 +82,19 @@ export class MenuContainer extends DataContainer<MenuContainerProps, MenuContain
         window.removeEventListener('popstate', this.historyBackHook);
     }
 
-    containerProps(): Pick<MenuComponentProps, 'activeMenuItemsStack' | 'menu' | 'device' | 'compareTotals'> {
+    containerProps(): Pick<MenuComponentProps, 'activeMenuItemsStack' | 'menu' | 'device' | 'compareTotals' | 'collapseMenuItemsStack'> {
         const {
             device,
             compareTotals,
         } = this.props;
-        const { activeMenuItemsStack, menu } = this.state;
+        const { activeMenuItemsStack, menu, collapseMenuItemsStack } = this.state;
 
         return {
             activeMenuItemsStack,
             menu,
             device,
             compareTotals,
+            collapseMenuItemsStack,
         };
     }
 
@@ -137,17 +140,38 @@ export class MenuContainer extends DataContainer<MenuContainerProps, MenuContain
             return;
         }
 
+        this.updateCollapseItem(activeMenuItemsStack, item_id);
         this.setState({ activeMenuItemsStack: [item_id] });
     }
 
     closeMenu(): void {
         const { device } = this.props;
+        const { activeMenuItemsStack } = this.state;
 
         if (device.isMobile) {
             return;
         }
 
-        this.setState({ activeMenuItemsStack: [] });
+        this.collapseMenu(activeMenuItemsStack);
+        this.setState({ activeMenuItemsStack: [], collapseMenuItemsStack: activeMenuItemsStack });
+    }
+
+    collapseMenu(activeMenuItemsStack: string[]): void {
+        this.setState({ collapseMenuItemsStack: activeMenuItemsStack });
+
+        setTimeout(() => {
+            this.setState({ collapseMenuItemsStack: [] });
+        }, MENU_TRANSITION_DURATION);
+    }
+
+    updateCollapseItem(activeMenuItemsStack: string[], item_id: string): void {
+        const { menu } = this.state;
+
+        const currentMenuChildren = Object.values(menu).map((mainMenu) => mainMenu?.children?.[item_id]?.children);
+
+        if (currentMenuChildren.length > 0 && Object.keys(currentMenuChildren[0]).length === 0) {
+            this.collapseMenu(activeMenuItemsStack);
+        }
     }
 
     render(): ReactElement {

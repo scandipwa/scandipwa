@@ -93,6 +93,7 @@ export const getInitialState = (): Partial<ConfigStore> => {
         storeConfig: {
             cms_home_page,
             catalog_default_sort_by,
+            demo_notice,
         } = {},
     } = window;
 
@@ -122,6 +123,7 @@ export const getInitialState = (): Partial<ConfigStore> => {
         },
         cms_home_page,
         catalog_default_sort_by,
+        demo_notice,
     };
 };
 
@@ -144,7 +146,6 @@ export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
         device,
     } = action;
 
-    const { currentCurrency = '' } = action;
     const { currencyData: prevCurrencyData } = state;
 
     switch (type) {
@@ -178,11 +179,13 @@ export const ConfigReducer: Reducer<Partial<ConfigStore>, ConfigAction> = (
         };
 
     case ConfigActionType.UPDATE_CURRENT_CURRENCY:
+        const { selectedCurrency } = action;
+
         return {
             ...state,
             currencyData: {
                 ...prevCurrencyData,
-                current_currency_code: currentCurrency,
+                current_currency_code: selectedCurrency,
             },
         };
 

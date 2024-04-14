@@ -18,6 +18,7 @@ import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
 import StoreSwitcher from 'Component/StoreSwitcher';
 import { ReactElement } from 'Type/Common.type';
+import { isCrawler } from 'Util/Browser';
 import { getSortedItems } from 'Util/Menu';
 import { FormattedMenuItem } from 'Util/Menu/Menu.type';
 import { debounce } from 'Util/Request/Debounce';
@@ -154,6 +155,29 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
         const isVisible = activeMenuItemsStack.includes(item_id);
         const subcategoryMods = { type: 'subcategory' };
 
+        if (device.isMobile) {
+            return (
+                <div
+                  block="Menu"
+                  elem="SubMenu"
+                  mods={ { isVisible } }
+                  key={ item_id }
+                >
+                    <div block="Menu" elem="SubMenuMobileWrapper">
+                        <div block="Menu" elem="ItemList" mods={ { ...subcategoryMods } }>
+                            <MenuItem
+                              activeMenuItemsStack={ activeMenuItemsStack }
+                              item={ { ...category, title: __('All %s', title) } }
+                              itemMods={ { ...subcategoryMods, isSecondLevel } }
+                              isLink
+                            />
+                            { childrenArray.map((item) => this.renderSubLevelItems(item, isSecondLevel)) }
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <div
               block="Menu"
@@ -166,14 +190,6 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
                   elem="ItemList"
                   mods={ { ...subcategoryMods } }
                 >
-                    { device.isMobile && (
-                        <MenuItem
-                          activeMenuItemsStack={ activeMenuItemsStack }
-                          item={ { ...category, title: __('All %s', title) } }
-                          itemMods={ { ...subcategoryMods, isSecondLevel } }
-                          isLink
-                        />
-                    ) }
                     { childrenArray.map((item) => this.renderSubLevelItems(item, isSecondLevel)) }
                 </div>
             </div>
@@ -182,15 +198,18 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
 
     renderSubMenuDesktopItems(item: FormattedMenuItem): ReactElement {
         const { item_id, children } = item;
+        const { collapseMenuItemsStack } = this.props;
 
-        if (!Object.keys(children).length) {
+        if (!Object.keys(children).length && !collapseMenuItemsStack.includes(item_id)) {
             return null;
         }
 
         const { activeMenuItemsStack, closeMenu } = this.props;
         const isVisible = activeMenuItemsStack.includes(item_id);
+        const isCollapse = !isVisible && collapseMenuItemsStack.includes(item_id);
 
-        if (!isVisible) {
+        // We need to render menu in DOM for Bots
+        if (!isCrawler() && !isVisible && !isCollapse) {
             return null;
         }
 
@@ -198,7 +217,7 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
             <div
               block="Menu"
               elem="SubCategoriesWrapper"
-              mods={ { isVisible } }
+              mods={ { isVisible, isCollapse } }
               key={ item_id }
             >
                 <div
@@ -225,15 +244,26 @@ export class MenuComponent extends PureComponent<MenuComponentProps> {
     }
 
     renderSubMenuDesktop(itemList: Record<string, FormattedMenuItem>): ReactElement {
-        const { device } = this.props;
+        const { device, activeMenuItemsStack, collapseMenuItemsStack } = this.props;
 
         if (device.isMobile) {
             return null;
         }
 
+        const isVisible = activeMenuItemsStack.length !== 0 && collapseMenuItemsStack.length === 0;
         const childrenArray = getSortedItems(Object.values(itemList));
 
-        return childrenArray.map(this.renderSubMenuDesktopItems.bind(this));
+        return (
+            <div
+              block="Menu"
+              elem="SubMenuDesktop"
+              mods={ { isVisible } }
+            >
+                <div block="Menu" elem="SubMenuDesktopExpand">
+                    { childrenArray.map(this.renderSubMenuDesktopItems.bind(this)) }
+                </div>
+            </div>
+        );
     }
 
     renderAdditionalInformation(checkMobile = false): ReactElement {

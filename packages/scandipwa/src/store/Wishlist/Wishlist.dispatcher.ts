@@ -204,10 +204,13 @@ export class WishlistDispatcher {
 
         try {
             await fetchMutation<'moveWishlistToCart', boolean>(WishlistQuery.getMoveWishlistToCart(sharingCode));
+            dispatch(showNotification(NotificationType.SUCCESS, __('Available items moved to cart')));
+        // eslint-disable-next-line no-useless-catch
+        } catch (err) {
+            throw err;
         } finally {
             await this._syncWishlistWithBE(dispatch);
             CartDispatcher.updateInitialCartData(dispatch, !!getAuthorizationToken());
-            dispatch(showNotification(NotificationType.SUCCESS, __('Available items moved to cart')));
         }
     }
 

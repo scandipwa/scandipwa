@@ -16,6 +16,10 @@
         white-space: nowrap;
         width: 100%;
         cursor: pointer;
+        border-bottom: initial;
+        color: initial;
+        font-weight: initial;
+        display: inline-block;
 
         @include mobile {
             font-size: 14px;
@@ -23,6 +27,7 @@
 
         &:hover {
             background: var(--secondary-base-color);
+            color: initial;
         }
     }
 }

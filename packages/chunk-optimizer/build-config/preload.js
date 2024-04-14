@@ -12,11 +12,11 @@ class PreloadPlugin {
             ...localeCacheGroup,
         ].reduce((acc, cacheGroup) => ({
             ...acc,
-            [cacheGroup]: stats.namedChunkGroups[cacheGroup].assets.map(
-                (asset) => (process.env.PUBLIC_URL
-                    ? path.join(process.env.PUBLIC_URL, asset)
-                    : `/${asset}`)
-            ),
+            [cacheGroup]: stats.namedChunkGroups[cacheGroup]?.assets?.map(
+                ({ name: assetName = '' }) => (process.env.PUBLIC_URL
+                    ? path.join(process.env.PUBLIC_URL, assetName)
+                    : `/${assetName}`)
+            ) || [],
         }), {});
 
         const scriptHtml = `<script>window.preloadData = ${JSON.stringify(preloadData)};</script>`;

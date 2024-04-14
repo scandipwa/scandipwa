@@ -74,6 +74,7 @@ export class ProductGalleryThumbnailImageComponent extends PureComponent<Product
                 thumbnail: { url: thumbnailUrl } = {},
                 id,
             },
+            productName,
         } = this.props;
 
         // !FIXME: Possible dead code. Id is number and cannot be comparable to the 'thumbnail' value.
@@ -88,7 +89,7 @@ export class ProductGalleryThumbnailImageComponent extends PureComponent<Product
         return (
             <Image
               src={ src }
-              alt={ alt }
+              alt={ alt || productName }
               ratio={ ImageRatio.IMG_CUSTOM }
               mix={ { block: 'ProductGalleryThumbnailImage' } }
             />

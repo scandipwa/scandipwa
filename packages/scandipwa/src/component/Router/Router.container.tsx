@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { UrlRewritePageType } from 'Route/UrlRewrites/UrlRewrites.config';
 import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
@@ -28,7 +29,7 @@ import { waitForPriorityLoad } from 'Util/Request/LowPriorityLoad';
 import { RootState } from 'Util/Store/Store.type';
 
 import Router from './Router.component';
-import { URL_ONLY_MAIN_ITEMS_RENDER } from './Router.config';
+import { DEMO_NOTICE_HEIGHT, URL_ONLY_MAIN_ITEMS_RENDER } from './Router.config';
 import {
     RouterComponentProps,
     RouterContainerMapDispatchProps,
@@ -52,6 +53,9 @@ export const mapStateToProps = (state: RootState): RouterContainerMapStateProps 
     isBigOffline: state.OfflineReducer.isBig,
     status_code: state.MetaReducer.status_code,
     base_link_url: state.ConfigReducer.base_link_url,
+    isMobile: state.ConfigReducer.device.isMobile,
+    canonical_url: state.MetaReducer.canonical_url,
+    demo_notice: state.ConfigReducer.demo_notice,
 });
 
 /** @namespace Component/Router/Container/mapDispatchToProps */
@@ -109,9 +113,17 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
             isOnlyMainItems: this.handleCheckIfOnlyMainItemsRender(),
         });
 
+        const { actionName: { type } = {} } = window;
+
+        if (type === UrlRewritePageType.CATEGORY) {
+            const root = document.querySelector(':root') as HTMLElement;
+            root.style.setProperty('--miscellaneous-mobile-height', '44px');
+        }
+
         this.initializeApplication();
         this.redirectFromPartialUrl();
         this.handleResize();
+        this.setDemoNoticeHeight();
 
         this.handleResize = this.handleResize.bind(this);
     }
@@ -139,11 +151,12 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
                 title_suffix,
                 meta_title,
                 status_code,
+                canonical_url,
             } = this.props;
 
             updateMeta({
                 default_title,
-                title: meta_title || default_title,
+                title: meta_title,
                 default_description,
                 description: default_description,
                 default_keywords,
@@ -151,6 +164,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
                 title_prefix,
                 title_suffix,
                 status_code,
+                canonical_url,
             });
         }
     }
@@ -205,8 +219,23 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
         this.setState({ isOnlyMainItems: true });
     }
 
+    setDemoNoticeHeight(): void {
+        const {
+            demo_notice,
+        } = this.props;
+
+        if (demo_notice) {
+            const root = document.querySelector(':root') as HTMLElement;
+            root?.style.setProperty('--demo-notice-height', `${DEMO_NOTICE_HEIGHT}px`);
+        }
+    }
+
     containerProps(): Pick<RouterComponentProps, RouterContainerPropsKeys> {
-        const { isBigOffline, setBigOfflineNotice } = this.props;
+        const {
+            isBigOffline,
+            setBigOfflineNotice,
+            isMobile,
+        } = this.props;
         const { isOnlyMainItems, currentUrl } = this.state;
 
         return {
@@ -214,6 +243,7 @@ export class RouterContainer extends PureComponent<RouterContainerProps, RouterC
             setBigOfflineNotice,
             isOnlyMainItems,
             currentUrl,
+            isMobile,
         };
     }
 
