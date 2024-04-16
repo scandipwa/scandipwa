@@ -453,7 +453,9 @@ export class SliderComponent extends PureComponent<SliderComponentProps, SliderC
         const { activeImage, children } = this.props;
         const nextImage = activeImage + 1;
 
-        if (nextImage < children.length) {
+        const childrenLength = Array.isArray(children[1]) ? children[1]?.length : 0;
+
+        if (nextImage < childrenLength) {
             this.changeActiveImage(nextImage);
         }
     }
@@ -518,7 +520,8 @@ export class SliderComponent extends PureComponent<SliderComponentProps, SliderC
 
     renderArrows(): ReactElement {
         const { showArrows, activeImage, children } = this.props;
-        const nextIsDisabled = activeImage + 1 === children.length;
+        const childrenLength = Array.isArray(children[1]) ? children[1]?.length : 0;
+        const nextIsDisabled = activeImage + 1 === childrenLength;
         const prevIsDisabled = activeImage === 0;
 
         if (!showArrows) {
