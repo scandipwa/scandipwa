@@ -461,7 +461,7 @@ export class SliderComponent extends PureComponent<SliderComponentProps, SliderC
     renderCounter(): ReactElement {
         const { children, showCounter, activeImage } = this.props;
 
-        if (!showCounter || children.length <= 1) {
+        if (!showCounter || (Array.isArray(children[1]) && children[1]?.length <= 1)) {
             return null;
         }
 
@@ -472,7 +472,7 @@ export class SliderComponent extends PureComponent<SliderComponentProps, SliderC
             >
                 { activeImage + 1 }
                 /
-                { children.length }
+                { Array.isArray(children[1]) && children[1]?.length }
             </div>
         );
     }
