@@ -90,6 +90,18 @@ export const ProductListReducer: Reducer<ProductListStore, ProductListAction> = 
             isLoading,
         };
 
+    case ProductListActionType.RESET_FILTERS:
+        return {
+            ...state,
+            currentArgs: {
+                ...state.currentArgs,
+                filter: {
+                    ...state.currentArgs.filter,
+                    customFilters: {},
+                },
+            },
+        };
+
     default:
         return state;
     }
