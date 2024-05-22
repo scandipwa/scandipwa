@@ -5,6 +5,7 @@ $description = $this->getThemeConfiguration('design/head/default_description');
 $themeColor = $this->getThemeConfiguration('webmanifest_customization/webmanifest/theme_color');
 $layoutDirection = $this->getThemeConfiguration('layout_direction_configuration/layout_direction_section/layout_direction') ?: 'ltr';
 $icons = $this->getAppIconData();
+$head_scripts = $this->getThemeConfiguration('design/head/includes');
 ?>
 <!DOCTYPE html>
 <html lang="<?= $this->getLanguageCode() ?>" dir="<?= $layoutDirection ?>">
@@ -17,7 +18,8 @@ $icons = $this->getAppIconData();
     <link rel="preload" href="https://use.typekit.net/fji5tuz.css" as="style"> -->
 
     <meta name="theme-color" content="#<?= $themeColor ?: 'ffffff' ?>">
-
+    <?= $head_scripts ?>
+    
     <script>
         (function() {
             if (typeof globalThis === 'object') return;
