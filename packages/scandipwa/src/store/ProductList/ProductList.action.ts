@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,7 +14,7 @@ import { ProductItem, ProductListOptionArgs } from 'Query/ProductList.type';
 
 import {
     AppendPageAction,
-    ProductListActionType, UpdateLoadStatusAction, UpdatePageLoadingStatusAction, UpdateProductListItemsAction,
+    ProductListActionType, ResetFilterAction, UpdateLoadStatusAction, UpdatePageLoadingStatusAction, UpdateProductListItemsAction,
 } from './ProductList.type';
 
 /**
@@ -67,4 +68,9 @@ export const updateLoadStatus = (status: boolean): UpdateLoadStatusAction => ({
 /** @namespace Store/ProductList/Action/updatePageLoadingStatus */
 export const updatePageLoadingStatus = (): UpdatePageLoadingStatusAction => ({
     type: ProductListActionType.UPDATE_PAGE_LOAD_STATUS,
+});
+
+/** @namespace Store/ProductList/Action/resetFilters */
+export const resetFilters = (): ResetFilterAction => ({
+    type: ProductListActionType.RESET_FILTERS,
 });

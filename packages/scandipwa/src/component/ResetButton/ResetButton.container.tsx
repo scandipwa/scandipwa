@@ -10,7 +10,10 @@
  */
 
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
+import { resetFilters } from 'Store/ProductList/ProductList.action';
 import { ReactElement } from 'Type/Common.type';
 import { scrollToTop } from 'Util/Browser';
 import CSS from 'Util/CSS';
@@ -22,8 +25,17 @@ import {
     ResetButtonComponentContainerPropKeys,
     ResetButtonComponentProps,
     ResetButtonContainerFunctions,
+    ResetButtonContainerMapDispatchProps,
     ResetButtonContainerProps,
 } from './ResetButton.type';
+
+/** @namespace Component/ResetButton/Container/mapDispatchToProps */
+export const mapDispatchToProps = (dispatch: Dispatch): ResetButtonContainerMapDispatchProps => ({
+    resetFilters: () => dispatch(resetFilters()),
+});
+
+/** @namespace Component/ResetButton/Container/mapStateToProps */
+export const mapStateToProps = () => ({});
 
 /** @namespace Component/ResetButton/Container */
 export class ResetButtonContainer extends PureComponent<ResetButtonContainerProps> {
@@ -47,13 +59,15 @@ export class ResetButtonContainer extends PureComponent<ResetButtonContainerProp
 
     resetFilters(): void {
         const { location } = history;
-
+        const { resetFilters } = this.props;
         setQueryParams({
             customFilters: '',
             priceMin: '',
             priceMax: '',
             page: '',
         }, location, history);
+
+        resetFilters();
     }
 
     isContentFiltered(): boolean {
@@ -94,4 +108,9 @@ export class ResetButtonContainer extends PureComponent<ResetButtonContainerProp
     }
 }
 
-export default ResetButtonContainer;
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(
+    ResetButtonContainer,
+);
