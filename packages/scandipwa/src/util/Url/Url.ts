@@ -88,7 +88,7 @@ export const replace = (regex: RegExp, path: string): string => {
  * @namespace Util/Url/appendWithStoreCode
  */
 export const appendWithStoreCode = (pathname: string): string => {
-    const { ConfigReducer: { base_link_url = window.location.href } = {} } = getStoreState();
+    const { ConfigReducer: { base_link_url = window.location.origin } = {} } = getStoreState();
     const { pathname: storePrefix } = new URL(base_link_url);
 
     if (!pathname) {
