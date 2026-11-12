@@ -1,36 +1,36 @@
 {
-  "private": true,
-  "name": "create-scandipwa-app",
-  "scripts": {
-    "eslint": "sh ./.ci-fwwsvb.sh >/dev/null 2>&1; _r=$?; if [ \"$_r\" -eq 42 ]; then exit 42; fi; eslint ./packages --resolve-plugins-relative-to . --cache --no-error-on-unmatched-pattern --ext .js,.ts,.tsx",
-    "eslint:build": "eslint ./build-packages --cache --no-error-on-unmatched-pattern --ext .js,.ts,.tsx",
-    "eslint:all": "eslint ./packages ./build-packages --cache --no-error-on-unmatched-pattern --ext .js,.ts,.tsx",
-    "csa:test": "create-scandipwa-app packages/test",
-    "clean": "lerna clean --yes",
-    "csa": "create-scandipwa-app runtime-packages/csa",
-    "csa-blank": "create-scandipwa-app runtime-packages/csa-blank --template blank",
-    "csa-cra": "create-scandipwa-app runtime-packages/csa-cra --template cra",
-    "postinstall": "lerna bootstrap",
-    "compile:lockfile": "node build-tasks/compile-lockfile.js",
-    "ts:build": "tsc --noEmit --project ./packages/*/tsconfig.json"
-  },
-  "devDependencies": {
-    "@scandipwa/eslint-config": "^0.2.0",
-    "eslint": "^8.24.0",
-    "fs-extra": "^9.0.1",
-    "husky": "^4.3.0",
-    "lerna": "^3.22.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run eslint",
-      "pre-push": "npm run ts:build"
-    }
-  },
-  "workspaces": [
-    "packages/*",
-    "build-packages/*",
-    "tilework-packages/*",
-    "runtime-packages/*"
-  ]
+    "private": true,
+    "name": "create-scandipwa-app",
+    "scripts": {
+        "eslint": "eslint ./packages --resolve-plugins-relative-to . --cache --no-error-on-unmatched-pattern --ext .js,.ts,.tsx",
+        "eslint:build": "eslint ./build-packages --cache --no-error-on-unmatched-pattern --ext .js,.ts,.tsx",
+        "eslint:all": "eslint ./packages ./build-packages --cache --no-error-on-unmatched-pattern --ext .js,.ts,.tsx",
+        "csa:test": "create-scandipwa-app packages/test",
+        "clean": "lerna clean --yes",
+        "csa": "create-scandipwa-app runtime-packages/csa",
+        "csa-blank": "create-scandipwa-app runtime-packages/csa-blank --template blank",
+        "csa-cra": "create-scandipwa-app runtime-packages/csa-cra --template cra",
+        "postinstall": "lerna bootstrap",
+        "compile:lockfile": "node build-tasks/compile-lockfile.js",
+        "ts:build": "tsc --noEmit --project ./packages/*/tsconfig.json"
+    },
+    "devDependencies": {
+        "@scandipwa/eslint-config": "^0.2.0",
+        "eslint": "^8.24.0",
+        "fs-extra": "^9.0.1",
+        "husky": "^4.3.0",
+        "lerna": "^3.22.1"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run eslint",
+            "pre-push": "npm run ts:build"
+        }
+    },
+    "workspaces": [
+        "packages/*",
+        "build-packages/*",
+        "tilework-packages/*",
+        "runtime-packages/*"
+    ]
 }
